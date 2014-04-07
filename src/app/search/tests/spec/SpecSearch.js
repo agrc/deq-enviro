@@ -3,7 +3,9 @@ require([
 
     'dojo/_base/window',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+
+    'stubmodule'
 ], function(
     WidgetUnderTest,
 
