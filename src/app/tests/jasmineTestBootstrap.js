@@ -2,7 +2,11 @@
 var dojoConfig = {
     // isDebug: false,
     isJasmineTestRunner: true,
-    packages: ['matchers']
+    packages: ['matchers', {
+        name: 'stubmodule',
+        location: 'stubmodule/src',
+        main: 'StubModule'
+    }]
 };
 
 // // override alert to console

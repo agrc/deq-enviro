@@ -9,6 +9,7 @@
     "bootstrap": "~3.1.1",
     "agrc": "agrc-widgets#*",
     "ijit": "agrc-ijit#*",
-    "jquery": "~1"
+    "jquery": "~1",
+    "stubmodule": "~0.2.4"
   }
 }
