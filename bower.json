@@ -10,6 +10,6 @@
     "agrc": "agrc-widgets#*",
     "ijit": "agrc-ijit#*",
     "jquery": "~1",
-    "stubmodule": "~0.2.4"
+    "stubmodule": "~0.3"
   }
 }

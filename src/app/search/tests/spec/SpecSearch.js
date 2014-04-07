@@ -11,7 +11,9 @@ require([
 
     win,
 
-    domConstruct
+    domConstruct,
+
+    stubmodule
 ) {
 
     var widget;
@@ -29,8 +31,17 @@ require([
                 widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
             });
 
-            it('should create a Search', function() {
+            it('should create a Search', function(done) {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
+
+                var arraySpy = jasmine.createSpyObj('array', ['forEach']);
+                stubmodule('app/search/Search', {
+                    'dojo/_base/array': arraySpy
+                }).then(function (Stubbed) {
+                    new Stubbed(null);
+                    expect(arraySpy.forEach).toHaveBeenCalled();
+                    done();
+                });
             });
         });
     });
