@@ -2,7 +2,10 @@
 var dojoConfig = {
     // isDebug: false,
     isJasmineTestRunner: true,
-    packages: ['matchers']
+    packages: [{
+        name: 'matchers',
+        location: 'matchers/src'
+    }]
 };
 
 // // override alert to console
