@@ -8,7 +8,7 @@ require([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
 
-    'matchers/Topics'
+    'matchers/topics'
 ], function(
     config,
     WidgetUnderTest,
@@ -19,7 +19,7 @@ require([
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
 
-    Topics
+    topicMatchers
 ) {
     var url = '/arcgis/rest/services/Wildlife/Data/MapServer';
     var index = 3;
@@ -31,8 +31,8 @@ require([
 
     describe('app/map/ReferenceLayerToggle', function() {
         beforeEach(function () {
-            Topics.listen(topics.addLayer);
-            Topics.listen(topics.toggleLayer);
+            topicMatchers.listen(topics.addLayer);
+            topicMatchers.listen(topics.toggleLayer);
         });
         var widget;
         beforeEach(function() {
