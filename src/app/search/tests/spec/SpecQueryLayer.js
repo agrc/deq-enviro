@@ -6,7 +6,7 @@ require([
 
     'dojo/dom-construct',
 
-    'matchers/Topics'
+    'matchers/topics'
 ], function(
     WidgetUnderTest,
     config,
@@ -15,7 +15,7 @@ require([
 
     domConstruct,
 
-    Topics
+    topicMatchers
 ) {
     describe('app/search/QueryLayer', function() {
         var widget;
@@ -47,8 +47,8 @@ require([
         describe('onCheckboxChange', function () {
             var topics = config.topics.appQueryLayer;
             beforeEach(function () {
-                Topics.listen(topics.addLayer);
-                Topics.listen(topics.removeLayer);
+                topicMatchers.listen(topics.addLayer);
+                topicMatchers.listen(topics.removeLayer);
             });
             describe('fires the appropriate topics', function () {
                 it('checked', function () {
