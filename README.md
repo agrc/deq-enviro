@@ -16,3 +16,5 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 [Query Layers](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web)
 
 [Master Plan](https://github.com/agrc/deq-enviro/wiki/Master-Plan)
+
+[Staging](http://test.mapserv.utah.gov/deqenviro/)
