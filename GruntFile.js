@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     ];
     var gruntFile = 'GruntFile.js';
     var internFile = 'tests/intern.js';
-    var jshintFiles = [jsFiles, gruntFile, internFile, 'src/matchers/**/*.js'];
+    var jshintFiles = [jsFiles, gruntFile, internFile];
 
     // Project configuration.
     grunt.initConfig({
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
             app: {
                 src: ['src/app/run.js'],
                 options: {
-                    specs: ['src/app/**/Spec*.js', 'src/matchers/**/Spec*.js'],
+                    specs: ['src/app/**/Spec*.js'],
                     vendor: [
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js'
