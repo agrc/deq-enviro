@@ -6,6 +6,7 @@
 @import '../../ijit/resources/authentication/LoginRegister.css';
 @import '../map/resources/MapLayersPopover.css';
 @import '../search/resources/Search.css';
+@import './Wizard.css';
 
 body, html, .app {
     width: 100%;

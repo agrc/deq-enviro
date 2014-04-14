@@ -11,7 +11,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    '../_CollapsableMixin',
+    '../_CollapsibleMixin',
     './QueryLayer',
     './QueryLayerHeader',
     './Address',
@@ -33,7 +33,7 @@ define([
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
 
-    _CollapsableMixin,
+    _CollapsibleMixin,
     QueryLayer,
     QueryLayerHeader,
     Address,
@@ -43,7 +43,7 @@ define([
     config
 ) {
     return declare(
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsableMixin], {
+        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsibleMixin], {
         // description:
         //      Encapsulates the search functionality for the app.
 

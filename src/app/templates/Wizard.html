@@ -7,9 +7,53 @@
                 </h4>
             </a>
         </div>
-        <div id="wizardPanel" class="panel-collapse collapse in">
-            <div class="panel-body">
-                Some help text
+        <div id="wizardPanel" 
+            data-dojo-attach-point='panel'
+            class="panel-collapse collapse in">
+            <div data-dojo-attach-point='stackContainer'
+                data-dojo-type='dijit/layout/StackContainer' class="panel-body">
+                <div data-dojo-attach-point='introPane'
+                    data-dojo-type="dijit/layout/ContentPane">
+                    <p>If this is your first time using this application, it is strongly recommended that you begin with this wizard. If you have experience with this application, you can <a data-dojo-attach-event='onclick: close' href='#'>close this pane</a>.</p> 
+                    
+                    <p>Information from the Drinking Water Source Protection program (<a href='http://www.drinkingwater.utah.gov/' target='_blank'>Utah Division of Drinking Water</a>) is available by <a data-dojo-attach-event='onclick: requestAccess' href='#'>requesting access</a>. The source protection information includes public water sources, ground-water protection zones, surface-water protection zones, and source assessment zones.</p>
+                </div>
+                <div data-dojo-attach-point="layersPane" 
+                    data-dojo-type="dijit/layout/ContentPane">
+                    <p>This step allows you to select specific data layers to search. Your search results will only contain/display data from the layers you have selected.</p>
+
+                    <p>There are custom filters for some layers that will appear when their corresponding layers are selected.</p>
+                </div>
+                <div data-dojo-attach-point="searchPane" 
+                    data-dojo-type="dijit/layout/ContentPane">
+                    <p>This step allows you to search the data in different ways, but you can ONLY USE one search method at a time.</p>
+
+                    <p>Search by <b>Address</b> allows you to search the data based on a buffer around an address.</p>
+
+                    <p>Search by <b>“City” or “County or Statewide”</b> allows you to search all the data in a specific city, county or the entire state.</p>
+
+                    <p>Search by <b>Site Name</b> allows you to search by the name of the facility, property, water system or other identifier.</p>
+
+                    <p>Search by <b>Program ID</b> allows you to search for program specific identification numbers.</p>
+
+                    <p>Search by <b>Shape</b> allows you to draw your own custom shape to search the data. As the cursor is placed over each shape tool, a brief description of its function appears.</p>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button data-dojo-attach-event='onclick: close'
+                    class="btn btn-default btn-xs">Close</button>
+                <div class="btn-group pull-right">
+                    <button data-dojo-attach-point='backBtn'
+                        class="btn btn-default btn-xs" disabled>
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        Back
+                    </button>
+                    <button data-dojo-attach-point='nextBtn'
+                        class="btn btn-default btn-xs">
+                        Next
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
