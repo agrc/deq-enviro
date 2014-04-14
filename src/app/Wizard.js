@@ -63,7 +63,8 @@ define([
             this.panes = [
                 this.introPane,
                 this.layersPane,
-                this.searchPane
+                this.searchPane,
+                this.resultsPane
             ];
 
             var that = this;
@@ -105,6 +106,8 @@ define([
             //      If true, the next pane is shown. If false, the previous pane is shown
             console.log('app/Wizard::changePane', arguments);
         
+            var currentPane;
+
             if (advance) {
                 this.currentPaneIndex = this.currentPaneIndex + 1;
             } else {
@@ -114,7 +117,16 @@ define([
             this.backBtn.disabled = this.currentPaneIndex === 0;
             this.nextBtn.disabled = this.currentPaneIndex === this.panes.length - 1;
 
-            this.stackContainer.selectChild(this.panes[this.currentPaneIndex]);
+            currentPane = this.panes[this.currentPaneIndex];
+            this.stackContainer.selectChild(currentPane);
+
+            if (currentPane === this.layersPane) {
+                topic.publish(config.topics.appWizard.showQueryLayers);
+            } else if (currentPane === this.searchPane) {
+                topic.publish(config.topics.appWizard.showSearch);
+            } else if (currentPane === this.resultsPane) {
+                topic.publish(config.topics.appWizard.showResults);
+            }
         }
     });
 });

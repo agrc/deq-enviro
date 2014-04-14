@@ -3,6 +3,7 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/array',
+    'dojo/_base/lang',
     'dojo/dom-construct',
     'dojo/topic',
     'dojo/request',
@@ -25,6 +26,7 @@ define([
 
     declare,
     array,
+    lang,
     domConstruct,
     topic,
     request,
@@ -91,7 +93,14 @@ define([
                 this.address = new Address({}, this.addressPane),
                 this.city = new City({}, this.cityPane),
                 this.county = new County({}, this.countyPane),
-                this.shape = new Shape({}, this.shapePane)
+                this.shape = new Shape({}, this.shapePane),
+                topic.subscribe(config.topics.appWizard.showSearch, function () {
+                    $(that.locationPanel).collapse('show');
+                }),
+                topic.subscribe(config.topics.appWizard.showQueryLayers, function () {
+                    $(that.queryLayersPanel).collapse('show');
+                }),
+                topic.subscribe(config.topics.appWizard.showResults, lang.hitch(this, 'search'))
             );
 
             this.inherited(arguments);
@@ -119,6 +128,13 @@ define([
             console.log('app.search.Search::onSelectChange', arguments);
         
             this.stackContainer.selectChild(this[this.select.value]);
+        },
+        search: function () {
+            // summary:
+            //      description
+            console.log('app/Search::search', arguments);
+        
+            
         }
     });
 });

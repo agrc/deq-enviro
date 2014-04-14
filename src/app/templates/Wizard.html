@@ -20,12 +20,14 @@
                 </div>
                 <div data-dojo-attach-point="layersPane" 
                     data-dojo-type="dijit/layout/ContentPane">
+                    <h5>Step 1: Select Layers to Search</h5>
                     <p>This step allows you to select specific data layers to search. Your search results will only contain/display data from the layers you have selected.</p>
 
                     <p>There are custom filters for some layers that will appear when their corresponding layers are selected.</p>
                 </div>
                 <div data-dojo-attach-point="searchPane" 
                     data-dojo-type="dijit/layout/ContentPane">
+                    <h5>Step 2: Enter Search Values and Execute Search</h5>
                     <p>This step allows you to search the data in different ways, but you can ONLY USE one search method at a time.</p>
 
                     <p>Search by <b>Address</b> allows you to search the data based on a buffer around an address.</p>
@@ -37,6 +39,19 @@
                     <p>Search by <b>Program ID</b> allows you to search for program specific identification numbers.</p>
 
                     <p>Search by <b>Shape</b> allows you to draw your own custom shape to search the data. As the cursor is placed over each shape tool, a brief description of its function appears.</p>
+                </div>
+                <div data-dojo-attach-point="resultsPane" 
+                    data-dojo-type="dijit/layout/ContentPane">
+                    <h5>Step 3: Analyze Search Results</h5>
+                    <p>This step allows you to review the results of your search. Using the tools in the right sidebar you can start a new search, export results, clear graphics, modify search, or export map images. You can also select individual records to:</p>
+
+                    <ul>
+                        <li>View specific site information</li>
+                        <li>Submit an electronic request to review the file(s) by selecting the “GRAMA Request” link.</li>
+                        <li>View electronic documents associated with the specific site.</li>
+                    </ul>
+
+                    <p>PLEASE NOTE: When viewing the search results "N/A" means that the data is currently not available online.</p>
                 </div>
             </div>
             <div class="panel-footer">
