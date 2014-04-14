@@ -1,5 +1,5 @@
 .wizard .panel-body {
-    max-height: 200px;
+    height: 200px;
     overflow: auto;
     padding: 0 15px;
 }

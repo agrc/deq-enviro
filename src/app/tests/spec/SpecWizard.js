@@ -1,15 +1,21 @@
 require([
     'app/Wizard',
+    'app/config',
 
     'dojo/_base/window',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+
+    'matchers/topics'
 ], function(
     WidgetUnderTest,
+    config,
 
     win,
 
-    domConstruct
+    domConstruct,
+
+    topics
 ) {
 
     var widget;
@@ -68,8 +74,31 @@ require([
                 expect(widget.backBtn.disabled).toBe(false);
                 expect(widget.nextBtn.disabled).toBe(false);
             });
-            it('switches panes', function () {
+            it('publishes topics', function () {
+                var t = config.topics.appWizard;
+                topics.listen(t);
+                widget.currentPaneIndex = 0;
 
+                widget.changePane(true); // query layers
+
+                expect(t.showQueryLayers).toHaveBeenPublished();
+                expect(t.showSearch).not.toHaveBeenPublished();
+
+                widget.changePane(true); // search
+
+                expect(t.showSearch).toHaveBeenPublished();
+
+                widget.changePane(false); // back to query layers
+
+                expect(t.showQueryLayers).toHaveBeenPublishedThisManyTimes(2);
+
+                widget.changePane(true); // back to search
+
+                expect(t.showSearch).toHaveBeenPublishedThisManyTimes(2);
+
+                widget.changePane(true); // results
+
+                expect(t.showResults).toHaveBeenPublished();
             });
         });
     });
