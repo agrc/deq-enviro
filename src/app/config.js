@@ -33,6 +33,9 @@ define([
             },
             appMapController: {
                 mapZoom: 'app/MapController.mapZoom'
+            },
+            appWizard: {
+                requestAccess: 'app/Wizard.requestAccess'
             }
         },
 

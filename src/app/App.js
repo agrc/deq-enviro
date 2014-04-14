@@ -7,6 +7,7 @@ define([
     'dojo/dom',
     'dojo/dom-style',
     'dojo/dom-class',
+    'dojo/topic',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -36,6 +37,7 @@ define([
     dom,
     domStyle,
     domClass,
+    topic,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -72,6 +74,19 @@ define([
         // map: agrc.widgets.map.Basemap
         map: null,
 
+        // mapLayersBtn: MapButton
+        mapLayersBtn: null,
+
+        // login: LoginRegister
+        login: null,
+
+        // resultsGrid: ResultsGrid
+        resultsGrid: null,
+
+        // identifyPane: IdentifyPane
+        identifyPane: null,
+        
+
         constructor: function() {
             // summary:
             //      first function to fire after page loads
@@ -79,7 +94,20 @@ define([
 
             config.app = this;
 
+            this.setUpListeners();
+
             this.inherited(arguments);
+        },
+        setUpListeners: function () {
+            // summary:
+            //      sets up the publish/subscribes
+            console.log('app/App::setUpListeners', arguments);
+        
+            var that = this;
+            topic.subscribe(config.topics.appWizard.requestAccess, function () {
+                that.login.goToPane(that.login.requestPane);
+                that.login.show();
+            });
         },
         postCreate: function() {
             // summary:
@@ -110,7 +138,7 @@ define([
                 }, this.printBtnDiv),
                 new Wizard({}, this.wizardDiv),
                 new Search({}, this.searchDiv),
-                new LoginRegister({
+                this.login = new LoginRegister({
                     appName: config.appName,
                     logoutDiv: this.logoutDiv,
                     showOnLoad: false
