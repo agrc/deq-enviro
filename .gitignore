@@ -15,6 +15,8 @@ src/dojo/*
 src/dijit/*
 src/dojox/*
 src/matchers/*
+src/favico.js/
+src/jasmine-favicon-reporter/
 scripts/secrets.cfg
 .project
 .pydevproject
