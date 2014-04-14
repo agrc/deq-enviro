@@ -1,5 +1,5 @@
 require([
-    'app/_CollapsableMixin'
+    'app/_CollapsibleMixin'
 
 ], function(
     ClassUnderTest
@@ -17,13 +17,13 @@ require([
         }
     });
 
-    describe('app/_CollapsableMixin', function() {
+    describe('app/_CollapsibleMixin', function() {
         describe('Sanity', function() {
             beforeEach(function() {
                 testObject = new ClassUnderTest(null);
             });
 
-            it('should create a _CollapsableMixin', function() {
+            it('should create a _CollapsibleMixin', function() {
                 expect(testObject).toEqual(jasmine.any(ClassUnderTest));
             });
         });
