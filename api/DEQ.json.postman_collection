@@ -1,0 +1,66 @@
+{
+	"id": "908b5c4b-edb8-3473-06db-649b1da4d331",
+	"name": "DEQ",
+	"description": "",
+	"order": [
+		"1ebb8d8b-373c-b933-60b9-28bcae34790f",
+		"46804e1d-b7a5-6e4c-1200-f0c1c5253925",
+		"63beb1bd-df6c-cd7a-ef85-ddafcb179286"
+	],
+	"folders": [],
+	"timestamp": 1397590143980,
+	"synced": false,
+	"requests": [
+		{
+			"id": "1ebb8d8b-373c-b933-60b9-28bcae34790f",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost/deqenviro/api/search",
+			"pathVariables": {},
+			"method": "POST",
+			"data": "{\n    \"queryLayers\": [{\n        \"id\": 1,\n        \"defQuery\": \"TYPE IN ('3','4')\"\n    }, {\n        \"id\": 4\n    }, {\n        \"id\": 60\n    }],\n    \"geometry\": {\n        \"rings\": [[[429309.812150177,4504124.418033781],[429309.9882186921,4504124.402411696],[429309.812150177,4504124.418033781]]],\n        \"spatialReference\": {\n            \"wkid\": 26912\n        }\n    }\n}",
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"time": 1398296680841,
+			"name": "Geometry Search",
+			"description": "",
+			"collectionId": "908b5c4b-edb8-3473-06db-649b1da4d331",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "46804e1d-b7a5-6e4c-1200-f0c1c5253925",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost/deqenviro/api/search",
+			"pathVariables": {},
+			"method": "POST",
+			"data": "{\n    \"queryLayers\": [{\n        \"id\": 2\n    }],\n\n    \"siteName\": {\n        \"terms\": [\"kane\"],\n        \"includeAll\": true\n    }\n}",
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"time": 1398376613379,
+			"name": "Site Search",
+			"description": "",
+			"collectionId": "908b5c4b-edb8-3473-06db-649b1da4d331",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "63beb1bd-df6c-cd7a-ef85-ddafcb179286",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost/deqenviro/api/search",
+			"pathVariables": {},
+			"method": "POST",
+			"data": "{\n    \"queryLayers\": [{\n        \"id\": 1\n    }, {\n        \"id\": 4,\n        \"defQuery\": \"TYPE IN ('3','4')\"\n    }, {\n        \"id\": 60\n    }],\n    \"programId\": \"1234-t\"\n}",
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"time": 1398296720641,
+			"name": "Program Search",
+			"description": "",
+			"collectionId": "908b5c4b-edb8-3473-06db-649b1da4d331",
+			"responses": [],
+			"synced": false
+		}
+	]
+}
