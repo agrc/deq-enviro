@@ -1,11 +1,15 @@
 define([
     'dojo/request',
     'dojo/Deferred',
-    'dojo/has'
+    'dojo/has',
+
+    'esri/SpatialReference'
 ], function (
     request,
     Deferred,
-    has
+    has,
+
+    SpatialReference
     ) {
     window.AGRC = {
         // app: app.App
@@ -47,7 +51,8 @@ define([
         urls: {
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
             DEQEnviro: '/arcgis/rest/services/DEQEnviro/MapServer',
-            json: '/webdata/DEQEnviro.json'
+            json: '/webdata/DEQEnviro.json',
+            geometryService: '/arcgis/rest/services/Geometry/GeometryServer'
         },
 
         // layerIndices: Object
@@ -74,6 +79,10 @@ define([
         // appJson: Object
         //      Cache for data returned by getAppJson
         appJson: null,
+
+        // spatialReference SpatialReference
+        //      The spatial reference of the map
+        spatialReference: new SpatialReference(26912),
 
         getAppJson: function () {
             // summary:
