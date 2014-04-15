@@ -21,21 +21,21 @@ require([
 
     mockDEQEnviroJSON
 ) {
-
-    var widget;
-
-    beforeEach(function() {
-        widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
-    });
-
-    afterEach(function() {
-        if (widget) {
-            widget.destroy();
-            widget = null;
-        }
-    });
-
     describe('app/search/Search', function() {
+        var widget;
+
+        beforeEach(function() {
+            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+            widget.startup();
+        });
+
+        afterEach(function() {
+            if (widget) {
+                widget.destroy();
+                widget = null;
+            }
+        });
+
         describe('Sanity', function() {
             it('should create a Search', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
