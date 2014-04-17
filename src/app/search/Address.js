@@ -66,7 +66,7 @@ define([
             // have to validate manually to incorporate buffer but also because
             // FindAddress:geocodeAddress is written in a way that I can't
             // tell if it validates or not.
-            if (!this._validate() || !this._isValid(this.num_buffer)) {
+            if (!this._validate() || !this._isValid(this.numBuffer)) {
                 this.getGeometryDef.reject();
             }
 

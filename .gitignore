@@ -17,6 +17,7 @@ src/dojox/*
 src/matchers/*
 src/favico.js/
 src/jasmine-favicon-reporter/
+src/spinjs/
 scripts/secrets.cfg
 .project
 .pydevproject
