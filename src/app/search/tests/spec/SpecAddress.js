@@ -46,8 +46,8 @@ require([
                 });
             });
             it('rejects if _onError is called', function (done) {
-                widget.txt_address.value = '1';
-                widget.txt_zone.value = '1';
+                widget.txtAddress.value = '1';
+                widget.txtZone.value = '1';
                 widget.getGeometry().then(function () {}, function () {
                     done();
                 });

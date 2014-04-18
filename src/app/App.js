@@ -141,8 +141,8 @@ define([
                 this.login = new LoginRegister({
                     appName: config.appName,
                     logoutDiv: this.logoutDiv,
-                    showOnLoad: false
-                    // securedServicesBaseUrl: ??
+                    showOnLoad: false,
+                    securedServicesBaseUrl: AGRC.urls.securedServicesBaseUrl
                 }),
                 this.resultsGrid = new ResultsGrid({}, this.resultsGridDiv),
                 this.identifyPane = new IdentifyPane({}, this.identifyPaneDiv),

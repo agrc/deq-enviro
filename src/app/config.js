@@ -52,7 +52,9 @@ define([
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
             DEQEnviro: '/arcgis/rest/services/DEQEnviro/MapServer',
             json: '/webdata/DEQEnviro.json',
-            geometryService: '/arcgis/rest/services/Geometry/GeometryServer'
+            geometryService: '/arcgis/rest/services/Geometry/GeometryServer',
+            terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
+            securedServicesBaseUrl: '/none'
         },
 
         // layerIndices: Object
@@ -61,15 +63,15 @@ define([
             landOwnership: 0,
             environmentalCovenants: 1,
             huc: 2,
-            indianTribal: 3
+            indianTribal: 3,
+            city: 1 // Terrain service
         },
 
-        // queryLayer: Object
-        //      query layer properties
-        queryLayer: {
-            opacity: 0.7,
-            color: [4, 241, 90],
-            size: 10
+        // fieldNames: {}
+        fieldNames: {
+            city: {
+                NAME: 'NAME'
+            }
         },
 
         // TRSMinScaleLevel: Number

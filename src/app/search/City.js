@@ -1,44 +1,50 @@
 define([
-    'dojo/text!./templates/City.html',
-
     'dojo/_base/declare',
+    'dojo/Deferred',
+    'dojo/aspect',
 
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin'
+    'agrc/widgets/locate/MagicZoom'
 ], function(
-    template,
-
     declare,
+    Deferred,
+    aspect,
 
-    _WidgetBase,
-    _TemplatedMixin
+    MagicZoom
 ) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+    return declare([MagicZoom], {
         // description:
-        //      City search controls and logic
+        //      Wrapper around MagicZoom to implement getGeometry
 
-        templateString: template,
-        baseClass: 'city',
+        // geometry: esri/geometry/Polygon
+        //      The most recently zoomed to geometry
+        geometry: null,
 
-        // Properties to be sent into constructor
-
-        postCreate: function() {
+        postCreate: function () {
             // summary:
-            //      Overrides method of same name in dijit._Widget.
-            // tags:
-            //      private
-            console.log('app.search.City::postCreate', arguments);
+            //      wires up onZoomed listener
+            console.log('app/search/City::postCreate', arguments);
 
-            this.setupConnections();
+            var that = this;
+
+            this.own(aspect.after(this, 'onZoomed', function (graphic) {
+                that.geometry = graphic.geometry;
+            }, true));
 
             this.inherited(arguments);
         },
-        setupConnections: function() {
+        getGeometry: function () {
             // summary:
-            //      wire events, and such
-            //
-            console.log('app.search.City::setupConnections', arguments);
+            //      Called by Search
+            // returns: Promise
+            console.log('app/search/City::getGeometry', arguments);
 
+            var def = new Deferred();
+
+            // TODO: handle no geometry validation
+            // reject with validation message?
+            def.resolve(this.geometry);
+
+            return def.promise;
         }
     });
 });
