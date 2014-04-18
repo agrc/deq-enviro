@@ -6,6 +6,7 @@
             "src/dojo",
             "src/dijit",
             "src/dojox",
+            "src/util",
             "node_modules",
             ".grunt"
         ],

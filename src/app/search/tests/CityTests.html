@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <title>City Tests</title>
@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/City.css">
+    <link rel="stylesheet" href="../../../app/resources/App.css">
     <style type='text/css'>
         body {
             padding: 50px;
@@ -18,8 +18,6 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
-    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
     <script type='text/javascript' src="../../../dojo/dojo.js"></script>
     <script type="text/javascript">
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
@@ -27,7 +25,16 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'agrc', 'ijit',
+            {
+                name: 'jquery',
+                location: 'jquery/dist',
+                main: 'jquery'
+            },{
+                name: 'bootstrap',
+                location: 'bootstrap',
+                main: 'dist/js/bootstrap'
+            }]
         }, [
             'app/search/City',
 

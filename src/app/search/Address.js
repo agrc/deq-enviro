@@ -101,7 +101,7 @@ define([
 
             var params = new BufferParameters();
 
-            params.distances = [this.num_buffer.value];
+            params.distances = [this.numBuffer.value];
             var point = new Point(
                 geocodeResult.location.x,
                 geocodeResult.location.y,
