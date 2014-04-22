@@ -1,13 +1,17 @@
 require([
     'app/search/City',
+    'app/map/MapController',
 
     'dojo/_base/window',
+    'dojo/promise/Promise',
 
     'dojo/dom-construct'
 ], function(
     WidgetUnderTest,
+    MapController,
 
     win,
+    Promise,
 
     domConstruct
 ) {
@@ -17,9 +21,18 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
+        var map = {
+            loaded: true,
+            addLayer: function () {},
+            on: function () {},
+            removeLayer: function () {}
+        };
 
         beforeEach(function() {
-            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+            widget = new WidgetUnderTest({
+                map: map
+            }, domConstruct.create('div', null, win.body()));
+            widget.startup();
         });
 
         afterEach(function() {
@@ -31,6 +44,28 @@ require([
         describe('Sanity', function() {
             it('should create a City', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
+            });
+        });
+        describe('getGeometry', function () {
+            it('returns a promise that immediately resolves with the geometry', function (done) {
+                widget.geometry = {};
+                var p = widget.getGeometry();
+                expect(p).toEqual(jasmine.any(Promise));
+
+                p.then(function (geo) {
+                    expect(geo).toBe(widget.geometry);
+                    done();
+                });
+            });
+        });
+        describe('postCreate', function () {
+            it('wires up onZoomed to collect the zoomed geometry', function () {
+                var geo = {};
+                var graphic = {geometry: geo};
+
+                widget.onZoomed(graphic);
+
+                expect(widget.geometry).toBe(geo);
             });
         });
     });

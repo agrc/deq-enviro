@@ -7,10 +7,12 @@ define([
     'dojo/dom-construct',
     'dojo/topic',
     'dojo/request',
+    'dojo/aspect',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
+    'dijit/registry',
 
     '../_CollapsibleMixin',
     './QueryLayer',
@@ -19,7 +21,8 @@ define([
     './City',
     './County',
     './Shape',
-    '../config'
+    '../config',
+    '../map/MapController'
 
 ], function(
     template,
@@ -30,10 +33,12 @@ define([
     domConstruct,
     topic,
     request,
+    aspect,
 
     _WidgetBase,
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
+    registry,
 
     _CollapsibleMixin,
     QueryLayer,
@@ -42,7 +47,8 @@ define([
     City,
     County,
     Shape,
-    config
+    config,
+    MapController
 ) {
     return declare(
         [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsibleMixin], {
@@ -76,6 +82,7 @@ define([
 
         // shape: Shape
         shape: null,
+
 
         // Properties to be sent into constructor
 
@@ -113,7 +120,17 @@ define([
                 this.address = new Address({
                     apiKey: config.apiKey
                 }, this.addressPane),
-                this.city = new City({}, this.cityPane),
+                // this.city = new City({}, this.cityPane),
+                this.city = new City({
+                    map: MapController.map,
+                    promptMessage: 'please begin typing a city name',
+                    mapServiceURL: config.urls.terrain,
+                    searchLayerIndex: config.layerIndices.city,
+                    searchField: config.fieldNames.cities.NAME,
+                    placeHolder: 'city name...',
+                    maxResultsToDisplay: 5,
+                    symbolFill: config.symbols.zoom
+                }, this.cityPane),
                 this.county = new County({}, this.countyPane),
                 this.shape = new Shape({}, this.shapePane),
                 topic.subscribe(config.topics.appWizard.showSearch, function () {
@@ -164,16 +181,28 @@ define([
         
             this.currentPane = this[this.select.value];
             this.stackContainer.selectChild(this.currentPane);
+            this.zoomedGeometry = null;
         },
         search: function () {
             // summary:
             //      description
             console.log('app/Search::search', arguments);
         
-            // TODO: handles reject error messages.
-            this.address.getGeometry().then(function (geo) {
-                console.log('geo', geo);
-            });
+            var params = {};
+            var makeRequest = function () {
+                console.log('makeRequest');
+            };
+
+            if (this.currentPane.getGeometry) {
+                // TODO: handles reject error messages.
+                this.currentPane.getGeometry().then(function (geo) {
+                    console.log('geo', geo);
+                    makeRequest();
+                });
+            } else {
+                params[this.currentPane.paramName] = this.currentPane.getSearchParam();
+                makeRequest();
+            }
         }
     });
 });
