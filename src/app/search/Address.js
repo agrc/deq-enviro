@@ -5,6 +5,7 @@ define([
     'dojo/_base/declare',
     'dojo/Deferred',
     'dojo/aspect',
+    'dojo/topic',
 
     'agrc/widgets/locate/FindAddress',
 
@@ -19,6 +20,7 @@ define([
     declare,
     Deferred,
     aspect,
+    topic,
 
     FindAddress,
 
@@ -93,6 +95,7 @@ define([
                 this.geometryService = new GeometryService(config.urls.geometryService);
                 this.geometryService.on('buffer-complete', function (result) {
                     that.getGeometryDef.resolve(result.geometries[0]);
+                    topic.publish(config.topics.mapController.zoomTo, result.geometries[0]);
                 });
                 this.geometryService.on('error', function () {
                     that.getGeometryDef.reject('There was an error with the buffer.');
@@ -109,7 +112,7 @@ define([
             );
             params.geometries = [point];
             params.spatialReference = config.spatialReference;
-            params.unit = GeometryService.UNIT_MILE;
+            params.unit = GeometryService.UNIT_US_NAUTICAL_MILE;
 
             this.geometryService.buffer(params);
         }
