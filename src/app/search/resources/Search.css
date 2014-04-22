@@ -1,11 +1,22 @@
 @import 'QueryLayer.css';
 @import 'QueryLayerHeader.css';
 @import 'Address.css';
-@import 'City.css';
 @import 'County.css';
 @import 'Shape.css';
 @import '../../../agrc/resources/locate/FindAddress.css';
+@import '../../../agrc/resources/locate/MagicZoom.css';
 
 .search .panel-group {
     margin-bottom: 0;
+}
+.search .magic-zoom {
+    position: relative;
+    margin: -5px;
+    height: 200px;
+}
+.search .magic-zoom input {
+    width: 279px;
+}
+.search .magic-zoom .matches-table {
+    width: 318px;
 }

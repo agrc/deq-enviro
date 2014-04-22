@@ -67,5 +67,14 @@ require([
                 expect(query('.query-layer-header', widget.domNode).length).toBe(3);
             });
         });
+        describe('onSelectChange', function () {
+            it('clears the zoomedGeometry', function () {
+                widget.zoomedGeometry = {};
+
+                widget.onSelectChange();
+
+                expect(widget.zoomedGeometry).toBeNull();
+            });
+        });
     });
 });
