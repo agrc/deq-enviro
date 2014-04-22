@@ -23,9 +23,14 @@ require([
             map = jasmine.createSpyObj('map', [
                 'addLayer',
                 'addLoaderToLayer',
-                'on'
+                'on',
+                'setExtent'
             ]);
             map.on.and.returnValue({remove: function () {}});
+            map.graphics = {
+                add: function () {},
+                clear: function () {}
+            };
 
             testObject = ClassUnderTest;
             testObject.init({map: map});
@@ -117,6 +122,16 @@ require([
                 testObject.addQueryLayer(lyr);
 
                 expect(map.addLayer).toHaveBeenCalledWith(lyr);
+            });
+        });
+        describe('zoom', function () {
+            it('zooms the map to the geometry', function () {
+                var value = 'blah';
+                var geo = {getExtent: function () {return value;}};
+
+                testObject.zoom(geo);
+
+                expect(testObject.map.setExtent).toHaveBeenCalledWith(value, true);
             });
         });
     });
