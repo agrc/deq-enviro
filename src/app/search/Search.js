@@ -126,9 +126,10 @@ define([
                     promptMessage: 'please begin typing a city name',
                     mapServiceURL: config.urls.terrain,
                     searchLayerIndex: config.layerIndices.city,
-                    searchField: config.fieldNames.city.NAME,
+                    searchField: config.fieldNames.cities.NAME,
                     placeHolder: 'city name...',
-                    maxResultsToDisplay: 5
+                    maxResultsToDisplay: 5,
+                    symbolFill: config.symbols.zoom
                 }, this.cityPane),
                 this.county = new County({}, this.countyPane),
                 this.shape = new Shape({}, this.shapePane),

@@ -5,6 +5,7 @@ define([
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/Graphic',
 
     '../config'
 
@@ -15,6 +16,7 @@ define([
 
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
+    Graphic,
 
     config
 ) {
@@ -46,13 +48,16 @@ define([
             //      subscribes to topics
             console.log('app/map/MapController:setUpSubscribes', arguments);
         
+            var t = config.topics;
             this.handles.push(
-                topic.subscribe(config.topics.appMapReferenceLayerToggle.addLayer,
+                topic.subscribe(t.appMapReferenceLayerToggle.addLayer,
                     lang.hitch(this, 'addReferenceLayer')),
-                topic.subscribe(config.topics.appMapReferenceLayerToggle.toggleLayer,
+                topic.subscribe(t.appMapReferenceLayerToggle.toggleLayer,
                     lang.hitch(this, 'toggleReferenceLayer')),
-                topic.subscribe(config.topics.appQueryLayer.addLayer,
-                    lang.hitch(this, 'addQueryLayer'))
+                topic.subscribe(t.appQueryLayer.addLayer,
+                    lang.hitch(this, 'addQueryLayer')),
+                topic.subscribe(t.mapController.zoomTo,
+                    lang.hitch(this, 'zoom'))
             );
         },
         setUpPublishes: function () {
@@ -129,15 +134,25 @@ define([
             // summary:
             //      adds the query layer Feature Layer to the map
             // layer: esri/layers/FeatureLayer
-            console.log('app/map/MapControl:addQueryLayer', arguments);
+            console.log('app/map/MapController:addQueryLayer', arguments);
         
             this.map.addLayer(layer);
             this.map.addLoaderToLayer(layer);
         },
+        zoom: function (geometry) {
+            // summary:
+            //      zooms the map to the passed in geometry
+            // geometry: esri/geometry/polygon
+            console.log('app/map/MapController::zoom', arguments);
+
+            this.map.setExtent(geometry.getExtent(), true);
+            this.map.graphics.clear();
+            this.map.graphics.add(new Graphic(geometry, config.symbols.zoom));
+        },
         destroy: function () {
             // summary:
             //      destroys all handles
-            console.log('app/map/MapControl:destroy', arguments);
+            console.log('app/map/MapController:destroy', arguments);
         
             array.forEach(this.handles, function (hand) {
                 hand.remove();
