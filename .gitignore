@@ -18,6 +18,7 @@ src/matchers/*
 src/favico.js/
 src/jasmine-favicon-reporter/
 src/spinjs/
+src/stubmodule/
 scripts/secrets.cfg
 .project
 .pydevproject

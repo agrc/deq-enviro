@@ -112,7 +112,7 @@ define([
             );
             params.geometries = [point];
             params.spatialReference = config.spatialReference;
-            params.unit = GeometryService.UNIT_US_NAUTICAL_MILE;
+            params.unit = GeometryService.UNIT_STATUTE_MILE;
 
             this.geometryService.buffer(params);
         }
