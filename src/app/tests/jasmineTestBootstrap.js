@@ -6,13 +6,15 @@ var dojoConfig = {
     packages: [{
         name: 'matchers',
         location: 'matchers/src'
-    }]
+    },{
+        name: 'stubmodule',
+        location: 'stubmodule/src',
+        main: 'stub-module'
+    }],
+    has: {
+        'dojo-undef-api': true
+    }
 };
 
 // for jasmine-favicon-reporter
 jasmine.getEnv().addReporter(new JasmineFaviconReporter());
-
-// // override alert to console
-// window.alert = function(msg) {
-//     console.error('ALERT OVERRIDDEN TO LOG: ' + msg);
-// };

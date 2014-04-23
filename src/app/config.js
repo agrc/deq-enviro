@@ -6,7 +6,8 @@ define([
 
     'esri/SpatialReference',
     'esri/symbols/SimpleFillSymbol',
-    'esri/symbols/SimpleLineSymbol'
+    'esri/symbols/SimpleLineSymbol',
+    'esri/symbols/SimpleMarkerSymbol'
 ], function (
     Color,
     request,
@@ -15,8 +16,12 @@ define([
 
     SpatialReference,
     SimpleFillSymbol,
-    SimpleLineSymbol
+    SimpleLineSymbol,
+    SimpleMarkerSymbol
     ) {
+
+    var zoomColor = new Color([255, 255, 0]);
+    var zoomFillColor = new Color(zoomColor.toRgb().concat([0.25]));
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -51,7 +56,8 @@ define([
                 showResults: 'app/Wizard.showResults'
             },
             mapController: {
-                zoomTo: 'app/MapController.zoomTo'
+                zoomTo: 'app/MapController.zoomTo',
+                graphic: 'app/MapController.graphic'
             }
         },
 
@@ -110,13 +116,29 @@ define([
         // symbols: Object
         //      Graphic symbols used in this app
         symbols: {
-            zoom: new SimpleFillSymbol(
-                SimpleFillSymbol.STYLE_NULL,
-                new SimpleLineSymbol(
-                    SimpleLineSymbol.STYLE_DASHDOT,
-                    new Color([255, 255, 0]),
-                    4),
-                null)
+            zoom: {
+                polygon: new SimpleFillSymbol(
+                    SimpleFillSymbol.STYLE_SOLID,
+                    new SimpleLineSymbol(
+                        SimpleLineSymbol.STYLE_SOLID,
+                        zoomColor,
+                        2
+                    ),
+                    zoomFillColor),
+                point: new SimpleMarkerSymbol(
+                    SimpleMarkerSymbol.STYLE_CIRCLE,
+                    13,
+                    new SimpleLineSymbol(
+                        SimpleLineSymbol.STYLE_SOLID,
+                        zoomColor,
+                        2),
+                    zoomFillColor),
+                polyline: new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_SOLID,
+                    zoomColor,
+                    4
+                )
+            }
         },
 
         getAppJson: function () {

@@ -57,7 +57,9 @@ define([
                 topic.subscribe(t.appQueryLayer.addLayer,
                     lang.hitch(this, 'addQueryLayer')),
                 topic.subscribe(t.mapController.zoomTo,
-                    lang.hitch(this, 'zoom'))
+                    lang.hitch(this, 'zoom')),
+                topic.subscribe(t.mapController.graphic,
+                    lang.hitch(this, 'graphic'))
             );
         },
         setUpPublishes: function () {
@@ -146,8 +148,16 @@ define([
             console.log('app/map/MapController::zoom', arguments);
 
             this.map.setExtent(geometry.getExtent(), true);
+            this.graphic(geometry);
+        },
+        graphic: function (geometry) {
+            // summary:
+            //      creates a graphic and adds it to the map
+            // geometry: esri/geometry
+            console.log('app/map/MapController::graphic', arguments);
+        
             this.map.graphics.clear();
-            this.map.graphics.add(new Graphic(geometry, config.symbols.zoom));
+            this.map.graphics.add(new Graphic(geometry, config.symbols.zoom[geometry.type]));
         },
         destroy: function () {
             // summary:

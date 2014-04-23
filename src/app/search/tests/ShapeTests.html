@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="../resources/Shape.css">
     <style type='text/css'>
         body {
-            padding: 50px;
+            padding: 15px;
+            border: 1px solid gray;
+            width: 318px;
         }
     </style>
 
@@ -30,17 +32,29 @@
             packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
         }, [
             'app/search/Shape',
+            'app/map/MapController',
+
+            'esri/Map',
 
             'dojo/domReady!'
-        ], function(Module) {
-            widgetUnderTest = new Module({
-            }, 'node');
+        ], function(
+            Module,
+            MapController,
+            Map
+            ) {
+            MapController.map = new Map('mapDiv', {
+                basemap: 'streets'
+            });
+            MapController.setUpSubscribes();
+            widgetUnderTest = new Module(null, 'node');
 
             widgetUnderTest.startup();
         });
 </script>
 </head>
 <body class='claro'>
+    <div id="mapDiv"></div>
     <div id="node"></div>
+    <button onclick='widgetUnderTest.getGeometry();'>getGeometry</button>
 </body>
 </html>
