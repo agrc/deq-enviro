@@ -7,6 +7,7 @@ require([
     'dojo/dom-construct',
     'dojo/topic',
     'dojo/query',
+    'dojo/Deferred',
 
     'app/search/tests/data/mockDEQEnviroJSON',
 
@@ -20,6 +21,7 @@ require([
     domConstruct,
     topic,
     query,
+    Deferred,
 
     mockDEQEnviroJSON,
 
@@ -90,13 +92,14 @@ require([
         describe('search', function () {
             var geomSearch;
             var textSearch;
-            var def = {then: function () {}};
+            var def;
             beforeEach(function () {
+                def = new Deferred();
                 geomSearch = {
-                    getGeometry: jasmine.createSpy('getGeometry').and.returnValue(def)
+                    getGeometry: jasmine.createSpy('getGeometry').and.returnValue(def.promise)
                 };
                 textSearch = {
-                    getSearchParam: jasmine.createSpy('getSearchParam').and.returnValue(def)
+                    getSearchParam: jasmine.createSpy('getSearchParam')
                 };
             });
             it('calls getGeometry', function () {
@@ -112,6 +115,27 @@ require([
                 widget.search();
 
                 expect(textSearch.getSearchParam).toHaveBeenCalled();
+            });
+            it('displays error messages from getGeometry rejects', function () {
+                var value = 'blah';
+                widget.currentPane = geomSearch;
+
+                widget.search();
+
+                def.reject(value);
+
+                expect(widget.errMsg.innerHTML).toBe(value);
+            });
+            it('displays error messages from getSearchParam errors', function () {
+                var value = 'blah';
+                textSearch.getSearchParam.and.callFake(function () {
+                    throw value;
+                });
+                widget.currentPane = textSearch;
+
+                widget.search();
+
+                expect(widget.errMsg.innerHTML).toBe(value);
             });
         });
     });
