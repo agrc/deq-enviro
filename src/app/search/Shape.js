@@ -44,7 +44,7 @@ define([
         //      Controls and tools for defining a search area by drawing on the map.
 
         templateString: template,
-        baseClass: 'shape',
+        baseClass: 'shape pad',
         widgetsInTemplate: true,
 
         // toolbar: Draw
