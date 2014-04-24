@@ -23,6 +23,7 @@ define([
         templateString: template,
         baseClass: 'base-map-selector',
         widgetsInTemplate: false,
+        defaultThemeLabel: 'Lite',
 
         // Properties to be sent into constructor
 
