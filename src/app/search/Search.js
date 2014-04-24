@@ -21,6 +21,7 @@ define([
     './City',
     './County',
     './SiteName',
+    './ID',
     './Shape',
     '../config',
     '../map/MapController'
@@ -48,6 +49,7 @@ define([
     City,
     County,
     SiteName,
+    ID,
     Shape,
     config,
     MapController
@@ -141,6 +143,7 @@ define([
                 }, this.cityPane),
                 this.county = new County({}, this.countyPane),
                 this.site = new SiteName(null, this.sitePane),
+                this.id = new ID(null, this.idPane),
                 this.shape = new Shape({}, this.shapePane),
                 topic.subscribe(config.topics.appWizard.showSearch, function () {
                     $(that.locationPanel).collapse('show');
