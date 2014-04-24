@@ -36,7 +36,7 @@ define([
         //      County search controls and logic
 
         templateString: template,
-        baseClass: 'county',
+        baseClass: 'county pad',
 
         // geometry: esri/geometry/Polygon
         //      The last zoomed to geometry

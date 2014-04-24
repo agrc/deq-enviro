@@ -14,6 +14,8 @@ define([
     'dijit/_WidgetsInTemplateMixin',
     'dijit/registry',
 
+    'ijit/modules/_ErrorMessageMixin',
+
     '../_CollapsibleMixin',
     './QueryLayer',
     './QueryLayerHeader',
@@ -42,6 +44,8 @@ define([
     _WidgetsInTemplateMixin,
     registry,
 
+    _ErrorMessageMixin,
+
     _CollapsibleMixin,
     QueryLayer,
     QueryLayerHeader,
@@ -55,7 +59,7 @@ define([
     MapController
 ) {
     return declare(
-        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsibleMixin], {
+        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsibleMixin, _ErrorMessageMixin], {
         // description:
         //      Encapsulates the search functionality for the app.
 
@@ -194,6 +198,7 @@ define([
             this.currentPane = this[this.select.value];
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;
+            this.hideErrMsg();
         },
         search: function () {
             // summary:
@@ -201,19 +206,30 @@ define([
             console.log('app/Search::search', arguments);
         
             var params = {};
+            var that = this;
             var makeRequest = function () {
-                console.log('makeRequest', params);
+            };
+            var onError = function (errTxt) {
+                that.showErrMsg(errTxt);
             };
 
+            this.hideErrMsg();
             if (this.currentPane.getGeometry) {
-                // TODO: handles reject error messages.
-                this.currentPane.getGeometry().then(function (geo) {
-                    params.geometry = geo;
-                    makeRequest();
-                });
+                this.currentPane.getGeometry().then(
+                    function (geo) {
+                        params.geometry = geo;
+                        makeRequest();
+                    },
+                    onError
+                );
             } else {
-                params[this.currentPane.paramName] = this.currentPane.getSearchParam();
-                makeRequest();
+                try {
+                    params[this.currentPane.paramName] = this.currentPane.getSearchParam();
+                    makeRequest();
+
+                } catch (er) {
+                    onError(er);
+                }
             }
         }
     });

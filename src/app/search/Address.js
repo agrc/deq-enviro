@@ -34,6 +34,7 @@ define([
         // description:
         //      Street address controls and logic.
 
+        baseClass: 'find-address pad',
         templateString: template,
 
         // geometryService: GeometryService
@@ -41,6 +42,9 @@ define([
 
         // getGeometryDef: Deferred
         getGeometryDef: null,
+
+        // validationMsg: String
+        validationMsg: 'Missing values!',
 
         postCreate: function () {
             // summary:
@@ -69,7 +73,7 @@ define([
             // FindAddress:geocodeAddress is written in a way that I can't
             // tell if it validates or not.
             if (!this._validate() || !this._isValid(this.numBuffer)) {
-                this.getGeometryDef.reject();
+                this.getGeometryDef.reject(this.validationMsg);
             }
 
             // kick off geocoding - buffer is called on successful match
