@@ -20,6 +20,8 @@ define([
     './Address',
     './City',
     './County',
+    './SiteName',
+    './ID',
     './Shape',
     '../config',
     '../map/MapController'
@@ -46,6 +48,8 @@ define([
     Address,
     City,
     County,
+    SiteName,
+    ID,
     Shape,
     config,
     MapController
@@ -79,6 +83,12 @@ define([
 
         // county: County
         county: null,
+
+        // site: SiteName
+        site: null,
+
+        // program: ProgramID
+        program: null,
 
         // shape: Shape
         shape: null,
@@ -129,9 +139,11 @@ define([
                     searchField: config.fieldNames.cities.NAME,
                     placeHolder: 'city name...',
                     maxResultsToDisplay: 5,
-                    symbolFill: config.symbols.zoom
+                    symbolFill: config.symbols.zoom.polygon
                 }, this.cityPane),
                 this.county = new County({}, this.countyPane),
+                this.site = new SiteName(null, this.sitePane),
+                this.id = new ID(null, this.idPane),
                 this.shape = new Shape({}, this.shapePane),
                 topic.subscribe(config.topics.appWizard.showSearch, function () {
                     $(that.locationPanel).collapse('show');
@@ -190,13 +202,13 @@ define([
         
             var params = {};
             var makeRequest = function () {
-                console.log('makeRequest');
+                console.log('makeRequest', params);
             };
 
             if (this.currentPane.getGeometry) {
                 // TODO: handles reject error messages.
                 this.currentPane.getGeometry().then(function (geo) {
-                    console.log('geo', geo);
+                    params.geometry = geo;
                     makeRequest();
                 });
             } else {
