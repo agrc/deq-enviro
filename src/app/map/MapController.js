@@ -5,7 +5,7 @@ define([
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
-    'esri/Graphic',
+    'esri/graphic',
 
     '../config'
 

@@ -12,7 +12,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    'esri/toolbars/Draw',
+    'esri/toolbars/draw',
     'esri/tasks/GeometryService',
     'esri/tasks/BufferParameters',
 
