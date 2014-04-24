@@ -19,7 +19,7 @@
         <div class="panel-heading">
             <a href="#locationPanel" data-toggle="collapse">
                 <h4 class="panel-title">
-                    Define Search Location
+                    Define Search Criteria
                 </h4>
             </a>
         </div>
@@ -33,9 +33,9 @@
                     <option value="address">Street Address</option>
                     <option value="city">City</option>
                     <option value="county">Statewide/County</option>
-                    <!-- <option value="site">Site Name</option>
-                    <option value="program">Program ID</option> -->
-                    <option value="shape">Shapes</option>
+                    <option value="site">Name</option>
+                    <option value="program">ID</option>
+                    <option value="shape">Shape</option>
                 </select>
                 <br>
                 <div data-dojo-attach-point="stackContainer" 
@@ -45,6 +45,8 @@
                     <div data-dojo-attach-point='addressPane'></div>
                     <div data-dojo-attach-point="cityPane"></div>
                     <div data-dojo-attach-point="countyPane"></div>
+                    <div data-dojo-attach-point="sitePane"></div>
+                    <div data-dojo-attach-point="programPane"></div>
                     <div data-dojo-attach-point='shapePane'></div>
                 </div>
                 <button class="btn btn-primary btn-lg"

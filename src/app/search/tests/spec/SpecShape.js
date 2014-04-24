@@ -120,6 +120,8 @@ require([
                     testWidget2.getGeometry();
                     expect(bufferSpy).toHaveBeenCalled();
 
+                    destroy(testWidget2);
+
                     done();
                 });
             });
