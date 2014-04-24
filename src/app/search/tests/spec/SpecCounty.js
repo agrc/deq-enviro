@@ -27,7 +27,7 @@ require([
         };
 
         beforeEach(function() {
-            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+            widget = new WidgetUnderTest({}, domConstruct.create('div', null, win.body()));
         });
 
         afterEach(function() {
@@ -103,6 +103,19 @@ require([
                     expect(g).toEqual(geo);
                     done();
                 });
+            });
+        });
+        describe('_onShow', function () {
+            it('grabs state extent on first show', function () {
+                spyOn(widget.api, 'search').and.callFake(function () {
+                    widget.geometry = {};
+                    return {then: function () {}};
+                });
+
+                widget._onShow();
+                widget._onShow();
+
+                expect(widget.api.search.calls.count()).toBe(1);
             });
         });
     });

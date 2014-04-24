@@ -103,6 +103,15 @@ define([
             def.resolve(this.geometry);
 
             return def.promise;
+        },
+        _onShow: function () {
+            // summary:
+            //      called when this widget becomes visable
+            console.log('app.search.County::_onShow', arguments);
+
+            if (!this.geometry) {
+                this.onChange();
+            }
         }
     });
 });
