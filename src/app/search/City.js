@@ -21,6 +21,9 @@ define([
         //      The most recently zoomed to geometry
         geometry: null,
 
+        // validationMsg: String
+        validationMsg: 'Please select a city!',
+
         postCreate: function () {
             // summary:
             //      wires up onZoomed listener
@@ -42,9 +45,11 @@ define([
 
             var def = new Deferred();
 
-            // TODO: handle no geometry validation
-            // reject with validation message?
-            def.resolve(this.geometry);
+            if (this.geometry) {
+                def.resolve(this.geometry);
+            } else {
+                def.reject(this.validationMsg);
+            }
 
             return def.promise;
         }
