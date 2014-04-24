@@ -15,6 +15,8 @@ define([
         // description:
         //      Wrapper around MagicZoom to implement getGeometry
 
+        baseClass: 'magic-zoom pad',
+        
         // geometry: esri/geometry/Polygon
         //      The most recently zoomed to geometry
         geometry: null,

@@ -8,7 +8,9 @@ require([
     'dojo/topic',
     'dojo/query',
 
-    'app/search/tests/data/mockDEQEnviroJSON'
+    'app/search/tests/data/mockDEQEnviroJSON',
+
+    'stubmodule'
 ], function(
     WidgetUnderTest,
     config,
@@ -19,14 +21,23 @@ require([
     topic,
     query,
 
-    mockDEQEnviroJSON
+    mockDEQEnviroJSON,
+
+    stubmodule
 ) {
     describe('app/search/Search', function() {
         var widget;
+        var Module;
 
-        beforeEach(function() {
-            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
-            widget.startup();
+        beforeEach(function(done) {
+            stubmodule('app/search/Search', {
+                'app/search/City': function () {return {startup: function () {}};}
+            }).then(function (StubbedModule) {
+                Module = StubbedModule;
+                widget = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
+                widget.startup();
+                done();
+            });
         });
 
         afterEach(function() {
@@ -38,7 +49,7 @@ require([
 
         describe('Sanity', function() {
             it('should create a Search', function() {
-                expect(widget).toEqual(jasmine.any(WidgetUnderTest));
+                expect(widget).toEqual(jasmine.any(Module));
             });
         });
         describe('listenForQueryLayers', function () {
@@ -74,6 +85,33 @@ require([
                 widget.onSelectChange();
 
                 expect(widget.zoomedGeometry).toBeNull();
+            });
+        });
+        describe('search', function () {
+            var geomSearch;
+            var textSearch;
+            var def = {then: function () {}};
+            beforeEach(function () {
+                geomSearch = {
+                    getGeometry: jasmine.createSpy('getGeometry').and.returnValue(def)
+                };
+                textSearch = {
+                    getSearchParam: jasmine.createSpy('getSearchParam').and.returnValue(def)
+                };
+            });
+            it('calls getGeometry', function () {
+                widget.currentPane = geomSearch;
+
+                widget.search();
+
+                expect(geomSearch.getGeometry).toHaveBeenCalled();
+            });
+            it('calls getSearchParam', function () {
+                widget.currentPane = textSearch;
+
+                widget.search();
+
+                expect(textSearch.getSearchParam).toHaveBeenCalled();
             });
         });
     });

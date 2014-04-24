@@ -34,6 +34,7 @@ define([
         // description:
         //      Street address controls and logic.
 
+        baseClass: 'find-address pad',
         templateString: template,
 
         // geometryService: GeometryService

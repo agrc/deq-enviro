@@ -18,7 +18,7 @@ define([
         //      Widget that allows the user to search for features by id.
 
         templateString: template,
-        baseClass: 'id',
+        baseClass: 'id pad',
 
         // invalidMsg: String
         //      validation message for empty text box
