@@ -33,7 +33,7 @@ define([
 
         // version: String
         //      The version number.
-        version: '0.2.0',
+        version: '0.3.0',
 
         // topics: Object
         //      The topic strings used in this app

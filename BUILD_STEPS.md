@@ -1,4 +1,4 @@
-- publish services to service
+- publish services to server
 - copy new mxd's to server
 - copy new scripts to the server
 - add analytics code
