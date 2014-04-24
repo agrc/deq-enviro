@@ -18,7 +18,7 @@ define([
         //      Provides controls for the user to search for terms within the SiteName field
 
         templateString: template,
-        baseClass: 'site-name',
+        baseClass: 'site-name pad',
 
         // invalidMsg: String
         invalidMsg: 'You must input at least one search term!',

@@ -15,9 +15,14 @@ define([
         // description:
         //      Wrapper around MagicZoom to implement getGeometry
 
+        baseClass: 'magic-zoom pad',
+        
         // geometry: esri/geometry/Polygon
         //      The most recently zoomed to geometry
         geometry: null,
+
+        // validationMsg: String
+        validationMsg: 'Please select a city!',
 
         postCreate: function () {
             // summary:
@@ -40,9 +45,11 @@ define([
 
             var def = new Deferred();
 
-            // TODO: handle no geometry validation
-            // reject with validation message?
-            def.resolve(this.geometry);
+            if (this.geometry) {
+                def.resolve(this.geometry);
+            } else {
+                def.reject(this.validationMsg);
+            }
 
             return def.promise;
         }
