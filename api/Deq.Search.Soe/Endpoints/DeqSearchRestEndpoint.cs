@@ -7,6 +7,8 @@ using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Infastructure.Endpoints;
 using Deq.Search.Soe.Models.Esri;
+using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
 
 namespace Deq.Search.Soe.Endpoints {
@@ -29,7 +31,7 @@ namespace Deq.Search.Soe.Endpoints {
         public RestOperation RestOperation() {
             return new RestOperation(ResourceName,
                                      new[] {
-                                         "layerIds", "definitionQueries", "searchMethod", "geometryJson", "siteName"
+                                         "layerIds", "definitionQueries", "searchMethod", "geometry", "siteName"
                                          ,
                                          "programId", "includeAll"
                                      },
@@ -77,27 +79,45 @@ namespace Deq.Search.Soe.Endpoints {
                 errors.Message += "Value cannot be null: {0}. ".With("definitionQueries");
             }
 
+            if (errors.HasErrors) {
+                return Json(new ErrorContainer(errors));
+            }
+
             switch (searchMethod) {
                 case "geometry": {
-                    object[] geometryJson;
-                    found = operationInput.TryGetArray("geometryJson", out geometryJson);
-                    if (!found || geometryJson.Length < 1) {
+                    JsonObject geometryObject;
+                     found = operationInput.TryGetJsonObject("geometry", out geometryObject);
+                     if (!found) {
                         errors.Message += "Value cannot be null: {0}. ".With("geometry");
+
+                        return Json(new ErrorContainer(errors));
                     }
 
-                    break;
+                    var geometry = Conversion.ToGeometry(geometryObject, esriGeometryType.esriGeometryPolygon);
+                    var layerProperties =
+                        CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
+
+                    var queryFilter = new SpatialFilter {
+                        Geometry = geometry,
+                        SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
+                    };
+
+                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
+
+                    return Json(result);
                 }
                 case "site": {
                     bool? includeAll = false;
-                    var siteName = operationInput.GetStringValue("siteName", true);
-                    found = operationInput.TryGetString("siteName", out siteName);
-                    if (!found || string.IsNullOrEmpty(siteName)) {
+                    var siteName = operationInput.GetStringOrNumberValueAsString("siteName", true);
+                    if (string.IsNullOrEmpty(siteName)) {
                         errors.Message += "Value cannot be null: {0}. ".With("siteName");
-                    } else {
-                        found = operationInput.TryGetAsBoolean("includeAll", out includeAll);
-                        if (!found || !includeAll.HasValue) {
-                            includeAll = false;
-                        }
+
+                        return Json(new ErrorContainer(errors));
+                    }
+
+                    found = operationInput.TryGetAsBoolean("includeAll", out includeAll);
+                    if (!found || !includeAll.HasValue) {
+                        includeAll = false;
                     }
 
                     var query =
@@ -105,26 +125,38 @@ namespace Deq.Search.Soe.Endpoints {
                     var layerProperties =
                         CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
 
-                    var result = CommandExecutor.ExecuteCommand(new SiteSearchQueryCommand(query, layerProperties));
+                    var queryFilter = new SpatialFilter {
+                        WhereClause = query
+                    };
+
+                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
 
                     return Json(result);
                 }
                 case "program": {
-                    string program;
-                    found = operationInput.TryGetString("program", out program);
-                    if (!found || string.IsNullOrEmpty(program)) {
+                    var program = operationInput.GetStringOrNumberValueAsString("programId", true);
+                    if (string.IsNullOrEmpty(program)) {
                         errors.Message += "Value cannot be null: {0}. ".With("program");
+
+                        return Json(new ErrorContainer(errors));
                     }
 
-                    break;
+                    var query = string.Format("{0} = '{1}'", ApplicationCache.Fields.ProgramId, program);
+                    var layerProperties =
+                        CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
+
+                    var queryFilter = new SpatialFilter
+                    {
+                        WhereClause = query
+                    };
+
+                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
+
+                    return Json(result);
                 }
             }
 
-            if (errors.HasErrors) {
-                return Json(new ErrorContainer(errors));
-            }
-
-            return Json(ApplicationCache.Fields);
+            return Json(new ErrorContainer(errors));
         }
     }
 }

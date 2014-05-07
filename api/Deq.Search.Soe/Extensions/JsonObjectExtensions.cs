@@ -32,5 +32,24 @@ namespace Deq.Search.Soe.Extensions {
 
             return value.Value;
         }
+
+        public static string GetStringOrNumberValueAsString(this JsonObject operationInput, string name,
+                                                            bool nullable = false) {
+            var value = operationInput.GetStringValue(name, true);
+            if(!string.IsNullOrEmpty(value)) {
+                return value;
+            }
+
+            var number = operationInput.GetNumberValue(name, true);
+            if (number > -1) {
+                return number.ToString();
+            }
+
+            if (!nullable) {
+                throw new ArgumentNullException(name);
+            }
+
+            return "";
+        }
     }
 }
