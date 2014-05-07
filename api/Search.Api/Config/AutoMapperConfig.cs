@@ -26,7 +26,7 @@ namespace Search.Api.Config {
                   .ForMember(dest => dest.DefinitionQueries,
                              option => option.MapFrom(src => src.QueryLayers.Select(x => x.DefQuery).ToArray()))
                   .ForMember(dest => dest.F, option => option.Ignore())
-                  .ForMember(dest => dest.GeometryJson, o => o.Ignore())
+                  .ForMember(dest => dest.Geometry, o => o.Ignore())
                   .ForMember(dest => dest.IncludeAll, option => option.Ignore())
                   .ForMember(dest => dest.LayerIds,
                              option => option.MapFrom(src => src.QueryLayers.Select(x => x.Id).ToArray()))
@@ -40,7 +40,7 @@ namespace Search.Api.Config {
                           dest.IncludeAll = src.SiteName.IncludeAll;
                           dest.SearchMethod = "site";
                       } else if (src.Geometry != null) {
-                          dest.GeometryJson = JsonConvert.SerializeObject(src.Geometry);
+                          dest.Geometry = JsonConvert.SerializeObject(src.Geometry);
                           dest.SearchMethod = "geometry";
                       } else if (!string.IsNullOrEmpty(src.ProgramId)) {
                           dest.ProgramId = src.ProgramId;

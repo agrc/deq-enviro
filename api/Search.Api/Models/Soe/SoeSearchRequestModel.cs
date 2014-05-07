@@ -6,7 +6,7 @@
 
         public string SearchMethod { get; set; }
 
-        public string GeometryJson { get; set; }
+        public string Geometry { get; set; }
 
         public string SiteName { get; set; }
 

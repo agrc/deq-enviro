@@ -33,7 +33,7 @@ namespace Deq.Search.Soe.Configuration {
                 ReturnFields = new[] {
                     "NAME", "FIPS"
                 },
-                ProgramId = "PID",
+                ProgramId = "FIPS_STR",
                 SiteName = "NAME"
             };
 
