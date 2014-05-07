@@ -1,0 +1,3 @@
+[submodule "api/EsriJson"]
+	path = api/EsriJson
+	url = https://github.com/steveoh/EsriJson.git
