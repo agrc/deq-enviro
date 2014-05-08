@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using Deq.Search.Soe.Attributes;
 using Deq.Search.Soe.Cache;
 using Deq.Search.Soe.Commands.Searches;
@@ -7,6 +10,7 @@ using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Infastructure.Endpoints;
 using Deq.Search.Soe.Models.Esri;
+using Deq.Search.Soe.Models.Search;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
@@ -83,8 +87,11 @@ namespace Deq.Search.Soe.Endpoints {
                 return Json(new ErrorContainer(errors));
             }
 
+            var layerProperties = CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
+            SpatialFilter queryFilter = null;
+
             switch (searchMethod) {
-                case "geometry": {
+                case "geometry":{
                     JsonObject geometryObject;
                      found = operationInput.TryGetJsonObject("geometry", out geometryObject);
                      if (!found) {
@@ -94,20 +101,16 @@ namespace Deq.Search.Soe.Endpoints {
                     }
 
                     var geometry = Conversion.ToGeometry(geometryObject, esriGeometryType.esriGeometryPolygon);
-                    var layerProperties =
-                        CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
 
-                    var queryFilter = new SpatialFilter {
+                    queryFilter = new SpatialFilter {
                         Geometry = geometry,
                         SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
                     };
 
-                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
-
-                    return Json(result);
+                    break;
                 }
                 case "site": {
-                    bool? includeAll = false;
+                    bool? includeAll;
                     var siteName = operationInput.GetStringOrNumberValueAsString("siteName", true);
                     if (string.IsNullOrEmpty(siteName)) {
                         errors.Message += "Value cannot be null: {0}. ".With("siteName");
@@ -122,16 +125,12 @@ namespace Deq.Search.Soe.Endpoints {
 
                     var query =
                         CommandExecutor.ExecuteCommand(new BuildSiteSearchQueryCommand(siteName, includeAll.Value));
-                    var layerProperties =
-                        CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
 
-                    var queryFilter = new SpatialFilter {
+                    queryFilter = new SpatialFilter {
                         WhereClause = query
                     };
 
-                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
-
-                    return Json(result);
+                    break;
                 }
                 case "program": {
                     var program = operationInput.GetStringOrNumberValueAsString("programId", true);
@@ -142,21 +141,19 @@ namespace Deq.Search.Soe.Endpoints {
                     }
 
                     var query = string.Format("{0} = '{1}'", ApplicationCache.Fields.ProgramId, program);
-                    var layerProperties =
-                        CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
 
-                    var queryFilter = new SpatialFilter
+                    queryFilter = new SpatialFilter
                     {
                         WhereClause = query
                     };
 
-                    var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
-
-                    return Json(result);
+                    break;
                 }
             }
 
-            return Json(new ErrorContainer(errors));
+            var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
+
+            return Json(result);
         }
     }
 }
