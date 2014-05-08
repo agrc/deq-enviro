@@ -166,6 +166,9 @@
       <Name>EsriJson.Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="PublishSoe.py" />
+  </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>soe</ZipFileExtension>
     <AddInTargetProduct>Server</AddInTargetProduct>
