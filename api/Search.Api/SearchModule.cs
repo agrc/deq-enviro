@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Containers;
 using Nancy;
 using Nancy.ModelBinding;
 using Newtonsoft.Json.Linq;
-using Search.Api.Formatters;
 using Search.Api.Models.Request;
 using Search.Api.Models.Soe;
 using Search.Api.Serializers;
+using Search.Api.Services;
 
 namespace Search.Api {
     public class SearchModule : NancyModule {
@@ -17,7 +15,7 @@ namespace Search.Api {
         ///     Initializes a new instance of the <see cref="SearchModule" /> class.
         ///     Handles all http requests going to /search
         /// </summary>
-        public SearchModule() : base("/search") {
+        public SearchModule(IQuerySoeService queryService) : base("/search") {
             Post["/", true] = async (_, ctx) => {
                 var model = this.Bind<SearchRequestModel>();
 
@@ -29,20 +27,9 @@ namespace Search.Api {
                 var soeSearchRequestModel = Mapper.Map<SearchRequestModel, SoeSearchRequestModel>(model);
                 var keyValuePairs = FormUrl.CreateObjects(soeSearchRequestModel);
 
-                using (var client = new HttpClient()) {
-                    client.BaseAddress = new Uri("http://localhost");
-                    var content = new FormUrlEncodedContent(keyValuePairs);
+                var resultContent = await queryService.Query(keyValuePairs);
 
-                    var response = await client.PostAsync(
-                        "/arcgis/rest/services/Deq/SoeTest/MapServer/exts/DeqSearchSoe/Search", content);
-
-                    var resultContent = await response.Content.ReadAsAsync<Dictionary<int, IEnumerable<JObject>>>(
-                        new[] {
-                            new TextPlainResponseFormatter()
-                        });
-
-                    return new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(resultContent);
-                }
+                return new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(resultContent);
             };
         }
     }
