@@ -4,6 +4,7 @@ using Nancy.TinyIoc;
 using Newtonsoft.Json;
 using Search.Api.Config;
 using Search.Api.Serializers;
+using Search.Api.Services;
 
 namespace Search.Api {
     public class Bootstrapper : DefaultNancyBootstrapper {
@@ -20,6 +21,7 @@ namespace Search.Api {
             base.ConfigureApplicationContainer(container);
 
             container.Register(typeof (JsonSerializer), typeof (JsonSerializerOptions));
+            container.Register<IQuerySoeService>(new QuerySoeServiceAsync());
         }
     }
 }
