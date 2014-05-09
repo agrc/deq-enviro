@@ -60,6 +60,9 @@
     <Reference Include="ESRI.ArcGIS.Carto, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.Display, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -78,7 +81,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Search.Api\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Search.Api\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -98,7 +101,6 @@
     <Compile Include="Commands\Searches\BuildLayerPropertiesCommand.cs" />
     <Compile Include="Commands\Searches\BuildSiteSearchQueryCommand.cs" />
     <Compile Include="Commands\Searches\QueryCommand.cs" />
-    <Compile Include="Commands\Searches\SiteSearchQueryCommand.cs" />
     <Compile Include="Commands\UpdateLayerMapWithFieldIndexMapCommand.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />
     <Compile Include="Configuration\DebugConfiguration.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Models\Esri\ErrorModel.cs" />
     <Compile Include="Models\FeatureClassIndexMap.cs" />
     <Compile Include="Models\IndexFieldMap.cs" />
+    <Compile Include="Models\Search\QueryArgs.cs" />
     <Compile Include="Models\Search\SearchLayerProperties.cs" />
     <Compile Include="Models\Search\SearchResult.cs" />
     <Compile Include="SoeBase.cs" />
@@ -162,6 +165,9 @@
       <Project>{90eb4e2e-be29-4fe5-a2aa-6bcc4acba146}</Project>
       <Name>EsriJson.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PublishSoe.py" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>soe</ZipFileExtension>
