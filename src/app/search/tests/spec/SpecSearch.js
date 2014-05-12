@@ -41,14 +41,12 @@ require([
                 done();
             });
         });
-
         afterEach(function() {
             if (widget) {
                 widget.destroy();
                 widget = null;
             }
         });
-
         describe('Sanity', function() {
             it('should create a Search', function() {
                 expect(widget).toEqual(jasmine.any(Module));
@@ -136,6 +134,9 @@ require([
                 widget.search();
 
                 expect(widget.errMsg.innerHTML).toBe(value);
+            });
+            it('should get the paramName from parent Content Pane', function () {
+                throw 'this should probably be testable for ID.js and SiteName.js';
             });
         });
     });
