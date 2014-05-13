@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Containers\Containers.csproj">
+      <Project>{C0D9871E-B3A2-4F52-983C-0C5CDAD42836}</Project>
+      <Name>Containers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Search.Api\Search.Api.csproj">
       <Project>{ed638dd5-e755-4b7a-940d-5c94ab425686}</Project>
       <Name>Search.Api</Name>
