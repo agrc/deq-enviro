@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsriJson.Net", "..\EsriJson
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search.Api.Tests", "..\Search.Api.Tests\Search.Api.Tests.csproj", "{2C27BD15-9614-4498-B472-872C2533CFE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search.Api.Common", "..\Search.Api.Common\Search.Api.Common.csproj", "{F78CF18C-98B4-4628-953E-F632F6A057AD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,12 +55,6 @@ Global
 		{2C27BD15-9614-4498-B472-872C2533CFE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C27BD15-9614-4498-B472-872C2533CFE1}.Stage|Any CPU.ActiveCfg = Release|Any CPU
 		{2C27BD15-9614-4498-B472-872C2533CFE1}.Stage|Any CPU.Build.0 = Release|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Stage|Any CPU.ActiveCfg = Release|Any CPU
-		{F78CF18C-98B4-4628-953E-F632F6A057AD}.Stage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
