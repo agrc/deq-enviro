@@ -24,6 +24,11 @@ define([
         //      validation message for empty text box
         invalidMsg: 'You must input at least one character!',
 
+        // paramName: String
+        // summary:
+        //      The name of the parameter for the search service 
+        paramName: 'programId',
+
         // Properties to be sent into constructor
 
         postCreate: function() {
