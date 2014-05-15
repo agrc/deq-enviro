@@ -37,6 +37,7 @@ namespace Deq.Search.Soe.Infastructure.Commands {
 #endif
             } catch (Exception ex) {
                 Debug.Print("Error processing task: {0}".With(commandName), ex);
+                throw ex;
 #if !DEBUG
 Logger.LogMessage(ServerLogger.msgType.error, "{0}.{1}".With(commandName, "execute"), MessageCode,
                                   "Error running command");

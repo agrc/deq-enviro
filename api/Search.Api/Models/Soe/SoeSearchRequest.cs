@@ -1,5 +1,5 @@
 ﻿namespace Search.Api.Models.Soe {
-    public class SoeSearchRequestModel {
+    public class SoeSearchRequest {
         public int[] LayerIds { get; set; }
 
         public string[] DefinitionQueries { get; set; }
