@@ -22,7 +22,7 @@ namespace Search.Api.Config {
             //            .ForMember(d => d.InputRouteMilePost, src => src.Ignore())
             //            .ForMember(dest => dest.Location, opt => opt.ResolveUsing<LocationFromGeocodeMilepostResolver>());
 
-            Mapper.CreateMap<SearchRequestModel, SoeSearchRequestModel>()
+            Mapper.CreateMap<SearchRequest, SoeSearchRequest>()
                   .ForMember(dest => dest.DefinitionQueries,
                              option => option.MapFrom(src => src.QueryLayers.Select(x => x.DefQuery).ToArray()))
                   .ForMember(dest => dest.F, option => option.Ignore())

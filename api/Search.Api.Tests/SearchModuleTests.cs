@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Containers;
 using Moq;
 using NUnit.Framework;
 using Nancy;
@@ -11,22 +12,17 @@ using Search.Api.Services;
 namespace Search.Api.Tests {
     public class SearchModuleTests {
         [TestFixture]
-        public class HandlesBadInputs {
-            [Test]
-            public void Testing() {
-            }
-        }
-
-        [TestFixture]
         public class Routing {
             [SetUp]
             public void Setup() {
                 var serviceMoq = new Mock<IQuerySoeService>();
-                var result = new Dictionary<int, IEnumerable<JObject>> {
-                    {
-                        1, new Collection<JObject>()
-                    }
-                };
+                var result =
+                    new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(
+                        new Dictionary<int, IEnumerable<JObject>> {
+                            {
+                                1, new Collection<JObject>()
+                            }
+                        });
 
                 serviceMoq.Setup(x => x.Query(It.IsAny<IEnumerable<KeyValuePair<string, string>>>()))
                           .ReturnsAsync(result);

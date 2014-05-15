@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
-using Containers;
+﻿using AutoMapper;
 using Nancy;
 using Nancy.ModelBinding;
-using Newtonsoft.Json.Linq;
 using Search.Api.Models.Request;
 using Search.Api.Models.Soe;
 using Search.Api.Serializers;
@@ -17,19 +14,19 @@ namespace Search.Api {
         /// </summary>
         public SearchModule(IQuerySoeService queryService) : base("/search") {
             Post["/", true] = async (_, ctx) => {
-                var model = this.Bind<SearchRequestModel>();
+                var model = this.Bind<SearchRequest>();
 
                 //check for time restrictions
 
                 //get username and query permission proxy for restrictions
 
                 //make request to soe
-                var soeSearchRequestModel = Mapper.Map<SearchRequestModel, SoeSearchRequestModel>(model);
+                var soeSearchRequestModel = Mapper.Map<SearchRequest, SoeSearchRequest>(model);
                 var keyValuePairs = FormUrl.CreateObjects(soeSearchRequestModel);
 
                 var resultContent = await queryService.Query(keyValuePairs);
 
-                return new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(resultContent);
+                return resultContent;
             };
         }
     }

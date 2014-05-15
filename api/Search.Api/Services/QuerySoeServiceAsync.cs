@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Containers;
 using Newtonsoft.Json.Linq;
 using Search.Api.Formatters;
 
@@ -12,7 +13,7 @@ namespace Search.Api.Services {
         /// </summary>
         /// <param name="formValues">The form values.</param>
         /// <returns></returns>
-        public async Task<Dictionary<int, IEnumerable<JObject>>> Query(
+        public async Task<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>> Query(
             IEnumerable<KeyValuePair<string, string>> formValues) {
             using (var client = new HttpClient()) {
                 client.BaseAddress = new Uri("http://localhost");
@@ -22,7 +23,7 @@ namespace Search.Api.Services {
                 var response = await client.PostAsync(
                     "/arcgis/rest/services/Deq/SoeTest/MapServer/exts/DeqSearchSoe/Search", content);
 
-                return await response.Content.ReadAsAsync<Dictionary<int, IEnumerable<JObject>>>(
+                return await response.Content.ReadAsAsync<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>>(
                     new[] {
                         new TextPlainResponseFormatter()
                     });

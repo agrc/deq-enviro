@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
+using System.Net;
+using Containers;
 using Deq.Search.Soe.Attributes;
 using Deq.Search.Soe.Cache;
 using Deq.Search.Soe.Commands.Searches;
 using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Infastructure.Endpoints;
-using Deq.Search.Soe.Models.Esri;
-using Deq.Search.Soe.Models.Search;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
+using EsriJson.Net.Graphic;
 
 namespace Deq.Search.Soe.Endpoints {
     /// <summary>
@@ -60,7 +59,7 @@ namespace Deq.Search.Soe.Endpoints {
                                      string outputFormat, string requestProperties,
                                      out string responseProperties) {
             responseProperties = null;
-            var errors = new ErrorModel(400);
+            var errors = new ResponseContainer(HttpStatusCode.BadRequest, "");
 
             string searchMethod;
             try {
@@ -68,7 +67,7 @@ namespace Deq.Search.Soe.Endpoints {
             } catch (ArgumentException) {
                 errors.Message = "Search Method must contain 'geometry', 'site' or 'program' to limit search";
 
-                return Json(new ErrorContainer(errors));
+                return Json(errors);
             }
 
             object[] layerIds;
@@ -84,7 +83,7 @@ namespace Deq.Search.Soe.Endpoints {
             }
 
             if (errors.HasErrors) {
-                return Json(new ErrorContainer(errors));
+                return Json(errors);
             }
 
             var layerProperties = CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
@@ -97,7 +96,7 @@ namespace Deq.Search.Soe.Endpoints {
                      if (!found) {
                         errors.Message += "Value cannot be null: {0}. ".With("geometry");
 
-                        return Json(new ErrorContainer(errors));
+                        return Json(errors);
                     }
 
                     var geometry = Conversion.ToGeometry(geometryObject, esriGeometryType.esriGeometryPolygon);
@@ -115,7 +114,7 @@ namespace Deq.Search.Soe.Endpoints {
                     if (string.IsNullOrEmpty(siteName)) {
                         errors.Message += "Value cannot be null: {0}. ".With("siteName");
 
-                        return Json(new ErrorContainer(errors));
+                        return Json(errors);
                     }
 
                     found = operationInput.TryGetAsBoolean("includeAll", out includeAll);
@@ -137,7 +136,7 @@ namespace Deq.Search.Soe.Endpoints {
                     if (string.IsNullOrEmpty(program)) {
                         errors.Message += "Value cannot be null: {0}. ".With("program");
 
-                        return Json(new ErrorContainer(errors));
+                        return Json(errors);
                     }
 
                     var query = string.Format("{0} = '{1}'", ApplicationCache.Fields.ProgramId, program);
@@ -151,9 +150,16 @@ namespace Deq.Search.Soe.Endpoints {
                 }
             }
 
-            var result = CommandExecutor.ExecuteCommand(new QueryCommand(queryFilter, layerProperties));
+            Dictionary<int, IEnumerable<Graphic>> result;
+            var queryCommand = new QueryCommand(queryFilter, layerProperties);
 
-            return Json(result);
+            try {
+                result = CommandExecutor.ExecuteCommand(queryCommand);
+            } catch (Exception ex) {
+                return Json(new ResponseContainer(HttpStatusCode.InternalServerError, ex.Message));
+            }
+
+            return Json(new ResponseContainer<Dictionary<int, IEnumerable<Graphic>>>(result));
         }
     }
 }

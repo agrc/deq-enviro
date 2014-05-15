@@ -5,7 +5,7 @@ namespace Search.Api.Models.Request {
     ///     A model for the incoming json from the web app.
     ///     Determines how to search the data
     /// </summary>
-    public class SearchRequestModel {
+    public class SearchRequest {
         /// <summary>
         ///     Gets or sets the query layers.
         /// </summary>
