@@ -21,7 +21,7 @@ namespace Search.Api.Services {
                 var content = new FormUrlEncodedContent(formValues);
 
                 var response = await client.PostAsync(
-                    "/arcgis/rest/services/Deq/SoeTest/MapServer/exts/DeqSearchSoe/Search", content);
+                    "/arcgis/rest/services/DEQEnviro/MapServer/exts/DeqSearchSoe/Search", content);
 
                 return await response.Content.ReadAsAsync<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>>(
                     new[] {
