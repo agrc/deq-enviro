@@ -76,7 +76,6 @@ require([
 
                 var lyr = map.addLayer.calls.mostRecent().args[0];
 
-                expect(lyr.visible).toBe(true);
                 expect(lyr.visibleLayers).toEqual([-1]);
             });
         });
@@ -111,8 +110,22 @@ require([
                 testObject.toggleReferenceLayer(url, 0, false);
 
                 expect(layer.setVisibleLayers.calls.mostRecent().args[0]).toEqual([1, 2]);
-                expect(layer.hide).not.toHaveBeenCalled();
+            });
+            it('calls hide if all layers within a map service are turned off', function () {
+                layer.visibleLayers = [-1, 2];
+
+                testObject.toggleReferenceLayer(url, 2, false);
+
+                expect(layer.hide).toHaveBeenCalled();
                 expect(layer.show).not.toHaveBeenCalled();
+            });
+            it('calls show if any of the layers within a map service are turned on', function () {
+                layer.visibleLayers = [-1];
+
+                testObject.toggleReferenceLayer(url, 2, true);
+
+                expect(layer.show).toHaveBeenCalled();
+                expect(layer.hide).not.toHaveBeenCalled();
             });
         });
         describe('addQueryLayer', function () {
