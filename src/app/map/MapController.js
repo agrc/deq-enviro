@@ -99,7 +99,6 @@ define([
 
                 if (layerIndex !== null) {
                     lyr.setVisibleLayers([-1]);
-                    lyr.show();
                 }
             }
         },
@@ -125,6 +124,11 @@ define([
                     visLyrs.push(layerIndex);
                 } else {
                     visLyrs.splice(array.indexOf(visLyrs, layerIndex), 1);
+                }
+                if (visLyrs.length === 1) {
+                    lyr.hide();
+                } else if (!lyr.visible) {
+                    lyr.show();
                 }
                 lyr.setVisibleLayers(visLyrs);
             } else {
