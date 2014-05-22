@@ -182,9 +182,13 @@ define([
         
             var headers = {};
             array.forEach(queryLayers, function (ql) {
+                // skip query layers that are not published to the service
+                if (!ql.index) { return ; }
+                
                 if (!headers[ql.heading]) {
                     headers[ql.heading] = new QueryLayerHeader({
-                        name: ql.heading
+                        name: ql.heading,
+                        index: ql.index
                     }, domConstruct.create('div', {}, this.queryLayersContainer));
                 }
                 this.own(new QueryLayer(ql, domConstruct.create('div', {}, headers[ql.heading].panelBody)));
@@ -203,11 +207,17 @@ define([
         search: function () {
             // summary:
             //      description
-            console.log('app/Search::search', arguments);
+            console.log('app/search/Search::search', arguments);
         
             var params = {};
             var that = this;
             var makeRequest = function () {
+                params.queryLayers = that.getQueryLayersParam();
+                request(config.urls.api.search, {
+                    method: 'POST',
+                    data: JSON.stringify(params),
+                    headers: {'Content-Type': 'application/json'}
+                });
             };
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);
@@ -231,6 +241,16 @@ define([
                     onError(er);
                 }
             }
+        },
+        getQueryLayersParam: function () {
+            // summary:
+            //      loops through the selected query layers and returns objects
+            //      suitable for passing into the search api
+            console.log('app/search/Search::getQueryLayersParam', arguments);
+        
+            return array.map(this.selectedQueryLayers, function (ql) {
+                return ql.toJson();
+            });
         }
     });
 });

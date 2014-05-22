@@ -69,7 +69,10 @@ define([
             json: '/webdata/DEQEnviro.json',
             geometryService: '/arcgis/rest/services/Geometry/GeometryServer',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
-            securedServicesBaseUrl: '/none'
+            securedServicesBaseUrl: '/none',
+            api: {
+                search: '/projects/deq-enviro/api/Search.Api/search'
+            }
         },
 
         // layerIndices: Object

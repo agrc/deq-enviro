@@ -2,6 +2,7 @@
     "folders": [{
         "folder_exclude_patterns": [
             "dist/",
+            "api",
             "src/esri",
             "src/dojo",
             "src/dijit",
