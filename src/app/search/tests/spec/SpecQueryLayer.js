@@ -23,11 +23,12 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
+        var index = 0;
 
         beforeEach(function() {
             widget = new WidgetUnderTest({
                 layerName: 'blah',
-                layerIndex: 0,
+                index: index,
                 metaDataUrl: 'blah',
                 description: 'hello'
             }, domConstruct.create('div', null, win.body()));
@@ -67,6 +68,14 @@ require([
                     expect(topics.removeLayer).toHaveBeenPublishedWith(widget);
                     expect(topics.addLayer).not.toHaveBeenPublished();
                 });
+            });
+        });
+        describe('toJson', function () {
+            it('returns the correct object', function () {
+                var defQuery = 'hello';
+                widget.defQuery = defQuery;
+
+                expect(widget.toJson()).toEqual({id: index, defQuery: defQuery});
             });
         });
     });

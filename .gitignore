@@ -22,3 +22,5 @@ src/stubmodule/
 scripts/secrets.cfg
 .project
 .pydevproject
+scripts/Logs
+api/Search.Api/.nuget

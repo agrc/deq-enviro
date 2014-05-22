@@ -63,6 +63,11 @@ define([
         //      The help button is linked to this URL
         metaDataUrl: null,
 
+        // defQuery: String
+        //      The definition query applied to this query layer.
+        //      This will be set using layer filters in the future.
+        defQuery: null,
+
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.
@@ -83,6 +88,17 @@ define([
 
             var t = (this.checkbox.checked) ? topics.addLayer : topics.removeLayer;
             topic.publish(t, this);
+        },
+        toJson: function () {
+            // summary:
+            //      Returns an object with id and defQuery props.
+            //      Used by search to pass to the search api.
+            console.log('app/QueryLayer::toJson', arguments);
+        
+            return {
+                id: this.index,
+                defQuery: this.defQuery
+            };
         }
     });
 });
