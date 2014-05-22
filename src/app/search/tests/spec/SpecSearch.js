@@ -1,6 +1,7 @@
 require([
     'app/search/Search',
     'app/config',
+    'app/search/QueryLayer',
 
     'dojo/_base/window',
 
@@ -15,6 +16,7 @@ require([
 ], function(
     WidgetUnderTest,
     config,
+    QueryLayer,
 
     win,
 
@@ -135,8 +137,18 @@ require([
 
                 expect(widget.errMsg.innerHTML).toBe(value);
             });
-            it('should get the paramName from parent Content Pane', function () {
-                throw 'this should probably be testable for ID.js and SiteName.js';
+        });
+        describe('getQueryLayersParam', function () {
+            it('formats the data for each query layer appropriately', function () {
+                widget.selectedQueryLayers = [
+                    new QueryLayer({index: 1, defQuery: '01'}),
+                    new QueryLayer({index: 2, defQuery: '02'})
+                ];
+
+                expect(widget.getQueryLayersParam()).toEqual([
+                    {id: 1, defQuery: '01'},
+                    {id: 2, defQuery: '02'}
+                ]);
             });
         });
     });
