@@ -24,3 +24,4 @@ scripts/secrets.cfg
 .pydevproject
 scripts/Logs
 api/Search.Api/.nuget
+src/esri
