@@ -95,7 +95,12 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: ['dist']
+        clean: ['dist'],
+        esri_slurp: {
+            options: {
+                version: '3.8'
+            }
+        }
     });
 
     // Register tasks.
@@ -109,6 +114,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-esri-slurp');
 
     // Default task.
     grunt.registerTask('default', ['jasmine:app:build', 'jshint', 'connect', 'watch']);
