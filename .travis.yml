@@ -4,7 +4,9 @@ node_js:
 before_install:
   - npm install -g grunt-cli
   - npm install -g bower
+  - npm install
   - bower install
+  - grunt esri_slurp
 notifications:
     email:
         on_success: never
