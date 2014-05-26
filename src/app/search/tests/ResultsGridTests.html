@@ -6,38 +6,55 @@
     <!-- META TAGS -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <!-- CSS -->        
-    <link rel='stylesheet' href='http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css'>
-    <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.7/js/esri/css/esri.css" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
+    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/ResultsGrid.css">
     <style type='text/css'>
-    
+        body {
+            padding: 50px;
+        }
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src='http://js.arcgis.com/3.8'></script>
+    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
     <script type="text/javascript">
-    var projectUrl = location.pathname.replace(/\/[^\/]+$/, "") + '/';
-    var widgetUnderTest;
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
 
-    require({
-        packages: [{
-            name: 'app',
-            location: projectUrl + '../'
-        }]
-    }, [
-        'app/search/ResultsGrid',
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'dgrid', 'put-selector', 'xstyle',
+            {
+                name: 'underscore.string',
+                location: 'underscore.string',
+                main: 'lib/underscore.string'
+            }]
+        }, [
+            'app/search/ResultsGrid',
+            'app/config',
 
-        'dojo/domReady!'
-    ], function(Module) {
-        widgetUnderTest = new Module({
-        }, 'node');
+            'dojo/request',
 
-        widgetUnderTest.startup();
-    });
+            'dojo/domReady!'
+        ], function(Module, config, request) {
+            config.getAppJson();
+
+            widgetUnderTest = new Module({
+            }, 'node');
+
+            widgetUnderTest.startup();
+
+            request('./data/results.json', {
+                handleAs: 'json'
+            }).then(function (data) {
+                console.log(data);
+                widgetUnderTest.onFeaturesFound(data);
+            });
+        });
 </script>
 </head>
 <body class='claro'>
