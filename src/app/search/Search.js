@@ -97,6 +97,9 @@ define([
         // shape: Shape
         shape: null,
 
+        // searchServiceErrorMsg: String
+        searchServiceErrorMsg: 'There was an error with the search service!',
+
 
         // Properties to be sent into constructor
 
@@ -216,7 +219,10 @@ define([
                 request(config.urls.api.search, {
                     method: 'POST',
                     data: JSON.stringify(params),
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json'},
+                    handleAs: 'json'
+                }).then(that.onSearchComplete, function () {
+                    onError(that.searchServiceErrorMsg);
                 });
             };
             var onError = function (errTxt) {
@@ -251,6 +257,19 @@ define([
             return array.map(this.selectedQueryLayers, function (ql) {
                 return ql.toJson();
             });
+        },
+        onSearchComplete: function (response) {
+            // summary:
+            //      callback for search service request
+            // response: Object
+            //      response object from server. Has status and result props
+            console.log('app/search/Search:onSearchComplete', arguments);
+        
+            if (response.status !== 200) {
+                throw this.searchServiceErrorMsg;
+            }
+
+            topic.publish(config.topics.appSearch.featuresFound, response.result);
         }
     });
 });
