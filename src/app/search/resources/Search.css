@@ -7,6 +7,7 @@
 @import 'ID.css';
 @import '../../../agrc/resources/locate/FindAddress.css';
 @import '../../../agrc/resources/locate/MagicZoom.css';
+@import 'ResultsGrid.css';
 
 .search .panel-group {
     margin-bottom: 0;

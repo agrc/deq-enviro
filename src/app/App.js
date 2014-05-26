@@ -3,6 +3,7 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/array',
+    'dojo/_base/lang',
 
     'dojo/dom',
     'dojo/dom-style',
@@ -33,6 +34,7 @@ define([
 
     declare,
     array,
+    lang,
 
     dom,
     domStyle,
@@ -85,7 +87,7 @@ define([
 
         // identifyPane: IdentifyPane
         identifyPane: null,
-        
+
 
         constructor: function() {
             // summary:
@@ -102,12 +104,14 @@ define([
             // summary:
             //      sets up the publish/subscribes
             console.log('app/App::setUpListeners', arguments);
-        
+
             var that = this;
-            topic.subscribe(config.topics.appWizard.requestAccess, function () {
-                that.login.goToPane(that.login.requestPane);
-                that.login.show();
-            });
+            this.own(
+                topic.subscribe(config.topics.appWizard.requestAccess, function () {
+                    that.login.goToPane(that.login.requestPane);
+                    that.login.show();
+                })
+            );
         },
         postCreate: function() {
             // summary:
@@ -156,9 +160,9 @@ define([
         },
         startup: function () {
             // summary:
-            //      
+            //
             console.log('app/App:startup', arguments);
-        
+
             this.inherited(arguments);
 
             var that = this;
@@ -184,7 +188,7 @@ define([
             // summary:
             //      builds the animations used for this widget
             console.log('app/App:buildAnimations', arguments);
-        
+
             var that = this;
             this.openGridAnimation = coreFx.combine([
                 coreFx.animateProperty({
@@ -205,6 +209,9 @@ define([
                     }
                 })
             ]);
+            this.own(topic.subscribe(config.topics.appSearch.featuresFound,
+                lang.hitch(this.openGridAnimation, 'play')));
+
             this.closeGridAnimation = coreFx.combine([
                 coreFx.animateProperty({
                     node: this.gridIdentifyContainer,
@@ -230,7 +237,7 @@ define([
             //      shows the passed in node and hides the other
             // node: DomNode
             console.log('app/App:switchBottomPanel', arguments);
-        
+
             domClass.remove(node, 'hidden');
 
             var otherNode = (node === this.identifyPane.domNode) ?

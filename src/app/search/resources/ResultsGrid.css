@@ -1,3 +1,14 @@
-.results-grid {
-
+.results-grid .dgrid {
+    height: 250px;
+}
+.results-grid .dgrid .field-OBJECTID {
+    display: none;
+}
+.results-grid .dgrid-scroller .dgrid-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: none;
+}
+.results-grid .dgrid-row-odd {
+    background: #F2F5F9;
 }
