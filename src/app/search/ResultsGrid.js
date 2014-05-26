@@ -123,6 +123,7 @@ define([
                         query = query || {};
                         options = options || {};
 
+                        
                         if (!query.parent && !options.deep) {
                             // Default to a single-level query for root items (no parent)
                             query.parent = undefined;

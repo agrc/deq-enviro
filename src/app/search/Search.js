@@ -265,6 +265,7 @@ define([
             //      response object from server. Has status and result props
             console.log('app/search/Search:onSearchComplete', arguments);
 
+        
             if (response.status !== 200) {
                 throw this.searchServiceErrorMsg;
             }
