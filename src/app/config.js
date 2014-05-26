@@ -1,5 +1,6 @@
 define([
     'dojo/_base/Color',
+    'dojo/_base/array',
     'dojo/request',
     'dojo/Deferred',
     'dojo/has',
@@ -10,6 +11,7 @@ define([
     'esri/symbols/SimpleMarkerSymbol'
 ], function (
     Color,
+    array,
     request,
     Deferred,
     has,
@@ -58,6 +60,9 @@ define([
             mapController: {
                 zoomTo: 'app/MapController.zoomTo',
                 graphic: 'app/MapController.graphic'
+            },
+            appSearch: {
+                featuresFound: 'app/search/Search.featuresFound'
             }
         },
 
@@ -95,6 +100,13 @@ define([
             },
             utah: {
                 STATE: 'STATE'
+            },
+            queryLayers: {
+                ADDRESS: 'ADDRESS',
+                CITY: 'CITY',
+                ID: 'ID',
+                NAME: 'NAME',
+                TYPE: 'TYPE'
             }
         },
 
@@ -111,6 +123,11 @@ define([
         // appJson: Object
         //      Cache for data returned by getAppJson
         appJson: null,
+
+        // queryLayerNames: Object
+        //      Lookup for query layer name by layer index
+        //      Populated in getAppJson below
+        queryLayerNames: null,
 
         // spatialReference SpatialReference
         //      The spatial reference of the map
@@ -150,12 +167,17 @@ define([
             console.log('app.config::getAppJson', arguments);
 
             var def = new Deferred();
+            var that = this;
         
             if (!this.appJson) {
                 request(this.urls.json, {
                     handleAs: 'json'
                 }).then(function (json) {
-                    def.resolve(this.appJson = json);
+                    that.queryLayerNames = {};
+                    array.forEach(json.queryLayers, function (ql) {
+                        that.queryLayerNames[ql.index] = ql.name;
+                    });
+                    def.resolve(that.appJson = json);
                 });
             } else {
                 def.resolve(this.appJson);

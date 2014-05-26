@@ -12,7 +12,9 @@ require([
 
     'app/search/tests/data/mockDEQEnviroJSON',
 
-    'stubmodule'
+    'stubmodule',
+
+    'matchers/topics'
 ], function(
     WidgetUnderTest,
     config,
@@ -27,7 +29,9 @@ require([
 
     mockDEQEnviroJSON,
 
-    stubmodule
+    stubmodule,
+
+    topics
 ) {
     describe('app/search/Search', function() {
         var widget;
@@ -149,6 +153,22 @@ require([
                     {id: 1, defQuery: '01'},
                     {id: 2, defQuery: '02'}
                 ]);
+            });
+        });
+        describe('onSearchComplete', function () {
+            it('raises an error if the status is not 200', function () {
+                expect(function () {
+                    widget.onSearchComplete({status: 404});
+                }).toThrow(widget.searchServiceErrorMsg);
+            });
+            it('fires the topic', function () {
+                topics.listen(config.topics.appSearch.featuresFound);
+
+                var data = {};
+                widget.onSearchComplete({status: 200, result: data});
+
+                expect(config.topics.appSearch.featuresFound).toHaveBeenPublished();
+                expect(config.topics.appSearch.featuresFound).toHaveBeenPublishedWith(data);
             });
         });
     });

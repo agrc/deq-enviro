@@ -29,6 +29,14 @@
                 name: 'spin',
                 location: 'spinjs',
                 main: 'spin'
+            },
+            'dgrid',
+            'put-selector',
+            'xstyle',
+            {
+                name: 'underscore.string',
+                location: 'underscore.string',
+                main: 'lib/underscore.string'
             }
         ]
     };
