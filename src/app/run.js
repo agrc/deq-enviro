@@ -35,7 +35,7 @@
             'xstyle',
             {
                 name: 'underscore.string',
-                location: 'underscore.string',
+                location: 'underscore_string',
                 main: 'lib/underscore.string'
             }
         ]
