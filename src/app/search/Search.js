@@ -100,6 +100,9 @@ define([
         // searchServiceErrorMsg: String
         searchServiceErrorMsg: 'There was an error with the search service!',
 
+        // noQueryLayersSelectedErrMsg: String
+        noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
+
 
         // Properties to be sent into constructor
 
@@ -233,8 +236,12 @@ define([
             if (this.currentPane.getGeometry) {
                 this.currentPane.getGeometry().then(
                     function (geo) {
-                        params.geometry = geo;
-                        makeRequest();
+                        try {
+                            params.geometry = geo;
+                            makeRequest();
+                        } catch (er) {
+                            onError(er);
+                        }
                     },
                     onError
                 );
@@ -253,7 +260,11 @@ define([
             //      loops through the selected query layers and returns objects
             //      suitable for passing into the search api
             console.log('app/search/Search::getQueryLayersParam', arguments);
-        
+            
+            if (this.selectedQueryLayers.length === 0) {
+                throw this.noQueryLayersSelectedErrMsg;
+            }
+
             return array.map(this.selectedQueryLayers, function (ql) {
                 return ql.toJson();
             });
