@@ -141,6 +141,15 @@ require([
 
                 expect(widget.errMsg.innerHTML).toBe(value);
             });
+            it('displays error message from getQueryLayersParam', function () {
+                widget.currentPane = geomSearch;
+
+                widget.search();
+
+                def.resolve();
+
+                expect(widget.errMsg.innerHTML).toBe(widget.noQueryLayersSelectedErrMsg);
+            });
         });
         describe('getQueryLayersParam', function () {
             it('formats the data for each query layer appropriately', function () {
@@ -153,6 +162,11 @@ require([
                     {id: 1, defQuery: '01'},
                     {id: 2, defQuery: '02'}
                 ]);
+            });
+            it('throws an error if no query layers are selected', function () {
+                expect(function () {
+                    widget.getQueryLayersParam();
+                }).toThrow(widget.noQueryLayersSelectedErrMsg);
             });
         });
         describe('onSearchComplete', function () {
