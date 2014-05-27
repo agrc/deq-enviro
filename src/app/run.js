@@ -32,12 +32,7 @@
             },
             'dgrid',
             'put-selector',
-            'xstyle',
-            {
-                name: 'underscore.string',
-                location: 'underscore-string',
-                main: 'lib/underscore.string'
-            }
+            'xstyle'
         ]
     };
     require(config, [

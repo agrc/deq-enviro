@@ -14,7 +14,6 @@
     "jasmine-favicon-reporter": "*",
     "stubmodule": "~0.4",
     "dgrid": "~0.3",
-    "put-selector": "~0.3.5",
-    "underscore-string": "underscore.string#~2.3.3"
+    "put-selector": "~0.3.5"
   }
 }

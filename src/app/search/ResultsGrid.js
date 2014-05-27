@@ -16,9 +16,7 @@ define([
     'dgrid/tree',
     'dgrid/extensions/ColumnResizer',
 
-    'app/config',
-
-    'underscore.string'
+    'app/config'
 
 ], function(
     template,
@@ -38,9 +36,7 @@ define([
     tree,
     ColumnResizer,
 
-    config,
-
-    uString
+    config
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
@@ -85,6 +81,10 @@ define([
             console.log('app/search/ResultsGrid:onFeaturesFound', arguments);
 
             var fn = config.fieldNames.queryLayers;
+            var cap = function (str) {
+                str = str.toLowerCase();
+                return str[0].toUpperCase() + str.slice(1);
+            };
             var columns = [
                 {
                     field: 'OBJECTID',
@@ -92,19 +92,19 @@ define([
                 },
                 tree({
                     field: fn.ID,
-                    label: uString.capitalize(fn.ID.toLowerCase())
+                    label: cap(fn.ID)
                 }),{
                     field: fn.NAME,
-                    label: uString.capitalize(fn.NAME.toLowerCase())
+                    label: cap(fn.NAME)
                 },{
                     field: fn.TYPE,
-                    label: uString.capitalize(fn.TYPE.toLowerCase())
+                    label: cap(fn.TYPE)
                 },{
                     field: fn.ADDRESS,
-                    label: uString.capitalize(fn.ADDRESS.toLowerCase())
+                    label: cap(fn.ADDRESS)
                 },{
                     field: fn.CITY,
-                    label: uString.capitalize(fn.CITY.toLowerCase())
+                    label: cap(fn.CITY)
                 }
             ];
 
