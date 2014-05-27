@@ -26,6 +26,6 @@ src/matchers/*
 src/put-selector/
 src/spinjs/
 src/stubmodule/
-src/underscore_string/
+src/underscore-string/
 src/util/*
 src/xstyle/
