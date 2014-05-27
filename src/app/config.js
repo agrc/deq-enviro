@@ -76,7 +76,7 @@ define([
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             securedServicesBaseUrl: '/none',
             api: {
-                search: '/projects/deq-enviro/api/Search.Api/search'
+                search: location.pathname.replace(/\/[^/]+$/, '') + '/api/Search.Api/search'
             }
         },
 
