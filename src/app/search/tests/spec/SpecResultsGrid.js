@@ -37,8 +37,13 @@ require([
             });
         });
         describe('onFeaturesFound', function () {
-            
+            it('calls getStoreData', function () {
+                spyOn(widget, 'getStoreData');
 
+                widget.onFeaturesFound(testdata);
+
+                expect(widget.getStoreData).toHaveBeenCalled();
+            });
         });
         describe('getStoreData', function () {
             it('returns a flattened array of data', function () {
