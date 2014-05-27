@@ -3,7 +3,6 @@
 - copy new scripts to the server
 - add analytics code
 - Bump app version number and update changelog
-- run slurp_esri_modules.sh, if needed
 - `grunt travis`
 - `grunt (stage-)build -force -verbose`
 - test in dist
