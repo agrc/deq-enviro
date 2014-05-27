@@ -1,11 +1,11 @@
 .wizard .panel-body {
     height: 200px;
-    overflow: auto;
-    padding: 0 15px;
+    padding: 0;
 }
 .wizard .dijitContentPane {
-    padding: 0;
+    padding: 0 8px;
     margin: 0;
+    width: 100% !important;
 }
 .wizard .dijitContentPane:first-child p {
     margin-top: 10px;
