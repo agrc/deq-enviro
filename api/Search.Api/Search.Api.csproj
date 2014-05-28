@@ -85,7 +85,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Views\Home.sshtml" />
+    <Content Include="Views\Home.sshtml" />
     <Content Include="Content\search.png" />
     <Content Include="Content\site.css" />
     <Content Include="Web.config" />
