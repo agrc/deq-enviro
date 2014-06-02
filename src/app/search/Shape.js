@@ -119,15 +119,15 @@ define([
             this.getGeometryDef = new Deferred();
 
             if (this.geometry) {
-                if (this.geometry.type === 'polygon') {
-                    this.getGeometryDef.resolve(this.geometry);
-                } else if (this.bufferNum.value > 0) {
+                if (this.bufferNum.value > 0) {
                     if (!this.geoService) {
                         this.initGeoService();
                     }
                     this.bufferParams.distances = [this.bufferNum.value];
                     this.bufferParams.geometries = [this.geometry];
                     this.geoService.buffer(this.bufferParams);
+                } else if (this.geometry.type === 'polygon') {
+                    this.getGeometryDef.resolve(this.geometry);
                 } else {
                     this.getGeometryDef.reject(this.noBufferMsg);
                 }
