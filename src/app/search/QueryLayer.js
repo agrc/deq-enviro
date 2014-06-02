@@ -79,9 +79,11 @@ define([
 
             this.localStorageID = this.name + '_checkedState';
 
-            if (localStorage[this.localStorageID] === 'true') {
-                this.checkbox.checked = true;
-                this.onCheckboxChange();
+            if (localStorage) {
+                if (localStorage[this.localStorageID] === 'true') {
+                    this.checkbox.checked = true;
+                    this.onCheckboxChange();
+                }
             }
 
             $(this.helpTip).tooltip({
@@ -97,7 +99,9 @@ define([
 
             var checked = this.checkbox.checked;
 
-            localStorage[this.localStorageID] = checked;
+            if (localStorage) {
+                localStorage[this.localStorageID] = checked;
+            }
 
             var t = (checked) ? topics.addLayer : topics.removeLayer;
             topic.publish(t, this);
