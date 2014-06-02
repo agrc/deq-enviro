@@ -76,7 +76,7 @@ define([
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             securedServicesBaseUrl: '/none',
             api: {
-                search: location.pathname.replace(/\/(src|dist)\/[^/]+$/, '') + 'api/search'
+                search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search'
             }
         },
 
