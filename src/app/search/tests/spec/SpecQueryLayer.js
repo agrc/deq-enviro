@@ -24,8 +24,14 @@ require([
             widget = null;
         };
         var index = 0;
+        var topics = config.topics.appQueryLayer;
 
         beforeEach(function() {
+            localStorage.clear();
+            beforeEach(function () {
+                topicMatchers.listen(topics.addLayer);
+                topicMatchers.listen(topics.removeLayer);
+            });
             widget = new WidgetUnderTest({
                 layerName: 'blah',
                 index: index,
@@ -46,11 +52,6 @@ require([
             });
         });
         describe('onCheckboxChange', function () {
-            var topics = config.topics.appQueryLayer;
-            beforeEach(function () {
-                topicMatchers.listen(topics.addLayer);
-                topicMatchers.listen(topics.removeLayer);
-            });
             describe('fires the appropriate topics', function () {
                 it('checked', function () {
                     widget.checkbox.checked = true;
@@ -76,6 +77,44 @@ require([
                 widget.defQuery = defQuery;
 
                 expect(widget.toJson()).toEqual({id: index, defQuery: defQuery});
+            });
+        });
+        describe('stores checked state in localStorage', function () {
+            it('writes checked state to local storage', function () {
+                widget.checkbox.checked = true;
+                widget.onCheckboxChange();
+
+                expect(localStorage[widget.localStorageID]).toBe('true');
+
+                widget.checkbox.checked = false;
+                widget.onCheckboxChange();
+
+                expect(localStorage[widget.localStorageID]).toBe('false');
+            });
+            it('sets the checked property and calls onCheckboxChange if checked', function () {
+                localStorage[widget.localStorageID] = false;
+
+                widget = new WidgetUnderTest({
+                    layerName: 'blah',
+                    index: index,
+                    metaDataUrl: 'blah',
+                    description: 'hello'
+                }, domConstruct.create('div', null, win.body()));
+
+                expect(widget.checkbox.checked).toBe(false);
+                expect(topics.addLayer).not.toHaveBeenPublished();
+
+                localStorage[widget.localStorageID] = true;
+
+                widget = new WidgetUnderTest({
+                    layerName: 'blah',
+                    index: index,
+                    metaDataUrl: 'blah',
+                    description: 'hello'
+                }, domConstruct.create('div', null, win.body()));
+
+                expect(widget.checkbox.checked).toBe(true);
+                expect(topics.addLayer).toHaveBeenPublished();
             });
         });
     });

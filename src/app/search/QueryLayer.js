@@ -43,6 +43,8 @@ define([
         baseClass: 'query-layer',
         widgetsInTemplate: true,
 
+        // localStorageID: String
+        localStorageID: null,
 
         // Properties to be sent into constructor
 
@@ -75,6 +77,13 @@ define([
             //      private
             console.log('app/QueryLayer::postCreate', arguments);
 
+            this.localStorageID = this.name + '_checkedState';
+
+            if (localStorage[this.localStorageID] === 'true') {
+                this.checkbox.checked = true;
+                this.onCheckboxChange();
+            }
+
             $(this.helpTip).tooltip({
                 container: 'body'
             });
@@ -86,7 +95,11 @@ define([
             //      Fires when checkbox checked state changes
             console.log('app/QueryLayer:onCheckboxChange', arguments);
 
-            var t = (this.checkbox.checked) ? topics.addLayer : topics.removeLayer;
+            var checked = this.checkbox.checked;
+
+            localStorage[this.localStorageID] = checked;
+
+            var t = (checked) ? topics.addLayer : topics.removeLayer;
             topic.publish(t, this);
         },
         toJson: function () {
