@@ -119,7 +119,7 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('default', ['jasmine:app:build', 'jshint', 'connect', 'watch']);
 
-    grunt.registerTask('travis', ['jshint', 'connect', 'jasmine:app']);
+    grunt.registerTask('travis', ['esri_slurp', 'jshint', 'connect', 'jasmine:app']);
 
     grunt.registerTask('build',
         ['clean', 'dojo:prod', 'newer:imagemin:dynamic', 'copy', 'processhtml:dist']);
