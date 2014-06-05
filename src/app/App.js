@@ -146,7 +146,7 @@ define([
                     appName: config.appName,
                     logoutDiv: this.logoutDiv,
                     showOnLoad: false,
-                    securedServicesBaseUrl: AGRC.urls.securedServicesBaseUrl
+                    securedServicesBaseUrl: config.urls.securedServicesBaseUrl
                 }),
                 this.resultsGrid = new ResultsGrid({}, this.resultsGridDiv),
                 this.identifyPane = new IdentifyPane({}, this.identifyPaneDiv),
