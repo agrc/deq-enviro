@@ -18,7 +18,10 @@ namespace Search.Api.Services {
             using (var client = new HttpClient()) {
                 client.BaseAddress = new Uri("http://localhost");
 
-                var content = new FormUrlEncodedContent(formValues);
+                var content = new MultipartFormDataContent();
+                foreach (var pair in formValues) {
+                    content.Add(new StringContent(pair.Value), pair.Key);
+                }
 
                 var response = await client.PostAsync(
                     "/arcgis/rest/services/DEQEnviro/MapServer/exts/DeqSearchSoe/Search", content);
