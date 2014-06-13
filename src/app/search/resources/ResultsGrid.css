@@ -1,7 +1,7 @@
 .results-grid .dgrid {
     height: 250px;
 }
-.results-grid .dgrid .field-OBJECTID {
+.results-grid .dgrid .field-UNIQUE_ID {
     display: none;
 }
 .results-grid .dgrid-scroller .dgrid-cell {

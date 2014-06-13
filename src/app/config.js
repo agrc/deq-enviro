@@ -106,7 +106,8 @@ define([
                 CITY: 'CITY',
                 ID: 'ID',
                 NAME: 'NAME',
-                TYPE: 'TYPE'
+                TYPE: 'TYPE',
+                UNIQUE_ID: 'UNIQUE_ID'
             }
         },
 
@@ -159,6 +160,12 @@ define([
                     4
                 )
             }
+        },
+
+        // messages: Object
+        //      Messages and text used throughout the app
+        messages: {
+            noFeaturesFound: 'No results found for this layer'
         },
 
         getAppJson: function () {
