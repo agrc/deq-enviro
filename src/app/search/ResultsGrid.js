@@ -91,7 +91,17 @@ define([
                 },
                 tree({
                     field: fn.ID,
-                    label: cap(fn.ID)
+                    label: cap(fn.ID),
+                    formatter: function (value) {
+                        var s = value.split('|');
+
+                        // format feature counts if present
+                        if (s.length > 1) {
+                            return s[0] + ' | <strong>' + s[1] + '</strong>';
+                        } else {
+                            return value;
+                        }
+                    }
                 }),{
                     field: fn.NAME,
                     label: cap(fn.NAME)
@@ -113,7 +123,7 @@ define([
                     data: this.getStoreData(data),
                     idProperty: fn.UNIQUE_ID,
                     getChildren: function (item, options) {
-                        return this.query({parent: item[fn.ID]}, options);
+                        return this.query({parent: item[fn.UNIQUE_ID]}, options);
                     },
                     mayHaveChildren: function (item) {
                         return !item.parent;
@@ -148,7 +158,7 @@ define([
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
             var getAttributes = function (graphic) {
-                graphic.attributes.parent = layerName;
+                graphic.attributes.parent = layerIndex;
                 graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
                 return graphic.attributes;
             };
@@ -161,17 +171,18 @@ define([
                 if (data.hasOwnProperty(layerIndex)) {
                     layerName = config.queryLayerNames[layerIndex];
                     var header = {};
-                    header[fn.ID] = layerName;
+                    var count = data[layerIndex].length;
+                    header[fn.ID] = layerName + '|' + count;
                     header[fn.UNIQUE_ID] = layerIndex;
                     storeData.push(header);
 
-                    if (data[layerIndex].length > 0) {
+                    if (count > 0) {
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
                         var noResultsFound = {};
                         noResultsFound[fn.ID] = config.messages.noFeaturesFound;
                         noResultsFound[fn.UNIQUE_ID] = layerIndex + '-' + config.messages.noFeaturesFound;
-                        noResultsFound.parent = layerName;
+                        noResultsFound.parent = layerIndex;
                         storeData.push(noResultsFound);
                     }
                 }

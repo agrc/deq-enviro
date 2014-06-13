@@ -48,22 +48,21 @@ require([
         describe('getStoreData', function () {
             var result;
             beforeEach(function () {
-                config.queryLayerNames = {};
-                config.queryLayerNames['7'] = 'blah';
-                config.queryLayerNames['15'] = 'blah2';
-                config.queryLayerNames['5'] = 'blah3';
+                config.queryLayerNames = {
+                    '5': 'blah',
+                    '7': 'blah2'
+                };
                 result = widget.getStoreData(testdata);
             });
             it('returns a flattened array of data', function () {
-
                 expect(result.length).toBe(22);
 
                 var r = result[3];
 
                 expect(r.attributes).toBeUndefined();
                 expect(r[config.fieldNames.queryLayers.ID]).toBeDefined();
-                expect(r.parent).toBe('blah');
-                expect(result[result.length - 1].parent).toBe('blah2');
+                expect(r.parent).toBe('7');
+                expect(result[result.length - 1].parent).toBe('15');
             });
             it('creates a unique id field that has a unique id for each feature', function () {
                 var fld = config.fieldNames.queryLayers.UNIQUE_ID;
@@ -77,6 +76,12 @@ require([
                 // features
                 expect(result[3][fld]).toEqual('7-4302110758');
                 expect(result[20][fld]).toEqual('15-84720MRCNZ10622');
+            });
+            it('adds feature counts to id field', function () {
+                var fld = config.fieldNames.queryLayers.ID;
+
+                expect(result[0][fld]).toEqual('blah|0');
+                expect(result[2][fld]).toEqual('blah2|14');
             });
         });
     });
