@@ -87,8 +87,7 @@ define([
             };
             var columns = [
                 {
-                    field: 'OBJECTID',
-                    size: 0
+                    field: fn.UNIQUE_ID
                 },
                 tree({
                     field: fn.ID,
@@ -112,7 +111,7 @@ define([
                 columns: columns,
                 store: new Memory({
                     data: this.getStoreData(data),
-                    idProperty: fn.ID,
+                    idProperty: fn.UNIQUE_ID,
                     getChildren: function (item, options) {
                         return this.query({parent: item[fn.ID]}, options);
                     },
@@ -136,29 +135,42 @@ define([
         getStoreData: function (data) {
             // summary:
             //      formats the feature set so that it fits into the store
+            //      Adds a unique id to each data store item so that the grid can
+            //      use them appropriately.
+            //      Unique id format are as follows:
+            //          header: layer index ('5')
+            //          no feature found item: layer index + message ('5-No features found for this layer')
+            //          feature: layer index + ID ('5-12345566')
             // data: Object
             //      data object as returned from the search service
             console.log('module.id:getStoreData', arguments);
 
             var storeData = [];
+            var fn = config.fieldNames.queryLayers;
             var getAttributes = function (graphic) {
                 graphic.attributes.parent = layerName;
+                graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
                 return graphic.attributes;
             };
             var layerName;
 
-            for (var layerIndex in data) {
+            // declare this outside of for loop so that getAttributes can use it
+            var layerIndex;
+
+            for (layerIndex in data) {
                 if (data.hasOwnProperty(layerIndex)) {
                     layerName = config.queryLayerNames[layerIndex];
                     var header = {};
-                    header[config.fieldNames.queryLayers.ID] = layerName;
+                    header[fn.ID] = layerName;
+                    header[fn.UNIQUE_ID] = layerIndex;
                     storeData.push(header);
 
                     if (data[layerIndex].length > 0) {
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
                         var noResultsFound = {};
-                        noResultsFound[config.fieldNames.queryLayers.ID] = 'No results found for this layer';
+                        noResultsFound[fn.ID] = config.messages.noFeaturesFound;
+                        noResultsFound[fn.UNIQUE_ID] = layerIndex + '-' + config.messages.noFeaturesFound;
                         noResultsFound.parent = layerName;
                         storeData.push(noResultsFound);
                     }
