@@ -73,13 +73,11 @@ define([
                     lang.hitch(this, 'onFeaturesFound'))
             );
         },
-        onFeaturesFound: function (data) {
+        initGrid: function () {
             // summary:
-            //      called after a successful search has returned
-            // data: Object
-            //      data object as returned from the search service
-            console.log('app/search/ResultsGrid:onFeaturesFound', arguments);
-
+            //      creates the dgrid
+            console.log('app/search/ResultsGrid:initGrid', arguments);
+        
             var fn = config.fieldNames.queryLayers;
             var cap = function (str) {
                 str = str.toLowerCase();
@@ -120,7 +118,6 @@ define([
             this.grid = new (declare([Grid, ColumnResizer]))({
                 columns: columns,
                 store: new Memory({
-                    data: this.getStoreData(data),
                     idProperty: fn.UNIQUE_ID,
                     getChildren: function (item, options) {
                         return this.query({parent: item[fn.UNIQUE_ID]}, options);
@@ -141,6 +138,28 @@ define([
                     }
                 })
             }, this.gridDiv);
+        },
+        onFeaturesFound: function (data) {
+            // summary:
+            //      called after a successful search has returned
+            // data: Object
+            //      data object as returned from the search service
+            console.log('app/search/ResultsGrid:onFeaturesFound', arguments);
+
+            if (!this.grid) {
+                this.initGrid();
+            }
+
+            this.grid.store.setData(this.getStoreData(data));
+            this.grid.refresh();
+        },
+        clear: function () {
+            // summary:
+            //      clears the data out of the grid
+            console.log('app/search/ResultsGrid:clear', arguments);
+        
+            this.grid.store.data = null;
+            this.grid.refresh();
         },
         getStoreData: function (data) {
             // summary:
