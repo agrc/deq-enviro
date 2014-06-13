@@ -51,8 +51,14 @@
             request('./data/results.json', {
                 handleAs: 'json'
             }).then(function (data) {
-                console.log(data);
                 widgetUnderTest.onFeaturesFound(data);
+
+                // second search with less layers (#85)
+                request('./data/results2.json', {
+                    handleAs: 'json'
+                }).then(function (data) {
+                    widgetUnderTest.onFeaturesFound(data);
+                });
             });
         });
 </script>
