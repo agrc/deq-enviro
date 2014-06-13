@@ -47,12 +47,25 @@ require([
         });
         describe('getStoreData', function () {
             var result;
+            var fn = config.fieldNames.queryLayers;
             beforeEach(function () {
                 config.queryLayerNames = {
-                    '5': 'blah',
-                    '7': 'blah2'
+                    '11': 'blah',
+                    '15': 'blah2'
                 };
-                result = widget.getStoreData(testdata);
+                // get reliable order so we can better test
+                result = widget.getStoreData(testdata).sort(function (a, b) {
+                    if(a[fn.UNIQUE_ID] > b[fn.UNIQUE_ID]) {
+                        return 1;
+                    } else if (a[fn.UNIQUE_ID] < b[fn.UNIQUE_ID]) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                });
+                result.forEach(function (i, ind) {
+                    console.log(i[fn.UNIQUE_ID] + ' - ' + ind);
+                });
             });
             it('returns a flattened array of data', function () {
                 expect(result.length).toBe(22);
@@ -61,27 +74,23 @@ require([
 
                 expect(r.attributes).toBeUndefined();
                 expect(r[config.fieldNames.queryLayers.ID]).toBeDefined();
-                expect(r.parent).toBe('7');
-                expect(result[result.length - 1].parent).toBe('15');
+                expect(r.parent).toBe('15');
+                expect(result[result.length - 1].parent).toBe('7');
             });
             it('creates a unique id field that has a unique id for each feature', function () {
-                var fld = config.fieldNames.queryLayers.UNIQUE_ID;
-
                 // header
-                expect(result[0][fld]).toEqual('5');
+                expect(result[0][fn.UNIQUE_ID]).toEqual('11');
 
                 // no feature found
-                expect(result[1][fld]).toEqual('5-' + config.messages.noFeaturesFound);
+                expect(result[6][fn.UNIQUE_ID]).toEqual('5-' + config.messages.noFeaturesFound);
 
                 // features
-                expect(result[3][fld]).toEqual('7-4302110758');
-                expect(result[20][fld]).toEqual('15-84720MRCNZ10622');
+                expect(result[8][fn.UNIQUE_ID]).toEqual('7-4302110758');
+                expect(result[3][fn.UNIQUE_ID]).toEqual('15-84720MRCNZ10622');
             });
             it('adds feature counts to id field', function () {
-                var fld = config.fieldNames.queryLayers.ID;
-
-                expect(result[0][fld]).toEqual('blah|0');
-                expect(result[2][fld]).toEqual('blah2|14');
+                expect(result[0][fn.ID]).toEqual('blah|0');
+                expect(result[2][fn.ID]).toEqual('blah2|2');
             });
         });
     });
