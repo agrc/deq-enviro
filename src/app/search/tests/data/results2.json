@@ -1,0 +1,201 @@
+{
+    "7": [{
+        "attributes": {
+            "ID": "4302110758",
+            "NAME": "LITTLE SALT LAKE GOVT 1 (WSW)       ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 325975.0,
+            "y": 4192037.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302120100",
+            "NAME": "SOUTHERN UTAH OIL CO 1(RUSH LAKE 1) ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "NA"
+        },
+        "geometry": {
+            "x": 315482.0,
+            "y": 4192325.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130001",
+            "NAME": "SOUTHERN UTAH OIL CO 1              ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 281480.0,
+            "y": 4195389.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130002",
+            "NAME": "SHURTZ CREEK                        ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 315447.0,
+            "y": 4163867.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130003",
+            "NAME": "CEDAR CITY 1                        ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 311614.0,
+            "y": 4171603.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130004",
+            "NAME": "CEDAR CITY U 1                      ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 313981.0,
+            "y": 4168744.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130005",
+            "NAME": "TABLE BUTTE U 1                     ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "OW"
+        },
+        "geometry": {
+            "x": 281166.0,
+            "y": 4197009.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130006",
+            "NAME": "ARCO THREE PEAKS 1                  ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "NA"
+        },
+        "geometry": {
+            "x": 303171.0,
+            "y": 4180813.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130007",
+            "NAME": "HAMBLIN VALLEY 6-5                  ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "OW"
+        },
+        "geometry": {
+            "x": 244604.0,
+            "y": 4215613.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130008",
+            "NAME": "FEDERAL 23-34                       ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "OW"
+        },
+        "geometry": {
+            "x": 328885.0,
+            "y": 4198092.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130009",
+            "NAME": "FEDERAL 23-44                       ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 329132.0,
+            "y": 4198227.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130010",
+            "NAME": "CLARK 2-28                          ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "GW"
+        },
+        "geometry": {
+            "x": 323855.0,
+            "y": 4157431.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302130011",
+            "NAME": "CLARK 1-28                          ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 323855.0,
+            "y": 4157444.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }, {
+        "attributes": {
+            "ID": "4302150001",
+            "NAME": "VANTERRA RUSH LAKE #2               ",
+            "ADDRESS": "n/a",
+            "CITY": "n/a",
+            "TYPE": "D "
+        },
+        "geometry": {
+            "x": 315404.0,
+            "y": 4193043.0,
+            "type": "point",
+            "spatialReference": null
+        }
+    }],
+    "5": [],
+    "11": []
+}
