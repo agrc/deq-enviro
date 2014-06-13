@@ -37,12 +37,22 @@ require([
             });
         });
         describe('onFeaturesFound', function () {
-            it('calls getStoreData', function () {
+            it('calls getStoreData and initGrid (only once)', function () {
                 spyOn(widget, 'getStoreData');
+                spyOn(widget, 'initGrid').and.callFake(function () {
+                    widget.grid = {
+                        store: {setData: function () {}},
+                        refresh: function () {}
+                    };
+                });
 
                 widget.onFeaturesFound(testdata);
 
                 expect(widget.getStoreData).toHaveBeenCalled();
+
+                widget.onFeaturesFound(testdata);
+
+                expect(widget.initGrid.calls.count()).toBe(1);
             });
         });
         describe('getStoreData', function () {
@@ -91,6 +101,21 @@ require([
             it('adds feature counts to id field', function () {
                 expect(result[0][fn.ID]).toEqual('blah|0');
                 expect(result[2][fn.ID]).toEqual('blah2|2');
+            });
+        });
+        describe('clear', function () {
+            it('removes all data from the store and calls refresh on the grid', function () {
+                widget.grid = {
+                    store: {
+                        data: 'blah'
+                    },
+                    refresh: jasmine.createSpy('refresh')
+                };
+
+                widget.clear();
+
+                expect(widget.grid.store.data).toEqual(null);
+                expect(widget.grid.refresh).toHaveBeenCalled();
             });
         });
     });
