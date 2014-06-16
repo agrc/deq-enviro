@@ -95,10 +95,7 @@ define([
             console.log('app/search/Shape::onToolBtnClick', arguments);
 
             topic.publish(config.topics.appMapMapController.clearGraphics);
-            query('.btn-group .btn', this.domNode)
-                .forEach(function (btn) {
-                    domClass.remove(btn, 'active');
-                });
+            this.unselectBtns();
             domClass.add(evt.target, 'active');
             this.toolbar.activate(evt.target.value);
         },
@@ -156,6 +153,29 @@ define([
             this.bufferParams = new BufferParameters();
             this.bufferParams.spatialReference = config.spatialReference;
             this.bufferParams.unit = GeometryService.UNIT_STATUTE_MILE;
+        },
+        clear: function () {
+            // summary:
+            //      clears graphics, disables active tool and unactivates any buttons
+            console.log('app/search/Shape:clear', arguments);
+        
+            topic.publish(config.topics.appMapMapController.clearGraphics);
+
+            this.toolbar.deactivate();
+
+            this.unselectBtns();
+
+            this.bufferNum.value = '';
+        },
+        unselectBtns: function () {
+            // summary:
+            //      unselectes all buttons in the widget
+            console.log('app/search/Shape:unselectBtns', arguments);
+        
+            query('.btn-group .btn', this.domNode)
+                .forEach(function (btn) {
+                    domClass.remove(btn, 'active');
+                });
         }
     });
 });

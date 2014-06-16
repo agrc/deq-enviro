@@ -56,5 +56,14 @@ require([
                 }).toThrow(widget.invalidMsg);
             });
         });
+        describe('clear', function () {
+            it('clears out the text box', function () {
+                widget.textBox.value = 'blah';
+
+                widget.clear();
+
+                expect(widget.textBox.value).toBe('');
+            });
+        });
     });
 });

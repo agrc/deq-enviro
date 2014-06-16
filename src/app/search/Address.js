@@ -91,7 +91,7 @@ define([
             //              y: Number
             //          }
             //      }
-            console.log('module.id::buffer', arguments);
+            console.log('app/search/Address:buffer', arguments);
 
             var that = this;
 
@@ -119,6 +119,15 @@ define([
             params.unit = GeometryService.UNIT_STATUTE_MILE;
 
             this.geometryService.buffer(params);
+        },
+        clear: function () {
+            // summary:
+            //      clears/resets text boxes
+            console.log('app/search/Address:clear', arguments);
+        
+            this.txtAddress.value = '';
+            this.txtZone.value = '';
+            this.numBuffer.value = 1;
         }
     });
 });

@@ -52,6 +52,15 @@ define([
             }
 
             return def.promise;
+        },
+        clear: function () {
+            // summary:
+            //      clears the text box and any related graphics
+            console.log('app/search/City:clear', arguments);
+        
+            this.textBox.value = '';
+
+            this._graphicsLayer.clear();
         }
     });
 });

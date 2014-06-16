@@ -118,5 +118,24 @@ require([
                 expect(widget.api.search.calls.count()).toBe(1);
             });
         });
+        describe('clear', function () {
+            it('clears the graphic', function () {
+                widget.geometry = {};
+
+                topics.listen(config.topics.appMapMapController.clearGraphics);
+
+                widget.clear();
+
+                expect(widget.geometry).toBeNull();
+                expect(config.topics.appMapMapController.clearGraphics).toHaveBeenPublished();
+            });
+            it('resets the select', function () {
+                widget.select.selectedIndex = 1;
+
+                widget.clear();
+
+                expect(widget.select.selectedIndex).toBe(0);
+            });
+        });
     });
 });

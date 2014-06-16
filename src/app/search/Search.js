@@ -208,6 +208,12 @@ define([
             //      fires when the user changes the value of the select
             console.log('app.search.Search::onSelectChange', arguments);
         
+            // clear previous pane
+            if (this.currentPane) {
+                this.currentPane.clear();
+            }
+
+            // switch to new pane
             this.currentPane = this[this.select.value];
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;

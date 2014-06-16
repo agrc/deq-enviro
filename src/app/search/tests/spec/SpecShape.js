@@ -35,9 +35,11 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
+        var btns;
 
         beforeEach(function() {
             widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+            btns = query('.btn-group .btn', widget.domNode);
         });
 
         afterEach(function() {
@@ -52,10 +54,6 @@ require([
             });
         });
         describe('onToolBtnClick', function () {
-            var btns;
-            beforeEach(function () {
-                btns = query('.btn-group .btn', widget.domNode);
-            });
             it('activates the button and deactivates all others', function () {
                 btns[0].click();
 
@@ -137,6 +135,37 @@ require([
 
                     done();
                 });
+            });
+        });
+        describe('clear', function () {
+            beforeEach(function () {
+                spyOn(widget.toolbar, 'deactivate');
+            });
+            it('clears any existing graphics', function () {
+                topics.listen(config.topics.appMapMapController.clearGraphics);
+
+                widget.clear();
+
+                expect(config.topics.appMapMapController.clearGraphics).toHaveBeenPublished();
+            });
+            it('disabled the tool', function () {
+                widget.clear();
+
+                expect(widget.toolbar.deactivate).toHaveBeenCalled();
+            });
+            it('deactivates all buttons', function () {
+                btns[0].click();
+
+                widget.clear();
+
+                expect(domClass.contains(btns[0], 'active')).toBe(false);
+            });
+            it('resets buffer to 0', function () {
+                widget.bufferNum.value = 5;
+
+                widget.clear();
+
+                expect(widget.bufferNum.value).toBe('');
             });
         });
     });
