@@ -59,7 +59,13 @@ define([
                 topic.subscribe(t.mapController.zoomTo,
                     lang.hitch(this, 'zoom')),
                 topic.subscribe(t.mapController.graphic,
-                    lang.hitch(this, 'graphic'))
+                    lang.hitch(this, 'graphic')),
+                topic.subscribe(t.appSearch.searchStarted,
+                    lang.hitch(this, 'showLoader')),
+                topic.subscribe(t.appSearch.featuresFound,
+                    lang.hitch(this, 'hideLoader')),
+                topic.subscribe(t.appSearch.searchError,
+                    lang.hitch(this, 'hideLoader'))
             );
         },
         setUpPublishes: function () {
@@ -171,6 +177,20 @@ define([
             array.forEach(this.handles, function (hand) {
                 hand.remove();
             });
+        },
+        showLoader: function () {
+            // summary:
+            //      description
+            console.log('app/map/MapController:showLoader', arguments);
+        
+            this.map.showLoader();
+        },
+        hideLoader: function () {
+            // summary:
+            //      description
+            console.log('app/map/MapController:hideLoader', arguments);
+        
+            this.map.hideLoader();
         }
     };
 });
