@@ -150,6 +150,11 @@ require([
 
                 expect(widget.errMsg.innerHTML).toBe(widget.noQueryLayersSelectedErrMsg);
             });
+            it('displays error message if no search type is selected', function () {
+                widget.search();
+
+                expect(widget.errMsg.innerHTML).toBe(widget.noSearchTypeSelectedErrMsg);
+            });
         });
         describe('getQueryLayersParam', function () {
             it('formats the data for each query layer appropriately', function () {
