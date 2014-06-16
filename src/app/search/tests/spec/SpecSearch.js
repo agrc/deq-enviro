@@ -92,6 +92,18 @@ require([
 
                 expect(widget.zoomedGeometry).toBeNull();
             });
+            it('calls clear on the previous pane', function () {
+                var previousPane = jasmine.createSpy('previousPane');
+                var value = 'blah';
+                widget.currentPane = {clear: previousPane};
+                widget.select.value = 'blah';
+                widget[value] = {};
+                spyOn(widget.stackContainer, 'selectChild');
+
+                widget.onSelectChange();
+
+                expect(previousPane).toHaveBeenCalled();
+            });
         });
         describe('search', function () {
             var geomSearch;
@@ -188,6 +200,23 @@ require([
 
                 expect(config.topics.appSearch.featuresFound).toHaveBeenPublished();
                 expect(config.topics.appSearch.featuresFound).toHaveBeenPublishedWith(data);
+            });
+        });
+        describe('clear', function () {
+            it('calls clear on the current search pane', function () {
+                var clearSpy = jasmine.createSpy();
+                widget.currentPane = {clear: clearSpy};
+
+                widget.clear();
+
+                expect(clearSpy).toHaveBeenCalled();
+            });
+            it('fires the clear topic', function () {
+                topics.listen(config.topics.appSearch.clear);
+
+                widget.clear();
+
+                expect(config.topics.appSearch.clear).toHaveBeenPublished();
             });
         });
     });

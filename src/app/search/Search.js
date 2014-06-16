@@ -104,7 +104,7 @@ define([
         noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
 
         // noSearchTypeSelectedErrMsg: String
-        noSearchTypeSelectedErrMsg: 'You must select a search type!',
+        noSearchTypeSelectedErrMsg: 'You must select a search criteria type!',
 
 
         // Properties to be sent into constructor
@@ -143,7 +143,6 @@ define([
                 this.address = new Address({
                     apiKey: config.apiKey
                 }, this.addressPane),
-                // this.city = new City({}, this.cityPane),
                 this.city = new City({
                     map: MapController.map,
                     promptMessage: 'please begin typing a city name',
@@ -152,7 +151,9 @@ define([
                     searchField: config.fieldNames.cities.NAME,
                     placeHolder: 'city name...',
                     maxResultsToDisplay: 5,
-                    symbolFill: config.symbols.zoom.polygon
+                    symbolFill: config.symbols.zoom.polygon,
+                    graphicsLayer: MapController.map.graphics,
+                    preserveGraphics: true
                 }, this.cityPane),
                 this.county = new County({}, this.countyPane),
                 this.site = new SiteName(null, this.sitePane),
@@ -208,6 +209,12 @@ define([
             //      fires when the user changes the value of the select
             console.log('app.search.Search::onSelectChange', arguments);
         
+            // clear previous pane
+            if (this.currentPane) {
+                this.currentPane.clear();
+            }
+
+            // switch to new pane
             this.currentPane = this[this.select.value];
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;
@@ -295,6 +302,17 @@ define([
             }
 
             topic.publish(config.topics.appSearch.featuresFound, response.result);
+        },
+        clear: function () {
+            // summary:
+            //      clears all of the search parameters and query layers
+            console.log('app/search/Search:clear', arguments);
+        
+            if (this.currentPane) {
+                this.currentPane.clear();
+            }
+
+            topic.publish(config.topics.appSearch.clear);
         }
     });
 });

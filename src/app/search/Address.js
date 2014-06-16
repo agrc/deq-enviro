@@ -91,7 +91,7 @@ define([
             //              y: Number
             //          }
             //      }
-            console.log('module.id::buffer', arguments);
+            console.log('app/search/Address:buffer', arguments);
 
             var that = this;
 
@@ -99,7 +99,7 @@ define([
                 this.geometryService = new GeometryService(config.urls.geometryService);
                 this.geometryService.on('buffer-complete', function (result) {
                     that.getGeometryDef.resolve(result.geometries[0]);
-                    topic.publish(config.topics.mapController.zoomTo, result.geometries[0]);
+                    topic.publish(config.topics.appMapMapController.zoomTo, result.geometries[0]);
                 });
                 this.geometryService.on('error', function () {
                     that.getGeometryDef.reject('There was an error with the buffer.');
@@ -119,6 +119,15 @@ define([
             params.unit = GeometryService.UNIT_STATUTE_MILE;
 
             this.geometryService.buffer(params);
+        },
+        clear: function () {
+            // summary:
+            //      clears/resets text boxes
+            console.log('app/search/Address:clear', arguments);
+        
+            this.txtAddress.value = '';
+            this.txtZone.value = '';
+            this.numBuffer.value = 1;
         }
     });
 });

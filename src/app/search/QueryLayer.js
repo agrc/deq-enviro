@@ -77,6 +77,8 @@ define([
             //      private
             console.log('app/QueryLayer::postCreate', arguments);
 
+            var that = this;
+            
             this.localStorageID = this.name + '_checkedState';
 
             if (localStorage) {
@@ -89,6 +91,11 @@ define([
             $(this.helpTip).tooltip({
                 container: 'body'
             });
+
+            this.own(topic.subscribe(config.topics.appSearch.clear, function () {
+                that.checkbox.checked = false;
+                that.onCheckboxChange();
+            }));
 
             this.inherited(arguments);
         },
