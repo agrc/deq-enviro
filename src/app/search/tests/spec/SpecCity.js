@@ -77,11 +77,11 @@ require([
                 expect(widget.textBox.value).toBe('');
             });
             it('clears graphics', function () {
-                spyOn(widget._graphicsLayer, 'clear');
+                spyOn(widget.graphicsLayer, 'clear');
 
                 widget.clear();
 
-                expect(widget._graphicsLayer.clear).toHaveBeenCalled();
+                expect(widget.graphicsLayer.clear).toHaveBeenCalled();
             });
         });
     });
