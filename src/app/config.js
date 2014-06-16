@@ -63,7 +63,8 @@ define([
             appSearch: {
                 featuresFound: 'app/search/Search.featuresFound',
                 searchStarted: 'app/search/Search.searchStarted',
-                searchError: 'app/search/Search.searchError'
+                searchError: 'app/search/Search.searchError',
+                clear: 'app/search/Search.clear'
             }
         },
 
