@@ -112,6 +112,17 @@ define([
             if (!this.geometry) {
                 this.onChange();
             }
+        },
+        clear: function () {
+            // summary:
+            //      clears the graphic and associated geometry
+            console.log('app/search/County:clear', arguments);
+        
+            this.geometry = null;
+
+            topic.publish(config.topics.appMapMapController.clearGraphics);
+
+            this.select.selectedIndex = 0;
         }
     });
 });

@@ -52,6 +52,13 @@ define([
                 terms: this.textBox.value.trim().split(' '),
                 includeAll: this.allRadio.checked
             };
+        },
+        clear: function () {
+            // summary:
+            //      clears out the text box
+            console.log('app/search/SiteName:clear', arguments);
+        
+            this.textBox.value = '';
         }
     });
 });

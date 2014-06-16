@@ -92,6 +92,18 @@ require([
 
                 expect(widget.zoomedGeometry).toBeNull();
             });
+            it('calls clear on the previous pane', function () {
+                var previousPane = jasmine.createSpy('previousPane');
+                var value = 'blah';
+                widget.currentPane = {clear: previousPane};
+                widget.select.value = 'blah';
+                widget[value] = {};
+                spyOn(widget.stackContainer, 'selectChild');
+
+                widget.onSelectChange();
+
+                expect(previousPane).toHaveBeenCalled();
+            });
         });
         describe('search', function () {
             var geomSearch;
