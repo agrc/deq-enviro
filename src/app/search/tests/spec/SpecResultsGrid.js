@@ -118,5 +118,8 @@ require([
                 expect(widget.grid.refresh).toHaveBeenCalled();
             });
         });
+        describe('renderRow', function () {
+            // no sure how to test because of this.inherited
+        });
     });
 });

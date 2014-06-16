@@ -218,6 +218,7 @@ define([
             var params = {};
             var that = this;
             var makeRequest = function () {
+                topic.publish(config.topics.appSearch.searchStarted);
                 params.queryLayers = that.getQueryLayersParam();
                 request(config.urls.api.search, {
                     method: 'POST',
@@ -225,6 +226,7 @@ define([
                     headers: {'Content-Type': 'application/json'},
                     handleAs: 'json'
                 }).then(that.onSearchComplete, function () {
+                    topic.publish(config.topics.appSearch.searchError);
                     onError(that.searchServiceErrorMsg);
                 });
             };
@@ -276,7 +278,6 @@ define([
             //      response object from server. Has status and result props
             console.log('app/search/Search:onSearchComplete', arguments);
 
-        
             if (response.status !== 200) {
                 throw this.searchServiceErrorMsg;
             }
