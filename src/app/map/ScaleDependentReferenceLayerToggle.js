@@ -39,7 +39,7 @@ define([
             this.updateDisabledState(this.minScaleLevel - 1);
 
             this.own(
-                topic.subscribe(config.topics.appMapController.mapZoom, lang.hitch(this, 'updateDisabledState'))
+                topic.subscribe(config.topics.appMapMapController.mapZoom, lang.hitch(this, 'updateDisabledState'))
             );
             
             this.inherited(arguments);

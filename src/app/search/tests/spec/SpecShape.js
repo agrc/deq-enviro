@@ -1,5 +1,6 @@
 require([
     'app/search/Shape',
+    'app/config',
 
     'dojo/_base/window',
     'dojo/dom-construct',
@@ -9,9 +10,12 @@ require([
     'dojo/Deferred',
     'dojo/promise/all',
 
+    'matchers/topics',
+
     'stubmodule'
 ], function(
     WidgetUnderTest,
+    config,
 
     win,
     domConstruct,
@@ -20,6 +24,8 @@ require([
     Promise,
     Deferred,
     all,
+
+    topics,
 
     stubmodule
 ) {
@@ -66,6 +72,13 @@ require([
                 btns[0].click();
 
                 expect(widget.toolbar.activate).toHaveBeenCalledWith('polygon');
+            });
+            it('clears any existing graphics', function () {
+                topics.listen(config.topics.appMapMapController.clearGraphics);
+
+                btns[0].click();
+
+                expect(config.topics.appMapMapController.clearGraphics).toHaveBeenPublished();
             });
         });
         describe('getGeometry', function () {

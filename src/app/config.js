@@ -48,18 +48,17 @@ define([
                 addLayer: 'app/QueryLayer.addLayer',
                 removeLayer: 'app/QueryLayer.removeLayer'
             },
-            appMapController: {
-                mapZoom: 'app/MapController.mapZoom'
+            appMapMapController: {
+                mapZoom: 'app/map/MapController.mapZoom',
+                zoomTo: 'app/map/MapController.zoomTo',
+                graphic: 'app/map/MapController.graphic',
+                clearGraphics: 'app/map/MapController.clearGraphics'
             },
             appWizard: {
                 requestAccess: 'app/Wizard.requestAccess',
                 showSearch: 'app/Wizard.showSearch',
                 showQueryLayers: 'app/Wizard.showQueryLayers',
                 showResults: 'app/Wizard.showResults'
-            },
-            mapController: {
-                zoomTo: 'app/MapController.zoomTo',
-                graphic: 'app/MapController.graphic'
             },
             appSearch: {
                 featuresFound: 'app/search/Search.featuresFound',
