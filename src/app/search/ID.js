@@ -52,6 +52,13 @@ define([
             }
 
             return value;
+        },
+        clear: function () {
+            // summary:
+            //      clears the text box
+            console.log('app/search/ID:clear', arguments);
+        
+            this.textBox.value = '';
         }
     });
 });

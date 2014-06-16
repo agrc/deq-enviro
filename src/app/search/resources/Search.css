@@ -32,3 +32,6 @@
 .search .pad {
     margin-top: 10px;
 }
+.search .search-button-container {
+    padding: 15px;
+}

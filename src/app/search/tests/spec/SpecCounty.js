@@ -60,7 +60,7 @@ require([
                     .toEqual(config.featureClassNames.counties);
             });
             it('publishes topic with returned geometry', function () {
-                topics.listen(config.topics.mapController.zoomTo);
+                topics.listen(config.topics.appMapMapController.zoomTo);
                 var def = new Deferred();
                 spyOn(widget.api, 'search').and.returnValue(def.promise);
                 var geo = {};
@@ -69,7 +69,7 @@ require([
 
                 def.resolve([{geometry: geo}]);
 
-                expect(config.topics.mapController.zoomTo).toHaveBeenPublished();
+                expect(config.topics.appMapMapController.zoomTo).toHaveBeenPublished();
             });
             it('shows error message', function () {
                 var value = 'error message';
@@ -116,6 +116,25 @@ require([
                 widget._onShow();
 
                 expect(widget.api.search.calls.count()).toBe(1);
+            });
+        });
+        describe('clear', function () {
+            it('clears the graphic', function () {
+                widget.geometry = {};
+
+                topics.listen(config.topics.appMapMapController.clearGraphics);
+
+                widget.clear();
+
+                expect(widget.geometry).toBeNull();
+                expect(config.topics.appMapMapController.clearGraphics).toHaveBeenPublished();
+            });
+            it('resets the select', function () {
+                widget.select.selectedIndex = 1;
+
+                widget.clear();
+
+                expect(widget.select.selectedIndex).toBe(0);
             });
         });
     });

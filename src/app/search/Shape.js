@@ -94,10 +94,8 @@ define([
             // evt: Click Event
             console.log('app/search/Shape::onToolBtnClick', arguments);
 
-            query('.btn-group .btn', this.domNode)
-                .forEach(function (btn) {
-                    domClass.remove(btn, 'active');
-                });
+            topic.publish(config.topics.appMapMapController.clearGraphics);
+            this.unselectBtns();
             domClass.add(evt.target, 'active');
             this.toolbar.activate(evt.target.value);
         },
@@ -107,7 +105,7 @@ define([
             // evt: Event Object
             console.log('app/search/Shape::onDrawComplete', arguments);
 
-            topic.publish(config.topics.mapController.graphic, evt.geometry);
+            topic.publish(config.topics.appMapMapController.graphic, evt.geometry);
             this.geometry = evt.geometry;
         },
         getGeometry: function () {
@@ -146,7 +144,7 @@ define([
             this.geoService = new GeometryService(config.urls.geometryService);
             this.geoService.on('buffer-complete', function (result) {
                 that.getGeometryDef.resolve(result.geometries[0]);
-                topic.publish(config.topics.mapController.zoomTo, result.geometries[0]);
+                topic.publish(config.topics.appMapMapController.zoomTo, result.geometries[0]);
             });
             this.geoService.on('error', function () {
                 that.getGeometryDef.reject('There was an error with the buffer');
@@ -155,6 +153,29 @@ define([
             this.bufferParams = new BufferParameters();
             this.bufferParams.spatialReference = config.spatialReference;
             this.bufferParams.unit = GeometryService.UNIT_STATUTE_MILE;
+        },
+        clear: function () {
+            // summary:
+            //      clears graphics, disables active tool and unactivates any buttons
+            console.log('app/search/Shape:clear', arguments);
+        
+            topic.publish(config.topics.appMapMapController.clearGraphics);
+
+            this.toolbar.deactivate();
+
+            this.unselectBtns();
+
+            this.bufferNum.value = '';
+        },
+        unselectBtns: function () {
+            // summary:
+            //      unselectes all buttons in the widget
+            console.log('app/search/Shape:unselectBtns', arguments);
+        
+            query('.btn-group .btn', this.domNode)
+                .forEach(function (btn) {
+                    domClass.remove(btn, 'active');
+                });
         }
     });
 });

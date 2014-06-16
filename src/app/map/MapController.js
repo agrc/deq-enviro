@@ -56,16 +56,18 @@ define([
                     lang.hitch(this, 'toggleReferenceLayer')),
                 topic.subscribe(t.appQueryLayer.addLayer,
                     lang.hitch(this, 'addQueryLayer')),
-                topic.subscribe(t.mapController.zoomTo,
+                topic.subscribe(t.appMapMapController.zoomTo,
                     lang.hitch(this, 'zoom')),
-                topic.subscribe(t.mapController.graphic,
+                topic.subscribe(t.appMapMapController.graphic,
                     lang.hitch(this, 'graphic')),
                 topic.subscribe(t.appSearch.searchStarted,
                     lang.hitch(this, 'showLoader')),
                 topic.subscribe(t.appSearch.featuresFound,
                     lang.hitch(this, 'hideLoader')),
                 topic.subscribe(t.appSearch.searchError,
-                    lang.hitch(this, 'hideLoader'))
+                    lang.hitch(this, 'hideLoader')),
+                topic.subscribe(t.appMapMapController.clearGraphics,
+                    lang.hitch(this, 'clearGraphics'))
             );
         },
         setUpPublishes: function () {
@@ -76,7 +78,7 @@ define([
             var that = this;
             this.handles.push(
                 this.map.on('zoom-end', function () {
-                    topic.publish(config.topics.appMapController.mapZoom, that.map.getZoom());
+                    topic.publish(config.topics.appMapMapController.mapZoom, that.map.getZoom());
                 })
             );
         },
@@ -191,6 +193,13 @@ define([
             console.log('app/map/MapController:hideLoader', arguments);
         
             this.map.hideLoader();
+        },
+        clearGraphics: function () {
+            // summary:
+            //      clears any graphics on the map
+            console.log('app/map/MapController:clearGraphics', arguments);
+        
+            this.map.graphics.clear();
         }
     };
 });

@@ -68,5 +68,21 @@ require([
                 expect(widget.geometry).toBe(geo);
             });
         });
+        describe('clear', function () {
+            it('clears text box', function () {
+                widget.textBox.value = 'blah';
+
+                widget.clear();
+
+                expect(widget.textBox.value).toBe('');
+            });
+            it('clears graphics', function () {
+                spyOn(widget.graphicsLayer, 'clear');
+
+                widget.clear();
+
+                expect(widget.graphicsLayer.clear).toHaveBeenCalled();
+            });
+        });
     });
 });

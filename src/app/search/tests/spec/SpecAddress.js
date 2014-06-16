@@ -72,5 +72,18 @@ require([
                 expect(widget.geometryService).toEqual(blah);
             });
         });
+        describe('clear', function () {
+            it('clears address and zip text boxes and resets buffer to 1', function () {
+                widget.txtAddress.value = 'blah';
+                widget.txtZone.value = 'blah';
+                widget.numBuffer.value = 99;
+
+                widget.clear();
+
+                expect(widget.txtAddress.value).toBe('');
+                expect(widget.txtZone.value).toBe('');
+                expect(widget.numBuffer.value).toBe('1');
+            });
+        });
     });
 });
