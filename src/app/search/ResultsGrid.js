@@ -75,6 +75,8 @@ define([
             console.log('app/search/ResultsGrid::setupConnections', arguments);
 
             this.own(
+                topic.subscribe(config.topics.appSearch.searchStarted,
+                    lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.featuresFound,
                     lang.hitch(this, 'onFeaturesFound'))
             );
@@ -182,9 +184,11 @@ define([
             // summary:
             //      clears the data out of the grid
             console.log('app/search/ResultsGrid:clear', arguments);
-        
-            this.grid.store.data = null;
-            this.grid.refresh();
+            
+            if (this.grid) {
+                this.grid.store.data = null;
+                this.grid.refresh();
+            }
         },
         getStoreData: function (data) {
             // summary:
