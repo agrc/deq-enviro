@@ -103,6 +103,9 @@ define([
         // noQueryLayersSelectedErrMsg: String
         noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
 
+        // noSearchTypeSelectedErrMsg: String
+        noSearchTypeSelectedErrMsg: 'You must select a search type!',
+
 
         // Properties to be sent into constructor
 
@@ -235,7 +238,15 @@ define([
             };
 
             this.hideErrMsg();
+
+            // check for no search type selected
+            if (!this.currentPane) {
+                onError(this.noSearchTypeSelectedErrMsg);
+                return;
+            }
+
             if (this.currentPane.getGeometry) {
+                // search type requires an async process to get geometry
                 this.currentPane.getGeometry().then(
                     function (geo) {
                         try {
@@ -248,6 +259,7 @@ define([
                     onError
                 );
             } else {
+                // search type just has a value to pass to the search service (ID & Name searches)
                 try {
                     params[this.currentPane.paramName] = this.currentPane.getSearchParam();
                     makeRequest();
