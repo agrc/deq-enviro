@@ -104,7 +104,7 @@ define([
         noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
 
         // noSearchTypeSelectedErrMsg: String
-        noSearchTypeSelectedErrMsg: 'You must select a search type!',
+        noSearchTypeSelectedErrMsg: 'You must select a search criteria type!',
 
 
         // Properties to be sent into constructor
@@ -302,6 +302,17 @@ define([
             }
 
             topic.publish(config.topics.appSearch.featuresFound, response.result);
+        },
+        clear: function () {
+            // summary:
+            //      clears all of the search parameters and query layers
+            console.log('app/search/Search:clear', arguments);
+        
+            if (this.currentPane) {
+                this.currentPane.clear();
+            }
+
+            topic.publish(config.topics.appSearch.clear);
         }
     });
 });
