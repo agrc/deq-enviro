@@ -43,14 +43,14 @@ require([
             it('disables if scale level is above minScaleLevel', function () {
                 widget.checkbox.disabled = false;
 
-                topic.publish(config.topics.appMapController.mapZoom, 10);
+                topic.publish(config.topics.appMapMapController.mapZoom, 10);
 
                 expect(widget.checkbox.disabled).toBe(false);
             });
             it('enables', function () {
                 widget.checkbox.disabled = true;
 
-                topic.publish(config.topics.appMapController.mapZoom, 3);
+                topic.publish(config.topics.appMapMapController.mapZoom, 3);
 
                 expect(widget.checkbox.disabled).toBe(true);
             });
