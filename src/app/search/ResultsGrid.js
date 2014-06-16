@@ -7,6 +7,7 @@ define([
 
     'dojo/store/Memory',
     'dojo/topic',
+    'dojo/query',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -15,6 +16,8 @@ define([
     'dgrid/OnDemandGrid',
     'dgrid/tree',
     'dgrid/extensions/ColumnResizer',
+
+    'put-selector/put',
 
     'app/config'
 
@@ -27,6 +30,7 @@ define([
 
     Memory,
     topic,
+    query,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -35,6 +39,8 @@ define([
     Grid,
     tree,
     ColumnResizer,
+
+    put,
 
     config
 ) {
@@ -69,6 +75,8 @@ define([
             console.log('app/search/ResultsGrid::setupConnections', arguments);
 
             this.own(
+                topic.subscribe(config.topics.appSearch.searchStarted,
+                    lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.featuresFound,
                     lang.hitch(this, 'onFeaturesFound'))
             );
@@ -136,8 +144,27 @@ define([
                         }
                         return this.queryEngine(query, options)(this.data);
                     }
-                })
+                }),
+                renderRow: this.renderRow
             }, this.gridDiv);
+        },
+        renderRow: function (item) {
+            // summary:
+            //      override to merge cells into one for header rows
+            // item: Object
+            //      The store item to be rendered
+            console.log('app/search/ResultsGrid:renderRow', arguments);
+        
+            var div = this.inherited(arguments);
+
+            // remove all empty cells
+            if (!item.parent) {
+                query('td:not(.field-ID)', div).forEach(function (node) {
+                    put(node, '!');
+                });
+            }
+
+            return div;
         },
         onFeaturesFound: function (data) {
             // summary:
@@ -157,9 +184,11 @@ define([
             // summary:
             //      clears the data out of the grid
             console.log('app/search/ResultsGrid:clear', arguments);
-        
-            this.grid.store.data = null;
-            this.grid.refresh();
+            
+            if (this.grid) {
+                this.grid.store.data = null;
+                this.grid.refresh();
+            }
         },
         getStoreData: function (data) {
             // summary:

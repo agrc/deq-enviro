@@ -62,7 +62,9 @@ define([
                 graphic: 'app/MapController.graphic'
             },
             appSearch: {
-                featuresFound: 'app/search/Search.featuresFound'
+                featuresFound: 'app/search/Search.featuresFound',
+                searchStarted: 'app/search/Search.searchStarted',
+                searchError: 'app/search/Search.searchError'
             }
         },
 

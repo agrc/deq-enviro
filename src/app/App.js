@@ -209,7 +209,7 @@ define([
                     }
                 })
             ]);
-            this.own(topic.subscribe(config.topics.appSearch.featuresFound,
+            this.own(topic.subscribe(config.topics.appSearch.searchStarted,
                 lang.hitch(this.openGridAnimation, 'play')));
 
             this.closeGridAnimation = coreFx.combine([
