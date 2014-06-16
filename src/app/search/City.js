@@ -60,7 +60,7 @@ define([
         
             this.textBox.value = '';
 
-            this._graphicsLayer.clear();
+            this.graphicsLayer.clear();
         }
     });
 });

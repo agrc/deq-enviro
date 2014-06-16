@@ -143,7 +143,6 @@ define([
                 this.address = new Address({
                     apiKey: config.apiKey
                 }, this.addressPane),
-                // this.city = new City({}, this.cityPane),
                 this.city = new City({
                     map: MapController.map,
                     promptMessage: 'please begin typing a city name',
@@ -152,7 +151,9 @@ define([
                     searchField: config.fieldNames.cities.NAME,
                     placeHolder: 'city name...',
                     maxResultsToDisplay: 5,
-                    symbolFill: config.symbols.zoom.polygon
+                    symbolFill: config.symbols.zoom.polygon,
+                    graphicsLayer: MapController.map.graphics,
+                    preserveGraphics: true
                 }, this.cityPane),
                 this.county = new County({}, this.countyPane),
                 this.site = new SiteName(null, this.sitePane),
