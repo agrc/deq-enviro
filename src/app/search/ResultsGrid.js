@@ -147,13 +147,23 @@ define([
                 }),
                 renderRow: this.renderRow
             }, this.gridDiv);
+
+            // expand parent if any part of the row is clicked
+            var that = this;
+            this.grid.on('.dgrid-row:click', function (evt) {
+                console.log(evt);
+                var row = that.grid.row(evt);
+                if (!row.parent) {
+                    that.grid.expand(row);
+                }
+            });
         },
         renderRow: function (item) {
             // summary:
             //      override to merge cells into one for header rows
             // item: Object
             //      The store item to be rendered
-            console.log('app/search/ResultsGrid:renderRow', arguments);
+            // console.log('app/search/ResultsGrid:renderRow', arguments);
         
             var div = this.inherited(arguments);
 
