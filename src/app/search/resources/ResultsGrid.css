@@ -22,3 +22,10 @@
     border-right: none;
     border-left: none;
 }
+.results-grid .dgrid-content>.dgrid-row {
+    cursor: pointer;
+    background-color: white;
+}
+.results-grid .dgrid-content>.dgrid-row td:hover {
+    text-decoration: underline;
+}
