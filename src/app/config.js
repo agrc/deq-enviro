@@ -1,6 +1,8 @@
+/* jshint maxlen:false */
 define([
     'dojo/_base/Color',
     'dojo/_base/array',
+    'dojo/_base/lang',
     'dojo/request',
     'dojo/Deferred',
     'dojo/has',
@@ -12,6 +14,7 @@ define([
 ], function (
     Color,
     array,
+    lang,
     request,
     Deferred,
     has,
@@ -23,7 +26,7 @@ define([
     ) {
 
     var zoomColor = new Color([255, 255, 0]);
-    var zoomFillColor = new Color(zoomColor.toRgb().concat([0.25]));
+    var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -65,6 +68,10 @@ define([
                 searchStarted: 'app/search/Search.searchStarted',
                 searchError: 'app/search/Search.searchError',
                 clear: 'app/search/Search.clear'
+            },
+            appResultLayer: {
+                addLayer: 'app/search/ResultLayer.addLayer',
+                removeLayer: 'app/search/ResultLayer.removeLayer'
             }
         },
 
@@ -161,7 +168,9 @@ define([
                     zoomColor,
                     4
                 )
-            }
+            },
+            resultSymbolOpacity: 225,
+            colors: [[166,206,227],[31,120,180],[178,223,138],[51,160,44],[251,154,153],[227,26,28],[253,191,111],[255,127,0],[202,178,214],[106,61,154],[255,255,153],[177,89,40]]
         },
 
         // messages: Object
@@ -177,7 +186,7 @@ define([
 
             var def = new Deferred();
             var that = this;
-        
+
             if (!this.appJson) {
                 request(this.urls.json, {
                     handleAs: 'json'
@@ -193,6 +202,24 @@ define([
             }
 
             return def.promise;
+        },
+        getQueryLayerByIndex: function (index) {
+            // summary:
+            //      description
+            // index: Number
+            console.log('app/config:getQueryLayerByIndex', arguments);
+        
+            var returnLayer;
+            array.some(this.appJson.queryLayers, function (ql) {
+                if (ql.index + '' === index) {
+                    returnLayer = ql;
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            return returnLayer;
         }
     };
 

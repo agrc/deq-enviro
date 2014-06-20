@@ -26,18 +26,18 @@ fldCITY = 'CITY'
 fldTYPE = 'TYPE'
 
 qlFields = [
-          [fldName, 'name'], 
-          [fldDescription, 'description'], 
-          [fldMetaData, 'metaDataUrl'], 
-          [fldHeading, 'heading'],
-          [fldID, fldID],
-          [fldNAME, fldNAME],
-          [fldADDRESS, fldADDRESS],
-          [fldCITY, fldCITY],
-          [fldTYPE, fldTYPE],
-          [workspace, workspace],
-          [fldSGIDFCName, fcName]
-          ]
+    [fldName, 'name'],
+    [fldDescription, 'description'],
+    [fldMetaData, 'metaDataUrl'],
+    [fldHeading, 'heading'],
+    [fldID, fldID],
+    [fldNAME, fldNAME],
+    [fldADDRESS, fldADDRESS],
+    [fldCITY, fldCITY],
+    [fldTYPE, fldTYPE],
+    [workspace, workspace],
+    [fldSGIDFCName, fcName]
+]
 
 # other link fields
 fldID = 'ID'
@@ -45,14 +45,15 @@ fldLinkDescription = 'Description'
 fldURL = 'URL'
 
 linksFields = [
-               [fldID, 'id'],
-               [fldLinkDescription, 'description'],
-               [fldURL, 'url']
-               ]
+    [fldID, 'id'],
+    [fldLinkDescription, 'description'],
+    [fldURL, 'url']
+]
 
-webdata = r'C:\MapData\webdata' # dev & test
+webdata = r'C:\MapData\webdata'  # dev & test
 # webdata = r'\\172.16.17.57\ArcGISServer\data\webdata' # production
 jsonFile = os.path.join(webdata, 'DEQEnviro.json')
+
 
 def getWorksheetData(wksh, fields):
     data = []
@@ -65,16 +66,17 @@ def getWorksheetData(wksh, fields):
             for cell in row:
                 fieldIndices[cell] = i
                 i = i + 1
-                
+
             firstRow = False
             continue
-        
+
         o = {}
         for f in fields:
             o[f[1]] = row[fieldIndices[f[0]]].strip()
         data.append(o)
-    
+
     return data
+
 
 def run():
     # get secrets
@@ -83,15 +85,15 @@ def run():
     section = 'Google Drive Credentials'
     username = config.get(section, 'username')
     password = config.get(section, 'password')
-    
+
     gc = gspread.login(username, password)
     spreadsheet = gc.open_by_url(queryLayersUrl)
-    
+
     # query layers worksheet
     qlWksht = spreadsheet.worksheet('Query Layers')
     layers = getWorksheetData(qlWksht, qlFields)
-    
-    # get layer indecies from map service
+
+    # get layer indicies from map service
     layersJson = requests.get(mapServiceJson).json()['layers']
     serviceLayers = {}
     for s in layersJson:
@@ -100,14 +102,14 @@ def run():
         n = l[fcName].split('.')[-1]
         if n in serviceLayers.keys():
             l['index'] = serviceLayers[n]
-    
+
     # other links
     linksWksht = spreadsheet.worksheet('Other Links')
     links = getWorksheetData(linksWksht, linksFields)
     linksDict = {}
     for l in links:
         linksDict[l[linksFields[0][1]]] = l
-        
+
     j = json.dumps({'queryLayers': layers,
                     'otherLinks': linksDict}, indent=4)
     f = open(jsonFile, 'w')
@@ -115,5 +117,5 @@ def run():
     f.close()
 
     print('.json file completed')
-    
+
     return layers

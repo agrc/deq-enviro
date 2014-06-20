@@ -54,8 +54,6 @@ define([
                     lang.hitch(this, 'addReferenceLayer')),
                 topic.subscribe(t.appMapReferenceLayerToggle.toggleLayer,
                     lang.hitch(this, 'toggleReferenceLayer')),
-                topic.subscribe(t.appQueryLayer.addLayer,
-                    lang.hitch(this, 'addQueryLayer')),
                 topic.subscribe(t.appMapMapController.zoomTo,
                     lang.hitch(this, 'zoom')),
                 topic.subscribe(t.appMapMapController.graphic,
@@ -67,7 +65,11 @@ define([
                 topic.subscribe(t.appSearch.searchError,
                     lang.hitch(this, 'hideLoader')),
                 topic.subscribe(t.appMapMapController.clearGraphics,
-                    lang.hitch(this, 'clearGraphics'))
+                    lang.hitch(this, 'clearGraphics')),
+                topic.subscribe(t.appResultLayer.addLayer,
+                    lang.hitch(this, 'addQueryLayer')),
+                topic.subscribe(t.appResultLayer.removeLayer,
+                    lang.hitch(this, 'removeQueryLayer'))
             );
         },
         setUpPublishes: function () {
@@ -152,6 +154,14 @@ define([
         
             this.map.addLayer(layer);
             this.map.addLoaderToLayer(layer);
+        },
+        removeQueryLayer: function (layer) {
+            // summary:
+            //      removes the layer from the map
+            // layer: esri/layers/FeatureLayer
+            console.log('app/map/MapController:removeQueryLayer', arguments);
+        
+            this.map.removeLayer(layer);
         },
         zoom: function (geometry) {
             // summary:

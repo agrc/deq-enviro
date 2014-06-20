@@ -1,0 +1,12 @@
+.grid-row-header {
+    cursor: pointer;
+    background-color: white;
+}
+.grid-row-header:hover .name{
+    text-decoration: underline;
+}
+.grid-row-header .surface-container {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+}
