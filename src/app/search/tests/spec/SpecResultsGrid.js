@@ -128,5 +128,33 @@ require([
         describe('renderRow', function () {
             // no sure how to test because of this.inherited
         });
+        describe('onRowClick', function () {
+            beforeEach(function () {
+                widget.grid = {
+                    expand: jasmine.createSpy('expand'),
+                    row: function (row) { return row; }
+                };
+            });
+            it('expands if the row is a header', function () {
+                var evt = {
+                    target: {className: 'blah'}
+                };
+
+                widget.onRowClick(evt);
+                evt.parent = 'blah';
+                widget.onRowClick(evt);
+
+                expect(widget.grid.expand.calls.count()).toBe(1);
+            });
+            it('skips if the user clicked on an icon', function () {
+                var evt = {
+                    target: {className: 'dgrid-expando-icon'}
+                };
+
+                widget.onRowClick(evt);
+
+                expect(widget.grid.expand).not.toHaveBeenCalled();
+            });
+        });
     });
 });
