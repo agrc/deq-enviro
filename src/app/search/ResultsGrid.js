@@ -8,6 +8,7 @@ define([
     'dojo/store/Memory',
     'dojo/topic',
     'dojo/query',
+    'dojo/dom-construct',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -19,7 +20,9 @@ define([
 
     'put-selector/put',
 
-    'app/config'
+    'app/config',
+    './ResultLayer',
+    './GridRowHeader'
 
 ], function(
     template,
@@ -31,6 +34,7 @@ define([
     Memory,
     topic,
     query,
+    domConstruct,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -42,7 +46,9 @@ define([
 
     put,
 
-    config
+    config,
+    ResultLayer,
+    GridRowHeader
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
@@ -85,7 +91,7 @@ define([
             // summary:
             //      creates the dgrid
             console.log('app/search/ResultsGrid:initGrid', arguments);
-        
+
             var fn = config.fieldNames.queryLayers;
             var cap = function (str) {
                 str = str.toLowerCase();
@@ -98,14 +104,12 @@ define([
                 tree({
                     field: fn.ID,
                     label: cap(fn.ID),
-                    formatter: function (value) {
-                        var s = value.split('|');
-
-                        // format feature counts if present
-                        if (s.length > 1) {
-                            return s[0] + ' | <strong>' + s[1] + '</strong>';
+                    renderCell: function (item, value) {
+                        // format header rows only
+                        if (item.count !== undefined) {
+                            return new GridRowHeader(item).domNode;
                         } else {
-                            return value;
+                            return document.createTextNode(value);
                         }
                     }
                 }),{
@@ -137,7 +141,7 @@ define([
                         query = query || {};
                         options = options || {};
 
-                        
+
                         if (!query.parent && !options.deep) {
                             // Default to a single-level query for root items (no parent)
                             query.parent = undefined;
@@ -151,7 +155,6 @@ define([
             // expand parent if any part of the row is clicked
             var that = this;
             this.grid.on('.dgrid-row:click', function (evt) {
-                console.log(evt);
                 var row = that.grid.row(evt);
                 if (!row.parent) {
                     that.grid.expand(row);
@@ -164,7 +167,7 @@ define([
             // item: Object
             //      The store item to be rendered
             // console.log('app/search/ResultsGrid:renderRow', arguments);
-        
+
             var div = this.inherited(arguments);
 
             // remove all empty cells
@@ -194,7 +197,7 @@ define([
             // summary:
             //      clears the data out of the grid
             console.log('app/search/ResultsGrid:clear', arguments);
-            
+
             if (this.grid) {
                 this.grid.store.data = null;
                 this.grid.refresh();
@@ -225,28 +228,40 @@ define([
             // declare this outside of for loop so that getAttributes can use it
             var layerIndex;
 
+            var colorIndex = 0;
             for (layerIndex in data) {
                 if (data.hasOwnProperty(layerIndex)) {
                     layerName = config.queryLayerNames[layerIndex];
                     var header = {};
                     var count = data[layerIndex].length;
-                    header[fn.ID] = layerName + '|' + count;
+                    var color = config.symbols.colors[colorIndex];
+
+                    // these properties are using in renderCell above
+                    header.name = layerName;
+                    header.count = count;
+                    header.color = color;
                     header[fn.UNIQUE_ID] = layerIndex;
                     storeData.push(header);
 
                     if (count > 0) {
+                        // show data on map
+                        new ResultLayer(color, data[layerIndex]);
+
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
+                        // show a no data row
                         var noResultsFound = {};
                         noResultsFound[fn.ID] = config.messages.noFeaturesFound;
                         noResultsFound[fn.UNIQUE_ID] = layerIndex + '-' + config.messages.noFeaturesFound;
                         noResultsFound.parent = layerIndex;
                         storeData.push(noResultsFound);
                     }
+
+                    // loop through colors and start over after 12
+                    colorIndex = (colorIndex < 11) ? colorIndex + 1 : 0;
                 }
             }
 
-            console.log(storeData);
             return storeData;
         }
     });

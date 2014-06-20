@@ -1,3 +1,4 @@
+@import './GridRowHeader.css';
 .results-grid .dgrid {
     height: 250px;
 }
@@ -9,7 +10,7 @@
     white-space: nowrap;
     border: none;
 }
-.results-grid .dgrid-row-odd {
+.results-grid .dgrid-tree-container .dgrid-row-odd {
     background: #F2F5F9;
 }
 .results-grid .field-ID[role='columnheader'] {
@@ -21,11 +22,4 @@
 .results-grid .dgrid-grid {
     border-right: none;
     border-left: none;
-}
-.results-grid .dgrid-content>.dgrid-row {
-    cursor: pointer;
-    background-color: white;
-}
-.results-grid .dgrid-content>.dgrid-row td:hover {
-    text-decoration: underline;
 }
