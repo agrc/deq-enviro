@@ -36,12 +36,17 @@
         }, [
             'app/search/ResultsGrid',
             'app/config',
+            'app/map/MapController',
 
             'dojo/request',
 
             'dojo/domReady!'
-        ], function(Module, config, request) {
+        ], function(Module, config, MapController, request) {
             config.getAppJson();
+            MapController.map = {
+                addLayer: function () {},
+                addLoaderToLayer: function () {}
+            };
             
             widgetUnderTest = new Module({
             }, 'node');

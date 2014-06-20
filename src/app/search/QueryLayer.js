@@ -9,11 +9,6 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    'esri/layers/FeatureLayer',
-    'esri/renderers/SimpleRenderer',
-    'esri/symbols/SimpleMarkerSymbol',
-    'esri/symbols/SimpleLineSymbol',
-
     '../config'
 
 ], function(
@@ -26,11 +21,6 @@ define([
     _WidgetBase,
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
-
-    FeatureLayer,
-    SimpleRenderer,
-    SimpleMarkerSymbol,
-    SimpleLineSymbol,
 
     config
 ) {
@@ -69,6 +59,12 @@ define([
         //      The definition query applied to this query layer.
         //      This will be set using layer filters in the future.
         defQuery: null,
+
+        // All of the fields in config.fieldNames.queryLayers
+
+        // color: Number[]
+        //      color of layer in map service, comes from json file
+        color: null,
 
         postCreate: function() {
             // summary:

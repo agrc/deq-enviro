@@ -15,22 +15,29 @@ require([
     domConstruct,
     resultsTxt
 ) {
-
     var widget;
-    var testdata = JSON.parse(resultsTxt);
-
-    beforeEach(function() {
-        widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
-    });
-
-    afterEach(function() {
-        if (widget) {
-            widget.destroy();
-            widget = null;
-        }
-    });
+    var testdata;
 
     describe('app/search/ResultsGrid', function() {
+        beforeEach(function() {
+            testdata = JSON.parse(resultsTxt);
+            // spyOn(config, 'getQueryLayerByIndex').and.returnValue(queryLayer);
+            config.appJson = {
+                queryLayers: [
+                    {index: '7', color: [1,2,3,4]},
+                    {index: '15', color: [1,2,3,4]}
+                ]
+            };
+            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+        });
+
+        afterEach(function() {
+            if (widget) {
+                widget.destroy();
+                widget = null;
+            }
+        });
+
         describe('Sanity', function() {
             it('should create a ResultsGrid', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
@@ -99,8 +106,8 @@ require([
                 expect(result[3][fn.UNIQUE_ID]).toEqual('15-84720MRCNZ10622');
             });
             it('adds feature counts to id field', function () {
-                expect(result[0][fn.ID]).toEqual('blah|0');
-                expect(result[2][fn.ID]).toEqual('blah2|2');
+                expect(result[0].count).toEqual(0);
+                expect(result[2].count).toEqual(2);
             });
         });
         describe('clear', function () {
