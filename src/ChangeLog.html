@@ -13,9 +13,24 @@
 <body>
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
+    <h2>0.5.0 <small>Jun 20, 2014</small></h2>
+    <ul>
+        <li>Selected query layers are now persisted between sessions (<a href="https://github.com/agrc/deq-enviro/issues/48">#48</a>).</li>
+        <li>Polygon searchs now honor the buffer value (<a href="https://github.com/agrc/deq-enviro/issues/61">#61</a>).</li>
+        <li>Any existing yellow search graphics are cleared when you switch shape type (<a href="https://github.com/agrc/deq-enviro/issues/62">#62</a>).</li>
+        <li>"Clear Parameters" button now clears all search parameters including selected query layers, all search fields and any existing search geometry (<a href="https://github.com/agrc/deq-enviro/issues/64">#64</a>).</li>
+        <li>When you switch search types all search parameters are cleared (<a href="https://github.com/agrc/deq-enviro/issues/65">#65</a>).</li>
+        <li>Search results now show up as points on the map (<a href="https://github.com/agrc/deq-enviro/issues/72">#72</a>).</li>
+        <li>There is now a better error message displayed when you try to search without selecting a search type (<a href="https://github.com/agrc/deq-enviro/issues/78">#78</a>).</li>
+        <li>Fixed a bug that occurred when you selected multiple query layers, then searched, then unselected a query layer and tried to search again. (<a href="https://github.com/agrc/deq-enviro/issues/85">#85</a>).</li>
+        <li>Added the total features found for each query layer in the grid header (<a href="https://github.com/agrc/deq-enviro/issues/86">#86</a>).</li>
+        <li>The entire grid header row that expands the results is now clickable instead of having to click on the tiny triangle (<a href="https://github.com/agrc/deq-enviro/issues/88">#88</a>).</li>
+        <li>The grid is now cleared in-between searches (<a href="https://github.com/agrc/deq-enviro/issues/90">#90</a>).</li>
+        <li>Fixed a bug that showed the grid and loader even if there was an error with the search (<a href="https://github.com/agrc/deq-enviro/issues/96">#96</a>).</li>
+    </ul>
     <h2>0.4.0 <small>May 27, 2014</small></h2>
     <ul>
-        <li>Search service results now displayed in popup grid(<a href="https://github.com/agrc/deq-enviro/issues/71">#71</a>).</li>
+        <li>Search service results now displayed in popup grid (<a href="https://github.com/agrc/deq-enviro/issues/71">#71</a>).</li>
         <li>Fixed bug in county search with Beaver county (<a href="https://github.com/agrc/deq-enviro/issues/63">#63</a>).</li>
         <li>Fixed layout bug in Wizard widget (<a href="https://github.com/agrc/deq-enviro/issues/60">#60</a>).</li>
         <li>Back end search service (<a href="https://github.com/agrc/deq-enviro/issues/40">#40</a>).</li>
