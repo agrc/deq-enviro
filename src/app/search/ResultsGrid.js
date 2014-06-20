@@ -9,6 +9,7 @@ define([
     'dojo/topic',
     'dojo/query',
     'dojo/dom-construct',
+    'dojo/dom-class',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -35,6 +36,7 @@ define([
     topic,
     query,
     domConstruct,
+    domClass,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -152,14 +154,23 @@ define([
                 renderRow: this.renderRow
             }, this.gridDiv);
 
-            // expand parent if any part of the row is clicked
-            var that = this;
-            this.grid.on('.dgrid-row:click', function (evt) {
-                var row = that.grid.row(evt);
-                if (!row.parent) {
-                    that.grid.expand(row);
-                }
-            });
+            this.grid.on('.dgrid-row:click', lang.hitch(this, 'onRowClick'));
+        },
+        onRowClick: function (evt) {
+            // summary:
+            //      row click callback
+            //      expand header rows
+            // evt: Event Object
+            console.log('app/search/ResultsGrid:onRowClick', arguments);
+
+            if (domClass.contains(evt.target, 'dgrid-expando-icon')) {
+                return;
+            }
+        
+            var row = this.grid.row(evt);
+            if (!row.parent) {
+                this.grid.expand(row);
+            }
         },
         renderRow: function (item) {
             // summary:
