@@ -228,7 +228,6 @@ define([
             var params = {};
             var that = this;
             var makeRequest = function () {
-                topic.publish(config.topics.appSearch.searchStarted);
                 params.queryLayers = that.getQueryLayersParam();
                 request(config.urls.api.search, {
                     method: 'POST',
@@ -239,6 +238,7 @@ define([
                     topic.publish(config.topics.appSearch.searchError);
                     onError(that.searchServiceErrorMsg);
                 });
+                topic.publish(config.topics.appSearch.searchStarted);
             };
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);
