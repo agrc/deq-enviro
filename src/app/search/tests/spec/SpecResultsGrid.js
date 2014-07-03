@@ -23,10 +23,10 @@ require([
             testdata = JSON.parse(resultsTxt);
             config.appJson = {
                 queryLayers: [
-                    {index: '7', color: [1,2,3,4], name: 'blah'},
-                    {index: '15', color: [1,2,3,4], name: 'blah2'},
-                    {index: '5', color: [1,2,3,4], name: 'blah2'},
-                    {index: '11', color: [1,2,3,4], name: 'blah2'}
+                    {index: '7', color: [1,2,3,4], name: 'blah', geometryType: 'point'},
+                    {index: '15', color: [1,2,3,4], name: 'blah2', geometryType: 'point'},
+                    {index: '5', color: [1,2,3,4], name: 'blah2', geometryType: 'point'},
+                    {index: '11', color: [1,2,3,4], name: 'blah2', geometryType: 'point'}
                 ]
             };
             widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
