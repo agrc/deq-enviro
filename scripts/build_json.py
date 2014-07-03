@@ -13,6 +13,7 @@ fldDescription = 'Layer Description'
 fldMetaData = 'Metadata Link'
 fldHeading = 'Division Heading'
 fldSGIDFCName = 'SGID Feature Class Name'
+fldGeometryType = 'Geometry Type'
 
 # property names that I want to access from update_data
 workspace = 'Workspace'
@@ -36,7 +37,8 @@ qlFields = [
     [fldCITY, fldCITY],
     [fldTYPE, fldTYPE],
     [workspace, workspace],
-    [fldSGIDFCName, fcName]
+    [fldSGIDFCName, fcName],
+    [fldGeometryType, 'geometryType']
 ]
 
 # other link fields
