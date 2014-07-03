@@ -6,4 +6,5 @@
 - `grunt travis`
 - `grunt (stage-)build -force -verbose`
 - test in dist
+- push new service to server if needed
 - tag
