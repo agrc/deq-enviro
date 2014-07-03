@@ -197,5 +197,97 @@
         }
     }],
     "5": [],
-    "11": []
+    "20": [{
+        "attributes": {
+            "ID": "UTU55FB06D97CB",
+            "NAME": "Howard Johnson Hotel",
+            "ADDRESS": "877 North SR 24",
+            "CITY": "Torrey",
+            "TYPE": "n/a",
+            "OBJECTID": 602
+        },
+        "geometry": {
+            "rings": [
+                [
+                    [465935.00999999978, 4240752.67],
+                    [466254.04999999981, 4240813.17],
+                    [466198.41999999993, 4240666.98],
+                    [465935.00999999978, 4240752.67]
+                ]
+            ],
+            "type": "polygon",
+            "spatialReference": {
+                "wkid": 26912
+            }
+        }
+    }, {
+        "attributes": {
+            "ID": "UTUCCF7CA8AE7A",
+            "NAME": "Maverik, Inc. Store #265",
+            "ADDRESS": "25 East 3700 North",
+            "CITY": "Hyde Park",
+            "TYPE": "n/a",
+            "OBJECTID": 603
+        },
+        "geometry": {
+            "rings": [
+                [
+                    [430773.98000000045, 4627913.02],
+                    [430835.59999999963, 4627837.3699999992],
+                    [430771.65000000037, 4627837.0],
+                    [430773.98000000045, 4627913.02]
+                ]
+            ],
+            "type": "polygon",
+            "spatialReference": {
+                "wkid": 26912
+            }
+        }
+    }, {
+        "attributes": {
+            "ID": "UTU49F5F53A5CA",
+            "NAME": "LDS Springville Junior Seminary",
+            "ADDRESS": "246 South 1470 East",
+            "CITY": "Springville",
+            "TYPE": "n/a",
+            "OBJECTID": 604
+        },
+        "geometry": {
+            "rings": [
+                [
+                    [450216.78000000026, 4445988.7899999991],
+                    [450272.25, 4445989.4600000009],
+                    [450272.54000000004, 4445945.01],
+                    [450216.78000000026, 4445988.7899999991]
+                ]
+            ],
+            "type": "polygon",
+            "spatialReference": {
+                "wkid": 26912
+            }
+        }
+    }, {
+        "attributes": {
+            "ID": "UTU11FCA35BD6E",
+            "NAME": "Hill Air Force Base Operable Unit 9",
+            "ADDRESS": "Environmental Restoration Branch AFCEC/CZOM ",
+            "CITY": "Hill Air Force Base",
+            "TYPE": "n/a",
+            "OBJECTID": 605
+        },
+        "geometry": {
+            "rings": [
+                [
+                    [414049.53000000026, 4554328.9700000007],
+                    [414301.38999999966, 4553977.25],
+                    [414041.29999999981, 4553980.32],
+                    [414049.53000000026, 4554328.9700000007]
+                ]
+            ],
+            "type": "polygon",
+            "spatialReference": {
+                "wkid": 26912
+            }
+        }
+    }]
 }

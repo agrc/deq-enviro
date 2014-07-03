@@ -43,6 +43,10 @@ define([
         //      color of the marker symbol
         color: null,
 
+        // geometryType: String
+        //      point or polygon
+        geometryType: null,
+
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.
@@ -54,11 +58,25 @@ define([
             this.color = this.color.concat([config.symbols.resultSymbolOpacity/255]);
 
             var surf = gfx.createSurface(this.surfaceContainer, 14, 14);
-            surf.createCircle({
-                cx: 7,
-                cy: 7,
-                r: 5
-            }).setFill(this.color).setStroke('black');
+
+            var shape;
+            if (this.geometryType === 'point') {
+                shape = surf.createCircle({
+                    cx: 7,
+                    cy: 7,
+                    r: 5
+                });
+            } else {
+                shape = surf.createPolyline([
+                    {x: 1, y: 1},
+                    {x: 13, y: 1},
+                    {x: 9, y: 7},
+                    {x: 13, y: 13},
+                    {x: 1, y: 13},
+                    {x: 1, y: 1}
+                ]);
+            }
+            shape.setFill(this.color).setStroke('black');
 
             this.inherited(arguments);
         }

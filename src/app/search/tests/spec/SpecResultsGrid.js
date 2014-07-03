@@ -21,11 +21,12 @@ require([
     describe('app/search/ResultsGrid', function() {
         beforeEach(function() {
             testdata = JSON.parse(resultsTxt);
-            // spyOn(config, 'getQueryLayerByIndex').and.returnValue(queryLayer);
             config.appJson = {
                 queryLayers: [
-                    {index: '7', color: [1,2,3,4]},
-                    {index: '15', color: [1,2,3,4]}
+                    {index: '7', color: [1,2,3,4], name: 'blah'},
+                    {index: '15', color: [1,2,3,4], name: 'blah2'},
+                    {index: '5', color: [1,2,3,4], name: 'blah2'},
+                    {index: '11', color: [1,2,3,4], name: 'blah2'}
                 ]
             };
             widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
@@ -66,10 +67,6 @@ require([
             var result;
             var fn = config.fieldNames.queryLayers;
             beforeEach(function () {
-                config.queryLayerNames = {
-                    '11': 'blah',
-                    '15': 'blah2'
-                };
                 // get reliable order so we can better test
                 result = widget.getStoreData(testdata).sort(function (a, b) {
                     if(a[fn.UNIQUE_ID] > b[fn.UNIQUE_ID]) {

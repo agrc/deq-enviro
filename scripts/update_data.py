@@ -32,9 +32,10 @@ def run(query_layers, logger):
                 # TODO: if exists then update data
             
             # make sure that it has the five main fields
+            upper_fields = [x.name.upper() for x in arcpy.ListFields(localFc)]      
             fields = [x.name for x in arcpy.ListFields(localFc)]      
             for f in fiveFields:
-                if not f in fields:
+                if not f in upper_fields:
                     logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
                     add_field(localFc, f, l[f])
                     
