@@ -258,7 +258,7 @@ define([
 
                     if (count > 0) {
                         // show data on map
-                        new ResultLayer(color, data[layerIndex]);
+                        new ResultLayer(color, data[layerIndex], ql.geometryType);
 
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
