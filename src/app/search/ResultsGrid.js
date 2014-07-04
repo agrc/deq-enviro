@@ -242,7 +242,8 @@ define([
             var colorIndex = 0;
             for (layerIndex in data) {
                 if (data.hasOwnProperty(layerIndex)) {
-                    layerName = config.queryLayerNames[layerIndex];
+                    var ql = config.getQueryLayerByIndex(layerIndex);
+                    layerName = ql.name;
                     var header = {};
                     var count = data[layerIndex].length;
                     var color = config.symbols.colors[colorIndex];
@@ -252,11 +253,12 @@ define([
                     header.count = count;
                     header.color = color;
                     header[fn.UNIQUE_ID] = layerIndex;
+                    header.geometryType = ql.geometryType;
                     storeData.push(header);
 
                     if (count > 0) {
                         // show data on map
-                        new ResultLayer(color, data[layerIndex]);
+                        new ResultLayer(color, data[layerIndex], ql.geometryType);
 
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
