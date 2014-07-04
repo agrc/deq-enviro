@@ -26,7 +26,7 @@ require([
 
         beforeEach(function() {
             spyOn(config, 'getQueryLayerByIndex').and.returnValue(queryLayer);
-            testObject = new ClassUnderTest([1,2,3], JSON.parse(fSet));
+            testObject = new ClassUnderTest([1,2,3], JSON.parse(fSet), 'point');
         });
 
         describe('Sanity', function() {

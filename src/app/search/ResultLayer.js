@@ -24,32 +24,10 @@ define([
     SpatialReference,
     FeatureSet
 ) {
+    var fn = config.fieldNames.queryLayers;
     var DefaultLayerDefinition = declare(null, {
-        geometryType: 'esriGeometryPoint',
         drawingInfo: {
-            renderer: {
-                type: 'simple',
-                symbol: {
-                    type: 'esriSMS',
-                    style: 'esriSMSCircle',
-                    color: null, // to be filled in by the constructor
-                    size: 8,
-                    angle: 0,
-                    xoffset: 0,
-                    yoffset: 0,
-                    outline: {
-                        color: [
-                            0,
-                            0,
-                            0,
-                            255
-                        ],
-                        width: 1
-                    }
-                },
-                label: '',
-                description: ''
-            },
+            renderer: null,
             transparency: 0,
             labelingInfo: null
         },
@@ -60,42 +38,95 @@ define([
             alias: 'OBJECTID',
             domain: null
         }, {
-            name: 'ID',
+            name: fn.ID,
             type: 'esriFieldTypeString',
-            alias: 'ID',
+            alias: fn.ID,
             length: 150,
             domain: null
         }, {
-            name: 'NAME',
+            name: fn.NAME,
             type: 'esriFieldTypeString',
-            alias: 'NAME',
+            alias: fn.NAME,
             length: 150,
             domain: null
         }, {
-            name: 'ADDRESS',
+            name: fn.ADDRESS,
             type: 'esriFieldTypeString',
-            alias: 'ADDRESS',
+            alias: fn.ADDRESS,
             length: 150,
             domain: null
         }, {
-            name: 'CITY',
+            name: fn.CITY,
             type: 'esriFieldTypeString',
-            alias: 'CITY',
+            alias: fn.CITY,
             length: 150,
             domain: null
         }, {
-            name: 'TYPE',
+            name: fn.TYPE,
             type: 'esriFieldTypeString',
-            alias: 'TYPE',
+            alias: fn.TYPE,
             length: 150,
             domain: null
         }],
-        constructor: function (color) {
+
+        // pointRenderer: Object
+        //      As returned from a feature service
+        pointRenderer: {
+            type: 'simple',
+            symbol: {
+                type: 'esriSMS',
+                style: 'esriSMSCircle',
+                color: null, // to be filled in by the constructor
+                size: 8,
+                angle: 0,
+                xoffset: 0,
+                yoffset: 0,
+                outline: {
+                    color: [
+                        0,
+                        0,
+                        0,
+                        255
+                    ],
+                    width: 1
+                }
+            },
+            label: '',
+            description: ''
+        },
+
+        // polygonRenderer: Object
+        //      As returned from a feature service
+        polygonRenderer: {
+            type: 'simple',
+            symbol: {
+                type: 'esriSFS',
+                style: 'esriSFSSolid',
+                color: null, // to be filled in by the constructor
+                outline: {
+                    type: 'esriSLS',
+                    style: 'esriSLSSolid',
+                    color: [
+                        0,
+                        0,
+                        0,
+                        255
+                    ],
+                    width: 0.4
+                }
+            },
+            label: '',
+            description: ''
+        },
+        constructor: function (color, geometryType) {
             // summary:
             //      mix in the color
             // color: Number[]
+            // geometryType: String
+            //      point or polygon
             console.log('DefaultLayerDefinition:constructor', arguments);
         
+            this.drawingInfo.renderer = this[geometryType + 'Renderer'];
             this.drawingInfo.renderer.symbol.color = color.concat([config.symbols.resultSymbolOpacity]);
         }
     });
@@ -109,26 +140,28 @@ define([
         //      The feature layer that contains the features for this object
         fLayer: null,
 
-        constructor: function (color, featureSet) {
+        constructor: function (color, featureSet, geometryType) {
             // summary:
             //      description
             // color: Number[]
             //      color of the map symbol
             // featureSet: Object[]
             //      The features found for this layer
+            // geometryType: String
+            //      point or polygon
             console.log('app/search/ResultLayer:constructor', arguments);
 
             var featureCollectionObject = {
-                layerDefinition: new DefaultLayerDefinition(color),
+                layerDefinition: new DefaultLayerDefinition(color, geometryType),
                 featureSet: new FeatureSet({
                     features: featureSet,
-                    geometryType: 'esriGeometryPoint'
+                    geometryType: (geometryType === 'point') ? 'esriGeometryPoint' : 'esriGeometryPolygon'
                 })
             };
 
             this.fLayer = new FeatureLayer(featureCollectionObject);
 
-            topic.publish(config.topics.appResultLayer.addLayer, this.fLayer);
+            topic.publish(config.topics.appResultLayer.addLayer, this.fLayer, geometryType);
             this.fLayer.show();
 
             this.own(topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'destroy')));
