@@ -161,7 +161,7 @@ define([
 
             this.fLayer = new FeatureLayer(featureCollectionObject);
 
-            topic.publish(config.topics.appResultLayer.addLayer, this.fLayer);
+            topic.publish(config.topics.appResultLayer.addLayer, this.fLayer, geometryType);
             this.fLayer.show();
 
             this.own(topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'destroy')));

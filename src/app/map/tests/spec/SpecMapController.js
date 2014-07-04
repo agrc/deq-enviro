@@ -132,9 +132,20 @@ require([
             it('adds the layer to the map', function () {
                 var lyr = {};
 
-                testObject.addQueryLayer(lyr);
+                testObject.addQueryLayer(lyr, 'point');
 
-                expect(map.addLayer).toHaveBeenCalledWith(lyr);
+                expect(map.addLayer).toHaveBeenCalledWith(lyr, undefined);
+            });
+            it('adds polygons to index position 1 and points to the top of the stack', function () {
+                var lyr = {};
+
+                testObject.addQueryLayer(lyr, 'point');
+
+                expect(map.addLayer.calls.mostRecent().args[1]).toBeUndefined();
+
+                testObject.addQueryLayer(lyr, 'polygon');
+
+                expect(map.addLayer.calls.mostRecent().args[1]).toBe(1);
             });
         });
         describe('zoom', function () {
@@ -145,6 +156,21 @@ require([
                 testObject.zoom(geo);
 
                 expect(testObject.map.setExtent).toHaveBeenCalledWith(value, true);
+            });
+        });
+        describe('graphic', function () {
+            it('creates a new graphics layer on the first call', function () {
+                var g = {
+                    'x': 325975.0,
+                    'y': 4192037.0,
+                    'type': 'point',
+                    'spatialReference': null
+                };
+                testObject.searchGraphics = null;
+
+                testObject.graphic(g);
+
+                expect(testObject.searchGraphics).toBeDefined();
             });
         });
     });
