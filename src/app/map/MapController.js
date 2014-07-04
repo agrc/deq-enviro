@@ -5,6 +5,7 @@ define([
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/GraphicsLayer',
     'esri/graphic',
 
     '../config'
@@ -16,6 +17,7 @@ define([
 
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
+    GraphicsLayer,
     Graphic,
 
     config
@@ -32,6 +34,10 @@ define([
         // Properties to be sent into constructor
         // map: agrc/widgets/map/BaseMap
         map: null,
+
+        // searchGraphics: GraphicsLayer
+        //      the layer that shows the search graphics
+        searchGraphics: null,
 
         init: function (params) {
             // summary:
@@ -146,13 +152,16 @@ define([
                 f.apply(lyr);
             }
         },
-        addQueryLayer: function (layer) {
+        addQueryLayer: function (layer, geometryType) {
             // summary:
             //      adds the query layer Feature Layer to the map
             // layer: esri/layers/FeatureLayer
+            // geometryType: String (point || polygon)
+            //      Used to determine layer order (polygons go on the bottom)
             console.log('app/map/MapController:addQueryLayer', arguments);
         
-            this.map.addLayer(layer);
+            var index = (geometryType === 'polygon') ? 1 : undefined;
+            this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
         },
         removeQueryLayer: function (layer) {
@@ -178,8 +187,13 @@ define([
             // geometry: esri/geometry
             console.log('app/map/MapController::graphic', arguments);
         
-            this.map.graphics.clear();
-            this.map.graphics.add(new Graphic(geometry, config.symbols.zoom[geometry.type]));
+            if (!this.searchGraphics) {
+                this.searchGraphics = new GraphicsLayer();
+                this.map.addLayer(this.searchGraphics);
+            }
+            
+            this.searchGraphics.clear();
+            this.searchGraphics.add(new Graphic(geometry, config.symbols.zoom[geometry.type]));
         },
         destroy: function () {
             // summary:
