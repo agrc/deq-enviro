@@ -1,0 +1,4 @@
+from .dev import *
+
+GOOGLE_USER = 'username'
+GOOGLE_PASSWORD = 'password'
