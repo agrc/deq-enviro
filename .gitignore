@@ -11,6 +11,7 @@ dist/*
 node_modules/
 scripts/Logs
 scripts/secrets.cfg
+scripts/settings/__init__.py
 src/agrc/*
 src/bootstrap/*
 src/dgrid/
