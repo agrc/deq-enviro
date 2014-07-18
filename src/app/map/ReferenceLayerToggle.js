@@ -4,10 +4,12 @@ define([
     'dojo/_base/declare',
     'dojo/_base/array',
     'dojo/topic',
+    'dojo/dom-construct',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
 
+    './Legend',
     '../config'
 
 ], function(
@@ -16,10 +18,12 @@ define([
     declare,
     array,
     topic,
+    domConstruct,
 
     _WidgetBase,
     _TemplatedMixin,
 
+    Legend,
     config
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
@@ -62,6 +66,10 @@ define([
         //      Properites to be passed in to the layer constructor
         layerProps: null,
 
+        // showLegend: Boolean
+        //      controls the visibility of the legend popup control
+        showLegend: false,
+
         postCreate: function() {
             // summary:
             //    Overrides method of same name in dijit._Widget.
@@ -76,6 +84,26 @@ define([
                 this.layerIndex,
                 this.layerProps
             );
+
+            if (this.showLegend) {
+                var l = new Legend({
+                    mapServiceUrl: this.mapServiceUrl,
+                    layerId: this.layerIndex
+                });
+                l.startup();
+
+                var that = this;
+                l.on('legend-built', function () {
+                    $(that.legendTip).tooltip({
+                        title: l.domNode,
+                        html: true,
+                        placement: 'auto',
+                        delay: config.popupDelay
+                    });
+                });
+            } else {
+                domConstruct.destroy(this.legendTip);
+            }
 
             this.inherited(arguments);
         },

@@ -33,7 +33,12 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'agrc', 'dojo', 'dijit', 'dojox']
+            packages: ['app', 'esri', 'agrc', 'dojo', 'dijit', 'dojox',
+            {
+                name: 'spin',
+                location: 'spinjs',
+                main: 'spin'
+            }]
         }, [
             'app/map/ReferenceLayerToggle',
             'app/map/MapController',
@@ -51,7 +56,9 @@
             widgetUnderTest = new Module({
                 layerName: 'Dynamic Layer',
                 map: map,
-                mapServiceUrl: 'http://mapserv.utah.gov/arcgis/rest/services/SBI/MapServer'
+                mapServiceUrl: '/arcgis/rest/services/DEQEnviro/MapServer',
+                layerIndex: 0,
+                showLegend: true
             }, 'node');
             widgetUnderTest.startup();
 
