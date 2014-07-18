@@ -10,6 +10,7 @@ api/Search.Api/.nuget
 dist/*
 node_modules/
 scripts/Logs
+scripts/scratch.gdb
 scripts/secrets.cfg
 scripts/settings/__init__.py
 src/agrc/*

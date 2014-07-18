@@ -24,48 +24,60 @@ truncateFields = [
                   #[<field name>, <max length>]
                   ['PROJDESC', 2000]
                   ]
+logger = None
+errors = []
 
-def run(logger):
+def run(logr):
+    global logger, errors
+    logger = logr
     for dataset in spreadsheet.get_datasets():
-        sgidName = dataset[fieldnames.sgidName]
-        sgid = path.join(settings.sgid, sgidName)
-        sourceName = dataset[fieldnames.sourceData]
-        source = path.join(settings.dbConnects, sourceName)
-        
-        # only try to update rows with valid sgid names and data sources
-        if sgidName.startswith('SGID10.ENVIRONMENT') and not sourceName.startswith('<'):
-            sgidType = arcpy.Describe(sgid).datasetType
-            sourceType = arcpy.Describe(source).datasetType
+        try:
+            sgidName = dataset[fieldnames.sgidName]
+            sgid = path.join(settings.sgid, sgidName)
+            sourceName = dataset[fieldnames.sourceData]
+            source = path.join(settings.dbConnects, sourceName)
             
-            logger.logMsg('\n\nupdating: {}({}) \n    from: {}({})'.format(sgidName,
-                                                                       sgidType, 
-                                                                       sourceName,
-                                                                       sourceType))
-            
-            fields = compare_field_names(get_field_names(source), get_field_names(sgid))
-            commonFields = fields[0]
-            mismatchFields = fields[1]
-            
-            if len(mismatchFields) > 0:
-                print('Field mismatches: {}'.format(mismatchFields))
-            
-            if sgidType == sourceType:
-                print('No ETL needed')
-                update_sgid_data(source, sgid)
-            else:
-                # bring on the ETL, should always be table -> point feature class
-                sgidScratch = arcpy.CreateFeatureclass_management(scratch.scratchGDB, 
-                                                                  r'/{}'.format(sgidName.split('.')[-1]), 
-                                                                  "#", 
-                                                                  sgid)
-                sgidFields = ['SHAPE@XY'] + commonFields
-                sourceFields = get_source_fields(commonFields)
+            # only try to update rows with valid sgid names and data sources
+            if sgidName.startswith('SGID10.ENVIRONMENT') and not sourceName.startswith('<'):
+                sgidType = arcpy.Describe(sgid).datasetType
+                sourceType = arcpy.Describe(source).datasetType
                 
-                etl(sgidScratch, sgidFields, source, sourceFields)
+                logger.logMsg('\n\nupdating: {}({}) \n    from: {}({})'.format(sgidName,
+                                                                           sgidType, 
+                                                                           sourceName,
+                                                                           sourceType))
                 
-                update_sgid_data(sgidScratch, sgid)
+                fields = compare_field_names(get_field_names(source), get_field_names(sgid))
+                commonFields = fields[0]
+                mismatchFields = fields[1]
+                
+                if len(mismatchFields) > 0:
+                    logger.logMsg('Field mismatches: {}'.format(mismatchFields))
+                    errors.append('Field mismatches between {} & {}: \n{}'.format(sgidName,
+                                                                                  sourceName,
+                                                                                  mismatchFields))
+                
+                if sgidType == sourceType:
+                    logger.logMsg('No ETL needed, copying data')
+                    update_sgid_data(source, sgid)
+                else:
+                    # bring on the ETL, should always be table -> point feature class
+                    sgidScratch = arcpy.CreateFeatureclass_management(scratch.scratchGDB, 
+                                                                      r'/{}'.format(sgidName.split('.')[-1]), 
+                                                                      "#", 
+                                                                      sgid)
+                    sgidFields = ['SHAPE@XY'] + commonFields
+                    sourceFields = get_source_fields(commonFields)
+                    
+                    etl(sgidScratch, sgidFields, source, sourceFields)
+                    
+                    update_sgid_data(sgidScratch, sgid)
+        except:
+            errors.append('Execution error trying to update {}:\n{}'.format(sgidName, logger.logError()))
+    return errors
 
 def etl(dest, destFields, source, sourceFields):
+    logger.logMsg('ETL needed')
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
     with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
         for row in scursor:
@@ -117,7 +129,7 @@ def get_source_fields(commonFields):
     
 def update_sgid_data(source, destination):
     arcpy.TruncateTable_management(destination)
-    arcpy.Append_management(source, destination, 'TEST')
+    arcpy.Append_management(source, destination, 'NO_TEST')
     
 def compare_field_names(source, sgid):
     # returns a list containing:
