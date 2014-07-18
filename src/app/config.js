@@ -38,7 +38,7 @@ define([
 
         // version: String
         //      The version number.
-        version: '0.5.0',
+        version: '0.6.0',
 
         // popupDelay: Number
         //      The delay (in milliseconds) before a popup is shown on hover.
