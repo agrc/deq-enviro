@@ -36,6 +36,8 @@ define([
         // localStorageID: String
         localStorageID: null,
 
+        popupDelay: config.popupDelay,
+
         // Properties to be sent into constructor
 
         // name: String
