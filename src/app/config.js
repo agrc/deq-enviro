@@ -40,6 +40,10 @@ define([
         //      The version number.
         version: '0.5.0',
 
+        // popupDelay: Number
+        //      The delay (in milliseconds) before a popup is shown on hover.
+        popupDelay: 250,
+
         // topics: Object
         //      The topic strings used in this app
         topics: {

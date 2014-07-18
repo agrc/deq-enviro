@@ -67,13 +67,15 @@ define([
                     layerName: 'Indian Country and Tribal',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 3,
-                    layerProps: {opacity: 0.7}
+                    layerProps: {opacity: 0.7},
+                    showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 0,
-                    layerProps: {opacity: 0.7}
+                    layerProps: {opacity: 0.7},
+                    showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Hydrolgic Units',

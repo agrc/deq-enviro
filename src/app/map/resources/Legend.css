@@ -1,0 +1,9 @@
+.legend {
+    width: 400px;
+}
+.legend .patch-cell {
+    padding-bottom: 1px;
+}
+.legend .label-cell {
+    padding-left: 5px;
+}
