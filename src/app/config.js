@@ -71,7 +71,8 @@ define([
                 featuresFound: 'app/search/Search.featuresFound',
                 searchStarted: 'app/search/Search.searchStarted',
                 searchError: 'app/search/Search.searchError',
-                clear: 'app/search/Search.clear'
+                clear: 'app/search/Search.clear',
+                identify: 'app/search/identify'
             },
             appResultLayer: {
                 addLayer: 'app/search/ResultLayer.addLayer',

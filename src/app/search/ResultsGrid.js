@@ -10,6 +10,7 @@ define([
     'dojo/query',
     'dojo/dom-construct',
     'dojo/dom-class',
+    'dojo/on',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -18,6 +19,7 @@ define([
     'dgrid/OnDemandGrid',
     'dgrid/tree',
     'dgrid/extensions/ColumnResizer',
+    'dgrid/Selection',
 
     'put-selector/put',
 
@@ -37,6 +39,7 @@ define([
     query,
     domConstruct,
     domClass,
+    on,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -45,6 +48,7 @@ define([
     Grid,
     tree,
     ColumnResizer,
+    Selection,
 
     put,
 
@@ -111,7 +115,13 @@ define([
                         if (item.count !== undefined) {
                             return new GridRowHeader(item).domNode;
                         } else {
-                            return document.createTextNode(value);
+                            var div = put('div.btn-cont');
+                            var btn = put(div, 'button.btn.btn-default.btn-xs', '...');
+                            on(btn, 'click', function () {
+                                topic.publish(config.topics.appSearch.identify, item[fn.UNIQUE_ID]);
+                            });
+                            put(div, 'span', value);
+                            return div;
                         }
                     }
                 }),{

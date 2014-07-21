@@ -20,3 +20,22 @@
 .results-grid .field-CITY[role='columnheader'] {
     border-right: none;
 }
+.results-grid .dgrid-cell .btn-xs {
+    line-height: 1.25;
+    position: absolute;
+    left: 3px;
+}
+.results-grid .dgrid-cell .btn-cont {
+    position: relative;
+}
+.results-grid .dgrid-cell .btn-cont span {
+    margin-left: 5px;
+}
+.results-grid .dgrid-row .btn-cont button {
+    display: none;
+    visibility: hidden;
+}
+.results-grid .dgrid-row:hover .btn-cont button {
+    display: inline-block;
+    visibility: visible;
+}
