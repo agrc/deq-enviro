@@ -3,6 +3,10 @@ define([
 
     'dojo/_base/declare',
 
+    'dojo/topic',
+
+    'app/config',
+
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin'
@@ -11,6 +15,10 @@ define([
     template,
 
     declare,
+
+    topic,
+
+    config,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -58,6 +66,9 @@ define([
             //
             console.log('app/search/IdentifyPane::setupConnections', arguments);
 
+            topic.subscribe(config.topics.appSearch.identify, function (unique) {
+                console.log('unique', unique);
+            });
         }
     });
 });
