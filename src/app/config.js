@@ -193,7 +193,7 @@ define([
         // messages: Object
         //      Messages and text used throughout the app
         messages: {
-            noFeaturesFound: 'No results found for this layer'
+            noFeaturesFound: 'No results'
         },
 
         getAppJson: function () {
