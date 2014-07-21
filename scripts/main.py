@@ -5,6 +5,7 @@ import build_json
 import update_sgid
 import update_fgdb
 from agrc import messaging
+import settings
 
 emailer = None
 logger = None
@@ -14,7 +15,7 @@ def run():
     global emailer, logger
     errors = []
 
-    emailer = messaging.Emailer(['stdavis@utah.gov', 'haroldsandbeck@utah.gov'], testing=False)
+    emailer = messaging.Emailer(['stdavis@utah.gov', 'haroldsandbeck@utah.gov'], testing=settings.sendEmails)
 
     logger = agrc.logging.Logger()
 

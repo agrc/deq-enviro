@@ -11,3 +11,5 @@ dbConnects = os.path.join(os.path.dirname(os.path.abspath(__file__)), r'..\datab
 sgid = os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on local.sde')
 
 fgd = r'C:\MapData\DEQEnviro\QueryLayers.gdb'
+
+sendEmails = False
