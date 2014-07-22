@@ -20,6 +20,7 @@ def run():
         serviceLayers[s['name']] = s['id']
     for l in layers:
         n = l[fieldnames.sgidName].split('.')[-1]
+        l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
         if n in serviceLayers.keys():
             l[fieldnames.index] = serviceLayers[n]
 
@@ -36,3 +37,12 @@ def run():
     f.close()
 
     return j
+
+def parse_fields(fieldTxt):
+    fields = []
+    for txt in fieldTxt.split(','):
+        a = txt.strip().split(' (')
+        if len(a) == 2:
+            fields.append([a[0], a[1][:-1]])
+    
+    return fields

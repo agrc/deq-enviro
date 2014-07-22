@@ -17,3 +17,5 @@ index = 'index'
 
 queryLayers = 'queryLayers'
 otherLinks = 'otherLinks'
+
+fields = 'fields'
