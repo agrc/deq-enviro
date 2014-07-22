@@ -44,6 +44,8 @@ define([
         //      The delay (in milliseconds) before a popup is shown on hover.
         popupDelay: 250,
 
+        gridIdentifyHeight: 280,
+
         // topics: Object
         //      The topic strings used in this app
         topics: {
@@ -77,6 +79,9 @@ define([
             appResultLayer: {
                 addLayer: 'app/search/ResultLayer.addLayer',
                 removeLayer: 'app/search/ResultLayer.removeLayer'
+            },
+            appSearchIdentifyPane: {
+                backToResults: 'app/search/IdentifyPane.backToResults'
             }
         },
 
