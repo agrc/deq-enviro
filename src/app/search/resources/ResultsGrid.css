@@ -1,6 +1,7 @@
 @import './GridRowHeader.css';
 .results-grid .dgrid {
     height: 250px;
+    border: none;
 }
 .results-grid .dgrid .field-UNIQUE_ID {
     display: none;

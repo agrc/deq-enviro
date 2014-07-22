@@ -115,11 +115,15 @@ define([
                         if (item.count !== undefined) {
                             return new GridRowHeader(item).domNode;
                         } else {
+                            // no using a widget because I'm guessing it would hurt performance
+                            // for larger datasets
                             var div = put('div.btn-cont');
-                            var btn = put(div, 'button.btn.btn-default.btn-xs', '...');
-                            on(btn, 'click', function () {
-                                topic.publish(config.topics.appSearch.identify, item[fn.UNIQUE_ID]);
-                            });
+                            if (value !== config.messages.noFeaturesFound) {
+                                var btn = put(div, 'button.btn.btn-default.btn-xs', '...');
+                                on(btn, 'click', function () {
+                                    topic.publish(config.topics.appSearch.identify, item);
+                                });
+                            }
                             put(div, 'span', value);
                             return div;
                         }

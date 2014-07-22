@@ -1,3 +1,38 @@
 <div>
-    Identify Pane
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class='active'><a href="#attributes" data-toggle="tab">Attributes</a></li>
+            <li><a href="#related" data-toggle="tab">RelatedRecords</a></li>
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-new-window"></span> 
+                    Documents
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-new-window"></span> 
+                    GRAMA
+                </a>
+            </li>
+            <li>
+                <a href="#" data-dojo-attach-event='click: zoomToFeature'>
+                    <span class="glyphicon glyphicon-zoom-in"></span> 
+                    Zoom to feature
+                </a>
+            </li>
+            <li>
+                <a href="#" data-dojo-attach-event='click: backToResults'>
+                    <span class="glyphicon glyphicon-arrow-left"></span> 
+                    Back to results
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id='attributes'>
+            Zoom to?
+        </div>
+        <div class="tab-pane" id="related">Related</div>
+    </div>
 </div>
