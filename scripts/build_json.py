@@ -46,3 +46,7 @@ def parse_fields(fieldTxt):
             fields.append([a[0], a[1][:-1]])
     
     return fields
+
+if __name__ == '__main__':
+    run()
+    print('done')

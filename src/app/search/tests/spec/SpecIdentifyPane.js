@@ -1,11 +1,15 @@
 require([
     'app/search/IdentifyPane',
+    'app/config',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+    'dojo/dom-class'
 ], function(
     WidgetUnderTest,
+    config,
 
-    domConstruct
+    domConstruct,
+    domClass
 ) {
 
     var widget;
@@ -90,6 +94,47 @@ require([
                     fieldAlias: 'Archived for Cerclis',
                     value: 'No'
                 });
+            });
+        });
+        describe('updateLinks', function () {
+            var item = {
+                parent: '14',
+                ID: 'id',
+                NAME: 'name',
+                ADDRESS: 'address',
+                CITY: 'city',
+                TYPE: 'type'
+            };
+            it('formats links', function () {
+                spyOn(config, 'getQueryLayerByIndex').and.returnValue({
+                    docLink: 'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm',
+                    gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
+                });
+
+                widget.updateLinks(item);
+
+                expect(widget.docLink.href).toEqual(
+                    'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm?ID=id&NAME=name&ADDRESS=address&CITY=city&TYPE=type'
+                );
+            });
+            it('hides empty links', function () {
+                var ql = {
+                    docLink: '',
+                    gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
+                };
+                spyOn(config, 'getQueryLayerByIndex').and.returnValue(ql);
+
+                widget.updateLinks(item);
+
+                expect(domClass.contains(widget.docLink, 'hidden')).toBe(true);
+
+                ql.docLink = 'blah';
+
+                widget.updateLinks(item);
+
+                expect(domClass.contains(widget.docLink), 'hidden').toBe(false);
             });
         });
     });

@@ -8,6 +8,7 @@ define([
     'dojo/topic',
     'dojo/store/Memory',
     'dojo/dom-class',
+    'dojo/io-query',
 
     'app/config',
 
@@ -30,6 +31,7 @@ define([
     topic,
     Memory,
     domClass,
+    ioQuery,
 
     config,
 
@@ -98,11 +100,41 @@ define([
                 topic.subscribe(config.topics.appSearch.identify, lang.hitch(this, 'identify'))
             );
         },
+        updateLinks: function (item) {
+            // summary:
+            //      updates the three link types for this feature
+            // item: Object
+            console.log('app/search/IdentifyPane:updateLinks', arguments);
+        
+            var fn = config.fieldNames.queryLayers;
+            var obj = {};
+            obj[fn.ID] = item[fn.ID];
+            obj[fn.NAME] = item[fn.NAME];
+            obj[fn.ADDRESS] = item[fn.ADDRESS];
+            obj[fn.CITY] = item[fn.CITY];
+            obj[fn.TYPE] = item[fn.TYPE];
+
+            var query = ioQuery.objectToQuery(obj);
+
+            var ql = config.getQueryLayerByIndex(item.parent);
+
+            var updateLink = function (node, url) {
+                if (url !== '') {
+                    domClass.remove(node, 'hidden');
+                    node.href = url + '?' + query;
+                } else {
+                    domClass.add(node, 'hidden');
+                }
+            };
+            updateLink(this.docLink, ql.docLink);
+            updateLink(this.gramaLink, ql.gramaLink);
+            updateLink(this.additionalLink, ql.additionalLink);
+        },
         identify: function (item) {
             // summary:
             //      queries for feature and related data
             // item: Object from grid
-            //      expects these properties: OBJECTID, parent, geometry
+            //      expects these properties: OBJECTID, parent, geometry, & five main fields
             console.log('app/search/IdentifyPane:identify', arguments);
 
             this.currentFeatureGeometry = item.geometry;
@@ -135,6 +167,8 @@ define([
                     onError();
                 }
             );
+
+            this.updateLinks(item);
         },
         getStoreData: function (attributes, fields) {
             // summary:

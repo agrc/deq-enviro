@@ -14,8 +14,10 @@ heading = 'heading'
 geometryType = 'geometryType'
 url = 'url'
 index = 'index'
+fields = 'fields'
+docLink = 'docLink'
+gramaLink = 'gramaLink'
+additionalLink = 'additionalLink'
 
 queryLayers = 'queryLayers'
 otherLinks = 'otherLinks'
-
-fields = 'fields'
