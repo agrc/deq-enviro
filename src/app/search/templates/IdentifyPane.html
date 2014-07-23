@@ -31,7 +31,9 @@
     </div>
     <div class="tab-content">
         <div class="tab-pane active" id='attributes'>
-            Zoom to?
+            <span data-dojo-attach-point='errorMsg' 
+                class="alert alert-danger hidden">There was an error getting the attributes for this feature!</span>
+            <div data-dojo-attach-point="attributeGridDiv"></div>
         </div>
         <div class="tab-pane" id="related">Related</div>
     </div>

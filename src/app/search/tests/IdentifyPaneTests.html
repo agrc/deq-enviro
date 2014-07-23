@@ -28,7 +28,22 @@
     <script type="text/javascript">
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
         var widgetUnderTest;
-
+        var testFeature = {
+            'ID': 'J08UT0811',
+            'NAME': 'GOLD HILL INSTRUMENT ANNEX',
+            'ADDRESS': 'THE CITY OF GOLD HILL',
+            'CITY': 'WENDOVER',
+            'TYPE': 'Formerly Used Defense Site - J08UT0811',
+            'OBJECTID': 3,
+            'parent': '14',
+            'UNIQUE_ID': '14-J08UT0811',
+            'geometry': {
+                'type': 'point',
+                'x': 264368.03000000026,
+                'y': 4449224.779999999,
+                'spatialReference': {}
+            }
+        };
         require({
             baseUrl: baseUrl,
             packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'dgrid', 'put-selector', 'xstyle']
@@ -36,12 +51,17 @@
             'app/search/IdentifyPane',
             'app/config',
 
-            'dojo/domReady!'
-        ], function(Module, config) {
-            widgetUnderTest = new Module({
-            }, 'node');
+            'dojo/topic',
 
-            widgetUnderTest.startup();
+            'dojo/domReady!'
+        ], function(Module, config, topic) {
+            config.getAppJson().then(function () {
+                widgetUnderTest = new Module({
+                }, 'node');
+                widgetUnderTest.startup();
+
+                topic.publish(config.topics.appSearch.identify, testFeature);
+            });
         });
 </script>
 </head>
