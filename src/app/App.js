@@ -110,6 +110,15 @@ define([
                 topic.subscribe(config.topics.appWizard.requestAccess, function () {
                     that.login.goToPane(that.login.requestPane);
                     that.login.show();
+                }),
+                topic.subscribe(config.topics.appSearch.identify, function () {
+                    that.switchBottomPanel(that.identifyPane.domNode);
+                }),
+                topic.subscribe(config.topics.appSearch.searchStarted, function () {
+                    that.switchBottomPanel(that.resultsGrid.domNode);
+                }),
+                topic.subscribe(config.topics.appSearchIdentifyPane.backToResults, function () {
+                    that.switchBottomPanel(that.resultsGrid.domNode);
                 })
             );
         },
@@ -194,7 +203,7 @@ define([
                 coreFx.animateProperty({
                     node: this.gridIdentifyContainer,
                     properties: {
-                        height: 250,
+                        height: config.gridIdentifyHeight + 1,
                         borderWidth: 1
                     },
                     onEnd: function () {
@@ -205,7 +214,7 @@ define([
                 coreFx.animateProperty({
                     node: this.mapDiv,
                     properties: {
-                        bottom: 250
+                        bottom: config.gridIdentifyHeight
                     }
                 })
             ]);

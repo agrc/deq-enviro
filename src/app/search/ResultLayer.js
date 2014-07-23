@@ -4,12 +4,14 @@ define([
     'dojo/topic',
     'dojo/_base/lang',
     'dojo/_base/declare',
+    'dojo/_base/Color',
 
     'dijit/Destroyable',
 
     'esri/layers/FeatureLayer',
     'esri/SpatialReference',
-    'esri/tasks/FeatureSet'
+    'esri/tasks/FeatureSet',
+    'esri/tasks/query'
 
 ], function(
     config,
@@ -17,12 +19,14 @@ define([
     topic,
     lang,
     declare,
+    Color,
 
     Destroyable,
 
     FeatureLayer,
     SpatialReference,
-    FeatureSet
+    FeatureSet,
+    Query
 ) {
     var fn = config.fieldNames.queryLayers;
     var DefaultLayerDefinition = declare(null, {
@@ -140,7 +144,11 @@ define([
         //      The feature layer that contains the features for this object
         fLayer: null,
 
-        constructor: function (color, featureSet, geometryType) {
+        // layerIndex: String
+        //      layer index
+        layerIndex: null,
+
+        constructor: function (color, featureSet, geometryType, layerIndex) {
             // summary:
             //      description
             // color: Number[]
@@ -149,6 +157,8 @@ define([
             //      The features found for this layer
             // geometryType: String
             //      point or polygon
+            // layerIndex: String
+            //      The index number for this query layer
             console.log('app/search/ResultLayer:constructor', arguments);
 
             var featureCollectionObject = {
@@ -161,10 +171,22 @@ define([
 
             this.fLayer = new FeatureLayer(featureCollectionObject);
 
+            this.fLayer.setSelectionSymbol((geometryType === 'point') ?
+                config.symbols.selection.point :
+                config.symbols.selection.polygon
+            );
+            this.layerIndex = layerIndex;
+
             topic.publish(config.topics.appResultLayer.addLayer, this.fLayer, geometryType);
             this.fLayer.show();
 
-            this.own(topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'destroy')));
+            this.own(
+                topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'destroy')),
+                topic.subscribe(config.topics.appResultLayer.highlightFeature, lang.hitch(this, 'onHighlight')),
+                topic.subscribe(config.topics.appResultLayer.clearSelection, lang.hitch(this.fLayer, 'clearSelection'))
+            );
+
+            this.fLayer.on('click', lang.hitch(this, 'onClick'));
         },
         destroy: function () {
             // summary:
@@ -174,6 +196,35 @@ define([
             topic.publish(config.topics.appResultLayer.removeLayer, this.fLayer);
 
             this.inherited(arguments);
+        },
+        onHighlight: function (oid, layerIndex) {
+            // summary:
+            //      clears selection and selects if appropriate
+            // oid: Number
+            // layerIndex: String
+            console.log('app/search/ResultLayer:onHighlight', arguments);
+        
+            this.fLayer.clearSelection();
+
+            if (layerIndex === this.layerIndex) {
+                var query = new Query();
+                query.objectIds = [oid];
+                this.fLayer.selectFeatures(query);
+            }
+        },
+        onClick: function (evt) {
+            // summary:
+            //      user clicks on a feature
+            //      fires topic to initiate an identify on that feature
+            // evt: Object graphic click
+            console.log('app/search/ResultLayer:onClick', arguments);
+        
+            var g = evt.graphic;
+            g.attributes.parent = this.layerIndex;
+            g.attributes.geometry = g.geometry;
+
+            topic.publish(config.topics.appSearch.identify, g.attributes);
+            topic.publish(config.topics.appResultLayer.highlightFeature, g.attributes.OBJECTID, this.layerIndex);
         }
     });
 });

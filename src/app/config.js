@@ -10,7 +10,8 @@ define([
     'esri/SpatialReference',
     'esri/symbols/SimpleFillSymbol',
     'esri/symbols/SimpleLineSymbol',
-    'esri/symbols/SimpleMarkerSymbol'
+    'esri/symbols/SimpleMarkerSymbol',
+    'esri/symbols/CartographicLineSymbol'
 ], function (
     Color,
     array,
@@ -22,11 +23,14 @@ define([
     SpatialReference,
     SimpleFillSymbol,
     SimpleLineSymbol,
-    SimpleMarkerSymbol
+    SimpleMarkerSymbol,
+    CartographicLineSymbol
     ) {
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
+    var selectionColor = new Color([240, 18, 190]);
+    var selectionFillColor = new Color(selectionColor.toRgb().concat([0.15]));
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -44,6 +48,8 @@ define([
         //      The delay (in milliseconds) before a popup is shown on hover.
         popupDelay: 250,
 
+        gridIdentifyHeight: 237,
+
         // topics: Object
         //      The topic strings used in this app
         topics: {
@@ -57,9 +63,10 @@ define([
             },
             appMapMapController: {
                 mapZoom: 'app/map/MapController.mapZoom',
-                zoomTo: 'app/map/MapController.zoomTo',
+                zoomToSearchGraphic: 'app/map/MapController.zoomToSearchGraphic',
                 graphic: 'app/map/MapController.graphic',
-                clearGraphics: 'app/map/MapController.clearGraphics'
+                clearGraphics: 'app/map/MapController.clearGraphics',
+                zoom: 'app/map/MapController.zoom'
             },
             appWizard: {
                 requestAccess: 'app/Wizard.requestAccess',
@@ -71,11 +78,17 @@ define([
                 featuresFound: 'app/search/Search.featuresFound',
                 searchStarted: 'app/search/Search.searchStarted',
                 searchError: 'app/search/Search.searchError',
-                clear: 'app/search/Search.clear'
+                clear: 'app/search/Search.clear',
+                identify: 'app/search/identify'
             },
             appResultLayer: {
                 addLayer: 'app/search/ResultLayer.addLayer',
-                removeLayer: 'app/search/ResultLayer.removeLayer'
+                removeLayer: 'app/search/ResultLayer.removeLayer',
+                highlightFeature: 'app/search/ResultLayer.highlightFeature',
+                clearSelection: 'app/search/ResultLayer.clearSelection'
+            },
+            appSearchIdentifyPane: {
+                backToResults: 'app/search/IdentifyPane.backToResults'
             }
         },
 
@@ -187,13 +200,34 @@ define([
                 [202, 178, 214],
                 [255, 255, 153],
                 [177, 89, 40]
-            ]
+            ],
+            selection: {
+                polygon: new SimpleFillSymbol(
+                    SimpleFillSymbol.STYLE_SOLID,
+                    new CartographicLineSymbol(
+                        CartographicLineSymbol.STYLE_SOLID,
+                        selectionColor,
+                        3,
+                        CartographicLineSymbol.CAP_ROUND,
+                        CartographicLineSymbol.JOIN_ROUND),
+                    selectionFillColor
+                ),
+                point: new SimpleMarkerSymbol(
+                    SimpleMarkerSymbol.STYLE_CIRCLE,
+                    15,
+                    new SimpleLineSymbol(
+                        SimpleLineSymbol.STYLE_SOLID,
+                        selectionColor,
+                        2),
+                    selectionFillColor
+                )
+            }
         },
 
         // messages: Object
         //      Messages and text used throughout the app
         messages: {
-            noFeaturesFound: 'No results found for this layer'
+            noFeaturesFound: 'No results'
         },
 
         getAppJson: function () {
@@ -225,6 +259,14 @@ define([
             //      description
             // index: Number
             console.log('app/config:getQueryLayerByIndex', arguments);
+
+            // this could easily be done with one loop but I wanted to try
+            // out memoization :)
+            this._cachedQueryLayers = this._cachedQueryLayers || {};
+
+            if (this._cachedQueryLayers[index]) {
+                return this._cachedQueryLayers[index];
+            }
         
             var returnLayer;
             array.some(this.appJson.queryLayers, function (ql) {
@@ -235,6 +277,8 @@ define([
                     return false;
                 }
             });
+
+            this._cachedQueryLayers[index] = returnLayer;
 
             return returnLayer;
         }

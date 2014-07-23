@@ -10,6 +10,7 @@ define([
     'dojo/query',
     'dojo/dom-construct',
     'dojo/dom-class',
+    'dojo/on',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -18,6 +19,8 @@ define([
     'dgrid/OnDemandGrid',
     'dgrid/tree',
     'dgrid/extensions/ColumnResizer',
+    'dgrid/Selection',
+    'dgrid/util/mouse',
 
     'put-selector/put',
 
@@ -37,6 +40,7 @@ define([
     query,
     domConstruct,
     domClass,
+    on,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -45,6 +49,8 @@ define([
     Grid,
     tree,
     ColumnResizer,
+    Selection,
+    mouseUtil,
 
     put,
 
@@ -111,7 +117,17 @@ define([
                         if (item.count !== undefined) {
                             return new GridRowHeader(item).domNode;
                         } else {
-                            return document.createTextNode(value);
+                            // no using a widget because I'm guessing it would hurt performance
+                            // for larger datasets
+                            var div = put('div.btn-cont');
+                            if (value !== config.messages.noFeaturesFound) {
+                                var btn = put(div, 'button.btn.btn-default.btn-xs', '...');
+                                on(btn, 'click', function () {
+                                    topic.publish(config.topics.appSearch.identify, item);
+                                });
+                            }
+                            put(div, 'span', value);
+                            return div;
                         }
                     }
                 }),{
@@ -154,7 +170,11 @@ define([
                 renderRow: this.renderRow
             }, this.gridDiv);
 
-            this.grid.on('.dgrid-row:click', lang.hitch(this, 'onRowClick'));
+            this.own(
+                this.grid.on('.dgrid-row:click', lang.hitch(this, 'onRowClick')),
+                this.grid.on(mouseUtil.enterRow, lang.hitch(this, 'onRowEnter')),
+                this.grid.on(mouseUtil.leaveRow, lang.hitch(this, 'onRowLeave'))
+            );
         },
         onRowClick: function (evt) {
             // summary:
@@ -232,6 +252,7 @@ define([
             var getAttributes = function (graphic) {
                 graphic.attributes.parent = layerIndex;
                 graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
+                graphic.attributes.geometry = graphic.geometry;
                 return graphic.attributes;
             };
             var layerName;
@@ -258,7 +279,7 @@ define([
 
                     if (count > 0) {
                         // show data on map
-                        new ResultLayer(color, data[layerIndex], ql.geometryType);
+                        new ResultLayer(color, data[layerIndex], ql.geometryType, layerIndex);
 
                         storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
                     } else {
@@ -276,6 +297,25 @@ define([
             }
 
             return storeData;
+        },
+        onRowEnter: function (evt) {
+            // summary:
+            //      publishes highlight topic for that feature
+            // evt: Mouse Event Object
+            console.log('app/search/ResultsGrid:onRowEnter', arguments);
+        
+            var item = this.grid.row(evt).data;
+            topic.publish(config.topics.appResultLayer.highlightFeature, item.OBJECTID, item.parent);
+        },
+        onRowLeave: function (evt) {
+            // summary:
+            //      description
+            // param: type or return: type
+            console.log('app/search/ResultsGrid:onRowLeave', arguments);
+        
+            if (evt.target.type !== 'submit') {
+                topic.publish(config.topics.appResultLayer.clearSelection);
+            }
         }
     });
 });

@@ -63,7 +63,7 @@ define([
                 if (data.length > 0) {
                     var geo = new Polygon(data[0].geometry);
                     geo.setSpatialReference(config.spatialReference);
-                    topic.publish(config.topics.appMapMapController.zoomTo, geo);
+                    topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, geo);
                     that.geometry = geo;
                 } else {
                     onFail('No feature found!');

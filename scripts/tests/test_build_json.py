@@ -14,4 +14,12 @@ class BuildJSONTests(unittest.TestCase):
     def test_adds_layer_indices(self):
         lyr = build_json.run()[fieldnames.queryLayers][15]
         
-        self.assertEqual(lyr[fieldnames.index], 4)
+        self.assertEqual(lyr[fieldnames.index], 5)
+    def test_parse_fields(self):
+        txt = 'SYSFACID (System-Facility ID), FACTYPECODE (Facility Type Code), FACACTIVITY (Facility Activity Status)'
+        
+        result = build_json.parse_fields(txt)
+        
+        self.assertEqual(len(result), 3)
+        self.assertEqual(result[0], ['SYSFACID', 'System-Facility ID'])
+        self.assertEqual(result[2], ['FACACTIVITY', 'Facility Activity Status'])
