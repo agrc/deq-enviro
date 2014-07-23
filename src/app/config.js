@@ -59,9 +59,10 @@ define([
             },
             appMapMapController: {
                 mapZoom: 'app/map/MapController.mapZoom',
-                zoomTo: 'app/map/MapController.zoomTo',
+                zoomToSearchGraphic: 'app/map/MapController.zoomToSearchGraphic',
                 graphic: 'app/map/MapController.graphic',
-                clearGraphics: 'app/map/MapController.clearGraphics'
+                clearGraphics: 'app/map/MapController.clearGraphics',
+                zoom: 'app/map/MapController.zoom'
             },
             appWizard: {
                 requestAccess: 'app/Wizard.requestAccess',
