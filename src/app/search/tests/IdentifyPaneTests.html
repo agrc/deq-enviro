@@ -6,38 +6,63 @@
     <!-- META TAGS -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <!-- CSS -->        
-    <link rel='stylesheet' href='http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css'>
-    <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.7/js/esri/css/esri.css" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
+    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/IdentifyPane.css">
     <style type='text/css'>
-    
+        body {
+            height: 238px;
+            border: solid 1px gray;
+            margin: 20px;
+        }
+        .identify-pane {
+        }
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src='http://js.arcgis.com/3.8'></script>
+    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
     <script type="text/javascript">
-    var projectUrl = location.pathname.replace(/\/[^\/]+$/, "") + '/';
-    var widgetUnderTest;
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
+        var testFeature = {
+            'ID': 'J08UT0811',
+            'NAME': 'GOLD HILL INSTRUMENT ANNEX',
+            'ADDRESS': 'THE CITY OF GOLD HILL',
+            'CITY': 'WENDOVER',
+            'TYPE': 'Formerly Used Defense Site - J08UT0811',
+            'OBJECTID': 3,
+            'parent': '14',
+            'UNIQUE_ID': '14-J08UT0811',
+            'geometry': {
+                'type': 'point',
+                'x': 264368.03000000026,
+                'y': 4449224.779999999,
+                'spatialReference': {}
+            }
+        };
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'dgrid', 'put-selector', 'xstyle']
+        }, [
+            'app/search/IdentifyPane',
+            'app/config',
 
-    require({
-        packages: [{
-            name: 'app',
-            location: projectUrl + '../'
-        }]
-    }, [
-        'app/search/IdentifyPane',
+            'dojo/topic',
 
-        'dojo/domReady!'
-    ], function(Module) {
-        widgetUnderTest = new Module({
-        }, 'node');
+            'dojo/domReady!'
+        ], function(Module, config, topic) {
+            config.getAppJson().then(function () {
+                widgetUnderTest = new Module({
+                }, 'node');
+                widgetUnderTest.startup();
 
-        widgetUnderTest.startup();
-    });
+                topic.publish(config.topics.appSearch.identify, testFeature);
+            });
+        });
 </script>
 </head>
 <body class='claro'>

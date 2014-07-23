@@ -1,3 +1,69 @@
-.identify-pane {
+/*@import '../../../bootstrap-vertical-tabs/bootstrap.vertical-tabs.css';*/
 
+.identify-pane {
+    padding: 8px;
+}
+.identify-pane,
+.identify-pane .tab-content,
+.identify-pane .tab-content .tab-pane,
+.identify-pane .tab-content .tab-pane .dgrid {
+    height: 100%;
+}
+.identify-pane .dgrid-cell {
+    border: none;
+}
+.identify-pane .dgrid-row-odd {
+    background-color: #fafafa;
+}
+.identify-pane .alert-danger {
+    position: absolute;
+    left: 50%;
+    margin-left: -110px;
+    top: 110px;
+}
+.identify-pane #moreinfo .btn {
+    /*width: 270px;*/
+}
+
+/* from: http://www.bootply.com/74926
+/* custom inclusion of right, left and below tabs */
+.tabs-left > .nav-tabs {
+    border-bottom: 0;
+}
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+    display: none;
+}
+.tab-content > .active,
+.pill-content > .active {
+    display: block;
+}
+.tabs-left > .nav-tabs > li {
+    float: none;
+}
+.tabs-left > .nav-tabs > li > a {
+    min-width: 74px;
+    margin-right: 0;
+    margin-bottom: 3px;
+}
+.tabs-left > .nav-tabs {
+    float: left;
+    margin-right: 19px;
+    border-right: 1px solid #ddd;
+}
+.tabs-left > .nav-tabs > li > a {
+    margin-right: -1px;
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > a:hover,
+.tabs-left > .nav-tabs > li > a:focus {
+    border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+}
+.tabs-left > .nav-tabs .active > a,
+.tabs-left > .nav-tabs .active > a:hover,
+.tabs-left > .nav-tabs .active > a:focus {
+    border-color: #ddd transparent #ddd #ddd;
+    *border-right-color: #ffffff;
 }

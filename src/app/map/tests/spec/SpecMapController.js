@@ -145,7 +145,7 @@ require([
 
                 testObject.addQueryLayer(lyr, 'polygon');
 
-                expect(map.addLayer.calls.mostRecent().args[1]).toBe(1);
+                expect(map.addLayer.calls.mostRecent().args[1]).toBe(2);
             });
         });
         describe('zoom', function () {

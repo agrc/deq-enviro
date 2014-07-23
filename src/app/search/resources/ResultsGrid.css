@@ -1,6 +1,7 @@
 @import './GridRowHeader.css';
 .results-grid .dgrid {
-    height: 250px;
+    height: 230px;
+    border: none;
 }
 .results-grid .dgrid .field-UNIQUE_ID {
     display: none;
@@ -9,9 +10,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     border: none;
+    border-bottom: 1px solid #ddd;
 }
-.results-grid .dgrid-tree-container .dgrid-row-odd {
-    background: #F2F5F9;
+.results-grid .dgrid-row:hover {
+    background-color: #fafafa;
 }
 .results-grid .field-ID[role='columnheader'] {
     border-left: none;
@@ -19,7 +21,22 @@
 .results-grid .field-CITY[role='columnheader'] {
     border-right: none;
 }
-.results-grid .dgrid-grid {
-    border-right: none;
-    border-left: none;
+.results-grid .dgrid-cell .btn-xs {
+    line-height: 1.25;
+    position: absolute;
+    left: 3px;
+}
+.results-grid .dgrid-cell .btn-cont {
+    position: relative;
+}
+.results-grid .dgrid-cell .btn-cont span {
+    margin-left: 5px;
+}
+.results-grid .dgrid-row .btn-cont button {
+    display: none;
+    visibility: hidden;
+}
+.results-grid .dgrid-row:hover .btn-cont button {
+    display: inline-block;
+    visibility: visible;
 }
