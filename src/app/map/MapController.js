@@ -60,8 +60,8 @@ define([
                     lang.hitch(this, 'addReferenceLayer')),
                 topic.subscribe(t.appMapReferenceLayerToggle.toggleLayer,
                     lang.hitch(this, 'toggleReferenceLayer')),
-                topic.subscribe(t.appMapMapController.zoomTo,
-                    lang.hitch(this, 'zoom')),
+                topic.subscribe(t.appMapMapController.zoomToSearchGraphic,
+                    lang.hitch(this, 'zoomToSearchGraphic')),
                 topic.subscribe(t.appMapMapController.graphic,
                     lang.hitch(this, 'graphic')),
                 topic.subscribe(t.appSearch.searchStarted,
@@ -75,7 +75,9 @@ define([
                 topic.subscribe(t.appResultLayer.addLayer,
                     lang.hitch(this, 'addQueryLayer')),
                 topic.subscribe(t.appResultLayer.removeLayer,
-                    lang.hitch(this, 'removeQueryLayer'))
+                    lang.hitch(this, 'removeQueryLayer')),
+                topic.subscribe(t.appMapMapController.zoom,
+                    lang.hitch(this, 'zoom'))
             );
         },
         setUpPublishes: function () {
@@ -172,14 +174,28 @@ define([
         
             this.map.removeLayer(layer);
         },
+        zoomToSearchGraphic: function (geometry) {
+            // summary:
+            //      zooms to the geometry and then creates a new graphic
+            // geometry: esri/geometry/polygon
+            console.log('app/map/MapController:zoomToSearchGraphic', arguments);
+        
+            this.zoom(geometry);
+            this.graphic(geometry);
+        },
         zoom: function (geometry) {
             // summary:
             //      zooms the map to the passed in geometry
-            // geometry: esri/geometry/polygon
+            // geometry: esri/geometry
             console.log('app/map/MapController::zoom', arguments);
 
-            this.map.setExtent(geometry.getExtent(), true);
-            this.graphic(geometry);
+            geometry.spatialReference = this.map.spatialReference;
+
+            if (geometry.type === 'point') {
+                this.map.centerAndZoom(geometry, 8);
+            } else {
+                this.map.setExtent(geometry.getExtent(), true);
+            }
         },
         graphic: function (geometry) {
             // summary:

@@ -60,7 +60,7 @@ require([
                     .toEqual(config.featureClassNames.counties);
             });
             it('publishes topic with returned geometry', function () {
-                topics.listen(config.topics.appMapMapController.zoomTo);
+                topics.listen(config.topics.appMapMapController.zoomToSearchGraphic);
                 var def = new Deferred();
                 spyOn(widget.api, 'search').and.returnValue(def.promise);
                 var geo = {};
@@ -69,7 +69,7 @@ require([
 
                 def.resolve([{geometry: geo}]);
 
-                expect(config.topics.appMapMapController.zoomTo).toHaveBeenPublished();
+                expect(config.topics.appMapMapController.zoomToSearchGraphic).toHaveBeenPublished();
             });
             it('shows error message', function () {
                 var value = 'error message';

@@ -144,7 +144,7 @@ define([
             this.geoService = new GeometryService(config.urls.geometryService);
             this.geoService.on('buffer-complete', function (result) {
                 that.getGeometryDef.resolve(result.geometries[0]);
-                topic.publish(config.topics.appMapMapController.zoomTo, result.geometries[0]);
+                topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, result.geometries[0]);
             });
             this.geoService.on('error', function () {
                 that.getGeometryDef.reject('There was an error with the buffer');

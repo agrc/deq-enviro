@@ -57,6 +57,11 @@ define([
         // attributeGrid: OnDemandGrid
         attributeGrid: null,
 
+        // currentFeatureGeometry: Geometry
+        //      The geometry for the currently identified feature.
+        //      Used for zoom to function
+        currentFeatureGeometry: null,
+
         // Properties to be sent into constructor
 
         postCreate: function() {
@@ -98,6 +103,8 @@ define([
             //      queries for feature and related data
             // item: Object from grid
             console.log('app/search/IdentifyPane:identify', arguments);
+
+            this.currentFeatureGeometry = item.geometry;
             
             // clear previous values
             this.attributeGrid.store.data = null;
@@ -160,6 +167,8 @@ define([
             console.log('app/search/IdentifyPane:zoomToFeature', arguments);
         
             evt.preventDefault();
+
+            topic.publish(config.topics.appMapMapController.zoom, this.currentFeatureGeometry);
         }
     });
 });
