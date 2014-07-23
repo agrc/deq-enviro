@@ -102,6 +102,7 @@ define([
             // summary:
             //      queries for feature and related data
             // item: Object from grid
+            //      expects these properties: OBJECTID, parent, geometry
             console.log('app/search/IdentifyPane:identify', arguments);
 
             this.currentFeatureGeometry = item.geometry;
@@ -159,6 +160,7 @@ define([
             evt.preventDefault();
 
             topic.publish(config.topics.appSearchIdentifyPane.backToResults);
+            topic.publish(config.topics.appResultLayer.clearSelection);
         },
         zoomToFeature: function (evt) {
             // summary:

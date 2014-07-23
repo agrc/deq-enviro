@@ -10,7 +10,8 @@ define([
     'esri/SpatialReference',
     'esri/symbols/SimpleFillSymbol',
     'esri/symbols/SimpleLineSymbol',
-    'esri/symbols/SimpleMarkerSymbol'
+    'esri/symbols/SimpleMarkerSymbol',
+    'esri/symbols/CartographicLineSymbol'
 ], function (
     Color,
     array,
@@ -22,11 +23,14 @@ define([
     SpatialReference,
     SimpleFillSymbol,
     SimpleLineSymbol,
-    SimpleMarkerSymbol
+    SimpleMarkerSymbol,
+    CartographicLineSymbol
     ) {
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
+    var selectionColor = new Color([240, 18, 190]);
+    var selectionFillColor = new Color(selectionColor.toRgb().concat([0.15]));
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -79,7 +83,9 @@ define([
             },
             appResultLayer: {
                 addLayer: 'app/search/ResultLayer.addLayer',
-                removeLayer: 'app/search/ResultLayer.removeLayer'
+                removeLayer: 'app/search/ResultLayer.removeLayer',
+                highlightFeature: 'app/search/ResultLayer.highlightFeature',
+                clearSelection: 'app/search/ResultLayer.clearSelection'
             },
             appSearchIdentifyPane: {
                 backToResults: 'app/search/IdentifyPane.backToResults'
@@ -194,7 +200,28 @@ define([
                 [202, 178, 214],
                 [255, 255, 153],
                 [177, 89, 40]
-            ]
+            ],
+            selection: {
+                polygon: new SimpleFillSymbol(
+                    SimpleFillSymbol.STYLE_SOLID,
+                    new CartographicLineSymbol(
+                        CartographicLineSymbol.STYLE_SOLID,
+                        selectionColor,
+                        3,
+                        CartographicLineSymbol.CAP_ROUND,
+                        CartographicLineSymbol.JOIN_ROUND),
+                    selectionFillColor
+                ),
+                point: new SimpleMarkerSymbol(
+                    SimpleMarkerSymbol.STYLE_CIRCLE,
+                    15,
+                    new SimpleLineSymbol(
+                        SimpleLineSymbol.STYLE_SOLID,
+                        selectionColor,
+                        2),
+                    selectionFillColor
+                )
+            }
         },
 
         // messages: Object

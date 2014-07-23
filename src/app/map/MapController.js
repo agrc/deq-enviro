@@ -162,7 +162,7 @@ define([
             //      Used to determine layer order (polygons go on the bottom)
             console.log('app/map/MapController:addQueryLayer', arguments);
         
-            var index = (geometryType === 'polygon') ? 1 : undefined;
+            var index = (geometryType === 'polygon') ? 2 : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
         },
