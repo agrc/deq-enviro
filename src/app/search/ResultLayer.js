@@ -220,12 +220,10 @@ define([
             console.log('app/search/ResultLayer:onClick', arguments);
         
             var g = evt.graphic;
-            var item = {
-                OBJECTID: g.attributes.OBJECTID,
-                parent: this.layerIndex,
-                geometry: g.geometry
-            };
-            topic.publish(config.topics.appSearch.identify, item);
+            g.attributes.parent = this.layerIndex;
+            g.attributes.geometry = g.geometry;
+
+            topic.publish(config.topics.appSearch.identify, g.attributes);
             topic.publish(config.topics.appResultLayer.highlightFeature, g.attributes.OBJECTID, this.layerIndex);
         }
     });

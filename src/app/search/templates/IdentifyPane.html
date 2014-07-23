@@ -3,18 +3,7 @@
         <ul class="nav nav-tabs">
             <li class='active'><a href="#attributes" data-toggle="tab">Attributes</a></li>
             <li><a href="#related" data-toggle="tab">RelatedRecords</a></li>
-            <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-new-window"></span> 
-                    Documents
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <span class="glyphicon glyphicon-new-window"></span> 
-                    GRAMA
-                </a>
-            </li>
+            <li><a href="#moreinfo" data-toggle='tab'>Links</a></li>
             <li>
                 <a href="#" data-dojo-attach-event='click: zoomToFeature'>
                     <span class="glyphicon glyphicon-zoom-in"></span> 
@@ -37,6 +26,18 @@
         </div>
         <div class="tab-pane" id="related">
             Not implemented yet.
+        </div>
+        <div class="tab-pane" id="moreinfo">
+            <a href="#" target='_blank' data-dojo-attach-point='docLink'>Documents</a>
+            <span class="glyphicon glyphicon-new-window"></span>
+            <br>
+            <br>
+            <a href="#" target='_blank' data-dojo-attach-point='gramaLink'>GRAMA Request</a>
+            <span class="glyphicon glyphicon-new-window"></span>
+            <br>
+            <br>
+            <a href="#" target='_blank' data-dojo-attach-point='additionalLink'>Additional Info</a>
+            <span class="glyphicon glyphicon-new-window"></span>
         </div>
     </div>
 </div>

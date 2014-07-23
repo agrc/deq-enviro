@@ -20,7 +20,10 @@ qlFields = [
     ['Source Data', fieldnames.sourceData],
     ['SGID Feature Class Name', fieldnames.sgidName],
     ['Geometry Type', fieldnames.geometryType],
-    ['Identify Attributes', fieldnames.fields]
+    ['Identify Attributes', fieldnames.fields],
+    ['Document Search', fieldnames.docLink],
+    ['GRAMA Request', fieldnames.gramaLink],
+    ['Additional Information', fieldnames.additionalLink]
 ]
 
 tblFields = [

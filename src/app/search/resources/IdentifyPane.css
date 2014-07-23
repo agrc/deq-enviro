@@ -21,6 +21,9 @@
     margin-left: -110px;
     top: 110px;
 }
+.identify-pane #moreinfo .btn {
+    /*width: 270px;*/
+}
 
 /* from: http://www.bootply.com/74926
 /* custom inclusion of right, left and below tabs */
