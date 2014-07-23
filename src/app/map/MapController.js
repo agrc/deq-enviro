@@ -223,7 +223,7 @@ define([
             //      clears any graphics on the map
             console.log('app/map/MapController:clearGraphics', arguments);
         
-            this.map.graphics.clear();
+            this.searchGraphics.clear();
         }
     };
 });
