@@ -246,6 +246,7 @@ define([
             var getAttributes = function (graphic) {
                 graphic.attributes.parent = layerIndex;
                 graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
+                graphic.attributes.geometry = graphic.geometry;
                 return graphic.attributes;
             };
             var layerName;

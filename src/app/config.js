@@ -231,6 +231,14 @@ define([
             //      description
             // index: Number
             console.log('app/config:getQueryLayerByIndex', arguments);
+
+            // this could easily be done with one loop but I wanted to try
+            // out memoization :)
+            this._cachedQueryLayers = this._cachedQueryLayers || {};
+
+            if (this._cachedQueryLayers[index]) {
+                return this._cachedQueryLayers[index];
+            }
         
             var returnLayer;
             array.some(this.appJson.queryLayers, function (ql) {
@@ -241,6 +249,8 @@ define([
                     return false;
                 }
             });
+
+            this._cachedQueryLayers[index] = returnLayer;
 
             return returnLayer;
         }
