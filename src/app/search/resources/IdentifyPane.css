@@ -1,5 +1,3 @@
-/*@import '../../../bootstrap-vertical-tabs/bootstrap.vertical-tabs.css';*/
-
 .identify-pane {
     padding: 8px;
 }
@@ -21,8 +19,8 @@
     margin-left: -110px;
     top: 110px;
 }
-.identify-pane #moreinfo .btn {
-    /*width: 270px;*/
+.identify-pane .dgrid-column-fieldAlias {
+    width: 30%;
 }
 
 /* from: http://www.bootply.com/74926
