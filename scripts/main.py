@@ -13,9 +13,7 @@ scriptName = 'DEQ Nightly'
 
 def run():
     global emailer, logger
-    errors = []
-
-    emailer = messaging.Emailer(['stdavis@utah.gov', 'haroldsandbeck@utah.gov'], testing=settings.sendEmails)
+    emailer = messaging.Emailer(['stdavis@utah.gov', 'haroldsandbeck@utah.gov'], testing=not settings.sendEmails)
 
     logger = agrc.logging.Logger()
 
@@ -23,19 +21,20 @@ def run():
     build_json.run()
 
     logger.logMsg('\n\n***** UPDATING SGID')
-    errors = errors + update_sgid.run(logger)
+    sdeErrors = update_sgid.run(logger)
 
     logger.logMsg('\n\n***** UPDATING FILE GEODATABASE')
-    errors = errors + update_fgdb.run(logger)
+    fgdbErrors = update_fgdb.run(logger)
     
     logger.logMsg('\n\n***** Script completed successfully.')
 
     logger.writeLogToFile()
 
-    if len(errors) > 0:
-        emailer.sendEmail('{} - Data Errors'.format(scriptName), 'There were errors in the nightly deq script: \n{}'.format('\n\n'.join(errors)))
+    if len(sdeErrors) + len(fgdbErrors) > 0:
+        errors = 'SDE UPDATE ERRORS:\n\n{}\n\n\n\nFGDB UPDATE ERRORS:\n\n{}'.format('\n\n'.join(sdeErrors), '\n\n'.join(fgdbErrors))
+        emailer.sendEmail('{} - Data Errors'.format(scriptName), 'There were errors in the nightly deq script: \n{}'.format(errors))
     else:
-        emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Do you want the log here?')
+        emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Harold: Do you want the entire log here? Or are you ok with no news is good news?')
 
 def run_with_try_catch():
     try:

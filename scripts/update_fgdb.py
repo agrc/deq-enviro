@@ -77,7 +77,7 @@ def update_query_layers():
                         expression = '"{}"'.format(expression)
                     arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')    
         except:
-            errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname, logger.logError()))
+            errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname, logger.logError().strip()))
 
 if __name__ == '__main__':
     from agrc import logging
