@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>RelatedTables Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
+    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../resources/RelatedTables.css">
+    <style type='text/css'>
+        body {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
+        var testFeature = {
+            'ID': 'J08UT0811',
+            'NAME': 'GOLD HILL INSTRUMENT ANNEX',
+            'ADDRESS': 'THE CITY OF GOLD HILL',
+            'CITY': 'WENDOVER',
+            'TYPE': 'Formerly Used Defense Site - J08UT0811',
+            'OBJECTID': 25,
+            'parent': '13',
+            'UNIQUE_ID': '14-J08UT0811',
+            'geometry': {
+                'type': 'point',
+                'x': 264368.03000000026,
+                'y': 4449224.779999999,
+                'spatialReference': {}
+            }
+        };
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
+        }, [
+            'app/search/RelatedTables',
+
+            'dojo/domReady!'
+        ], function(Module) {
+            widgetUnderTest = new Module({
+            }, 'node');
+
+            widgetUnderTest.startup();
+
+            widgetUnderTest.getRelatedFeatures(testFeature);
+        });
+</script>
+</head>
+<body class='claro'>
+    <div id="node"></div>
+</body>
+</html>
