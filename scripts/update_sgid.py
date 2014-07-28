@@ -73,7 +73,7 @@ def run(logr):
                     
                     update_sgid_data(sgidScratch, sgid)
         except:
-            errors.append('Execution error trying to update {}:\n{}'.format(sgidName, logger.logError()))
+            errors.append('Execution error trying to update {}:\n{}'.format(sgidName, logger.logError().strip()))
     return errors
 
 def etl(dest, destFields, source, sourceFields):
