@@ -24,6 +24,7 @@ src/favico.js/
 src/ijit/*
 src/jasmine-favicon-reporter/
 src/jquery/*
+src/lodash/
 src/matchers/*
 src/put-selector/
 src/spinjs/

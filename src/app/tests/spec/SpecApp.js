@@ -27,15 +27,6 @@ function (
             expect(testWidget).toEqual(jasmine.any(App));
         });
 
-        describe('buildAnimations', function () {
-            it('creates dojo/fx objects', function () {
-                testWidget.buildAnimations();
-
-                expect(testWidget.openGridAnimation.play).toBeDefined();
-                expect(testWidget.closeGridAnimation.play).toBeDefined();
-            });
-        });
-
         describe('switchBottomPanel', function () {
             var panel, panel2;
             beforeEach(function () {

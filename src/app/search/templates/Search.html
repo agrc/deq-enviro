@@ -53,9 +53,15 @@
     </div>
     <div class='search-button-container'>
         <div data-dojo-attach-point='errMsg' class="alert alert-danger hidden"></div>
-        <button class="btn btn-primary btn-lg"
+        <button class="btn btn-primary btn-lg btn-block"
             data-dojo-attach-event='onclick: search'>Search</button>
-        <button class="btn btn-default btn-lg"
+        <button class="btn btn-default btn-lg btn-block"
             data-dojo-attach-event='onclick: clear'>Clear Parameters</button>
+        <button class="btn btn-default btn-lg btn-block hidden grid-btn"
+            data-dojo-attach-event="onclick: hideGrid"
+            data-dojo-attach-point='hideGridBtn'>Hide Grid</button>
+        <button class="btn btn-default btn-lg btn-block hidden grid-btn"
+            data-dojo-attach-event="onclick: showGrid"
+            data-dojo-attach-point='showGridBtn'>Show Grid</button>
     </div>
 </div>

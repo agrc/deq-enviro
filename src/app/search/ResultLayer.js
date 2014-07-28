@@ -225,6 +225,7 @@ define([
 
             topic.publish(config.topics.appSearch.identify, g.attributes);
             topic.publish(config.topics.appResultLayer.highlightFeature, g.attributes.OBJECTID, this.layerIndex);
+            topic.publish(config.topics.app.showGrid);
         }
     });
 });

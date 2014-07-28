@@ -32,7 +32,12 @@
             },
             'dgrid',
             'put-selector',
-            'xstyle'
+            'xstyle',
+            {
+                name: 'lodash',
+                location: 'lodash',
+                main: 'dist/lodash'
+            }
         ]
     };
     require(config, [

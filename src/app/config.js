@@ -89,6 +89,10 @@ define([
             },
             appSearchIdentifyPane: {
                 backToResults: 'app/search/IdentifyPane.backToResults'
+            },
+            app: {
+                hideGrid: 'app/App.hideGrid',
+                showGrid: 'app/App.showGrid'
             }
         },
 
