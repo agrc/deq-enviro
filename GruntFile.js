@@ -76,8 +76,8 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true, // Enable dynamic expansion
                     cwd: 'src/', // Src matches are relative to this path
-                    src: ['**/*.{png,jpg,gif}'], // Actual patterns to match
-                    dest: 'dist/' // Destination path prefix
+                    src: '**/*.{png,jpg,gif}', // Actual patterns to match
+                    dest: 'src/'
                 }]
             }
         },
@@ -98,7 +98,8 @@ module.exports = function(grunt) {
         clean: ['dist'],
         esri_slurp: {
             options: {
-                version: '3.8'
+                version: '3.8',
+                beautify: true
             }
         }
     });
@@ -122,7 +123,7 @@ module.exports = function(grunt) {
     grunt.registerTask('travis', ['esri_slurp', 'jshint', 'connect', 'jasmine:app']);
 
     grunt.registerTask('build',
-        ['clean', 'dojo:prod', 'newer:imagemin:dynamic', 'copy', 'processhtml:dist']);
+        ['newer:imagemin:dynamic', 'clean', 'dojo:prod', 'copy', 'processhtml:dist']);
     grunt.registerTask('stage-build',
-        ['clean', 'dojo:stage', 'newer:imagemin:dynamic', 'copy', 'processhtml:dist']);
+        ['newer:imagemin:dynamic', 'clean', 'dojo:stage', 'copy', 'processhtml:dist']);
 };
