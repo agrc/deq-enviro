@@ -8,6 +8,8 @@ define([
     'dojo/topic',
     'dojo/request',
     'dojo/aspect',
+    'dojo/query',
+    'dojo/dom-class',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -26,7 +28,9 @@ define([
     './ID',
     './Shape',
     '../config',
-    '../map/MapController'
+    '../map/MapController',
+
+    'lodash'
 
 ], function(
     template,
@@ -38,6 +42,8 @@ define([
     topic,
     request,
     aspect,
+    query,
+    domClass,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -56,7 +62,9 @@ define([
     ID,
     Shape,
     config,
-    MapController
+    MapController,
+
+    _
 ) {
     return declare(
         [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _CollapsibleMixin, _ErrorMessageMixin], {
@@ -139,6 +147,10 @@ define([
                 that.buildQueryLayers(json.queryLayers);
             });
 
+            var showBtn = function (btn) {
+                query('.grid-btn', this.domNode).addClass('hidden');
+                domClass.remove(btn, 'hidden');
+            };
             this.own(
                 this.address = new Address({
                     apiKey: config.apiKey
@@ -165,7 +177,9 @@ define([
                 topic.subscribe(config.topics.appWizard.showQueryLayers, function () {
                     $(that.queryLayersPanel).collapse('show');
                 }),
-                topic.subscribe(config.topics.appWizard.showResults, lang.hitch(this, 'search'))
+                topic.subscribe(config.topics.appWizard.showResults, lang.hitch(this, 'search')),
+                topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
+                topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn))
             );
 
             this.childWidgets = [this.address, this.city, this.county, this.shape];
@@ -239,6 +253,7 @@ define([
                     onError(that.searchServiceErrorMsg);
                 });
                 topic.publish(config.topics.appSearch.searchStarted);
+                topic.publish(config.topics.app.showGrid);
             };
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);
@@ -313,6 +328,20 @@ define([
             }
 
             topic.publish(config.topics.appSearch.clear);
+        },
+        hideGrid: function () {
+            // summary:
+            //      description
+            console.log('app/search/Search:hideGrid', arguments);
+        
+            topic.publish(config.topics.app.hideGrid);
+        },
+        showGrid: function () {
+            // summary:
+            //      description
+            console.log('app/search/Search:showGrid', arguments);
+        
+            topic.publish(config.topics.app.showGrid);
         }
     });
 });

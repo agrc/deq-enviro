@@ -28,7 +28,9 @@ define([
     './search/IdentifyPane',
     './map/MapController',
 
-    'ijit/widgets/authentication/LoginRegister'
+    'ijit/widgets/authentication/LoginRegister',
+
+    'lodash'
 ], function(
     template,
 
@@ -59,7 +61,9 @@ define([
     IdentifyPane,
     MapController,
 
-    LoginRegister
+    LoginRegister,
+
+    _
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -199,17 +203,22 @@ define([
             console.log('app/App:buildAnimations', arguments);
 
             var that = this;
-            this.openGridAnimation = coreFx.combine([
+            var initialCenter;
+            var onEnd = function () {
+                // delay because sometimes resize was being called a bit too early
+                window.setTimeout(function () {
+                    that.map.resize(true);
+                    that.map.centerAt(initialCenter, true);
+                }, 50);
+            };
+            var openGridAnimation = coreFx.combine([
                 coreFx.animateProperty({
                     node: this.gridIdentifyContainer,
                     properties: {
                         height: config.gridIdentifyHeight + 1,
                         borderWidth: 1
                     },
-                    onEnd: function () {
-                        that.map.resize();
-                        // TODO: preserve map extent
-                    }
+                    onEnd: onEnd
                 }),
                 coreFx.animateProperty({
                     node: this.mapDiv,
@@ -218,20 +227,15 @@ define([
                     }
                 })
             ]);
-            this.own(topic.subscribe(config.topics.appSearch.searchStarted,
-                lang.hitch(this.openGridAnimation, 'play')));
 
-            this.closeGridAnimation = coreFx.combine([
+            var closeGridAnimation = coreFx.combine([
                 coreFx.animateProperty({
                     node: this.gridIdentifyContainer,
                     properties: {
                         height: 0,
                         borderWidth: 0
                     },
-                    onEnd: function () {
-                        that.map.resize();
-                        // TODO: preserve map extent
-                    }
+                    onEnd: onEnd
                 }),
                 coreFx.animateProperty({
                     node: this.mapDiv,
@@ -240,6 +244,15 @@ define([
                     }
                 })
             ]);
+
+            var toggle = function (animation) {
+                initialCenter = that.map.extent.getCenter();
+                animation.play();
+            };
+            this.own(
+                topic.subscribe(config.topics.app.showGrid, _.partial(toggle, openGridAnimation)),
+                topic.subscribe(config.topics.app.hideGrid, _.partial(toggle, closeGridAnimation))
+            );
         },
         switchBottomPanel: function (node) {
             // summary:
