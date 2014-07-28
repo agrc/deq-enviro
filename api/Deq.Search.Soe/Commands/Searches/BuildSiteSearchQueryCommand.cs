@@ -27,7 +27,7 @@ namespace Deq.Search.Soe.Commands.Searches {
             });
 
             var sb = new StringBuilder();
-            const string lastRun = "{0} LIKE upper('%{1}%')";
+            const string lastRun = "upper({0}) LIKE upper('%{1}%')";
             var format = lastRun + " {2} ";
 
             for (var i = 0; i < words.Length; i++) {
