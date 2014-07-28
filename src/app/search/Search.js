@@ -248,10 +248,20 @@ define([
                     data: JSON.stringify(params),
                     headers: {'Content-Type': 'application/json'},
                     handleAs: 'json'
-                }).then(that.onSearchComplete, function () {
-                    topic.publish(config.topics.appSearch.searchError);
-                    onError(that.searchServiceErrorMsg);
-                });
+                }).then(
+                    function (response) {
+                        if (response.status !== 200) {
+                            topic.publish(config.topics.appSearch.searchError);
+                            onError(that.searchServiceErrorMsg);
+                        } else {
+                            topic.publish(config.topics.appSearch.featuresFound, response.result);
+                        }
+                    },
+                    function () {
+                        topic.publish(config.topics.appSearch.searchError);
+                        onError(that.searchServiceErrorMsg);
+                    }
+                );
                 topic.publish(config.topics.appSearch.searchStarted);
                 topic.publish(config.topics.app.showGrid);
             };
