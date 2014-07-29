@@ -14,6 +14,24 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>0.7.0 <small>Jul 28, 2014</small></h2>
+    <ul>
+        <li>Made improvements to the error log that is emailed by the nightly script if there are data errors (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/107">#107</a>).</li>
+        <li>Fixed a bug that was preventing an appropriate error message from being displayed if there was an error returned from the search service (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/109">#109</a>).</li>
+        <li>Created the identify pane and associated ellipsis (...) button on the grid. Also wired identify pane to show when clicking on a result feature on the map (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/110">#110</a>).</li>
+            <ul>
+                <li>"Attributes" tab shows additional attribute fields from query layers.</li>
+                <li>"Links" tab shows links to external pages with the five main fields passed as url query parameters.</li>
+                <li>"Zoom to feature" and "Back to results" links also working.</li>
+                <li>Related Records is not implemented yet (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/116">#116</a>).</li>
+            </ul>
+        <li>Made links in the "Links" tab in the identify pane only show up if there is a value in the associated column in the query layers spreadsheet (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/22">#22</a>).</li>
+        <li>The map extent is now preserved when the results grid is shown or hidden. Also added buttons to allow you to show or hide the grid (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/111">#111</a>).</li>
+        <li>Fixed a layout bug that was causing the "No results" message to be cut off in the grid (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/112">#112</a>).</li>
+        <li>Fixed a bug that was preventing the search graphics from clearing when switching search types (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/114">#114</a>).</li>
+        <li>Fixed a bug that was preventing the search by name function to find all features (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/115">#115</a>).</li>
+        <li>Cleaned up and simplified the grid colors and layout.</li>
+    </ul>
     <h2>0.6.0 <small>Jul 18, 2014</small></h2>
     <ul>
         <li>Major components of nightly script built. Still some data issues left to work through (<a href="https://github.com/agrc/deq-enviro/issues/3">#3</a> & <a href="https://github.com/agrc/deq-enviro/issues/70">#70</a>).</li>
