@@ -98,7 +98,8 @@ module.exports = function(grunt) {
         clean: ['dist'],
         esri_slurp: {
             options: {
-                version: '3.8'
+                version: '3.8',
+                beautify: true
             }
         }
     });
