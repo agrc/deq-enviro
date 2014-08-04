@@ -11,18 +11,8 @@ import settings
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
 def run():
-    layers = spreadsheet.get_query_layers()
-    
-    # get layer indicies from map service
-    layersJson = requests.get(settings.mapServiceJson).json()['layers']
-    serviceLayers = {}
-    for s in layersJson:
-        serviceLayers[s['name']] = s['id']
-    for l in layers:
-        n = l[fieldnames.sgidName].split('.')[-1]
-        l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
-        if n in serviceLayers.keys():
-            l[fieldnames.index] = serviceLayers[n]
+    layers = get_dataset_info(spreadsheet.get_query_layers(), 'layers')
+    tables = get_dataset_info(spreadsheet.get_related_tables(), 'tables')
 
     # other links
     links = spreadsheet.get_links()
@@ -30,14 +20,31 @@ def run():
     for l in links:
         linksDict[l[fieldnames.ID]] = l
 
-    j = {fieldnames.queryLayers: layers,
-                    fieldnames.otherLinks: linksDict}
+    j = {
+         fieldnames.queryLayers: layers,
+         fieldnames.relatedTables: tables,
+         fieldnames.otherLinks: linksDict
+         }
     f = open(jsonFile, 'w')
     print >> f, json.dumps(j, indent=4)
     f.close()
 
     return j
 
+def get_dataset_info(spreadsheetData, type):
+    # get layer indicies from map service
+    jsonData = requests.get(settings.mapServiceJson).json()[type]
+    serviceLayers = {}
+    for s in jsonData:
+        serviceLayers[s['name']] = s['id']
+    for l in spreadsheetData:
+        n = l[fieldnames.sgidName].split('.')[-1]
+        l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
+        if n in serviceLayers.keys():
+            l[fieldnames.index] = serviceLayers[n]
+    
+    return spreadsheetData
+    
 def parse_fields(fieldTxt):
     fields = []
     for txt in fieldTxt.split(','):

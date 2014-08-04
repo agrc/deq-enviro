@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>RelatedTableGrid Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
+    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../resources/RelatedTableGrid.css">
+    <style type='text/css'>
+        body {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
+        var features = [{
+            'attributes': {
+                'OBJECTID': 84,
+                'RESTRIC_KEY': 115,
+                'REMLINKKEY': 5501,
+                'REMCOMMENT': null,
+                'RLEGALDESC': null,
+                'REM_OBJECT': null,
+                'RDATEAPPRO': null,
+                'RDATESTART': null,
+                'RDATECOMPL': null,
+                'RDOCREFTIT': null,
+                'REM_DESC': 'In-Situ Oxidation',
+                'REM_LEAD': null,
+                'GlobalID': '{D07515B5-D440-4371-9405-31F4CF5DE9F8}'
+            }
+        }, {
+            'attributes': {
+                'OBJECTID': 83,
+                'RESTRIC_KEY': 114,
+                'REMLINKKEY': 5501,
+                'REMCOMMENT': null,
+                'RLEGALDESC': null,
+                'REM_OBJECT': null,
+                'RDATEAPPRO': null,
+                'RDATESTART': null,
+                'RDATECOMPL': null,
+                'RDOCREFTIT': null,
+                'REM_DESC': 'Long Term Management',
+                'REM_LEAD': null,
+                'GlobalID': '{694C4AE9-6E4F-4229-878D-70F05E05FC12}'
+            }
+        }, {
+            'attributes': {
+                'OBJECTID': 82,
+                'RESTRIC_KEY': 113,
+                'REMLINKKEY': 5501,
+                'REMCOMMENT': null,
+                'RLEGALDESC': null,
+                'REM_OBJECT': null,
+                'RDATEAPPRO': null,
+                'RDATESTART': null,
+                'RDATECOMPL': null,
+                'RDOCREFTIT': null,
+                'REM_DESC': 'Groundwater Monitoring',
+                'REM_LEAD': null,
+                'GlobalID': '{AB700926-8FAB-4999-900E-779457A09E7E}'
+            }
+        }, {
+            'attributes': {
+                'OBJECTID': 81,
+                'RESTRIC_KEY': 112,
+                'REMLINKKEY': 5501,
+                'REMCOMMENT': null,
+                'RLEGALDESC': null,
+                'REM_OBJECT': null,
+                'RDATEAPPRO': null,
+                'RDATESTART': null,
+                'RDATECOMPL': null,
+                'RDOCREFTIT': null,
+                'REM_DESC': 'Vapor Barrier',
+                'REM_LEAD': null,
+                'GlobalID': '{5E9D7EEC-F83E-4BE1-B450-531673E57CF2}'
+            }
+        }, {
+            'attributes': {
+                'OBJECTID': 58,
+                'RESTRIC_KEY': 84,
+                'REMLINKKEY': 5501,
+                'REMCOMMENT': null,
+                'RLEGALDESC': null,
+                'REM_OBJECT': null,
+                'RDATEAPPRO': null,
+                'RDATESTART': null,
+                'RDATECOMPL': null,
+                'RDOCREFTIT': null,
+                'REM_DESC': 'Excavation/Removal',
+                'REM_LEAD': null,
+                'GlobalID': '{E5390537-A73E-42AD-B56A-A8CA7BC00D14}'
+            }
+        }];
+        var relatedTableId = 34;
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'dgrid', 'put-selector', 'xstyle']
+        }, [
+            'app/search/RelatedTableGrid',
+            'app/config',
+
+            'dojo/dom',
+            'dojo/domReady!'
+        ], function(Module, config, dom) {
+            config.getAppJson().then(function () {
+                widgetUnderTest = new Module({
+                    tableId: relatedTableId,
+                    records: features,
+                    pillsDiv: dom.byId('pillsDiv')
+                }, 'node');
+
+                widgetUnderTest.startup();
+            });
+        });
+</script>
+</head>
+<body class='claro'>
+    <ul id='pillsDiv' class="nav nav-pills" role='tablist'></ul>
+    <div id="node"></div>
+</body>
+</html>

@@ -3,25 +3,33 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/array',
+    'dojo/_base/lang',
     'dojo/request',
+    'dojo/dom-construct',
+    'dojo/dom-class',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    'app/config'
+    'app/config',
+    './RelatedTableGrid'
 ], function(
     template,
 
     declare,
     array,
+    lang,
     request,
+    domConstruct,
+    domClass,
 
     _WidgetBase,
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
 
-    config
+    config,
+    RelatedTableGrid
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
@@ -31,7 +39,22 @@ define([
         baseClass: 'related-tables',
         widgetsInTemplate: true,
 
+        // grids: RelatedTableGrid[]
+        //      container for all current grids
+        grids: null,
+
+        // gridFactories: function[]
+        //      a collection of all of the functions that build the grid
+        //      this is used to delay the build until the tab is shown so
+        //      that they layout correctly
+        gridFactories: null,
+
+
         // Properties to be sent into constructor
+
+        // tab: node
+        //      used to listen for when this tab is shown
+        tab: null,
 
         postCreate: function() {
             // summary:
@@ -40,28 +63,33 @@ define([
             //      private
             console.log('app.search.RelatedTables::postCreate', arguments);
 
-            this.setupConnections();
-
             this.inherited(arguments);
-        },
-        setupConnections: function() {
-            // summary:
-            //      wire events, and such
-            //
-            console.log('app.search.RelatedTables::setupConnections', arguments);
 
+            $(this.tab).on('shown.bs.tab', lang.hitch(this, 'buildGrids'));
+
+            this.grids = [];
+            this.gridFactories = [];
+        },
+        buildGrids: function () {
+            // summary:
+            //      fires grid factories that have been queued up by getRelatedFeatures
+            console.log('app/search/RelatedTables:buildGrids', arguments);
+
+            array.forEach(this.gridFactories, function (f) { f(); });
+            this.gridFactories = [];
         },
         getRelatedFeatures: function (item) {
             // summary:
-            //      description
+            //      first gets relationship ids for the layer, then
+            //      queries each of them for related records, finally
+            //      creates new grids or stores them in a queue to be created later
             // item: Object
             console.log('app/search/RelatedTables:getRelatedFeatures', arguments);
-        
-            var url = config.urls.DEQEnviro + '/' + item.parent;
-            request(url, {
-                handleAs: 'json',
-                query: {f: 'json'}
-            }).then(function (layerProps) {
+
+            var that = this;
+            this.gridFactories = [];
+            this.destroyGrids();
+            var queryRelationships = function (layerProps) {
                 array.forEach(layerProps.relationships, function (rel) {
                     request(url + '/queryRelatedRecords', {
                         handleAs: 'json',
@@ -72,14 +100,55 @@ define([
                             outFields: '*',
                             returnGeometry: false
                         }
-                    }).then(function (relatedResponse) {
-                        // should only ever be one group since we are only passing in one objectid
-                        if (relatedResponse.relatedRecordGroups.length > 0) {
-                            console.log(relatedResponse.relatedRecordGroups[0].relatedRecords);
-                        }
+                    }).then(function (response) {
+                        buildGrid(response, rel.relatedTableId);
                     });
                 });
+            };
+            var buildGrid = function (relatedResponse, tableId) {
+                var gridFactory = function () {
+                    domClass.add(that.noRelatedTablesMsg, 'hidden');
+
+                    // should only ever be one relatedRecordGroup since we are 
+                    // only passing in one objectid
+                    var grid = new RelatedTableGrid({
+                        tableId: tableId,
+                        records: (relatedResponse.relatedRecordGroups.length > 0) ?
+                            relatedResponse.relatedRecordGroups[0].relatedRecords :
+                            false,
+                        pillsDiv: that.pillsDiv
+                    }, domConstruct.create('div', null, that.panesDiv));
+                    grid.startup();
+                    that.grids.push(grid);
+                };
+
+                // if related records tab is showing then build grids, otherwise
+                // put them in a queue for later
+                if (domClass.contains(that.tab.parentElement, 'active')) {
+                    gridFactory();
+                } else {
+                    that.gridFactories.push(gridFactory);
+                }
+            };
+
+            domClass.remove(this.noRelatedTablesMsg, 'hidden');
+            that.destroyGrids();
+
+            var url = config.urls.DEQEnviro + '/' + item.parent;
+            request(url, {
+                handleAs: 'json',
+                query: {f: 'json'}
+            }).then(queryRelationships);
+        },
+        destroyGrids: function () {
+            // summary:
+            //      destroys the grid widgets and their associated tabs
+            console.log('app/search/RelatedTables:destroyGrids', arguments);
+
+            array.forEach(this.grids, function (g) {
+                g.destroy();
             });
+            this.grids = [];
         }
     });
 });

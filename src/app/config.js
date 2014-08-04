@@ -261,19 +261,30 @@ define([
         getQueryLayerByIndex: function (index) {
             // summary:
             //      description
-            // index: Number
+            // index: String
             console.log('app/config:getQueryLayerByIndex', arguments);
 
+            return this.getDatasetByIndex(this.appJson.queryLayers, index);
+        },
+        getRelatedTableByIndex: function (index) {
+            // summary:
+            //      description
+            // index: String
+            console.log('app/config:getRelatedTableByIndex', arguments);
+        
+            return this.getDatasetByIndex(this.appJson.relatedTables, index);
+        },
+        getDatasetByIndex: function (datasets, index) {
             // this could easily be done with one loop but I wanted to try
             // out memoization :)
-            this._cachedQueryLayers = this._cachedQueryLayers || {};
+            this._cached = this._cached || {};
 
-            if (this._cachedQueryLayers[index]) {
-                return this._cachedQueryLayers[index];
+            if (this._cached[index]) {
+                return this._cached[index];
             }
         
             var returnLayer;
-            array.some(this.appJson.queryLayers, function (ql) {
+            array.some(datasets, function (ql) {
                 if (ql.index + '' === index) {
                     returnLayer = ql;
                     return true;
@@ -282,7 +293,7 @@ define([
                 }
             });
 
-            this._cachedQueryLayers[index] = returnLayer;
+            this._cached[index] = returnLayer;
 
             return returnLayer;
         }
@@ -296,7 +307,7 @@ define([
         window.AGRC.apiKey = 'AGRC-AC122FA9671436';
     } else {
         // localhost
-        window.AGRC.apiKey = 'AGRC-63E1FF17767822';
+        window.AGRC.apiKey = 'AGRC-E5B94F99865799';
     }
 
     return window.AGRC;

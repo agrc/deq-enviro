@@ -20,4 +20,5 @@ gramaLink = 'gramaLink'
 additionalLink = 'additionalLink'
 
 queryLayers = 'queryLayers'
+relatedTables = 'relatedTables'
 otherLinks = 'otherLinks'

@@ -32,7 +32,8 @@ def run():
 
     if len(sdeErrors) + len(fgdbErrors) > 0:
         errors = 'SDE UPDATE ERRORS:\n\n{}\n\n\n\nFGDB UPDATE ERRORS:\n\n{}'.format('\n\n'.join(sdeErrors), '\n\n'.join(fgdbErrors))
-        emailer.sendEmail('{} - Data Errors'.format(scriptName), 'There were errors in the nightly deq script: \n{}'.format(errors))
+        emailer.sendEmail('{} - Data Errors'.format(scriptName), 
+                          'There were {} errors in the nightly deq script: \n{}'.format(len(sdeErrors + fgdbErrors), errors))
     else:
         emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Harold: Do you want the entire log here? Or are you ok with no news is good news?')
 
