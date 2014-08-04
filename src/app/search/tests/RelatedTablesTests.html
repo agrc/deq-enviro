@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/RelatedTables.css">
     <style type='text/css'>
-        body {
+        body, html {
             padding: 50px;
+            height: 100%;
         }
     </style>
 
@@ -48,10 +49,13 @@
             'app/search/RelatedTables',
             'app/config',
 
+            'dojo/dom',
+
             'dojo/domReady!'
-        ], function(Module, config) {
+        ], function(Module, config, dom) {
             config.getAppJson().then(function () {
                 widgetUnderTest = new Module({
+                    tab: dom.byId('tab')
                 }, 'node');
 
                 widgetUnderTest.startup();
@@ -63,5 +67,8 @@
 </head>
 <body class='claro'>
     <div id="node"></div>
+    <div class='active'>
+        <div id="tab"></div>
+    </div>
 </body>
 </html>
