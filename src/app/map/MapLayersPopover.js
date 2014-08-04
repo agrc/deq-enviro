@@ -83,7 +83,7 @@ define([
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
-                    layerName: 'Hydrolgic Units',
+                    layerName: 'Hydrologic Units',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 2,
                     layerProps: {opacity: 0.7}
