@@ -11,6 +11,7 @@ define([
     'dojo/io-query',
 
     'app/config',
+    './RelatedTables',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -34,6 +35,7 @@ define([
     ioQuery,
 
     config,
+    RelatedTables,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -89,6 +91,10 @@ define([
                 showHeader: false,
                 store: new Memory({idProperty: 'fieldAlias'})
             }, this.attributeGridDiv);
+
+            this.relatedTables = new RelatedTables({
+                tab: this.relatedAnchor
+            }, this.relatedTablesDiv);
         },
         setupConnections: function() {
             // summary:
@@ -161,6 +167,7 @@ define([
                                 config.getQueryLayerByIndex(item.parent).fields)
                         );
                         that.attributeGrid.refresh();
+                        that.relatedTables.getRelatedFeatures(item);
                     }
                 },
                 function () {
@@ -192,6 +199,8 @@ define([
             console.log('app/search/IdentifyPane:backToResults', arguments);
         
             evt.preventDefault();
+
+            this.attributesAnchor.click();
 
             topic.publish(config.topics.appSearchIdentifyPane.backToResults);
             topic.publish(config.topics.appResultLayer.clearSelection);

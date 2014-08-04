@@ -1,16 +1,18 @@
+@import url('./RelatedTables.css');
+
 .identify-pane {
     padding: 8px;
 }
 .identify-pane,
 .identify-pane .tab-content,
 .identify-pane .tab-content .tab-pane,
-.identify-pane .tab-content .tab-pane .dgrid {
+.identify-pane .tab-content #attributes.tab-pane .dgrid {
     height: 100%;
 }
-.identify-pane .dgrid-cell {
+.identify-pane #attributes .dgrid-cell {
     border: none;
 }
-.identify-pane .dgrid-row-odd {
+.identify-pane #attributes .dgrid-row-odd {
     background-color: #fafafa;
 }
 .identify-pane .alert-danger {
@@ -19,7 +21,7 @@
     margin-left: -110px;
     top: 110px;
 }
-.identify-pane .dgrid-column-fieldAlias {
+.identify-pane #attributes .dgrid-column-fieldAlias {
     width: 30%;
 }
 
@@ -27,14 +29,6 @@
 /* custom inclusion of right, left and below tabs */
 .tabs-left > .nav-tabs {
     border-bottom: 0;
-}
-.tab-content > .tab-pane,
-.pill-content > .pill-pane {
-    display: none;
-}
-.tab-content > .active,
-.pill-content > .active {
-    display: block;
 }
 .tabs-left > .nav-tabs > li {
     float: none;

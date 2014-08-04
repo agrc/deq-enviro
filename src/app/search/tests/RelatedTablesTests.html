@@ -25,13 +25,13 @@
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
         var widgetUnderTest;
         var testFeature = {
-            'ID': 'J08UT0811',
+            'ID': 'C036',
             'NAME': 'GOLD HILL INSTRUMENT ANNEX',
             'ADDRESS': 'THE CITY OF GOLD HILL',
             'CITY': 'WENDOVER',
             'TYPE': 'Formerly Used Defense Site - J08UT0811',
             'OBJECTID': 25,
-            'parent': '13',
+            'parent': '32',
             'UNIQUE_ID': '14-J08UT0811',
             'geometry': {
                 'type': 'point',
@@ -43,20 +43,23 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'dgrid', 'put-selector', 'xstyle']
         }, [
             'app/search/RelatedTables',
+            'app/config',
 
             'dojo/domReady!'
-        ], function(Module) {
-            widgetUnderTest = new Module({
-            }, 'node');
+        ], function(Module, config) {
+            config.getAppJson().then(function () {
+                widgetUnderTest = new Module({
+                }, 'node');
 
-            widgetUnderTest.startup();
+                widgetUnderTest.startup();
 
-            widgetUnderTest.getRelatedFeatures(testFeature);
+                widgetUnderTest.getRelatedFeatures(testFeature);
+            });
         });
-</script>
+    </script>
 </head>
 <body class='claro'>
     <div id="node"></div>

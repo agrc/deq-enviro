@@ -1,0 +1,9 @@
+.related-table-grid .dgrid {
+    margin-top: 8px;
+    width: 900px;
+    height: 170px;
+}
+.related-table-grid .dgrid .dgrid-scroller .dgrid-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
