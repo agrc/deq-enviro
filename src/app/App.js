@@ -204,7 +204,9 @@ define([
 
             var that = this;
             var initialCenter;
-            var onEnd = function () {
+            var open;
+            var onEnd = function (opened) {
+                open = opened;
                 // delay because sometimes resize was being called a bit too early
                 window.setTimeout(function () {
                     that.map.resize(true);
@@ -218,7 +220,7 @@ define([
                         height: config.gridIdentifyHeight + 1,
                         borderWidth: 1
                     },
-                    onEnd: onEnd
+                    onEnd: _.partial(onEnd, true)
                 }),
                 coreFx.animateProperty({
                     node: this.mapDiv,
@@ -235,7 +237,7 @@ define([
                         height: 0,
                         borderWidth: 0
                     },
-                    onEnd: onEnd
+                    onEnd: _.partial(onEnd, false)
                 }),
                 coreFx.animateProperty({
                     node: this.mapDiv,
@@ -246,8 +248,16 @@ define([
             ]);
 
             var toggle = function (animation) {
-                initialCenter = that.map.extent.getCenter();
-                animation.play();
+                // don't re-open if it's already open
+                if (animation === openGridAnimation && open) {
+                    return true;
+                }
+
+                // don't try to animation if the map is currently zooming
+                MapController.mapIsZoomingOrPanning().then(function () {
+                    initialCenter = that.map.extent.getCenter();
+                    animation.play();
+                });
             };
             this.own(
                 topic.subscribe(config.topics.app.showGrid, _.partial(toggle, openGridAnimation)),

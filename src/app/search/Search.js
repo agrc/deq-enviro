@@ -255,6 +255,7 @@ define([
                             onError(that.searchServiceErrorMsg);
                         } else {
                             topic.publish(config.topics.appSearch.featuresFound, response.result);
+                            topic.publish(config.topics.app.showGrid);
                         }
                     },
                     function () {
@@ -263,7 +264,6 @@ define([
                     }
                 );
                 topic.publish(config.topics.appSearch.searchStarted);
-                topic.publish(config.topics.app.showGrid);
             };
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);

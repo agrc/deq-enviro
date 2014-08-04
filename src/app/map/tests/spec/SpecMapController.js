@@ -26,6 +26,7 @@ require([
                 'on',
                 'setExtent'
             ]);
+            map.setExtent.and.returnValue({then: function () {}});
             map.on.and.returnValue({remove: function () {}});
             map.graphics = {
                 add: function () {},
