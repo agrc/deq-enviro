@@ -116,7 +116,8 @@ define([
                         records: (relatedResponse.relatedRecordGroups.length > 0) ?
                             relatedResponse.relatedRecordGroups[0].relatedRecords :
                             false,
-                        pillsDiv: that.pillsDiv
+                        pillsDiv: that.pillsDiv,
+                        fields: relatedResponse.fields
                     }, domConstruct.create('div', null, that.panesDiv));
                     grid.startup();
                     that.grids.push(grid);
