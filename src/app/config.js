@@ -30,7 +30,7 @@ define([
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);
-    var selectionFillColor = new Color(selectionColor.toRgb().concat([0.15]));
+    var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -190,7 +190,7 @@ define([
                     4
                 )
             },
-            resultSymbolOpacity: 225,
+            resultSymbolOpacity: 190,
             colors: [
                 [31, 120, 180],
                 [51, 160, 44],
