@@ -2,6 +2,7 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/topic',
+    'dojo/Deferred',
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
@@ -14,6 +15,7 @@ define([
     lang,
     array,
     topic,
+    Deferred,
 
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
@@ -28,7 +30,11 @@ define([
 
         // handles: Object[]
         //      container to track handles for this object
-        handles: [],
+        handles: null,
+
+        // extentChangePromise: Number
+        //      keep track of zoom and pan promises for mapIsZoomingOrPanning
+        extentChangePromise: null,
 
 
         // Properties to be sent into constructor
@@ -44,6 +50,8 @@ define([
             //      description
             console.log('app/MapController::constructor', arguments);
 
+            this.handles = [];
+
             lang.mixin(this, params);
 
             this.setUpSubscribes();
@@ -53,7 +61,7 @@ define([
             // summary:
             //      subscribes to topics
             console.log('app/map/MapController:setUpSubscribes', arguments);
-        
+
             var t = config.topics;
             this.handles.push(
                 topic.subscribe(t.appMapReferenceLayerToggle.addLayer,
@@ -79,6 +87,16 @@ define([
                 topic.subscribe(t.appMapMapController.zoom,
                     lang.hitch(this, 'zoom'))
             );
+        },
+        mapIsZoomingOrPanning: function () {
+            // summary:
+            //      description
+            // Deferred
+            console.log('app/MapController:mapIsZoomingOrPanning', arguments);
+
+            console.log('this.extentChangePromise', this.extentChangePromise);
+        
+            return this.extentChangePromise || new Deferred().resolve();
         },
         setUpPublishes: function () {
             // summary:
@@ -189,12 +207,18 @@ define([
             // geometry: esri/geometry
             console.log('app/map/MapController::zoom', arguments);
 
+            var that = this;
+            var removePromise = function () {
+                that.extentChangePromise = null;
+            };
             geometry.spatialReference = this.map.spatialReference;
 
             if (geometry.type === 'point') {
-                this.map.centerAndZoom(geometry, 8);
+                this.extentChangePromise = this.map.centerAndZoom(geometry, 8)
+                    .then(removePromise);
             } else {
-                this.map.setExtent(geometry.getExtent(), true);
+                this.extentChangePromise = this.map.setExtent(geometry.getExtent(), true)
+                    .then(removePromise);
             }
         },
         graphic: function (geometry) {
