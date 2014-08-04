@@ -62,6 +62,10 @@ define([
         //      The container where this widget will create it's associated pill
         pillsDiv: null,
 
+        // fields: Object[]
+        //      Field infos for this table
+        fields: null,
+
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.
@@ -73,16 +77,13 @@ define([
             var columns = array.map(tableInfo.fields, function (f) {
                 return {field: f[0], label: f[1]};
             });
-            var data = array.map(this.records, function (r) {
-                return r.attributes;
-            });
             this.createPill(this.pillsDiv, tableInfo.name);
 
             this.grid = new (declare([Grid, ColumnResizer]))({
                 columns: columns,
                 store: new Memory({
                     idProperty: 'OBJECTID',
-                    data: data
+                    data: this.formatData(this.records)
                 })
             }, this.gridDiv);
 
@@ -138,6 +139,34 @@ define([
             domConstruct.destroy(this.tab.parentElement);
             
             this.inherited(arguments);
+        },
+        formatData: function (records) {
+            // summary:
+            //      Flattens the records array and formats the dates.
+            // records: Object[]
+            //      as returned from the get related records service
+            console.log('app/search/RelatedTableGrid:formatData', arguments);
+        
+            var dateFields = [];
+            array.forEach(this.fields, function (f) {
+                if (f.type === 'esriFieldTypeDate') {
+                    dateFields.push(f.name);
+                }
+            });
+
+            return array.map(records, function (r) {
+                var rec = {};
+                var atts = r.attributes;
+
+                for (var prop in atts) {
+                    if (atts.hasOwnProperty(prop)) {
+                        rec[prop] = (array.indexOf(dateFields, prop) > -1) ?
+                            new Date(atts[prop]).toLocaleDateString() :
+                            atts[prop];
+                    }
+                }
+                return rec;
+            });
         }
     });
 });
