@@ -3,6 +3,7 @@ define([
 
     'dojo/_base/declare',
     'dojo/dom-construct',
+    'dojo/dom-attr',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -18,6 +19,7 @@ define([
 
     declare,
     domConstruct,
+    domAttr,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -57,6 +59,9 @@ define([
                 container: 'body',
                 html: true
             });
+            // put original title back since bootstrap popover removes it
+            // and places it in data-original-title
+            this.btn.title = domAttr.get(this.btn, 'data-original-title');
 
             this.own(
                 // needs to be loaded first before other layers are added to the map
