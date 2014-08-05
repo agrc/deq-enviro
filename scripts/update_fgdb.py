@@ -5,6 +5,7 @@ import settings
 from settings import fieldnames
 import spreadsheet
 from os import path
+from build_json import parse_fields
 
 fiveFields = [
               fieldnames.ID, 
@@ -37,6 +38,7 @@ def update_related_tables():
                 localTbl = path.join(settings.fgd, name.split('.')[-1])
                 remoteTbl = path.join(settings.sgid, name)
                 update(localTbl, remoteTbl)
+                validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
     
@@ -75,9 +77,25 @@ def update_query_layers():
                         expression = '!{}!'.format(expression)
                     else:
                         expression = '"{}"'.format(expression)
-                    arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')    
+                    arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
+                
+                validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)  
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname, logger.logError().strip()))
+
+def validate_fields(dataFields, fieldString, datasetName):
+    msg = '{}: Could not find matches in the source data for the following fields from the query layers spreadsheet: {}'
+    dataFields = set(dataFields)
+    spreadsheetFields = set([f[0] for f in parse_fields(fieldString)])
+    
+    invalidFields = spreadsheetFields - dataFields
+    
+    if len(invalidFields) > 0:
+        er = msg.format(datasetName, ', '.join(invalidFields))
+        errors.append(er)
+        return er
+    else:
+        return []
 
 if __name__ == '__main__':
     from agrc import logging
