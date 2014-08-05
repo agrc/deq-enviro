@@ -11,8 +11,8 @@ import settings
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
 def run():
-    layers = get_dataset_info(spreadsheet.get_query_layers(), 'layers')
-    tables = get_dataset_info(spreadsheet.get_related_tables(), 'tables')
+    layers = get_dataset_info(spreadsheet.get_query_layers())
+    tables = get_dataset_info(spreadsheet.get_related_tables())
 
     # other links
     links = spreadsheet.get_links()
@@ -31,11 +31,12 @@ def run():
 
     return j
 
-def get_dataset_info(spreadsheetData, type):
+def get_dataset_info(spreadsheetData):
     # get layer indicies from map service
-    jsonData = requests.get(settings.mapServiceJson).json()[type]
+    jsonData = requests.get(settings.mapServiceJson).json()
+    layersAndTables = jsonData['layers'] + jsonData['tables']
     serviceLayers = {}
-    for s in jsonData:
+    for s in layersAndTables:
         serviceLayers[s['name']] = s['id']
     for l in spreadsheetData:
         n = l[fieldnames.sgidName].split('.')[-1]
