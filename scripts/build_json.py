@@ -48,10 +48,12 @@ def get_dataset_info(spreadsheetData):
     
 def parse_fields(fieldTxt):
     fields = []
-    for txt in fieldTxt.split(','):
-        a = txt.strip().split(' (')
-        if len(a) == 2:
-            fields.append([a[0], a[1][:-1]])
+    for txt in fieldTxt.split(', '):
+        splitIndex = txt.find(' (')
+        fieldname = txt.strip()[:splitIndex]
+        alias = txt.strip()[splitIndex + 2:-1]
+        if fieldname is not None and alias is not None:
+            fields.append([fieldname, alias])
     
     return fields
 
