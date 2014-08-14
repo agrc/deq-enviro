@@ -8,7 +8,10 @@
 }
 .related-tables .alert.alert-info {
     position: absolute;
-    top: 40px;
+    left: 50%;
+    margin-left: -172px;
+    top: 50%;
+    margin-top: -25px;
 }
 .identify-pane .related-tables .tab-content {
     overflow-x: auto;

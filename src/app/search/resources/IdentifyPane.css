@@ -4,9 +4,9 @@
     padding: 8px;
 }
 .identify-pane,
-.identify-pane .tab-content,
-.identify-pane .tab-content .tab-pane,
-.identify-pane .tab-content #attributes.tab-pane .dgrid {
+.identify-pane>.tab-content,
+.identify-pane>.tab-content>.tab-pane,
+.identify-pane>.tab-content #attributes.tab-pane .dgrid {
     height: 100%;
 }
 .identify-pane #attributes .dgrid-cell {
