@@ -13,7 +13,7 @@
     "grunt-processhtml": "^0.3.1",
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",
-    "grunt-esri-slurp": "0.4.3"
+    "grunt-esri-slurp": "~0.6"
   },
   "scripts": {
     "test": "grunt travis --verbose"
