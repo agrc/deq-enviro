@@ -11,6 +11,7 @@ define([
     'dojo/dom-construct',
     'dojo/dom-class',
     'dojo/on',
+    'dojo/has',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -21,6 +22,7 @@ define([
     'dgrid/extensions/ColumnResizer',
     'dgrid/Selection',
     'dgrid/util/mouse',
+    'dgrid/util/touch',
 
     'put-selector/put',
 
@@ -41,6 +43,7 @@ define([
     domConstruct,
     domClass,
     on,
+    has,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -51,6 +54,7 @@ define([
     ColumnResizer,
     Selection,
     mouseUtil,
+    touchUtil,
 
     put,
 
@@ -117,11 +121,17 @@ define([
                         if (item.count !== undefined) {
                             return new GridRowHeader(item).domNode;
                         } else {
-                            // no using a widget because I'm guessing it would hurt performance
+                            // not using a widget because I'm guessing it would hurt performance
                             // for larger datasets
                             var div = put('div.btn-cont');
                             if (value !== config.messages.noFeaturesFound) {
-                                var btn = put(div, 'button.btn.btn-default.btn-xs', '...');
+                                var btn = put(
+                                    div,
+                                    'button.btn.btn-default.btn-xs' + ((has('touch')) ? '.touch' : ''),
+                                    '...'
+                                );
+                                // .touch above shows the button for every row for touch devices that don't
+                                // support the enterRow and leaveRow events below
                                 on(btn, 'click', function () {
                                     topic.publish(config.topics.appSearch.identify, item);
                                 });
@@ -170,11 +180,26 @@ define([
                 renderRow: this.renderRow
             }, this.gridDiv);
 
-            this.own(
-                this.grid.on('.dgrid-row:click', lang.hitch(this, 'onRowClick')),
-                this.grid.on(mouseUtil.enterRow, lang.hitch(this, 'onRowEnter')),
-                this.grid.on(mouseUtil.leaveRow, lang.hitch(this, 'onRowLeave'))
-            );
+            if (has('touch')) {
+                var activeRow;
+                var that = this;
+                this.own(
+                    this.grid.on(touchUtil.selector('.dgrid-row:click', touchUtil.tap), function (evt) {
+                        if (activeRow) {
+                            that.onRowLeave(activeRow);
+                        }
+                        that.onRowEnter(evt);
+                        that.onRowClick(evt);
+                        activeRow = evt;
+                    })
+                );
+            } else {
+                this.own(
+                    this.grid.on('.dgrid-row:click', lang.hitch(this, 'onRowClick')),
+                    this.grid.on(mouseUtil.enterRow, lang.hitch(this, 'onRowEnter')),
+                    this.grid.on(mouseUtil.leaveRow, lang.hitch(this, 'onRowLeave'))
+                );
+            }
         },
         onRowClick: function (evt) {
             // summary:
