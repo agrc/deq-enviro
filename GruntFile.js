@@ -23,7 +23,8 @@ module.exports = function(grunt) {
                         'src/jasmine-favicon-reporter/vendor/favico.js',
                         'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
-                        'src/dojo/dojo.js'
+                        'src/dojo/dojo.js',
+                        'src/app/tests/jasmineAMDErrorChecking.js'
                     ],
                     host: 'http://localhost:8000'
                 }
@@ -98,8 +99,7 @@ module.exports = function(grunt) {
         clean: ['dist'],
         esri_slurp: {
             options: {
-                version: '3.8',
-                beautify: true
+                version: '3.8'
             }
         }
     });
