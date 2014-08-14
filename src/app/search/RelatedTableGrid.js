@@ -77,13 +77,26 @@ define([
             var columns = array.map(tableInfo.fields, function (f) {
                 return {field: f[0], label: f[1]};
             });
+
+            // add additional info link column
+            columns.push({
+                field: 'additionalInfo',
+                label: 'Additional Info',
+                renderCell: function (object, value, node) {
+                    domConstruct.create('a', {
+                        href: value,
+                        innerHTML: 'info'
+                    }, node);
+                }
+            });
+
             this.createPill(this.pillsDiv, tableInfo.name);
 
             this.grid = new (declare([Grid, ColumnResizer]))({
                 columns: columns,
                 store: new Memory({
                     idProperty: 'OBJECTID',
-                    data: this.formatData(this.records)
+                    data: this.formatData(this.records, tableInfo.additionalLink)
                 })
             }, this.gridDiv);
 
@@ -140,7 +153,7 @@ define([
             
             this.inherited(arguments);
         },
-        formatData: function (records) {
+        formatData: function (records, additionalLink) {
             // summary:
             //      Flattens the records array and formats the dates.
             // records: Object[]
@@ -165,6 +178,10 @@ define([
                             atts[prop];
                     }
                 }
+
+                // additional info link
+                rec.additionalInfo = additionalLink;
+
                 return rec;
             });
         }

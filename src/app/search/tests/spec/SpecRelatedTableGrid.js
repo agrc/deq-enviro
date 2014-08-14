@@ -18,12 +18,14 @@ require([
             widget = null;
         };
         var container;
+        var link = 'http://blah.com';
 
         beforeEach(function() {
             container = domConstruct.create('div');
             spyOn(config, 'getRelatedTableByIndex').and.returnValue({
                 fields: [['blah', 'blah']],
-                index: 33
+                index: 33,
+                additionalLink: link
             });
             widget = new WidgetUnderTest({
                 records: [{
@@ -32,7 +34,7 @@ require([
                         'ACLINK_KEY': 5501,
                         'MAJ_STDESC': 'COC Issued',
                         'PROJ_MANAG': null,
-                        'START_DATE': 1374537600000,
+                        'START_DATE': 1413007200000,
                         'COMPL_DATE': 1374537600000,
                         'CURRENT_LD': null,
                         'ACT_COMM': null,
@@ -108,10 +110,15 @@ require([
             });
         });
         describe('formatData', function () {
+            var results;
+            beforeEach(function () {
+                results = widget.formatData(widget.records, link);
+            });
             it('converts dates to strings', function () {
-                var results = widget.formatData(widget.records);
-
-                expect(results[0].START_DATE).toEqual('7/22/2013');
+                expect(results[0].START_DATE).toEqual('10/11/2014');
+            });
+            it('adds additional info field', function () {
+                expect(results[0].additionalInfo).toEqual(link);
             });
         });
     });

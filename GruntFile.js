@@ -98,8 +98,11 @@ module.exports = function(grunt) {
         },
         clean: ['dist'],
         esri_slurp: {
-            options: {
-                version: '3.8'
+            defaultTarget: {
+                options: {
+                    version: '3.8',
+                    beautify: true
+                }
             }
         }
     });
@@ -120,7 +123,7 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('default', ['jasmine:app:build', 'jshint', 'connect', 'watch']);
 
-    grunt.registerTask('travis', ['esri_slurp', 'jshint', 'connect', 'jasmine:app']);
+    grunt.registerTask('travis', ['esri_slurp:defaultTarget', 'jshint', 'connect', 'jasmine:app']);
 
     grunt.registerTask('build',
         ['newer:imagemin:dynamic', 'clean', 'dojo:prod', 'copy', 'processhtml:dist']);
