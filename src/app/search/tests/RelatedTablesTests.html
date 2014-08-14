@@ -25,6 +25,7 @@
     <script type="text/javascript">
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
         var widgetUnderTest;
+        var widgetUnderTest2;
         var testFeature = {
             'ID': 'C036',
             'NAME': 'GOLD HILL INSTRUMENT ANNEX',
@@ -33,6 +34,22 @@
             'TYPE': 'Formerly Used Defense Site - J08UT0811',
             'OBJECTID': 25,
             'parent': '32',
+            'UNIQUE_ID': '14-J08UT0811',
+            'geometry': {
+                'type': 'point',
+                'x': 264368.03000000026,
+                'y': 4449224.779999999,
+                'spatialReference': {}
+            }
+        };
+        var testFeature2 = {
+            'ID': 'C036',
+            'NAME': 'GOLD HILL INSTRUMENT ANNEX',
+            'ADDRESS': 'THE CITY OF GOLD HILL',
+            'CITY': 'WENDOVER',
+            'TYPE': 'Formerly Used Defense Site - J08UT0811',
+            'OBJECTID': 25,
+            'parent': '13',
             'UNIQUE_ID': '14-J08UT0811',
             'geometry': {
                 'type': 'point',
@@ -61,14 +78,24 @@
                 widgetUnderTest.startup();
 
                 widgetUnderTest.getRelatedFeatures(testFeature);
+
+                widgetUnderTest2 = new Module({
+                    tab: dom.byId('tab2')
+                }, 'node2');
+
+                widgetUnderTest2.startup();
+
+                widgetUnderTest2.getRelatedFeatures(testFeature2);
             });
         });
     </script>
 </head>
 <body class='claro'>
     <div id="node"></div>
+    <div id="node2"></div>
     <div class='active'>
         <div id="tab"></div>
+        <div id="tab2"></div>
     </div>
 </body>
 </html>

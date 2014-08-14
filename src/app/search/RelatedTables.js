@@ -108,6 +108,7 @@ define([
             var buildGrid = function (relatedResponse, tableId) {
                 var gridFactory = function () {
                     domClass.add(that.noRelatedTablesMsg, 'hidden');
+                    domClass.remove(that.pillsDiv, 'hidden');
 
                     // should only ever be one relatedRecordGroup since we are 
                     // only passing in one objectid
@@ -133,6 +134,7 @@ define([
             };
 
             domClass.remove(this.noRelatedTablesMsg, 'hidden');
+            domClass.add(this.pillsDiv, 'hidden');
             that.destroyGrids();
 
             var url = config.urls.DEQEnviro + '/' + item.parent;
