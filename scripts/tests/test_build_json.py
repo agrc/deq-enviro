@@ -32,3 +32,11 @@ class BuildJSONTests(unittest.TestCase):
         self.assertEqual(result[2], ['Carbon_Monoxide', 'Carbon Monoxide (TONS/YR)'])
         self.assertEqual(len(result), 4)
         self.assertEqual(result[0], ['Easting', 'UTM_Easting'])
+    
+    def test_parse_fields_double_spaces(self):
+        txt = 'FacilityID (UIC Facility ID),  FacilityName (Facility Name), FacilityAddress (Facility Address), FacilityCity (Facility City)'
+        
+        result = build_json.parse_fields(txt)
+        
+        self.assertEqual(len(result), 4)
+        self.assertEqual(result[1], ['FacilityName', 'Facility Name'])
