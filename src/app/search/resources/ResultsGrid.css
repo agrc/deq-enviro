@@ -36,7 +36,8 @@
     display: none;
     visibility: hidden;
 }
-.results-grid .dgrid-row:hover .btn-cont button {
+.results-grid .dgrid-row:hover .btn-cont button,
+.results-grid .dgrid-row .btn-cont button.touch {
     display: inline-block;
     visibility: visible;
 }
