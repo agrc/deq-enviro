@@ -118,6 +118,8 @@ define([
 
             if (this.geometry) {
                 if (this.bufferNum.value > 0) {
+                    // start spinner
+                    topic.publish(config.topics.appSearch.searchStarted);
                     if (!this.geoService) {
                         this.initGeoService();
                     }
