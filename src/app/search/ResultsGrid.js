@@ -179,6 +179,7 @@ define([
                 }),
                 renderRow: this.renderRow
             }, this.gridDiv);
+            this.grid.startup();
 
             if (has('touch')) {
                 var activeRow;
