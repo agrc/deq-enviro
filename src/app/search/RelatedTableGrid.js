@@ -14,7 +14,8 @@ define([
     'dgrid/OnDemandGrid',
     'dgrid/extensions/ColumnResizer',
 
-    'app/config'
+    'app/config',
+    'app/formatDates'
 ], function(
     template,
 
@@ -31,7 +32,8 @@ define([
     Grid,
     ColumnResizer,
 
-    config
+    config,
+    formatDates
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -73,9 +75,20 @@ define([
             //      private
             console.log('app.search.RelatedTableGrid::postCreate', arguments);
 
+            var that = this;
             var tableInfo = config.getRelatedTableByIndex(this.tableId + '');
             var columns = array.map(tableInfo.fields, function (f) {
-                return {field: f[0], label: f[1]};
+                var columnInfo = {field: f[0], label: f[1]};
+                var fieldType;
+                array.some(that.fields, function (fld) {
+                    fieldType = fld.type;
+                    return fld.name === f[0];
+                });
+                if (fieldType === 'esriFieldTypeDate') {
+                    columnInfo.formatter = formatDates.getDate;
+                }
+
+                return columnInfo;
             });
 
             // add additional info link column
@@ -160,29 +173,11 @@ define([
             //      as returned from the get related records service
             console.log('app/search/RelatedTableGrid:formatData', arguments);
         
-            var dateFields = [];
-            array.forEach(this.fields, function (f) {
-                if (f.type === 'esriFieldTypeDate') {
-                    dateFields.push(f.name);
-                }
-            });
-
             return array.map(records, function (r) {
-                var rec = {};
-                var atts = r.attributes;
-
-                for (var prop in atts) {
-                    if (atts.hasOwnProperty(prop)) {
-                        rec[prop] = (array.indexOf(dateFields, prop) > -1) ?
-                            new Date(atts[prop]).toLocaleDateString() :
-                            atts[prop];
-                    }
-                }
-
                 // additional info link
-                rec.additionalInfo = additionalLink;
+                r.attributes.additionalInfo = additionalLink;
 
-                return rec;
+                return r.attributes;
             });
         }
     });
