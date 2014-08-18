@@ -11,7 +11,8 @@ define([
     'dojo/io-query',
 
     'app/config',
-    './RelatedTables',
+    'app/formatDates',
+    'app/search/RelatedTables',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -35,6 +36,7 @@ define([
     ioQuery,
 
     config,
+    formatDates,
     RelatedTables,
 
     _WidgetBase,
@@ -162,6 +164,7 @@ define([
                     if (fSet.features.length === 0) {
                         onError();
                     } else {
+                        formatDates.formatAttributes(fSet.features[0], fSet.fields);
                         that.attributeGrid.store.setData(
                             that.getStoreData(fSet.features[0].attributes,
                                 config.getQueryLayerByIndex(item.parent).fields)

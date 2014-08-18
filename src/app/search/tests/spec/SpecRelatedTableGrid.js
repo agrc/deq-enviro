@@ -110,15 +110,8 @@ require([
             });
         });
         describe('formatData', function () {
-            var results;
-            beforeEach(function () {
-                results = widget.formatData(widget.records, link);
-            });
-            it('converts dates to strings', function () {
-                expect(results[0].START_DATE).toEqual('10/11/2014');
-            });
             it('adds additional info field', function () {
-                expect(results[0].additionalInfo).toEqual(link);
+                expect(widget.records[0].attributes.additionalInfo).toEqual(link);
             });
         });
     });
