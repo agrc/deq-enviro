@@ -1,4 +1,7 @@
+*.idea/
+*.odc
 *.pyc
+*.sde
 *.sublime-workspace
 *.svn*
 .DS_Store
