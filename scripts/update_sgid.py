@@ -15,7 +15,9 @@ excludeFields = {'GlobalID',
                  'Shape.len', 
                  'Shape.area', 
                  'Shape.STArea()',
-                 'Shape.STLength()'}
+                 'Shape.STLength()',
+                 'Shape_Length',
+                 'Shape_Area'}
 latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 utm = arcpy.SpatialReference(26912)
@@ -27,10 +29,13 @@ truncateFields = [
 logger = None
 errors = []
 
-def run(logr):
+
+def run(logr, test_layer=None):
     global logger, errors
     logger = logr
     for dataset in spreadsheet.get_datasets():
+        if test_layer and dataset[fieldnames.sgidName] != test_layer:
+            continue
         try:
             sgidName = dataset[fieldnames.sgidName]
             sgid = path.join(settings.sgid, sgidName)
@@ -145,6 +150,8 @@ def get_field_names(ds):
     
 if __name__ == "__main__":
     from agrc import logging
+    import sys
+    
     logger = logging.Logger()
-    run(logger)
+    run(logger, sys.argv[1])
     print('done')
