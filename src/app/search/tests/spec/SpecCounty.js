@@ -104,6 +104,20 @@ require([
                     done();
                 });
             });
+            it('generates new geometry if none is defined (eg. clear has been called)', function (done) {
+                widget.clear();
+
+                var def = new Deferred();
+                var geo = {};
+                spyOn(widget.api, 'search').and.returnValue(def.promise);
+
+                widget.getGeometry().then(function (g) {
+                    expect(g).not.toBeNull();
+                    done();
+                });
+
+                def.resolve([{geometry: geo}]);
+            });
         });
         describe('_onShow', function () {
             it('grabs state extent on first show', function () {
