@@ -90,7 +90,7 @@ define([
                     {predicate: config.fieldNames.counties.NAME + ' = \'' + value + '\''}
                 );
             }
-            promise.then(onSuccess, onFail);
+            return promise.then(onSuccess, onFail);
         },
         getGeometry: function () {
             // summary:
@@ -99,8 +99,19 @@ define([
             console.log('app/search/County::getGeometry', arguments);
 
             var def = new Deferred();
-
-            def.resolve(this.geometry);
+            if (this.geometry) {
+                def.resolve(this.geometry);
+            } else {
+                var that = this;
+                this.onChange().then(
+                    function () {
+                        def.resolve(that.geometry);
+                    },
+                    function () {
+                        def.reject('There was an error getting the search geometry!');
+                    }
+                );
+            }
 
             return def.promise;
         },
