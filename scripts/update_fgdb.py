@@ -16,25 +16,30 @@ fiveFields = [
               ]
 logger = None
 errors = []
+field_type_mappings = {'Integer': 'LONG',
+                       'String': 'TEXT',
+                       'SmallInteger': 'SHORT'}
 
-def run(logr):
+def run(logr, test_layer=None):
     global logger, errors
     logger = logr
     
-    logger.logMsg('processing query layers')
-    update_query_layers()
+    logger.logMsg('processing query layers\n')
+    update_query_layers(test_layer)
     
-    logger.logMsg('processing related tables')
-    update_related_tables()
+    logger.logMsg('processing related tables\n')
+    update_related_tables(test_layer)
     
     return errors
     
-def update_related_tables():
+def update_related_tables(test_layer=None):
     for t in spreadsheet.get_related_tables():
         name = t[fieldnames.sgidName]
+        if test_layer and name != test_layer:
+            continue
         try:
             if name.startswith('SGID10'):
-                logger.logMsg('Processing: {}'.format(name.split('.')[-1]))
+                logger.logMsg('\nProcessing: {}'.format(name.split('.')[-1]))
                 localTbl = path.join(settings.fgd, name.split('.')[-1])
                 remoteTbl = path.join(settings.sgid, name)
                 update(localTbl, remoteTbl)
@@ -43,7 +48,7 @@ def update_related_tables():
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
     
 def update(local, remote):
-    logger.logMsg('\n\nupdating: {} \n    from: {}'.format(local, remote))
+    logger.logMsg('updating: {} \n    from: {}'.format(local, remote))
     if not arcpy.Exists(local):
         logger.logMsg('creating new local feature class')
         arcpy.Copy_management(remote, local)
@@ -51,14 +56,16 @@ def update(local, remote):
         arcpy.TruncateTable_management(local)
         arcpy.Append_management(remote, local, 'NO_TEST')
         
-def update_query_layers():
+def update_query_layers(test_layer=None):
     for l in spreadsheet.get_query_layers():
         fcname = l[fieldnames.sgidName]
+        if test_layer and fcname != test_layer:
+            continue
         try:
             # only try to update rows with valid sgid names and data sources
             if fcname.startswith('SGID10'):
                 # update fgd from SGID
-                logger.logMsg('Processing: {}'.format(fcname.split('.')[-1]))
+                logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
                 localFc = path.join(settings.fgd, fcname.split('.')[-1])
                 remoteFc = path.join(settings.sgid, fcname)
                 update(localFc, remoteFc)
@@ -69,7 +76,11 @@ def update_query_layers():
                 for f in fiveFields:
                     if not f in upper_fields:
                         logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
-                        arcpy.AddField_management(localFc, f, 'TEXT', 0, 0, 500)
+
+                        # get mapped field properties
+                        mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                        arcpy.AddField_management(localFc, f, field_type_mappings[mappedFld.type],
+                                                  mappedFld.precision, mappedFld.scale, mappedFld.length)
                 
                     # calc field
                     expression = l[f]
@@ -99,6 +110,13 @@ def validate_fields(dataFields, fieldString, datasetName):
 
 if __name__ == '__main__':
     from agrc import logging
+    import sys
+
     logger = logging.Logger()
-    run(logger)
+
+    # first argument is optionally the SGID feature class or table name
+    if len(sys.argv) == 2:
+        run(logger, sys.argv[1])
+    else:
+        run(logger)
     print('done')
