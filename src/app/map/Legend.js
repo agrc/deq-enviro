@@ -35,6 +35,14 @@ define([
         //      The url to the map service that the layer is within
         mapServiceUrl: null,
 
+        // layerId: Number
+        //      The layer within the that you want the legend for.
+        layerId: null,
+
+        // header: String (optional)
+        //      text that shows above the legend items
+        header: null,
+
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.

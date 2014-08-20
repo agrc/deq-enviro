@@ -98,7 +98,9 @@ define([
                     layerName: 'Environmental Covenants',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 1,
-                    layerProps: {opacity: 0.7}
+                    layerProps: {opacity: 0.7},
+                    showLegend: true,
+                    legendHeader: 'DIVISION, BRANCH, PROGRAM'
                 }, domConstruct.create('div', {}, this.domNode, 'first'))
             );
         }

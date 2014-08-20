@@ -70,6 +70,10 @@ define([
         //      controls the visibility of the legend popup control
         showLegend: false,
 
+        // legendHeader: String (optional)
+        //      passed to legend widget
+        legendHeader: null,
+
         postCreate: function() {
             // summary:
             //    Overrides method of same name in dijit._Widget.
@@ -88,7 +92,8 @@ define([
             if (this.showLegend) {
                 var l = new Legend({
                     mapServiceUrl: this.mapServiceUrl,
-                    layerId: this.layerIndex
+                    layerId: this.layerIndex,
+                    header: this.legendHeader
                 });
                 l.startup();
 
