@@ -169,6 +169,30 @@ define([
                         query = query || {};
                         options = options || {};
 
+                        // this block is to make the sorting of strings case-insensitive
+                        // it overrides the default sort logic adding in the .toLowerCase stuff
+                        if (options.sort) {
+                            var sort = options.sort[0];
+                            var sortFunc = function(a, b){
+                                var aValue = a[sort.attribute];
+                                var bValue = b[sort.attribute];
+                                // valueOf enables proper comparison of dates
+                                aValue = aValue != null ? aValue.valueOf() : aValue;
+                                bValue = bValue != null ? bValue.valueOf() : bValue;
+                                if (aValue !== bValue){
+                                    if (typeof aValue === 'string' && typeof bValue === 'string') {
+                                        /*jshint -W018 */
+                                        return !!sort.descending === (aValue == null ||
+                                            aValue.toLowerCase() > bValue.toLowerCase()) ? -1 : 1;
+                                    } else {
+                                        return !!sort.descending === (aValue == null ||
+                                            aValue > bValue) ? -1 : 1;
+                                        /*jshint +W018 */
+                                    }
+                                }
+                            };
+                            options.sort = sortFunc;
+                        }
 
                         if (!query.parent && !options.deep) {
                             // Default to a single-level query for root items (no parent)
@@ -179,6 +203,7 @@ define([
                 }),
                 renderRow: this.renderRow
             }, this.gridDiv);
+            this.grid.startup();
 
             if (has('touch')) {
                 var activeRow;
@@ -211,7 +236,7 @@ define([
             if (domClass.contains(evt.target, 'dgrid-expando-icon')) {
                 return;
             }
-        
+
             var row = this.grid.row(evt);
             if (!row.parent) {
                 this.grid.expand(row);
@@ -328,7 +353,7 @@ define([
             //      publishes highlight topic for that feature
             // evt: Mouse Event Object
             console.log('app/search/ResultsGrid:onRowEnter', arguments);
-        
+
             var item = this.grid.row(evt).data;
             topic.publish(config.topics.appResultLayer.highlightFeature, item.OBJECTID, item.parent);
         },
@@ -337,7 +362,7 @@ define([
             //      description
             // param: type or return: type
             console.log('app/search/ResultsGrid:onRowLeave', arguments);
-        
+
             if (evt.target.type !== 'submit') {
                 topic.publish(config.topics.appResultLayer.clearSelection);
             }
