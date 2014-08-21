@@ -3,10 +3,12 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/array',
+    'dojo/_base/lang',
     'dojo/store/Memory',
     'dojo/dom-construct',
     'dojo/dom-class',
     'dojo/on',
+    'dojo/io-query',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -21,10 +23,12 @@ define([
 
     declare,
     array,
+    lang,
     Memory,
     domConstruct,
     domClass,
     on,
+    ioQuery,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -68,6 +72,11 @@ define([
         //      Field infos for this table
         fields: null,
 
+        // fiveFields: Object
+        //      The five main fields from the query layer feature that this table is
+        //      related to
+        fiveFields: null,
+
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.
@@ -98,7 +107,8 @@ define([
                 renderCell: function (object, value, node) {
                     domConstruct.create('a', {
                         href: value,
-                        innerHTML: 'info'
+                        innerHTML: 'info',
+                        target: '_blank'
                     }, node);
                 }
             });
@@ -109,7 +119,10 @@ define([
                 columns: columns,
                 store: new Memory({
                     idProperty: 'OBJECTID',
-                    data: this.formatData(this.records, tableInfo.additionalLink)
+                    data: this.formatData(this.records,
+                        tableInfo.additionalLink,
+                        tableInfo.additionalLinkFields,
+                        this.fiveFields)
                 })
             }, this.gridDiv);
 
@@ -119,7 +132,7 @@ define([
             // summary:
             //      description
             console.log('app/search/RelatedTableGrid:startup', arguments);
-            
+
             // add active class if this is the first tab
             if (this.domNode.parentElement.children.length === 1) {
                 domClass.add(this.domNode, 'active');
@@ -134,7 +147,7 @@ define([
             // pillsContainer: node
             // name: String
             console.log('app/search/RelatedTableGrid:createPill', arguments);
-        
+
             var isFirst = pillsContainer.children.length === 0;
             var li = domConstruct.create('li', {className: isFirst ? 'active' : ''}, pillsContainer);
             this.tab = domConstruct.create('a', {
@@ -159,23 +172,32 @@ define([
             //      destroys widget and associated tab
 
             console.log('app/search/RelatedTableGrid:destroy', arguments);
-        
+
             this.grid.destroy();
 
             domConstruct.destroy(this.tab.parentElement);
-            
+
             this.inherited(arguments);
         },
-        formatData: function (records, additionalLink) {
+        formatData: function (records, additionalLink, additionalLinkFields, fiveFields) {
             // summary:
             //      Flattens the records array and formats the dates.
+            //      Also builds the additional info link
             // records: Object[]
             //      as returned from the get related records service
+            // additionalLink: String
+            // additionalLinkFields: String
+            // fiveFields: Object
             console.log('app/search/RelatedTableGrid:formatData', arguments);
-        
+
             return array.map(records, function (r) {
+                var additionalFieldsData = {};
+                array.forEach(additionalLinkFields.split(', '), function (f) {
+                    additionalFieldsData[f] = r.attributes[f];
+                });
                 // additional info link
-                r.attributes.additionalInfo = additionalLink;
+                r.attributes.additionalInfo = additionalLink + '?' +
+                    ioQuery.objectToQuery(lang.mixin(fiveFields, additionalFieldsData));
 
                 return r.attributes;
             });
