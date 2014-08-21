@@ -84,11 +84,18 @@ def run(logr, test_layer=None):
 def etl(dest, destFields, source, sourceFields):
     logger.logMsg('ETL needed')
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
-    with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
-        for row in scursor:
-            # conver to list so that we can modify and index
-            row = list(row)
-            
+    if source.split('\\')[-1].startswith('TEMPO'):
+        where = None
+    with arcpy.da.InsertCursor(dest, destFields) as icursor:
+        # da.SearchCursor throws errors if we pass in sourceFields on data from daq.odc
+        # this is my work-around
+        scursor = arcpy.SearchCursor(source, where)
+        for orig_row in scursor:
+            # create new list with data in correct order
+            row = []
+            for fn in sourceFields:
+                row.append(orig_row.getValue(fn))
+
             # use xy fields to create the point in feature class
             if sourceFields[0] == latitudeLongitude[0]:
                 # project points from ll to utm
@@ -99,14 +106,17 @@ def etl(dest, destFields, source, sourceFields):
                     pnt.X = lng
                     pnt.Y = lat
                     pntGeo = arcpy.PointGeometry(pnt, wgs)
-                    pntGeo.projectAs(utm)
-                    x = pntGeo.firstPoint.X
-                    y = pntGeo.firstPoint.Y
+                    pntProj = pntGeo.projectAs(utm)
+                    x = pntProj.firstPoint.X
+                    y = pntProj.firstPoint.Y
                 else:
                     continue
             else:
-                x = row[0]
-                y = row[1]
+                if row[0] is not None and row[1] is not None:
+                    x = scrub_coord(row[0])
+                    y = scrub_coord(row[1])
+                else:
+                    continue
                 
             # some fields need to be truncated
             for tf in truncateFields:
@@ -119,6 +129,14 @@ def etl(dest, destFields, source, sourceFields):
                         row[i] = row[i][:maxLength]
             
             icursor.insertRow([(x, y)] + row[2:])
+
+        del scursor
+
+def scrub_coord(value):
+    if isinstance(value, (int, long, float)):
+        return value
+    else:
+        return float(value.replace(',', '').strip())
 
 def get_source_fields(commonFields):
     # add duplicate xy fields to the start of the list so that we can 

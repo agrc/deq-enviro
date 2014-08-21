@@ -31,7 +31,8 @@ tblFields = [
     ['Source Data', fieldnames.sourceData],
     ['SGID Table Name', fieldnames.sgidName],
     ['Fields', fieldnames.fields],
-    ['Additional Information', fieldnames.additionalLink]
+    ['Additional Information', fieldnames.additionalLink],
+    ['Additional Information Link Fields', fieldnames.additionalLinkFields]
 ]
 
 linksFields = [

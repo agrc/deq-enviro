@@ -89,6 +89,14 @@ define([
             var that = this;
             this.gridFactories = [];
             this.destroyGrids();
+            var fiveFields = {};
+            var fn = config.fieldNames.queryLayers;
+            fiveFields[fn.ID] = item[fn.ID];
+            fiveFields[fn.NAME] = item[fn.NAME];
+            fiveFields[fn.ADDRESS] = item[fn.ADDRESS];
+            fiveFields[fn.CITY] = item[fn.CITY];
+            fiveFields[fn.TYPE] = item[fn.TYPE];
+
             var queryRelationships = function (layerProps) {
                 array.forEach(layerProps.relationships, function (rel) {
                     request(url + '/queryRelatedRecords', {
@@ -118,7 +126,8 @@ define([
                             relatedResponse.relatedRecordGroups[0].relatedRecords :
                             false,
                         pillsDiv: that.pillsDiv,
-                        fields: relatedResponse.fields
+                        fields: relatedResponse.fields,
+                        fiveFields: fiveFields
                     }, domConstruct.create('div', null, that.panesDiv));
                     grid.startup();
                     that.grids.push(grid);

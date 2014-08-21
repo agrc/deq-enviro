@@ -18,14 +18,14 @@ require([
             widget = null;
         };
         var container;
-        var link = 'http://blah.com';
 
         beforeEach(function() {
             container = domConstruct.create('div');
             spyOn(config, 'getRelatedTableByIndex').and.returnValue({
                 fields: [['blah', 'blah']],
                 index: 33,
-                additionalLink: link
+                additionalLink: 'http://blah.com',
+                additionalLinkFields: 'MAJ_STDESC, ACKEY'
             });
             widget = new WidgetUnderTest({
                 records: [{
@@ -76,7 +76,14 @@ require([
                     'type': 'esriFieldTypeDate',
                     'alias': 'COMPL_DATE',
                     'length': 8
-                }]
+                }],
+                fiveFields: {
+                    ID: 3,
+                    NAME: 'name',
+                    TYPE: 'type',
+                    ADDRESS: 'address',
+                    CITY: 'city'
+                }
             }, domConstruct.create('div', null, document.body));
         });
 
@@ -111,7 +118,9 @@ require([
         });
         describe('formatData', function () {
             it('adds additional info field', function () {
-                expect(widget.records[0].attributes.additionalInfo).toEqual(link);
+                expect(widget.records[0].attributes.additionalInfo)
+                    .toEqual('http://blah.com?ID=3&NAME=name&TYPE=type&ADDRESS=address&CITY=city&' +
+                        'MAJ_STDESC=COC%20Issued&ACKEY=869');
             });
         });
     });

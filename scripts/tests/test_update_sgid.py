@@ -69,3 +69,14 @@ class etl(unittest.TestCase):
         row = cur.next()
         self.assertEqual(len(row.PROJDESC), 2000)
         del cur, row
+
+
+class ScrubCoord(unittest.TestCase):
+    def test_returns_number(self):
+        self.assertEqual(update_sgid.scrub_coord('123'), 123)
+
+    def test_handles_commas(self):
+        self.assertEqual(update_sgid.scrub_coord('123,345'), 123345)
+
+    def test_handles_floats(self):
+        self.assertEqual(update_sgid.scrub_coord(123.456), 123.456)
