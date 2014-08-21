@@ -18,6 +18,7 @@ fields = 'fields'
 docLink = 'docLink'
 gramaLink = 'gramaLink'
 additionalLink = 'additionalLink'
+additionalLinkFields = 'additionalLinkFields'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'
