@@ -39,7 +39,7 @@ require([
                 var value = 'blah';
                 widget.textBox.value = value;
 
-                expect(widget.getSearchParam()).toEqual(value);
+                expect(widget.getSearchParam()).toEqual('BLAH');
             });
             it('throws error', function () {
                 expect(function () {
