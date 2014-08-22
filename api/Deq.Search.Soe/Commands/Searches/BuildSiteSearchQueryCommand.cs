@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Deq.Search.Soe.Cache;
 using Deq.Search.Soe.Infastructure.Commands;
 
@@ -12,30 +13,27 @@ namespace Deq.Search.Soe.Commands.Searches {
 
         private readonly string _sitename;
 
-        private readonly string _terms;
+        private readonly string[] _terms;
 
         public BuildSiteSearchQueryCommand(string terms, bool includeAll) {
-            _terms = terms;
+            _terms = terms.Split(new[]{','});
             _includeAll = includeAll;
             _sitename = ApplicationCache.Fields.SiteName;
         }
 
-        private string FormatQueryString(string terms, bool includeAll) {
+        private string FormatQueryString(IList<string> terms, bool includeAll) {
             var joiner = includeAll ? "AND" : "OR";
-            var words = terms.Split(new[] {
-                ' '
-            });
 
             var sb = new StringBuilder();
             const string lastRun = "upper({0}) LIKE upper('%{1}%')";
             var format = lastRun + " {2} ";
 
-            for (var i = 0; i < words.Length; i++) {
-                if (i == words.Length - 1) {
+            for (var i = 0; i < terms.Count; i++) {
+                if (i == terms.Count - 1) {
                     format = lastRun;
                 }
 
-                sb.AppendFormat(format, _sitename, words[i], joiner);
+                sb.AppendFormat(format, _sitename, terms[i].Trim(), joiner);
             }
 
             return sb.ToString();

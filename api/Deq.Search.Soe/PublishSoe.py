@@ -2,7 +2,7 @@ import requests
 
 host = 'localhost'
 configuration = 'Debug'
-service_name = 'Deq/DeqSearchSoe'
+service_name = 'DEQEnviro'
 
 token_url = 'http://{}:6080/arcgis/admin/generateToken'.format(host)
 update_soe_url = 'http://{}:6080/arcgis/admin/services/types/extensions/update'.format(

@@ -139,7 +139,7 @@ namespace Deq.Search.Soe.Endpoints {
                         return Json(errors);
                     }
 
-                    var query = string.Format("{0} = '{1}'", ApplicationCache.Fields.ProgramId, program);
+                    var query = string.Format("upper({0}) = upper('{1}')", ApplicationCache.Fields.ProgramId, program);
 
                     queryFilter = new SpatialFilter
                     {
