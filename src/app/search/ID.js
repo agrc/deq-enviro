@@ -46,7 +46,7 @@ define([
             // returns: String
             console.log('app.search.ID::getSearchParam', arguments);
         
-            var value = this.textBox.value.trim().toUpperCase();
+            var value = this.textBox.value.trim();
             if (value === '') {
                 throw this.invalidMsg;
             }

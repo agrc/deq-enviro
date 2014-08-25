@@ -39,14 +39,14 @@ require([
                 widget.textBox.value = 'one two';
                 widget.allRadio.checked = true;
                 expect(widget.getSearchParam()).toEqual({
-                    terms: ['ONE', 'TWO'],
+                    terms: ['one', 'two'],
                     includeAll: true
                 });
 
                 widget.textBox.value = 'two';
                 widget.allRadio.checked = false;
                 expect(widget.getSearchParam()).toEqual({
-                    terms: ['TWO'],
+                    terms: ['two'],
                     includeAll: false
                 });
             });

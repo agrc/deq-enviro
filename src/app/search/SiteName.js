@@ -49,7 +49,7 @@ define([
             }
 
             return {
-                terms: this.textBox.value.trim().toUpperCase().split(' '),
+                terms: this.textBox.value.trim().split(' '),
                 includeAll: this.allRadio.checked
             };
         },
