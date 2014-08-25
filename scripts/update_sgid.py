@@ -17,7 +17,8 @@ excludeFields = {'GlobalID',
                  'Shape.STArea()',
                  'Shape.STLength()',
                  'Shape_Length',
-                 'Shape_Area'}
+                 'Shape_Area',
+                 'ESRI_OID'}
 latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 utm = arcpy.SpatialReference(26912)
