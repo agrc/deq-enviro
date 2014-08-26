@@ -10,6 +10,12 @@ module.exports = function(grunt) {
     var gruntFile = 'GruntFile.js';
     var internFile = 'tests/intern.js';
     var jshintFiles = [jsFiles, gruntFile, internFile];
+    var bumpFiles = [
+        'package.json',
+        'bower.json',
+        'src/app/package.json',
+        'src/app/config.js'
+    ];
 
     // Project configuration.
     grunt.initConfig({
@@ -98,35 +104,66 @@ module.exports = function(grunt) {
         },
         clean: ['dist'],
         esri_slurp: {
-            defaultTarget: {
+            options: {
+                version: '3.8'
+            },
+            dev: {
                 options: {
-                    version: '3.8',
                     beautify: true
+                },
+                dest: 'src/esri'
+            },
+            travis: {
+                options: {
+                    beautify: false
                 }
+            }
+        },
+        bump: {
+            options: {
+                files: bumpFiles,
+                commitFiles: bumpFiles,
+                push: false
             }
         }
     });
 
-    // Register tasks.
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-dojo');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
-    grunt.loadNpmTasks('grunt-newer');
-    grunt.loadNpmTasks('grunt-processhtml');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-esri-slurp');
+    // Loading dependencies
+    for (var key in grunt.file.readJSON('package.json').devDependencies) {
+        if (key !== 'grunt' && key.indexOf('grunt') === 0) {
+            grunt.loadNpmTasks(key);
+        }
+    }
 
     // Default task.
-    grunt.registerTask('default', ['jasmine:app:build', 'jshint', 'connect', 'watch']);
+    grunt.registerTask('default', [
+        'if-missing:esri_slurp:dev',
+        'jasmine:app:build',
+        'jshint',
+        'connect',
+        'watch'
+    ]);
 
-    grunt.registerTask('travis', ['esri_slurp:defaultTarget', 'jshint', 'connect', 'jasmine:app']);
+    grunt.registerTask('travis', [
+        'esri_slurp:travis',
+        'jshint',
+        'connect',
+        'jasmine:app'
+    ]);
 
-    grunt.registerTask('build',
-        ['newer:imagemin:dynamic', 'clean', 'dojo:prod', 'copy', 'processhtml:dist']);
-    grunt.registerTask('stage-build',
-        ['newer:imagemin:dynamic', 'clean', 'dojo:stage', 'copy', 'processhtml:dist']);
+    grunt.registerTask('build', [
+        'newer:imagemin:dynamic',
+        'clean',
+        'dojo:prod',
+        'copy',
+        'processhtml:dist'
+    ]);
+
+    grunt.registerTask('stage', [
+        'newer:imagemin:dynamic',
+        'clean',
+        'dojo:stage',
+        'copy',
+        'processhtml:dist'
+    ]);
 };
