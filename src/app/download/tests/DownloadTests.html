@@ -31,8 +31,53 @@
         }, [
             'app/download/Download',
 
+            'app/config',
+
+            'dojo/on',
+            'dojo/topic',
+
+            'dojo/dom-construct',
+
             'dojo/domReady!'
-        ], function(Module) {
+        ], function(
+            Module,
+
+            config,
+
+            on,
+            topic,
+
+            domConstruct
+            ) {
+            var results = domConstruct.toDom('<div class="btn btn-default pull-right">Publish Results</div>');
+
+            var noResults = domConstruct.toDom('<div class="btn btn-default pull-right">Publish No Results</div>');
+
+            on(noResults, 'click', function(){
+                var response = {
+                    'result': {
+                        '5': [],
+                        '6': []
+                    }
+                };
+
+                topic.publish(config.topics.appSearch.featuresFound, response.result);
+            });
+
+            on(results, 'click', function(){
+                var response = {
+                    'result': {
+                        '5': [{},{}],
+                        '6': [{},{},{}]
+                    }
+                };
+
+                topic.publish(config.topics.appSearch.featuresFound, response.result);
+            });
+
+            domConstruct.place(results, document.body);
+            domConstruct.place(noResults, document.body);
+
             widgetUnderTest = new Module({
             }, 'node');
 
