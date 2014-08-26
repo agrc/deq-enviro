@@ -1,8 +1,8 @@
 {
-    "name": "app",
-    "version": "0.1",
+    "name": "deq-enviro",
+    "version": "0.9.0",
     "main": "main",
-    "description": "AGRC Boilerplate",
-    "homepage": "https://github.com/agrc/AGRCJavaScriptProjectBoilerPlate",
+    "description": "DEQ Environmental Data Viewer ",
+    "homepage": "https://github.com/agrc/deq-enviro",
     "dojoBuild": "app.profile.js"
 }
