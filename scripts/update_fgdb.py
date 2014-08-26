@@ -6,6 +6,7 @@ from settings import fieldnames
 import spreadsheet
 from os import path
 from build_json import parse_fields
+from collections import namedtuple
 
 fiveFields = [
               fieldnames.ID, 
@@ -78,7 +79,13 @@ def update_query_layers(test_layer=None):
                         logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
 
                         # get mapped field properties
-                        mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                        if not l[f] == 'n/a':
+                            mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                        else:
+                            mappedFld = namedtuple('literal', 'type precision scale length')(**{'type': 'String',
+                                                                                                'precision': 0,
+                                                                                                'scale': 0,
+                                                                                                'length': 3})
                         arcpy.AddField_management(localFc, f, field_type_mappings[mappedFld.type],
                                                   mappedFld.precision, mappedFld.scale, mappedFld.length)
                 
