@@ -35,3 +35,5 @@ src/stubmodule/
 src/underscore-string/
 src/util/*
 src/xstyle/
+scripts/download/DeqEnviro.py
+scripts/download/.noseids
