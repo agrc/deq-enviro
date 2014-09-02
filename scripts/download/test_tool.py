@@ -34,18 +34,18 @@ class TestTool(unittest.TestCase):
         self.assertDictEqual(actual, expected)
 
     def test_get_relationship_classes(self):
-        actual = self.patient._get_relationships('VCP')
+        actual, relationships = self.patient._get_relationships('VCP')
 
         self.assertEqual(len(actual.keys()), 3)
         self.assertEqual(actual['deqmap_cerclabranchic'], [2, 'icalinkkey'])
 
     def test_get_relationship_classes_when_there_are_none(self):
-        actual = self.patient._get_relationships('NPL')
+        actual, relationships = self.patient._get_relationships('NPL')
 
         self.assertEqual(len(actual.keys()), 0)
 
     def test_get_features(self):
-        actual = self.patient._get_features({'VCP': [2]})
+        actual, relationships = self.patient._get_features({'VCP': [2]})
 
         for key in actual.keys():
             rows = actual[key]
@@ -54,10 +54,15 @@ class TestTool(unittest.TestCase):
         expected = {
             'VCP': [2],
             'deqmap_cerclabranchactmaj': [111, 112, 113, 114, 115, 116],
-            'deqmap_cerclabrremed': [51, 52]
+            'deqmap_cerclabrremed': [51, 52],
+            'deqmap_cerclabranchic': []
         }
 
         self.assertItemsEqual(actual, expected)
+        self.assertEqual(len(actual['VCP']), 1)
+        self.assertEqual(len(actual['deqmap_cerclabranchactmaj']), 6)
+        self.assertEqual(len(actual['deqmap_cerclabrremed']), 2)
+        self.assertEqual(len(actual['deqmap_cerclabranchic']), 0)
 
     def test_format_where_clause(self):
         oids = [1, 2, 3, 4]
