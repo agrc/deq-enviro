@@ -7,6 +7,7 @@
 @import '../map/resources/MapLayersPopover.css';
 @import '../search/resources/Search.css';
 @import './Wizard.css';
+@import '../map/resources/MeasureTool.css';
 
 body, html, .app {
     width: 100%;
@@ -120,6 +121,12 @@ body, html, .app {
 /* remove orange outline in chrome */
 *:focus {
     outline: none;
+}
+.dijitPopup {
+    z-index: 1020 !important;
+}
+.popover {
+    max-width: 300px;
 }
 
 .map .tooltip {

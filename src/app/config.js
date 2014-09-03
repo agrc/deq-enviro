@@ -11,7 +11,9 @@ define([
     'esri/symbols/SimpleFillSymbol',
     'esri/symbols/SimpleLineSymbol',
     'esri/symbols/SimpleMarkerSymbol',
-    'esri/symbols/CartographicLineSymbol'
+    'esri/symbols/CartographicLineSymbol',
+    'esri/config',
+    'esri/tasks/GeometryService'
 ], function (
     Color,
     array,
@@ -24,9 +26,17 @@ define([
     SimpleFillSymbol,
     SimpleLineSymbol,
     SimpleMarkerSymbol,
-    CartographicLineSymbol
+    CartographicLineSymbol,
+    esriConfig,
+    GeometryService
     ) {
 
+    esriConfig.defaults.geometryService = new GeometryService('/arcgis/rest/services/Geometry/GeometryServer');
+
+    // force api to use CORS on mapserv thus removing the test request on app load
+    // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
+    esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
+    
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);

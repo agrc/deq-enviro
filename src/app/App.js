@@ -19,14 +19,15 @@ define([
 
     'agrc/widgets/map/BaseMap',
 
-    './config',
-    './map/MapButton',
-    './map/MapLayersPopover',
-    './Wizard',
-    './search/Search',
-    './search/ResultsGrid',
-    './search/IdentifyPane',
-    './map/MapController',
+    'app/config',
+    'app/map/MapButton',
+    'app/map/MapLayersPopover',
+    'app/Wizard',
+    'app/search/Search',
+    'app/search/ResultsGrid',
+    'app/search/IdentifyPane',
+    'app/map/MapController',
+    'app/map/MeasureTool',
 
     'ijit/widgets/authentication/LoginRegister',
 
@@ -60,6 +61,7 @@ define([
     ResultsGrid,
     IdentifyPane,
     MapController,
+    MeasureTool,
 
     LoginRegister,
 
@@ -82,6 +84,9 @@ define([
 
         // mapLayersBtn: MapButton
         mapLayersBtn: null,
+
+        // measureToolsBtn: MapButton
+        measureToolsBtn: null,
 
         // login: LoginRegister
         login: null,
@@ -145,8 +150,8 @@ define([
                     title: 'Map Reference Layers',
                     iconName: 'list'
                 }, this.layersBtnDiv),
-                new MapButton({
-                    title: 'Measure Tool',
+                this.measureToolsBtn = new MapButton({
+                    title: 'Measure Tools',
                     iconName: 'resize-horizontal'
                 }, this.measureBtnDiv),
                 new MapButton({
@@ -168,6 +173,15 @@ define([
                 })
             ];
             this.switchBottomPanel(this.resultsGridDiv);
+
+            this.map.on('load', function () {
+                var tool = new MeasureTool({
+                    btn: that.measureToolsBtn.domNode,
+                    map: that.map
+                });
+                that.own(tool);
+                tool.startup();
+            });
 
             this.inherited(arguments);
         },
