@@ -16,12 +16,12 @@ class Toolbox(object):
         self.alias = "DeqEnviro"
 
         # List of tool classes associated with this toolbox
-        self.tools = [Tool]
+        self.tools = [Download]
 
 
-class Tool(object):
+class Download(object):
 
-    version = '0.2.0'
+    version = '0.3.0'
 
     def __init__(self, workspace=None):
         self.label = "Download"
@@ -202,8 +202,6 @@ class Tool(object):
             name = name_description_map[0]
             description = name_description_map[1]
 
-            arcpy.AddMessage(description)
-
             if description.isComposite:
                 relationship_type = 'COMPOSITE'
 
@@ -315,7 +313,7 @@ class Tool(object):
         determining the shape type and data type.
         :param output_location: the place on disk to save the table.
         '''
-        arcpy.AddMessage('-_create_table. {}\\{}'.format(output_location, table_name))
+        arcpy.AddMessage('--_create_table. {}\\{}'.format(output_location, table_name))
 
         description = arcpy.Describe(table_name)
         if description.datatype == 'FeatureClass':
@@ -357,12 +355,35 @@ class Tool(object):
         '''Creates and writes values to a shapefile'''
         arcpy.AddMessage('--_create_shapefile::{}'.format(output_location))
 
+        feature_classes = arcpy.ListFeatureClasses()
+        tables = arcpy.ListTables()
+
         this = arcpy.env.workspace
         arcpy.env.workspace = input_location
 
+        def truncate_strings(table):
+            fields = map(lambda field: field.name, filter(
+                lambda field: field.type == 'String', arcpy.Describe(table).fields))
+
+            def truncate_string(value):
+                if value is None:
+                    return value
+
+                return value[:255]
+
+            with arcpy.da.UpdateCursor(table, fields) as cursor:
+                for row in cursor:
+                    if(filter(lambda data: data is not None and len(data) > 255, row)) == 0:
+                        continue
+
+                    row = map(truncate_string, row)
+                    cursor.updateRow(row)
+
+        map(truncate_strings, feature_classes + tables)
+
         try:
-            arcpy.FeatureClassToShapefile_conversion(arcpy.ListFeatureClasses(), output_location)
-            arcpy.TableToDBASE_conversion(arcpy.ListTables(), output_location)
+            arcpy.FeatureClassToShapefile_conversion(feature_classes, output_location)
+            arcpy.TableToDBASE_conversion(tables, output_location)
         finally:
             arcpy.env.workspace = this
 
@@ -379,7 +400,6 @@ class Tool(object):
             if not isinstance(value, tuple):
                 return value
 
-            arcpy.AddMessage('turning {} into a string'.format(value))
             return str(value)
 
         try:
