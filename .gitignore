@@ -10,12 +10,14 @@
 .pydevproject
 _SpecRunner.html
 api/Search.Api/.nuget
+deploy
 dist/*
 node_modules/
 scripts/Logs
 scripts/scratch.gdb
 scripts/secrets.cfg
 scripts/settings/__init__.py
+secrets.json
 src/agrc/*
 src/bootstrap/*
 src/dgrid/

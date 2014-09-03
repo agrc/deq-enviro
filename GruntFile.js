@@ -16,6 +16,26 @@ module.exports = function(grunt) {
         'src/app/package.json',
         'src/app/config.js'
     ];
+    var deployExcludes = [
+        '!util/**',
+        '!**/*.uncompressed.js',
+        '!**/*consoleStripped.js',
+        '!**/*.min.*',
+        '!build-report.txt'
+    ];
+    var deployDir = 'wwwroot/DEQEnviro';
+    var secrets;
+    try {
+        secrets = grunt.file.readJSON('secrets.json');
+    } catch (e) {
+        // swallow for build server
+        secrets = {
+            stageHost: '',
+            prodHost: '',
+            username: '',
+            password: ''
+        };
+    }
 
     // Project configuration.
     grunt.initConfig({
@@ -102,7 +122,10 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: ['dist'],
+        clean: {
+            build: ['dist'],
+            deploy: ['deploy']
+        },
         esri_slurp: {
             options: {
                 version: '3.8'
@@ -124,6 +147,63 @@ module.exports = function(grunt) {
                 files: bumpFiles,
                 commitFiles: bumpFiles,
                 push: false
+            }
+        },
+        secrets: secrets,
+        sftp: {
+            stage: {
+                files: {
+                    './': 'deploy/dist.zip'
+                },
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                files: {
+                    './': 'deploy/dist.zip'
+                },
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            },
+            options: {
+                path: './' + deployDir + '/',
+                srcBasePath: 'deploy/',
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>',
+                showProgress: true
+            }
+        },
+        sshexec: {
+            options: {
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>'
+            },
+            stage: {
+                command: ['cd ' + deployDir, 'unzip -o dist.zip', 'rm dist.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                command: ['cd ' + deployDir, 'unzip -o dist.zip', 'rm dist.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            }
+        },
+        compress: {
+            options: {
+                archive: 'deploy/dist.zip'
+            },
+            main: {
+                files: [{
+                    src: ['**'].concat(deployExcludes),
+                    dest: './',
+                    cwd: 'dist/',
+                    expand: true
+                }]
             }
         }
     });
@@ -151,19 +231,33 @@ module.exports = function(grunt) {
         'jasmine:app'
     ]);
 
-    grunt.registerTask('build', [
+    // PROD
+    grunt.registerTask('build-prod', [
         'newer:imagemin:dynamic',
-        'clean',
+        'clean:build',
         'dojo:prod',
         'copy',
         'processhtml:dist'
     ]);
+    grunt.registerTask('deploy-prod', [
+        'clean:deploy',
+        'compress:main',
+        'sftp:prod',
+        'sshexec:prod'
+    ]);
 
-    grunt.registerTask('stage', [
+    // STAGE
+    grunt.registerTask('build-stage', [
         'newer:imagemin:dynamic',
-        'clean',
+        'clean:build',
         'dojo:stage',
         'copy',
         'processhtml:dist'
+    ]);
+    grunt.registerTask('deploy-stage', [
+        'clean:deploy',
+        'compress:main',
+        'sftp:stage',
+        'sshexec:stage'
     ]);
 };
