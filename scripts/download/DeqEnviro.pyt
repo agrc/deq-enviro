@@ -294,17 +294,16 @@ class Tool(object):
 
         return result, relationships
 
-    def _create_gdb_table(self, table_name, output_location):
+    def _create_table(self, table_name, output_location):
         '''Creates the appropriate table type given the table name.
 
         :param table_name: the source table name. This is used as the template for createing the schema along with
         determining the shape type and data type.
         :param output_location: the place on disk to save the table.
         '''
-        arcpy.AddMessage('-_create_gdb_table. {}'.format(table_name))
+        arcpy.AddMessage('-_create_table. {}\\{}'.format(output_location, table_name))
 
         description = arcpy.Describe(table_name)
-
         if description.datatype == 'FeatureClass':
             feature_type = description.shapeType.upper()
             arcpy.CreateFeatureclass_management(output_location,
@@ -330,13 +329,29 @@ class Tool(object):
 
         for feature_class in feature_class_rows_map:
             table_location = os.path.join(output_location, feature_class)
-            self._create_gdb_table(feature_class, output_location)
+            self._create_table(feature_class, output_location)
 
             with arcpy.da.InsertCursor(table_location, '*') as cursor:
                 for row in feature_class_rows_map[feature_class]:
                     cursor.insertRow(row)
 
         self._recreate_relationships(relationships, output_location)
+
+        return output_location
+
+    def _create_shapefile(self, input_location, output_location):
+        '''Creates and writes values to a shapefile'''
+        arcpy.AddMessage('--_create_shapefile::{}'.format(output_location))
+
+        this = arcpy.env.workspace
+        arcpy.env.workspace = input_location
+
+        arcpy.FeatureClassToShapefile_conversion(arcpy.ListFeatureClasses(), output_location)
+        arcpy.TableToDBASE_conversion(arcpy.ListTables(), output_location)
+
+        arcpy.env.workspace = this
+
+        arcpy.Delete_management(input_location)
 
     def execute(self, parameters, messages):
         '''Returns the location on the server of a zip file
@@ -364,6 +379,8 @@ class Tool(object):
             self._create_fgdb(feature_class_oid_map, output_location)
         elif file_type == 'shp':
             arcpy.AddMessage('-Creating a shapefile.')
+            gdb = self._create_fgdb(feature_class_oid_map, output_location)
+            self._create_shapefile(gdb, output_location)
         elif file_type == 'csv':
             arcpy.AddMessage('-Creating a file geodatabase.')
         elif file_type == 'xls':
