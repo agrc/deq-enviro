@@ -1,6 +1,10 @@
 import arcpy
+import csv
+import itertools
 import json
 import os
+import xlsxwriter
+from glob import glob
 from shutil import rmtree
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -17,7 +21,7 @@ class Toolbox(object):
 
 class Tool(object):
 
-    version = '0.1.7'
+    version = '0.2.0'
 
     def __init__(self, workspace=None):
         self.label = "Download"
@@ -93,12 +97,23 @@ class Tool(object):
         limit = 5000
         i = 0
 
-        items_to_delete = [self.fgdb, self.name + '.zip']
+        delete_file_types = ['csv', 'zip', 'xlsx', 'gdb', 'cpg', 'dbf', 'xml', 'prj', 'sbn', 'sbx', 'shx', 'shp']
+        items_to_delete = map(lambda x: glob(os.path.join(directory, '*.' + x)), delete_file_types)
+        # flatten [[], []]
+        items_to_delete = list(itertools.chain.from_iterable(items_to_delete))
+
+        def remove(thing):
+            if os.path.isdir(thing):
+                rmtree(thing)
+
+            else:
+                os.remove(thing)
 
         while len(filter(os.path.exists, items_to_delete)) > 0 and i < limit:
             try:
-                map(rmtree, items_to_delete)
-            except:
+                map(remove, items_to_delete)
+            except Exception as e:
+                print e
                 i += 1
 
         return True
@@ -120,7 +135,7 @@ class Tool(object):
         '''
         arcpy.AddMessage('--_zip_output_directory::{}'.format(destination_location))
 
-        with ZipFile(destination_location, 'w', ZIP_DEFLATED) as z:
+        with ZipFile(destination_location, 'w', ZIP_DEFLATED) as zip_writer:
             for root, dirs, files in os.walk(source_location):
                 if 'scratch.gdb' in root:
                     continue
@@ -129,10 +144,9 @@ class Tool(object):
                     if extension in ['.zip', '.lock']:
                         continue
 
-                    absfn = os.path.join(root, file_name)
-                    # XXX: relative path
-                    zfn = absfn[len(source_location) + len(os.sep):]
-                    z.write(absfn, zfn)
+                    full_name = os.path.join(root, file_name)
+                    name = full_name[len(source_location) + len(os.sep):]
+                    zip_writer.write(full_name, name)
 
     def _deserialize_json(self, value):
         '''deserializes the parameter json'''
@@ -346,12 +360,56 @@ class Tool(object):
         this = arcpy.env.workspace
         arcpy.env.workspace = input_location
 
-        arcpy.FeatureClassToShapefile_conversion(arcpy.ListFeatureClasses(), output_location)
-        arcpy.TableToDBASE_conversion(arcpy.ListTables(), output_location)
-
-        arcpy.env.workspace = this
+        try:
+            arcpy.FeatureClassToShapefile_conversion(arcpy.ListFeatureClasses(), output_location)
+            arcpy.TableToDBASE_conversion(arcpy.ListTables(), output_location)
+        finally:
+            arcpy.env.workspace = this
 
         arcpy.Delete_management(input_location)
+
+    def _create_xls(self, feature_class_oid_map, output_location):
+        '''Creates and writes values to a shapefile'''
+        arcpy.AddMessage('--_create_xls::{}'.format(output_location))
+
+        save_location = os.path.join(output_location, 'DeqEnviroSearchResults.xlsx')
+        feature_class_rows_map = self._get_features(feature_class_oid_map)[0]
+
+        def convert_tuple(value):
+            if not isinstance(value, tuple):
+                return value
+
+            arcpy.AddMessage('turning {} into a string'.format(value))
+            return str(value)
+
+        try:
+            workbook = xlsxwriter.Workbook(save_location)
+
+            for feature_class in feature_class_rows_map:
+                worksheet = workbook.add_worksheet(feature_class)
+                # write header
+                worksheet.write_row('A1', map(lambda x: x.name, arcpy.ListFields(feature_class)))
+
+                for i, row in enumerate(feature_class_rows_map[feature_class]):
+                    row = map(convert_tuple, row)
+                    # start at A2
+                    worksheet.write_row('A' + str(i + 2), row)
+        finally:
+            workbook.close()
+
+    def _create_csv(self, feature_class_oid_map, output_location):
+        feature_class_rows_map = self._get_features(feature_class_oid_map)[0]
+
+        for feature_class in feature_class_rows_map:
+            table_location = os.path.join(output_location, feature_class)
+
+            with open(table_location + '.csv', 'wb') as csv_file:
+                cursor = csv.writer(csv_file, dialect=csv.excel)
+                # write the header
+                cursor.writerow(map(lambda x: x.name, arcpy.ListFields(feature_class)))
+
+                for row in feature_class_rows_map[feature_class]:
+                    cursor.writerow(row)
 
     def execute(self, parameters, messages):
         '''Returns the location on the server of a zip file
@@ -379,12 +437,17 @@ class Tool(object):
             self._create_fgdb(feature_class_oid_map, output_location)
         elif file_type == 'shp':
             arcpy.AddMessage('-Creating a shapefile.')
+
             gdb = self._create_fgdb(feature_class_oid_map, output_location)
             self._create_shapefile(gdb, output_location)
         elif file_type == 'csv':
             arcpy.AddMessage('-Creating a file geodatabase.')
+
+            self._create_csv(feature_class_oid_map, output_location)
         elif file_type == 'xls':
             arcpy.AddMessage('-Creating a file geodatabase.')
+
+            self._create_xls(feature_class_oid_map, output_location)
         else:
             raise Exception('file type not supported')
 
