@@ -3,23 +3,22 @@ define([
 
     'dojo/_base/declare',
     'dojo/dom-construct',
-    'dojo/dom-attr',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    './ReferenceLayerToggle',
-    './ScaleDependentReferenceLayerToggle',
-    '../config',
-    './MapController',
-    './BaseMapSelector'
+    'app/map/ReferenceLayerToggle',
+    'app/map/ScaleDependentReferenceLayerToggle',
+    'app/config',
+    'app/map/MapController',
+    'app/map/BaseMapSelector',
+    'app/_PopoverMixin'
 ], function(
     template,
 
     declare,
     domConstruct,
-    domAttr,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -29,9 +28,10 @@ define([
     ScaleDependentReferenceLayerToggle,
     config,
     MapController,
-    BaseMapSelector
+    BaseMapSelector,
+    _PopoverMixin
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _PopoverMixin], {
         // description:
         //      Popover that is toggled by the "Map Layers" map button. 
         //      Contains controls to allow the user to toggle reference and base map layers.
@@ -43,25 +43,12 @@ define([
 
         // Properties to be sent into constructor
 
-        // btn: DomNode
-        //      The button that will toggle this popup
-        btn: null,
-
         postCreate: function() {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
             //    private
             console.log('app/map/MapLayersPopover::postCreate', arguments);
-
-            $(this.btn).popover({
-                content: this.domNode,
-                container: 'body',
-                html: true
-            });
-            // put original title back since bootstrap popover removes it
-            // and places it in data-original-title
-            this.btn.title = domAttr.get(this.btn, 'data-original-title');
 
             this.own(
                 // needs to be loaded first before other layers are added to the map
@@ -103,6 +90,8 @@ define([
                     legendHeader: 'DIVISION, BRANCH, PROGRAM'
                 }, domConstruct.create('div', {}, this.domNode, 'first'))
             );
+
+            this.inherited(arguments);
         }
     });
 });
