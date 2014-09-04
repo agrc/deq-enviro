@@ -18,6 +18,9 @@
 .results-grid .dgrid-row:hover {
     background-color: #fafafa;
 }
+.results-grid .dgrid-row.dgrid-selected:hover {
+    background-color: #AEC3D6;
+}
 .results-grid .field-ID[role='columnheader'] {
     border-left: none;
 }
