@@ -18,6 +18,7 @@ class TestTool(unittest.TestCase):
         workspace = 'C:\Projects\TestData\DEQ\QueryLayers.gdb'
         #: thing being tested
         self.patient = Tool(workspace)
+        self.scratch = 'C:\\Users\\agrc-arcgis\\Documents\\ArcGIS\\scratch'
 
     def test_sanity(self):
         self.assertIsNotNone(self.patient)
@@ -83,3 +84,21 @@ class TestTool(unittest.TestCase):
 
         actual = self.patient._format_where_clause(related_key_map=key_map, data=data)
         self.assertEqual(actual, expected)
+
+    def test_create_fgdb(self):
+        class Parameter(object):
+
+            def __init__(self, value):
+                super(Parameter, self).__init__()
+                self.value = value
+
+            @property
+            def valueAsText(self):
+                return self.value
+
+        parameters = [Parameter('{"VCP": [2]}'),
+                      Parameter('fgdb'),
+                      None,
+                      Parameter('C:\\Projects\\TestData\\DEQ\\QueryLayers.gdb')]
+
+        self.patient.execute(parameters, None)

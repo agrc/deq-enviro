@@ -12,20 +12,20 @@ from zipfile import ZipFile, ZIP_DEFLATED
 class Toolbox(object):
 
     def __init__(self):
-        self.label = "DeqEnviro"
-        self.alias = "DeqEnviro"
+        self.label = 'DeqEnviro'
+        self.alias = 'DeqEnviro'
 
         # List of tool classes associated with this toolbox
-        self.tools = [Download]
+        self.tools = [Tool]
 
 
-class Download(object):
+class Tool(object):
 
-    version = '0.3.0'
+    version = '0.3.1'
 
     def __init__(self, workspace=None):
-        self.label = "Download"
-        self.description = "Download DEQ Environmental Data"
+        self.label = 'Download'
+        self.description = 'Download DEQ Environmental Data ' + self.version
         self.canRunInBackground = True
         self.fgdb = 'DeqEnviro.gdb'
         self.name = 'SearchResults'
@@ -91,21 +91,22 @@ class Download(object):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def _delete_scratch_data(self, directory):
+    def _delete_scratch_data(self, directory, types=None):
         arcpy.AddMessage('--_delete_scratch_data::{}'.format(directory))
 
         limit = 5000
         i = 0
 
-        delete_file_types = ['csv', 'zip', 'xlsx', 'gdb', 'cpg', 'dbf', 'xml', 'prj', 'sbn', 'sbx', 'shx', 'shp']
-        items_to_delete = map(lambda x: glob(os.path.join(directory, '*.' + x)), delete_file_types)
+        if types is None:
+            types = ['csv', 'zip', 'xlsx', 'gdb', 'cpg', 'dbf', 'xml', 'prj', 'sbn', 'sbx', 'shx', 'shp']
+
+        items_to_delete = map(lambda x: glob(os.path.join(directory, '*.' + x)), types)
         # flatten [[], []]
         items_to_delete = list(itertools.chain.from_iterable(items_to_delete))
 
         def remove(thing):
             if os.path.isdir(thing):
                 rmtree(thing)
-
             else:
                 os.remove(thing)
 
@@ -239,7 +240,7 @@ class Download(object):
 
         map(create_relationship, zip(relationship_names, relationships))
 
-    def _format_where_clause(self, field=None, values=None, related_key_map=None, data=None):
+    def _format_where_clause(self, field=None, values=None, related_key_map=None, data=None, feature_layer=None):
         '''Returns the sql to find table data in the shape of `field in (values)`
         If `related_key_map` and `data` are present we format the query for a related table.
         Otherwise only field and values are necessary.
@@ -252,7 +253,13 @@ class Download(object):
         arcpy.AddMessage('--_format_where_clause')
 
         if related_key_map is not None:
-            values = set([row[related_key_map[0]] for row in data])
+            values = set({})
+
+            field = [arcpy.ListFields(feature_layer)[related_key_map[0]].name]
+            with arcpy.da.SearchCursor(feature_layer, field) as cursor:
+                for row in cursor:
+                    values.add(row[0])
+
             field = related_key_map[1]
 
         values = list(values)
@@ -286,20 +293,22 @@ class Download(object):
         for feature_class in feature_class_oid_map:
             oids = feature_class_oid_map[feature_class]
             where_clause = self._format_where_clause('OBJECTID', oids)
-            result.setdefault(feature_class, [])
+            result.setdefault(feature_class, None)
 
-            # get the origin feature results
-            for row in self._query_features(feature_class, fields, where_clause):
-                result[feature_class].append(row)
+            # create selection layer
+            selection = feature_class + '_selection'
+            arcpy.MakeFeatureLayer_management(feature_class, selection, where_clause)
+            result[feature_class] = selection
 
-            related_key_map, relationships = self._get_relationships(feature_class)
+            related_key_map, relationships = self._get_relationships(selection)
 
             # get the related feature results
             for related_table in related_key_map.keys():
                 result.setdefault(related_table, [])
                 where_clause = self._format_where_clause(
                     related_key_map=related_key_map[related_table],
-                    data=result[feature_class])
+                    data=result[feature_class],
+                    feature_layer=selection)
 
                 for row in self._query_features(related_table, fields, where_clause):
                     result[related_table].append(row)
@@ -341,11 +350,19 @@ class Download(object):
 
         for feature_class in feature_class_rows_map:
             table_location = os.path.join(output_location, feature_class)
-            self._create_table(feature_class, output_location)
+            features = feature_class_rows_map[feature_class]
 
-            with arcpy.da.InsertCursor(table_location, '*') as cursor:
-                for row in feature_class_rows_map[feature_class]:
-                    cursor.insertRow(row)
+            if features == feature_class + '_selection':
+                arcpy.FeatureClassToFeatureClass_conversion(feature_class + '_selection',
+                                                            output_location,
+                                                            feature_class)
+            else:
+                # TableToTable_conversion
+                self._create_table(feature_class, output_location)
+
+                with arcpy.da.InsertCursor(table_location, '*') as cursor:
+                    for row in features:
+                        cursor.insertRow(row)
 
         self._recreate_relationships(relationships, output_location)
 
@@ -355,11 +372,11 @@ class Download(object):
         '''Creates and writes values to a shapefile'''
         arcpy.AddMessage('--_create_shapefile::{}'.format(output_location))
 
-        feature_classes = arcpy.ListFeatureClasses()
-        tables = arcpy.ListTables()
-
         this = arcpy.env.workspace
         arcpy.env.workspace = input_location
+
+        feature_classes = arcpy.ListFeatureClasses()
+        tables = arcpy.ListTables()
 
         def truncate_strings(table):
             fields = map(lambda field: field.name, filter(
@@ -389,12 +406,16 @@ class Download(object):
 
         arcpy.Delete_management(input_location)
 
-    def _create_xls(self, feature_class_oid_map, output_location):
-        '''Creates and writes values to a shapefile'''
+    def _create_xls(self, input_location, output_location):
+        '''Creates and writes values to an xlsx file'''
         arcpy.AddMessage('--_create_xls::{}'.format(output_location))
 
         save_location = os.path.join(output_location, 'DeqEnviroSearchResults.xlsx')
-        feature_class_rows_map = self._get_features(feature_class_oid_map)[0]
+
+        this = arcpy.env.workspace
+        arcpy.env.workspace = input_location
+
+        tables = arcpy.ListFeatureClasses() + arcpy.ListTables()
 
         def convert_tuple(value):
             if not isinstance(value, tuple):
@@ -405,31 +426,45 @@ class Download(object):
         try:
             workbook = xlsxwriter.Workbook(save_location)
 
-            for feature_class in feature_class_rows_map:
-                worksheet = workbook.add_worksheet(feature_class)
+            for table in tables:
+                worksheet = workbook.add_worksheet(table)
                 # write header
-                worksheet.write_row('A1', map(lambda x: x.name, arcpy.ListFields(feature_class)))
+                worksheet.write_row('A1', map(lambda x: x.name, arcpy.ListFields(table)))
 
-                for i, row in enumerate(feature_class_rows_map[feature_class]):
-                    row = map(convert_tuple, row)
-                    # start at A2
-                    worksheet.write_row('A' + str(i + 2), row)
+                with arcpy.da.SearchCursor(table, '*') as cursor:
+                    cell = 2
+                    for row in cursor:
+                        row = map(convert_tuple, row)
+                        # start at A2
+                        worksheet.write_row('A' + str(cell), row)
+                        cell += 1
         finally:
             workbook.close()
+            arcpy.env.workspace = this
 
-    def _create_csv(self, feature_class_oid_map, output_location):
-        feature_class_rows_map = self._get_features(feature_class_oid_map)[0]
+    def _create_csv(self, input_location, output_location):
+        '''Creates and writes values to a csv'''
+        arcpy.AddMessage('--_create_xls::{}'.format(output_location))
 
-        for feature_class in feature_class_rows_map:
-            table_location = os.path.join(output_location, feature_class)
+        this = arcpy.env.workspace
+        arcpy.env.workspace = input_location
 
-            with open(table_location + '.csv', 'wb') as csv_file:
-                cursor = csv.writer(csv_file, dialect=csv.excel)
-                # write the header
-                cursor.writerow(map(lambda x: x.name, arcpy.ListFields(feature_class)))
+        tables = arcpy.ListFeatureClasses() + arcpy.ListTables()
 
-                for row in feature_class_rows_map[feature_class]:
-                    cursor.writerow(row)
+        try:
+            for table in tables:
+                table_location = os.path.join(output_location, table)
+
+                with open(table_location + '.csv', 'wb') as csv_file:
+                    cursor = csv.writer(csv_file, dialect=csv.excel)
+                    # write the header
+                    cursor.writerow(map(lambda x: x.name, arcpy.ListFields(table)))
+
+                    with arcpy.da.SearchCursor(table, '*') as search_cursor:
+                        for row in search_cursor:
+                            cursor.writerow(row)
+        finally:
+            arcpy.env.workspace = this
 
     def execute(self, parameters, messages):
         '''Returns the location on the server of a zip file
@@ -442,34 +477,39 @@ class Download(object):
         feature_class_oid_map = self._deserialize_json(parameters[0].valueAsText)
         file_type = parameters[1].valueAsText
         workspace = parameters[3].valueAsText
+
         if workspace is not None:
             arcpy.env.workspace = workspace
 
         output_location = arcpy.env.scratchFolder
         folder_to_zip = output_location
+        delete_temp_gdb = True
 
         self._delete_scratch_data(output_location)
         self._create_scratch_folder(output_location)
 
-        if file_type == 'fgdb':
-            arcpy.AddMessage('-Creating a file geodatabase.')
+        arcpy.AddMessage('-Creating a file geodatabase.')
+        gdb = self._create_fgdb(feature_class_oid_map, output_location)
 
-            self._create_fgdb(feature_class_oid_map, output_location)
+        if file_type == 'fgdb':
+            delete_temp_gdb = False
         elif file_type == 'shp':
             arcpy.AddMessage('-Creating a shapefile.')
 
-            gdb = self._create_fgdb(feature_class_oid_map, output_location)
             self._create_shapefile(gdb, output_location)
         elif file_type == 'csv':
             arcpy.AddMessage('-Creating a file geodatabase.')
 
-            self._create_csv(feature_class_oid_map, output_location)
+            self._create_csv(gdb, output_location)
         elif file_type == 'xls':
             arcpy.AddMessage('-Creating a file geodatabase.')
 
-            self._create_xls(feature_class_oid_map, output_location)
+            self._create_xls(gdb, output_location)
         else:
             raise Exception('file type not supported')
+
+        if delete_temp_gdb:
+            self._delete_scratch_data(output_location, ['gdb'])
 
         arcpy.AddMessage('-Zipping the result.')
         zip_location = os.path.join(folder_to_zip, self.name + '.zip')
