@@ -155,7 +155,7 @@ define([
                 }
             ];
 
-            this.grid = new (declare([Grid, ColumnResizer]))({
+            this.grid = new (declare([Grid, ColumnResizer, Selection]))({
                 columns: columns,
                 store: new Memory({
                     idProperty: fn.UNIQUE_ID,
@@ -201,9 +201,15 @@ define([
                         return this.queryEngine(query, options)(this.data);
                     }
                 }),
+                allowSelectAll: true,
+                selectionMode: 'custom',
+                allowSelect: this.allowSelect,
+                _customSelectionHandler: this.selectionHandler,
                 renderRow: this.renderRow
             }, this.gridDiv);
             this.grid.startup();
+
+            this.own(this.grid.on('dgrid-select, dgrid-deselect', lang.hitch(this, 'sendDownloadData')));
 
             if (has('touch')) {
                 var activeRow;
@@ -273,6 +279,8 @@ define([
 
             this.grid.store.setData(this.getStoreData(data));
             this.grid.refresh();
+
+            this.sendDownloadData();
         },
         clear: function () {
             // summary:
@@ -366,6 +374,71 @@ define([
             if (evt.target.type !== 'submit') {
                 topic.publish(config.topics.appResultLayer.clearSelection);
             }
+        },
+        allowSelect: function (row) {
+            // summary:
+            //      Don't allow header rows or no results rows to be selected
+            // row: Row
+            console.log('app/search/ResultsGrid:allowSelect', arguments);
+
+            return row.data.parent && row.data.ID !== config.messages.noFeaturesFound;
+        },
+        selectionHandler: function (evt, row) {
+            // summary:
+            //      Need to define a custom selection handler to allow us to properly
+            //      prevent selection when the identify button is clicked
+            // evt: Event Object
+            // row: Row
+            console.log('app/search/ResultsGrid:selectionHandler', arguments);
+
+            // prevent selection if identify button was clicked
+            if (domClass.contains(evt.target, 'btn')) {
+                return;
+            }
+
+            var handler = (has('touch')) ? this._toggleSelectionHandler : this._extendedSelectionHandler;
+            lang.hitch(this, handler)(evt, row);
+        },
+        sendDownloadData: function () {
+            // summary:
+            //      Gets selected feature ids or all feature ids if there is no selection
+            console.log('app/search/ResultsGrid:sendDownloadData', arguments);
+
+            var downloadIDs = {};
+            var idHash = this.grid.selection;
+            var isEmpty = function (obj) {
+                for (var key in obj) {
+                    if (hasOwnProperty.call(obj, key)) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+            var addItem = function (parent, id) {
+                var fcname = config.getQueryLayerByIndex(parent).sgidName.split('.')[2];
+                if (!downloadIDs[fcname]) {
+                    downloadIDs[fcname] = [];
+                }
+                downloadIDs[fcname].push(id);
+            };
+
+            if (isEmpty(idHash)) {
+                array.forEach(this.grid.store.data, function (item) {
+                    if (item.parent && item.ID !== config.messages.noFeaturesFound) {
+                        addItem(item.parent, item.ID);
+                    }
+                });
+            } else {
+                for (var id in idHash) {
+                    if (idHash.hasOwnProperty(id)) {
+                        var parent = id.split('-')[0];
+                        var ID = id.split('-')[1];
+                        addItem(parent, ID);
+                    }
+                }
+            }
+
+            topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, downloadIDs);
         }
     });
 });

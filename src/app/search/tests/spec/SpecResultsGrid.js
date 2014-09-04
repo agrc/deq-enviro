@@ -5,7 +5,9 @@ require([
     'dojo/_base/window',
 
     'dojo/dom-construct',
-    'dojo/text!app/search/tests/data/results.json'
+    'dojo/text!app/search/tests/data/results.json',
+
+    'matchers/topics'
 ], function(
     WidgetUnderTest,
     config,
@@ -13,7 +15,9 @@ require([
     win,
 
     domConstruct,
-    resultsTxt
+    resultsTxt,
+
+    topics
 ) {
     var widget;
     var testdata;
@@ -23,10 +27,31 @@ require([
             testdata = JSON.parse(resultsTxt);
             config.appJson = {
                 queryLayers: [
-                    {index: '7', color: [1,2,3,4], name: 'blah', geometryType: 'point'},
-                    {index: '15', color: [1,2,3,4], name: 'blah2', geometryType: 'point'},
-                    {index: '5', color: [1,2,3,4], name: 'blah2', geometryType: 'point'},
-                    {index: '11', color: [1,2,3,4], name: 'blah2', geometryType: 'point'}
+                    {
+                        index: '7',
+                        color: [1,2,3,4],
+                        name: 'blah',
+                        geometryType: 'point',
+                        sgidName: 'SGID10.HELLO.DAQAirEmissionsInventory'
+                    }, {
+                        index: '15',
+                        color: [1,2,3,4],
+                        name: 'blah2',
+                        geometryType: 'point',
+                        sgidName: 'SGID10.HELLO.DWQNPDESDischargers'
+                    }, {
+                        index: '5',
+                        color: [1,2,3,4],
+                        name: 'blah2',
+                        geometryType: 'point',
+                        sgidName: 'SGID10.HELLO.FeatureClassName'
+                    }, {
+                        index: '11',
+                        color: [1,2,3,4],
+                        name: 'blah2',
+                        geometryType: 'point',
+                        sgidName: 'SGID.HELLO.EnvironmentalIncidents'
+                    }
                 ]
             };
             widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
@@ -151,6 +176,44 @@ require([
                 widget.onRowClick(evt);
 
                 expect(widget.grid.expand).not.toHaveBeenCalled();
+            });
+        });
+        describe('sendDownloadData', function () {
+            var t;
+            beforeEach(function () {
+                t = config.topics.appSearchResultsGrid.downloadFeaturesDefined;
+                topics.listen(t);
+            });
+            it('works with selected features', function () {
+                widget.grid = {
+                    selection: {
+                        '15-UTUCCF7CA8AE7A': true,
+                        '7-4302130002': true,
+                        '7-4302130008': true,
+                        '7-4302130010': true,
+                        '15-UTU49F5F53A5CA': true,
+                        '11-5260': true
+                    }
+                };
+                widget.sendDownloadData();
+
+                expect(t).toHaveBeenPublished();
+                expect(t).toHaveBeenPublishedWith({
+                    DWQNPDESDischargers: ['UTUCCF7CA8AE7A', 'UTU49F5F53A5CA'],
+                    DAQAirEmissionsInventory: ['4302130002', '4302130008', '4302130010'],
+                    EnvironmentalIncidents: ['5260']
+                });
+            });
+            it('returns all features if none are selected', function () {
+                widget.onFeaturesFound(testdata);
+
+                expect(t).toHaveBeenPublished();
+                expect(t).toHaveBeenPublishedWith({
+                    DAQAirEmissionsInventory: ['4302110758', '4302120100', '4302130001', '4302130002', '4302130003',
+                        '4302130004', '4302130005', '4302130006', '4302130007', '4302130008', '4302130009',
+                        '4302130010', '4302130011', '4302150001'],
+                    DWQNPDESDischargers: ['84720MRCNZ10622', '84720WSTRN997NO']
+                });
             });
         });
     });

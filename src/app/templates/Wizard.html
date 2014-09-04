@@ -7,25 +7,25 @@
                 </h4>
             </a>
         </div>
-        <div id="wizardPanel" 
+        <div id="wizardPanel"
             data-dojo-attach-point='panel'
             class="panel-collapse collapse in">
             <div data-dojo-attach-point='stackContainer'
                 data-dojo-type='dijit/layout/StackContainer' class="panel-body">
                 <div data-dojo-attach-point='introPane'
                     data-dojo-type="dijit/layout/ContentPane">
-                    <p>If this is your first time using this application, it is strongly recommended that you begin with this wizard. If you have experience with this application, you can <a data-dojo-attach-event='onclick: close' href='#'>close this pane</a>.</p> 
-                    
+                    <p>If this is your first time using this application, it is strongly recommended that you begin with this wizard. If you have experience with this application, you can <a data-dojo-attach-event='onclick: close' href='#'>close this pane</a>.</p>
+
                     <p>Information from the Drinking Water Source Protection program (<a href='http://www.drinkingwater.utah.gov/' target='_blank'>Utah Division of Drinking Water</a>) is available by <a data-dojo-attach-event='onclick: requestAccess' href='#'>requesting access</a>. The source protection information includes public water sources, ground-water protection zones, surface-water protection zones, and source water assessment zones.</p>
                 </div>
-                <div data-dojo-attach-point="layersPane" 
+                <div data-dojo-attach-point="layersPane"
                     data-dojo-type="dijit/layout/ContentPane">
                     <h5>Step 1: Select Layers to Search</h5>
                     <p>This step allows you to select specific data layers to search. Your search results will only contain/display data from the layers you have selected.</p>
 
                     <p>There are custom filters for some layers that will appear when their corresponding layers are selected.</p>
                 </div>
-                <div data-dojo-attach-point="searchPane" 
+                <div data-dojo-attach-point="searchPane"
                     data-dojo-type="dijit/layout/ContentPane">
                     <h5>Step 2: Enter Search Values and Execute Search</h5>
                     <p>This step allows you to search the data in different ways, but you can ONLY USE one search method at a time.</p>
@@ -40,10 +40,10 @@
 
                     <p>Search by <b>Shape</b> allows you to draw your own custom shape to search the data. As the cursor is placed over each shape tool, a brief description of its function appears.</p>
                 </div>
-                <div data-dojo-attach-point="resultsPane" 
+                <div data-dojo-attach-point="resultsPane"
                     data-dojo-type="dijit/layout/ContentPane">
                     <h5>Step 3: Analyze Search Results</h5>
-                    <p>This step allows you to review the results of your search. Using the tools in the right sidebar you can start a new search, export results, clear graphics, modify search, or export map images. You can also select individual records to:</p>
+                    <p>This step allows you to review the results of your search. Using the tools in the right sidebar you can start a new search, download results, clear graphics, modify search, or export map images. You can also select individual records to:</p>
 
                     <ul>
                         <li>View specific site information</li>
@@ -51,7 +51,11 @@
                         <li>View electronic documents associated with the specific site.</li>
                     </ul>
 
-                    <p>PLEASE NOTE: When viewing the search results "N/A" means that the data is currently not available online.</p>
+                    <p>
+                        To select a subset of results for download click on the rows on the grid while holding down the control/command button.
+                    </p>
+
+                    <p>PLEASE NOTE: When viewing the search results "n/a" means that the data is currently not available online.</p>
                 </div>
             </div>
             <div class="panel-footer">

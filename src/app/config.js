@@ -103,6 +103,9 @@ define([
             app: {
                 hideGrid: 'app/App.hideGrid',
                 showGrid: 'app/App.showGrid'
+            },
+            appSearchResultsGrid: {
+                downloadFeaturesDefined: 'app/search/ResultsGrid.downloadFeaturesDefined'
             }
         },
 
