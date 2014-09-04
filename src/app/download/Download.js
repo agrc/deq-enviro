@@ -57,7 +57,7 @@ define([
 
             var self = this;
             this.own(
-                topic.subscribe(config.topics.appSearch.downloadFeaturesDefined, function(t) {
+                topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined, function(t) {
                     self.updateCount(t);
                 }),
                 this.watch('count', function(name, original, change){
