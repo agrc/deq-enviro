@@ -39,7 +39,7 @@ require([
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });
-        
+
         describe('initial search topic', function() {
             describe('multiple program results', function() {
                 it('displays the correct count of results', function() {
@@ -50,7 +50,7 @@ require([
                         }
                     };
 
-                    topic.publish(config.topics.appSearch.featuresFound, response.result);
+                    topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
 
                     expect(widget.get('count')).toEqual(11);
                 });
@@ -62,7 +62,7 @@ require([
                         }
                     };
 
-                    topic.publish(config.topics.appSearch.featuresFound, response.result);
+                    topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
                     expect(widget.get('count')).toEqual(0);
                 });
             });
@@ -75,7 +75,7 @@ require([
                         }
                     };
 
-                    topic.publish(config.topics.appSearch.featuresFound, response.result);
+                    topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
 
                     expect(domClass.contains(widget.domNode, 'hidden')).toEqual(true);
                     expect(domClass.contains(widget.domNode, 'show')).toEqual(false);
@@ -88,7 +88,7 @@ require([
                         }
                     };
 
-                    topic.publish(config.topics.appSearch.featuresFound, response.result);
+                    topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
 
                     expect(domClass.contains(widget.domNode, 'show')).toEqual(true);
                     expect(domClass.contains(widget.domNode, 'hidden')).toEqual(false);

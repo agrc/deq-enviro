@@ -61,7 +61,7 @@
                     }
                 };
 
-                topic.publish(config.topics.appSearch.featuresFound, response.result);
+                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
             });
 
             on(results, 'click', function(){
@@ -72,7 +72,7 @@
                     }
                 };
 
-                topic.publish(config.topics.appSearch.featuresFound, response.result);
+                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
             });
 
             domConstruct.place(results, document.body);
