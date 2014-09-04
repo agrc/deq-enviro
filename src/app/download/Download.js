@@ -57,7 +57,7 @@ define([
 
             var self = this;
             this.own(
-                topic.subscribe(config.topics.appSearch.featuresFound, function(t) {
+                topic.subscribe(config.topics.appSearch.downloadFeaturesDefined, function(t) {
                     self.updateCount(t);
                 }),
                 this.watch('count', function(name, original, change){
@@ -69,7 +69,7 @@ define([
             // summary:
             //      receives the data from the search xhr and sets the count
             //      value of the label to the number of results
-            // data - xhr search result from appSearch.featuresFound topic
+            // data - xhr search result from appSearch.downloadFeaturesDefined topic
             console.log('app.download.Download::updateCount', arguments);
 
             var count = 0;
