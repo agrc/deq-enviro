@@ -128,8 +128,8 @@ require([
                 expect(result[3][fn.UNIQUE_ID]).toEqual('15-84720MRCNZ10622');
             });
             it('adds feature counts to id field', function () {
-                expect(result[0].count).toEqual(0);
-                expect(result[2].count).toEqual(2);
+                expect(result[0].count).toEqual('0');
+                expect(result[2].count).toEqual('2');
             });
         });
         describe('clear', function () {

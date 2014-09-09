@@ -26,6 +26,8 @@ define([
 
     'put-selector/put',
 
+    'agrc/modules/Formatting',
+
     'app/config',
     './ResultLayer',
     './GridRowHeader'
@@ -58,6 +60,8 @@ define([
 
     put,
 
+    formatting,
+
     config,
     ResultLayer,
     GridRowHeader
@@ -74,6 +78,8 @@ define([
         //      the main grid
         grid: null,
 
+        // allDownloadIDs: Object
+        allDownloadIDs: null,
 
         // Properties to be sent into constructor
 
@@ -291,6 +297,7 @@ define([
                 this.grid.store.data = null;
                 this.grid.refresh();
             }
+            this.allDownloadIDs = null;
         },
         getStoreData: function (data) {
             // summary:
@@ -329,7 +336,7 @@ define([
 
                     // these properties are using in renderCell above
                     header.name = layerName;
-                    header.count = count;
+                    header.count = formatting.addCommas(count);
                     header.color = color;
                     header[fn.UNIQUE_ID] = layerIndex;
                     header.geometryType = ql.geometryType;
@@ -423,11 +430,17 @@ define([
             };
 
             if (isEmpty(idHash)) {
-                array.forEach(this.grid.store.data, function (item) {
-                    if (item.parent && item.ID !== config.messages.noFeaturesFound) {
-                        addItem(item.parent, item.ID);
-                    }
-                });
+                if (!this.allDownloadIDs) {
+                    array.forEach(this.grid.store.data, function (item) {
+                        if (item.parent && item.ID !== config.messages.noFeaturesFound) {
+                            addItem(item.parent, item.ID);
+                        }
+                    });
+                    // cache so that we don't have to loop through all rows in the grid every time
+                    this.allDownloadIDs = downloadIDs;
+                } else {
+                    downloadIDs = this.allDownloadIDs;
+                }
             } else {
                 for (var id in idHash) {
                     if (idHash.hasOwnProperty(id)) {

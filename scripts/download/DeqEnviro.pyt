@@ -21,7 +21,7 @@ class Toolbox(object):
 
 class Tool(object):
 
-    version = '0.3.1'
+    version = '0.3.2'
 
     def __init__(self, workspace=None):
         self.label = 'Download'
@@ -210,7 +210,7 @@ class Tool(object):
                 attributed = 'ATTRIBUTED'
 
             cardinality = dict(zip(
-                ['OnetoOne', 'OneToMany', 'ManyToMany'],
+                ['OneToOne', 'OneToMany', 'ManyToMany'],
                 ['ONE_TO_ONE', 'ONE_TO_MANY', 'MANY_TO_MANY']))
 
             origin_keys = description.OriginClassKeys
@@ -240,14 +240,14 @@ class Tool(object):
 
         map(create_relationship, zip(relationship_names, relationships))
 
-    def _format_where_clause(self, field=None, values=None, related_key_map=None, data=None, feature_layer=None):
+    def _format_where_clause(self, field=None, values=None, related_key_map=None, feature_layer=None):
         '''Returns the sql to find table data in the shape of `field in (values)`
         If `related_key_map` and `data` are present we format the query for a related table.
         Otherwise only field and values are necessary.
 
         :param field: the feature class attribute field to search for.
         :param values: the values you want to find.
-        :param data: the parent feature class rows. This is used to pull the primary key values
+        :param feature_layer: the parent feature layer
         :param related_key_map: contains the index of the primary key and the foreign key value
         '''
         arcpy.AddMessage('--_format_where_clause')
@@ -263,8 +263,12 @@ class Tool(object):
             field = related_key_map[1]
 
         values = list(values)
-        values = map(str, values)
 
+        quote_style = str
+        if len(values) > 0 and isinstance(values[0], basestring):
+            quote_style = lambda v: "'" + v + "'"
+
+        values = map(quote_style, values)
         return '{} in ({})'.format(field, ','.join(values))
 
     def _query_features(self, feature_class, fields, where_clause):
@@ -292,7 +296,7 @@ class Tool(object):
         relationships = []
         for feature_class in feature_class_oid_map:
             oids = feature_class_oid_map[feature_class]
-            where_clause = self._format_where_clause('OBJECTID', oids)
+            where_clause = self._format_where_clause('ID', oids)
             result.setdefault(feature_class, None)
 
             # create selection layer
@@ -300,14 +304,14 @@ class Tool(object):
             arcpy.MakeFeatureLayer_management(feature_class, selection, where_clause)
             result[feature_class] = selection
 
-            related_key_map, relationships = self._get_relationships(selection)
+            related_key_map, rel = self._get_relationships(selection)
+            relationships += rel
 
             # get the related feature results
             for related_table in related_key_map.keys():
                 result.setdefault(related_table, [])
                 where_clause = self._format_where_clause(
                     related_key_map=related_key_map[related_table],
-                    data=result[feature_class],
                     feature_layer=selection)
 
                 for row in self._query_features(related_table, fields, where_clause):
@@ -388,13 +392,14 @@ class Tool(object):
 
                 return value[:255]
 
-            with arcpy.da.UpdateCursor(table, fields) as cursor:
-                for row in cursor:
-                    if(filter(lambda data: data is not None and len(data) > 255, row)) == 0:
-                        continue
+            with arcpy.da.Editor(input_location) as edit:
+                with arcpy.da.UpdateCursor(table, fields) as cursor:
+                    for row in cursor:
+                        if(filter(lambda data: data is not None and len(data) > 255, row)) == 0:
+                            continue
 
-                    row = map(truncate_string, row)
-                    cursor.updateRow(row)
+                        row = map(truncate_string, row)
+                        cursor.updateRow(row)
 
         map(truncate_strings, feature_classes + tables)
 

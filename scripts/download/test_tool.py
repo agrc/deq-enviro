@@ -8,17 +8,30 @@ test_tool
 Tests for `tool` module.
 """
 import unittest
+import arcpy
 from DeqEnviro import Tool
+
+class Parameter(object):
+    def __init__(self, value):
+        super(Parameter, self).__init__()
+        self.value = value
+
+    @property
+    def valueAsText(self):
+        return self.value
 
 
 class TestTool(unittest.TestCase):
 
     def setUp(self):
         #: the location the partial query layers test db
-        workspace = 'C:\Projects\TestData\DEQ\QueryLayers.gdb'
+        workspace = 'C:\MapData\DEQEnviro\QueryLayers.gdb'
         #: thing being tested
         self.patient = Tool(workspace)
         self.scratch = 'C:\\Users\\agrc-arcgis\\Documents\\ArcGIS\\scratch'
+
+    def tearDown(self):
+        arcpy.Delete_management('VCP_selection')
 
     def test_sanity(self):
         self.assertIsNotNone(self.patient)
@@ -38,66 +51,59 @@ class TestTool(unittest.TestCase):
         actual, relationships = self.patient._get_relationships('VCP')
 
         self.assertEqual(len(actual.keys()), 3)
-        self.assertEqual(actual['deqmap_cerclabranchic'], [2, 'icalinkkey'])
+        self.assertEqual(actual['deqmap_cerclabranchic'], [1, 'icalinkkey'])
 
     def test_get_relationship_classes_when_there_are_none(self):
-        actual, relationships = self.patient._get_relationships('NPL')
+        actual, relationships = self.patient._get_relationships('DWQMercuryInFishTissue')
 
         self.assertEqual(len(actual.keys()), 0)
 
     def test_get_features(self):
-        actual, relationships = self.patient._get_features({'VCP': [2]})
+        actual, relationships = self.patient._get_features({'VCP': ['C040']})
 
         for key in actual.keys():
-            rows = actual[key]
-            actual[key] = map(lambda x: x[0], rows)
+            if key != 'VCP':
+                rows = actual[key]
+                actual[key] = map(lambda x: x[0], rows)
 
         expected = {
-            'VCP': [2],
+            'VCP': 'VCP_selection',
             'deqmap_cerclabranchactmaj': [111, 112, 113, 114, 115, 116],
             'deqmap_cerclabrremed': [51, 52],
             'deqmap_cerclabranchic': []
         }
 
-        self.assertItemsEqual(actual, expected)
-        self.assertEqual(len(actual['VCP']), 1)
+        # self.assertItemsEqual(actual, expected)
+        self.assertEqual(actual['VCP'], expected['VCP'])
         self.assertEqual(len(actual['deqmap_cerclabranchactmaj']), 6)
         self.assertEqual(len(actual['deqmap_cerclabrremed']), 2)
         self.assertEqual(len(actual['deqmap_cerclabranchic']), 0)
 
     def test_format_where_clause(self):
-        oids = [1, 2, 3, 4]
-        expected = 'FIELD in (1,2,3,4)'
+        oids = ['1', '2', '3', '4']
+        expected = "FIELD in ('1','2','3','4')"
 
         actual = self.patient._format_where_clause('FIELD', oids)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
-    def test_format_where_clause_for_related(self):
-        index = 2
-        foreign_column = 'icalinkkey'
-        data = [('objectid', 'something else', 1, 'another column'),
-                ('objectid', 'something else', 2, 'another column'),
-                ('objectid', 'something else', 2, 'another column')]
-        key_map = [index, foreign_column]
+    def test_format_where_clause_numbers(self):
+        oids = [1, 2, 3, 4]
+        expected = "FIELD in (1,2,3,4)"
 
-        expected = 'icalinkkey in (1,2)'
-
-        actual = self.patient._format_where_clause(related_key_map=key_map, data=data)
-        self.assertEqual(actual, expected)
+        actual = self.patient._format_where_clause('FIELD', oids)
+        self.assertEqual(expected, actual)
 
     def test_create_fgdb(self):
-        class Parameter(object):
-
-            def __init__(self, value):
-                super(Parameter, self).__init__()
-                self.value = value
-
-            @property
-            def valueAsText(self):
-                return self.value
-
-        parameters = [Parameter('{"VCP": [2]}'),
+        parameters = [Parameter('{"VCP": ["C040"]}'),
                       Parameter('fgdb'),
+                      None,
+                      Parameter('C:\\Projects\\TestData\\DEQ\\QueryLayers.gdb')]
+
+        self.patient.execute(parameters, None)
+
+    def test_create_shapefile(self):
+        parameters = [Parameter('{"EnvironmentalIncidents": ["8842", "11407"]}'),
+                      Parameter('shp'),
                       None,
                       Parameter('C:\\Projects\\TestData\\DEQ\\QueryLayers.gdb')]
 
