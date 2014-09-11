@@ -24,7 +24,7 @@ namespace Search.Api.Services {
                 }
 
                 var response = await client.PostAsync(
-                    "/arcgis/rest/services/DEQEnviro/MapServer/exts/DeqSearchSoe/Search", content);
+                    "/arcgis/rest/services/DEQEnviro/MapService/MapServer/exts/DeqSearchSoe/Search", content);
 
                 return await response.Content.ReadAsAsync<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>>(
                     new[] {

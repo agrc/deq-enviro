@@ -106,6 +106,9 @@ define([
             },
             appSearchResultsGrid: {
                 downloadFeaturesDefined: 'app/search/ResultsGrid.downloadFeaturesDefined'
+            },
+            appDownloadDownload: {
+                clearSelection: 'app/download/Download.clearSelection'
             }
         },
 
@@ -113,14 +116,13 @@ define([
         //      Urls for the project
         urls: {
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
-            DEQEnviro: '/arcgis/rest/services/DEQEnviro/MapServer',
+            DEQEnviro: '/arcgis/rest/services/DEQEnviro/MapService/MapServer',
             json: '/webdata/DEQEnviro.json',
             geometryService: '/arcgis/rest/services/Geometry/GeometryServer',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             securedServicesBaseUrl: '/none',
-            api: {
-                search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search'
-            }
+            search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
+            download: '/arcgis/rest/services/DEQEnviro/Toolbox/GPServer/Download'
         },
 
         // layerIndices: Object
@@ -245,6 +247,10 @@ define([
         //      Messages and text used throughout the app
         messages: {
             noFeaturesFound: 'No results'
+        },
+
+        parameterNames: {
+            output: 'output' // download service
         },
 
         getAppJson: function () {

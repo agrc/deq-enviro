@@ -10,6 +10,7 @@ define([
     'dojo/aspect',
     'dojo/query',
     'dojo/dom-class',
+    'dojo/dom-attr',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -18,17 +19,18 @@ define([
 
     'ijit/modules/_ErrorMessageMixin',
 
-    '../_CollapsibleMixin',
-    './QueryLayer',
-    './QueryLayerHeader',
-    './Address',
-    './City',
-    './County',
-    './SiteName',
-    './ID',
-    './Shape',
-    '../config',
-    '../map/MapController',
+    'app/_CollapsibleMixin',
+    'app/search/QueryLayer',
+    'app/search/QueryLayerHeader',
+    'app/search/Address',
+    'app/search/City',
+    'app/search/County',
+    'app/search/SiteName',
+    'app/search/ID',
+    'app/search/Shape',
+    'app/config',
+    'app/map/MapController',
+    'app/download/Download',
 
     'lodash'
 
@@ -44,6 +46,7 @@ define([
     aspect,
     query,
     domClass,
+    domAttr,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -63,6 +66,7 @@ define([
     Shape,
     config,
     MapController,
+    Download,
 
     _
 ) {
@@ -104,6 +108,9 @@ define([
 
         // shape: Shape
         shape: null,
+
+        // download: Download
+        download: null,
 
         // searchServiceErrorMsg: String
         searchServiceErrorMsg: 'There was an error with the search service!',
@@ -179,10 +186,11 @@ define([
                 }),
                 topic.subscribe(config.topics.appWizard.showResults, lang.hitch(this, 'search')),
                 topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
-                topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn))
+                topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn)),
+                this.download = new Download({}, this.downloadDiv)
             );
 
-            this.childWidgets = [this.address, this.city, this.county, this.shape];
+            this.childWidgets = [this.address, this.city, this.county, this.shape, this.download];
 
             this.inherited(arguments);
         },
@@ -243,7 +251,7 @@ define([
             var that = this;
             var makeRequest = function () {
                 params.queryLayers = that.getQueryLayersParam();
-                request(config.urls.api.search, {
+                request(config.urls.search, {
                     method: 'POST',
                     data: JSON.stringify(params),
                     headers: {'Content-Type': 'application/json'},
@@ -256,6 +264,7 @@ define([
                         } else {
                             topic.publish(config.topics.appSearch.featuresFound, response.result);
                             topic.publish(config.topics.app.showGrid);
+                            that.hideLoader();
                         }
                     },
                     function () {
@@ -267,9 +276,12 @@ define([
             };
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);
+                that.hideLoader();
             };
 
             this.hideErrMsg();
+
+            this.showLoader();
 
             // check for no search type selected
             if (!this.currentPane) {
@@ -338,6 +350,8 @@ define([
             }
 
             topic.publish(config.topics.appSearch.clear);
+
+            this.hideErrMsg();
         },
         hideGrid: function () {
             // summary:
@@ -352,6 +366,22 @@ define([
             console.log('app/search/Search:showGrid', arguments);
         
             topic.publish(config.topics.app.showGrid);
+        },
+        showLoader: function () {
+            // summary:
+            //      description
+            console.log('app/download/Download:showLoader', arguments);
+        
+            domAttr.set(this.searchBtn, 'disabled', true);
+            this.searchBtn.innerHTML = 'Searching';
+        },
+        hideLoader: function () {
+            // summary:
+            //      description
+            console.log('app/download/Download:hideLoader', arguments);
+        
+            domAttr.set(this.searchBtn, 'disabled', false);
+            this.searchBtn.innerHTML = 'Search';
         }
     });
 });

@@ -7,13 +7,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/Download.css">
+    <link rel="stylesheet" href="../../resources/App.css">
     <style type='text/css'>
         body {
-            padding: 50px;
+            margin: 50px;
+            width: 350px;
+            padding: 0;
+            border: solid 1px gray;
         }
     </style>
 
@@ -23,69 +24,94 @@
     <script type='text/javascript' src="../../../dojo/dojo.js"></script>
     <script type="text/javascript">
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
-        var widgetUnderTest;
+        var search;
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'agrc', {
+                name: 'bootstrap',
+                location: 'bootstrap',
+                main: 'dist/js/bootstrap'
+            }, {
+                name: 'spin',
+                location: 'spinjs',
+                main: 'spin'
+            }, {
+                name: 'lodash',
+                location: 'lodash',
+                main: 'dist/lodash'
+            }]
         }, [
-            'app/download/Download',
+            'app/search/Search',
+            'app/map/MapController',
 
             'app/config',
 
             'dojo/on',
             'dojo/topic',
-
-            'dojo/dom-construct',
+            'dojo/dom',
 
             'dojo/domReady!'
         ], function(
-            Module,
+            Search,
+            MapController,
 
             config,
 
             on,
             topic,
-
-            domConstruct
+            dom
             ) {
-            var results = domConstruct.toDom('<div class="btn btn-default pull-right">Publish Results</div>');
 
-            var noResults = domConstruct.toDom('<div class="btn btn-default pull-right">Publish No Results</div>');
+            MapController.map = {
+                graphics: [],
+                addLayer: function () {},
+                on: function () {}
+            };
 
-            on(noResults, 'click', function(){
-                var response = {
-                    'result': {
-                        '5': [],
-                        '6': []
-                    }
-                };
+            var pubNoResults = function () {
+                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, {
+                    'VCP': [],
+                    'BFNONTARGETED': []
+                });
+            };
+            on(dom.byId('noResults'), 'click', pubNoResults);
 
-                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
+            var pubResults = function () {
+                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, {
+                    'VCP': [{},{}],
+                    'BFNONTARGETED': [{},{},{}]
+                });
+            };
+            on(dom.byId('results'), 'click', pubResults);
+            on(dom.byId('startLoader'), 'click', function () {
+                search.download.showLoader();
+            });
+            on(dom.byId('hideLoader'), 'click', function () {
+                search.download.hideLoader();
+            });
+            on(dom.byId('showDownload'), 'click', function () {
+                search.download.showDownloadLink({result: {value: {url: 'blah'}}});
             });
 
-            on(results, 'click', function(){
-                var response = {
-                    'result': {
-                        '5': [{},{}],
-                        '6': [{},{},{}]
-                    }
-                };
+            search = new Search({}, 'node');
+            search.startup();
 
-                topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, response.result);
-            });
-
-            domConstruct.place(results, document.body);
-            domConstruct.place(noResults, document.body);
-
-            widgetUnderTest = new Module({
-            }, 'node');
-
-            widgetUnderTest.startup();
+            pubResults();
         });
 </script>
 </head>
 <body class='claro'>
-    <div id="node"></div>
+    <div class="btn btn-default" id='results'>Publish Results</div>
+    <div class="btn btn-default" id='noResults'>Publish No Results</div>
+    <div class="btn btn-default" id='startLoader'>start loader</div>
+    <div class="btn btn-default" id='hideLoader'>hide loader</div>
+    <div class="btn btn-default" id='showDownload'>show download</div>
+    <br>
+    <br>
+
+    <div data-dojo-attach-point='sideBar' class="side-bar-container container-with-border">
+        <div id="node"></div>
+    </div>
 </body>
 </html>

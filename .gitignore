@@ -13,10 +13,12 @@ api/Search.Api/.nuget
 deploy
 dist/*
 node_modules/
+scripts/download/.noseids
+scripts/download/DeqEnviro.py
 scripts/Logs
+scripts/nightly/settings/__init__.py
 scripts/scratch.gdb
 scripts/secrets.cfg
-scripts/settings/__init__.py
 secrets.json
 src/agrc/*
 src/bootstrap/*
@@ -37,5 +39,3 @@ src/stubmodule/
 src/underscore-string/
 src/util/*
 src/xstyle/
-scripts/download/DeqEnviro.py
-scripts/download/.noseids
