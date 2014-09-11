@@ -39,3 +39,4 @@ src/stubmodule/
 src/underscore-string/
 src/util/*
 src/xstyle/
+*.noseids
