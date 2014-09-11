@@ -21,7 +21,7 @@ class Toolbox(object):
 
 class Tool(object):
 
-    version = '0.3.2'
+    version = '0.3.3'
 
     def __init__(self, workspace=None):
         self.label = 'Download'
@@ -314,6 +314,13 @@ class Tool(object):
                     related_key_map=related_key_map[related_table],
                     feature_layer=selection)
 
+                if arcpy.Describe(related_table).datatype == 'FeatureClass':
+                    selection = related_table + '_selection'
+                    arcpy.MakeFeatureLayer_management(related_table, selection, where_clause)
+                    result[related_table] = selection
+
+                    continue
+
                 for row in self._query_features(related_table, fields, where_clause):
                     result[related_table].append(row)
 
@@ -330,6 +337,7 @@ class Tool(object):
 
         description = arcpy.Describe(table_name)
         if description.datatype == 'FeatureClass':
+            arcpy.AddMessage('---creating feature class')
             feature_type = description.shapeType.upper()
             arcpy.CreateFeatureclass_management(output_location,
                                                 table_name,
@@ -337,6 +345,7 @@ class Tool(object):
                                                 template=table_name,
                                                 spatial_reference=self.sr)
         elif description.datatype == 'Table':
+            arcpy.AddMessage('---creating table')
             arcpy.CreateTable_management(output_location,
                                          table_name,
                                          template=table_name)
