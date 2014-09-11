@@ -89,14 +89,17 @@ define([
 
             var that = this;
             this.own(
-                topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined, function(t) {
-                    that.updateCount(t);
-                    that.downloadFeatures = t;
-                }),
+                topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined, 
+                    function(idMap, isSelection) {
+                        that.updateCount(idMap);
+                        that.downloadFeatures = idMap;
+                        that.toggleSelectionBtn(isSelection);
+                    }
+                ),
                 this.watch('count', function(name, original, change){
                     that.updateVisibility(change);
                 }),
-                topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'clear')),
+                // topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'clear'))
             );
         },
@@ -108,6 +111,7 @@ define([
             this.set('count', '0');
             this.hideErrMsg();
             this.hideDownloadLink();
+            this.toggleSelectionBtn(false);
         },
         updateCount: function(data) {
             // summary:
@@ -228,6 +232,23 @@ define([
             console.log('app/download/Download:hideDownloadLink', arguments);
         
             domClass.add(this.downloadAnchorContainer, 'hidden');
+        },
+        toggleSelectionBtn: function (show) {
+            // summary:
+            //      description
+            // show: Boolean
+            console.log('app/download/Download:toggleSelectionBtn', arguments);
+        
+            var classFunc = (show) ? domClass.remove : domClass.add;
+            classFunc(this.selectedSpan, 'hidden');
+            classFunc(this.clearSelectedBtn, 'hidden');    
+        },
+        onClearSelected: function () {
+            // summary:
+            //      description
+            console.log('app/download/Download:onClearSelected', arguments);
+        
+            topic.publish(config.topics.appDownloadDownload.clearSelection);
         }
     });
 });

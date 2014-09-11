@@ -106,6 +106,9 @@ define([
             },
             appSearchResultsGrid: {
                 downloadFeaturesDefined: 'app/search/ResultsGrid.downloadFeaturesDefined'
+            },
+            appDownloadDownload: {
+                clearSelection: 'app/download/Download.clearSelection'
             }
         },
 

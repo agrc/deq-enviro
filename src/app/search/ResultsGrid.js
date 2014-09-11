@@ -215,7 +215,12 @@ define([
             }, this.gridDiv);
             this.grid.startup();
 
-            this.own(this.grid.on('dgrid-select, dgrid-deselect', lang.hitch(this, 'sendDownloadData')));
+            this.own(
+                this.grid.on('dgrid-select, dgrid-deselect',
+                    lang.hitch(this, 'sendDownloadData')),
+                topic.subscribe(config.topics.appDownloadDownload.clearSelection,
+                    lang.hitch(this.grid, 'clearSelection'))
+            );
 
             if (has('touch')) {
                 var activeRow;
@@ -428,8 +433,10 @@ define([
                 }
                 downloadIDs[fcname].push(id);
             };
+            var isSelection;
 
             if (isEmpty(idHash)) {
+                isSelection = false;
                 if (!this.allDownloadIDs) {
                     array.forEach(this.grid.store.data, function (item) {
                         if (item.parent && item.ID !== config.messages.noFeaturesFound) {
@@ -442,6 +449,7 @@ define([
                     downloadIDs = this.allDownloadIDs;
                 }
             } else {
+                isSelection = true;
                 for (var id in idHash) {
                     if (idHash.hasOwnProperty(id)) {
                         var parent = id.split('-')[0];
@@ -451,7 +459,7 @@ define([
                 }
             }
 
-            topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, downloadIDs);
+            topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, downloadIDs, isSelection);
         }
     });
 });
