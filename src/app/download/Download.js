@@ -89,7 +89,7 @@ define([
 
             var that = this;
             this.own(
-                topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined, 
+                topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined,
                     function(idMap, isSelection) {
                         that.updateCount(idMap);
                         that.downloadFeatures = idMap;
@@ -107,7 +107,7 @@ define([
             // summary:
             //      description
             console.log('app/download/Download:clear', arguments);
-        
+
             this.set('count', '0');
             this.hideErrMsg();
             this.hideDownloadLink();
@@ -150,7 +150,7 @@ define([
             // summary:
             //      sends download request to gp tool if there are any selected features
             console.log('app/download/Download:download', arguments);
-            
+
             this.hideErrMsg();
 
             var fileType = this.fileTypes.value;
@@ -189,7 +189,7 @@ define([
             // summary:
             //      description
             console.log('app/download/Download:showLoader', arguments);
-        
+
             this.downloadBtn.innerHTML = 'Processing Data';
             domAttr.set(this.downloadBtn, 'disabled', true);
             MapController.map.showLoader();
@@ -198,7 +198,7 @@ define([
             // summary:
             //      description
             console.log('app/download/Download:hideLoader', arguments);
-        
+
             this.downloadBtn.innerHTML = 'Download';
             domAttr.set(this.downloadBtn, 'disabled', false);
             MapController.map.hideLoader();
@@ -208,7 +208,7 @@ define([
             //      description
             // response: Object
             console.log('app/download/Download:onGPComplete', arguments);
-        
+
             if (response.jobInfo.jobStatus === 'esriJobSucceeded') {
                 this.gp.getResultData(response.jobInfo.jobId, config.parameterNames.output);
             } else {
@@ -221,7 +221,7 @@ define([
             //      description
             // response: Object
             console.log('app/download/Download:showDownloadLink', arguments);
-        
+
             this.downloadAnchor.href = response.result.value.url;
             domClass.remove(this.downloadAnchorContainer, 'hidden');
             this.hideLoader();
@@ -230,7 +230,7 @@ define([
             // summary:
             //      description
             console.log('app/download/Download:hideDownloadLink', arguments);
-        
+
             domClass.add(this.downloadAnchorContainer, 'hidden');
         },
         toggleSelectionBtn: function (show) {
@@ -238,16 +238,16 @@ define([
             //      description
             // show: Boolean
             console.log('app/download/Download:toggleSelectionBtn', arguments);
-        
+
             var classFunc = (show) ? domClass.remove : domClass.add;
             classFunc(this.selectedSpan, 'hidden');
-            classFunc(this.clearSelectedBtn, 'hidden');    
+            classFunc(this.clearSelectedBtn, 'hidden');
         },
         onClearSelected: function () {
             // summary:
             //      description
             console.log('app/download/Download:onClearSelected', arguments);
-        
+
             topic.publish(config.topics.appDownloadDownload.clearSelection);
         }
     });
