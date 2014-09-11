@@ -40,10 +40,10 @@ define([
             }
         },
         getDate: function (time) {
-            if (time > 0) {
+            if (time) {
                 // dates are returned from arcgis server in MDT
-                // Date() assumes UTC so we need to add six hours
-                return new Date(time + 21600000).toLocaleDateString();
+                // Date() assumes UTC so we need to add the timezone offset
+                return new Date(time + new Date(time).getTimezoneOffset() * 60000).toLocaleDateString();
             } else {
                 return 'null';
             }
