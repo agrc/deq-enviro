@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
+'''
 test_tool
 ----------------------------------
 
 Tests for `tool` module.
-"""
-import unittest
+'''
 import arcpy
-from DeqEnviro import Tool
+import os
+import unittest
+
 
 class Parameter(object):
+
     def __init__(self, value):
         super(Parameter, self).__init__()
         self.value = value
@@ -23,12 +25,39 @@ class Parameter(object):
 
 class TestTool(unittest.TestCase):
 
-    def setUp(self):
+    link = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.py'
+    source = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.pyt'
+    workspace = 'C:\MapData\DEQEnviro\QueryLayers.gdb'
+    scratch = 'C:\\Users\\agrc-arcgis\\Documents\\ArcGIS\\scratch'
+
+    @classmethod
+    def setUpClass(cls):
         #: the location the partial query layers test db
-        workspace = 'C:\MapData\DEQEnviro\QueryLayers.gdb'
+
+        def symlink(source, link_name):
+            os_symlink = getattr(os, "symlink", None)
+            if callable(os_symlink):
+                os_symlink(source, link_name)
+            else:
+                import ctypes
+                csl = ctypes.windll.kernel32.CreateSymbolicLinkW
+                csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
+                csl.restype = ctypes.c_ubyte
+                flags = 1 if os.path.isdir(source) else 0
+                if csl(link_name, source, flags) == 0:
+                    raise ctypes.WinError()
+
+        symlink(cls.source, cls.link)
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove(cls.link)
+
+    def setUp(self):
+        from DeqEnviro import Tool
+
         #: thing being tested
-        self.patient = Tool(workspace)
-        self.scratch = 'C:\\Users\\agrc-arcgis\\Documents\\ArcGIS\\scratch'
+        self.patient = Tool(self.workspace)
 
     def tearDown(self):
         arcpy.Delete_management('VCP_selection')
@@ -57,6 +86,15 @@ class TestTool(unittest.TestCase):
         actual, relationships = self.patient._get_relationships('DWQMercuryInFishTissue')
 
         self.assertEqual(len(actual.keys()), 0)
+
+    def test_get_relationships_when_they_are_recursive(self):
+        actual, relationships = self.patient._get_relationships('UICFacility')
+
+        self.assertEqual(len(actual.keys()), 4)
+        self.assertEqual(actual['deqmap_uicfacility_to_uicauthorization'], [1, 'facility_fk'])
+        self.assertEqual(actual['deqmap_uicfacility_to_uicwell'], [1, 'facility_fk'])
+        self.assertEqual(actual['deqmap_uicwell_to_uicwelloperationstatus'], [1, 'well_fk'])
+        self.assertEqual(actual['deqmap_uicauthorization_to_uicauthorizationaction'], [1, 'authorization_fk'])
 
     def test_get_features(self):
         actual, relationships = self.patient._get_features({'VCP': ['C040']})
