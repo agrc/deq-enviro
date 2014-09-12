@@ -15,9 +15,9 @@ dist/*
 node_modules/
 scripts/download/.noseids
 scripts/download/DeqEnviro.py
-scripts/Logs
+scripts/nightly/Logs
 scripts/nightly/settings/__init__.py
-scripts/scratch.gdb
+scripts/nightly/scratch.gdb
 scripts/secrets.cfg
 secrets.json
 src/agrc/*

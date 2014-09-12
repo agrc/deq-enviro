@@ -255,7 +255,8 @@ define([
                     method: 'POST',
                     data: JSON.stringify(params),
                     headers: {'Content-Type': 'application/json'},
-                    handleAs: 'json'
+                    handleAs: 'json',
+                    timeout: 40000
                 }).then(
                     function (response) {
                         if (response.status !== 200) {
