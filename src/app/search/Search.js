@@ -256,7 +256,7 @@ define([
                     data: JSON.stringify(params),
                     headers: {'Content-Type': 'application/json'},
                     handleAs: 'json',
-                    timeout: 20000
+                    timeout: 40000
                 }).then(
                     function (response) {
                         if (response.status !== 200) {
