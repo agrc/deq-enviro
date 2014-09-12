@@ -182,6 +182,7 @@ define([
 
             this.own(
                 topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'destroy')),
+                topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'destroy')),
                 topic.subscribe(config.topics.appResultLayer.highlightFeature, lang.hitch(this, 'onHighlight')),
                 topic.subscribe(config.topics.appResultLayer.clearSelection, lang.hitch(this.fLayer, 'clearSelection'))
             );

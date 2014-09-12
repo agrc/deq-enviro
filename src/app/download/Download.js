@@ -99,7 +99,7 @@ define([
                 this.watch('count', function(name, original, change){
                     that.updateVisibility(change);
                 }),
-                // topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'clear')),
+                topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.searchStarted, lang.hitch(this, 'clear'))
             );
         },

@@ -101,6 +101,8 @@ define([
             this.own(
                 topic.subscribe(config.topics.appSearch.searchStarted,
                     lang.hitch(this, 'clear')),
+                topic.subscribe(config.topics.appSearch.clear,
+                    lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.featuresFound,
                     lang.hitch(this, 'onFeaturesFound'))
             );
