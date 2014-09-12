@@ -10,15 +10,15 @@ import scratch
 
 excludeFields = {'GlobalID', 
                  'POSTTONET', 
-                 'Shape', 
+                 'Shape',
+                 'SHAPE',
                  'OBJECTID', 
                  'Shape.len', 
                  'Shape.area', 
                  'Shape.STArea()',
                  'Shape.STLength()',
                  'Shape_Length',
-                 'Shape_Area',
-                 'ESRI_OID'}
+                 'Shape_Area'}
 latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 utm = arcpy.SpatialReference(26912)

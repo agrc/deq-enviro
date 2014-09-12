@@ -90,21 +90,17 @@ def update_query_layers(test_layer=None):
                         if not l[f] == 'n/a':
                             mappedFld = arcpy.ListFields(localFc, l[f])[0]
                         else:
-                            mappedFld = namedtuple('literal', 'precision scale length')(**{'type': 'String',
-                                                                                           'precision': 0,
+                            mappedFld = namedtuple('literal', 'precision scale length')(**{'precision': 0,
                                                                                            'scale': 0,
                                                                                            'length': 3})
 
-                        # force length for numeric id's
-                        if mappedFld.type != 'String':
-                            mappedFld.length = 25
                         arcpy.AddField_management(localFc, f, 'String',
                                                   mappedFld.precision, mappedFld.scale, mappedFld.length)
                 
                     # calc field
                     expression = l[f]
                     if not expression == 'n/a':
-                        expression = 'str(!{}!)'.format(expression)
+                        expression = '(!{}!.encode("utf-8"))'.format(expression)
                     else:
                         expression = '"{}"'.format(expression)
                     arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
