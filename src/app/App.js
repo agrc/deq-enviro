@@ -123,6 +123,9 @@ define([
                 topic.subscribe(config.topics.appSearch.identify, function () {
                     that.switchBottomPanel(that.identifyPane.domNode);
                 }),
+                topic.subscribe(config.topics.appSearch.clear, function () {
+                    that.switchBottomPanel(that.resultsGrid.domNode);
+                }),
                 topic.subscribe(config.topics.appSearch.searchStarted, function () {
                     that.switchBottomPanel(that.resultsGrid.domNode);
                 }),

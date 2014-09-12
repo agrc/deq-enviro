@@ -232,7 +232,7 @@ define([
             console.log('app.search.Search::onSelectChange', arguments);
         
             // clear previous pane
-            if (this.currentPane) {
+            if (this.currentPane && this.currentPane.clear) {
                 this.currentPane.clear();
             }
 
@@ -345,7 +345,10 @@ define([
             // summary:
             //      clears all of the search parameters and query layers
             console.log('app/search/Search:clear', arguments);
-        
+
+            this.hideGrid();
+            query('.grid-btn', this.domNode).addClass('hidden');
+
             if (this.currentPane) {
                 this.currentPane.clear();
             }
@@ -353,6 +356,8 @@ define([
             topic.publish(config.topics.appSearch.clear);
 
             this.hideErrMsg();
+            this.select.value = 'empty';
+            this.onSelectChange();
         },
         hideGrid: function () {
             // summary:
