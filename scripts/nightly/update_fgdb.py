@@ -55,7 +55,15 @@ def update(local, remote):
         arcpy.Copy_management(remote, local)
     else:
         arcpy.TruncateTable_management(local)
-        arcpy.Append_management(remote, local, 'NO_TEST')
+        try:
+            arcpy.Append_management(remote, local, 'NO_TEST')
+        except:
+            with arcpy.da.Editor(settings.fgd) as edit:
+                logger.logMsg('append failed, using insert cursor')
+                flds = [f.name for f in arcpy.ListFields(remote)]
+                with arcpy.da.SearchCursor(remote, flds) as rcur, arcpy.da.InsertCursor(local, flds) as icur:
+                    for row in rcur:
+                        icur.insertRow(row)
         
 def update_query_layers(test_layer=None):
     for l in spreadsheet.get_query_layers():
