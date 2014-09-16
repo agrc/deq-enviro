@@ -2,6 +2,15 @@
 	"build_systems":
 	[
 		{
+			"cmd":
+			[
+				"nosetests"
+			],
+			"name": "Python Tests",
+			"selector": "source.python",
+			"working_dir": "${project_path}\\scripts\\download"
+		},
+		{
 			"name": "Anaconda Python Builder",
 			"selector": "source.python",
 			"shell_cmd": "python -u \"$file\""
