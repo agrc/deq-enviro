@@ -129,7 +129,7 @@ require([
                     var idMap = {};
                     testWidget2.downloadFeatures = idMap;
                     expect(testWidget2.download()).toEqual({
-                        'feature_class_oid_map': '{}',
+                        'table_id_map': '{}',
                         'file_type': type
                     });
                     destroy(testWidget2);

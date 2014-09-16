@@ -177,7 +177,7 @@ define([
             }
 
             var params = {
-                'feature_class_oid_map': JSON.stringify(this.downloadFeatures),
+                'table_id_map': JSON.stringify(this.downloadFeatures),
                 'file_type': this.fileTypes.value
             };
 
