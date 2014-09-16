@@ -1,19 +1,41 @@
 {
-    "folders": [{
-        "folder_exclude_patterns": [
-            "dist",
-            "api",
-            "src/esri",
-            "src/dojo",
-            "src/dijit",
-            "src/dojox",
-            "src/util",
-            "node_modules",
-            ".grunt"
-        ],
-        "file_exclude_patterns": [
-            "*.sublime-workspace"
-        ],
-        "path": "/"
-    }]
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"nosetests"
+			],
+			"name": "Python Tests",
+			"selector": "source.python",
+			"working_dir": "${project_path}\\scripts\\download"
+		},
+		{
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "python -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.sublime-workspace"
+			],
+			"folder_exclude_patterns":
+			[
+				"dist",
+				"api",
+				"src/esri",
+				"src/dojo",
+				"src/dijit",
+				"src/dojox",
+				"src/util",
+				"node_modules",
+				".grunt"
+			],
+			"path": "/"
+		}
+	]
 }

@@ -3,6 +3,7 @@ import csv
 import itertools
 import json
 import os
+import re
 import xlsxwriter
 from glob import glob
 from shutil import rmtree
@@ -19,9 +20,156 @@ class Toolbox(object):
         self.tools = [Tool]
 
 
+class TableInfo(object):
+
+    '''contains information about layers'''
+
+    def __init__(self, table, ids, primary_key=None):
+
+        self._created = False
+        self._layer_name = None
+        self._table = table
+        self.description = arcpy.Describe(table)
+        self.ids = ids
+        self.primary_key = primary_key
+
+    def __str__(self):
+        return '{}\r\ncreated: {}\r\nfields: {}\r\ntable: {}\r\nrelationships: {}'.format(self.name, self.created, self.fields, self.is_table, self.relationship_names)
+
+    @property
+    def created(self):
+        return self._created
+
+    @created.setter
+    def created(self, value):
+        self._created = value
+
+    @property
+    def fields(self):
+        return map(lambda x: x.name, self.description.fields)
+
+    @property
+    def is_table(self):
+        return self.description.datatype == 'Table'
+
+    @property
+    def name(self):
+        return self._table
+
+    @property
+    def relationship_names(self):
+        return self.description.relationshipClassNames
+
+    @property
+    def selection_name(self):
+        return '{}_selection'.format(self._table)
+
+    def where_clause(self, field):
+        '''Returns the sql to find table data in the shape of `field in (values)`
+
+        :param field: the field to query.
+        :param values: the values you want to find.
+        '''
+
+        quote_style = str
+        if len(self.ids) > 0 and isinstance(self.ids[0], basestring):
+            quote_style = lambda v: "'{}'".format(v)
+
+        ids = map(quote_style, self.ids)
+
+        return '{} in ({})'.format(field, ','.join(ids))
+
+    def export(self, location):
+        '''exports the selection_name to the `location`.
+
+        :param location: the location of a fgdb to export into.
+        '''
+        if not self.created:
+            if not self.is_table:
+                arcpy.MakeFeatureLayer_management(
+                    self.name,
+                    self.selection_name,
+                    where_clause=self.where_clause(self.primary_key))
+            else:
+                arcpy.MakeTableView_management(
+                    self.name,
+                    self.selection_name,
+                    where_clause=self.where_clause(self.primary_key))
+
+        if self.is_table:
+            arcpy.TableToTable_conversion(self.selection_name, location, self.name)
+        else:
+            arcpy.FeatureClassToFeatureClass_conversion(self.selection_name, location, self.name)
+
+
+class RelationshipInfo(object):
+
+    """info on relationships"""
+
+    def __init__(self, name):
+        self.name = name
+        self.description = arcpy.Describe(name)
+
+        origin_keys = self.description.OriginClassKeys
+        self.keys = dict((toople[1].replace('Origin', ''), toople[0])
+                         for i, toople in enumerate(origin_keys))
+
+    def __str__(self):
+        return '{}\r\ndestination table: {}\r\norigin table: {}\r\nprimary key: {}\r\nforeign key: {}'.format(self.name, self.destination_table_name, self.origin_table_name, self.primary_key, self.foreign_key)
+
+    @property
+    def cardinality(self):
+        return self._underscore(self.description.cardinality)
+
+    @property
+    def destination_table_name(self):
+        return self.description.destinationClassNames[0]
+
+    @property
+    def origin_table_name(self):
+        return self.description.originClassNames[0]
+
+    @property
+    def primary_key(self):
+        return self.keys['Primary']
+
+    @property
+    def foreign_key(self):
+        return self.keys['Foreign']
+
+    def export(self, location):
+        relationship_type = 'SIMPLE'
+        attributed = 'NONE'
+
+        if self.description.isComposite:
+            relationship_type = 'COMPOSITE'
+
+        if self.description.isAttributed:
+            attributed = 'ATTRIBUTED'
+
+        arcpy.CreateRelationshipClass_management(self.origin_table_name,
+                                                 self.destination_table_name,
+                                                 self.name,
+                                                 relationship_type,
+                                                 self.description.forwardPathLabel,
+                                                 self.description.backwardPathLabel,
+                                                 self.description.notification.upper(),
+                                                 self.cardinality,
+                                                 attributed,
+                                                 self.primary_key,
+                                                 self.foreign_key)
+
+    def _underscore(self, word):
+        word = re.sub(r'([A-Z]+)([A-Z][a-z])', r'\1_\2', word)
+        word = re.sub(r'([a-z\d])([A-Z])', r'\1_\2', word)
+        word = word.replace('-', '_')
+
+        return word.upper()
+
+
 class Tool(object):
 
-    version = '0.3.3'
+    version = '0.4.1'
 
     def __init__(self, workspace=None):
         self.label = 'Download'
@@ -31,6 +179,8 @@ class Tool(object):
         self.name = 'SearchResults'
         self.workspace = workspace
         self.sr = arcpy.SpatialReference(26912)
+        self.table_info = {}
+        self.relationship_info = {}
 
         if self.workspace:
             arcpy.env.workspace = self.workspace
@@ -40,7 +190,7 @@ class Tool(object):
 
         p0 = arcpy.Parameter(
             displayName='Layer with OID json object',
-            name='feature_class_oid_map',
+            name='table_id_map',
             datatype='String',
             parameterType='Required',
             direction='Input')
@@ -128,6 +278,9 @@ class Tool(object):
 
         return file_extension.lower()
 
+    def _flatten(self, iterable):
+        return list(itertools.chain.from_iterable(iterable))
+
     def _zip_output_directory(self, source_location, destination_location):
         '''creates a zip folder based on the `source_location` and `destination_location` parameters.
 
@@ -153,233 +306,152 @@ class Tool(object):
         '''deserializes the parameter json'''
         return json.loads(value)
 
-    def _get_relationships(self, feature_class):
-        ''' Returns a dictionary with the table the `feature_class` is related to as the key
-        and its primary key as the value
-
-        :param feature_class: A feature class name as shown in the source fgdb. The workspace
-        of the tool defines the source fgdb's location.
-        '''
-        arcpy.AddMessage('--_get_relationships::{}'.format(feature_class))
-
-        description = arcpy.Describe(feature_class)
-        relationships = description.relationshipClassNames
-
-        def describe(relation):
-            description = arcpy.Describe(relation)
-            class_name = description.destinationClassNames[0].lower()
-
-            return class_name, get_relationship_keys(description)
-
-        def get_relationship_keys(relation):
-            '''returns the index of the primary key and the name of the foreign key field'''
-            origin_keys = relation.OriginClassKeys
-            fields = map(lambda f: f.name.lower(), arcpy.ListFields(feature_class))
-
-            keys = dict((toople[1].replace('Origin', '').lower(), toople[0].lower())
-                        for i, toople in enumerate(origin_keys))
-
-            primary_key_index = [i for i, field in enumerate(fields) if field == keys['primary']]
-            primary_key_index = ''.join(map(str, primary_key_index))
-
-            return [int(primary_key_index), keys['foreign']]
-
-        return dict(map(describe, relationships)), relationships
-
-    def _recreate_relationships(self, relationship_names, output_location):
+    def _recreate_relationships(self, output_location):
         '''Recreates the relationships from the source data to the output
 
         :param relationship_names: an [] of relationship class names
         :param output_location: the location of the .gdb to create the relationship classes
         '''
-        arcpy.AddMessage('--_recreate_relationships::{}'.format(', '.join(relationship_names)))
+        arcpy.AddMessage('--_recreate_relationships')
 
-        relationships = map(arcpy.Describe, relationship_names)
+        relationships = self._filter_relationships()
 
-        def create_relationship(name_description_map):
-            relationship_type = 'SIMPLE'
-            attributed = 'NONE'
+        map(lambda x: x.export(output_location), relationships)
 
-            name = name_description_map[0]
-            description = name_description_map[1]
+    def _create_fgdb(self, output_location):
+        '''Creates and writes values to a file geodatabse
 
-            if description.isComposite:
-                relationship_type = 'COMPOSITE'
-
-            if description.isAttributed:
-                attributed = 'ATTRIBUTED'
-
-            cardinality = dict(zip(
-                ['OneToOne', 'OneToMany', 'ManyToMany'],
-                ['ONE_TO_ONE', 'ONE_TO_MANY', 'MANY_TO_MANY']))
-
-            origin_keys = description.OriginClassKeys
-            keys = dict((toople[1].replace('Origin', '').lower(), toople[0].lower())
-                        for i, toople in enumerate(origin_keys))
-
-            source = ''.join(description.originClassNames)
-            destination = ''.join(description.destinationClassNames).lower()
-
-            this = arcpy.env.workspace
-            arcpy.env.workspace = output_location
-
-            try:
-                arcpy.CreateRelationshipClass_management(source,
-                                                         destination,
-                                                         name,
-                                                         relationship_type,
-                                                         description.forwardPathLabel,
-                                                         description.backwardPathLabel,
-                                                         description.notification.upper(),
-                                                         cardinality[description.cardinality],
-                                                         attributed,
-                                                         keys['primary'],
-                                                         keys['foreign'])
-            finally:
-                arcpy.env.workspace = this
-
-        map(create_relationship, zip(relationship_names, relationships))
-
-    def _format_where_clause(self, field=None, values=None, related_key_map=None, feature_layer=None):
-        '''Returns the sql to find table data in the shape of `field in (values)`
-        If `related_key_map` and `data` are present we format the query for a related table.
-        Otherwise only field and values are necessary.
-
-        :param field: the feature class attribute field to search for.
-        :param values: the values you want to find.
-        :param feature_layer: the parent feature layer
-        :param related_key_map: contains the index of the primary key and the foreign key value
+        :param output_location: the parent folder to the *.gdb
         '''
-        arcpy.AddMessage('--_format_where_clause')
-
-        if related_key_map is not None:
-            values = set({})
-
-            field = [arcpy.ListFields(feature_layer)[related_key_map[0]].name]
-            with arcpy.da.SearchCursor(feature_layer, field) as cursor:
-                for row in cursor:
-                    values.add(row[0])
-
-            field = related_key_map[1]
-
-        values = list(values)
-
-        quote_style = str
-        if len(values) > 0 and isinstance(values[0], basestring):
-            quote_style = lambda v: "'" + v + "'"
-
-        values = map(quote_style, values)
-        return '{} in ({})'.format(field, ','.join(values))
-
-    def _query_features(self, feature_class, fields, where_clause):
-        '''Returns an arcpy.da.SearchCursor row
-
-        :param feature_class: the feature class name to query on.
-        :param fields: the fields to return from the `feature_class`.
-        :param where_clause: the filtering criteria to apply to the `feature_class`
-        '''
-        arcpy.AddMessage('--_query_features::{}'.format(feature_class))
-
-        with arcpy.da.SearchCursor(feature_class, fields, where_clause) as cursor:
-            for row in cursor:
-                yield row
-
-    def _get_features(self, feature_class_oid_map, fields='*'):
-        '''Returns a dict of layers with the data that should be written to disk
-
-        :param feature_class_oid_map: the layer name and the object id's to save
-        :param fields: the fields to retrieve from the class. mainly used for unit tests as `*` is sufficient
-        '''
-        arcpy.AddMessage('--_get_features')
-
-        result = {}
-        relationships = []
-        for feature_class in feature_class_oid_map:
-            oids = feature_class_oid_map[feature_class]
-            where_clause = self._format_where_clause('ID', oids)
-            result.setdefault(feature_class, None)
-
-            # create selection layer
-            selection = feature_class + '_selection'
-            arcpy.MakeFeatureLayer_management(feature_class, selection, where_clause)
-            result[feature_class] = selection
-
-            related_key_map, rel = self._get_relationships(selection)
-            relationships += rel
-
-            # get the related feature results
-            for related_table in related_key_map.keys():
-                result.setdefault(related_table, [])
-                where_clause = self._format_where_clause(
-                    related_key_map=related_key_map[related_table],
-                    feature_layer=selection)
-
-                if arcpy.Describe(related_table).datatype == 'FeatureClass':
-                    selection = related_table + '_selection'
-                    arcpy.MakeFeatureLayer_management(related_table, selection, where_clause)
-                    result[related_table] = selection
-
-                    continue
-
-                for row in self._query_features(related_table, fields, where_clause):
-                    result[related_table].append(row)
-
-        return result, relationships
-
-    def _create_table(self, table_name, output_location):
-        '''Creates the appropriate table type given the table name.
-
-        :param table_name: the source table name. This is used as the template for createing the schema along with
-        determining the shape type and data type.
-        :param output_location: the place on disk to save the table.
-        '''
-        arcpy.AddMessage('--_create_table. {}\\{}'.format(output_location, table_name))
-
-        description = arcpy.Describe(table_name)
-        if description.datatype == 'FeatureClass':
-            arcpy.AddMessage('---creating feature class')
-            feature_type = description.shapeType.upper()
-            arcpy.CreateFeatureclass_management(output_location,
-                                                table_name,
-                                                feature_type,
-                                                template=table_name,
-                                                spatial_reference=self.sr)
-        elif description.datatype == 'Table':
-            arcpy.AddMessage('---creating table')
-            arcpy.CreateTable_management(output_location,
-                                         table_name,
-                                         template=table_name)
-        else:
-            raise Exception('This data type is not supported {}'.format(description.datatype))
-
-    def _create_fgdb(self, feature_class_oid_map, output_location):
-        '''Creates and writes values to a file geodatabse'''
-        arcpy.AddMessage('--_create_fgdb::{}'.format(output_location))
+        arcpy.AddMessage('--create_fgdb::{}'.format(output_location))
 
         arcpy.CreateFileGDB_management(output_location, self.fgdb)
         output_location = os.path.join(output_location, self.fgdb)
 
-        feature_class_rows_map, relationships = self._get_features(feature_class_oid_map)
-
-        for feature_class in feature_class_rows_map:
-            table_location = os.path.join(output_location, feature_class)
-            features = feature_class_rows_map[feature_class]
-
-            if features == feature_class + '_selection':
-                arcpy.FeatureClassToFeatureClass_conversion(feature_class + '_selection',
-                                                            output_location,
-                                                            feature_class)
-            else:
-                # TableToTable_conversion
-                self._create_table(feature_class, output_location)
-
-                with arcpy.da.InsertCursor(table_location, '*') as cursor:
-                    for row in features:
-                        cursor.insertRow(row)
-
-        self._recreate_relationships(relationships, output_location)
-
         return output_location
+
+    def _create_view(self, table_info, relationship=None):
+        arcpy.AddMessage('--create_view::{}'.format(table_info.name))
+
+        if table_info.is_table:
+            arcpy.MakeTableView_management(
+                table_info.name,
+                table_info.selection_name)
+        else:
+            arcpy.MakeFeatureLayer_management(
+                table_info.name,
+                table_info.selection_name)
+
+        arcpy.SelectLayerByAttribute_management(
+            table_info.selection_name,
+            'ADD_TO_SELECTION',
+            table_info.where_clause(table_info.primary_key or relationship.primary_key))
+
+    def _filter_relationships(self):
+        tables = self.table_info.keys()
+
+        return filter(lambda x: x.destination_table_name in tables and x.origin_table_name in tables, self.relationship_info.values())
+
+    def _discover_the_info(self):
+        '''discovers all of the feature classes, tables, and relationship classes
+        '''
+        arcpy.AddMessage('--discover_the_info')
+
+        relationship_class_names = []
+
+        for table in self.table_info.values():
+            relationship_class_names = relationship_class_names + table.relationship_names
+
+        relationships = map(RelationshipInfo, set(relationship_class_names))
+
+        for relation in relationships:
+            self._dig_deeper(relation)
+
+        return self.table_info, self.relationship_info
+
+    def _build_parent_table_info(self, table_id_map):
+        '''creates `model.Info` classes for each table and addes them to a global dictionary to keep track.
+
+        :param table_id_map: the parent feature classes mapped with the id's to query for
+        '''
+        arcpy.AddMessage('--build_parent_table_info')
+
+        for table_name, ids in table_id_map.iteritems():
+            # table_name: 'VCP'
+            # ids: ['C040']
+
+            info = TableInfo(table_name, ids, 'ID')
+            self.table_info.setdefault(table_name, info)
+
+    def _new_table(self, name):
+        return name not in self.table_info.keys()
+
+    def _new_relationship(self, name):
+        return name not in self.relationship_info.keys()
+
+    def _get_ids(self, origin_table, relationship):
+        '''gets the id's of the related records for use in the generation of the where clause
+
+        :param origin_table: the parent table name used as a key to get the `TableInfo` model
+        :param relationship: the relationship it belongs to
+        '''
+        arcpy.AddMessage('--get_ids::{}'.format(origin_table))
+
+        table_info = self.table_info[origin_table]
+
+        self._create_view(table_info, relationship)
+
+        ids = []
+        with arcpy.da.SearchCursor(table_info.selection_name, relationship.primary_key) as cursor:
+            for row in cursor:
+                ids.append(row[0])
+
+        return ids
+
+    def _create_table_info(self, relationship):
+        '''creates a `TableInfo` model and also gets it's id's from its parent table
+
+        :param relationship: the relationship it belongs to
+        '''
+        arcpy.AddMessage('--create_table_info::{}'.format(relationship.name))
+
+        origin = relationship.origin_table_name
+
+        ids = self._get_ids(origin, relationship)
+
+        table_info = TableInfo(relationship.destination_table_name, ids)
+        table_info.primary_key = relationship.foreign_key
+
+        return table_info
+
+    def _dig_deeper(self, relationship):
+        '''a recursive function that discovers tables through relationships
+        it breaks when the table is already in the global `table_info` dictionary
+
+        :param relationship: the seed relationship to start exploring
+        '''
+        arcpy.AddMessage('--dig_deeper::{}'.format(relationship.name))
+
+        while self._new_table(relationship.destination_table_name):
+            table_info = self._create_table_info(relationship)
+            self.table_info[relationship.destination_table_name] = table_info
+
+            for name in table_info.relationship_names:
+                if self._new_relationship(name):
+                    info = RelationshipInfo(name)
+                    self.relationship_info[name] = info
+                    self._dig_deeper(info)
+
+    def _export_to_fgdb(self, output_location):
+        '''a recursive function that discovers tables through relationships
+        it breaks when the table is already in the global `table_info` dictionary
+
+        :param relationship: the seed relationship to start exploring
+        '''
+        arcpy.AddMessage('--export_to_fgdb::{}'.format(output_location))
+
+        for table in self.table_info.values():
+            table.export(output_location)
 
     def _create_shapefile(self, input_location, output_location):
         '''Creates and writes values to a shapefile'''
@@ -401,7 +473,7 @@ class Tool(object):
 
                 return value[:255]
 
-            with arcpy.da.Editor(input_location) as edit:
+            with arcpy.da.Editor(input_location):
                 with arcpy.da.UpdateCursor(table, fields) as cursor:
                     for row in cursor:
                         if(filter(lambda data: data is not None and len(data) > 255, row)) == 0:
@@ -413,8 +485,10 @@ class Tool(object):
         map(truncate_strings, feature_classes + tables)
 
         try:
-            arcpy.FeatureClassToShapefile_conversion(feature_classes, output_location)
-            arcpy.TableToDBASE_conversion(tables, output_location)
+            if len(feature_classes) > 0:
+                arcpy.FeatureClassToShapefile_conversion(feature_classes, output_location)
+            if len(tables) > 0:
+                arcpy.TableToDBASE_conversion(tables, output_location)
         finally:
             arcpy.env.workspace = this
 
@@ -488,7 +562,7 @@ class Tool(object):
         '''
         arcpy.AddMessage('executing version ' + self.version)
 
-        feature_class_oid_map = self._deserialize_json(parameters[0].valueAsText)
+        table_id_map = self._deserialize_json(parameters[0].valueAsText)
         file_type = parameters[1].valueAsText
         workspace = parameters[3].valueAsText
 
@@ -502,11 +576,21 @@ class Tool(object):
         self._delete_scratch_data(output_location)
         self._create_scratch_folder(output_location)
 
-        arcpy.AddMessage('-Creating a file geodatabase.')
-        gdb = self._create_fgdb(feature_class_oid_map, output_location)
+        gdb = self._create_fgdb(output_location)
+
+        self._build_parent_table_info(table_id_map)
+        self._discover_the_info()
+        self._export_to_fgdb(gdb)
 
         if file_type == 'fgdb':
             delete_temp_gdb = False
+            workspace = arcpy.env.workspace
+            try:
+                arcpy.env.workspace = gdb
+                self._recreate_relationships(gdb)
+            finally:
+                arcpy.env.workspace = workspace
+
         elif file_type == 'shp':
             arcpy.AddMessage('-Creating a shapefile.')
 
