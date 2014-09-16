@@ -1,3 +1,6 @@
 .shape .control-group {
     margin-top: 10px;
 }
+.shape .btn-xs {
+    margin-top: 3px;
+}

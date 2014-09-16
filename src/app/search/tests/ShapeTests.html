@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/Shape.css">
+    <link rel="stylesheet" href="../../resources/App.css">
     <style type='text/css'>
         body {
             padding: 15px;
@@ -45,7 +45,8 @@
             MapController.map = new Map('mapDiv', {
                 basemap: 'streets'
             });
-            MapController.setUpSubscribes();
+            MapController.init();
+            // MapController.setUpSubscribes();
             widgetUnderTest = new Module(null, 'node');
 
             widgetUnderTest.startup();

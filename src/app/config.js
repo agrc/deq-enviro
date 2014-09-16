@@ -233,7 +233,7 @@ define([
                 ),
                 point: new SimpleMarkerSymbol(
                     SimpleMarkerSymbol.STYLE_CIRCLE,
-                    15,
+                    12,
                     new SimpleLineSymbol(
                         SimpleLineSymbol.STYLE_SOLID,
                         selectionColor,

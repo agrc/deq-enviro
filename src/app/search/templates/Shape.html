@@ -10,6 +10,9 @@
             <button type="button" class="btn btn-default" value='polyline'>Line</button>
         </div>
     </div>
+    <button data-dojo-attach-event='click: onFinishClick'
+        data-dojo-attach-point='finishBtn' 
+        class="btn btn-success btn-block btn-xs hidden">Finish Drawing</button>
     <div class="control-group">
         <label>Buffer (miles)</label>
         <input data-dojo-attach-point='bufferNum' type="number" class='form-control'>
