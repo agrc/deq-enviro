@@ -582,6 +582,9 @@ class Tool(object):
         self._discover_the_info()
         self._export_to_fgdb(gdb)
 
+        # need to use a var for shp because when publishing to ags or else:
+        # elif file_type == 'shp' gets changed to: elif file_type == arcpy.env.packageWorkspace:
+        shp = 'shp'
         if file_type == 'fgdb':
             delete_temp_gdb = False
             workspace = arcpy.env.workspace
@@ -591,7 +594,7 @@ class Tool(object):
             finally:
                 arcpy.env.workspace = workspace
 
-        elif file_type == 'shp':
+        elif file_type == shp:
             arcpy.AddMessage('-Creating a shapefile.')
 
             self._create_shapefile(gdb, output_location)
@@ -604,7 +607,7 @@ class Tool(object):
 
             self._create_xls(gdb, output_location)
         else:
-            raise Exception('file type not supported')
+            raise Exception('file type not supported: {}'.format(file_type))
 
         if delete_temp_gdb:
             self._delete_scratch_data(output_location, ['gdb'])
