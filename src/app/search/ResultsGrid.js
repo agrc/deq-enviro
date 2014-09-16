@@ -112,6 +112,7 @@ define([
             //      creates the dgrid
             console.log('app/search/ResultsGrid:initGrid', arguments);
 
+            var that = this;
             var fn = config.fieldNames.queryLayers;
             var cap = function (str) {
                 str = str.toLowerCase();
@@ -125,6 +126,7 @@ define([
                     field: fn.ID,
                     label: cap(fn.ID),
                     renderCell: function (item, value) {
+                        // console.log('renderCell');
                         // format header rows only
                         if (item.count !== undefined) {
                             return new GridRowHeader(item).domNode;
@@ -168,12 +170,15 @@ define([
                 store: new Memory({
                     idProperty: fn.UNIQUE_ID,
                     getChildren: function (item, options) {
+                        console.log('Grid:getChildren');
                         return this.query({parent: item[fn.UNIQUE_ID]}, options);
                     },
                     mayHaveChildren: function (item) {
+                        console.log('Grid:mayHaveChildren', item.parent);
                         return !item.parent;
                     },
                     query: function (query, options){
+                        console.log('Grid:query', query, options);
                         query = query || {};
                         options = options || {};
 
@@ -184,19 +189,12 @@ define([
                             var sortFunc = function(a, b){
                                 var aValue = a[sort.attribute];
                                 var bValue = b[sort.attribute];
-                                // valueOf enables proper comparison of dates
-                                aValue = aValue != null ? aValue.valueOf() : aValue;
-                                bValue = bValue != null ? bValue.valueOf() : bValue;
+                                aValue = aValue != null ? aValue.trim().toLowerCase() : '';
+                                bValue = bValue != null ? bValue.trim().toLowerCase() : '';
                                 if (aValue !== bValue){
-                                    if (typeof aValue === 'string' && typeof bValue === 'string') {
-                                        /*jshint -W018 */
-                                        return !!sort.descending === (aValue == null ||
-                                            aValue.toLowerCase() > bValue.toLowerCase()) ? -1 : 1;
-                                    } else {
-                                        return !!sort.descending === (aValue == null ||
-                                            aValue > bValue) ? -1 : 1;
-                                        /*jshint +W018 */
-                                    }
+                                    /*jshint -W018 */
+                                    return !!sort.descending === (aValue > bValue) ? -1 : 1;
+                                    /*jshint +W018 */
                                 }
                             };
                             options.sort = sortFunc;
@@ -221,12 +219,12 @@ define([
                 this.grid.on('dgrid-select, dgrid-deselect',
                     lang.hitch(this, 'sendDownloadData')),
                 topic.subscribe(config.topics.appDownloadDownload.clearSelection,
-                    lang.hitch(this.grid, 'clearSelection'))
+                    lang.hitch(this.grid, 'clearSelection')),
+                this.grid.on('dgrid-sort', lang.hitch(this, 'onGridSort'))
             );
 
             if (has('touch')) {
                 var activeRow;
-                var that = this;
                 this.own(
                     this.grid.on(touchUtil.selector('.dgrid-row:click', touchUtil.tap), function (evt) {
                         if (activeRow) {
@@ -244,6 +242,29 @@ define([
                     this.grid.on(mouseUtil.leaveRow, lang.hitch(this, 'onRowLeave'))
                 );
             }
+        },
+        onGridSort: function () {
+            // summary:
+            //      Used to temporarily collapse trees for sorting which increases performance
+            //      exponentially.
+            console.log('app/search/ResultsGrid:onGridSort', arguments);
+        
+            var expanded = [];
+            var that = this;
+            // collapse any open trees
+            query('.ui-icon-triangle-1-se', this.grid.domNode).forEach(function (el) {
+                var row = that.grid.row(el);
+                expanded.push(row.data[config.fieldNames.queryLayers.UNIQUE_ID]);
+                that.grid.expand(row, false, true);
+            });
+
+            // reopen nodes after search has completed
+            var handle = this.grid.on('dgrid-refresh-complete', function () {
+                handle.remove();
+                array.forEach(expanded, function (id) {
+                    that.grid.expand(that.grid.row(id), true, true);
+                });
+            });
         },
         onRowClick: function (evt) {
             // summary:
@@ -317,7 +338,7 @@ define([
             //          feature: layer index + ID ('5-12345566')
             // data: Object
             //      data object as returned from the search service
-            console.log('module.id:getStoreData', arguments);
+            console.log('app/search/ResultsGrid:getStoreData', arguments);
 
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
@@ -374,7 +395,7 @@ define([
             // summary:
             //      publishes highlight topic for that feature
             // evt: Mouse Event Object
-            console.log('app/search/ResultsGrid:onRowEnter', arguments);
+            // console.log('app/search/ResultsGrid:onRowEnter', arguments);
 
             var item = this.grid.row(evt).data;
             topic.publish(config.topics.appResultLayer.highlightFeature, item.OBJECTID, item.parent);
@@ -383,7 +404,7 @@ define([
             // summary:
             //      description
             // param: type or return: type
-            console.log('app/search/ResultsGrid:onRowLeave', arguments);
+            // console.log('app/search/ResultsGrid:onRowLeave', arguments);
 
             if (evt.target.type !== 'submit') {
                 topic.publish(config.topics.appResultLayer.clearSelection);

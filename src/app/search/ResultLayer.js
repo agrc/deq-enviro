@@ -203,7 +203,7 @@ define([
             //      clears selection and selects if appropriate
             // oid: Number
             // layerIndex: String
-            console.log('app/search/ResultLayer:onHighlight', arguments);
+            // console.log('app/search/ResultLayer:onHighlight', arguments);
         
             this.fLayer.clearSelection();
 
