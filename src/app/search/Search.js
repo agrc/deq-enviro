@@ -260,7 +260,6 @@ define([
                 }).then(
                     function (response) {
                         if (response.status !== 200) {
-                            topic.publish(config.topics.appSearch.searchError);
                             onError(that.searchServiceErrorMsg);
                         } else {
                             topic.publish(config.topics.appSearch.featuresFound, response.result);
@@ -269,7 +268,6 @@ define([
                         }
                     },
                     function () {
-                        topic.publish(config.topics.appSearch.searchError);
                         onError(that.searchServiceErrorMsg);
                     }
                 );
@@ -278,6 +276,7 @@ define([
             var onError = function (errTxt) {
                 that.showErrMsg(errTxt);
                 that.hideLoader();
+                topic.publish(config.topics.appSearch.searchError);
             };
 
             this.hideErrMsg();

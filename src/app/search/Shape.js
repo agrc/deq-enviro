@@ -7,6 +7,7 @@ define([
     'dojo/dom-class',
     'dojo/topic',
     'dojo/Deferred',
+    'dojo/has',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -27,6 +28,7 @@ define([
     domClass,
     topic,
     Deferred,
+    has,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -98,6 +100,13 @@ define([
             this.unselectBtns();
             domClass.add(evt.target, 'active');
             this.toolbar.activate(evt.target.value);
+            this.geometry = null; // prevent search getting old geometries.
+
+            // show finish button for touch devices only
+            if (has('touch') &&
+                (evt.target.value === 'polygon' || evt.target.value === 'polyline')) {
+                domClass.remove(this.finishBtn, 'hidden');
+            }
         },
         onDrawComplete: function (evt) {
             // summary:
@@ -160,7 +169,7 @@ define([
             // summary:
             //      clears graphics, disables active tool and unactivates any buttons
             console.log('app/search/Shape:clear', arguments);
-        
+
             topic.publish(config.topics.appMapMapController.clearGraphics);
 
             this.toolbar.deactivate();
@@ -173,11 +182,20 @@ define([
             // summary:
             //      unselectes all buttons in the widget
             console.log('app/search/Shape:unselectBtns', arguments);
-        
+
             query('.btn-group .btn', this.domNode)
                 .forEach(function (btn) {
                     domClass.remove(btn, 'active');
                 });
+
+            domClass.add(this.finishBtn, 'hidden');
+        },
+        onFinishClick: function () {
+            // summary:
+            //      User clicked on the finish drawing button (touch only)
+            console.log('app/search/Shape:onFinishClick', arguments);
+
+            this.toolbar.finishDrawing();
         }
     });
 });
