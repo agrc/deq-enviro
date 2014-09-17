@@ -216,6 +216,8 @@ define([
             if (geometry.type === 'point') {
                 this.extentChangePromise = this.map.centerAndZoom(geometry, 8)
                     .then(removePromise);
+            } else if (geometry.type === 'extent') {
+                this.extentChangePromise = this.map.setExtent(geometry, true);
             } else {
                 this.extentChangePromise = this.map.setExtent(geometry.getExtent(), true)
                     .then(removePromise);

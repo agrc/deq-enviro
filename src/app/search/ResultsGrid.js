@@ -26,11 +26,13 @@ define([
 
     'put-selector/put',
 
+    'esri/geometry/Extent',
+
     'agrc/modules/Formatting',
 
     'app/config',
-    './ResultLayer',
-    './GridRowHeader'
+    'app/search/ResultLayer',
+    'app/search/GridRowHeader'
 
 ], function(
     template,
@@ -59,6 +61,8 @@ define([
     touchUtil,
 
     put,
+
+    Extent,
 
     formatting,
 
@@ -342,7 +346,27 @@ define([
 
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
+            var coordsBucket = {x: [], y: []};
+            var pushPoint = function (x, y) {
+                coordsBucket.x.push(x);
+                coordsBucket.y.push(y);
+            };
             var getAttributes = function (graphic) {
+                var geo = graphic.geometry;
+                if (geo.type === 'point') {
+                    pushPoint(geo.x, geo.y);
+                } else if (geo.type === 'polyline') {
+                    array.forEach(geo.paths, function (p) {
+                        pushPoint(p[0], p[1]);
+                    });
+                } else {
+                    // polygon
+                    array.forEach(geo.rings, function (r) {
+                        array.forEach(r, function (p) {
+                            pushPoint(p[0], p[1]);
+                        });
+                    });
+                }
                 graphic.attributes.parent = layerIndex;
                 graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
                 graphic.attributes.geometry = graphic.geometry;
@@ -388,6 +412,13 @@ define([
                     colorIndex = (colorIndex < 11) ? colorIndex + 1 : 0;
                 }
             }
+
+            topic.publish(config.topics.appMapMapController.zoom, new Extent(
+                Math.min.apply(Math, coordsBucket.x),
+                Math.min.apply(Math, coordsBucket.y),
+                Math.max.apply(Math, coordsBucket.x),
+                Math.max.apply(Math, coordsBucket.y)
+            ));
 
             return storeData;
         },
