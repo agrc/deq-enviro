@@ -14,6 +14,25 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>0.10.0 <small>Sept 17, 2014</small></h2>
+    <ul>
+        <li>Data Download (<a href="https://github.com/agrc/deq-enviro/issues/143">#143</a>)</li>
+        <ul>
+            <li>Users can now download data in four different formats: file geodatabase, shapefile, .csv and .xls.</li>
+            <li>Downloaded data includes all related tables including nested relationships (<a href="https://github.com/agrc/deq-enviro/issues/180">#180</a>).</li>
+            <li>Users can select a subset of the search results by clicking on the rows in the grid for download (<a href="https://github.com/agrc/deq-enviro/issues/113">#113</a>).</li>
+        </ul>
+        <li>Added ESRI's Measure Tool widget (<a href="https://github.com/agrc/deq-enviro/issues/148">#148</a>).</li>
+        <li>Fixed a bug that was preventing a successful search by name with multiple search terms (<a href="https://github.com/agrc/deq-enviro/issues/159">#159</a>).</li>
+        <li>Fixed a bug on touch devices (originally reported on Samsung Galaxy Note) that was causing searches to be performed with previously drawn shapes (<a href="https://github.com/agrc/deq-enviro/issues/179">#179</a>).</li>
+        <li>Fixed a bug causing the results grid to be truncated after a sort (<a href="https://github.com/agrc/deq-enviro/issues/181">#181</a>).</li>
+        <li>Renamed the "Clear Parameters" button to "Clear Search" and updated the functionality to clear not only the search parameters but all search graphics, results and grid rows (<a href="https://github.com/agrc/deq-enviro/issues/182">#182</a>).</li>
+        <li>Fixed a bug that was preventing searchs to be performed on the "Solid Waste, Hazardous Waste, and Used Oil Regulated Facilities" layer (<a href="https://github.com/agrc/deq-enviro/issues/183">#183</a>).</li>
+        <li>Map now zooms to the extent of the search results when a successful search has been performed. This addresses a problem the occurs when the user searches by ID or name for features that are not within the current extent of the map (<a href="https://github.com/agrc/deq-enviro/issues/186">#186</a>).</li>
+        <li>Fixed a bug that was causing the shapes of smaller polygon features to be over-generalized. This was first noticed within the "Underground Injection Control" layer (<a href="https://github.com/agrc/deq-enviro/issues/190">#190</a>).</li>
+        <li>Significantly improved sorting performance.</li>
+        <li>Fixed bugs relating to incorrect parsing of dates before 1970 and dates off by one day.</li>
+    </ul>
     <h2>0.9.0 <small>Aug 21, 2014</small></h2>
     <ul>
         <li>Related Tables: Added an "info" link to the grid that links to the additional info url and passes the relevant fields (<a href="https://github.com/agrc/deq-enviro/issues/127">#127</a>).</li>
