@@ -1,6 +1,6 @@
 {
     "name": "deq-enviro",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "main": "main",
     "description": "DEQ Environmental Data Viewer ",
     "homepage": "https://github.com/agrc/deq-enviro",
