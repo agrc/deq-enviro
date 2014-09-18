@@ -116,6 +116,10 @@ body, html, .app {
     height: 0;
     overflow: hidden;
 }
+/* map labels */
+#labels_layer text {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
 
 /* GENERAL STUFF */
 /* remove orange outline in chrome */

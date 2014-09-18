@@ -4,6 +4,7 @@ NAME = 'NAME'
 ADDRESS = 'ADDRESS'
 CITY = 'CITY'
 TYPE = 'TYPE'
+ENVIROAPPLABEL = 'ENVIROAPPLABEL'
 
 sourceData = 'sourceData'
 sgidName = 'sgidName'

@@ -7,7 +7,11 @@ define([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/layers/GraphicsLayer',
+    'esri/layers/LabelLayer',
     'esri/graphic',
+    'esri/renderers/SimpleRenderer',
+    'esri/symbols/TextSymbol',
+    'esri/symbols/Font',
 
     '../config'
 
@@ -20,7 +24,11 @@ define([
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
     GraphicsLayer,
+    LabelLayer,
     Graphic,
+    SimpleRenderer,
+    TextSymbol,
+    Font,
 
     config
 ) {
@@ -36,14 +44,18 @@ define([
         //      keep track of zoom and pan promises for mapIsZoomingOrPanning
         extentChangePromise: null,
 
+        // searchGraphics: GraphicsLayer
+        //      the layer that shows the search graphics
+        searchGraphics: null,
+
+        // labelLayer: LabelLayer
+        //      the layer that draws all of the labels for the app
+        labelLayer: null,
+
 
         // Properties to be sent into constructor
         // map: agrc/widgets/map/BaseMap
         map: null,
-
-        // searchGraphics: GraphicsLayer
-        //      the layer that shows the search graphics
-        searchGraphics: null,
 
         init: function (params) {
             // summary:
@@ -95,14 +107,14 @@ define([
             console.log('app/MapController:mapIsZoomingOrPanning', arguments);
 
             console.log('this.extentChangePromise', this.extentChangePromise);
-        
+
             return this.extentChangePromise || new Deferred().resolve();
         },
         setUpPublishes: function () {
             // summary:
             //      sets up publishes
             console.log('app/map/MapController:setUpPublishes', arguments);
-        
+
             var that = this;
             this.handles.push(
                 this.map.on('zoom-end', function () {
@@ -116,7 +128,7 @@ define([
             // layer: esri/layer
             // layerIndex: Number
             console.log('app/map/MapController:addReferenceLayer', arguments);
-        
+
             // check to see if layer has already been added to the map
             var that = this;
             var lyr;
@@ -153,7 +165,7 @@ define([
                     return true;
                 }
             });
-        
+
             if (layerIndex !== null) {
                 var visLyrs = lyr.visibleLayers;
                 if (on) {
@@ -179,25 +191,42 @@ define([
             // geometryType: String (point || polygon)
             //      Used to determine layer order (polygons go on the bottom)
             console.log('app/map/MapController:addQueryLayer', arguments);
-        
+
             var index = (geometryType === 'polygon') ? 2 : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
+
+            if (!this.labelLayer) {
+                this.labelLayer = new LabelLayer();
+                this.labelLayer.minScale = config.labelsMinScale;
+                this.map.addLayer(this.labelLayer);
+            }
+            this.labelLayer.addFeatureLayer(layer,
+                new SimpleRenderer(new TextSymbol().setOffset(-20, -3)),
+                '{' + config.fieldNames.queryLayers.ENVIROAPPLABEL + '}'
+            );
         },
         removeQueryLayer: function (layer) {
             // summary:
             //      removes the layer from the map
             // layer: esri/layers/FeatureLayer
             console.log('app/map/MapController:removeQueryLayer', arguments);
-        
+
             this.map.removeLayer(layer);
+
+            var that = this;
+            array.forEach(this.labelLayer.featureLayers, function (fl, i) {
+                if (fl.id === layer.id) {
+                    that.labelLayer.featureLayers.splice(i, 1);
+                }
+            });
         },
         zoomToSearchGraphic: function (geometry) {
             // summary:
             //      zooms to the geometry and then creates a new graphic
             // geometry: esri/geometry/polygon
             console.log('app/map/MapController:zoomToSearchGraphic', arguments);
-        
+
             this.zoom(geometry);
             this.graphic(geometry);
         },
@@ -228,12 +257,12 @@ define([
             //      creates a graphic and adds it to the map
             // geometry: esri/geometry
             console.log('app/map/MapController::graphic', arguments);
-        
+
             if (!this.searchGraphics) {
                 this.searchGraphics = new GraphicsLayer();
                 this.map.addLayer(this.searchGraphics);
             }
-            
+
             this.searchGraphics.clear();
             this.searchGraphics.add(new Graphic(geometry, config.symbols.zoom[geometry.type]));
         },
@@ -241,7 +270,7 @@ define([
             // summary:
             //      destroys all handles
             console.log('app/map/MapController:destroy', arguments);
-        
+
             array.forEach(this.handles, function (hand) {
                 hand.remove();
             });
@@ -250,21 +279,21 @@ define([
             // summary:
             //      description
             console.log('app/map/MapController:showLoader', arguments);
-        
+
             this.map.showLoader();
         },
         hideLoader: function () {
             // summary:
             //      description
             console.log('app/map/MapController:hideLoader', arguments);
-        
+
             this.map.hideLoader();
         },
         clearGraphics: function () {
             // summary:
             //      clears any graphics on the map
             console.log('app/map/MapController:clearGraphics', arguments);
-        
+
             if (this.searchGraphics) {
                 this.searchGraphics.clear();
             }

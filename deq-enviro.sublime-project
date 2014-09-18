@@ -27,7 +27,7 @@
 			[
 				"dist",
 				"api",
-				"src/esri",
+				// "src/esri",
 				"src/dojo",
 				"src/dijit",
 				"src/dojox",
