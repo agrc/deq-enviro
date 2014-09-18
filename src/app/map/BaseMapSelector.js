@@ -5,7 +5,9 @@ define([
     'dojo/_base/array',
     'dojo/dom-construct',
 
-    'agrc/widgets/map/_BaseMapSelector'
+    'agrc/widgets/map/_BaseMapSelector',
+
+    'app/config'
 
 ], function(
     template,
@@ -14,7 +16,9 @@ define([
     array,
     domConstruct,
 
-    BaseMapSelector
+    BaseMapSelector,
+
+    config
 ) {
     return declare([BaseMapSelector], {
         // description:
@@ -23,7 +27,7 @@ define([
         templateString: template,
         baseClass: 'base-map-selector',
         widgetsInTemplate: false,
-        defaultThemeLabel: 'Lite',
+        defaultThemeLabel: config.defaultBaseMap,
 
         // Properties to be sent into constructor
 
@@ -51,6 +55,7 @@ define([
                     value: t.label
                 }, that.select);
             });
+            that.select.value = this.defaultThemeLabel;
         },
         onChange: function (evt) {
             // summary:

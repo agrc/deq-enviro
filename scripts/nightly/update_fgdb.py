@@ -13,7 +13,8 @@ fiveFields = [
               fieldnames.NAME, 
               fieldnames.ADDRESS, 
               fieldnames.CITY, 
-              fieldnames.TYPE
+              fieldnames.TYPE,
+              fieldnames.ENVIROAPPLABEL
               ]
 logger = None
 errors = []

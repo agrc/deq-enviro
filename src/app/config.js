@@ -60,6 +60,10 @@ define([
 
         gridIdentifyHeight: 237,
 
+        labelsMinScale: 250000,
+
+        defaultBaseMap: 'Lite',
+
         // topics: Object
         //      The topic strings used in this app
         topics: {
@@ -152,7 +156,8 @@ define([
                 ID: 'ID',
                 NAME: 'NAME',
                 TYPE: 'TYPE',
-                UNIQUE_ID: 'UNIQUE_ID'
+                UNIQUE_ID: 'UNIQUE_ID',
+                ENVIROAPPLABEL: 'ENVIROAPPLABEL'
             }
         },
 
@@ -281,7 +286,7 @@ define([
             // summary:
             //      description
             // index: String
-            console.log('app/config:getQueryLayerByIndex', arguments);
+            // console.log('app/config:getQueryLayerByIndex', arguments);
 
             return this.getDatasetByIndex(this.appJson.queryLayers, index);
         },
@@ -289,7 +294,7 @@ define([
             // summary:
             //      description
             // index: String
-            console.log('app/config:getRelatedTableByIndex', arguments);
+            // console.log('app/config:getRelatedTableByIndex', arguments);
         
             return this.getDatasetByIndex(this.appJson.relatedTables, index);
         },

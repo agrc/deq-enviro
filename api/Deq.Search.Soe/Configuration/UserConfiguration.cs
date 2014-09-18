@@ -30,10 +30,13 @@ namespace Deq.Search.Soe.Configuration {
     /// </summary>
     public class UserConfiguration : IConfigurable {
         public ApplicationFieldSettings GetFields(IPropertySet props) {
-            var settings = new ApplicationFieldSettings {
-                ReturnFields = props.GetValueAsString("returnfields", true).Split(','),
-                ProgramId = props.GetValueAsString("programid", true),
-                SiteName = props.GetValueAsString("sitename", true)
+            var settings = new ApplicationFieldSettings
+            {
+                ReturnFields = new[] {
+                    "ID", "NAME", "ADDRESS", "CITY", "TYPE", "OBJECTID", "ENVIROAPPLABEL"
+                },
+                ProgramId = "ID",
+                SiteName = "NAME"
             };
 
             return settings;

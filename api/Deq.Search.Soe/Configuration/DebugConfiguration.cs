@@ -31,7 +31,7 @@ namespace Deq.Search.Soe.Configuration {
         public ApplicationFieldSettings GetFields(IPropertySet props) {
             var settings = new ApplicationFieldSettings {
                 ReturnFields = new[] {
-                    "ID", "NAME", "ADDRESS", "CITY", "TYPE", "OBJECTID"
+                    "ID", "NAME", "ADDRESS", "CITY", "TYPE", "OBJECTID", "ENVIROAPPLABEL"
                 },
                 ProgramId = "ID",
                 SiteName = "NAME"

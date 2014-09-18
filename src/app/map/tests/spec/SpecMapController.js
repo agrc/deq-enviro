@@ -130,16 +130,16 @@ require([
             });
         });
         describe('addQueryLayer', function () {
+            var lyr;
+            beforeEach(function () {
+                lyr = {on: function () {}};
+            });
             it('adds the layer to the map', function () {
-                var lyr = {};
-
                 testObject.addQueryLayer(lyr, 'point');
 
                 expect(map.addLayer).toHaveBeenCalledWith(lyr, undefined);
             });
             it('adds polygons to index position 1 and points to the top of the stack', function () {
-                var lyr = {};
-
                 testObject.addQueryLayer(lyr, 'point');
 
                 expect(map.addLayer.calls.mostRecent().args[1]).toBeUndefined();
