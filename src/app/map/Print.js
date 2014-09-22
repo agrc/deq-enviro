@@ -131,6 +131,7 @@ define([
             query('.alert', this.domNode).forEach(function (n) {
                 domClass.add(n, 'hidden');
             });
+            $(this.btn).popover('show');
         },
         hideLoader: function () {
             // summary:
@@ -139,6 +140,7 @@ define([
         
             this.printBtn.disabled = false;
             this.printBtn.innerHTML = this.btnText;
+            $(this.btn).popover('show');
         }
     });
 });
