@@ -8,6 +8,7 @@
 @import '../search/resources/Search.css';
 @import './Wizard.css';
 @import '../map/resources/MeasureTool.css';
+@import '../map/resources/Print.css';
 
 body, html, .app {
     width: 100%;
