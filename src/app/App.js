@@ -28,6 +28,7 @@ define([
     'app/search/IdentifyPane',
     'app/map/MapController',
     'app/map/MeasureTool',
+    'app/map/Print',
 
     'ijit/widgets/authentication/LoginRegister',
 
@@ -62,6 +63,7 @@ define([
     IdentifyPane,
     MapController,
     MeasureTool,
+    Print,
 
     LoginRegister,
 
@@ -87,6 +89,9 @@ define([
 
         // measureToolsBtn: MapButton
         measureToolsBtn: null,
+
+        // printToolBtn: MapButton
+        printToolBtn: null,
 
         // login: LoginRegister
         login: null,
@@ -157,8 +162,8 @@ define([
                     title: 'Measure Tools',
                     iconName: 'resize-horizontal'
                 }, this.measureBtnDiv),
-                new MapButton({
-                    title: 'Print Map',
+                this.printToolBtn = new MapButton({
+                    title: 'Print',
                     iconName: 'print'
                 }, this.printBtnDiv),
                 new Wizard({}, this.wizardDiv),
@@ -184,6 +189,13 @@ define([
                 });
                 that.own(tool);
                 tool.startup();
+
+                var print = new Print({
+                    btn: that.printToolBtn.domNode,
+                    map: that.map
+                });
+                that.own(print);
+                print.startup();
             });
 
             this.inherited(arguments);

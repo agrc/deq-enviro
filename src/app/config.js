@@ -126,7 +126,8 @@ define([
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             securedServicesBaseUrl: '/none',
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
-            download: '/arcgis/rest/services/DEQEnviro/Toolbox/GPServer/Download'
+            download: '/arcgis/rest/services/DEQEnviro/Toolbox/GPServer/Download',
+            exportWebMap: '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task' // for printing
         },
 
         // layerIndices: Object
