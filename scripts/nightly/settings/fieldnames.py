@@ -20,6 +20,7 @@ docLink = 'docLink'
 gramaLink = 'gramaLink'
 additionalLink = 'additionalLink'
 additionalLinkFields = 'additionalLinkFields'
+secure = 'secure'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'

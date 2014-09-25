@@ -44,7 +44,7 @@ def run(logr, test_layer=None):
             source = path.join(settings.dbConnects, sourceName)
             
             # only try to update rows with valid sgid names and data sources
-            if sgidName.startswith('SGID10.ENVIRONMENT') and not sourceName.startswith('<'):
+            if sgidName.startswith('SGID10') and not sourceName.startswith('<'):
                 sgidType = arcpy.Describe(sgid).datasetType
                 sourceType = arcpy.Describe(source).datasetType
                 
