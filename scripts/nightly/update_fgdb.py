@@ -72,12 +72,14 @@ def update_query_layers(test_layer=None):
         if test_layer and fcname != test_layer:
             continue
         try:
-            # only try to update rows with valid sgid names and data sources
-            if fcname.startswith('SGID10'):
+            if fcname.startswith('SGID10') or fcname.startswith('DirectFromSource'):
                 # update fgd from SGID
                 logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
                 localFc = path.join(settings.fgd, fcname.split('.')[-1])
-                remoteFc = path.join(settings.sgid, fcname)
+                if fcname.startswith('SGID10'):
+                    remoteFc = path.join(settings.sgid, fcname)
+                else:
+                    remoteFc = l[fieldnames.sourceData]
                 update(localFc, remoteFc)
                 
                 # APP-SPECIFIC OPTIMIZATIONS

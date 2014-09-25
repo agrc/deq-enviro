@@ -7,6 +7,7 @@ import requests
 import spreadsheet
 from settings import fieldnames
 import settings
+from agrc import ags
 
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
@@ -32,9 +33,12 @@ def run():
     return j
 
 def get_dataset_info(spreadsheetData):
+    admin = ags.AGSAdmin(settings.DEQNIGHTLY_USER, settings.DEQNIGHTLY_PASSWORD, settings.agsServer)
+
     # get layer indicies from map service
     jsonData = requests.get(settings.mapServiceJson).json()
-    layersAndTables = jsonData['layers'] + jsonData['tables']
+    secureJsonData = requests.get('{}&token={}'.format(settings.securedServiceJson, admin.token)).json()
+    layersAndTables = jsonData['layers'] + jsonData['tables'] + secureJsonData['layers']
     serviceLayers = {}
     for s in layersAndTables:
         serviceLayers[s['name']] = s['id']

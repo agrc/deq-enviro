@@ -2,3 +2,5 @@ from .dev import *
 
 GOOGLE_USER = 'username'
 GOOGLE_PASSWORD = 'password'
+DEQNIGHTLY_PASSWORD = '1GT4$ds'
+DEQNIGHTLY_USER = 'deqnightly'
