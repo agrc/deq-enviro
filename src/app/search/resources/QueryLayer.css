@@ -1,3 +1,10 @@
-.query-layer {
-
+.query-layer .glyphicon.No {
+    display: none !important;
+    visibility: hidden !important;
+}
+.query-layer .glyphicon.Yes {
+    color: #cdaf42;
+}
+.query-layer.disabled label {
+    cursor: not-allowed;
 }

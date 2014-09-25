@@ -41,6 +41,7 @@ define([
 
             this.inherited(arguments);
 
+            // increase the parent model to allow for the bigger size of this pane
             var that = this;
             aspect.after(this.parentWidget, 'goToPane', function (pane) {
                 var width = (pane === that) ? that.width + 'px' : '';

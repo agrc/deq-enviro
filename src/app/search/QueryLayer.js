@@ -4,6 +4,7 @@ define([
     'dojo/_base/declare',
     'dojo/_base/Color',
     'dojo/topic',
+    'dojo/dom-class',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -17,6 +18,7 @@ define([
     declare,
     Color,
     topic,
+    domClass,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -64,9 +66,8 @@ define([
 
         // All of the fields in config.fieldNames.queryLayers
 
-        // color: Number[]
-        //      color of layer in map service, comes from json file
-        color: null,
+        // secure: String (Yes | No)
+        secure: 'No',
 
         postCreate: function() {
             // summary:
@@ -76,11 +77,21 @@ define([
             console.log('app/QueryLayer::postCreate', arguments);
 
             var that = this;
-            
+
+            if (this.secure === 'Yes') {
+                this.checkSecurity(config.user);
+                this.own(
+                    topic.subscribe(config.topics.app.onSignInSuccess, function (loginResult) {
+                        that.checkSecurity(loginResult.user);
+                    })
+                );
+            }
+
             this.localStorageID = this.name + '_checkedState';
 
             if (localStorage) {
-                if (localStorage[this.localStorageID] === 'true') {
+                if (localStorage[this.localStorageID] === 'true' &&
+                    !this.checkbox.disabled) {
                     this.checkbox.checked = true;
                     this.onCheckboxChange();
                 }
@@ -89,13 +100,31 @@ define([
             $(this.helpTip).tooltip({
                 container: 'body'
             });
+            if (this.secure === 'Yes') {
+                $(this.secureTip).tooltip({
+                    container: 'body'
+                });
+            }
 
-            this.own(topic.subscribe(config.topics.appSearch.clear, function () {
-                that.checkbox.checked = false;
-                that.onCheckboxChange();
-            }));
+            this.own(
+                topic.subscribe(config.topics.appSearch.clear, function () {
+                    that.checkbox.checked = false;
+                    that.onCheckboxChange();
+                })
+            );
 
             this.inherited(arguments);
+        },
+        checkSecurity: function (user) {
+            // summary:
+            //      checks that the user has permissions to this layer then disables/enables
+            //      appropriately
+            console.log('app/QueryLayer:checkSecurity', arguments);
+
+            // TODO: check that the user is approved for this layer specifically
+            // by checking the options prop on user
+
+            this.toggleDisabledState(!user);
         },
         onCheckboxChange: function () {
             // summary:
@@ -109,6 +138,7 @@ define([
             }
 
             var t = (checked) ? topics.addLayer : topics.removeLayer;
+
             topic.publish(t, this);
         },
         toJson: function () {
@@ -116,11 +146,20 @@ define([
             //      Returns an object with id and defQuery props.
             //      Used by search to pass to the search api.
             console.log('app/QueryLayer::toJson', arguments);
-        
+
             return {
                 id: this.index,
                 defQuery: this.defQuery
             };
+        },
+        toggleDisabledState: function (disable) {
+            // summary:
+            //      Toggles the disabled state of this widget
+            console.log('app/QueryLayer:toggleDisabledState', arguments);
+
+            var classFunc = (disable) ? domClass.add : domClass.remove;
+            classFunc(this.domNode, 'disabled');
+            this.checkbox.disabled = disable;
         }
     });
 });

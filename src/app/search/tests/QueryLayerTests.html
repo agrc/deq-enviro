@@ -6,16 +6,13 @@
     <!-- META TAGS -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <!-- CSS -->        
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/QueryLayer.css">
     <style type='text/css'>
         body {
             padding: 50px;
-        }
-        #mapDiv {
-            border: solid gray 1px;
         }
     </style>
 
@@ -24,54 +21,52 @@
     <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
     <script type='text/javascript' src="../../../dojo/dojo.js"></script>
     <script type="text/javascript">
-        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
         var widgetUnderTest;
         var widgetUnderTest2;
         var widgetUnderTest3;
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'agrc', 'ijit', 'esri', 'dojo', 'dijit', 'dojox']
+            packages: ['app', 'agrc', 'ijit', 'esri', 'dojo', 'dijit', 'dojox',{
+                name: 'spin',
+                location: 'spinjs',
+                main: 'spin'
+            }]
         }, [
             'app/search/QueryLayer',
-            'app/map/MapController',
-
-            'agrc/widgets/map/BaseMap',
 
 
             'dojo/domReady!'
         ], function(
-            Module,
-            MapController,
-
-            BaseMap
+            Module
             ) {
             widgetUnderTest = new Module({
-                layerName: 'Test Layer',
-                layerIndex: 5,
+                name: 'Test Layer',
+                index: 5,
                 description: 'The is a really great layer with tons of data.',
-                metaDataUrl: 'http://google.com'
+                metaDataUrl: 'http://google.com',
+                secure: 'Yes'
             }, 'node');
             widgetUnderTest.startup();
 
             widgetUnderTest2 = new Module({
-                layerName: 'Another Layer Name',
-                layerIndex: 6,
+                name: 'Another Layer Name',
+                index: 6,
                 description: 'The is a really great layer with tons of data.',
-                metaDataUrl: 'http://google.com'
+                metaDataUrl: 'http://google.com',
+                secure: 'No'
             }, 'node2');
             widgetUnderTest2.startup();
 
             widgetUnderTest3 = new Module({
-                layerName: 'Some Cool Layer Long Name',
-                layerIndex: 6,
+                name: 'Some Cool Layer Long Name',
+                index: 6,
                 description: 'The is a really great layer with tons of data.',
-                metaDataUrl: 'http://google.com'
+                metaDataUrl: 'http://google.com',
+                secure: 'No'
             }, 'node3');
             widgetUnderTest3.startup();
-
-            var map = new BaseMap('mapDiv');
-            MapController.init({map: map});
         });
 </script>
 </head>
@@ -79,6 +74,5 @@
     <div id="node"></div>
     <div id="node2"></div>
     <div id="node3"></div>
-    <div id="mapDiv"></div>
 </body>
 </html>
