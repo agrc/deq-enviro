@@ -8,7 +8,7 @@
     "dijit": "1.9",
     "dojo": "1.9",
     "dojox": "1.9",
-    "ijit": "agrc-ijit#*",
+    "ijit": "agrc-ijit#2.6.1",
     "jasmine-favicon-reporter": "*",
     "jquery": "~1",
     "lodash": "~2.4.1",
