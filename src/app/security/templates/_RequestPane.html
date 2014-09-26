@@ -102,6 +102,7 @@
                         <div class="form-group">
                             <label>Time span</label>
                             <select data-dojo-attach-point='timeSelect'
+                                data-dojo-attach-event='onchange: validate'
                                 class='form-control'>
                                 <option value="">please select</option>
                                 <option value="1">One month</option>
@@ -113,24 +114,14 @@
                     </div>
                 </div>
                 <label>Available Layers</label>
-                <ul data-dojo-attach-point='layersContainer'>
-                    <li class="checkbox">
-                        <label>
-                            <input type="checkbox">
-                            <span>Public Water System Facilities</span>
-                        </label>
-                    </li>
-                    <li class="checkbox">
-                        <label>
-                            <input type="checkbox">
-                            <span>Ground Water Protection Zones</span>
-                        </label>
-                    </li>
-                </ul>
+                <ul data-dojo-attach-point='layersContainer'></ul>
                 <p>
                     In the box below, describe the address or local area of the project for which you are requesting information. In accordance with the Utah Government Records Access and Management Act (GRAMA) I request access to the DEQ Interactive Map website to view the selected layers at this location:
                 </p>
-                <textarea data-dojo-attach-point='locationTxt' rows="5" cols="40" class='form-control'></textarea>
+                <textarea 
+                    data-dojo-attach-point='locationTxt'
+                    data-dojo-attach-event='onkeyup: validate'
+                    rows="5" cols="40" class='form-control'></textarea>
                 <div data-dojo-attach-point='errorDiv' class="alert alert-danger">
                     test message
                 </div>

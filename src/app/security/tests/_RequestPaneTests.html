@@ -31,13 +31,14 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'agrc']
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'agrc', 'put-selector']
         }, [
             'app/security/_RequestPane',
 
             'dojo/domReady!'
         ], function(Module) {
             widgetUnderTest = new Module({
+                parentWidget: {goToPane: function () {}}
             }, 'node');
 
             widgetUnderTest.startup();
