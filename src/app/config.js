@@ -36,11 +36,13 @@ define([
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
-    
+
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
+    var baseUrl = '/arcgis/rest/services/DEQEnviro';
+    var secureUrl = baseUrl + '/Secure';
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -49,6 +51,10 @@ define([
         // appName: String
         //      name of the app used in permissionsproxy
         appName: 'deq',
+
+        // user: Object
+        //      set in App.js
+        user: null,
 
         // version.: String
         //      The version number.
@@ -106,7 +112,10 @@ define([
             },
             app: {
                 hideGrid: 'app/App.hideGrid',
-                showGrid: 'app/App.showGrid'
+                showGrid: 'app/App.showGrid',
+
+                // matches topic name in ijit/widgets/authentication/LoginRegister
+                onSignInSuccess: 'LoginRegister/sign-in-success'
             },
             appSearchResultsGrid: {
                 downloadFeaturesDefined: 'app/search/ResultsGrid.downloadFeaturesDefined'
@@ -120,13 +129,13 @@ define([
         //      Urls for the project
         urls: {
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
-            DEQEnviro: '/arcgis/rest/services/DEQEnviro/MapService/MapServer',
+            DEQEnviro: baseUrl + '/MapService/MapServer',
             json: '/webdata/DEQEnviro.json',
             geometryService: '/arcgis/rest/services/Geometry/GeometryServer',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
-            securedServicesBaseUrl: '/none',
+            secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
-            download: '/arcgis/rest/services/DEQEnviro/Toolbox/GPServer/Download',
+            download: baseUrl + '/Toolbox/GPServer/Download',
             exportWebMap: '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task' // for printing
         },
 
@@ -296,7 +305,7 @@ define([
             //      description
             // index: String
             // console.log('app/config:getRelatedTableByIndex', arguments);
-        
+
             return this.getDatasetByIndex(this.appJson.relatedTables, index);
         },
         getDatasetByIndex: function (datasets, index) {
@@ -307,7 +316,7 @@ define([
             if (this._cached[index]) {
                 return this._cached[index];
             }
-        
+
             var returnLayer;
             array.some(datasets, function (ql) {
                 if (ql.index + '' === index) {

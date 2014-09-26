@@ -1,7 +1,7 @@
 <div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" 
+            <input type="checkbox"
                 data-dojo-attach-event='onchange: onCheckboxChange'
                 data-dojo-attach-point='checkbox'> ${name}
         </label>
@@ -12,5 +12,10 @@
             title='${description}'>
             <span class="glyphicon glyphicon-question-sign"></span>
         </a>
+        <span class="glyphicon glyphicon-lock ${secure}"
+            data-toggle='tooltip'
+            data-delay='${popupDelay}'
+            title='Log in to access this layer'
+            data-dojo-attach-point='secureTip'></span>
     </div>
 </div>

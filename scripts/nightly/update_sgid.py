@@ -39,12 +39,12 @@ def run(logr, test_layer=None):
             continue
         try:
             sgidName = dataset[fieldnames.sgidName]
-            sgid = path.join(settings.sgid, sgidName)
             sourceName = dataset[fieldnames.sourceData]
             source = path.join(settings.dbConnects, sourceName)
             
             # only try to update rows with valid sgid names and data sources
-            if sgidName.startswith('SGID10.ENVIRONMENT') and not sourceName.startswith('<'):
+            if sgidName.startswith('SGID10') and not sourceName.startswith('<'):
+                sgid = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
                 sgidType = arcpy.Describe(sgid).datasetType
                 sourceType = arcpy.Describe(source).datasetType
                 
@@ -158,7 +158,9 @@ def update_sgid_data(source, destination):
 def compare_field_names(source, sgid):
     # returns a list containing:
     # [<source fields>, <sgid fields>, <mismatches>]
-    mismatchedFields = list((sgid ^ source) - excludeFields)
+    def upper(a):
+        return set([s.upper() for s in a])
+    mismatchedFields = list((upper(sgid) ^ upper(source)) - upper(excludeFields))
     
     l = list(set(sgid & source))
     

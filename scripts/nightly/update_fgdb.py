@@ -43,7 +43,7 @@ def update_related_tables(test_layer=None):
             if name.startswith('SGID10'):
                 logger.logMsg('\nProcessing: {}'.format(name.split('.')[-1]))
                 localTbl = path.join(settings.fgd, name.split('.')[-1])
-                remoteTbl = path.join(settings.sgid, name)
+                remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
                 update(localTbl, remoteTbl)
                 validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)
         except:
@@ -72,12 +72,14 @@ def update_query_layers(test_layer=None):
         if test_layer and fcname != test_layer:
             continue
         try:
-            # only try to update rows with valid sgid names and data sources
-            if fcname.startswith('SGID10'):
+            if fcname.startswith('SGID10') or fcname.startswith('DirectFromSource'):
                 # update fgd from SGID
                 logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
                 localFc = path.join(settings.fgd, fcname.split('.')[-1])
-                remoteFc = path.join(settings.sgid, fcname)
+                if fcname.startswith('SGID10'):
+                    remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
+                else:
+                    remoteFc = l[fieldnames.sourceData]
                 update(localFc, remoteFc)
                 
                 # APP-SPECIFIC OPTIMIZATIONS

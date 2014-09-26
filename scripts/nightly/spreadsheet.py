@@ -24,7 +24,8 @@ qlFields = [
     ['Document Search', fieldnames.docLink],
     ['GRAMA Request', fieldnames.gramaLink],
     ['Additional Information', fieldnames.additionalLink],
-    ['Map Label Field', fieldnames.ENVIROAPPLABEL]
+    ['Map Label Field', fieldnames.ENVIROAPPLABEL],
+    ['Secure', fieldnames.secure]
 ]
 
 tblFields = [

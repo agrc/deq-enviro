@@ -3,6 +3,8 @@ require([
     'app/config',
 
     'dojo/_base/window',
+    'dojo/dom-class',
+    'dojo/dom-attr',
 
     'dojo/dom-construct',
 
@@ -12,6 +14,8 @@ require([
     config,
 
     win,
+    domClass,
+    domAttr,
 
     domConstruct,
 
@@ -115,6 +119,14 @@ require([
 
                 expect(widget.checkbox.checked).toBe(true);
                 expect(topics.addLayer).toHaveBeenPublished();
+            });
+        });
+        describe('toggleDisabledState', function () {
+            it('sets the appropriate disabled dom properties', function () {
+                widget.toggleDisabledState(true);
+
+                expect(domClass.contains(widget.domNode, 'disabled')).toBe(true);
+                expect(domAttr.get(widget.checkbox, 'disabled')).toBe(true);
             });
         });
     });

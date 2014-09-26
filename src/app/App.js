@@ -172,7 +172,7 @@ define([
                     appName: config.appName,
                     logoutDiv: this.logoutDiv,
                     showOnLoad: false,
-                    securedServicesBaseUrl: config.urls.securedServicesBaseUrl
+                    securedServicesBaseUrl: config.urls.secure
                 }),
                 this.resultsGrid = new ResultsGrid({}, this.resultsGridDiv),
                 this.identifyPane = new IdentifyPane({}, this.identifyPaneDiv),
@@ -197,6 +197,10 @@ define([
                 that.own(print);
                 print.startup();
             });
+
+            this.own(topic.subscribe(this.login.topics.signInSuccess, function (loginResult) {
+                config.user = loginResult.user;
+            }));
 
             this.inherited(arguments);
         },

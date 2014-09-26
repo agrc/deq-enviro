@@ -1,0 +1,144 @@
+<div>
+    <div class='modal-content' data-dojo-type="dijit/layout/ContentPane">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class='modal-title'>Request Access or
+                <a href="#" data-dojo-attach-event='onclick: goToSignInPane'>Sign In</a>
+            </h4>
+        </div>
+        <div class="modal-body" data-dojo-attach-point='modalDiv'>
+            <form role="form" class='container' data-dojo-attach-point='form'>
+                <p>
+                    All fields are required.
+                </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First name</label>
+                            <input type='text'
+                                data-dojo-attach-point='fNameTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Last name</label>
+                            <input type='text'
+                                data-dojo-attach-point='lNameTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Agency</label>
+                            <input type='text'
+                                data-dojo-attach-point='agencyTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Street address</label>
+                            <input type='text'
+                                data-dojo-attach-point='addressTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type='text'
+                                data-dojo-attach-point='cityTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type='text'
+                                data-dojo-attach-point='stateTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Zip</label>
+                            <input type='text'
+                                data-dojo-attach-point='zipTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type='text'
+                                data-dojo-attach-point='phoneTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <input type="email"
+                                data-dojo-attach-point="emailTxt"
+                                data-dojo-attach-event="onkeyup: validate"
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm email</label>
+                            <input type='email'
+                                data-dojo-attach-point='emailConfirmTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type='password'
+                                data-dojo-attach-point='passwordTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm password</label>
+                            <input type='password'
+                                data-dojo-attach-point='passwordConfirmTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Time span</label>
+                            <select data-dojo-attach-point='timeSelect'
+                                data-dojo-attach-event='onchange: validate'
+                                class='form-control'>
+                                <option value="">please select</option>
+                                <option value="1">One month</option>
+                                <option value="3">Three months</option>
+                                <option value="6">Six months</option>
+                                <option value="12">One year</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <label>Available Layers</label>
+                <ul data-dojo-attach-point='layersContainer'></ul>
+                <p>
+                    In the box below, describe the address or local area of the project for which you are requesting information. In accordance with the Utah Government Records Access and Management Act (GRAMA) I request access to the DEQ Interactive Map website to view the selected layers at this location:
+                </p>
+                <textarea 
+                    data-dojo-attach-point='locationTxt'
+                    data-dojo-attach-event='onkeyup: validate'
+                    rows="5" cols="40" class='form-control'></textarea>
+                <div data-dojo-attach-point='errorDiv' class="alert alert-danger">
+                    test message
+                </div>
+            </form>
+            <div data-dojo-attach-point="successDiv" class="alert alert-success">
+                Your request has been successfully submitted to the administrators. You will receive an email when you have been granted access to the application.
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-dojo-attach-point='submitBtn'
+                data-dojo-attach-event='onclick: onSubmitClick'
+                type="button"
+                data-style='expand-left'
+                data-spinner-size='32'
+                class="btn btn-primary ladda-button" disabled>
+                <span class='ladda-label'>Request Access</span>
+        </button>
+        </div>
+    </div>
+</div>

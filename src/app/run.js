@@ -38,7 +38,13 @@
                 location: 'lodash',
                 main: 'dist/lodash'
             }
-        ]
+        ],
+        map: {
+            'ijit': {
+                'ijit/widgets/authentication/_LoginRegisterRequestPane':
+                    'app/security/_RequestPane'
+            }
+        }
     };
     require(config, [
         'jquery',
