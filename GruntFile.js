@@ -110,8 +110,8 @@ module.exports = function(grunt) {
         },
         copy: {
             main: {
-                src: 'src/ChangeLog.html',
-                dest: 'dist/ChangeLog.html'
+                src: ['src/*.html', '!user_admin.html'],
+                dest: ['dist/*.html', '!user_admin.html']
             }
         },
         processhtml: {
