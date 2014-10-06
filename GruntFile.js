@@ -128,7 +128,7 @@ module.exports = function(grunt) {
         },
         esri_slurp: {
             options: {
-                version: '3.8'
+                version: '3.10'
             },
             dev: {
                 options: {
@@ -139,7 +139,8 @@ module.exports = function(grunt) {
             travis: {
                 options: {
                     beautify: false
-                }
+                },
+                dest: 'src/esri'
             }
         },
         bump: {
