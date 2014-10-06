@@ -29,7 +29,7 @@
 				"api",
 				// "src/esri",
 				"src/dojo",
-				"src/dijit",
+				// "src/dijit",
 				"src/dojox",
 				"src/util",
 				"node_modules",
