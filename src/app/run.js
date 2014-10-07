@@ -19,15 +19,15 @@
             'ijit',
             {
                 name: 'jquery',
-                location: 'jquery/dist',
+                location: './jquery/dist',
                 main: 'jquery'
             },{
                 name: 'bootstrap',
-                location: 'bootstrap',
+                location: './bootstrap',
                 main: 'dist/js/bootstrap'
             },{
                 name: 'spin',
-                location: 'spinjs',
+                location: './spinjs',
                 main: 'spin'
             },
             'dgrid',
@@ -35,8 +35,12 @@
             'xstyle',
             {
                 name: 'lodash',
-                location: 'lodash',
+                location: './lodash',
                 main: 'dist/lodash'
+            },{
+                name: 'ladda',
+                location: './ladda-bootstrap',
+                main: 'dist/ladda'
             }
         ],
         map: {
@@ -46,26 +50,7 @@
             }
         }
     };
-    require(config, [
-        'jquery',
-        'app/App',
-
-        'dojo/dom',
-
-
-        'dojo/domReady!'
-    ],
-
-    function (
-        $,
-        App,
-
-        dom
-        ) {
-        // don't initialize if this is the jasmine test runner
-        if (!window.dojoConfig || !window.dojoConfig.isJasmineTestRunner) {
-            var app = new App({}, dom.byId('appDiv'));
-            app.startup();
-        }
+    require(config, ['dojo/parser', 'dojo/domReady!', 'jquery'], function (parser) {
+        parser.parse();
     });
 })();
