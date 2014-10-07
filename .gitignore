@@ -1,4 +1,5 @@
 *.idea/
+*.noseids
 *.odc
 *.pyc
 *.sde
@@ -16,8 +17,8 @@ node_modules/
 scripts/download/.noseids
 scripts/download/DeqEnviro.py
 scripts/nightly/Logs
-scripts/nightly/settings/__init__.py
 scripts/nightly/scratch.gdb
+scripts/nightly/settings/__init__.py
 scripts/secrets.cfg
 secrets.json
 src/agrc/*
@@ -31,12 +32,14 @@ src/favico.js/
 src/ijit/*
 src/jasmine-favicon-reporter/
 src/jquery/*
+src/ladda-bootstrap/
 src/lodash/
 src/matchers/*
+src/mustache/
 src/put-selector/
+src/spin.js/
 src/spinjs/
 src/stubmodule/
 src/underscore-string/
 src/util/*
 src/xstyle/
-*.noseids

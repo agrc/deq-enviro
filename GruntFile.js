@@ -110,15 +110,15 @@ module.exports = function(grunt) {
         },
         copy: {
             main: {
-                src: ['src/*.html', '!user_admin.html'],
-                dest: ['dist/*.html', '!user_admin.html']
+                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
             }
         },
         processhtml: {
             options: {},
             dist: {
                 files: {
-                    'dist/index.html': ['src/index.html']
+                    'dist/index.html': ['src/index.html'],
+                    'dist/user_admin.html': ['src/user_admin.html']
                 }
             }
         },

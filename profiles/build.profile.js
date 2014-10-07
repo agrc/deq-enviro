@@ -14,15 +14,41 @@ var profile = {
                 'dojo/i18n',
                 'dojo/domReady',
                 'app/run',
+                'app/App',
                 'esri/dijit/Attribution',
                 'dojox/gfx/path',
                 'dojox/gfx/svg',
-                'dojox/gfx/shape'
+                'dojox/gfx/shape',
+                'app/security/_RequestPane',
+                'ladda/dist/spin'
             ],
             includeLocales: ['en-us'],
             customBase: true,
             boot: true
+        },
+        'ijit/widgets/authentication/UserAdmin': {
+            exclude: ['dojo/dojo']
         }
+    },
+    packages: [{
+        name: 'matchers',
+        location: 'matchers/src'
+    },{
+        name: 'stubmodule',
+        location: 'stubmodule/src',
+        main: 'stub-module'
+    },{
+        name: 'mustache',
+        location: 'mustache',
+        main: 'mustache'
+    }],
+    map: {
+        'ladda': {
+            'spin': 'ladda/dist/spin'
+        }
+    },
+    userConfig: {
+        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri']
     },
     staticHasFeatures: {
         // The trace & log APIs are used for debugging the loader, so we don’t need them in the build
@@ -40,20 +66,5 @@ var profile = {
 
         // We aren’t loading tests in production
         'dojo-test-sniff':0
-    },
-    // These packages are defined in the build profile instead of the app config
-    // because we don't use the local version of the esri package for development.
-    // I've had problems getting the local version of the esri package to work 
-    // in development.
-    packages: [{
-        name: 'esri',
-        resourceTags: {
-            amd: function (filename, mid) {
-                return (/.*\.js/).test(filename);
-            }
-        }
-    }, 'matchers'],
-    userConfig: {
-        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri']
     }
 };
