@@ -199,7 +199,7 @@ define([
             //      description
             console.log('app/download/Download:hideLoader', arguments);
 
-            this.downloadBtn.innerHTML = 'Download';
+            this.downloadBtn.innerHTML = 'Process Download';
             domAttr.set(this.downloadBtn, 'disabled', false);
             MapController.map.hideLoader();
         },
