@@ -49,6 +49,7 @@ define([
 
             this.widget = new Measurement({
                 map: this.map
+                // advancedLocationUnits: true
             }, this.measureDiv);
             this.widget.startup();
             this.own(this.widget);
@@ -66,6 +67,7 @@ define([
             var that = this;
             $(this.btn).on('hidden.bs.popover', function () {
                 that.widget.clearResult();
+                that.widget.setTool(that.widget.activeTool, false);
             });
         }
     });
