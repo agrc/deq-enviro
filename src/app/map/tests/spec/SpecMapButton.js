@@ -14,14 +14,14 @@ require([
 
     var widget;
 
-    afterEach(function() {
-        if (widget) {
-            widget.destroy();
-            widget = null;
-        }
-    });
 
     describe('app/map/MapButton', function() {
+        afterEach(function() {
+            if (widget) {
+                widget.destroy();
+                widget = null;
+            }
+        });
         describe('Sanity', function() {
             beforeEach(function() {
                 widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));

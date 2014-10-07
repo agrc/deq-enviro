@@ -129,7 +129,8 @@ define([
             var updateLink = function (node, url) {
                 if (url !== '') {
                     domClass.remove(node, 'hidden');
-                    node.href = url + '?' + query;
+                    // support url's with or without existing query parameters
+                    node.href = url + ((url.indexOf('?') === -1) ? '?' : '&') + query;
                 } else {
                     domClass.add(node, 'hidden');
                 }

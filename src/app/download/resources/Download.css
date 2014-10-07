@@ -4,3 +4,6 @@
 .download .btn {
     margin-top: 5px;
 }
+.download [data-dojo-attach-point='downloadAnchorContainer'] {
+    margin-top: 5px;
+}

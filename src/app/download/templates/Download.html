@@ -1,10 +1,6 @@
 <div class="hidden">
     <h4>Download Search Results (<span data-dojo-attach-point="countNode">0</span><span data-dojo-attach-point='selectedSpan' class='hidden'> selected</span>)</h4>
     <div data-dojo-attach-point="errMsg" class="alert alert-danger hidden"></div>
-    <div data-dojo-attach-point='downloadAnchorContainer' 
-        class="alert alert-info hidden text-center">
-        <a data-dojo-attach-point="downloadAnchor">Click here to download your data</a>
-    </div>
     <div class="file-types">
         <select data-dojo-attach-point="fileTypes" class='form-control'>
             <option value="">select format</option>
@@ -14,10 +10,14 @@
             <option value="shp">ESRI shapefile</option>
         </select>
     </div>
-    <button class="btn btn-primary btn-lg btn-block"
+    <button class="btn btn-info btn-lg btn-block"
         data-dojo-attach-event='click: download'
-        data-dojo-attach-point='downloadBtn'>Download</button>
+        data-dojo-attach-point='downloadBtn'>Process Download</button>
     <button class='btn btn-default btn-lg btn-block hidden'
         data-dojo-attach-event='click: onClearSelected'
         data-dojo-attach-point='clearSelectedBtn'>Clear Selection</button>
+    <div data-dojo-attach-point='downloadAnchorContainer' 
+        class="alert alert-info hidden text-center">
+        <a data-dojo-attach-point="downloadAnchor">Click here to download your data</a>
+    </div>
 </div>
