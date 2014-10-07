@@ -65,17 +65,17 @@ require([
         ['ARCHIVED', 'Archived for Cerclis']
     ];
 
-    beforeEach(function() {
-        widget = new WidgetUnderTest(null, domConstruct.create('div', null, document.body));
-    });
-    afterEach(function() {
-        if (widget) {
-            widget.destroyRecursive();
-            widget = null;
-        }
-    });
 
     describe('app/search/IdentifyPane', function() {
+        beforeEach(function() {
+            widget = new WidgetUnderTest(null, domConstruct.create('div', null, document.body));
+        });
+        afterEach(function() {
+            if (widget) {
+                widget.destroyRecursive();
+                widget = null;
+            }
+        });
         describe('Sanity', function() {
             it('should create a IdentifyPane', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
@@ -135,6 +135,20 @@ require([
                 widget.updateLinks(item);
 
                 expect(domClass.contains(widget.docLink), 'hidden').toBe(false);
+            });
+            it('supports links with existing query parameters', function () {
+                spyOn(config, 'getQueryLayerByIndex').and.returnValue({
+                    docLink: 'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm?example=someVal',
+                    gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
+                });
+
+                widget.updateLinks(item);
+
+                expect(widget.docLink.href).toEqual(
+                    'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm?example=someVal' +
+                    '&ID=id&NAME=name&ADDRESS=address&CITY=city&TYPE=type'
+                );
             });
         });
     });

@@ -9,6 +9,9 @@
 .identify-pane>.tab-content #attributes.tab-pane .dgrid {
     height: 100%;
 }
+.identify-pane #moreinfo {
+    padding-top: 10px;
+}
 .identify-pane #attributes .dgrid-cell {
     border: none;
 }

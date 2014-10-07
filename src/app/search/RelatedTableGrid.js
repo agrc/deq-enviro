@@ -196,7 +196,7 @@ define([
                     additionalFieldsData[f] = r.attributes[f];
                 });
                 // additional info link
-                r.attributes.additionalInfo = additionalLink + '?' +
+                r.attributes.additionalInfo = additionalLink + ((additionalLink.indexOf('?') === -1) ? '?' : '&') +
                     ioQuery.objectToQuery(lang.mixin(fiveFields, additionalFieldsData));
 
                 return r.attributes;
