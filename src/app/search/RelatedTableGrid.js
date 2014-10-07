@@ -125,6 +125,7 @@ define([
                         this.fiveFields)
                 })
             }, this.gridDiv);
+            this.grid.set('sort', columns[0].field);
 
             this.inherited(arguments);
         },

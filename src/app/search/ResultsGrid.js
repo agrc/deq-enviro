@@ -217,6 +217,7 @@ define([
                 _customSelectionHandler: this.selectionHandler,
                 renderRow: this.renderRow
             }, this.gridDiv);
+            this.grid.set('sort', fn.ID);
             this.grid.startup();
 
             this.own(
