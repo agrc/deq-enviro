@@ -31,6 +31,10 @@ define([
         baseClass: 'measure-tool',
         widgetsInTemplate: true,
 
+        // widget: Measurement
+        widget: null,
+
+
         // Properties to be sent into constructor
 
         // map: Map
@@ -43,11 +47,12 @@ define([
             //      private
             console.log('app.map.MeasureTool::postCreate', arguments);
 
-            var widget = new Measurement({
+            this.widget = new Measurement({
                 map: this.map
+                // advancedLocationUnits: true
             }, this.measureDiv);
-            widget.startup();
-            this.own(widget);
+            this.widget.startup();
+            this.own(this.widget);
 
             this.setupConnections();
 
@@ -59,6 +64,11 @@ define([
             //
             console.log('app.map.MeasureTool::setupConnections', arguments);
 
+            var that = this;
+            $(this.btn).on('hidden.bs.popover', function () {
+                that.widget.clearResult();
+                that.widget.setTool(that.widget.activeTool, false);
+            });
         }
     });
 });

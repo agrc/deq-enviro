@@ -1,10 +1,10 @@
 define([
     'dojo/_base/declare',
-    'dojo/dom-attr'
+    'dojo/dom-construct'
 
 ], function(
     declare,
-    domAttr
+    domConstruct
 ) {
     return declare(null, {
         // description:
@@ -22,14 +22,32 @@ define([
             //      description
             console.log('app/_PopoverMixin::postCreate', arguments);
 
+            var that = this;
+
+            // remove title so that the custom title in the constructor
+            // below will be recognized
+            var title = this.btn.title;
+            this.btn.title = '';
+
+            var titleDiv = domConstruct.create('div', {
+                innerHTML: title
+            });
+            domConstruct.create('button', {
+                'class': 'close',
+                innerHTML: '&times;',
+                click: function () {
+                    $(that.btn).popover('hide');
+                }
+            }, titleDiv);
+
             $(this.btn).popover({
                 content: this.domNode,
                 container: 'body',
-                html: true
+                html: true,
+                title: titleDiv
             });
-            // put original title back since bootstrap popover removes it
-            // and places it in data-original-title
-            this.btn.title = domAttr.get(this.btn, 'data-original-title');
+
+            this.btn.title = title;
         }
     });
 });
