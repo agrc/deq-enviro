@@ -244,7 +244,7 @@ define([
             // summary:
             //      description
             // param: type or return: type
-            console.log('app/search/ResultsGrid:sortValues', arguments);
+            // console.log('app/search/ResultsGrid:sortValues', arguments);
         
             var aValue = a[sortOptions.attribute];
             var bValue = b[sortOptions.attribute];

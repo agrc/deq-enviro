@@ -1,15 +1,13 @@
 .related-table-grid {
     overflow-x: auto;
-    overflow-y: hidden;
     height: 179px;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
 }
 .related-table-grid .dgrid {
-    margin: 8px -2px -2px -2px;
+    margin: 0px -2px -2px -2px;
     width: 900px;
-    height: 170px;
     border: none;
 }
 .related-table-grid .dgrid .dgrid-scroller .dgrid-cell {

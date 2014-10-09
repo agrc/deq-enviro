@@ -202,7 +202,7 @@ define([
                 this.map.addLayer(this.labelLayer);
             }
             this.labelLayer.addFeatureLayer(layer,
-                new SimpleRenderer(new TextSymbol().setOffset(-20, -3)),
+                new SimpleRenderer(new TextSymbol().setOffset(-20, -2)),
                 '{' + config.fieldNames.queryLayers.ENVIROAPPLABEL + '}'
             );
         },
@@ -212,14 +212,11 @@ define([
             // layer: esri/layers/FeatureLayer
             console.log('app/map/MapController:removeQueryLayer', arguments);
 
-            this.map.removeLayer(layer);
-
-            var that = this;
-            array.forEach(this.labelLayer.featureLayers, function (fl, i) {
-                if (fl.id === layer.id) {
-                    that.labelLayer.featureLayers.splice(i, 1);
-                }
+            this.labelLayer.featureLayers = array.filter(this.labelLayer.featureLayers, function (fl) {
+                return fl.id !== layer.id;
             });
+
+            this.map.removeLayer(layer);
         },
         zoomToSearchGraphic: function (geometry) {
             // summary:

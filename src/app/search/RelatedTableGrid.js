@@ -117,6 +117,7 @@ define([
 
             this.grid = new (declare([Grid, ColumnResizer]))({
                 columns: columns,
+                className: 'dgrid-autoheight',
                 store: new Memory({
                     idProperty: 'OBJECTID',
                     data: this.formatData(this.records,
