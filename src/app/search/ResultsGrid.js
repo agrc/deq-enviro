@@ -244,7 +244,7 @@ define([
             // summary:
             //      description
             // param: type or return: type
-            console.log('app/search/ResultsGrid:sortValues', arguments);
+            // console.log('app/search/ResultsGrid:sortValues', arguments);
         
             var aValue = a[sortOptions.attribute];
             var bValue = b[sortOptions.attribute];
@@ -432,12 +432,14 @@ define([
                 }
             }
 
-            topic.publish(config.topics.appMapMapController.zoom, new Extent(
-                Math.min.apply(Math, coordsBucket.x),
-                Math.min.apply(Math, coordsBucket.y),
-                Math.max.apply(Math, coordsBucket.x),
-                Math.max.apply(Math, coordsBucket.y)
-            ));
+            if (coordsBucket.x.length > 0 && coordsBucket.y.length > 0) {
+                topic.publish(config.topics.appMapMapController.zoom, new Extent(
+                    Math.min.apply(Math, coordsBucket.x),
+                    Math.min.apply(Math, coordsBucket.y),
+                    Math.max.apply(Math, coordsBucket.x),
+                    Math.max.apply(Math, coordsBucket.y)
+                ));
+            }
 
             return storeData;
         },
