@@ -31,6 +31,9 @@ def run(logr, test_layer=None):
     
     logger.logMsg('processing related tables\n')
     update_related_tables(test_layer)
+
+    logger.logMsg('compacting file geodatabase\n')
+    arcpy.Compact_management(settings.fgd)
     
     return errors
     
