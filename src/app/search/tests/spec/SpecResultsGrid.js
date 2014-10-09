@@ -216,5 +216,27 @@ require([
                 });
             });
         });
+        describe('sortValues', function () {
+            var opts = {
+                attribute: 'fieldname',
+                descending: false
+            };
+            it('sorts strings', function () {
+                expect(widget.sortValues(opts, {fieldname: 'a'}, {fieldname: 'b'}))
+                    .toBe(-1);
+            });
+            it('sorts as numbers if possible', function () {
+                expect(widget.sortValues(opts, {fieldname: '4'}, {fieldname: '10'}))
+                    .toBe(-1);
+            });
+            it('can handle capital letters', function () {
+                expect(widget.sortValues(opts, {fieldname: 'tooele'}, {fieldname: 'Woodside'}))
+                    .toBe(-1);
+            });
+            it('can handle whitespace', function () {
+                expect(widget.sortValues(opts, {fieldname: 'a'}, {fieldname: ' b'}))
+                    .toBe(-1);
+            });
+        });
     });
 });

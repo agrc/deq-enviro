@@ -12,6 +12,7 @@ define([
     'dojo/dom-class',
     'dojo/on',
     'dojo/has',
+    'dojo/string',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -48,6 +49,7 @@ define([
     domClass,
     on,
     has,
+    dojoString,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -190,17 +192,7 @@ define([
                         // it overrides the default sort logic adding in the .toLowerCase stuff
                         if (options.sort) {
                             var sort = options.sort[0];
-                            var sortFunc = function(a, b){
-                                var aValue = a[sort.attribute];
-                                var bValue = b[sort.attribute];
-                                aValue = aValue != null ? aValue.trim().toLowerCase() : '';
-                                bValue = bValue != null ? bValue.trim().toLowerCase() : '';
-                                if (aValue !== bValue){
-                                    /*jshint -W018 */
-                                    return !!sort.descending === (aValue > bValue) ? -1 : 1;
-                                    /*jshint +W018 */
-                                }
-                            };
+                            var sortFunc = lang.partial(that.sortValues, sort);
                             options.sort = sortFunc;
                         }
 
@@ -246,6 +238,32 @@ define([
                     this.grid.on(mouseUtil.enterRow, lang.hitch(this, 'onRowEnter')),
                     this.grid.on(mouseUtil.leaveRow, lang.hitch(this, 'onRowLeave'))
                 );
+            }
+        },
+        sortValues: function (sortOptions, a, b) {
+            // summary:
+            //      description
+            // param: type or return: type
+            console.log('app/search/ResultsGrid:sortValues', arguments);
+        
+            var aValue = a[sortOptions.attribute];
+            var bValue = b[sortOptions.attribute];
+
+            var aNum = parseInt(aValue, 10);
+            var bNum = parseInt(bValue, 10);
+
+            if (aNum !== aNum && bNum !== bNum) {
+                aValue = aValue != null ? dojoString.trim(aValue).toLowerCase() : '';
+                bValue = bValue != null ? dojoString.trim(bValue).toLowerCase() : '';
+            } else {
+                aValue = aNum;
+                bValue = bNum;
+            }
+            
+            if (aValue !== bValue){
+                /*jshint -W018 */
+                return !!sortOptions.descending === (aValue > bValue) ? -1 : 1;
+                /*jshint +W018 */
             }
         },
         onGridSort: function () {
