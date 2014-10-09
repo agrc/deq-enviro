@@ -54,23 +54,32 @@ define([
                     layers.push(node.value);
                 }
             });
-            var options = {
-                address: this.addressTxt.value,
-                city: this.cityTxt.value,
-                state: this.stateTxt.value,
-                phone: this.phoneTxt.value,
-                zip: this.zipTxt.value,
-                layers: layers,
-                locationTxt: this.locationTxt.value,
-                timePeriod: this.timeSelect.value
+            var additionalProps = {
+                additional: {
+                    address: this.addressTxt.value,
+                    city: this.cityTxt.value,
+                    state: this.stateTxt.value,
+                    phone: this.phoneTxt.value,
+                    zip: this.zipTxt.value
+                },
+                accessRules: {
+                    startDate: Date.now(),
+                    endDate: new Date().setMonth(
+                        parseInt(this.timeSelect.value, 10) +
+                        new Date().getMonth()),
+                    options: {
+                        layers: layers,
+                        locationTxt: this.locationTxt.value
+                    }
+                }
             };
 
-            return lang.mixin({options: options}, this.inherited(arguments));
+            return lang.mixin(additionalProps, this.inherited(arguments));
         },
         validate: function () {
             // summary:
             //      overrides to make additional fields required
-            console.log('app/security/_RequestPane:validate', arguments);
+            // console.log('app/security/_RequestPane:validate', arguments);
 
             arguments[0].charCode = null;
             arguments[0].keyCode = null;

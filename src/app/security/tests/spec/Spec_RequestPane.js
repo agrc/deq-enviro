@@ -17,7 +17,7 @@ require([
 ) {
     describe('app/security/_RequestPane', function() {
         var widget;
-        var destroy = function (widget) {
+        var destroy = function(widget) {
             widget.destroyRecursive();
             widget = null;
         };
@@ -39,7 +39,9 @@ require([
                 }]
             });
             widget = new WidgetUnderTest({
-                parentWidget: {goToPane: function () {}}
+                parentWidget: {
+                    goToPane: function() {}
+                }
             }, domConstruct.create('div', null, document.body));
         });
 
@@ -54,8 +56,8 @@ require([
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });
-        describe('postCreat', function () {
-            it('should create the layer checkboxes', function () {
+        describe('postCreat', function() {
+            it('should create the layer checkboxes', function() {
                 expect(widget.layersContainer.children.length).toBe(2);
 
                 var lyr = widget.layersContainer.children[0];
@@ -64,8 +66,8 @@ require([
                 expect(lyr.children[0].children[1].innerHTML).toBe('Layer Name');
             });
         });
-        describe('validate', function () {
-            it('requires all fields', function () {
+        describe('validate', function() {
+            it('requires all fields', function() {
                 widget.fNameTxt.value = 'test';
                 widget.lNameTxt.value = 'test';
                 widget.agencyTxt.value = 'test';
@@ -94,8 +96,8 @@ require([
                 expect(widget.validate({})).toBe(true);
             });
         });
-        describe('getData', function () {
-            it('get\'s extra fields', function () {
+        describe('getData', function() {
+            it('get\'s extra fields', function() {
                 widget.fNameTxt.value = 'first';
                 widget.lNameTxt.value = 'last';
                 widget.agencyTxt.value = 'agency';
@@ -113,23 +115,28 @@ require([
                 widget.locationTxt.value = 'blah';
                 widget.timeSelect.value = '3';
 
-                expect(widget.getData()).toEqual({
+                expect(widget.getData().additional).toEqual({
+                    address: 'address',
+                    city: 'city',
+                    state: 'state',
+                    phone: 'phone',
+                    zip: 'zip'
+                });
+                expect(widget.getData().accessRules).toEqual(jasmine.objectContaining({
+                        // startDate: 1412891655130,
+                        // endDate: 1420844055130,
+                        options: {
+                            layers: ['1', '2'],
+                            locationTxt: 'blah'
+                        }
+                    }));
+                expect(widget.getData()).toEqual(jasmine.objectContaining({
                     first: 'first',
                     last: 'last',
                     agency: 'agency',
                     email: 'test@test.com',
-                    password: 'pass',
-                    options: {
-                        address: 'address',
-                        city: 'city',
-                        state: 'state',
-                        phone: 'phone',
-                        zip: 'zip',
-                        layers: ['1', '2'],
-                        locationTxt: 'blah',
-                        timePeriod: '3'
-                    }
-                });
+                    password: 'pass'
+                }));
             });
         });
     });
