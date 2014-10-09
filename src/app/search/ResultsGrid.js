@@ -432,12 +432,14 @@ define([
                 }
             }
 
-            topic.publish(config.topics.appMapMapController.zoom, new Extent(
-                Math.min.apply(Math, coordsBucket.x),
-                Math.min.apply(Math, coordsBucket.y),
-                Math.max.apply(Math, coordsBucket.x),
-                Math.max.apply(Math, coordsBucket.y)
-            ));
+            if (coordsBucket.x.length > 0 && coordsBucket.y.length > 0) {
+                topic.publish(config.topics.appMapMapController.zoom, new Extent(
+                    Math.min.apply(Math, coordsBucket.x),
+                    Math.min.apply(Math, coordsBucket.y),
+                    Math.max.apply(Math, coordsBucket.x),
+                    Math.max.apply(Math, coordsBucket.y)
+                ));
+            }
 
             return storeData;
         },
