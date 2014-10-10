@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>_UserAdminUser Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../resources/UserAdmin.css">
+    <style type='text/css'>
+        body {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'put-selector', {
+                name: 'bootstrap',
+                location: 'bootstrap',
+                main: 'dist/js/bootstrap'
+            },{
+                name: 'datepicker',
+                location: './bootstrap-datepicker',
+                main: 'js/bootstrap-datepicker'
+            },{
+                name: 'jquery',
+                location: 'jquery',
+                main: 'dist/jquery'
+            },{
+                name: 'selectpicker',
+                location: './bootstrap-select',
+                main: 'dist/js/bootstrap-select'
+            }]
+        }, [
+            'jquery',
+            'app/security/_UserAdminUser',
+
+            'dojo/domReady!'
+        ], function($, Module) {
+            widgetUnderTest = new Module({
+                first: 'Scott',
+                last: 'Davis',
+                email: 'stdavis@utah.gov',
+                role: 'viewer',
+                roles: ['publisher', 'viewer', 'admin'],
+                agency: 'AGRC',
+                lastLogin: 1412283976527,
+                adminToken: 'blah',
+                userId: 'asdlfkjasdasdf',
+                appName: 'unittests',
+                additional: {
+                    address: '123 e main',
+                    city: 'salt lake city',
+                    state: 'Utah',
+                    phone: '801-699-1234',
+                    zip: '84124'
+                },
+                accessRules: {
+                    endDate: 1412283976527,
+                    options: {
+                        counties: ['BEAVER', 'DAVIS'],
+                        locationTxt: 'this is a great description of a location that ' +
+                            'leaves absolutely no room for mis-interpretation',
+                        layers: [0, 1]
+                    }
+                }
+            }, 'node');
+
+            widgetUnderTest.startup();
+        });
+</script>
+</head>
+<body class='claro'>
+    <div id="node"></div>
+</body>
+</html>

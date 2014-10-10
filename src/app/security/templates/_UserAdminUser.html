@@ -1,0 +1,167 @@
+<div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"
+                    data-dojo-attach-event='click: close'>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update User Properties</h4>
+            </div>
+            <div class="modal-body form container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" 
+                                data-dojo-attach-point='emailTxt'
+                                data-dojo-attach-event='keyup: validate'
+                                value='${email}'>
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="first" class="form-control" 
+                                data-dojo-attach-point='firstTxt'
+                                data-dojo-attach-event='keyup: validate'
+                                value='${first}'>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="last" class="form-control" 
+                                data-dojo-attach-point='lastTxt'
+                                data-dojo-attach-event='keyup: validate'
+                                value='${last}'>
+                        </div>
+                        <div class="form-group">
+                            <label>Agency</label>
+                            <input type="agency" class="form-control" 
+                                data-dojo-attach-point='agencyTxt'
+                                data-dojo-attach-event='keyup: validate'
+                                value='${agency}'>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type='text'
+                                data-dojo-attach-point='phoneTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Street address</label>
+                            <input type='text'
+                                data-dojo-attach-point='addressTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type='text'
+                                data-dojo-attach-point='cityTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type='text'
+                                data-dojo-attach-point='stateTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Zip</label>
+                            <input type='text'
+                                data-dojo-attach-point='zipTxt'
+                                data-dojo-attach-event='onkeyup: validate'
+                                class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <label>Expire Date</label>
+                            <input data-dojo-attach-point='endDate'
+                                data-dojo-attach-event='onchange: validate'
+                                class='form-control'
+                                data-provide='datepicker'
+                                data-date-autoclose='true'>
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select data-dojo-attach-point='roleSelect'
+                    data-dojo-attach-event='change: validate'
+                        class='form-control'></select>
+                </div>
+                <div class="form-group">
+                    <label>Geographic Regions</label>
+                    <br>
+                    <select
+                        data-dojo-attach-point='countiesSelect'
+                        class="selectpicker"
+                        multiple
+                        title='choose at least one option...'>
+                        <option value="STATEWIDE">Statewide</option>
+                        <option data-divider="true"></option>
+                        <option value='BEAVER'>Beaver</option>
+                        <option value='BOX ELDER'>Box Elder</option>
+                        <option value='CACHE'>Cache</option>
+                        <option value='CARBON'>Carbon</option>
+                        <option value='DAGGETT'>Daggett</option>
+                        <option value='DAVIS'>Davis</option>
+                        <option value='DUCHESNE'>Duchesne</option>
+                        <option value='EMERY'>Emery</option>
+                        <option value='GARFIELD'>Garfield</option>
+                        <option value='GRAND'>Grand</option>
+                        <option value='IRON'>Iron</option>
+                        <option value='JUAB'>Juab</option>
+                        <option value='KANE'>Kane</option>
+                        <option value='MILLARD'>Millard</option>
+                        <option value='MORGAN'>Morgan</option>
+                        <option value='PIUTE'>Piute</option>
+                        <option value='RICH'>Rich</option>
+                        <option value='SALT LAKE'>Salt Lake</option>
+                        <option value='SAN JUAN'>San Juan</option>
+                        <option value='SANPETE'>Sanpete</option>
+                        <option value='SEVIER'>Sevier</option>
+                        <option value='SUMMIT'>Summit</option>
+                        <option value='TOOELE'>Tooele</option>
+                        <option value='UINTAH'>Uintah</option>
+                        <option value='UTAH'>Utah</option>
+                        <option value='WASATCH'>Wasatch</option>
+                        <option value='WASHINGTON'>Washington</option>
+                        <option value='WAYNE'>Wayne</option>
+                        <option value='WEBER'>Weber</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location Text</label>
+                    <textarea 
+                        data-dojo-attach-point='locationTxt'
+                        data-dojo-attach-event='onkeyup: validate'
+                        rows="5" cols="40" class='form-control'
+                        disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Layers</label>
+                    <ul data-dojo-attach-point='layersContainer'></ul>
+                </div>
+                <div class="alert alert-danger hidden" 
+                    data-dojo-attach-point='errMsg'>test</div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn btn-warning"
+                        data-dojo-attach-event="click: resetPassword">Reset Password</button>
+                    <button class="btn btn-danger"
+                        data-dojo-attach-event="click: deleteUser">Delete User</button>
+                </div>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary"
+                    data-dojo-attach-point='submitBtn'
+                    data-dojo-attach-event="click: update"
+                    disabled>Update Properties</button>
+            </div>
+        </div>
+    </div>
+</div>

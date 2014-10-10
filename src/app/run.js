@@ -41,12 +41,22 @@
                 name: 'ladda',
                 location: './ladda-bootstrap',
                 main: 'dist/ladda'
+            },{
+                name: 'datepicker',
+                location: './bootstrap-datepicker',
+                main: 'js/bootstrap-datepicker'
+            },{
+                name: 'selectpicker',
+                location: './bootstrap-select',
+                main: 'dist/js/bootstrap-select'
             }
         ],
         map: {
             'ijit': {
                 'ijit/widgets/authentication/_LoginRegisterRequestPane':
-                    'app/security/_RequestPane'
+                    'app/security/_RequestPane',
+                'ijit/widgets/authentication/_UserAdminUser':
+                    'app/security/_UserAdminUser'
             }
         }
     };
