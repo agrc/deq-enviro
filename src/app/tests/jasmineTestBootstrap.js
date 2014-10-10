@@ -1,7 +1,6 @@
 /* global JasmineFaviconReporter */
 /*jshint unused:false*/
 var dojoConfig = {
-    // isDebug: false,
     isJasmineTestRunner: true,
     packages: [{
         name: 'matchers',

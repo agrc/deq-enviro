@@ -8,13 +8,15 @@
     "dijit": "1.9",
     "dojo": "1.9",
     "dojox": "1.9",
-    "ijit": "agrc-ijit#3.0.4",
+    "ijit": "agrc-ijit#3.0.6",
     "jasmine-favicon-reporter": "*",
     "jquery": "~1",
     "lodash": "~2.4.1",
     "matchers": "agrc-jasmine-matchers#~0.1",
     "put-selector": "~0.3.5",
     "stubmodule": "~0.4",
-    "util": "dojo-util#1.9"
+    "util": "dojo-util#1.9",
+    "bootstrap-datepicker": "~1.3.0",
+    "bootstrap-select": "~1.6.3"
   }
 }

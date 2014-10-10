@@ -6,14 +6,12 @@ define([
     'dojo/_base/lang',
     'dojo/dom-style',
     'dojo/aspect',
-    'dojo/string',
     'dojo/query',
-
-    'put-selector/put',
 
     'ijit/widgets/authentication/_LoginRegisterRequestPane',
 
-    'app/config'
+    'app/config',
+    'app/security/_LayersMixin'
 ], function(
     template,
 
@@ -22,16 +20,14 @@ define([
     lang,
     domStyle,
     aspect,
-    dojoString,
     query,
-
-    put,
 
     _LoginRegisterRequestPane,
 
-    config
+    config,
+    _LayersMixin
 ) {
-    return declare([_LoginRegisterRequestPane], {
+    return declare([_LoginRegisterRequestPane, _LayersMixin], {
         // description:
         //      Override of ijit/widgets/authentication/_LoginRegisterRequestPane to add more fields.
 
@@ -47,13 +43,6 @@ define([
             // summary:
             //      description
             console.log('app/security/_RequestPane:getData', arguments);
-            var layers = [];
-
-            query('input', this.layersContainer).forEach(function (node) {
-                if (node.checked) {
-                    layers.push(node.value);
-                }
-            });
             var additionalProps = {
                 additional: {
                     address: this.addressTxt.value,
@@ -68,7 +57,7 @@ define([
                         parseInt(this.timeSelect.value, 10) +
                         new Date().getMonth()),
                     options: {
-                        layers: layers,
+                        layers: this.getLayers(),
                         locationTxt: this.locationTxt.value
                     }
                 }
@@ -107,16 +96,7 @@ define([
                 domStyle.set(that.parentWidget.modalDialog, 'width', width);
             }, true);
 
-            // load available secured layers
-            config.getAppJson().then(function (json) {
-                array.forEach(json.queryLayers, function (ql) {
-                    if (ql.secure === 'Yes') {
-                        var putString = 'li.checkbox label input[type=checkbox][value=${index}]+span';
-                        put(that.layersContainer, dojoString.substitute(putString, ql), ql.name);
-                    }
-                });
-                query('input', that.layersContainer).on('change', lang.hitch(that, 'validate'));
-            });
+            this.buildLayerCheckboxes();
         }
     });
 });
