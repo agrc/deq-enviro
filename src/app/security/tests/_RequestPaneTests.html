@@ -31,7 +31,16 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'agrc', 'put-selector']
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'ijit', 'agrc', 'put-selector',
+            {
+                name: 'spin',
+                location: './spinjs',
+                main: 'spin'
+            },{
+                name: 'ladda',
+                location: './ladda-bootstrap',
+                main: 'dist/ladda'
+            }]
         }, [
             'app/security/_RequestPane',
 
