@@ -129,5 +129,26 @@ require([
                 expect(domAttr.get(widget.checkbox, 'disabled')).toBe(true);
             });
         });
+        describe('checkSecurity', function () {
+            it('checks against the layers prop', function () {
+                spyOn(widget, 'toggleDisabledState');
+
+                var user = {
+                    accessRules: {
+                        options: {
+                            layers: [0]
+                        }
+                    }
+                };
+                widget.checkSecurity(user);
+
+                expect(widget.toggleDisabledState).toHaveBeenCalledWith(false);
+
+                user.accessRules.options.layers = [1, 3];
+                widget.checkSecurity(user);
+
+                expect(widget.toggleDisabledState.calls.mostRecent().args[0]).toEqual(true);
+            });
+        });
     });
 });

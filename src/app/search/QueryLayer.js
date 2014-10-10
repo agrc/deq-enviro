@@ -3,6 +3,7 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/Color',
+    'dojo/_base/array',
     'dojo/topic',
     'dojo/dom-class',
 
@@ -17,6 +18,7 @@ define([
 
     declare,
     Color,
+    array,
     topic,
     domClass,
 
@@ -121,10 +123,10 @@ define([
             //      appropriately
             console.log('app/QueryLayer:checkSecurity', arguments);
 
-            // TODO: check that the user is approved for this layer specifically
-            // by checking the options prop on user
-
-            this.toggleDisabledState(!user);
+            this.toggleDisabledState(
+                user === null ||
+                array.indexOf(user.accessRules.options.layers, this.index) === -1
+            );
         },
         onCheckboxChange: function () {
             // summary:
