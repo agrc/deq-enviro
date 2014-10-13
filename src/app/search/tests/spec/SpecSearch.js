@@ -39,7 +39,8 @@ require([
 
         beforeEach(function(done) {
             stubmodule('app/search/Search', {
-                'app/search/City': function () {return {startup: function () {}};}
+                'app/search/City': function () {return {startup: function () {}};},
+                'app/map/MapController': {map: {graphics: {}}}
             }).then(function (StubbedModule) {
                 Module = StubbedModule;
                 widget = new StubbedModule({}, domConstruct.create('div', {}, win.body()));

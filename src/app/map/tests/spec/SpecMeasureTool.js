@@ -19,9 +19,10 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
-        var btn = new MapButton();
+        var btn;
 
         beforeEach(function(done) {
+            btn = new MapButton();
             var map = new BaseMap(domConstruct.create('div'));
             map.on('load', function () {
                 widget = new WidgetUnderTest({
