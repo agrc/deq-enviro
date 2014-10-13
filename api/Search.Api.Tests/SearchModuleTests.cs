@@ -24,7 +24,7 @@ namespace Search.Api.Tests {
                             }
                         });
 
-                serviceMoq.Setup(x => x.Query(It.IsAny<IEnumerable<KeyValuePair<string, string>>>()))
+                serviceMoq.Setup(x => x.Query(It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), false))
                           .ReturnsAsync(result);
 
                 var bootstrapper = new ConfigurableBootstrapper(cfg => {
