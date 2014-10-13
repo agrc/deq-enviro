@@ -9,10 +9,11 @@ namespace Search.Api.Services {
     /// </summary>
     public interface IQuerySoeService {
         /// <summary>
-        ///     Queries the soe with specified values form value encoded.
+        /// Queries the soe with specified values form value encoded.
         /// </summary>
         /// <param name="formValues">The form values.</param>
+        /// <param name="secure">if set to <c>true</c> [secure].</param>
         /// <returns></returns>
-        Task<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>> Query(IEnumerable<KeyValuePair<string, string>> formValues);
+        Task<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>> Query(IEnumerable<KeyValuePair<string, string>> formValues, bool secure);
     }
 }
