@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
+using System.Runtime.InteropServices;
 using Containers;
 using Deq.Search.Soe.Attributes;
 using Deq.Search.Soe.Cache;
@@ -27,22 +28,26 @@ namespace Deq.Search.Soe.Endpoints {
         private const string ResourceName = "Search";
 
         #region IRestEndpoint Members
+
         /// <summary>
         ///     A method that the dynamic endpoint setup uses for registering the rest endpoing operation details.
         /// </summary>
         /// <returns> </returns>
-        public RestOperation RestOperation() {
+        public RestOperation RestOperation()
+        {
             return new RestOperation(ResourceName,
-                                     new[] {
-                                         "layerIds", "definitionQueries", "searchMethod", "geometry", "siteName"
-                                         ,
-                                         "programId", "includeAll"
-                                     },
-                                     new[] {
-                                         "json"
-                                     },
+                                     new[]
+                                         {
+                                             "layerIds", "definitionQueries", "searchMethod", "geometry", "siteName",
+                                             "programId", "includeAll", "accessRules"
+                                         },
+                                     new[]
+                                         {
+                                             "json"
+                                         },
                                      Handler);
         }
+
         #endregion
 
         /// <summary>
@@ -57,14 +62,18 @@ namespace Deq.Search.Soe.Endpoints {
         /// <exception cref="System.ArgumentNullException"></exception>
         public static byte[] Handler(NameValueCollection boundVariables, JsonObject operationInput,
                                      string outputFormat, string requestProperties,
-                                     out string responseProperties) {
+                                     out string responseProperties)
+        {
             responseProperties = null;
             var errors = new ResponseContainer(HttpStatusCode.BadRequest, "");
 
             string searchMethod;
-            try {
+            try
+            {
                 searchMethod = operationInput.GetStringValue("searchMethod");
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException)
+            {
                 errors.Message = "Search Method must contain 'geometry', 'site' or 'program' to limit search";
 
                 return Json(errors);
@@ -72,90 +81,149 @@ namespace Deq.Search.Soe.Endpoints {
 
             object[] layerIds;
             var found = operationInput.TryGetArray("layerIds", out layerIds);
-            if (!found || layerIds.Length < 1) {
+            if (!found || layerIds.Length < 1)
+            {
                 errors.Message += "Value cannot be null: {0}. ".With("layerids");
             }
 
             object[] definitionQueries;
             found = operationInput.TryGetArray("definitionQueries", out definitionQueries);
-            if (!found || definitionQueries.Length < 1) {
+            if (!found || definitionQueries.Length < 1)
+            {
                 errors.Message += "Value cannot be null: {0}. ".With("definitionQueries");
             }
 
-            if (errors.HasErrors) {
+            if (errors.HasErrors)
+            {
                 return Json(errors);
             }
 
-            var layerProperties = CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
+            var layerProperties =
+                CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
             SpatialFilter queryFilter = null;
 
-            switch (searchMethod) {
-                case "geometry":{
-                    JsonObject geometryObject;
-                     found = operationInput.TryGetJsonObject("geometry", out geometryObject);
-                     if (!found) {
-                        errors.Message += "Value cannot be null: {0}. ".With("geometry");
-
-                        return Json(errors);
-                    }
-
-                    var geometry = Conversion.ToGeometry(geometryObject, esriGeometryType.esriGeometryPolygon);
-
-                    queryFilter = new SpatialFilter {
-                        Geometry = geometry,
-                        SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
-                    };
-
-                    break;
-                }
-                case "site": {
-                    bool? includeAll;
-                    var siteName = operationInput.GetStringOrNumberValueAsString("siteName", true);
-                    if (string.IsNullOrEmpty(siteName)) {
-                        errors.Message += "Value cannot be null: {0}. ".With("siteName");
-
-                        return Json(errors);
-                    }
-
-                    found = operationInput.TryGetAsBoolean("includeAll", out includeAll);
-                    if (!found || !includeAll.HasValue) {
-                        includeAll = false;
-                    }
-
-                    var query =
-                        CommandExecutor.ExecuteCommand(new BuildSiteSearchQueryCommand(siteName, includeAll.Value));
-
-                    queryFilter = new SpatialFilter {
-                        WhereClause = query
-                    };
-
-                    break;
-                }
-                case "program": {
-                    var program = operationInput.GetStringOrNumberValueAsString("programId", true);
-                    if (string.IsNullOrEmpty(program)) {
-                        errors.Message += "Value cannot be null: {0}. ".With("program");
-
-                        return Json(errors);
-                    }
-
-                    var query = string.Format("upper({0}) = upper('{1}')", ApplicationCache.Fields.ProgramId, program);
-
-                    queryFilter = new SpatialFilter
+            switch (searchMethod)
+            {
+                case "geometry":
                     {
-                        WhereClause = query
+                        JsonObject geometryObject;
+                        found = operationInput.TryGetJsonObject("geometry", out geometryObject);
+                        if (!found)
+                        {
+                            errors.Message += "Value cannot be null: {0}. ".With("geometry");
+
+                            return Json(errors);
+                        }
+
+                        var geometry = Conversion.ToGeometry(geometryObject, esriGeometryType.esriGeometryPolygon);
+
+                        queryFilter = new SpatialFilter
+                            {
+                                Geometry = geometry,
+                                SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
+                            };
+
+                        break;
+                    }
+                case "site":
+                    {
+                        bool? includeAll;
+                        var siteName = operationInput.GetStringOrNumberValueAsString("siteName", true);
+                        if (string.IsNullOrEmpty(siteName))
+                        {
+                            errors.Message += "Value cannot be null: {0}. ".With("siteName");
+
+                            return Json(errors);
+                        }
+
+                        found = operationInput.TryGetAsBoolean("includeAll", out includeAll);
+                        if (!found || !includeAll.HasValue)
+                        {
+                            includeAll = false;
+                        }
+
+                        var query =
+                            CommandExecutor.ExecuteCommand(
+                                new ComposeMultiConditionQueryCommand(ApplicationCache.Fields.SiteName,
+                                                                      siteName,
+                                                                      includeAll.Value));
+
+                        queryFilter = new SpatialFilter
+                            {
+                                WhereClause = query
+                            };
+
+                        break;
+                    }
+                case "program":
+                    {
+                        var program = operationInput.GetStringOrNumberValueAsString("programId", true);
+                        if (string.IsNullOrEmpty(program))
+                        {
+                            errors.Message += "Value cannot be null: {0}. ".With("program");
+
+                            return Json(errors);
+                        }
+
+                        var query = string.Format("upper({0}) = upper('{1}')", ApplicationCache.Fields.ProgramId,
+                                                  program);
+
+                        queryFilter = new SpatialFilter
+                            {
+                                WhereClause = query
+                            };
+
+                        break;
+                    }
+            }
+
+            var accessRules = operationInput.GetStringValue("accessRules", true);
+            if (!string.IsNullOrEmpty(accessRules) && accessRules.ToUpper() != "STATEWIDE")
+            {
+                var countyFilter = new QueryFilter
+                    {
+                        WhereClause =
+                            CommandExecutor.ExecuteCommand(new ComposeMultiConditionQueryCommand("Name", accessRules,
+                                                                                                 true))
                     };
 
-                    break;
+                var cursor = ApplicationCache.County.Search(countyFilter, true);
+
+                IFeature feature;
+                IGeometry geom = null;
+                while ((feature = cursor.NextFeature()) != null)
+                {
+                    if (geom == null)
+                    {
+                        //initialze topo op to the first geometry
+                        geom = feature.ShapeCopy;
+                        continue;
+                    }
+
+                    var topo = (ITopologicalOperator5) geom;
+
+                    geom = topo.Union(feature.ShapeCopy);
+                }
+
+                Marshal.ReleaseComObject(cursor);
+
+                if (queryFilter != null && queryFilter.Geometry != null)
+                {
+                    var topo = (ITopologicalOperator5)geom;
+                    
+                    queryFilter.Geometry = topo.Intersect(queryFilter.Geometry, esriGeometryDimension.esriGeometry2Dimension);
                 }
             }
 
             Dictionary<int, IEnumerable<Graphic>> result;
             var queryCommand = new QueryCommand(queryFilter, layerProperties);
 
-            try {
+            try
+            {
                 result = CommandExecutor.ExecuteCommand(queryCommand);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return Json(new ResponseContainer(HttpStatusCode.InternalServerError, ex.Message));
             }
 
