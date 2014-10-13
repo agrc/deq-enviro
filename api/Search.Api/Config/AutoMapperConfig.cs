@@ -10,7 +10,7 @@ namespace Search.Api.Config {
     /// </summary>
     public static class AutoMapperConfig {
         /// <summary>
-        ///     Registers the maps.
+        /// Registers the maps.
         /// </summary>
         public static void RegisterMaps() {
             //      Mapper.CreateMap<ReverseGeocodeResponse, ReverseGeocodeResult>()
@@ -33,6 +33,8 @@ namespace Search.Api.Config {
                   .ForMember(dest => dest.ProgramId, option => option.Ignore())
                   .ForMember(dest => dest.SearchMethod, option => option.Ignore())
                   .ForMember(dest => dest.SiteName, option => option.Ignore())
+                  .ForMember(dest => dest.Token, options => options.Ignore())
+                  .ForMember(dest => dest.AccessRules, options => options.Ignore())
                   .AfterMap((src, dest) => {
                       dest.SearchMethod = "";
                       if (src.SiteName != null) {
