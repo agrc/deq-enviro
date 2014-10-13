@@ -48,13 +48,13 @@ namespace Search.Api {
             base.ConfigureApplicationContainer(container);
 
             container.Register(typeof (JsonSerializer), typeof (JsonSerializerOptions));
-            container.Register<IQuerySoeService>(new QuerySoeServiceAsync());
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
             container.Register(Store.OpenSession());
+            container.Register<IQuerySoeService>(new QuerySoeServiceAsync());
         }
     }
 }
