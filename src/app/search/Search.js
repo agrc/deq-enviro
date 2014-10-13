@@ -252,6 +252,7 @@ define([
             var makeRequest = function () {
                 lang.mixin(params, that.getQueryLayersParam());
                 params.token = (config.user) ? config.user.token : null;
+                params.userId = config.user.userId;
                 request(config.urls.search, {
                     method: 'POST',
                     data: JSON.stringify(params),
