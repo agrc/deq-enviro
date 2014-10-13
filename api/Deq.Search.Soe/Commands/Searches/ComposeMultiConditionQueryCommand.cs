@@ -8,17 +8,17 @@ namespace Deq.Search.Soe.Commands.Searches {
     ///     Command that handles the sitename search query string.
     ///     this is a full text attribute query
     /// </summary>
-    public class BuildSiteSearchQueryCommand : Command<string> {
+    public class ComposeMultiConditionQueryCommand : Command<string> {
         private readonly bool _includeAll;
 
         private readonly string _sitename;
 
         private readonly string[] _terms;
 
-        public BuildSiteSearchQueryCommand(string terms, bool includeAll) {
+        public ComposeMultiConditionQueryCommand(string fieldname, string terms, bool includeAll) {
             _terms = terms.Split(new[]{','});
             _includeAll = includeAll;
-            _sitename = ApplicationCache.Fields.SiteName;
+            _sitename = fieldname;
         }
 
         private string FormatQueryString(IList<string> terms, bool includeAll) {

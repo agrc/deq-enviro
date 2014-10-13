@@ -22,8 +22,8 @@ using ESRI.ArcGIS.SOESupport;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
 [assembly: Guid("86FBA63B-F042-4E1A-8DF5-1AB3C714ABC4")]
-[assembly: AssemblyVersion("0.0.103.1013")]
-[assembly: AssemblyFileVersion("0.0.103.1013")]
+[assembly: AssemblyVersion("0.0.108.1013")]
+[assembly: AssemblyFileVersion("0.0.108.1013")]
 [assembly: AddInPackage("Deq.Search.Soe", "86324B4E-D493-40B9-898F-25898596F079",
     Author = "mapserv",
     Company = "AGRC",

@@ -58,6 +58,8 @@ namespace Deq.Search.Soe {
             ApplicationCache.Fields = config.GetFields(props);
             ApplicationCache.FeatureClassIndexMap =
                 CommandExecutor.ExecuteCommand(new CreateLayerMapCommand(ServerObjectHelper));
+            ApplicationCache.County =
+                CommandExecutor.ExecuteCommand(new FindLayerByNameCommand("Counties", ServerObjectHelper));
         }
         #endregion
     }
