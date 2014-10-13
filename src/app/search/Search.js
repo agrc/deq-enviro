@@ -250,7 +250,8 @@ define([
             var params = {};
             var that = this;
             var makeRequest = function () {
-                params.queryLayers = that.getQueryLayersParam();
+                lang.mixin(params, that.getQueryLayersParam());
+                params.token = (config.user) ? config.user.token : null;
                 request(config.urls.search, {
                     method: 'POST',
                     data: JSON.stringify(params),
@@ -323,9 +324,17 @@ define([
                 throw this.noQueryLayersSelectedErrMsg;
             }
 
-            return array.map(this.selectedQueryLayers, function (ql) {
-                return ql.toJson();
+            var obj = {
+                queryLayers: [],
+                secureQueryLayers: []
+            };
+
+            array.forEach(this.selectedQueryLayers, function (ql) {
+                var a = (ql.secure === 'No') ? obj.queryLayers : obj.secureQueryLayers;
+                a.push(ql.toJson());
             });
+
+            return obj;
         },
         onSearchComplete: function (response) {
             // summary:

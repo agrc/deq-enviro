@@ -172,14 +172,20 @@ require([
         describe('getQueryLayersParam', function () {
             it('formats the data for each query layer appropriately', function () {
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: 1, defQuery: '01'}),
-                    new QueryLayer({index: 2, defQuery: '02'})
+                    new QueryLayer({index: 1, defQuery: '01', secure: 'No'}),
+                    new QueryLayer({index: 2, defQuery: '02', secure: 'No'}),
+                    new QueryLayer({index: 4, deqQuery: null, secure: 'Yes'})
                 ];
 
-                expect(widget.getQueryLayersParam()).toEqual([
-                    {id: 1, defQuery: '01'},
-                    {id: 2, defQuery: '02'}
-                ]);
+                expect(widget.getQueryLayersParam()).toEqual({
+                    queryLayers: [
+                        {id: 1, defQuery: '01'},
+                        {id: 2, defQuery: '02'}
+                    ],
+                    secureQueryLayers: [
+                        {id: 4, defQuery: null}
+                    ]
+                });
             });
             it('throws an error if no query layers are selected', function () {
                 expect(function () {
