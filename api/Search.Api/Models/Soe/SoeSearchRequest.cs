@@ -14,8 +14,12 @@
 
         public bool IncludeAll { get; set; }
 
+        public string Token { get; set; }
+
         public string F {
             get { return "json"; }
         }
+
+        public string AccessRules { get; set; }
     }
 }
