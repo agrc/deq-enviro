@@ -36,6 +36,6 @@ namespace Deq.Search.Soe.Cache {
         /// <value>
         /// The index of the county.
         /// </value>
-        public static int CountyIndex { get; set; }
+        public static IFeatureClass County { get; set; }
     }
 }

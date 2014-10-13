@@ -99,7 +99,7 @@
     <Compile Include="Commands\FindIndexByFieldNameCommand.cs" />
     <Compile Include="Commands\FindLayerByNameCommand.cs" />
     <Compile Include="Commands\Searches\BuildLayerPropertiesCommand.cs" />
-    <Compile Include="Commands\Searches\BuildSiteSearchQueryCommand.cs" />
+    <Compile Include="Commands\Searches\ComposeMultiConditionQueryCommand.cs" />
     <Compile Include="Commands\Searches\QueryCommand.cs" />
     <Compile Include="Commands\UpdateLayerMapWithFieldIndexMapCommand.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />
@@ -176,7 +176,7 @@
   <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_IncrementBeforeBuild="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
+      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_IncrementBeforeBuild="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
