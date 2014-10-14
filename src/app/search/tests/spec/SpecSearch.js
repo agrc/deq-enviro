@@ -39,7 +39,8 @@ require([
 
         beforeEach(function(done) {
             stubmodule('app/search/Search', {
-                'app/search/City': function () {return {startup: function () {}};}
+                'app/search/City': function () {return {startup: function () {}};},
+                'app/map/MapController': {map: {graphics: {}}}
             }).then(function (StubbedModule) {
                 Module = StubbedModule;
                 widget = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
@@ -171,19 +172,50 @@ require([
         describe('getQueryLayersParam', function () {
             it('formats the data for each query layer appropriately', function () {
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: 1, defQuery: '01'}),
-                    new QueryLayer({index: 2, defQuery: '02'})
+                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
+                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'}),
+                    new QueryLayer({index: 's4', deqQuery: null, secure: 'Yes'})
                 ];
 
-                expect(widget.getQueryLayersParam()).toEqual([
-                    {id: 1, defQuery: '01'},
-                    {id: 2, defQuery: '02'}
-                ]);
+                expect(widget.getQueryLayersParam()).toEqual({
+                    queryLayers: [
+                        {id: '1', defQuery: '01'},
+                        {id: '2', defQuery: '02'}
+                    ],
+                    secureQueryLayers: [
+                        {id: '4', defQuery: null}
+                    ]
+                });
             });
             it('throws an error if no query layers are selected', function () {
                 expect(function () {
                     widget.getQueryLayersParam();
                 }).toThrow(widget.noQueryLayersSelectedErrMsg);
+            });
+            it('does not define queryLayers or secureQueryLayers if no features', function () {
+                widget.selectedQueryLayers = [
+                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
+                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'})
+                ];
+
+                expect(widget.getQueryLayersParam()).toEqual({
+                    queryLayers: [
+                        {id: '1', defQuery: '01'},
+                        {id: '2', defQuery: '02'}
+                    ],
+                    secureQueryLayers: null
+                });
+
+                widget.selectedQueryLayers = [
+                    new QueryLayer({index: 's4', deqQuery: null, secure: 'Yes'})
+                ];
+
+                expect(widget.getQueryLayersParam()).toEqual({
+                    queryLayers: null,
+                    secureQueryLayers: [
+                        {id: '4', defQuery: null}
+                    ]
+                });
             });
         });
         describe('clear', function () {

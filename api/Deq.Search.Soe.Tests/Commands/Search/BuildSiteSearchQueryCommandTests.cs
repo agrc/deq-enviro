@@ -15,7 +15,7 @@ namespace Deq.Search.Soe.Tests.Commands.Search {
 
         [Test]
         public void QueryStringIsFormattedCorrectlyForMatchAll() {
-            var command = new BuildSiteSearchQueryCommand("i, am,terms", true);
+            var command = new ComposeMultiConditionQueryCommand(ApplicationCache.Fields.SiteName, "i, am,terms", true);
             command.Run();
 
             Assert.That(command.Result,
@@ -24,7 +24,7 @@ namespace Deq.Search.Soe.Tests.Commands.Search {
 
         [Test]
         public void QueryStringIsFormattedCorrectlyForMatchSome() {
-            var command = new BuildSiteSearchQueryCommand("i,am, terms ", false);
+            var command = new ComposeMultiConditionQueryCommand(ApplicationCache.Fields.SiteName, "i,am, terms ", false);
             command.Run();
 
             Assert.That(command.Result,

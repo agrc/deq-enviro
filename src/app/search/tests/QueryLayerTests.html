@@ -35,12 +35,21 @@
             }]
         }, [
             'app/search/QueryLayer',
+            'app/config',
 
 
             'dojo/domReady!'
         ], function(
-            Module
+            Module,
+            config
             ) {
+            config.user = {
+                accessRules: {
+                    options: {
+                        layers: [5, 6]
+                    }
+                }
+            };
             widgetUnderTest = new Module({
                 name: 'Test Layer',
                 index: 5,
@@ -61,10 +70,10 @@
 
             widgetUnderTest3 = new Module({
                 name: 'Some Cool Layer Long Name',
-                index: 6,
+                index: 7,
                 description: 'The is a really great layer with tons of data.',
                 metaDataUrl: 'http://google.com',
-                secure: 'No'
+                secure: 'Yes'
             }, 'node3');
             widgetUnderTest3.startup();
         });

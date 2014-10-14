@@ -155,7 +155,14 @@ define([
 
             this.query.objectIds = [item.OBJECTID];
 
-            var task = new QueryTask(config.urls.DEQEnviro + '/' + item.parent);
+            var url;
+            if (item.parent.indexOf('s') === -1) {
+                url = config.urls.DEQEnviro + '/' + item.parent;
+            } else {
+                url = config.urls.secure + '/' + item.parent.slice(1);
+            }
+
+            var task = new QueryTask(url);
             var that = this;
             var onError = function () {
                 domClass.remove(that.errorMsg, 'hidden');

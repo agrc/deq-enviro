@@ -38,10 +38,15 @@ def get_dataset_info(spreadsheetData):
     # get layer indicies from map service
     jsonData = requests.get(settings.mapServiceJson).json()
     secureJsonData = requests.get('{}&token={}'.format(settings.securedServiceJson, admin.token)).json()
+
+    # apply s to secure ids
+    for l in secureJsonData['layers']:
+        l['id'] = 's' + str(l['id'])
+
     layersAndTables = jsonData['layers'] + jsonData['tables'] + secureJsonData['layers']
     serviceLayers = {}
     for s in layersAndTables:
-        serviceLayers[s['name']] = s['id']
+        serviceLayers[s['name']] = str(s['id'])
     for l in spreadsheetData:
         n = l[fieldnames.sgidName].split('.')[-1]
         l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
