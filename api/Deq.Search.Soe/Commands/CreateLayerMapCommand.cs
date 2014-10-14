@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Models;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.SOESupport;
 using ESRI.ArcGIS.Server;
 
 namespace Deq.Search.Soe.Commands {

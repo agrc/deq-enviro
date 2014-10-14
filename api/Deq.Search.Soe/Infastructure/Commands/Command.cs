@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Deq.Search.Soe.Extensions;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.SOESupport;
 
 namespace Deq.Search.Soe.Infastructure.Commands {
     /// <summary>
