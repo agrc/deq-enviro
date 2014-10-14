@@ -27,6 +27,9 @@ var profile = {
             boot: true
         },
         'ijit/widgets/authentication/UserAdmin': {
+            include: [
+                'app/security/_UserAdminUser'
+            ],
             exclude: ['dojo/dojo']
         }
     },
