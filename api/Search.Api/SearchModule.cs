@@ -27,18 +27,28 @@ namespace Search.Api {
         {
             Post["/", true] = async (_, ctx) =>
                 {
-                    var model = this.Bind<SearchRequest>();
                     var result = new QueryLayerResponse
-                        {
-                            Status = 200
-                        };
+                    {
+                        Status = 200
+                    };
 
-                    //make request to soe
-                    var soeSearchRequestModel = Mapper.Map<SearchRequest, SoeSearchRequest>(model);
-                    var keyValuePairs = FormUrl.CreateObjects(soeSearchRequestModel);
+                    SoeSearchRequest soeSearchRequestModel;
+                    var model = this.Bind<SearchRequest>();
+                    if (model.QueryLayers == null)
+                    {
+                        model.QueryLayers = new List<QueryLayer>();
+                        soeSearchRequestModel = Mapper.Map<SearchRequest, SoeSearchRequest>(model);
+                    }
+                    else
+                    {
+                        soeSearchRequestModel = Mapper.Map<SearchRequest, SoeSearchRequest>(model);
 
-                    var resultContent = await queryService.Query(keyValuePairs, false);
-                    result.QueryLayers = resultContent;
+                        //make request to soe
+                        var keyValuePairs = FormUrl.CreateObjects(soeSearchRequestModel);
+
+                        var resultContent = await queryService.Query(keyValuePairs, false);
+                        result.QueryLayers = resultContent;
+                    }
 
                     if (model.SecureQueryLayers == null || !model.SecureSearch ||
                         model.UserId == Guid.Empty)
@@ -106,14 +116,17 @@ namespace Search.Api {
 
                     result.SecureQueryLayers = secureResultContent;
 
-                    if (result.SecureQueryLayers.HasErrors || result.QueryLayers.HasErrors)
+                    if (result.QueryLayers != null)
                     {
-                        result.Status = 206;
-                    }
+                        if (result.SecureQueryLayers.HasErrors || result.QueryLayers.HasErrors)
+                        {
+                            result.Status = 206;
+                        }
 
-                    if (result.SecureQueryLayers.HasErrors && result.QueryLayers.HasErrors)
-                    {
-                        result.Status = new[] {result.QueryLayers.Status, result.SecureQueryLayers.Status}.Max();
+                        if (result.SecureQueryLayers.HasErrors && result.QueryLayers.HasErrors)
+                        {
+                            result.Status = new[] {result.QueryLayers.Status, result.SecureQueryLayers.Status}.Max();
+                        }
                     }
 
                     return result;

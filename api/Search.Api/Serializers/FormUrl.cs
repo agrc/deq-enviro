@@ -38,7 +38,7 @@ namespace Search.Api.Serializers {
                 if (propType.IsArray) {
                     var elementType = propType.GetElementType();
 
-                    if (((Array)val).Length > 0
+                    if (((Array)val).Length >= 0
                         && (elementType.IsPrimitive || elementType.IsValueType || elementType == typeof (string))) {
                         // convert the array to an array of strings
 
