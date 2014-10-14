@@ -128,7 +128,7 @@ define([
             // summary:
             //      description
             console.log('app/search/Search:constructor', arguments);
-        
+
             var that = this;
 
             this.selectedQueryLayers = [];
@@ -198,7 +198,7 @@ define([
             // summary:
             //      startup
             console.log('app/search/Search::startup', arguments);
-        
+
             array.forEach(this.childWidgets, function (w) {
                 w.startup();
             });
@@ -211,12 +211,12 @@ define([
             // queryLayers: {}
             //      The array returned from queryLayers.json
             console.log('app/search/Search:buildQueryLayers', arguments);
-        
+
             var headers = {};
             array.forEach(queryLayers, function (ql) {
                 // skip query layers that are not published to the service
                 if (!ql.index) { return ; }
-                
+
                 if (!headers[ql.heading]) {
                     headers[ql.heading] = new QueryLayerHeader({
                         name: ql.heading,
@@ -230,7 +230,7 @@ define([
             // summary:
             //      fires when the user changes the value of the select
             console.log('app.search.Search::onSelectChange', arguments);
-        
+
             // clear previous pane
             if (this.currentPane && this.currentPane.clear) {
                 this.currentPane.clear();
@@ -246,7 +246,7 @@ define([
             // summary:
             //      description
             console.log('app/search/Search::search', arguments);
-        
+
             var params = {};
             var that = this;
             var makeRequest = function () {
@@ -261,10 +261,28 @@ define([
                     timeout: 40000
                 }).then(
                     function (response) {
-                        if (response.status !== 200) {
+                        if (response.status !== 200 ||
+                            (response.queryLayers && response.queryLayers.status !== 200) ||
+                            (response.secureQueryLayers && response.secureQueryLayers.status !== 200)) {
                             onError(that.searchServiceErrorMsg);
                         } else {
-                            topic.publish(config.topics.appSearch.featuresFound, response.result);
+                            var results = {};
+                            if (response.secureQueryLayers) {
+                                // add s's to secure layer indices
+                                var result = response.secureQueryLayers.result;
+                                for (var p in result) {
+                                    if (result.hasOwnProperty(p)) {
+                                        result['s' + p] = result[p];
+                                        delete result[p];
+                                    }
+                                }
+                                lang.mixin(results, response.secureQueryLayers.result);
+                            }
+
+                            if (response.queryLayers) {
+                                lang.mixin(results, response.queryLayers.result);
+                            }
+                            topic.publish(config.topics.appSearch.featuresFound, results);
                             topic.publish(config.topics.app.showGrid);
                             that.hideLoader();
                         }
@@ -320,7 +338,7 @@ define([
             //      loops through the selected query layers and returns objects
             //      suitable for passing into the search api
             console.log('app/search/Search::getQueryLayersParam', arguments);
-            
+
             if (this.selectedQueryLayers.length === 0) {
                 throw this.noQueryLayersSelectedErrMsg;
             }
@@ -334,6 +352,14 @@ define([
                 var a = (ql.secure === 'No') ? obj.queryLayers : obj.secureQueryLayers;
                 a.push(ql.toJson());
             });
+
+            // convert empty arrays to nulls
+            if (obj.queryLayers.length === 0) {
+                obj.queryLayers = null;
+            }
+            if (obj.secureQueryLayers.length === 0) {
+                obj.secureQueryLayers = null;
+            }
 
             return obj;
         },
@@ -372,21 +398,21 @@ define([
             // summary:
             //      description
             console.log('app/search/Search:hideGrid', arguments);
-        
+
             topic.publish(config.topics.app.hideGrid);
         },
         showGrid: function () {
             // summary:
             //      description
             console.log('app/search/Search:showGrid', arguments);
-        
+
             topic.publish(config.topics.app.showGrid);
         },
         showLoader: function () {
             // summary:
             //      description
             console.log('app/download/Download:showLoader', arguments);
-        
+
             domAttr.set(this.searchBtn, 'disabled', true);
             this.searchBtn.innerHTML = 'Searching';
         },
@@ -394,7 +420,7 @@ define([
             // summary:
             //      description
             console.log('app/download/Download:hideLoader', arguments);
-        
+
             domAttr.set(this.searchBtn, 'disabled', false);
             this.searchBtn.innerHTML = 'Search';
         }

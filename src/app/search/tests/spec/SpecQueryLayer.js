@@ -27,7 +27,7 @@ require([
             widget.destroyRecursive();
             widget = null;
         };
-        var index = 0;
+        var index = '0';
         var topics = config.topics.appQueryLayer;
 
         beforeEach(function() {
@@ -76,11 +76,19 @@ require([
             });
         });
         describe('toJson', function () {
-            it('returns the correct object', function () {
-                var defQuery = 'hello';
+            var defQuery;
+            beforeEach(function () {
+                defQuery = 'hello';
                 widget.defQuery = defQuery;
-
+            });
+            it('returns the correct object', function () {
                 expect(widget.toJson()).toEqual({id: index, defQuery: defQuery});
+            });
+            it('removes the s for secured layers', function () {
+                widget.secure = 'Yes';
+                widget.index = 's1';
+
+                expect(widget.toJson()).toEqual({id: '1', defQuery: defQuery});
             });
         });
         describe('stores checked state in localStorage', function () {

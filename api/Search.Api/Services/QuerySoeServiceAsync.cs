@@ -8,7 +8,7 @@ using Search.Api.Formatters;
 
 namespace Search.Api.Services {
     public class QuerySoeServiceAsync : IQuerySoeService {
-        private string _url = "/arcgis/rest/services/DeqEnviro/MapService/MapServer/exts/DeqSearchSoe/Search";
+        private string _url = "/arcgis/rest/services/DEQEnviro/MapService/MapServer/exts/DeqSearchSoe/Search";
 
         /// <summary>
         ///     Queries the soe with specified values form value encoded.

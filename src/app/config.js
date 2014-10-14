@@ -42,7 +42,7 @@ define([
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
     var baseUrl = '/arcgis/rest/services/DEQEnviro';
-    var secureUrl = baseUrl + '/Secure';
+    var secureUrl = baseUrl + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -319,7 +319,7 @@ define([
 
             var returnLayer;
             array.some(datasets, function (ql) {
-                if (ql.index + '' === index) {
+                if (ql.index === index) {
                     returnLayer = ql;
                     return true;
                 } else {

@@ -150,7 +150,7 @@ define([
             console.log('app/QueryLayer::toJson', arguments);
 
             return {
-                id: this.index,
+                id: (this.secure === 'No') ? this.index : this.index.slice(1),
                 defQuery: this.defQuery
             };
         },
