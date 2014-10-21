@@ -4,18 +4,18 @@
             <input type="checkbox"
                 data-dojo-attach-event='onchange: onCheckboxChange'
                 data-dojo-attach-point='checkbox'> ${name}
+            <a href="${metaDataUrl}" target="_blank"
+                data-toggle='tooltip'
+                data-delay='${popupDelay}'
+                data-dojo-attach-point='helpTip'
+                title='${description}'>
+                <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+            <span class="glyphicon glyphicon-lock ${secure}"
+                data-toggle='tooltip'
+                data-delay='${popupDelay}'
+                title='Request access and log in to access this layer'
+                data-dojo-attach-point='secureTip'></span>
         </label>
-        <a href="${metaDataUrl}" target="_blank"
-            data-toggle='tooltip'
-            data-delay='${popupDelay}'
-            data-dojo-attach-point='helpTip'
-            title='${description}'>
-            <span class="glyphicon glyphicon-question-sign"></span>
-        </a>
-        <span class="glyphicon glyphicon-lock ${secure}"
-            data-toggle='tooltip'
-            data-delay='${popupDelay}'
-            title='Request access and log in to access this layer'
-            data-dojo-attach-point='secureTip'></span>
     </div>
 </div>
