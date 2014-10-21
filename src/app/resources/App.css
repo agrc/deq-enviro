@@ -130,7 +130,7 @@ body, html, .app {
     outline: none;
 }
 .dijitPopup {
-    z-index: 1020 !important;
+    z-index: 1100 !important;
 }
 .popover {
     max-width: 300px;
