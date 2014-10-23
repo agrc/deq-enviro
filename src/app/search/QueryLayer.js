@@ -89,7 +89,7 @@ define([
                 );
             }
 
-            this.localStorageID = this.name + '_checkedState';
+            this.localStorageID = this.name + this.index + '_checkedState';
 
             if (localStorage) {
                 if (localStorage[this.localStorageID] === 'true' &&
