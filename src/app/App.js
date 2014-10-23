@@ -225,7 +225,8 @@ define([
             console.info('app.App::initMap', arguments);
 
             this.map = new BaseMap(this.mapDiv, {
-                useDefaultBaseMap: false
+                useDefaultBaseMap: false,
+                showLabels: true
             });
 
             MapController.init({map: this.map});

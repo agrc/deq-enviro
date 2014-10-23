@@ -11,7 +11,8 @@ define([
     'esri/layers/FeatureLayer',
     'esri/SpatialReference',
     'esri/tasks/FeatureSet',
-    'esri/tasks/query'
+    'esri/tasks/query',
+    'esri/layers/LabelClass'
 
 ], function(
     config,
@@ -26,7 +27,8 @@ define([
     FeatureLayer,
     SpatialReference,
     FeatureSet,
-    Query
+    Query,
+    LabelClass
 ) {
     var fn = config.fieldNames.queryLayers;
     var DefaultLayerDefinition = declare(null, {
@@ -70,6 +72,12 @@ define([
             type: 'esriFieldTypeString',
             alias: fn.TYPE,
             length: 150,
+            domain: null
+        },{
+            name: fn.ENVIROAPPLABEL,
+            type: 'esriFieldTypeString',
+            alias: fn.ENVIROAPPLABEL,
+            length: 50,
             domain: null
         }],
 
@@ -169,7 +177,17 @@ define([
                 })
             };
 
-            this.fLayer = new FeatureLayer(featureCollectionObject);
+            this.fLayer = new FeatureLayer(featureCollectionObject, {
+                showLabels: true, 
+                outFields: ['*']
+            });
+            this.fLayer.setLabelingInfo([
+                new LabelClass({
+                    labelExpression: '[' + config.fieldNames.queryLayers.ENVIROAPPLABEL + ']',
+                    labelPlacement: 'above-right',
+                    minScale: config.labelsMinScale
+                })
+            ]);
 
             this.fLayer.setSelectionSymbol((geometryType === 'point') ?
                 config.symbols.selection.point :

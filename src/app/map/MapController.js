@@ -7,7 +7,6 @@ define([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/layers/GraphicsLayer',
-    'esri/layers/LabelLayer',
     'esri/graphic',
     'esri/renderers/SimpleRenderer',
     'esri/symbols/TextSymbol',
@@ -24,7 +23,6 @@ define([
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
     GraphicsLayer,
-    LabelLayer,
     Graphic,
     SimpleRenderer,
     TextSymbol,
@@ -47,10 +45,6 @@ define([
         // searchGraphics: GraphicsLayer
         //      the layer that shows the search graphics
         searchGraphics: null,
-
-        // labelLayer: LabelLayer
-        //      the layer that draws all of the labels for the app
-        labelLayer: null,
 
 
         // Properties to be sent into constructor
@@ -195,26 +189,12 @@ define([
             var index = (geometryType === 'polygon') ? 2 : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
-
-            if (!this.labelLayer) {
-                this.labelLayer = new LabelLayer();
-                this.labelLayer.minScale = config.labelsMinScale;
-                this.map.addLayer(this.labelLayer);
-            }
-            this.labelLayer.addFeatureLayer(layer,
-                new SimpleRenderer(new TextSymbol().setOffset(-20, -2)),
-                '{' + config.fieldNames.queryLayers.ENVIROAPPLABEL + '}'
-            );
         },
         removeQueryLayer: function (layer) {
             // summary:
             //      removes the layer from the map
             // layer: esri/layers/FeatureLayer
             console.log('app/map/MapController:removeQueryLayer', arguments);
-
-            this.labelLayer.featureLayers = array.filter(this.labelLayer.featureLayers, function (fl) {
-                return fl.id !== layer.id;
-            });
 
             this.map.removeLayer(layer);
         },

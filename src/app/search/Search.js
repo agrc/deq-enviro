@@ -237,7 +237,7 @@ define([
             }
 
             // switch to new pane
-            this.currentPane = this[this.select.value];
+            this.currentPane = (this.select.value !== 'empty') ? this[this.select.value] : null;
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;
             this.hideErrMsg();
