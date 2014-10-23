@@ -80,6 +80,9 @@ require([
             });
         });
         describe('getGeometry', function () {
+            beforeEach(function () {
+                spyOn(widget.toolbar, 'deactivate');
+            });
             it('returns a promise', function () {
                 expect(widget.getGeometry()).toEqual(jasmine.any(Promise));
             });
@@ -125,6 +128,7 @@ require([
                     'esri/tasks/GeometryService': geoMock
                 }).then(function (StubbedModule) {
                     var testWidget2 = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
+                    spyOn(testWidget2.toolbar, 'deactivate');
                     testWidget2.geometry = {type: 'point'};
                     testWidget2.bufferNum.value = '1';
 

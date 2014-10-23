@@ -137,7 +137,7 @@ define([
             // geometryType: String
             //      point or polygon
             console.log('DefaultLayerDefinition:constructor', arguments);
-        
+
             this.drawingInfo.renderer = this[geometryType + 'Renderer'];
             this.drawingInfo.renderer.symbol.color = color.concat([config.symbols.resultSymbolOpacity]);
         }
@@ -178,7 +178,7 @@ define([
             };
 
             this.fLayer = new FeatureLayer(featureCollectionObject, {
-                showLabels: true, 
+                showLabels: true,
                 outFields: ['*']
             });
             this.fLayer.setLabelingInfo([
@@ -211,7 +211,7 @@ define([
             // summary:
             //      destroys the object and removes the layer from the map
             console.log('app/search/ResultLayer:destroy', arguments);
-        
+
             topic.publish(config.topics.appResultLayer.removeLayer, this.fLayer);
 
             this.inherited(arguments);
@@ -222,7 +222,7 @@ define([
             // oid: Number
             // layerIndex: String
             // console.log('app/search/ResultLayer:onHighlight', arguments);
-        
+
             this.fLayer.clearSelection();
 
             if (layerIndex === this.layerIndex) {
@@ -237,7 +237,7 @@ define([
             //      fires topic to initiate an identify on that feature
             // evt: Object graphic click
             console.log('app/search/ResultLayer:onClick', arguments);
-        
+
             var g = evt.graphic;
             g.attributes.parent = this.layerIndex;
             g.attributes.geometry = g.geometry;

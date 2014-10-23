@@ -45,6 +45,7 @@ require([
                 Module = StubbedModule;
                 widget = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
                 widget.startup();
+                spyOn(widget.stackContainer, 'selectChild');
                 done();
             });
         });
@@ -99,7 +100,6 @@ require([
                 widget.currentPane = {clear: previousPane};
                 widget.select.value = 'blah';
                 widget[value] = {};
-                spyOn(widget.stackContainer, 'selectChild');
 
                 widget.onSelectChange();
 
