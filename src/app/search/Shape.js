@@ -144,6 +144,10 @@ define([
                 this.getGeometryDef.reject(this.noGeoMsg);
             }
 
+            this.toolbar.deactivate();
+
+            this.unselectBtns();
+
             return this.getGeometryDef.promise;
         },
         initGeoService: function () {
