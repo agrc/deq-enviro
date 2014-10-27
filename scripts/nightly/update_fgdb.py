@@ -21,6 +21,7 @@ errors = []
 field_type_mappings = {'Integer': 'LONG',
                        'String': 'TEXT',
                        'SmallInteger': 'SHORT'}
+successes = []
 
 def run(logr, test_layer=None):
     global logger, errors
@@ -38,6 +39,7 @@ def run(logr, test_layer=None):
     return errors
     
 def update_related_tables(test_layer=None):
+    global successes
     for t in spreadsheet.get_related_tables():
         name = t[fieldnames.sgidName]
         if test_layer and name != test_layer:
@@ -49,6 +51,7 @@ def update_related_tables(test_layer=None):
                 remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
                 update(localTbl, remoteTbl)
                 validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)
+                successes.append(name)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
     
@@ -63,13 +66,14 @@ def update(local, remote):
             arcpy.Append_management(remote, local, 'NO_TEST')
         except:
             with arcpy.da.Editor(settings.fgd) as edit:
-                logger.logMsg('append failed, using insert cursor')
                 flds = [f.name for f in arcpy.ListFields(remote)]
+                logger.logMsg('append failed, using insert cursor')
                 with arcpy.da.SearchCursor(remote, flds) as rcur, arcpy.da.InsertCursor(local, flds) as icur:
                     for row in rcur:
                         icur.insertRow(row)
         
 def update_query_layers(test_layer=None):
+    global successes
     for l in spreadsheet.get_query_layers():
         fcname = l[fieldnames.sgidName]
         if test_layer and fcname != test_layer:
@@ -114,7 +118,8 @@ def update_query_layers(test_layer=None):
                         expression = '"{}"'.format(expression)
                     arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
                 
-                validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)  
+                validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)
+                successes.append(fcname)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname, logger.logError().strip()))
 

@@ -35,7 +35,7 @@ def run():
         emailer.sendEmail('{} - Data Errors'.format(scriptName), 
                           'There were {} errors in the nightly deq script: \n{}'.format(len(sdeErrors + fgdbErrors), errors))
     else:
-        emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Harold: Do you want the entire log here? Or are you ok with no news is good news?')
+        emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Updated datasets:\n{}'.format('\n'.join(update_fgdb.successes)))
 
 def run_with_try_catch():
     try:
