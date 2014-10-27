@@ -56,7 +56,9 @@
                 'ijit/widgets/authentication/_LoginRegisterRequestPane':
                     'app/security/_RequestPane',
                 'ijit/widgets/authentication/_UserAdminUser':
-                    'app/security/_UserAdminUser'
+                    'app/security/_UserAdminUser',
+                'ijit/widgets/authentication/_UserAdminPendingUser':
+                    'app/security/_UserAdminPendingUser'
             }
         }
     };
