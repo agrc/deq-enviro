@@ -91,13 +91,7 @@ define([
 
             this.localStorageID = this.name + this.index + '_checkedState';
 
-            if (localStorage) {
-                if (localStorage[this.localStorageID] === 'true' &&
-                    !this.checkbox.disabled) {
-                    this.checkbox.checked = true;
-                    this.onCheckboxChange();
-                }
-            }
+            this.rememberCheckedState();
 
             $(this.helpTip).tooltip({
                 container: 'body'
@@ -117,6 +111,19 @@ define([
 
             this.inherited(arguments);
         },
+        rememberCheckedState: function () {
+            // summary:
+            //      updates checkbox from localstorage value
+            console.log('app/QueryLayer:rememberCheckedState', arguments);
+        
+            if (localStorage) {
+                if (localStorage[this.localStorageID] === 'true' &&
+                    !this.checkbox.disabled) {
+                    this.checkbox.checked = true;
+                    this.onCheckboxChange();
+                }
+            }
+        },
         checkSecurity: function (user) {
             // summary:
             //      checks that the user has permissions to this layer then disables/enables
@@ -127,6 +134,7 @@ define([
                 user === null ||
                 array.indexOf(user.accessRules.options.layers, this.index) === -1
             );
+            this.rememberCheckedState();
         },
         onCheckboxChange: function () {
             // summary:
