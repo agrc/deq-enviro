@@ -17,7 +17,7 @@ namespace Deq.Search.Soe.Commands {
         protected override void Execute() {
             foreach (var item in _map) {
                 item.FieldMap = CommandExecutor.ExecuteCommand(new FindIndexByFieldNameCommand(item.FeatureClass,
-                                                                                               ApplicationCache.Fields
+                                                                                               ApplicationCache.Settings
                                                                                                                .ReturnFields));
             }
         }

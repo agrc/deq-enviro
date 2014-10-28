@@ -28,7 +28,7 @@ namespace Deq.Search.Soe.Cache {
         /// <value>
         ///     The fields.
         /// </value>
-        public static ApplicationFieldSettings Fields { get; set; }
+        public static ApplicationSettings Settings { get; set; }
 
         /// <summary>
         /// Gets or sets the index of the county in the mxd.

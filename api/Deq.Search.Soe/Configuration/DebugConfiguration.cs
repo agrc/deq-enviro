@@ -28,13 +28,14 @@ namespace Deq.Search.Soe.Configuration {
     ///     Debug configration. Preconfigured for debug environment
     /// </summary>
     public class DebugConfiguration : IConfigurable {
-        public ApplicationFieldSettings GetFields(IPropertySet props) {
-            var settings = new ApplicationFieldSettings {
+        public ApplicationSettings GetSettings(IPropertySet props) {
+            var settings = new ApplicationSettings {
                 ReturnFields = new[] {
                     "ID", "NAME", "ADDRESS", "CITY", "TYPE", "OBJECTID", "ENVIROAPPLABEL"
                 },
                 ProgramId = "ID",
-                SiteName = "NAME"
+                SiteName = "NAME",
+                FacilityUst = "FACILITYUST"
             };
 
             return settings;

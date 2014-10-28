@@ -3,7 +3,7 @@ namespace Deq.Search.Soe.Models.Configuration {
     ///     The class representing Application settings related to fields
     ///     This can be modified to suite the application needs or removed.
     /// </summary>
-    public class ApplicationFieldSettings {
+    public class ApplicationSettings {
         /// <summary>
         ///     Gets or sets the return fields.
         /// </summary>
@@ -27,5 +27,13 @@ namespace Deq.Search.Soe.Models.Configuration {
         ///     The name of the sitename field to use for sitename queries.
         /// </value>
         public string SiteName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the facility ust layer name in the mxd.
+        /// </summary>
+        /// <value>
+        /// The facility ust layer name in the mxd.
+        /// </value>
+        public string FacilityUst { get; set; }
     }
 }

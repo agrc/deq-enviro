@@ -69,7 +69,7 @@ namespace Deq.Search.Soe.Commands {
                     continue;
                 }
 
-                result.Add(new FeatureClassIndexMap(i, GetFeatureClassFromMap(i)));
+                result.Add(new FeatureClassIndexMap(i, layerInfo.Name, GetFeatureClassFromMap(i)));
             }
 
             CommandExecutor.ExecuteCommand(new UpdateLayerMapWithFieldIndexMapCommand(result));
