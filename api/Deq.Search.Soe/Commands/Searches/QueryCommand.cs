@@ -12,12 +12,13 @@ using EsriJson.Net.Graphic;
 namespace Deq.Search.Soe.Commands.Searches {
     public class QueryCommand : Command<Dictionary<int, IEnumerable<Graphic>>> {
         private readonly IEnumerable<SearchLayerProperties> _layerProperties;
-
+        private readonly EdgeCaseInformation _edgeCase;
         private readonly ISpatialFilter _queryFilter;
 
-        public QueryCommand(ISpatialFilter queryFilter, IEnumerable<SearchLayerProperties> layerProperties) {
+        public QueryCommand(ISpatialFilter queryFilter, IEnumerable<SearchLayerProperties> layerProperties, EdgeCaseInformation edgeCase) {
             _queryFilter = queryFilter;
             _layerProperties = layerProperties;
+            _edgeCase = edgeCase;
         }
 
         protected override void Execute() {
@@ -27,16 +28,22 @@ namespace Deq.Search.Soe.Commands.Searches {
                     definitionExpression = x.DefQuery
                 })
                 .ToDictionary(result => result.map.Index,
-                              result => Query(result.map.FeatureClass, result.map, result.definitionExpression));
+                              result => Query(result.map, result.definitionExpression));
 
             Result = results;
         }
 
-        private IEnumerable<Graphic> Query(IFeatureClass featureClass, FeatureClassIndexMap map,
+        private IEnumerable<Graphic> Query(FeatureClassIndexMap map,
                                            string definitionExpression) {
              var featureLayer = new FeatureLayer {
-                    FeatureClass = featureClass
+                    FeatureClass = map.FeatureClass
                 };
+
+            if (map.LayerName == ApplicationCache.Settings.FacilityUst && _edgeCase.IsProgramSearch)
+            {
+                _queryFilter.WhereClause = string.Format("{0}{1}", _queryFilter.WhereClause,
+                                           string.Format(" OR FACILITYID IN (SELECT FACILITYID FROM DEQMAP_LUST WHERE upper(DERRID) = upper('{0}'))", _edgeCase.ProgramId));
+            }
 
             if (!string.IsNullOrEmpty(definitionExpression)) {
                 var featureDefinition = featureLayer as IFeatureLayerDefinition2;

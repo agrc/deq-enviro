@@ -8,8 +8,9 @@ namespace Deq.Search.Soe.Models {
         /// </summary>
         /// <param name="index">The index.</param>
         /// <param name="featureClass">The feature class.</param>
-        public FeatureClassIndexMap(int index, IFeatureClass featureClass) {
+        public FeatureClassIndexMap(int index, string layerName, IFeatureClass featureClass) {
             Index = index;
+            LayerName = layerName;
             FeatureClass = featureClass;
         }
 
@@ -20,6 +21,14 @@ namespace Deq.Search.Soe.Models {
         ///     The index.
         /// </value>
         public int Index { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the layer in the mxd.
+        /// </summary>
+        /// <value>
+        /// The name of the layer in the mxd.
+        /// </value>
+        public string LayerName { get; set; }
 
         /// <summary>
         ///     Gets or sets the feature class.

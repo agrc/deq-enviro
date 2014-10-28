@@ -10,6 +10,7 @@ using Deq.Search.Soe.Commands.Searches;
 using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Infastructure.Endpoints;
+using Deq.Search.Soe.Models.Search;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
@@ -102,6 +103,9 @@ namespace Deq.Search.Soe.Endpoints {
                 CommandExecutor.ExecuteCommand(new BuildLayerPropertiesCommand(layerIds, definitionQueries));
             SpatialFilter queryFilter = null;
 
+            var searchType = SearchType.None;
+            EdgeCaseInformation edge = null;
+
             switch (searchMethod)
             {
                 case "geometry":
@@ -122,6 +126,8 @@ namespace Deq.Search.Soe.Endpoints {
                                 Geometry = geometry,
                                 SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
                             };
+
+                        searchType = SearchType.Geometry;
 
                         break;
                     }
@@ -144,7 +150,7 @@ namespace Deq.Search.Soe.Endpoints {
 
                         var query =
                             CommandExecutor.ExecuteCommand(
-                                new ComposeMultiConditionQueryCommand(ApplicationCache.Fields.SiteName,
+                                new ComposeMultiConditionQueryCommand(ApplicationCache.Settings.SiteName,
                                                                       siteName,
                                                                       includeAll.Value));
 
@@ -152,6 +158,8 @@ namespace Deq.Search.Soe.Endpoints {
                             {
                                 WhereClause = query
                             };
+
+                        searchType = SearchType.Site;
 
                         break;
                     }
@@ -165,12 +173,19 @@ namespace Deq.Search.Soe.Endpoints {
                             return Json(errors);
                         }
 
-                        var query = string.Format("upper({0}) = upper('{1}')", ApplicationCache.Fields.ProgramId,
+                        var query = string.Format("upper({0}) = upper('{1}')", ApplicationCache.Settings.ProgramId,
                                                   program);
 
                         queryFilter = new SpatialFilter
                             {
                                 WhereClause = query
+                            };
+
+                        searchType = SearchType.Program;
+                        edge = new EdgeCaseInformation
+                            {
+                                ProgramId = program,
+                                SearchType = searchType
                             };
 
                         break;
@@ -223,7 +238,7 @@ namespace Deq.Search.Soe.Endpoints {
             }
 
             Dictionary<int, IEnumerable<Graphic>> result;
-            var queryCommand = new QueryCommand(queryFilter, layerProperties);
+            var queryCommand = new QueryCommand(queryFilter, layerProperties, edge);
 
             try
             {

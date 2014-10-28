@@ -29,11 +29,12 @@ namespace Deq.Search.Soe.Configuration {
     ///     Debug configuration. Preconfigured for debug environment
     /// </summary>
     public class UserConfiguration : IConfigurable {
-        public ApplicationFieldSettings GetFields(IPropertySet props) {
-            var settings = new ApplicationFieldSettings {
+        public ApplicationSettings GetSettings(IPropertySet props) {
+            var settings = new ApplicationSettings {
                 ReturnFields = props.GetValueAsString("returnfields", true).Split(','),
                 ProgramId = props.GetValueAsString("programid", true),
-                SiteName = props.GetValueAsString("sitename", true)
+                SiteName = props.GetValueAsString("sitename", true),
+                FacilityUst = props.GetValueAsString("facilityust", true)
             };
 
             return settings;
