@@ -42,7 +42,7 @@ namespace Deq.Search.Soe.Commands.Searches {
             if (map.LayerName == ApplicationCache.Settings.FacilityUst && _edgeCase.IsProgramSearch)
             {
                 _queryFilter.WhereClause = string.Format("{0}{1}", _queryFilter.WhereClause,
-                                           string.Format("OR FACILITYID IN (SELECT FACILITYID FROM DEQMAP_LUST WHERE DERRID = '{0}')", _edgeCase.ProgramId));
+                                           string.Format(" OR FACILITYID IN (SELECT FACILITYID FROM DEQMAP_LUST WHERE upper(DERRID) = upper('{0}'))", _edgeCase.ProgramId));
             }
 
             if (!string.IsNullOrEmpty(definitionExpression)) {
