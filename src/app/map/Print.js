@@ -141,6 +141,13 @@ define([
             this.printBtn.disabled = false;
             this.printBtn.innerHTML = this.btnText;
             $(this.btn).popover('show');
+        },
+        hideLink: function () {
+            // summary:
+            //      hides the link after the user clicks on it
+            console.log('app/map/Print:hideLink', arguments);
+        
+            domClass.add(this.downloadLinkAlert, 'hidden');
         }
     });
 });
