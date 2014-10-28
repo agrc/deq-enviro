@@ -41,7 +41,9 @@ define([
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
-    var baseUrl = '/arcgis/rest/services/DEQEnviro';
+    
+    // document.location.origin is because print task requires the server name.
+    var baseUrl = document.location.origin + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = baseUrl + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
@@ -69,6 +71,8 @@ define([
         labelsMinScale: 250000,
 
         defaultBaseMap: 'Lite',
+
+        printMapTitle: 'Printed from the Utah DEQ Interactive Map',
 
         // topics: Object
         //      The topic strings used in this app

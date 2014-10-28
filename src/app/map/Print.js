@@ -74,6 +74,9 @@ define([
             var template = new PrintTemplate();
             template.layout = 'Letter ANSI A Portrait';
             template.format = 'PDF';
+            template.layoutOptions = {
+                titleText: config.printMapTitle
+            };
 
             this.params = new PrintParameters();
             this.params.map = this.map;
@@ -140,6 +143,14 @@ define([
         
             this.printBtn.disabled = false;
             this.printBtn.innerHTML = this.btnText;
+            $(this.btn).popover('show');
+        },
+        hideLink: function () {
+            // summary:
+            //      hides the link after the user clicks on it
+            console.log('app/map/Print:hideLink', arguments);
+        
+            domClass.add(this.downloadLinkAlert, 'hidden');
             $(this.btn).popover('show');
         }
     });
