@@ -550,7 +550,12 @@ class Tool(object):
 
                     with arcpy.da.SearchCursor(table, '*') as search_cursor:
                         for row in search_cursor:
-                            cursor.writerow(row)
+                            encode_row = []
+                            for v in row:
+                                if isinstance(v, basestring):
+                                    v = v.encode('utf-8')
+                                encode_row.append(v)
+                            cursor.writerow(encode_row)
         finally:
             arcpy.env.workspace = this
 
