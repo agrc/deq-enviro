@@ -14,6 +14,30 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>0.12.0 <small>Oct 28, 2014</small></h2>
+    <ul>
+        <li>Implemented custom workflow for approving new users taking into account the assignment of geographic locations (counties) and end dates (<a href="https://github.com/agrc/deq-enviro/issues/197">#197</a>).</li>
+        <li>Added button on user admin page to export the user table to CSV (<a href="https://github.com/agrc/deq-enviro/issues/198">#198</a>).</li>
+        <li>Added a notification for users who's membership have expired (<a href="https://github.com/agrc/deq-enviro/issues/200">#200</a>).</li>
+        <li>Added the JURISDICTION field to the "Oil and Gas Wells" query layer (<a href="https://github.com/agrc/deq-enviro/issues/204">#204</a>).</li>
+        <li>Fixed a data issue causing duplicate search results (<a href="https://github.com/agrc/deq-enviro/issues/210">#210</a>).</li>
+        <li>Added the "Points of Diversion" query layer (<a href="https://github.com/agrc/deq-enviro/issues/213">#213</a>).</li>
+        <li>Upgraded ESRI JavaScript API to the most current version (<a href="https://github.com/agrc/deq-enviro/issues/225">#225</a>).</li>
+        <li>Fixed a bug preventing the checked state of secure query layers from being remembered correctly (<a href="https://github.com/agrc/deq-enviro/issues/231">#231</a>).</li>
+        <li>Fixed a layout bug that was causing the "?" bubble to be pushed to a new line on query layers with longer names (<a href="https://github.com/agrc/deq-enviro/issues/232">#232</a>).</li>
+        <li>Updated the label for the map layers in the request access dialog to make it more clear (<a href="https://github.com/agrc/deq-enviro/issues/233">#233</a>).</li>
+        <li>Implemented better sorting for the user table on the user admin page (<a href="https://github.com/agrc/deq-enviro/issues/234">#234</a>).</li>
+        <li>Fixed a bug that was causing statewide downloads to fail in CSV format for the "CERCLA - CERCLIS List" query layer (<a href="https://github.com/agrc/deq-enviro/issues/237">#237</a>).</li>
+        <li>Renamed the print button text and made the download link disappear on click (<a href="https://github.com/agrc/deq-enviro/issues/239">#239</a>).</li>
+        <li>Fixed a bug preventing secured layers from restricting records outside of the current users allowed counties (<a href="https://github.com/agrc/deq-enviro/issues/240">#240</a>).</li>
+        <li>Fixed a bug that was preventing end date, location text, and geographic regions from being stored correctly (<a href="https://github.com/agrc/deq-enviro/issues/241">#241</a>).</li>
+        <li>Implemented a edge-case, custom query for the "Underground Storage Tanks" query layer (<a href="https://github.com/agrc/deq-enviro/issues/243">#243</a>).</li>
+        <li>Reordered the legend items for reference layers (<a href="https://github.com/agrc/deq-enviro/issues/246">#246</a>).</li>
+        <li>Added a title to the pdf map export (<a href="https://github.com/agrc/deq-enviro/issues/238">#238</a>).</li>
+        <li>Added list of successfully updated datasets to the nightly script success email.</li>
+        <li>Updated shape drawing toolbar to deactivate when the user clicks search.</li>
+        <li>Refined labeling code to draw better labels.</li>
+    </ul>
     <h2>0.11.0 <small>Oct 14, 2014</small></h2>
     <ul>
         <li>Enabled secure query layers and added drinking water layers (<a href="https://github.com/agrc/deq-enviro/issues/144">#144</a>).</li>
