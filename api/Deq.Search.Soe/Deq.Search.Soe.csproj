@@ -111,7 +111,7 @@
     <Compile Include="Extensions\PropertySetExensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\ThrowHelper.cs" />
-    <Compile Include="Models\Configuration\ApplicationFieldSettings.cs" />
+    <Compile Include="Models\Configuration\ApplicationSettings.cs" />
     <Compile Include="Infastructure\Commands\Command.cs" />
     <Compile Include="Infastructure\Commands\CommandExecutor.cs" />
     <Compile Include="Infastructure\Endpoints\IRestEndpoint.cs" />
@@ -120,9 +120,11 @@
     <Compile Include="Infastructure\IOC\Container.cs" />
     <Compile Include="Models\FeatureClassIndexMap.cs" />
     <Compile Include="Models\IndexFieldMap.cs" />
+    <Compile Include="Models\Search\EdgeCaseInformation.cs" />
     <Compile Include="Models\Search\QueryArgs.cs" />
     <Compile Include="Models\Search\SearchLayerProperties.cs" />
     <Compile Include="Models\Search\SearchResult.cs" />
+    <Compile Include="Models\Search\SearchType.cs" />
     <Compile Include="SoeBase.cs" />
     <Compile Include="Endpoints\DeqSearchRestEndpoint.cs" />
     <Compile Include="DeqSearchSoe.cs" />
@@ -176,7 +178,7 @@
   <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_IncrementBeforeBuild="True" />
+      <UserProperties BuildVersion_IncrementBeforeBuild="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

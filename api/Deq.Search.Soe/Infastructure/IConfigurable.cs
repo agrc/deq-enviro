@@ -7,10 +7,10 @@ namespace Deq.Search.Soe.Infastructure {
     /// </summary>
     public interface IConfigurable {
         /// <summary>
-        ///     Gets the name of the fields.
+        ///     Gets the name of the settings.
         /// </summary>
-        /// <param name="props"> The fields to search. </param>
+        /// <param name="props"> The settings to search. </param>
         /// <returns> </returns>
-        ApplicationFieldSettings GetFields(IPropertySet props);
+        ApplicationSettings GetSettings(IPropertySet props);
     }
 }
