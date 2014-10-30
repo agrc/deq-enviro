@@ -22,7 +22,6 @@ define([
     'app/config',
     'app/map/MapButton',
     'app/map/MapLayersPopover',
-    'app/Wizard',
     'app/search/Search',
     'app/search/ResultsGrid',
     'app/search/IdentifyPane',
@@ -57,7 +56,6 @@ define([
     config,
     MapButton,
     MapLayersPopover,
-    Wizard,
     Search,
     ResultsGrid,
     IdentifyPane,
@@ -121,10 +119,6 @@ define([
 
             var that = this;
             this.own(
-                topic.subscribe(config.topics.appWizard.requestAccess, function () {
-                    that.login.goToPane(that.login.requestPane);
-                    that.login.show();
-                }),
                 topic.subscribe(config.topics.appSearch.identify, function () {
                     that.switchBottomPanel(that.identifyPane.domNode);
                 }),
@@ -150,6 +144,7 @@ define([
             var that = this;
             config.getAppJson().then(function (json) {
                 that.disclaimerLink.href = json.otherLinks[1].url;
+                that.hotLinksLink.href = json.otherLinks[2].url;
             });
 
             this.initMap();
@@ -166,7 +161,6 @@ define([
                     title: 'Print',
                     iconName: 'print'
                 }, this.printBtnDiv),
-                new Wizard({}, this.wizardDiv),
                 new Search({}, this.searchDiv),
                 this.login = new LoginRegister({
                     appName: config.appName,
