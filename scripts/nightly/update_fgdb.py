@@ -111,7 +111,7 @@ def update_query_layers(test_layer=None):
                     expression = l[f]
                     if not expression == 'n/a':
                         if arcpy.ListFields(localFc, l[f])[0].type != 'String':
-                            expression = 'str(!{}!)'.format(expression)
+                            expression = 'str(int(!{}!))'.format(expression)
                         else:
                             expression = '(!{}!.encode("utf-8"))'.format(expression)
                     else:
