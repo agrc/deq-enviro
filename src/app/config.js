@@ -92,12 +92,6 @@ define([
                 clearGraphics: 'app/map/MapController.clearGraphics',
                 zoom: 'app/map/MapController.zoom'
             },
-            appWizard: {
-                requestAccess: 'app/Wizard.requestAccess',
-                showSearch: 'app/Wizard.showSearch',
-                showQueryLayers: 'app/Wizard.showQueryLayers',
-                showResults: 'app/Wizard.showResults'
-            },
             appSearch: {
                 featuresFound: 'app/search/Search.featuresFound',
                 searchStarted: 'app/search/Search.searchStarted',

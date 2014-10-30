@@ -7,7 +7,6 @@
 @import '../../ijit/resources/authentication/LoginRegister.css';
 @import '../map/resources/MapLayersPopover.css';
 @import '../search/resources/Search.css';
-@import './Wizard.css';
 @import '../map/resources/MeasureTool.css';
 @import '../map/resources/Print.css';
 @import '../security/resources/_RequestPane.css';

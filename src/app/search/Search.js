@@ -178,13 +178,6 @@ define([
                 this.site = new SiteName(null, this.sitePane),
                 this.id = new ID(null, this.idPane),
                 this.shape = new Shape({}, this.shapePane),
-                topic.subscribe(config.topics.appWizard.showSearch, function () {
-                    $(that.locationPanel).collapse('show');
-                }),
-                topic.subscribe(config.topics.appWizard.showQueryLayers, function () {
-                    $(that.queryLayersPanel).collapse('show');
-                }),
-                topic.subscribe(config.topics.appWizard.showResults, lang.hitch(this, 'search')),
                 topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
                 topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn)),
                 this.download = new Download({}, this.downloadDiv)
