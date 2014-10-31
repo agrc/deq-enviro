@@ -25,7 +25,9 @@ qlFields = [
     ['GRAMA Request', fieldnames.gramaLink],
     ['Additional Information', fieldnames.additionalLink],
     ['Map Label Field', fieldnames.ENVIROAPPLABEL],
-    ['Secure', fieldnames.secure]
+    ['Secure', fieldnames.secure],
+    ['Special Filters', fieldnames.specialFilters],
+    ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn]
 ]
 
 tblFields = [

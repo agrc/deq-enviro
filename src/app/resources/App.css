@@ -134,6 +134,10 @@ body, html, .app {
 .popover {
     max-width: 300px;
 }
+.popover-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
 
 .map .tooltip {
     width: 100px;

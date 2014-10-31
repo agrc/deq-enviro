@@ -26,7 +26,7 @@ require([
             var map = new BaseMap(domConstruct.create('div'));
             map.on('load', function () {
                 widget = new WidgetUnderTest({
-                    btn: btn.domNode,
+                    popoverBtn: btn.domNode,
                     map: map
                 }, domConstruct.create('div', null, document.body));
 

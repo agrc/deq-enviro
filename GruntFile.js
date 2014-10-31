@@ -63,15 +63,15 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            jshint: {
-                files: jshintFiles,
-                tasks: ['jshint', 'jasmine:app:build']
-            },
             src: {
                 files: jshintFiles.concat(otherFiles),
                 options: {
                     livereload: true
                 }
+            },
+            jshint: {
+                files: jshintFiles,
+                tasks: ['jshint', 'jasmine:app:build']
             }
         },
         connect: {

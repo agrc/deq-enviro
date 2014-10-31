@@ -11,11 +11,19 @@
                 title='${description}'>
                 <span class="glyphicon glyphicon-question-sign"></span>
             </a>
+            <a href='' class='filter hidden'
+                title='Filter Data'
+                data-placement='left'
+                data-dojo-attach-point='filterIcon'
+                data-dojo-attach-event='onclick: showFilter'>
+                <span class="glyphicon glyphicon-filter"></span>
+            </a>
             <span class="glyphicon glyphicon-lock ${secure}"
                 data-toggle='tooltip'
                 data-delay='${popupDelay}'
                 title='Request access and log in to access this layer'
-                data-dojo-attach-point='secureTip'></span>
+                data-dojo-attach-point='secureTip'
+                data-dojo-attach-event='onclick: stopClick'></span>
         </label>
     </div>
 </div>

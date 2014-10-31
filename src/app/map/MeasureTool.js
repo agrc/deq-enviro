@@ -65,7 +65,7 @@ define([
             console.log('app.map.MeasureTool::setupConnections', arguments);
 
             var that = this;
-            $(this.btn).on('hidden.bs.popover', function () {
+            $(this.popoverBtn).on('hidden.bs.popover', function () {
                 that.widget.clearResult();
                 that.widget.setTool(that.widget.activeTool, false);
             });

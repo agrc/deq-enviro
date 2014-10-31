@@ -21,6 +21,8 @@ gramaLink = 'gramaLink'
 additionalLink = 'additionalLink'
 additionalLinkFields = 'additionalLinkFields'
 secure = 'secure'
+specialFilters = 'specialFilters'
+specialFiltersDefaultOn = 'specialFiltersDefaultOn'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'
