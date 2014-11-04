@@ -78,6 +78,86 @@ require([
                 expect(widget.selectedQueryLayers).toEqual([two]);
             });
         });
+        describe('onAddQueryLayer', function () {
+            it('inits additional searches on the query layer if they are existing and this is the only ' +
+                'selected query layer', function () {
+                var obj = {
+                    fieldName: 'FieldName',
+                    fieldAlias: 'Field Alias',
+                    fieldType: 'text'
+                };
+                var ql = {
+                    additionalSearchObjects: [obj, {
+                        fieldName: 'FieldName',
+                        fieldAlias: 'Field Alias',
+                        fieldType: 'text'
+                    }]
+                };
+                spyOn(widget, 'addAdditionalSearch');
+
+                widget.selectedQueryLayers = [{}, {}];
+
+                widget.onAddQueryLayer(ql);
+
+                expect(widget.addAdditionalSearch).not.toHaveBeenCalled();
+
+                widget.selectedQueryLayers = [];
+
+                widget.onAddQueryLayer(ql);
+
+                expect(widget.addAdditionalSearch.calls.mostRecent().args[0]).toEqual(obj);
+                expect(widget.addAdditionalSearch.calls.count()).toBe(2);
+            });
+        });
+        describe('addAdditionalSearch', function () {
+            var obj = {
+                fieldName: 'FieldName',
+                fieldAlias: 'Field Alias',
+                fieldType: 'text'
+            };
+            it('adds a new item to the select', function () {
+                widget.addAdditionalSearch(obj);
+
+                var lastOption = widget.select.children[widget.select.children.length - 1];
+                expect(lastOption.innerHTML).toBe(obj.fieldAlias);
+                expect(lastOption.value).toBe(obj.fieldName);
+            });
+            it('adds the new widget to additionalSearches', function () {
+                widget.addAdditionalSearch(obj);
+
+                expect(widget.additionalSearches.length).toBe(1);
+            });
+        });
+        describe('removeAdditionalSearches', function () {
+            var obj = {
+                fieldName: 'FieldName',
+                fieldAlias: 'Field Alias',
+                fieldType: 'text'
+            };
+            var obj2 = {
+                fieldName: 'FieldName2',
+                fieldAlias: 'Field Alias',
+                fieldType: 'text'
+            };
+            it('removes item from select and stack container', function () {
+                expect(widget.select.children.length).toBe(7);
+
+                widget.addAdditionalSearch(obj);
+                widget.addAdditionalSearch(obj2);
+
+                expect(widget.select.children.length).toBe(9);
+
+                var as = widget.additionalSearches[0];
+                spyOn(as, 'destroy');
+                spyOn(widget.stackContainer, 'removeChild');
+
+                widget.removeAdditionalSearches();
+
+                expect(widget.select.children.length).toBe(7);
+                expect(as.destroy).toHaveBeenCalled();
+                expect(widget.stackContainer.removeChild).toHaveBeenCalledWith(as);
+            });
+        });
         describe('buildQueryLayers', function () {
             it('builds the correct number of query layers and headers', function () {
                 widget.buildQueryLayers(mockDEQEnviroJSON.queryLayers);

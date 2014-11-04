@@ -7,10 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
-    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/Search.css">
+    <link rel="stylesheet" href="../../resources/App.css">
     <style type='text/css'>
          body {
             margin: 50px;
@@ -52,13 +49,19 @@
                 name: 'lodash',
                 location: 'lodash',
                 main: 'dist/lodash'
+            },{
+                name: 'datepicker',
+                location: 'bootstrap-datepicker',
+                main: 'js/bootstrap-datepicker'
             }
         ]
     }, [
         'app/search/Search',
+        'app/map/MapController',
 
         'dojo/domReady!'
-    ], function(Module) {
+    ], function(Module, MapController) {
+        MapController.map = {graphics: {clear: function () {}}, on: function () {}};
         widgetUnderTest = new Module({
         }, 'node');
 

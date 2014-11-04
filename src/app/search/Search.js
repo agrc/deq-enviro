@@ -28,6 +28,7 @@ define([
     'app/search/SiteName',
     'app/search/ID',
     'app/search/Shape',
+    'app/search/AdditionalSearch',
     'app/config',
     'app/map/MapController',
     'app/download/Download',
@@ -64,6 +65,7 @@ define([
     SiteName,
     ID,
     Shape,
+    AdditionalSearch,
     config,
     MapController,
     Download,
@@ -121,6 +123,8 @@ define([
         // noSearchTypeSelectedErrMsg: String
         noSearchTypeSelectedErrMsg: 'You must select a search criteria type!',
 
+        // additionalSearches: AdditionalSearch[]
+        additionalSearches: null,
 
         // Properties to be sent into constructor
 
@@ -129,18 +133,16 @@ define([
             //      description
             console.log('app/search/Search:constructor', arguments);
 
-            var that = this;
-
             this.selectedQueryLayers = [];
 
             this.own(
-                topic.subscribe(config.topics.appQueryLayer.addLayer, function (lyr) {
-                    that.selectedQueryLayers.push(lyr);
-                }),
-                topic.subscribe(config.topics.appQueryLayer.removeLayer, function (lyr) {
-                    that.selectedQueryLayers.splice(array.indexOf(that.selectedQueryLayers, lyr), 1);
-                })
+                topic.subscribe(config.topics.appQueryLayer.addLayer,
+                    lang.hitch(this, 'onAddQueryLayer')),
+                topic.subscribe(config.topics.appQueryLayer.removeLayer,
+                    lang.hitch(this, 'onRemoveQueryLayer'))
             );
+
+            this.additionalSearches = [];
         },
         postCreate: function() {
             // summary:
@@ -198,6 +200,82 @@ define([
 
             this.inherited(arguments);
         },
+        onAddQueryLayer: function (qLayer) {
+            // summary:
+            //      description
+            // qLayer: QueryLayer
+            console.log('app/search/Search:onAddQueryLayer', arguments);
+
+            this.selectedQueryLayers.push(qLayer);
+
+            this.checkForAdditionalSearches();
+        },
+        checkForAdditionalSearches: function () {
+            // summary:
+            //      description
+            console.log('app/search/Search:checkForAdditionalSearches', arguments);
+
+            this.removeAdditionalSearches();
+
+            if (this.selectedQueryLayers.length === 1) {
+                var qLayer = this.selectedQueryLayers[0];
+                if (qLayer.additionalSearchObjects && qLayer.additionalSearchObjects.length) {
+                    array.forEach(qLayer.additionalSearchObjects, lang.hitch(this, 'addAdditionalSearch'));
+                }
+            }
+        },
+        addAdditionalSearch: function (obj) {
+            // summary:
+            //      description
+            // obj: Object
+            console.log('app/search/Search:addAdditionalSearch', arguments);
+
+            var as = new AdditionalSearch(obj);
+            this[obj.fieldName] = as;
+            this.stackContainer.addChild(as);
+            this.additionalSearches.push(as);
+
+            domConstruct.create('option', {
+                value: obj.fieldName,
+                innerHTML: obj.fieldAlias
+            }, this.select);
+        },
+        removeAdditionalSearches: function () {
+            // summary:
+            //      description
+            console.log('app/search/Search:removeAdditionalSearches', arguments);
+
+            var that = this;
+
+            array.forEach(this.additionalSearches, function (as) {
+                if (that.currentPane === as) {
+                    that.select.value = 'empty';
+                    that.currentPane = that.empty;
+                    that.onSelectChange();
+                }
+                that.stackContainer.removeChild(as);
+                array.every(that.select.children, function (node) {
+                    if (node.value === as.fieldName) {
+                        domConstruct.destroy(node);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+                as.destroy();
+            });
+            this.additionalSearches = [];
+        },
+        onRemoveQueryLayer: function (qLayer) {
+            // summary:
+            //      description
+            // qLayer: QueryLayer
+            console.log('app/search/Search:onRemoveQueryLayer', arguments);
+
+            this.selectedQueryLayers.splice(array.indexOf(this.selectedQueryLayers, qLayer), 1);
+
+            this.checkForAdditionalSearches();
+        },
         buildQueryLayers: function (queryLayers) {
             // summary:
             //      builds the query layer widgets and their associated panels
@@ -230,7 +308,7 @@ define([
             }
 
             // switch to new pane
-            this.currentPane = (this.select.value !== 'empty') ? this[this.select.value] : null;
+            this.currentPane = this[this.select.value];
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;
             this.hideErrMsg();

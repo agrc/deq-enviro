@@ -37,30 +37,26 @@ require([
             it('returns the correct object', function () {
                 widget.textBox.value = 'blah';
 
-                expect(widget.getSearchParam()).toEqual({
-                    defQuery: 'upper(FieldName) LIKE upper(\'%blah%\')'
-                });
+                expect(widget.getSearchParam())
+                    .toEqual('upper(FieldName) LIKE upper(\'%blah%\')');
 
                 widget.textBox.value = 'blah blah2';
 
-                expect(widget.getSearchParam()).toEqual({
-                    defQuery: 'upper(FieldName) LIKE upper(\'%blah%\')' +
-                        ' AND upper(FieldName) LIKE upper(\'%blah2%\')'
-                });
+                expect(widget.getSearchParam())
+                    .toEqual('upper(FieldName) LIKE upper(\'%blah%\')' +
+                        ' AND upper(FieldName) LIKE upper(\'%blah2%\')');
 
                 widget.anyRadio.click();
 
-                expect(widget.getSearchParam()).toEqual({
-                    defQuery: 'upper(FieldName) LIKE upper(\'%blah%\')' +
-                        ' OR upper(FieldName) LIKE upper(\'%blah2%\')'
-                });
+                expect(widget.getSearchParam())
+                    .toEqual('upper(FieldName) LIKE upper(\'%blah%\')' +
+                        ' OR upper(FieldName) LIKE upper(\'%blah2%\')');
 
                 widget.fieldType = 'number';
                 widget.textBox.value = 'num';
 
-                expect(widget.getSearchParam()).toEqual({
-                    defQuery: 'FieldName = num'
-                });
+                expect(widget.getSearchParam())
+                    .toEqual('FieldName = num');
             });
         });
     });

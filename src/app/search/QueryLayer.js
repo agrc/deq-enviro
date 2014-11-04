@@ -100,6 +100,19 @@ define([
 
             var that = this;
 
+            if (this.additionalSearches && this.additionalSearches !== 'n/a') {
+                var reg = /(^.+?)\|(.+?)\s\((.+)\)$/;
+                this.additionalSearchObjects = [];
+                array.forEach(this.additionalSearches.split(', '), function (txt) {
+                    var parts = reg.exec(txt);
+                    that.additionalSearchObjects.push({
+                        fieldName: parts[1],
+                        fieldType: parts[2],
+                        fieldAlias: parts[3]
+                    });
+                });
+            }
+            
             if (this.secure === 'Yes') {
                 this.checkSecurity(config.user);
                 this.own(
@@ -138,19 +151,6 @@ define([
                     this.filter.filters[0].items[0].item.click();
                     this.filter.onApplyBtnClick();
                 }
-            }
-
-            if (this.additionalSearches && this.additionalSearches !== 'n/a') {
-                var reg = /(^.+?)\|(.+?)\s\((.+)\)$/;
-                this.additionalSearchObjects = [];
-                array.forEach(this.additionalSearches.split(', '), function (txt) {
-                    var parts = reg.exec(txt);
-                    that.additionalSearchObjects.push({
-                        fieldName: parts[1],
-                        fieldType: parts[2],
-                        fieldAlias: parts[3]
-                    });
-                });
             }
 
             this.inherited(arguments);

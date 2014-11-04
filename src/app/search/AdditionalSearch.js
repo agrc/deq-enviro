@@ -19,6 +19,8 @@ define([
 
         baseClass: 'additional-search site-name pad',
 
+        paramName: 'defQuery',
+
         // Properties to be sent into constructor
 
         // fieldName: String
@@ -42,6 +44,8 @@ define([
             // summary:
             //      overriden from SiteName to provide the defQuery param
             console.log('app/search/AdditionalSearch:getSearchParam', arguments);
+
+            this.inherited(arguments);
         
             var query;
             var that = this;
@@ -59,7 +63,7 @@ define([
                 query = that.fieldName + ' = ' + this.textBox.value;
             }
 
-            return {defQuery: query};
+            return query;
         }
     });
 });
