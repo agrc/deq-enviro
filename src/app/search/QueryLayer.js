@@ -11,7 +11,8 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
 
-    '../config'
+    'app/config',
+    'app/search/QueryLayerFilter'
 
 ], function(
     template,
@@ -26,7 +27,8 @@ define([
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
 
-    config
+    config,
+    QueryLayerFilter
 ) {
     var topics = config.topics.appQueryLayer;
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -41,6 +43,10 @@ define([
         localStorageID: null,
 
         popupDelay: config.popupDelay,
+
+        // filter: QueryLayerFilter
+        filter: null,
+
 
         // Properties to be sent into constructor
 
@@ -70,6 +76,10 @@ define([
 
         // secure: String (Yes | No)
         secure: 'No',
+
+        // specialFilters: String
+        specialFilters: null,
+
 
         postCreate: function() {
             // summary:
@@ -108,6 +118,17 @@ define([
                     that.onCheckboxChange();
                 })
             );
+
+            if (this.specialFilters !== 'n/a') {
+                domClass.remove(this.filterIcon, 'hidden');
+
+                // hack to make points of diversion default to be on
+                if (this.specialFiltersDefaultOn === 'Y') {
+                    this.initFilter();
+                    this.filter.filters[0].items[0].item.click();
+                    this.filter.onApplyBtnClick();
+                }
+            }
 
             this.inherited(arguments);
         },
@@ -170,6 +191,48 @@ define([
             var classFunc = (disable) ? domClass.add : domClass.remove;
             classFunc(this.domNode, 'disabled');
             this.checkbox.disabled = disable;
+        },
+        initFilter: function () {
+            // summary:
+            //      sets up the filter widget
+            console.log('app/QueryLayer:initFilter', arguments);
+        
+            var that = this;
+
+            this.filter = new QueryLayerFilter({
+                popoverBtn: this.filterIcon,
+                filterTxt: this.specialFilters
+            });
+            this.filter.on('apply', function (query) {
+                that.defQuery = query;
+                domClass.add(that.filterIcon, 'enabled');
+            });
+            this.filter.on('clear', function () {
+                that.defQuery = null;
+                domClass.remove(that.filterIcon, 'enabled');
+            });
+        },
+        showFilter: function (evt) {
+            // summary:
+            //      Shows the filter popup
+            // evt: Click Event Object
+            console.log('app/QueryLayer:showFilter', arguments);
+
+            this.stopClick(evt);
+
+            if (!this.filter) {
+                this.initFilter();
+                this.filter.show();
+            }
+        },
+        stopClick: function (evt) {
+            // summary:
+            //      Stops the default click behavior
+            // evt: Click Event Object
+            console.log('app/QueryLayer:stopClick', arguments);
+        
+            evt.preventDefault();
+            evt.stopPropagation();
         }
     });
 });

@@ -30,7 +30,7 @@ require([
             map.on('load', function () {
                 widget = new WidgetUnderTest({
                     map: map,
-                    btn: btn.domNode
+                    popoverBtn: btn.domNode
                 }, domConstruct.create('div', null, document.body));
                 done();
             });

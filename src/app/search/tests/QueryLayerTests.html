@@ -9,10 +9,14 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/QueryLayer.css">
+    <link rel="stylesheet" href="../../resources/App.css">
     <style type='text/css'>
         body {
             padding: 50px;
+            margin-left: 100px;
+        }
+        .query-layer {
+            width: 286px;
         }
     </style>
 
@@ -25,6 +29,7 @@
         var widgetUnderTest;
         var widgetUnderTest2;
         var widgetUnderTest3;
+        var widgetUnderTest4;
 
         require({
             baseUrl: baseUrl,
@@ -32,14 +37,22 @@
                 name: 'spin',
                 location: 'spinjs',
                 main: 'spin'
+            }, {
+                name: 'datepicker',
+                location: './bootstrap-datepicker',
+                main: 'js/bootstrap-datepicker'
             }]
         }, [
+            'dojo/dom-class',
+
             'app/search/QueryLayer',
             'app/config',
 
 
             'dojo/domReady!'
         ], function(
+            domClass,
+
             Module,
             config
             ) {
@@ -55,7 +68,8 @@
                 index: 5,
                 description: 'The is a really great layer with tons of data.',
                 metaDataUrl: 'http://google.com',
-                secure: 'Yes'
+                secure: 'Yes',
+                specialFilters: 'None'
             }, 'node');
             widgetUnderTest.startup();
 
@@ -64,18 +78,34 @@
                 index: 6,
                 description: 'The is a really great layer with tons of data.',
                 metaDataUrl: 'http://google.com',
-                secure: 'No'
+                secure: 'No',
+                specialFilters: 'None'
             }, 'node2');
             widgetUnderTest2.startup();
 
             widgetUnderTest3 = new Module({
-                name: 'Some Cool Layer Long Name',
+                name: 'Some Cool Layer With a Really Long Name',
                 index: 7,
                 description: 'The is a really great layer with tons of data.',
                 metaDataUrl: 'http://google.com',
-                secure: 'Yes'
+                secure: 'Yes',
+                specialFilters: 'test'
             }, 'node3');
             widgetUnderTest3.startup();
+            domClass.add(widgetUnderTest3.filterIcon, 'enabled');
+
+            widgetUnderTest4 = new Module({
+                name: 'Layer With a Filter',
+                index: 7,
+                description: 'The is a really great layer with tons of data.',
+                metaDataUrl: 'http://google.com',
+                secure: 'No',
+                specialFilters: 'checkbox: TANK = 0 (Tank Status: Closed), TANK = 1 (' +
+                    'Tank Status: Open); radio: RELEASE = 1 (Has Release(s)), ' +
+                    'OPENRELEASE = 1 (Has Open Release(s)), OPENRELEASE = 0 (Has ' +
+                    'Closed Release(s))'
+            }, 'node4');
+            widgetUnderTest4.startup();
         });
 </script>
 </head>
@@ -83,5 +113,6 @@
     <div id="node"></div>
     <div id="node2"></div>
     <div id="node3"></div>
+    <div id="node4"></div>
 </body>
 </html>

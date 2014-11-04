@@ -1,33 +1,33 @@
 define([
     'dojo/_base/declare',
+    'dojo/_base/lang',
     'dojo/dom-construct'
 
 ], function(
     declare,
+    lang,
     domConstruct
 ) {
     return declare(null, {
         // description:
-        //      Adds this widget as a popover to the passed in btn node.
+        //      Adds this widget as a popover to the passed in popoverBtn node.
 
 
         // Properties to be sent into constructor
 
-        // btn: DomNode
+        // popoverBtn: DomNode
         //      The button that will toggle this popup
-        btn: null,
+        popoverBtn: null,
 
         postCreate: function () {
             // summary:
             //      description
             console.log('app/_PopoverMixin::postCreate', arguments);
 
-            var that = this;
-
             // remove title so that the custom title in the constructor
             // below will be recognized
-            var title = this.btn.title;
-            this.btn.title = '';
+            var title = this.popoverBtn.title;
+            this.popoverBtn.title = '';
 
             var titleDiv = domConstruct.create('div', {
                 innerHTML: title
@@ -35,19 +35,31 @@ define([
             domConstruct.create('button', {
                 'class': 'close',
                 innerHTML: '&times;',
-                click: function () {
-                    $(that.btn).popover('hide');
-                }
+                click: lang.hitch(this, 'hide')
             }, titleDiv);
 
-            $(this.btn).popover({
+            $(this.popoverBtn).popover({
                 content: this.domNode,
                 container: 'body',
                 html: true,
                 title: titleDiv
             });
 
-            this.btn.title = title;
+            this.popoverBtn.title = title;
+        },
+        show: function () {
+            // summary:
+            //      shows the popover
+            console.log('app/_PopoverMixin:show', arguments);
+        
+            $(this.popoverBtn).popover('show');
+        },
+        hide: function () {
+            // summary:
+            //      hides the popover
+            console.log('app/_PopoverMixin:hide', arguments);
+        
+            $(this.popoverBtn).popover('hide');
         }
     });
 });

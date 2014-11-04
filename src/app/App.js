@@ -171,21 +171,21 @@ define([
                 this.resultsGrid = new ResultsGrid({}, this.resultsGridDiv),
                 this.identifyPane = new IdentifyPane({}, this.identifyPaneDiv),
                 new MapLayersPopover({
-                    btn: this.mapLayersBtn.domNode
+                    popoverBtn: this.mapLayersBtn.domNode
                 })
             ];
             this.switchBottomPanel(this.resultsGridDiv);
 
             this.map.on('load', function () {
                 var tool = new MeasureTool({
-                    btn: that.measureToolsBtn.domNode,
+                    popoverBtn: that.measureToolsBtn.domNode,
                     map: that.map
                 });
                 that.own(tool);
                 tool.startup();
 
                 var print = new Print({
-                    btn: that.printToolBtn.domNode,
+                    popoverBtn: that.printToolBtn.domNode,
                     map: that.map
                 });
                 that.own(print);

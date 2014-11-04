@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormUrlTest.cs" />
     <Compile Include="UnitTestRootPathProvider.cs" />
     <Compile Include="SearchModuleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -111,7 +111,7 @@ define([
 
             this.hideLoader();
 
-            $(this.btn).popover('show');
+            $(this.popoverBtn).popover('show');
         },
         onError: function (evt) {
             // summary:
@@ -134,7 +134,7 @@ define([
             query('.alert', this.domNode).forEach(function (n) {
                 domClass.add(n, 'hidden');
             });
-            $(this.btn).popover('show');
+            $(this.popoverBtn).popover('show');
         },
         hideLoader: function () {
             // summary:
@@ -143,7 +143,7 @@ define([
         
             this.printBtn.disabled = false;
             this.printBtn.innerHTML = this.btnText;
-            $(this.btn).popover('show');
+            $(this.popoverBtn).popover('show');
         },
         hideLink: function () {
             // summary:
@@ -151,7 +151,7 @@ define([
             console.log('app/map/Print:hideLink', arguments);
         
             domClass.add(this.downloadLinkAlert, 'hidden');
-            $(this.btn).popover('show');
+            $(this.popoverBtn).popover('show');
         }
     });
 });
