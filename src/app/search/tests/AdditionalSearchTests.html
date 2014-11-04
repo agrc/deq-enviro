@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>AdditionalSearch Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../resources/App.css">
+    <style type='text/css'>
+        body {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type="text/javascript" src="../../../jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../../../bootstrap/dist/js/bootstrap.js"></script>
+    <script type='text/javascript' src="../../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../../';
+        var widgetUnderTest;
+        var widgetUnderTest2;
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox']
+        }, [
+            'app/search/AdditionalSearch',
+
+            'dojo/domReady!'
+        ], function(Module) {
+            widgetUnderTest = new Module({
+                fieldName: 'TestField',
+                fieldType: 'text',
+                fieldAlias: 'Pretty Field Alias'
+            }, 'node');
+
+            widgetUnderTest.startup();
+
+            widgetUnderTest2 = new Module({
+                fieldName: 'TestFieldNumber',
+                fieldType: 'number',
+                fieldAlias: 'Pretty Field Alias Number'
+            }, 'node2');
+
+            widgetUnderTest2.startup();
+        });
+</script>
+</head>
+<body class='claro'>
+    <div id="node"></div>
+    <hr>
+    <div id="node2"></div>
+</body>
+</html>
