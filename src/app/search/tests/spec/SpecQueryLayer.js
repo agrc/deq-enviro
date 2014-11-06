@@ -40,7 +40,8 @@ require([
                 layerName: 'blah',
                 index: index,
                 metaDataUrl: 'blah',
-                description: 'hello'
+                description: 'hello',
+                additionalSearches: 'n/a'
             }, domConstruct.create('div', null, win.body()));
         });
 
@@ -53,6 +54,25 @@ require([
         describe('Sanity', function() {
             it('should create a QueryLayer', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
+            });
+        });
+        describe('postCreate', function () {
+            it('parses additional searches correctly', function () {
+                var widget2 = new WidgetUnderTest({
+                    layerName: 'blah',
+                    index: index,
+                    metaDataUrl: 'blah',
+                    description: 'hello',
+                    additionalSearches: 'COMPANY_NAME|text (Operator Name), ' +
+                        'FIELD_NUM|number (Field Number), FIELD_NAME|text (Field Name)'
+                }, domConstruct.create('div', null, win.body()));
+
+                expect(widget2.additionalSearchObjects.length).toBe(3);
+                expect(widget2.additionalSearchObjects[0]).toEqual({
+                    fieldName: 'COMPANY_NAME',
+                    fieldType: 'text',
+                    fieldAlias: 'Operator Name'
+                });
             });
         });
         describe('onCheckboxChange', function () {
@@ -110,7 +130,8 @@ require([
                     layerName: 'blah',
                     index: index,
                     metaDataUrl: 'blah',
-                    description: 'hello'
+                    description: 'hello',
+                    additionalSearches: 'n/a'
                 }, domConstruct.create('div', null, win.body()));
 
                 expect(widget.checkbox.checked).toBe(false);
@@ -122,7 +143,8 @@ require([
                     layerName: 'blah',
                     index: index,
                     metaDataUrl: 'blah',
-                    description: 'hello'
+                    description: 'hello',
+                    additionalSearches: 'n/a'
                 }, domConstruct.create('div', null, win.body()));
 
                 expect(widget.checkbox.checked).toBe(true);

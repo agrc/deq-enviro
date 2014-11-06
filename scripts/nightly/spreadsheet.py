@@ -27,7 +27,8 @@ qlFields = [
     ['Map Label Field', fieldnames.ENVIROAPPLABEL],
     ['Secure', fieldnames.secure],
     ['Special Filters', fieldnames.specialFilters],
-    ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn]
+    ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn],
+    ['Additional Searches', fieldnames.additionalSearches]
 ]
 
 tblFields = [

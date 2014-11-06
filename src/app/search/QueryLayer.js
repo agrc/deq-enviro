@@ -80,6 +80,16 @@ define([
         // specialFilters: String
         specialFilters: null,
 
+        // specialFiltersDefaultOn: String
+        specialFiltersDefaultOn: null,
+
+        // additionalSearches: String
+        additionalSearches: null,
+
+        // additionalSearchObjects: Object[]
+        //      holds init props for associated AdditionalSearch widgets
+        additionalSearchObjects: null,
+
 
         postCreate: function() {
             // summary:
@@ -90,6 +100,19 @@ define([
 
             var that = this;
 
+            if (this.additionalSearches && this.additionalSearches !== 'n/a') {
+                var reg = /(^.+?)\|(.+?)\s\((.+)\)$/;
+                this.additionalSearchObjects = [];
+                array.forEach(this.additionalSearches.split(', '), function (txt) {
+                    var parts = reg.exec(txt);
+                    that.additionalSearchObjects.push({
+                        fieldName: parts[1],
+                        fieldType: parts[2],
+                        fieldAlias: parts[3]
+                    });
+                });
+            }
+            
             if (this.secure === 'Yes') {
                 this.checkSecurity(config.user);
                 this.own(

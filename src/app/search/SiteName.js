@@ -29,15 +29,6 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
-            // summary:
-            //      Overrides method of same name in dijit._Widget.
-            // tags:
-            //      private
-            console.log('app.search.SiteName::postCreate', arguments);
-
-            this.inherited(arguments);
-        },
         getSearchParam: function () {
             // summary:
             //      returns the appropriately formatted search object

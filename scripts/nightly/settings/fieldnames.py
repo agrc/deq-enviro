@@ -23,6 +23,7 @@ additionalLinkFields = 'additionalLinkFields'
 secure = 'secure'
 specialFilters = 'specialFilters'
 specialFiltersDefaultOn = 'specialFiltersDefaultOn'
+additionalSearches = 'additionalSearches'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'

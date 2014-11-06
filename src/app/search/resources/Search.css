@@ -10,6 +10,7 @@
 @import 'ResultsGrid.css';
 @import 'IdentifyPane.css';
 @import '../../download/resources/Download.css';
+@import 'AdditionalSearch.css';
 
 .search .panel-group {
     margin-bottom: 0;
