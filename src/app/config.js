@@ -134,7 +134,7 @@ define([
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
             download: baseUrl + '/Toolbox/GPServer/Download',
-            exportWebMap: '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task' // for printing
+            exportWebMap: baseUrl + '/ExportWebMap/GPServer/Export Web Map'
         },
 
         // layerIndices: Object
