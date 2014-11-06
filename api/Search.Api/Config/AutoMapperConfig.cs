@@ -24,6 +24,7 @@ namespace Search.Api.Config {
                   .ForMember(dest => dest.ProgramId, option => option.Ignore())
                   .ForMember(dest => dest.SearchMethod, option => option.Ignore())
                   .ForMember(dest => dest.SiteName, option => option.Ignore())
+                  .ForMember(dest => dest.DefQuery, option => option.Ignore())
                   .ForMember(dest => dest.Token, options => options.Ignore())
                   .ForMember(dest => dest.AccessRules, options => options.Ignore())
                   .AfterMap((src, dest) => {
@@ -38,6 +39,11 @@ namespace Search.Api.Config {
                       } else if (!string.IsNullOrEmpty(src.ProgramId)) {
                           dest.ProgramId = src.ProgramId;
                           dest.SearchMethod = "program";
+                      }
+                      else if (!string.IsNullOrEmpty(src.DefQuery))
+                      {
+                          dest.DefQuery = src.DefQuery;
+                          dest.SearchMethod = "defQuery";
                       }
                   });
 #if DEBUG

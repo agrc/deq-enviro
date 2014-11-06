@@ -40,7 +40,7 @@ namespace Deq.Search.Soe.Endpoints {
                                      new[]
                                          {
                                              "layerIds", "definitionQueries", "searchMethod", "geometry", "siteName",
-                                             "programId", "includeAll", "accessRules"
+                                             "programId", "defQuery", "includeAll", "accessRules"
                                          },
                                      new[]
                                          {
@@ -75,7 +75,7 @@ namespace Deq.Search.Soe.Endpoints {
             }
             catch (ArgumentException)
             {
-                errors.Message = "Search Method must contain 'geometry', 'site' or 'program' to limit search";
+                errors.Message = "Search Method must contain 'geometry', 'siteName', 'programId', or 'defQuery' to limit search";
 
                 return Json(errors);
             }
@@ -188,6 +188,23 @@ namespace Deq.Search.Soe.Endpoints {
                                 SearchType = searchType
                             };
 
+                        break;
+                    }
+
+                case "defQuery":
+                    {
+                        var defQuery = operationInput.GetStringOrNumberValueAsString("defQuery", true);
+                        if (string.IsNullOrEmpty(defQuery))
+                        {
+                            errors.Message += "Value cannot be null: {0}. ".With("defQuery");
+
+                            return Json(errors);
+                        }
+
+                        queryFilter = new SpatialFilter
+                            {
+                                WhereClause = defQuery
+                            };
                         break;
                     }
             }
