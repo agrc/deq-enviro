@@ -71,5 +71,14 @@ namespace Search.Api.Models.Request {
         ///     The program identifier.
         /// </value>
         public string ProgramId { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the def query.
+        /// </summary>
+        /// <value>
+        ///     The def query
+        /// </value>
+        public string DefQuery { get; set; }
     }
 }

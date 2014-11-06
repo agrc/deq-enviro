@@ -3,6 +3,7 @@
         Program,
         Geometry,
         Site,
+        DefQuery,
         None
     }
 }

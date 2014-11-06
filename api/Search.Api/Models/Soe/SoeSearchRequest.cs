@@ -21,5 +21,7 @@
         }
 
         public string AccessRules { get; set; }
+
+        public object DefQuery { get; set; }
     }
 }
