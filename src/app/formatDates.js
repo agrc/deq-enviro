@@ -41,9 +41,9 @@ define([
         },
         getDate: function (time) {
             if (time) {
-                // dates are returned from arcgis server in MDT
-                // Date() assumes UTC so we need to add the timezone offset
-                return new Date(time + new Date(time).getTimezoneOffset() * 60000).toLocaleDateString();
+                // dates are stored in database as UTC. Don't let JS add timezone offset to them
+                var dt = new Date(time);
+                return (dt.getUTCMonth() + 1) + '/' + dt.getUTCDate() + '/' + dt.getUTCFullYear();
             } else {
                 return 'null';
             }
