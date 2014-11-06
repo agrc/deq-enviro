@@ -179,7 +179,8 @@ define([
 
             this.fLayer = new FeatureLayer(featureCollectionObject, {
                 showLabels: true,
-                outFields: ['*']
+                outFields: ['*'],
+                id: config.getQueryLayerByIndex(layerIndex).name
             });
             this.fLayer.setLabelingInfo([
                 new LabelClass({
