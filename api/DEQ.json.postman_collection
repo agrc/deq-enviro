@@ -8,7 +8,8 @@
 		"63beb1bd-df6c-cd7a-ef85-ddafcb179286",
 		"76af9fff-79b6-c492-1b41-91703309fdf6",
 		"92ba3cc5-d28e-3abf-7614-59f529c17236",
-		"e9a56068-a08d-0b4e-1752-9739221904a3"
+		"e9a56068-a08d-0b4e-1752-9739221904a3",
+		"ce38d78f-8fae-ef08-f217-5e5c885c492b"
 	],
 	"folders": [],
 	"timestamp": 1397590143980,
@@ -107,6 +108,25 @@
 			"collectionId": "908b5c4b-edb8-3473-06db-649b1da4d331",
 			"responses": [],
 			"synced": false
+		},
+		{
+			"id": "ce38d78f-8fae-ef08-f217-5e5c885c492b",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost/deqenviro/api/search",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"time": 1415293131484,
+			"name": "DefQuery Search copy",
+			"description": "",
+			"collectionId": "908b5c4b-edb8-3473-06db-649b1da4d331",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"queryLayers\": [{\n        \"id\": 1\n    }],\n    \"defQuery\": \"FieldName = 'test'\"\n}"
 		},
 		{
 			"id": "e9a56068-a08d-0b4e-1752-9739221904a3",
