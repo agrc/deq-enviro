@@ -3,6 +3,7 @@ define([
 
     'dojo/_base/declare',
     'dojo/_base/lang',
+    'dojo/_base/array',
     'dojo/dom-class',
     'dojo/query',
     'dojo/aspect',
@@ -13,6 +14,7 @@ define([
     'esri/tasks/PrintTemplate',
     'esri/tasks/PrintParameters',
     'esri/tasks/PrintTask',
+    'esri/tasks/LegendLayer',
 
     'ijit/modules/_ErrorMessageMixin',
 
@@ -23,6 +25,7 @@ define([
 
     declare,
     lang,
+    array,
     domClass,
     query,
     aspect,
@@ -33,6 +36,7 @@ define([
     PrintTemplate,
     PrintParameters,
     PrintTask,
+    LegendLayer,
 
     _ErrorMessageMixin,
 
@@ -72,7 +76,7 @@ define([
             this.btnText = this.printBtn.innerHTML;
 
             var template = new PrintTemplate();
-            template.layout = 'Letter ANSI A Portrait';
+            template.layout = 'Portrait';
             template.format = 'PDF';
             template.layoutOptions = {
                 titleText: config.printMapTitle
@@ -98,6 +102,15 @@ define([
 
             this.showLoader('Processing');
 
+            var legendLayers = [];
+            array.forEach(this.map.graphicsLayerIds, function (id) {
+                if (!/graphicsLayer/.test(id)) {
+                    legendLayers.push({
+                        layerId: id
+                    });
+                }
+            });
+            this.params.template.layoutOptions.legendLayers = legendLayers;
             this.task.execute(this.params);
         },
         onComplete: function (evt) {

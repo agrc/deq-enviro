@@ -2,9 +2,8 @@
 - copy new mxd's to server
 - copy new scripts to the server
 - add analytics code
-- Bump app version number and update changelog
 - `grunt travis`
-- `grunt (stage-)build -force -verbose`
-- test in dist
-- push new service to server if needed
-- tag
+- Update change log
+- `grunt bump`
+- `grunt build-stage|prod`
+- `grunt deploy-stage|prod`

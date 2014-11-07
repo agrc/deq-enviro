@@ -14,6 +14,29 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>0.13.0 <small>Nov 6, 2014</small></h2>
+    <ul>
+        <li>Added a script to update the "Air Monitoring by Station" data hourly (<a href="https://github.com/agrc/deq-enviro/issues/84">#84</a>).</li>
+        <li>Added query layer filters (<a href="https://github.com/agrc/deq-enviro/issues/145">#145</a>).</li>
+        <ul>
+            <li>Click on the filter icon next to a query layer that has a custom filter defined. Use the controls in the associated popup to apply a filter to the query layer.</li>
+        </ul>
+        <li>Added additional searches for specific query layers (<a href="https://github.com/agrc/deq-enviro/issues/251">#251</a>).</li>
+        <ul>
+            <li>Select a query layer that has a custom search defined for it (e.g. "Oil and Gas - Wells"). Make sure that it's the only layer selected. Notice the additional search options in the search type drop down.</li>
+        </ul>
+        <li>Removed wizard and added a "Hot Tips" link (<a href="https://github.com/agrc/deq-enviro/issues/247">#247</a>).</li>
+        <li>Enhanced the nightly update script to convert DAQ ids to be whole numbers. This also fixed a bug causing searches on those id's to not work (<a href="https://github.com/agrc/deq-enviro/issues/248">#248</a>).</li>
+        <li>Fixed a data issue causing city boundaries that overlap county boundaries to be split into separate polygons (<a href="https://github.com/agrc/deq-enviro/issues/254">#254</a>).</li>
+        <li>Print template enhancements (<a href="https://github.com/agrc/deq-enviro/issues/256">#256</a>).</li>
+        <ul>
+            <li>Added a North arrow</li>
+            <li>Updated the legend to use the query layer names.</li>
+            <li>Removed the extraneous layers from the legend.</li>
+        </ul>
+        <li>Enhanced the user export to CSV to display better formatted dates (<a href="https://github.com/agrc/deq-enviro/issues/257">#257</a>).</li>
+        <li>Took another stab at correctly calculating dates (<a href="https://github.com/agrc/deq-enviro/issues/153">#153</a>).</li>
+    </ul>
     <h2>0.12.0 <small>Oct 28, 2014</small></h2>
     <ul>
         <li>Implemented custom workflow for approving new users taking into account the assignment of geographic locations (counties) and end dates (<a href="https://github.com/agrc/deq-enviro/issues/197">#197</a>).</li>

@@ -60,7 +60,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '0.12.0',
+        version: '0.13.0',
 
         // popupDelay: Number
         //      The delay (in milliseconds) before a popup is shown on hover.
@@ -134,7 +134,7 @@ define([
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
             download: baseUrl + '/Toolbox/GPServer/Download',
-            exportWebMap: '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task' // for printing
+            exportWebMap: baseUrl + '/ExportWebMap/GPServer/Export Web Map'
         },
 
         // layerIndices: Object
