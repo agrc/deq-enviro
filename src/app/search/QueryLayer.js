@@ -114,7 +114,7 @@ define([
                     });
                 });
             }
-            
+
             if (this.secure === 'Yes') {
                 this.checkSecurity(config.user);
                 this.own(
@@ -161,7 +161,7 @@ define([
             // summary:
             //      updates checkbox from localstorage value
             console.log('app/QueryLayer:rememberCheckedState', arguments);
-        
+
             if (localStorage) {
                 if (localStorage[this.localStorageID] === 'true' &&
                     !this.checkbox.disabled) {
@@ -203,7 +203,7 @@ define([
             // summary:
             //      description
             console.log('app/QueryLayer:requestSymbology', arguments);
-        
+
             if (this.ENVIROAPPSYMBOL !== 'n/a' && !this.requestedSymbology) {
                 var url;
                 if (this.secure === 'Yes') {
@@ -216,7 +216,7 @@ define([
                     config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
                 });
                 this.requestedSymbology = true;
-            }   
+            }
         },
         toJson: function () {
             // summary:
@@ -242,7 +242,7 @@ define([
             // summary:
             //      sets up the filter widget
             console.log('app/QueryLayer:initFilter', arguments);
-        
+
             var that = this;
 
             this.filter = new QueryLayerFilter({
@@ -276,7 +276,7 @@ define([
             //      Stops the default click behavior
             // evt: Click Event Object
             console.log('app/QueryLayer:stopClick', arguments);
-        
+
             evt.preventDefault();
             evt.stopPropagation();
         }

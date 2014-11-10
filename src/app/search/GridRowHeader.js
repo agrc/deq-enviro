@@ -8,7 +8,10 @@ define([
 
     'dojox/gfx',
 
-    'app/config'
+    'app/config',
+    'app/map/Legend',
+
+    'agrc/modules/Formatting'
 
 ], function(
     template,
@@ -20,7 +23,10 @@ define([
 
     gfx,
 
-    config
+    config,
+    Legend,
+
+    formatting
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -47,6 +53,26 @@ define([
         //      point or polygon
         geometryType: null,
 
+        // UNIQUE_ID: String
+        //      layer index
+        UNIQUE_ID: null,
+
+        constructor: function () {
+            // summary:
+            //      description
+            console.log('app/search/GridRowHeader:constructor', arguments);
+        
+            this.inherited(arguments);
+        },
+        postMixInProperties: function () {
+            // summary:
+            //      description
+            console.log('app/search/GridRowHeader:postMixInProperties', arguments);
+        
+            this.count = formatting.addCommas(this.count);
+
+            this.inherited(arguments);
+        },
         postCreate: function() {
             // summary:
             //      Overrides method of same name in dijit._Widget.
@@ -55,7 +81,7 @@ define([
             console.log('app.search.GridRowHeader::postCreate', arguments);
 
             // add opacity to color
-            this.color = this.color.concat([config.symbols.resultSymbolOpacity/255]);
+            this.color = this.color.concat([config.symbols.resultSymbolOpacity]);
 
             var surf = gfx.createSurface(this.surfaceContainer, 14, 14);
 
@@ -78,7 +104,37 @@ define([
             }
             shape.setFill(this.color).setStroke('black');
 
+            var ql = config.getQueryLayerByIndex(this[config.fieldNames.queryLayers.UNIQUE_ID]);
+            if (ql[config.fieldNames.queryLayers.ENVIROAPPSYMBOL] !== 'n/a') {
+                this.buildLegend(ql);
+            }
+
             this.inherited(arguments);
+        },
+        buildLegend: function (ql) {
+            // summary:
+            //      description
+            // ql: QueryLayer
+            console.log('app/search/GridRowHeader:buildLegend', arguments);
+        
+            var url = (ql.index[0] === 's') ? config.urls.secure : config.urls.DEQEnviro;
+
+            var leg = new Legend({
+                mapServiceUrl: url,
+                layerId: parseInt(ql.index.replace('s', ''), 10)
+            });
+            leg.startup();
+
+            var that = this;
+            leg.on('legend-built', function () {
+                $(that.surfaceContainer).tooltip({
+                    container: 'body',
+                    delay: config.popupDelay,
+                    html: true,
+                    title: leg.domNode,
+                    placement: 'right'
+                });
+            });
         }
     });
 });

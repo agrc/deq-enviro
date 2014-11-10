@@ -3,13 +3,17 @@ require([
 
     'dojo/_base/window',
 
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+
+    'app/config'
 ], function(
     WidgetUnderTest,
 
     win,
 
-    domConstruct
+    domConstruct,
+
+    config
 ) {
     describe('app/search/GridRowHeader', function() {
         var widget;
@@ -19,6 +23,9 @@ require([
         };
 
         beforeEach(function() {
+            spyOn(config, 'getQueryLayerByIndex').and.returnValue({
+                index: '2'
+            });
             widget = new WidgetUnderTest({
                 name: 'Scott',
                 count: 15,

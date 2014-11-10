@@ -403,7 +403,14 @@ define([
                     layerName = ql.name;
                     var header = {};
                     var count = data[layerIndex].length;
-                    var color = config.symbols.colors[colorIndex];
+                    var color;
+                    if (ql[fn.ENVIROAPPSYMBOL] === 'n/a') {
+                        color = config.symbols.colors[colorIndex];
+                    } else {
+                        // set to white and set color index back so that we can reuse it
+                        color = [255, 255, 255];
+                        colorIndex -= 1;
+                    }
 
                     // these properties are using in renderCell above
                     header.name = layerName;
