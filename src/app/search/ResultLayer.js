@@ -145,7 +145,7 @@ define([
             console.log('DefaultLayerDefinition:constructor', arguments);
 
             this.drawingInfo.renderer = this[geometryType + 'Renderer'];
-            this.drawingInfo.renderer.symbol.color = color.concat([config.symbols.resultSymbolOpacity]);
+            this.drawingInfo.renderer.symbol.color = color;
         }
     });
 
