@@ -318,5 +318,57 @@ require([
                 expect(config.topics.appSearch.clear).toHaveBeenPublished();
             });
         });
+        describe('checkSiteIDSearches', function () {
+            it('hides search if not in all selected layers', function () {
+                var fn = config.fieldNames.queryLayers;
+                var ql = {};
+                ql[fn.ID] = 'blah';
+                ql[fn.NAME] = 'blah';
+                widget.onAddQueryLayer(ql);
+
+                expect(query('option:not(.hidden)', widget.select).length).toBe(7);
+
+                var ql2 = {};
+                ql2[fn.ID] = 'blah';
+                ql2[fn.NAME] = 'n/a';
+                widget.onAddQueryLayer(ql2);
+
+                expect(query('option:not(.hidden)', widget.select).length).toBe(6);
+
+                var ql3 = {};
+                ql3[fn.ID] = 'n/a';
+                ql3[fn.NAME] = 'n/a';
+                widget.onAddQueryLayer(ql3);
+
+                var ql4= {};
+                ql4[fn.ID] = 'blah';
+                ql4[fn.NAME] = 'blah';
+                widget.onAddQueryLayer(ql4);
+
+                expect(query('option:not(.hidden)', widget.select).length).toBe(5);
+
+                widget.onRemoveQueryLayer(ql3);
+                widget.onRemoveQueryLayer(ql2);
+
+                expect(query('option:not(.hidden)', widget.select).length).toBe(7);
+            });
+            it('sets back to empty if current pane is hidden', function () {
+                var fn = config.fieldNames.queryLayers;
+                var ql = {};
+                ql[fn.ID] = 'blah';
+                ql[fn.NAME] = 'blah';
+                widget.onAddQueryLayer(ql);
+
+                widget.select.value = 'id';
+                widget.onSelectChange();
+                
+                var ql3 = {};
+                ql3[fn.ID] = 'n/a';
+                ql3[fn.NAME] = 'n/a';
+                widget.onAddQueryLayer(ql3);
+
+                expect(widget.select.value).toBe('empty');
+            });
+        });
     });
 });

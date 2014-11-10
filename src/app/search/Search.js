@@ -209,6 +209,41 @@ define([
             this.selectedQueryLayers.push(qLayer);
 
             this.checkForAdditionalSearches();
+            this.checkSiteIDSearches();
+        },
+        checkSiteIDSearches: function () {
+            // summary:
+            //      description
+            console.log('app/search/Search:checkSiteIDSearches', arguments);
+        
+            if (this.selectedQueryLayers.length > 0) {
+                var that = this;
+                var checkSome = function (fieldName) {
+                    return array.some(that.selectedQueryLayers, function (ql) {
+                        return ql[fieldName] === 'n/a';
+                    });
+                };
+
+                var name = checkSome(config.fieldNames.queryLayers.NAME);
+                var id = checkSome(config.fieldNames.queryLayers.ID);
+
+                var updateOption = function (hide, option) {
+                    if (hide) {
+                        domClass.add(option, 'hidden');
+
+                        // reset select if the current pane is being hidden
+                        if (that.select.value === option.value) {
+                            that.select.value = 'empty';
+                            that.onSelectChange();
+                        }
+                    } else {
+                        domClass.remove(option, 'hidden');
+                    }
+                };
+
+                updateOption(id, this.idOption);
+                updateOption(name, this.nameOption);
+            }
         },
         checkForAdditionalSearches: function () {
             // summary:
@@ -275,6 +310,7 @@ define([
             this.selectedQueryLayers.splice(array.indexOf(this.selectedQueryLayers, qLayer), 1);
 
             this.checkForAdditionalSearches();
+            this.checkSiteIDSearches();
         },
         buildQueryLayers: function (queryLayers) {
             // summary:
