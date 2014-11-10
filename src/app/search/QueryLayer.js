@@ -6,6 +6,7 @@ define([
     'dojo/_base/array',
     'dojo/topic',
     'dojo/dom-class',
+    'dojo/request',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -22,6 +23,7 @@ define([
     array,
     topic,
     domClass,
+    request,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -194,6 +196,27 @@ define([
             var t = (checked) ? topics.addLayer : topics.removeLayer;
 
             topic.publish(t, this);
+
+            this.requestSymbology();
+        },
+        requestSymbology: function () {
+            // summary:
+            //      description
+            console.log('app/QueryLayer:requestSymbology', arguments);
+        
+            if (this.ENVIROAPPSYMBOL !== 'n/a' && !this.requestedSymbology) {
+                var url;
+                if (this.secure === 'Yes') {
+                    url = config.urls.secure + '/' + this.index.slice(1) + '?f=json&token=' + config.user.token;
+                } else {
+                    url = config.urls.DEQEnviro + '/' + this.index + '?f=json';
+                }
+                var that = this;
+                request(url, {handleAs: 'json'}).then(function (json) {
+                    config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
+                });
+                this.requestedSymbology = true;
+            }   
         },
         toJson: function () {
             // summary:

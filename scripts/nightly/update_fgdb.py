@@ -8,13 +8,14 @@ from os import path
 from build_json import parse_fields
 from collections import namedtuple
 
-fiveFields = [
+commonFields = [
               fieldnames.ID, 
               fieldnames.NAME, 
               fieldnames.ADDRESS, 
               fieldnames.CITY, 
               fieldnames.TYPE,
-              fieldnames.ENVIROAPPLABEL
+              fieldnames.ENVIROAPPLABEL,
+              fieldnames.ENVIROAPPSYMBOL
               ]
 logger = None
 errors = []
@@ -92,7 +93,7 @@ def update_query_layers(test_layer=None):
                 # APP-SPECIFIC OPTIMIZATIONS
                 # make sure that it has the five main fields for the fdg only
                 upper_fields = [x.name.upper() for x in arcpy.ListFields(localFc)]      
-                for f in fiveFields:
+                for f in commonFields:
                     if not f in upper_fields:
                         logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
 
@@ -113,7 +114,7 @@ def update_query_layers(test_layer=None):
                         if arcpy.ListFields(localFc, l[f])[0].type != 'String':
                             expression = 'str(int(!{}!))'.format(expression)
                         else:
-                            expression = '(!{}!.encode("utf-8"))'.format(expression)
+                            expression = '!{}!.encode("utf-8")'.format(expression)
                     else:
                         expression = '"{}"'.format(expression)
                     arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')

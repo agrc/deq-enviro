@@ -21,7 +21,8 @@ require([
     describe('app/search/ResultLayer', function() {
         var testObject;
         var queryLayer = {
-            color: [255, 255, 255, 0]
+            color: [255, 255, 255, 0],
+            sortField: 'n/a'
         };
         var layerIndex = '14';
 

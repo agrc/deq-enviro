@@ -79,6 +79,12 @@ define([
             alias: fn.ENVIROAPPLABEL,
             length: 50,
             domain: null
+        },{
+            name: fn.ENVIROAPPSYMBOL,
+            type: 'esriFieldTypeString',
+            alias: fn.ENVIROAPPSYMBOL,
+            length: 50,
+            domain: null
         }],
 
         // pointRenderer: Object
@@ -169,6 +175,26 @@ define([
             //      The index number for this query layer
             console.log('app/search/ResultLayer:constructor', arguments);
 
+            var ql = config.getQueryLayerByIndex(layerIndex);
+
+            // sort features for drawing order if needed
+            // tried sorting the features in the database but the search
+            // api didn't seem to honor that sorting
+            if (ql.sortField !== 'n/a') {
+                var fld = ql.sortField.split('|')[0];
+                var direction = ql.sortField.split('|')[1];
+                var sortFunc = function (a, b) {
+                    var aValue = a.attributes[fld];
+                    var bValue = b.attributes[fld];
+                    if (direction === 'DESC') {
+                        return aValue < bValue;
+                    } else {
+                        return bValue > aValue;
+                    }
+                };
+                featureSet.sort(sortFunc);
+            }
+
             var featureCollectionObject = {
                 layerDefinition: new DefaultLayerDefinition(color, geometryType),
                 featureSet: new FeatureSet({
@@ -177,11 +203,16 @@ define([
                 })
             };
 
+            if (ql.ENVIROAPPSYMBOL !== 'n/a') {
+                featureCollectionObject.layerDefinition.drawingInfo.renderer = ql.renderer;
+            }
+
             this.fLayer = new FeatureLayer(featureCollectionObject, {
                 showLabels: true,
                 outFields: ['*'],
-                id: config.getQueryLayerByIndex(layerIndex).name
+                id: ql.namea
             });
+            this.fLayer.setOpacity(config.symbols.resultSymbolOpacity);
             this.fLayer.setLabelingInfo([
                 new LabelClass({
                     labelExpression: '[' + config.fieldNames.queryLayers.ENVIROAPPLABEL + ']',

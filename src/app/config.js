@@ -165,7 +165,8 @@ define([
                 NAME: 'NAME',
                 TYPE: 'TYPE',
                 UNIQUE_ID: 'UNIQUE_ID',
-                ENVIROAPPLABEL: 'ENVIROAPPLABEL'
+                ENVIROAPPLABEL: 'ENVIROAPPLABEL',
+                ENVIROAPPSYMBOL: 'ENVIROAPPSYMBOL'
             }
         },
 
@@ -218,7 +219,7 @@ define([
                     4
                 )
             },
-            resultSymbolOpacity: 190,
+            resultSymbolOpacity: 0.75,
             colors: [
                 [31, 120, 180],
                 [51, 160, 44],

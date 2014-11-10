@@ -28,7 +28,9 @@ qlFields = [
     ['Secure', fieldnames.secure],
     ['Special Filters', fieldnames.specialFilters],
     ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn],
-    ['Additional Searches', fieldnames.additionalSearches]
+    ['Additional Searches', fieldnames.additionalSearches],
+    ['Custom Symbology Field', fieldnames.ENVIROAPPSYMBOL],
+    ['Sort Field', fieldnames.sortField]
 ]
 
 tblFields = [

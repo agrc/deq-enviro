@@ -1,4 +1,5 @@
 - publish services to server
+- publish soe and search api service to server
 - copy new mxd's to server
 - copy new scripts to the server
 - add analytics code

@@ -299,6 +299,9 @@ require([
             });
         });
         describe('clear', function () {
+            beforeEach(function () {
+                config.user = {token: ''};
+            });
             it('calls clear on the current search pane', function () {
                 var clearSpy = jasmine.createSpy();
                 widget.currentPane = {clear: clearSpy};
