@@ -114,8 +114,11 @@ def etl(dest, destFields, source, sourceFields):
                     continue
             else:
                 if row[0] is not None and row[1] is not None:
-                    x = scrub_coord(row[0])
-                    y = scrub_coord(row[1])
+                    try:
+                        x = scrub_coord(row[0])
+                        y = scrub_coord(row[1])
+                    except ValueError:
+                        continue
                 else:
                     continue
                 
