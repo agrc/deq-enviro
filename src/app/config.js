@@ -43,7 +43,8 @@ define([
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
     
     // document.location.origin is because print task requires the server name.
-    var baseUrl = document.location.origin + '/arcgis/rest/services/DEQEnviro';
+    // document.location.origin is not universally supported yet
+    var baseUrl = window.location.protocol + '//' + window.location.hostname + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = baseUrl + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
