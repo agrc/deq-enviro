@@ -1,6 +1,8 @@
 .measure-tool {
     width: 260px;
-    height: 215px;
+    height: 225px;
+    margin: 2px;
+    overflow: hidden;
 }
 .measure-tool .esriButton .dijitButtonNode {
     height: 32px;
