@@ -138,6 +138,9 @@ body, html, .app {
     max-height: 400px;
     overflow-y: auto;
 }
+.tooltip-inner {
+    max-width: 300px;
+}
 
 .map .tooltip {
     width: 100px;

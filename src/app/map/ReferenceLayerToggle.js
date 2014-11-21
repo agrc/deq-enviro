@@ -103,7 +103,8 @@ define([
                         title: l.domNode,
                         html: true,
                         placement: 'auto',
-                        delay: config.popupDelay
+                        delay: config.popupDelay,
+                        container: 'body'
                     });
                 });
             } else {
