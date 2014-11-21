@@ -1,14 +1,14 @@
-@import '../../dijit/themes/claro/claro.css';
-@import '../../esri/css/esri.css';
-@import '../../bootstrap/dist/css/bootstrap.css';
 @import '../../agrc/resources/map/BaseMap.css';
 @import '../../bootstrap/dist/css/bootstrap-theme.css';
-@import '../map/resources/MapButton.css';
+@import '../../bootstrap/dist/css/bootstrap.css';
+@import '../../dijit/themes/claro/claro.css';
+@import '../../esri/css/esri.css';
 @import '../../ijit/resources/authentication/LoginRegister.css';
+@import '../map/resources/MapButton.css';
 @import '../map/resources/MapLayersPopover.css';
-@import '../search/resources/Search.css';
 @import '../map/resources/MeasureTool.css';
 @import '../map/resources/Print.css';
+@import '../search/resources/Search.css';
 @import '../security/resources/_RequestPane.css';
 
 body, html, .app {
