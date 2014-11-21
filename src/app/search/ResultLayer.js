@@ -210,7 +210,7 @@ define([
             this.fLayer = new FeatureLayer(featureCollectionObject, {
                 showLabels: true,
                 outFields: ['*'],
-                id: ql.namea
+                id: ql.name
             });
             this.fLayer.setOpacity(config.symbols.resultSymbolOpacity);
             this.fLayer.setLabelingInfo([
