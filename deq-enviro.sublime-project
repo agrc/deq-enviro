@@ -25,17 +25,20 @@
 			],
 			"folder_exclude_patterns":
 			[
-				"dist",
+				".grunt",
 				"api",
-				// "src/esri",
-				"src/dojo",
-				// "src/dijit",
-				"src/dojox",
-				"src/util",
+				"dist",
 				"node_modules",
-				".grunt"
+				"src/dojo",
+				"src/dojox",
+				"src/util"
 			],
-			"path": "/"
+			"follow_symlinks": true,
+			"path": "./"
 		}
-	]
+	],
+	"settings":
+	{
+		"amd_packages_base_path": "/Users/stdavis/Documents/Projects/deq-enviro/src"
+	}
 }

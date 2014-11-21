@@ -1,4 +1,33 @@
 /* jshint camelcase: false */
+var browsers = [{
+    browserName: 'firefox',
+    platform: 'OS X 10.10'
+}, {
+    browserName: 'chrome',
+    platform: 'OS X 10.10'
+}, {
+    browserName: 'firefox',
+    platform: 'Windows 8'
+}, {
+    browserName: 'chrome',
+    platform: 'Windows 8'
+}, {
+    browserName: 'safari',
+    platform: 'OS X 10.10'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 8.1',
+    version: '11'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 8',
+    version: '10'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 7',
+    version: '9'
+}];
+
 module.exports = function(grunt) {
     var jsFiles = 'src/app/**/*.js';
     var otherFiles = [
@@ -48,6 +77,7 @@ module.exports = function(grunt) {
                     vendor: [
                         'src/jasmine-favicon-reporter/vendor/favico.js',
                         'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
                         'src/app/tests/jasmineAMDErrorChecking.js'
@@ -209,6 +239,18 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             }
+        },
+        'saucelabs-jasmine': {
+            all: {
+                options: {
+                    urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
+                    tunnelTimeout: 5,
+                    build: process.env.TRAVIS_JOB_ID,
+                    concurrency: 3,
+                    browsers: browsers,
+                    testname: 'deq-enviro'
+                }
+            }
         }
     });
 
@@ -233,6 +275,16 @@ module.exports = function(grunt) {
         'jshint',
         'connect',
         'jasmine:app'
+
+        // to replace jasmine task above but sauce needs to fix this first
+        // https://github.com/axemclion/grunt-saucelabs/issues/109#issuecomment-63894847
+        // 'sauce'
+    ]);
+
+    grunt.registerTask('sauce', [
+        'jasmine:app:build',
+        'connect',
+        'saucelabs-jasmine'
     ]);
 
     // PROD

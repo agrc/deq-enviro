@@ -164,15 +164,14 @@ require([
                 expect(widget.getData().additional).toEqual(jasmine.objectContaining({
                     phone: phone
                 }));
-                expect(widget.getData().accessRules).toEqual({
-                    endDate: endDate,
+                expect(widget.getData().accessRules).toEqual(jasmine.objectContaining({
                     options: {
                         counties: null,
                         locationTxt: 'this is a great description of a location that ' +
                             'leaves absolutely no room for mis-interpretation',
                         layers: []
                     }
-                });
+                }));
             });
         });
     });

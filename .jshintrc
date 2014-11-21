@@ -14,7 +14,8 @@
         "runs", 
         "waitsFor",
         "describe",
-        "xdescribe"
+        "xdescribe",
+        "process"
     ],
 
     "bitwise": true,
