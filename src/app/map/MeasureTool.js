@@ -47,6 +47,9 @@ define([
             //      private
             console.log('app.map.MeasureTool::postCreate', arguments);
 
+            // this is to prevent bad coords calculated in Measurement
+            this.map.spatialReference._isWrappable = function () { return true; };
+            
             this.widget = new Measurement({
                 map: this.map
                 // advancedLocationUnits: true
