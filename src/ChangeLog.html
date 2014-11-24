@@ -14,6 +14,21 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>1.0.0-1 <small>Nov 24, 2014</small></h2>
+    <ul>
+        <li>ID & Name searches only appear if supported by any of the selected query layers (<a href="https://github.com/agrc/deq-enviro/issues/34">#34</a>).</li>
+        <li>Implemented custom symbology for query layer results (<a href="https://github.com/agrc/deq-enviro/issues/104">#104</a>), (<a href="https://github.com/agrc/deq-enviro/issues/147">#147</a>) & (<a href="https://github.com/agrc/deq-enviro/issues/125">#125</a>).</li>
+        <ul>
+            <li>For query layers with custom symbology enabled: Click on the empty symbol in the results grid to see a popover with the corresponding legend (<a href="https://github.com/agrc/deq-enviro/issues/261">#261</a>).</li>
+        </ul>
+        <li>Fixed a bug preventing additional attributes showing in IE 10 (<a href="https://github.com/agrc/deq-enviro/issues/264">#264</a>).</li>
+        <li>Fixed a bug preventing the print to PDF from working in IE 10 (<a href="https://github.com/agrc/deq-enviro/issues/266">#266</a>).</li>
+        <li>Fixed a data issue causing only one point to draw on the map for the mercury in fish data (<a href="https://github.com/agrc/deq-enviro/issues/267">#267</a>).</li>
+        <li>Fixed a bug causing incorrect coordinates to be displayed in the measure tool (<a href="https://github.com/agrc/deq-enviro/issues/268">#268</a>).</li>
+        <li>Tweaked text in the filter popover for the Points of Diversion query layers (<a href="https://github.com/agrc/deq-enviro/issues/270">#270</a>).</li>
+        <li>Enhanced nightly update script to skip records with bad coordinate values.</li>
+        <li>Enhanced nightly update script to better report bad field names in the query layers spreadsheet.</li>
+    </ul>
     <h2>0.13.0 <small>Nov 6, 2014</small></h2>
     <ul>
         <li>Added a script to update the "Air Monitoring by Station" data hourly (<a href="https://github.com/agrc/deq-enviro/issues/84">#84</a>).</li>

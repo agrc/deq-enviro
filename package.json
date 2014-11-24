@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "0.13.0",
+  "version": "1.0.0-1",
   "devDependencies": {
     "dojo": "^1.10.2",
     "grunt": "~0.4",
