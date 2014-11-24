@@ -1,27 +1,28 @@
 define([
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/dom-construct',
+    'dojo/string',
     'dojo/text!./templates/Legend.html',
     'dojo/text!./templates/LegendRow.html',
 
-    'dojo/_base/declare',
-    'dojo/_base/array',
-    'dojo/request',
-    'dojo/dom-construct',
-    'dojo/string',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin'
+    // use esri/request so that LoginRegister can add token if needed
+    'esri/request'
 ], function(
+    _TemplatedMixin,
+    _WidgetBase,
+
+    array,
+    declare,
+    domConstruct,
+    dojoString,
     template,
     rowTemplate,
 
-    declare,
-    array,
-    request,
-    domConstruct,
-    dojoString,
-
-    _WidgetBase,
-    _TemplatedMixin
+    request
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -51,19 +52,18 @@ define([
             console.log('app.map.Legend::postCreate', arguments);
 
             var that = this;
-            var params = {
-                query: {f: 'json'},
-                handleAs: 'json'
+            var requestObj = {
+                url: this.mapServiceUrl + '/legend',
+                content: {f: 'json'}
             };
-            request.get(this.mapServiceUrl + '/legend', params)
-                .then(function (response) {
-                    array.some(response.layers, function (lyr) {
-                        if (lyr.layerId === that.layerId) {
-                            that.buildLegend(lyr.legend);
-                            return true;
-                        }
-                    });
+            request(requestObj).then(function (response) {
+                array.some(response.layers, function (lyr) {
+                    if (lyr.layerId === that.layerId) {
+                        that.buildLegend(lyr.legend);
+                        return true;
+                    }
                 });
+            });
         },
         buildLegend: function (items) {
             // summary:
