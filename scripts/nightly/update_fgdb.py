@@ -99,7 +99,11 @@ def update_query_layers(test_layer=None):
 
                         # get mapped field properties
                         if not l[f] == 'n/a':
-                            mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                            try:
+                                mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                            except IndexError:
+                                errors.append('Could not find {} in {}'.format(l[f], fcname))
+                                continue
                         else:
                             mappedFld = namedtuple('literal', 'precision scale length')(**{'precision': 0,
                                                                                            'scale': 0,
@@ -111,7 +115,12 @@ def update_query_layers(test_layer=None):
                     # calc field
                     expression = l[f]
                     if not expression == 'n/a':
-                        if arcpy.ListFields(localFc, l[f])[0].type != 'String':
+                        try:
+                            mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                        except IndexError:
+                            errors.append('Could not find {} in {}'.format(l[f], fcname))
+                            continue
+                        if mappedFld.type != 'String':
                             expression = 'str(int(!{}!))'.format(expression)
                         else:
                             expression = '!{}!.encode("utf-8")'.format(expression)
@@ -146,7 +155,7 @@ if __name__ == '__main__':
 
     # first argument is optionally the SGID feature class or table name
     if len(sys.argv) == 2:
-        run(logger, sys.argv[1])
+        print(run(logger, sys.argv[1]))
     else:
-        run(logger)
+        print(run(logger))
     print('done')

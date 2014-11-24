@@ -6,6 +6,7 @@ import update_sgid
 import update_fgdb
 from agrc import messaging
 import settings
+import sys
 
 emailer = None
 logger = None
@@ -21,10 +22,16 @@ def run():
     build_json.run()
 
     logger.logMsg('\n\n***** UPDATING SGID')
-    sdeErrors = update_sgid.run(logger)
+    if len(sys.argv) == 2:
+        sdeErrors = update_sgid.run(logger, sys.argv[1])
+    else:
+        sdeErrors = update_sgid.run(logger)
 
     logger.logMsg('\n\n***** UPDATING FILE GEODATABASE')
-    fgdbErrors = update_fgdb.run(logger)
+    if len(sys.argv) == 2:
+        fgdbErrors = update_fgdb.run(logger, sys.argv[1])
+    else:
+        fgdbErrors = update_fgdb.run(logger)
     
     logger.logMsg('\n\n***** Script completed successfully.')
 

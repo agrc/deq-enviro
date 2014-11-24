@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     # first argument is optionally the SGID feature class or table name
     if len(sys.argv) == 2:
-        run(logger, sys.argv[1])
+        print(run(logger, sys.argv[1]))
     else:
-        run(logger)
+        print(run(logger))
     print('done')
