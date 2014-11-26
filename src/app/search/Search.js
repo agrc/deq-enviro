@@ -365,7 +365,10 @@ define([
                 request(config.urls.search, {
                     method: 'POST',
                     data: JSON.stringify(params),
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     handleAs: 'json',
                     timeout: 40000
                 }).then(
