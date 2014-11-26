@@ -15,7 +15,7 @@ define([
             //      description
             console.log('app/_CollapsibleMixin::postCreate', arguments);
         
-            var pane = $('.collapse', this.domNode).collapse({
+            var pane = $('.accordion-collapse', this.domNode).collapse({
                 parent: this.domNode,
                 toggle: false
             });
