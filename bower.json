@@ -19,6 +19,9 @@
     "put-selector": "~0.3.5",
     "stubmodule": "0.6.1",
     "util": "dojo-util#1.10",
-    "xstyle": "0.2.1"
+    "xstyle": "c65b384d29"
+  },
+  "resolutions": {
+    "xstyle": "c65b384d29"
   }
 }

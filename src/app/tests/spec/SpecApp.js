@@ -1,21 +1,20 @@
 require([
     'app/App',
-    'dojo/dom-construct',
-    'dojo/_base/window',
-    'dojo/dom-class'
 
+    'dojo/dom-class',
+    'dojo/dom-construct'
 ],
 
 function (
     App,
-    domConstruct,
-    win,
-    domClass
-    ) {
+
+    domClass,
+    domConstruct
+) {
     describe('app/App', function () {
         var testWidget;
         beforeEach(function () {
-            testWidget = new App({}, domConstruct.create('div', {}, win.body()));
+            testWidget = new App({}, domConstruct.create('div', {}, document.body));
             testWidget.startup();
         });
         afterEach(function () {

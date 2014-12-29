@@ -65,7 +65,11 @@ module.exports = function(grunt) {
         testname: 'deq-enviro',
         maxRetries: 5,
         'public': 'public',
-        maxPollRetries: 10
+        maxPollRetries: 10,
+        throttled: 3,
+        sauceConfig: {
+            'max-duration': 10800
+        }
     };
     try {
         secrets = grunt.file.readJSON('secrets.json');

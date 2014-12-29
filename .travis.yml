@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - "0.10"
+    - "0.10.31"
 before_install:
     - npm install -g grunt-cli
     - npm install -g bower
@@ -11,8 +11,8 @@ notifications:
         on_success: never
 env:
   global:
-    - secure: dZNSARXNzoSGDOurRbIZS7f2rR7Egh71EafrxDqEZr4OBtOl0rubheFUhFcgU5RhDufBfSR9U4BEs60VfY30yYv3Gk8rE0rcJttMTXEj81D3P+6+0Ucnc8xKg9GM9HhxVSYk+k0CcTPcB+wrv3VyJ/vNp7JBBUP6kvoffBph/G0=
-    - secure: CrvXpRh8x6uLYBEoJO3JEY2tUz3L4+/Vz7Y73PD5RB1MV8waEBmEGQ6aGUxsgxG/pUK0XxKZHGZQ6TQ8VD6YdEuO/nj0J4uNLcUvNt1CB06hokfBM5YHdvVDd7coWY/1l8OLzpwz3S+GQ6LOsIuptR7dK4fzzUdCKlb1+xUc7Hw=
+    - secure: HdeeVNPMadzdx9XwmFzF2948YCSUDZjfWlWvMcNzK6MFsGTIiDIhSds4CHzU1OQUq7nDu3RsPyiCyPaUhcACKQJu8diJmMX6So78uYKCxNrPWFf7geoEKW1Ewp+zQQ8NehowwGFOxNEyFxDbgWv/NX1q8D7PwAbOZosMte9ZuLY=
+    - secure: K9yVKL3vTQkdBYQ3OZjz1TtfEyVqqNIJsfNP9urjvI6WSNvDmF13a0JthMp7wNR/HJv7gz+N8moB5X6O/jftZk/Hy2W7rBITL2hGLbtWXG5JwwRL2oNch8vV9VsLawzV/LaRxTCouJXhBK/SfeS5Ajtw9RodisLqxVUeb383v7c=
 sudo: false
 cache:
     directories:
