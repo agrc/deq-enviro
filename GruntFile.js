@@ -1,22 +1,25 @@
 /* jshint camelcase: false */
+var osx = 'OS X 10.10';
+var windows = 'Windows 8.1';
 var browsers = [{
-    browserName: 'firefox',
-    platform: 'OS X 10.10'
-}, {
-    browserName: 'chrome',
-    platform: 'OS X 10.10'
-}, {
-    browserName: 'firefox',
-    platform: 'Windows 8'
-}, {
-    browserName: 'chrome',
-    platform: 'Windows 8'
-}, {
+
+    // OSX
+
     browserName: 'safari',
-    platform: 'OS X 10.10'
+    platform: osx
+}, {
+
+
+    // Windows
+
+    browserName: 'firefox',
+    platform: windows
+}, {
+    browserName: 'chrome',
+    platform: windows
 }, {
     browserName: 'internet explorer',
-    platform: 'Windows 8.1',
+    platform: windows,
     version: '11'
 }, {
     browserName: 'internet explorer',
@@ -54,8 +57,20 @@ module.exports = function(grunt) {
     ];
     var deployDir = 'wwwroot/DEQEnviro';
     var secrets;
+    var sauceConfig = {
+        urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
+        tunnelTimeout: 20,
+        build: process.env.TRAVIS_JOB_ID,
+        browsers: browsers,
+        testname: 'deq-enviro',
+        maxRetries: 5,
+        'public': 'public',
+        maxPollRetries: 10
+    };
     try {
         secrets = grunt.file.readJSON('secrets.json');
+        sauceConfig.username = secrets.sauce_name;
+        sauceConfig.key = secrets.sauce_key;
     } catch (e) {
         // swallow for build server
         secrets = {
@@ -70,7 +85,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jasmine: {
-            app: {
+            main: {
                 src: ['src/app/run.js'],
                 options: {
                     specs: ['src/app/**/Spec*.js'],
@@ -80,6 +95,7 @@ module.exports = function(grunt) {
                         'src/jasmine-jsreporter/jasmine-jsreporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
+                        'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js'
                     ],
                     host: 'http://localhost:8000'
@@ -104,7 +120,7 @@ module.exports = function(grunt) {
             },
             jshint: {
                 files: jshintFiles,
-                tasks: ['newer:jshint:main', 'jasmine:app:build']
+                tasks: ['newer:jshint:main', 'jasmine:main:build']
             }
         },
         connect: {
@@ -242,14 +258,7 @@ module.exports = function(grunt) {
         },
         'saucelabs-jasmine': {
             all: {
-                options: {
-                    urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
-                    tunnelTimeout: 5,
-                    build: process.env.TRAVIS_JOB_ID,
-                    concurrency: 3,
-                    browsers: browsers,
-                    testname: 'deq-enviro'
-                }
+                options: sauceConfig
             }
         }
     });
@@ -264,25 +273,21 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('default', [
         'if-missing:esri_slurp:dev',
-        'jasmine:app:build',
+        'jasmine:main:build',
         'newer:jshint:main',
         'connect',
         'watch'
     ]);
 
     grunt.registerTask('travis', [
-        'esri_slurp:travis',
+        'if-missing:esri_slurp:travis',
         'jshint',
-        'connect',
-        'jasmine:app'
-
-        // to replace jasmine task above but sauce needs to fix this first
-        // https://github.com/axemclion/grunt-saucelabs/issues/109#issuecomment-63894847
-        // 'sauce'
+        'sauce',
+        'build-prod'
     ]);
 
     grunt.registerTask('sauce', [
-        'jasmine:app:build',
+        'jasmine:main:build',
         'connect',
         'saucelabs-jasmine'
     ]);
