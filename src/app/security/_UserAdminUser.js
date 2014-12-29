@@ -61,7 +61,10 @@ define([
                 size: 10,
                 width: '100%'
             });
-            $(this.countiesSelect).selectpicker('val', this.accessRules.options.counties);
+            if (this.accessRules.options.counties) {
+                $(this.countiesSelect).val(this.accessRules.options.counties);
+                $(this.countiesSelect).selectpicker('render');
+            }
             $(this.countiesSelect).on('change', lang.hitch(this, 'validate'));
 
             this.phoneTxt.value = this.additional.phone;
