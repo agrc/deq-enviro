@@ -108,8 +108,11 @@ def etl(dest, destFields, source, sourceFields):
                     pnt.Y = lat
                     pntGeo = arcpy.PointGeometry(pnt, wgs)
                     pntProj = pntGeo.projectAs(utm)
-                    x = pntProj.firstPoint.X
-                    y = pntProj.firstPoint.Y
+                    if pntProj.firstPoint is not None:
+                        x = pntProj.firstPoint.X
+                        y = pntProj.firstPoint.Y
+                    else:
+                        continue
                 else:
                     continue
             else:
