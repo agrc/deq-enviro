@@ -73,6 +73,8 @@ require([
                     fieldType: 'text',
                     fieldAlias: 'Operator Name'
                 });
+
+                destroy(widget2);
             });
         });
         describe('onCheckboxChange', function () {
@@ -126,6 +128,7 @@ require([
             it('sets the checked property and calls onCheckboxChange if checked', function () {
                 localStorage[widget.localStorageID] = false;
 
+                destroy(widget);
                 widget = new WidgetUnderTest({
                     layerName: 'blah',
                     index: index,
@@ -139,6 +142,7 @@ require([
 
                 localStorage[widget.localStorageID] = true;
 
+                destroy(widget);
                 widget = new WidgetUnderTest({
                     layerName: 'blah',
                     index: index,

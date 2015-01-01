@@ -92,12 +92,12 @@ require([
 
                 expect(widget.isValid()).toBe(false);
 
-                $(widget.countiesSelect).selectpicker('val', 'DAVIS');
+                $(widget.countiesSelect).val('DAVIS');
 
                 expect(widget.isValid()).toBe(true);
             });
             it('requires at least one layer', function () {
-                $(widget.countiesSelect).selectpicker('val', 'DAVIS');
+                $(widget.countiesSelect).val('DAVIS');
 
                 expect(widget.isValid()).toBe(false);
 

@@ -18,3 +18,4 @@ var dojoConfig = {
 // for jasmine-favicon-reporter
 jasmine.getEnv().addReporter(new JasmineFaviconReporter());
 jasmine.getEnv().addReporter(new jasmineRequire.JSReporter2());
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000; // for sauce tests running from travis

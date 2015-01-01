@@ -1,15 +1,19 @@
 language: node_js
 node_js:
-  - "0.10"
+    - "0.10.31"
 before_install:
-  - npm install -g grunt-cli
-  - npm install -g bower
-  - npm install
-  - bower install
+    - npm install -g grunt-cli
+    - npm install -g bower
+    - npm install
+    - bower install
 notifications:
     email:
         on_success: never
+env:
+  global:
+    - secure: HdeeVNPMadzdx9XwmFzF2948YCSUDZjfWlWvMcNzK6MFsGTIiDIhSds4CHzU1OQUq7nDu3RsPyiCyPaUhcACKQJu8diJmMX6So78uYKCxNrPWFf7geoEKW1Ewp+zQQ8NehowwGFOxNEyFxDbgWv/NX1q8D7PwAbOZosMte9ZuLY=
+    - secure: K9yVKL3vTQkdBYQ3OZjz1TtfEyVqqNIJsfNP9urjvI6WSNvDmF13a0JthMp7wNR/HJv7gz+N8moB5X6O/jftZk/Hy2W7rBITL2hGLbtWXG5JwwRL2oNch8vV9VsLawzV/LaRxTCouJXhBK/SfeS5Ajtw9RodisLqxVUeb383v7c=
 sudo: false
 cache:
-  directories:
-    - node_modules
+    directories:
+        - node_modules
