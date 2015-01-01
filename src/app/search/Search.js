@@ -496,7 +496,7 @@ define([
             this.hideGrid();
             query('.grid-btn', this.domNode).addClass('hidden');
 
-            if (this.currentPane) {
+            if (lang.getObject('this.currentPane.clear')) {
                 this.currentPane.clear();
             }
 

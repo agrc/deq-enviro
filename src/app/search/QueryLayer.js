@@ -197,7 +197,9 @@ define([
 
             topic.publish(t, this);
 
-            this.requestSymbology();
+            if (checked) {
+                this.requestSymbology();
+            }
         },
         requestSymbology: function () {
             // summary:
