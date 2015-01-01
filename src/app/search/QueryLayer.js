@@ -279,6 +279,16 @@ define([
 
             evt.preventDefault();
             evt.stopPropagation();
+        },
+        onHelpTipClick: function (evt) {
+            // summary:
+            //      fix bug in IE10+ that causes the checkbox to toggle
+            //      when clicking on the help tip
+            // evt: mouse click object
+            console.log('app/QueryLayer:onHelpTipClick', arguments);
+        
+            evt.preventDefault();
+            window.open(this.helpTip.href, 'new');
         }
     });
 });
