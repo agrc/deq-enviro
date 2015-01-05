@@ -187,6 +187,8 @@ define([
 
             this.childWidgets = [this.address, this.city, this.county, this.shape, this.download];
 
+            this.currentPane = this.empty;
+
             this.inherited(arguments);
         },
         startup: function () {
@@ -416,7 +418,7 @@ define([
             this.showLoader();
 
             // check for no search type selected
-            if (!this.currentPane) {
+            if (this.currentPane === this.empty) {
                 onError(this.noSearchTypeSelectedErrMsg);
                 return;
             }
