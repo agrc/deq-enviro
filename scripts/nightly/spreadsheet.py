@@ -42,6 +42,11 @@ tblFields = [
     ['Additional Information Link Fields', fieldnames.additionalLinkFields]
 ]
 
+rlFields = [
+    ['SGID Feature Class Name', fieldnames.sgidName],
+    ['Source Data', fieldnames.sourceData]
+]
+
 linksFields = [
     [fieldnames.ID, fieldnames.ID],
     ['Description', fieldnames.description],
@@ -59,12 +64,15 @@ def get_query_layers():
 def get_related_tables():
     return _get_worksheet_data(spreadsheet.worksheet('Related Tables'), tblFields)
 
+def get_reference_layers():
+    return _get_worksheet_data(spreadsheet.worksheet('Reference Layers'), rlFields)
+
 def get_links():
     return _get_worksheet_data(spreadsheet.worksheet('Other Links'), linksFields)
     
 def get_datasets():
-    # return all querylayers and tables
-    return get_query_layers() + get_related_tables()
+    # return all querylayers, tables, and reference layers
+    return get_query_layers() + get_related_tables() + get_reference_layers()
 
 def _get_worksheet_data(wksh, fields):
     data = []
