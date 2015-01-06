@@ -91,7 +91,8 @@ define([
                 zoomToSearchGraphic: 'app/map/MapController.zoomToSearchGraphic',
                 graphic: 'app/map/MapController.graphic',
                 clearGraphics: 'app/map/MapController.clearGraphics',
-                zoom: 'app/map/MapController.zoom'
+                zoom: 'app/map/MapController.zoom',
+                showHighlightedFeature: 'app/map/MapController.showHighlightedFeature'
             },
             appSearch: {
                 featuresFound: 'app/search/Search.featuresFound',
@@ -167,7 +168,8 @@ define([
                 TYPE: 'TYPE',
                 UNIQUE_ID: 'UNIQUE_ID',
                 ENVIROAPPLABEL: 'ENVIROAPPLABEL',
-                ENVIROAPPSYMBOL: 'ENVIROAPPSYMBOL'
+                ENVIROAPPSYMBOL: 'ENVIROAPPSYMBOL',
+                OBJECTID: 'OBJECTID'
             }
         },
 

@@ -253,14 +253,17 @@ define([
             //      clears selection and selects if appropriate
             // oid: Number
             // layerIndex: String
-            // console.log('app/search/ResultLayer:onHighlight', arguments);
-
-            this.fLayer.clearSelection();
+            console.log('app/search/ResultLayer:onHighlight', arguments);
 
             if (layerIndex === this.layerIndex) {
                 var query = new Query();
                 query.objectIds = [oid];
-                this.fLayer.selectFeatures(query);
+                this.fLayer.queryFeatures(query).then(function (fSet) {
+                    if (fSet.features.length > 0) {
+                        topic.publish(config.topics.appMapMapController.showHighlightedFeature,
+                            fSet.features[0].geometry);
+                    }
+                });
             }
         },
         onClick: function (evt) {
@@ -269,6 +272,8 @@ define([
             //      fires topic to initiate an identify on that feature
             // evt: Object graphic click
             console.log('app/search/ResultLayer:onClick', arguments);
+
+            evt.stopPropagation();
 
             var g = evt.graphic;
             g.attributes.parent = this.layerIndex;

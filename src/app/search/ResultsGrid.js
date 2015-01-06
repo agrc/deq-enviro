@@ -387,7 +387,7 @@ define([
                     });
                 }
                 graphic.attributes.parent = layerIndex;
-                graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.ID];
+                graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.OBJECTID];
                 graphic.attributes.geometry = graphic.geometry;
                 return graphic.attributes;
             };

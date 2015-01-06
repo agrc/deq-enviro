@@ -46,6 +46,10 @@ define([
         //      the layer that shows the search graphics
         searchGraphics: null,
 
+        // highlightLayer: GraphicsLayer
+        //      the layer that shows the highlighted feature
+        highlightLayer: null,
+
 
         // Properties to be sent into constructor
         // map: agrc/widgets/map/BaseMap
@@ -60,6 +64,15 @@ define([
 
             lang.mixin(this, params);
 
+            // clear selected features if the user clicks on the map but 
+            // not on any feature
+            var that = this;
+            this.map.on('click', function (evt) {
+                if (that.highlightLayer && !evt.graphic) {
+                    that.highlightLayer.clear();
+                }
+            });
+
             this.setUpSubscribes();
             this.setUpPublishes();
         },
@@ -69,6 +82,7 @@ define([
             console.log('app/map/MapController:setUpSubscribes', arguments);
 
             var t = config.topics;
+            var that = this;
             this.handles.push(
                 topic.subscribe(t.appMapReferenceLayerToggle.addLayer,
                     lang.hitch(this, 'addReferenceLayer')),
@@ -77,9 +91,15 @@ define([
                 topic.subscribe(t.appMapMapController.zoomToSearchGraphic,
                     lang.hitch(this, 'zoomToSearchGraphic')),
                 topic.subscribe(t.appMapMapController.graphic,
-                    lang.hitch(this, 'graphic')),
-                topic.subscribe(t.appSearch.searchStarted,
-                    lang.hitch(this, 'showLoader')),
+                    lang.partial(lang.hitch(this, 'graphic'),
+                                 'searchGraphics',
+                                 config.symbols.zoom)),
+                topic.subscribe(t.appSearch.searchStarted, function () {
+                    that.showLoader();
+                    if (that.highlightLayer) {
+                        that.highlightLayer.clear();
+                    }
+                }),
                 topic.subscribe(t.appSearch.featuresFound,
                     lang.hitch(this, 'hideLoader')),
                 topic.subscribe(t.appSearch.searchError,
@@ -91,7 +111,11 @@ define([
                 topic.subscribe(t.appResultLayer.removeLayer,
                     lang.hitch(this, 'removeQueryLayer')),
                 topic.subscribe(t.appMapMapController.zoom,
-                    lang.hitch(this, 'zoom'))
+                    lang.hitch(this, 'zoom')),
+                topic.subscribe(t.appMapMapController.showHighlightedFeature,
+                    lang.partial(lang.hitch(this, 'graphic'),
+                                 'highlightLayer',
+                                 config.symbols.selection))
             );
         },
         mapIsZoomingOrPanning: function () {
@@ -205,7 +229,7 @@ define([
             console.log('app/map/MapController:zoomToSearchGraphic', arguments);
 
             this.zoom(geometry);
-            this.graphic(geometry);
+            this.graphic('searchGraphics', config.symbols.zoom, geometry);
         },
         zoom: function (geometry) {
             // summary:
@@ -229,19 +253,21 @@ define([
                     .then(removePromise);
             }
         },
-        graphic: function (geometry) {
+        graphic: function (layerPropName, symbolSet, geometry) {
             // summary:
             //      creates a graphic and adds it to the map
+            // layerPropName: String
+            // symbolSet: Object with symbols for each geometry type
             // geometry: esri/geometry
             console.log('app/map/MapController::graphic', arguments);
 
-            if (!this.searchGraphics) {
-                this.searchGraphics = new GraphicsLayer();
-                this.map.addLayer(this.searchGraphics);
+            if (!this[layerPropName]) {
+                this[layerPropName] = new GraphicsLayer();
+                this.map.addLayer(this[layerPropName]);
             }
 
-            this.searchGraphics.clear();
-            this.searchGraphics.add(new Graphic(geometry, config.symbols.zoom[geometry.type]));
+            this[layerPropName].clear();
+            this[layerPropName].add(new Graphic(geometry, symbolSet[geometry.type]));
         },
         destroy: function () {
             // summary:
@@ -273,6 +299,9 @@ define([
 
             if (this.searchGraphics) {
                 this.searchGraphics.clear();
+            }
+            if (this.highlightLayer) {
+                this.highlightLayer.clear();
             }
         }
     };
