@@ -128,8 +128,8 @@ require([
                 expect(result[6][fn.UNIQUE_ID]).toEqual('5-' + config.messages.noFeaturesFound);
 
                 // features
-                expect(result[8][fn.UNIQUE_ID]).toEqual('7-4302110758');
-                expect(result[3][fn.UNIQUE_ID]).toEqual('15-84720MRCNZ10622');
+                expect(result[8][fn.UNIQUE_ID]).toEqual('7-1234');
+                expect(result[3][fn.UNIQUE_ID]).toEqual('15-5678');
             });
             it('adds feature counts to id field', function () {
                 expect(result[0].count).toEqual('0');

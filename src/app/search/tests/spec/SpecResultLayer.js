@@ -56,13 +56,15 @@ require([
                     attributes: {OBJECTID: oid},
                     geometry: geo
                 };
-                testObject.onClick({graphic: g});
+                var spy = jasmine.createSpy('stopPropagation');
+                testObject.onClick({graphic: g, stopPropagation: spy});
 
                 expect(config.topics.appSearch.identify).toHaveBeenPublishedWith({
                     parent: testObject.layerIndex,
                     geometry: geo,
                     OBJECTID: oid
                 });
+                expect(spy).toHaveBeenCalled();
             });
         });
     });

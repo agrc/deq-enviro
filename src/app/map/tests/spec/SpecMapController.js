@@ -1,11 +1,11 @@
 require([
+    'app/config',
     'app/map/MapController',
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer'
-
-
 ], function(
+    config,
     ClassUnderTest,
 
     ArcGISDynamicMapServiceLayer,
@@ -169,9 +169,9 @@ require([
                 };
                 testObject.searchGraphics = null;
 
-                testObject.graphic(g);
+                testObject.graphic('test', config.symbols.zoom, g);
 
-                expect(testObject.searchGraphics).toBeDefined();
+                expect(testObject.test).toBeDefined();
             });
         });
     });

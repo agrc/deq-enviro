@@ -6,7 +6,8 @@
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
-            "ENVIROAPPSYMBOL": "n/a"
+            "ENVIROAPPSYMBOL": "n/a",
+            "OBJECTID": 1234
         },
         "geometry": {
             "x": 325975.0,
@@ -219,7 +220,8 @@
             "ADDRESS": "10622 WEST 6400 NORTH",
             "CITY": "CEDAR CITY",
             "TYPE": "TRI Facilities - 84720MRCNZ10622",
-            "ENVIROAPPSYMBOL": "n/a"
+            "ENVIROAPPSYMBOL": "n/a",
+            "OBJECTID": 5678
         },
         "geometry": {
             "x": 298816.29000000004,
