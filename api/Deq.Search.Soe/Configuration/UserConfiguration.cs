@@ -34,7 +34,8 @@ namespace Deq.Search.Soe.Configuration {
                 ReturnFields = props.GetValueAsString("returnfields", true).Split(','),
                 ProgramId = props.GetValueAsString("programid", true),
                 SiteName = props.GetValueAsString("sitename", true),
-                FacilityUst = props.GetValueAsString("facilityust", true)
+                FacilityUst = props.GetValueAsString("facilityust", true),
+                MaxRecords = props.GetValueAsInt("maxrecords", true)
             };
 
             return settings;
