@@ -78,7 +78,20 @@ namespace Deq.Search.Soe.Commands {
                 var polygon = new Polygon();
 
                 var simpleGeom = Geometry as IPolygon4;
-                simpleGeom.Generalize(2);
+                var geometryCollection = simpleGeom as IGeometryCollection;
+                var count = geometryCollection.GeometryCount;
+                if (count == 1)
+                {
+                    // need to densify arcs instead of generalize
+                    // generalize produces a diamond shaped polygon that's not
+                    // true to the original shape for arcs
+                    simpleGeom.Densify(-1, -1);
+                }
+                else
+                {
+
+                    simpleGeom.Generalize(2);
+                }
 
                 if (SpatialReference != null) {
                     polygon.CRS = new CRS {
@@ -89,9 +102,6 @@ namespace Deq.Search.Soe.Commands {
                         simpleGeom.Project(SpatialReference);
                     }
                 }
-
-                var geometryCollection = simpleGeom as IGeometryCollection;
-                var count = geometryCollection.GeometryCount;
 
                 for (var i = 0; i < count; i++) {
                     var points = geometryCollection.Geometry[i] as IPointCollection4;
