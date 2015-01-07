@@ -32,11 +32,6 @@ namespace Deq.Search.Soe.Commands.Searches {
                 .ToDictionary(result => result.map.Index,
                               result => Query(result.map, result.definitionExpression));
 
-            if (results.Sum(x => x.Value.Sum((y => y.Attributes.Count))) >= ApplicationCache.Settings.MaxRecords)
-            {
-                throw new InvalidDataException("Max records exceeded.");
-            }
-
             Result = results;
         }
 
