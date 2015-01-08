@@ -36,7 +36,7 @@ namespace Deq.Search.Soe.Configuration {
                 ProgramId = "ID",
                 SiteName = "NAME",
                 FacilityUst = "FACILITYUST",
-                MaxRecords = 50
+                MaxRecords = 5
             };
 
             return settings;
