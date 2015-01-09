@@ -29,6 +29,7 @@ namespace Deq.Search.Soe.Commands {
             foreach (var map in _indexes) {
                 if (map.Index < 0) {
                     results.Add(map.Field, null);
+                    continue;
                 }
 
                 // ReSharper disable RedundantCast

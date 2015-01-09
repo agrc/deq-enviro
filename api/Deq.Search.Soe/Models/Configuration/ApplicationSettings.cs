@@ -35,5 +35,13 @@ namespace Deq.Search.Soe.Models.Configuration {
         /// The facility ust layer name in the mxd.
         /// </value>
         public string FacilityUst { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum records that will be returned without error.
+        /// </summary>
+        /// <value>
+        /// The maximum number of records.
+        /// </value>
+        public int MaxRecords { get; set; }
     }
 }

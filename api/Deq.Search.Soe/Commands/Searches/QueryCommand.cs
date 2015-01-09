@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Deq.Search.Soe.Cache;
+using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Models;
 using Deq.Search.Soe.Models.Search;
@@ -55,9 +58,17 @@ namespace Deq.Search.Soe.Commands.Searches {
             var cursor = featureLayer.Search(_queryFilter, true);
 
             var results = new List<Graphic>();
+            var count = 0;
 
             IFeature feature;
-            while ((feature = cursor.NextFeature()) != null) {
+            while ((feature = cursor.NextFeature()) != null)
+            {
+                count++;
+                if (count >= ApplicationCache.Settings.MaxRecords)
+                {
+                    throw new InvalidDataException("Max records exceeded on {0}. ({1})".With(map.LayerName, map.Index));
+                }
+
                 var indexes = map.FieldMap.Values.ToList();
 
                 var attributes = CommandExecutor.ExecuteCommand(new GetValueAtIndexCommand(indexes, feature))

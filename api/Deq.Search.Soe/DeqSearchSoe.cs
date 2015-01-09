@@ -22,7 +22,7 @@ namespace Deq.Search.Soe {
          //shows up in manager under capabilities
          DisplayName = "DEQ Search API",
          //Properties that can be set on the capabilities tab in manager.
-         Properties = "returnFields=comma,separated,list;sitename=SN;programid=PID;facilityust=FACILITYUST",
+         Properties = "returnFields=comma,separated,list;sitename=SN;programid=PID;facilityust=FACILITYUST;maxrecords=50000",
          SupportsREST = true,
          SupportsSOAP = false)]
     public class DeqSearchSoe : SoeBase, IServerObjectExtension, IObjectConstruct, IRESTRequestHandler {
