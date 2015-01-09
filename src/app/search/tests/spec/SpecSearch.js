@@ -370,5 +370,29 @@ require([
                 expect(widget.select.value).toBe('empty');
             });
         });
+        describe('checkForMaxRecords', function () {
+            it('throw an error if no max records messages', function () {
+                expect(function () {
+                    widget.checkForMaxRecords({});
+                }).toThrow();
+
+                expect(function () {
+                    widget.checkForMaxRecords({
+                        queryLayers: {message: 'blah'}
+                    });
+                }).toThrow();
+            });
+            it('extracts the layer id', function () {
+                spyOn(config, 'getQueryLayerByIndex').and.returnValue({
+                    name: 'blah',
+                    metaDataUrl: 'blah'
+                });
+                expect(widget.checkForMaxRecords({
+                    secureQueryLayers: {
+                        message: 'Max records exceeded on PointsOfDiversion1. (33)'
+                    }
+                })).toBeDefined();
+            });
+        });
     });
 });

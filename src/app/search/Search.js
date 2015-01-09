@@ -1,74 +1,75 @@
 define([
-    'dojo/text!./templates/Search.html',
-
-    'dojo/_base/declare',
-    'dojo/_base/array',
-    'dojo/_base/lang',
-    'dojo/dom-construct',
-    'dojo/topic',
-    'dojo/request',
-    'dojo/aspect',
-    'dojo/query',
-    'dojo/dom-class',
-    'dojo/dom-attr',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dijit/registry',
-
-    'ijit/modules/_ErrorMessageMixin',
-
     'app/_CollapsibleMixin',
-    'app/search/QueryLayer',
-    'app/search/QueryLayerHeader',
+    'app/config',
+    'app/download/Download',
+    'app/map/MapController',
+    'app/search/AdditionalSearch',
     'app/search/Address',
     'app/search/City',
     'app/search/County',
-    'app/search/SiteName',
     'app/search/ID',
+    'app/search/QueryLayer',
+    'app/search/QueryLayerHeader',
     'app/search/Shape',
-    'app/search/AdditionalSearch',
-    'app/config',
-    'app/map/MapController',
-    'app/download/Download',
+    'app/search/SiteName',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+    'dijit/registry',
+
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
+    'dojo/aspect',
+    'dojo/dom-attr',
+    'dojo/dom-class',
+    'dojo/dom-construct',
+    'dojo/query',
+    'dojo/request',
+    'dojo/string',
+    'dojo/text!./templates/MaxRecordsMsg.html',
+    'dojo/text!./templates/Search.html',
+    'dojo/topic',
+
+    'ijit/modules/_ErrorMessageMixin',
 
     'lodash'
-
 ], function(
-    template,
-
-    declare,
-    array,
-    lang,
-    domConstruct,
-    topic,
-    request,
-    aspect,
-    query,
-    domClass,
-    domAttr,
-
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    registry,
-
-    _ErrorMessageMixin,
-
     _CollapsibleMixin,
-    QueryLayer,
-    QueryLayerHeader,
+    config,
+    Download,
+    MapController,
+    AdditionalSearch,
     Address,
     City,
     County,
-    SiteName,
     ID,
+    QueryLayer,
+    QueryLayerHeader,
     Shape,
-    AdditionalSearch,
-    config,
-    MapController,
-    Download,
+    SiteName,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+    registry,
+
+    array,
+    declare,
+    lang,
+    aspect,
+    domAttr,
+    domClass,
+    domConstruct,
+    query,
+    request,
+    dojoString,
+    maxRecordsTemplate,
+    template,
+    topic,
+
+    _ErrorMessageMixin,
 
     _
 ) {
@@ -114,8 +115,8 @@ define([
         // download: Download
         download: null,
 
-        // searchServiceErrorMsg: String
-        searchServiceErrorMsg: 'There was an error with the search service!',
+        // searchServiceGeneralErrorMsg: String
+        searchServiceGeneralErrorMsg: 'There was an error with the search service!',
 
         // noQueryLayersSelectedErrMsg: String
         noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
@@ -378,7 +379,11 @@ define([
                         if (response.status !== 200 ||
                             (response.queryLayers && response.queryLayers.status !== 200) ||
                             (response.secureQueryLayers && response.secureQueryLayers.status !== 200)) {
-                            onError(that.searchServiceErrorMsg);
+                            try {
+                                onError(that.checkForMaxRecords(response));
+                            } catch (e) {
+                                onError(that.searchServiceGeneralErrorMsg);
+                            }
                         } else {
                             var results = {};
                             if (response.secureQueryLayers) {
@@ -402,7 +407,7 @@ define([
                         }
                     },
                     function () {
-                        onError(that.searchServiceErrorMsg);
+                        onError(that.searchServiceGeneralErrorMsg);
                     }
                 );
                 topic.publish(config.topics.appSearch.searchStarted);
@@ -485,7 +490,7 @@ define([
             console.log('app/search/Search:onSearchComplete', arguments);
 
             if (response.status !== 200) {
-                throw this.searchServiceErrorMsg;
+                throw this.searchServiceGeneralErrorMsg;
             }
 
             topic.publish(config.topics.appSearch.featuresFound, response.result);
@@ -525,7 +530,7 @@ define([
         showLoader: function () {
             // summary:
             //      description
-            console.log('app/download/Download:showLoader', arguments);
+            console.log('app/search/Search:showLoader', arguments);
 
             domAttr.set(this.searchBtn, 'disabled', true);
             this.searchBtn.innerHTML = 'Searching';
@@ -533,10 +538,33 @@ define([
         hideLoader: function () {
             // summary:
             //      description
-            console.log('app/download/Download:hideLoader', arguments);
+            console.log('app/search/Search:hideLoader', arguments);
 
             domAttr.set(this.searchBtn, 'disabled', false);
             this.searchBtn.innerHTML = 'Search';
+        },
+        checkForMaxRecords: function (response) {
+            // summary:
+            //      description
+            // response: Object
+            console.log('app/search/Search:checkForMaxRecords', arguments);
+        
+            var layerId;
+            var check = function (prop) {
+                var msg = lang.getObject(prop + '.message', false, response);
+                if (!msg || !/Max records/.test(msg)) {
+                    return false;
+                } else {
+                    layerId = /\((\w+)\)/.exec(msg)[1];
+                    return true;
+                }
+            };
+
+            if (!check('queryLayers') && !check('secureQueryLayers')) {
+                throw '';
+            }
+
+            return dojoString.substitute(maxRecordsTemplate, config.getQueryLayerByIndex(layerId));
         }
     });
 });
