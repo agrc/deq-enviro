@@ -14,6 +14,19 @@
 	<h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
+    <h2>1.0.0-2 <small>Jan 9, 2015</small></h2>
+    <ul>
+        <li>Fixed a bug preventing successful searches in Firefox (<a href="https://github.com/agrc/deq-enviro/issues/274">#274</a>).</li>
+        <li>Fixed a bug causing the query layer checkboxes to not be cleared when the "Clear Search" button was clicked (<a href="https://github.com/agrc/deq-enviro/issues/276">#276</a>).</li>
+        <li>Added the "Environmental Covenants" reference layer to the nightly update script (<a href="https://github.com/agrc/deq-enviro/issues/277">#277</a>).</li>
+        <li>Updated the DWQ query layer symbologies (<a href="https://github.com/agrc/deq-enviro/issues/279">#279</a>).</li>
+        <li>Refined feature generalization code that was causing polygons defined using arcs to be returned as diamonds instead of circles (<a href="https://github.com/agrc/deq-enviro/issues/280">#280</a>).</li>
+        <li>Refined code for the selection of features. This fixed a bug preventing users from selecting polygons that were overlapped by the currently selected polygon (<a href="https://github.com/agrc/deq-enviro/issues/281">#281</a>).</li>
+        <li>Added code to throw an error if search results contain more than 50,000 features. This fixed a bug related to searches on datasets with a very large number of features (<a href="https://github.com/agrc/deq-enviro/issues/283">#283</a>) & (<a href="https://github.com/agrc/deq-enviro/issues/290">#290</a>).</li>
+        <li>Updated NPDES_Dischargers symbology (<a href="https://github.com/agrc/deq-enviro/issues/284">#284</a>).</li>
+        <li>Fixed a bug that was causing the query layer checkbox to incorrectly toggle when clicking on the "?" icon (<a href="https://github.com/agrc/deq-enviro/issues/285">#285</a>).</li>
+        <li>Integrated SauceLabs browser testing for unit tests (<a href='https://saucelabs.com/u/agrc-deq-enviro'>https://saucelabs.com/u/agrc-deq-enviro</a>).</li>
+    </ul>
     <h2>1.0.0-1 <small>Nov 24, 2014</small></h2>
     <ul>
         <li>ID & Name searches only appear if supported by any of the selected query layers (<a href="https://github.com/agrc/deq-enviro/issues/34">#34</a>).</li>
