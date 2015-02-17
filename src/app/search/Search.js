@@ -218,7 +218,7 @@ define([
             // summary:
             //      description
             console.log('app/search/Search:checkSiteIDSearches', arguments);
-        
+
             if (this.selectedQueryLayers.length > 0) {
                 var that = this;
                 var checkSome = function (fieldName) {
@@ -373,7 +373,7 @@ define([
                         'Accept': 'application/json'
                     },
                     handleAs: 'json',
-                    timeout: 40000
+                    timeout: 60000
                 }).then(
                     function (response) {
                         if (response.status !== 200 ||
@@ -548,7 +548,7 @@ define([
             //      description
             // response: Object
             console.log('app/search/Search:checkForMaxRecords', arguments);
-        
+
             var layerId;
             var check = function (prop) {
                 var msg = lang.getObject(prop + '.message', false, response);
