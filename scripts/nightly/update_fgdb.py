@@ -129,6 +129,10 @@ def update_query_layers(test_layer=None):
                     arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
                 
                 validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)
+
+                # scrub out any empty geometries
+                arcpy.RepairGeometry_management(localFc)
+
                 successes.append(fcname)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname, logger.logError().strip()))
