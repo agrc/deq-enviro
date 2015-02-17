@@ -90,23 +90,12 @@ define([
             );
 
             if (this.showLegend) {
-                var l = new Legend({
+                this.legend = new Legend({
                     mapServiceUrl: this.mapServiceUrl,
                     layerId: this.layerIndex,
                     header: this.legendHeader
                 });
-                l.startup();
-
-                var that = this;
-                l.on('legend-built', function () {
-                    $(that.legendTip).tooltip({
-                        title: l.domNode,
-                        html: true,
-                        placement: 'auto',
-                        delay: config.popupDelay,
-                        container: 'body'
-                    });
-                });
+                this.legend.startup();
             } else {
                 domConstruct.destroy(this.legendTip);
             }
@@ -119,6 +108,28 @@ define([
             console.log('app/map/ReferenceLayerToggle:onCheckboxChange', arguments);
         
             topic.publish(this.topics.toggleLayer, this.mapServiceUrl, this.layerIndex, this.checkbox.checked);
+        },
+        displayLegend: function () {
+            // summary:
+            //      Have to re-initialize the legend each time because it's destroyed
+            //      when the MapLayersPopover is closed. Not sure why.
+            console.log('app/map/ReferenceLayerToggle:displayLegend', arguments);
+        
+            $(this.legendTip).tooltip({
+                title: this.legend.domNode,
+                html: true,
+                placement: 'auto',
+                delay: config.popupDelay,
+                trigger: 'manual',
+                container: 'body'
+            }).tooltip('show');
+        },
+        hideLegend: function () {
+            // summary:
+            //      description
+            console.log('app/map/ReferenceLayerToggle:hideLegend', arguments);
+        
+            $(this.legendTip).tooltip('hide');
         }
     });
 });
