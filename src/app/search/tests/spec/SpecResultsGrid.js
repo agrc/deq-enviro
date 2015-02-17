@@ -1,19 +1,19 @@
 require([
-    'app/search/ResultsGrid',
     'app/config',
+    'app/search/ResultsGrid',
 
+    'dojo/_base/lang',
     'dojo/_base/window',
-
     'dojo/dom-construct',
     'dojo/text!app/search/tests/data/results.json',
 
     'matchers/topics'
 ], function(
-    WidgetUnderTest,
     config,
+    WidgetUnderTest,
 
+    lang,
     win,
-
     domConstruct,
     resultsTxt,
 
@@ -240,6 +240,32 @@ require([
             it('can handle whitespace', function () {
                 expect(widget.sortValues(opts, {fieldname: 'a'}, {fieldname: ' b'}))
                     .toBe(-1);
+            });
+            it('sorts the entire id', function () {
+                var list = [{
+                    value: '06001WS003'
+                }, {
+                    value: '06001WS008'
+                }, {
+                    value: '06002WS001'
+                }, {
+                    value: '06001WS006'
+                }];
+                var sorted = [{
+                    value: '06001WS003'
+                }, {
+                    value: '06001WS006'
+                }, {
+                    value: '06001WS008'
+                }, {
+                    value: '06002WS001'
+                }];
+                var sortOptions = {
+                    attribute: 'value',
+                    descending: false
+                };
+                list.sort(lang.partial(widget.sortValues, sortOptions));
+                expect(list).toEqual(sorted);
             });
         });
     });
