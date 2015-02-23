@@ -1,35 +1,50 @@
 /* jshint maxlen:false */
 define([
-    'dojo/_base/Color',
     'dojo/_base/array',
+    'dojo/_base/Color',
     'dojo/_base/lang',
-    'dojo/request',
     'dojo/Deferred',
     'dojo/has',
+    'dojo/request',
 
+    'esri/config',
     'esri/SpatialReference',
+    'esri/symbols/CartographicLineSymbol',
     'esri/symbols/SimpleFillSymbol',
     'esri/symbols/SimpleLineSymbol',
     'esri/symbols/SimpleMarkerSymbol',
-    'esri/symbols/CartographicLineSymbol',
-    'esri/config',
     'esri/tasks/GeometryService'
 ], function (
-    Color,
     array,
+    Color,
     lang,
-    request,
     Deferred,
     has,
+    request,
 
+    esriConfig,
     SpatialReference,
+    CartographicLineSymbol,
     SimpleFillSymbol,
     SimpleLineSymbol,
     SimpleMarkerSymbol,
-    CartographicLineSymbol,
-    esriConfig,
     GeometryService
-    ) {
+) {
+    var apiKey;
+    var domain;
+    if (has('agrc-build') === 'prod') {
+        // mapserv.utah.gov
+        apiKey = 'AGRC-A94B063C533889';
+        domain = 'mapserv.utah.gov';
+    } else if (has('agrc-build') === 'stage') {
+        // test.mapserv.utah.gov
+        apiKey = 'AGRC-AC122FA9671436';
+        domain = 'test.mapserv.utah.gov';
+    } else {
+        // localhost
+        apiKey = 'AGRC-E5B94F99865799';
+        domain = '/';
+    }
 
     esriConfig.defaults.geometryService = new GeometryService('/arcgis/rest/services/Geometry/GeometryServer');
 
@@ -44,12 +59,14 @@ define([
     
     // document.location.origin is because print task requires the server name.
     // document.location.origin is not universally supported yet
-    var baseUrl = window.location.protocol + '//' + window.location.hostname + '/arcgis/rest/services/DEQEnviro';
+    var baseUrl = window.location.protocol + '//' + domain + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = baseUrl + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
         //      global reference to App
         app: null,
+
+        apiKey: apiKey,
 
         // appName: String
         //      name of the app used in permissionsproxy
@@ -131,7 +148,7 @@ define([
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
             DEQEnviro: baseUrl + '/MapService/MapServer',
             json: '/webdata/DEQEnviro.json',
-            geometryService: '/arcgis/rest/services/Geometry/GeometryServer',
+            geometryService: baseUrl + '/arcgis/rest/services/Geometry/GeometryServer',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
@@ -334,17 +351,6 @@ define([
             return returnLayer;
         }
     };
-
-    if (has('agrc-api-key') === 'prod') {
-        // mapserv.utah.gov
-        window.AGRC.apiKey = 'AGRC-A94B063C533889';
-    } else if (has('agrc-api-key') === 'stage') {
-        // test.mapserv.utah.gov
-        window.AGRC.apiKey = 'AGRC-AC122FA9671436';
-    } else {
-        // localhost
-        window.AGRC.apiKey = 'AGRC-E5B94F99865799';
-    }
 
     return window.AGRC;
 });
