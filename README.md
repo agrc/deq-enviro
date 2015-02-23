@@ -20,3 +20,10 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 [Master Plan](https://github.com/agrc/deq-enviro/wiki/Master-Plan)
 
 [Staging](http://test.mapserv.utah.gov/deqenviro/)
+
+
+### Deploy Notes
+
+To publish the `ExportWebMap` service follow [these steps](http://resources.arcgis.com/en/help/main/10.2/index.html#//00570000009s000000).
+- Templates folder is `maps\PrintTemplates` (not a registered folder with the server).
+- Default template is `Portrait.mxd`
