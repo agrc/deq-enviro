@@ -5,7 +5,7 @@ import os
 queryLayersUrl = 'https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web#gid=0'
 mapServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
 securedServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
-webdata = r'C:\MapData\webdata'
+webdata = r'Z:\Documents\Projects\deq-enviro\src\webdata'
 agsServer = 'localhost'
 
 # database connections

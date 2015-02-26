@@ -31,22 +31,20 @@ define([
     GeometryService
 ) {
     var apiKey;
-    var domain;
+    var agsDomain;
     if (has('agrc-build') === 'prod') {
         // mapserv.utah.gov
-        apiKey = 'AGRC-A94B063C533889';
-        domain = 'mapserv.utah.gov';
+        apiKey = 'AGRC-1B07B497348512';
+        agsDomain = 'mapserv.utah.gov';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         apiKey = 'AGRC-AC122FA9671436';
-        domain = 'test.mapserv.utah.gov';
+        agsDomain = 'test.mapserv.utah.gov';
     } else {
         // localhost
         apiKey = 'AGRC-E5B94F99865799';
-        domain = '/';
+        agsDomain = window.location.host;
     }
-
-    esriConfig.defaults.geometryService = new GeometryService('/arcgis/rest/services/Geometry/GeometryServer');
 
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
@@ -57,9 +55,9 @@ define([
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
     
-    // document.location.origin is because print task requires the server name.
-    // document.location.origin is not universally supported yet
-    var baseUrl = window.location.protocol + '//' + domain + '/arcgis/rest/services/DEQEnviro';
+    var baseUrl = window.location.protocol + '//' + agsDomain;
+    esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
+    var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = baseUrl + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
@@ -146,14 +144,14 @@ define([
         //      Urls for the project
         urls: {
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
-            DEQEnviro: baseUrl + '/MapService/MapServer',
-            json: '/webdata/DEQEnviro.json',
-            geometryService: baseUrl + '/arcgis/rest/services/Geometry/GeometryServer',
+            DEQEnviro: deqServiceFolder + '/MapService/MapServer',
+            json: 'webdata/DEQEnviro.json',
+            geometryService: esriConfig.defaults.geometryService,
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
-            download: baseUrl + '/Toolbox/GPServer/Download',
-            exportWebMap: baseUrl + '/ExportWebMap/GPServer/Export Web Map'
+            download: deqServiceFolder + '/Toolbox/GPServer/Download',
+            exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map'
         },
 
         // layerIndices: Object

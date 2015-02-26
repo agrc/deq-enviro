@@ -1,34 +1,34 @@
 /* jshint camelcase:false */
 define([
-    'dojo/text!./resources/Address.html',
-
-    'dojo/_base/declare',
-    'dojo/Deferred',
-    'dojo/aspect',
-    'dojo/topic',
+    '../config',
 
     'agrc/widgets/locate/FindAddress',
 
-    'esri/tasks/GeometryService',
-    'esri/tasks/BufferParameters',
+    'dojo/_base/declare',
+    'dojo/aspect',
+    'dojo/Deferred',
+    'dojo/text!./resources/Address.html',
+    'dojo/topic',
+
+    'esri/config',
     'esri/geometry/Point',
-
-    '../config'
+    'esri/tasks/BufferParameters',
+    'esri/tasks/GeometryService'
 ], function(
-    template,
-
-    declare,
-    Deferred,
-    aspect,
-    topic,
+    config,
 
     FindAddress,
 
-    GeometryService,
-    BufferParameters,
-    Point,
+    declare,
+    aspect,
+    Deferred,
+    template,
+    topic,
 
-    config
+    esriConfig,
+    Point,
+    BufferParameters,
+    GeometryService
 ) {
     return declare([FindAddress], {
         // description:
@@ -96,7 +96,7 @@ define([
             var that = this;
 
             if (!this.geometryService) {
-                this.geometryService = new GeometryService(config.urls.geometryService);
+                this.geometryService = esriConfig.defaults.geometryService;
                 this.geometryService.on('buffer-complete', function (result) {
                     that.getGeometryDef.resolve(result.geometries[0]);
                     topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, result.geometries[0]);
