@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "1.0.0-2",
+  "version": "1.0.0-3",
   "dependencies": {
     "agrc": "agrc-widgets#2.7.0",
     "bootstrap": "~3.2",
