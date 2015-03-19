@@ -56,7 +56,7 @@ def update_related_tables(test_layer=None):
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
     
-def update(local, remote):
+def update(local, remote, relatedTables='table'):
     logger.logMsg('updating: {} \n    from: {}'.format(local, remote))
     if not arcpy.Exists(local):
         logger.logMsg('creating new local feature class')
@@ -64,7 +64,12 @@ def update(local, remote):
     else:
         arcpy.TruncateTable_management(local)
         try:
-            arcpy.Append_management(remote, local, 'NO_TEST')
+            if relatedTables == 'None':
+                logger.logMsg('copying instead of appending')
+                arcpy.Delete_management(local)
+                arcpy.Copy_management(remote, local)
+            else:
+                arcpy.Append_management(remote, local, 'NO_TEST')
         except:
             with arcpy.da.Editor(settings.fgd) as edit:
                 flds = [f.name for f in arcpy.ListFields(remote)]
@@ -88,7 +93,7 @@ def update_query_layers(test_layer=None):
                     remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
                 else:
                     remoteFc = path.join(settings.dbConnects, l[fieldnames.sourceData])
-                update(localFc, remoteFc)
+                update(localFc, remoteFc, l[fieldnames.relatedTables])
                 
                 # APP-SPECIFIC OPTIMIZATIONS
                 # make sure that it has the five main fields for the fdg only
@@ -105,12 +110,11 @@ def update_query_layers(test_layer=None):
                                 errors.append('Could not find {} in {}'.format(l[f], fcname))
                                 continue
                         else:
-                            mappedFld = namedtuple('literal', 'precision scale length')(**{'precision': 0,
+                            mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
                                                                                            'scale': 0,
-                                                                                           'length': 3})
-
-                        arcpy.AddField_management(localFc, f, 'String',
-                                                  mappedFld.precision, mappedFld.scale, mappedFld.length)
+                                                                                           'length': 50,
+                                                                                           'type': 'String'})
+                        arcpy.AddField_management(localFc, f, 'TEXT', field_length=255)
                 
                     # calc field
                     expression = l[f]

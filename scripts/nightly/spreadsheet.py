@@ -30,7 +30,8 @@ qlFields = [
     ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn],
     ['Additional Searches', fieldnames.additionalSearches],
     ['Custom Symbology Field', fieldnames.ENVIROAPPSYMBOL],
-    ['Sort Field', fieldnames.sortField]
+    ['Sort Field', fieldnames.sortField],
+    ['Related Tables', fieldnames.relatedTables]
 ]
 
 tblFields = [
@@ -54,21 +55,22 @@ linksFields = [
 ]
 
 
-gc = gspread.login(settings.GOOGLE_USER, settings.GOOGLE_PASSWORD)
-spreadsheet = gc.open_by_url(settings.queryLayersUrl)
-
+def _login():
+    # had to login everytime because the session was being closed
+    gc = gspread.login(settings.GOOGLE_USER, settings.GOOGLE_PASSWORD)
+    return gc.open_by_url(settings.queryLayersUrl)
 
 def get_query_layers():
-    return _get_worksheet_data(spreadsheet.worksheet('Query Layers'), qlFields)
+    return _get_worksheet_data(_login().worksheet('Query Layers'), qlFields)
 
 def get_related_tables():
-    return _get_worksheet_data(spreadsheet.worksheet('Related Tables'), tblFields)
+    return _get_worksheet_data(_login().worksheet('Related Tables'), tblFields)
 
 def get_reference_layers():
-    return _get_worksheet_data(spreadsheet.worksheet('Reference Layers'), rlFields)
+    return _get_worksheet_data(_login().worksheet('Reference Layers'), rlFields)
 
 def get_links():
-    return _get_worksheet_data(spreadsheet.worksheet('Other Links'), linksFields)
+    return _get_worksheet_data(_login().worksheet('Other Links'), linksFields)
     
 def get_datasets():
     # return all querylayers, tables, and reference layers
