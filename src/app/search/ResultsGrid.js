@@ -390,10 +390,19 @@ define([
 
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
-            var coordsBucket = {x: [], y: []};
+            var extent = {xmax: null, xmin: null, ymax: null, ymin: null};
             var pushPoint = function (x, y) {
-                coordsBucket.x.push(x);
-                coordsBucket.y.push(y);
+                if (x > extent.xmax || !extent.xmax) {
+                    extent.xmax = x;
+                } else if (x < extent.xmin || !extent.xmin) {
+                    extent.xmin = x;
+                }
+
+                if (y > extent.ymax || !extent.ymax) {
+                    extent.ymax = y;
+                } else if (y < extent.ymin || !extent.ymin) {
+                    extent.ymin = y;
+                }
             };
             var getAttributes = function (graphic) {
                 var geo = graphic.geometry;
@@ -464,13 +473,8 @@ define([
                 }
             }
 
-            if (coordsBucket.x.length > 0 && coordsBucket.y.length > 0) {
-                topic.publish(config.topics.appMapMapController.zoom, new Extent(
-                    Math.min.apply(Math, coordsBucket.x),
-                    Math.min.apply(Math, coordsBucket.y),
-                    Math.max.apply(Math, coordsBucket.x),
-                    Math.max.apply(Math, coordsBucket.y)
-                ));
+            if (extent.xmax && extent.xmin && extent.ymax && extent.ymin) {
+                topic.publish(config.topics.appMapMapController.zoom, new Extent(extent));
             }
 
             return storeData;
