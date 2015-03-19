@@ -58,7 +58,7 @@ define([
     var baseUrl = window.location.protocol + '//' + agsDomain;
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
-    var secureUrl = baseUrl + '/Secure/MapServer';
+    var secureUrl = deqServiceFolder + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
         //      global reference to App
