@@ -124,7 +124,7 @@ module.exports = function(grunt) {
             },
             jshint: {
                 files: jshintFiles,
-                tasks: ['newer:jshint:main', 'jasmine:main:build']
+                tasks: ['jshint:main', 'jasmine:main:build']
             }
         },
         connect: {
@@ -181,7 +181,7 @@ module.exports = function(grunt) {
         },
         esri_slurp: {
             options: {
-                version: '3.11'
+                version: '3.13'
             },
             dev: {
                 options: {

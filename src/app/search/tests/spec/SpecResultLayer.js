@@ -22,7 +22,8 @@ require([
         var testObject;
         var queryLayer = {
             color: [255, 255, 255, 0],
-            sortField: 'n/a'
+            sortField: 'n/a',
+            index: '1'
         };
         var layerIndex = '14';
 
@@ -32,7 +33,7 @@ require([
 
         beforeEach(function() {
             spyOn(config, 'getQueryLayerByIndex').and.returnValue(queryLayer);
-            testObject = new ClassUnderTest([1,2,3], JSON.parse(fSet), 'point', layerIndex);
+            testObject = new ClassUnderTest([1,2,3], [1,2,3], 'point', layerIndex);
             topicMatchers.listen(config.topics.appSearch.identify);
         });
 
@@ -50,18 +51,15 @@ require([
         });
         describe('onClick', function () {
             it('passes the appropriate data to the topic', function () {
-                var geo = {hello: 'hello'};
                 var oid = 123;
                 var g = {
-                    attributes: {OBJECTID: oid},
-                    geometry: geo
+                    attributes: {OBJECTID: oid}
                 };
                 var spy = jasmine.createSpy('stopPropagation');
                 testObject.onClick({graphic: g, stopPropagation: spy});
 
                 expect(config.topics.appSearch.identify).toHaveBeenPublishedWith({
                     parent: testObject.layerIndex,
-                    geometry: geo,
                     OBJECTID: oid
                 });
                 expect(spy).toHaveBeenCalled();

@@ -390,40 +390,13 @@ define([
 
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
-            var extent = {xmax: null, xmin: null, ymax: null, ymin: null};
-            var pushPoint = function (x, y) {
-                if (x > extent.xmax || !extent.xmax) {
-                    extent.xmax = x;
-                } else if (x < extent.xmin || !extent.xmin) {
-                    extent.xmin = x;
-                }
-
-                if (y > extent.ymax || !extent.ymax) {
-                    extent.ymax = y;
-                } else if (y < extent.ymin || !extent.ymin) {
-                    extent.ymin = y;
-                }
-            };
+            var oids = [];
             var getAttributes = function (graphic) {
-                var geo = graphic.geometry;
-                if (geo.type === 'point') {
-                    pushPoint(geo.x, geo.y);
-                } else if (geo.type === 'polyline') {
-                    array.forEach(geo.paths, function (p) {
-                        pushPoint(p[0], p[1]);
-                    });
-                } else {
-                    // polygon
-                    array.forEach(geo.rings, function (r) {
-                        array.forEach(r, function (p) {
-                            pushPoint(p[0], p[1]);
-                        });
-                    });
-                }
-                graphic.attributes.parent = layerIndex;
-                graphic.attributes[fn.UNIQUE_ID] = layerIndex + '-' + graphic.attributes[fn.OBJECTID];
-                graphic.attributes.geometry = graphic.geometry;
-                return graphic.attributes;
+                oids.push(graphic[fn.OBJECTID]);
+                graphic.parent = layerIndex;
+                graphic[fn.UNIQUE_ID] = layerIndex + '-' + graphic[fn.OBJECTID];
+                graphic.geometry = graphic.geometry;
+                return graphic;
             };
             var layerName;
 
@@ -436,7 +409,7 @@ define([
                     var ql = config.getQueryLayerByIndex(layerIndex);
                     layerName = ql.name;
                     var header = {};
-                    var count = data[layerIndex].length;
+                    var count = data[layerIndex].Features.length;
                     var color;
                     if (ql[fn.ENVIROAPPSYMBOL] === 'n/a') {
                         color = config.symbols.colors[colorIndex];
@@ -455,10 +428,11 @@ define([
                     storeData.push(header);
 
                     if (count > 0) {
-                        // show data on map
-                        new ResultLayer(color, data[layerIndex], ql.geometryType, layerIndex);
+                        oids = []; // reset and then populated in getAttributes
+                        storeData = storeData.concat(array.map(data[layerIndex].Features, getAttributes));
 
-                        storeData = storeData.concat(array.map(data[layerIndex], getAttributes));
+                        // show data on map
+                        new ResultLayer(color, oids, ql.geometryType, layerIndex);
                     } else {
                         // show a no data row
                         var noResultsFound = {};
@@ -472,11 +446,6 @@ define([
                     colorIndex = (colorIndex < 11) ? colorIndex + 1 : 0;
                 }
             }
-
-            if (extent.xmax && extent.xmin && extent.ymax && extent.ymin) {
-                topic.publish(config.topics.appMapMapController.zoom, new Extent(extent));
-            }
-
             return storeData;
         },
         onRowEnter: function (evt) {

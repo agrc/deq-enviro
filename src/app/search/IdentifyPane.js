@@ -82,6 +82,7 @@ define([
             // set up one-time query parameters
             this.query = new Query();
             this.query.outFields = ['*'];
+            this.query.returnGeometry = true;
 
             // set up empty grid
             var columns = {
@@ -146,8 +147,6 @@ define([
             //      expects these properties: OBJECTID, parent, geometry, & five main fields
             console.log('app/search/IdentifyPane:identify', arguments);
 
-            this.currentFeatureGeometry = item.geometry;
-            
             // clear previous values
             this.attributeGrid.store.data = null;
             this.attributeGrid.refresh();
@@ -172,7 +171,9 @@ define([
                     if (fSet.features.length === 0) {
                         onError();
                     } else {
-                        formatDates.formatAttributes(fSet.features[0], fSet.fields);
+                        var feat = fSet.features[0];
+                        that.currentFeatureGeometry = feat.geometry;
+                        formatDates.formatAttributes(feat, fSet.fields);
                         that.attributeGrid.store.setData(
                             that.getStoreData(fSet.features[0].attributes,
                                 config.getQueryLayerByIndex(item.parent).fields)

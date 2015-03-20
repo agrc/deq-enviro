@@ -1,6 +1,6 @@
 {
-    "7": [{
-        "attributes": {
+    "7": {
+        "Features": [{
             "ID": "4302110758",
             "NAME": "LITTLE SALT LAKE GOVT 1 (WSW)       ",
             "ADDRESS": "n/a",
@@ -8,213 +8,107 @@
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a",
             "OBJECTID": 1234
-        },
-        "geometry": {
-            "x": 325975.0,
-            "y": 4192037.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302120100",
             "NAME": "SOUTHERN UTAH OIL CO 1(RUSH LAKE 1) ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "NA",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 315482.0,
-            "y": 4192325.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130001",
             "NAME": "SOUTHERN UTAH OIL CO 1              ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 281480.0,
-            "y": 4195389.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130002",
             "NAME": "SHURTZ CREEK                        ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 315447.0,
-            "y": 4163867.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130003",
             "NAME": "CEDAR CITY 1                        ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 311614.0,
-            "y": 4171603.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130004",
             "NAME": "CEDAR CITY U 1                      ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 313981.0,
-            "y": 4168744.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130005",
             "NAME": "TABLE BUTTE U 1                     ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "OW",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 281166.0,
-            "y": 4197009.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130006",
             "NAME": "ARCO THREE PEAKS 1                  ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "NA",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 303171.0,
-            "y": 4180813.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130007",
             "NAME": "HAMBLIN VALLEY 6-5                  ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "OW",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 244604.0,
-            "y": 4215613.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130008",
             "NAME": "FEDERAL 23-34                       ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "OW",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 328885.0,
-            "y": 4198092.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130009",
             "NAME": "FEDERAL 23-44                       ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 329132.0,
-            "y": 4198227.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130010",
             "NAME": "CLARK 2-28                          ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "GW",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 323855.0,
-            "y": 4157431.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302130011",
             "NAME": "CLARK 1-28                          ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 323855.0,
-            "y": 4157444.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "4302150001",
             "NAME": "VANTERRA RUSH LAKE #2               ",
             "ADDRESS": "n/a",
             "CITY": "n/a",
             "TYPE": "D ",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 315404.0,
-            "y": 4193043.0,
-            "type": "point",
-            "spatialReference": null
-        }
-    }],
-    "5": [],
-    "11": [],
-    "15": [{
-        "attributes": {
+        }]
+    },
+    "5": {
+        "Features": []
+    },
+    "11": {
+        "Features": []
+    },
+    "15": {
+        "Features": [{
             "ID": "84720MRCNZ10622",
             "NAME": "AMERICAN PACIFIC CORPORATION UTAH OPERATIONS",
             "ADDRESS": "10622 WEST 6400 NORTH",
@@ -222,27 +116,13 @@
             "TYPE": "TRI Facilities - 84720MRCNZ10622",
             "ENVIROAPPSYMBOL": "n/a",
             "OBJECTID": 5678
-        },
-        "geometry": {
-            "x": 298816.29000000004,
-            "y": 4185526.5399999991,
-            "type": "point",
-            "spatialReference": null
-        }
-    }, {
-        "attributes": {
+        }, {
             "ID": "84720WSTRN997NO",
             "NAME": "WESTERN QUALITY FOODS LLC",
             "ADDRESS": "997 NORTH AIRPORT ROAD",
             "CITY": "CEDAR CITY",
             "TYPE": "TRI Facilities - 84720WSTRN997NO",
             "ENVIROAPPSYMBOL": "n/a"
-        },
-        "geometry": {
-            "x": 315946.12000000011,
-            "y": 4173775.92,
-            "type": "point",
-            "spatialReference": null
-        }
-    }]
+        }]
+    }
 }

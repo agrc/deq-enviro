@@ -1,34 +1,29 @@
 define([
-    'dojo/_base/lang',
-    'dojo/_base/array',
-    'dojo/topic',
-    'dojo/Deferred',
+    '../config',
 
+    'dojo/_base/array',
+    'dojo/_base/lang',
+    'dojo/Deferred',
+    'dojo/topic',
+
+    'esri/geometry/Extent',
+    'esri/graphic',
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
-    'esri/layers/GraphicsLayer',
-    'esri/graphic',
-    'esri/renderers/SimpleRenderer',
-    'esri/symbols/TextSymbol',
-    'esri/symbols/Font',
-
-    '../config'
-
+    'esri/layers/GraphicsLayer'
 ], function(
-    lang,
-    array,
-    topic,
-    Deferred,
+    config,
 
+    array,
+    lang,
+    Deferred,
+    topic,
+
+    Extent,
+    Graphic,
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
-    GraphicsLayer,
-    Graphic,
-    SimpleRenderer,
-    TextSymbol,
-    Font,
-
-    config
+    GraphicsLayer
 ) {
     return {
         // description:
@@ -115,7 +110,9 @@ define([
                 topic.subscribe(t.appMapMapController.showHighlightedFeature,
                     lang.partial(lang.hitch(this, 'graphic'),
                                  'highlightLayer',
-                                 config.symbols.selection))
+                                 config.symbols.selection)),
+                topic.subscribe(t.appSearch.featuresFound,
+                    lang.hitch(this, 'zoomToFeaturesFound'))
             );
         },
         mapIsZoomingOrPanning: function () {
@@ -302,6 +299,30 @@ define([
             }
             if (this.highlightLayer) {
                 this.highlightLayer.clear();
+            }
+        },
+        zoomToFeaturesFound: function (results) {
+            // summary:
+            //      zooms the map to the sum extent of all of the features found
+            // results: Object
+            console.log('app/map/MapController:zoomToFeaturesFound', arguments);
+        
+            var sumExtent;
+            for (var lyr in results) {
+                if (results.hasOwnProperty(lyr) && results[lyr].Features.length) {
+                    var ext = new Extent(results[lyr].Extent);
+                    ext.setSpatialReference(config.spatialReference);
+
+                    if (!sumExtent) {
+                        sumExtent = ext;
+                    } else {
+                        sumExtent = sumExtent.union(ext);
+                    }
+                }
+            }
+
+            if (sumExtent) {
+                this.zoom(sumExtent);
             }
         }
     };

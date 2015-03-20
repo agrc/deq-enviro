@@ -174,5 +174,37 @@ require([
                 expect(testObject.test).toBeDefined();
             });
         });
+        describe('zoomToFeaturesFound', function () {
+            beforeEach(function () {
+                spyOn(testObject, 'zoom');
+            });
+            it('unions all of the extents and passes to zoom', function () {
+                var testResponse = {
+                    34: {
+                        Extent: {
+                            xmax: 5,
+                            xmin: 3,
+                            ymax: 5,
+                            ymin: 3
+                        },
+                        Features: [1,2]
+                    },
+                    s1: {
+                        Extent: {
+                            xmax: 6,
+                            xmin: 4,
+                            ymax: 6,
+                            ymin: 4
+                        },
+                        Features: [3,4]
+                    }
+                };
+                testObject.zoomToFeaturesFound(testResponse);
+
+                expect(testObject.zoom).toHaveBeenCalled();
+                expect(testObject.zoom.calls.mostRecent().args[0].xmax).toEqual(6);
+                expect(testObject.zoom.calls.mostRecent().args[0].ymin).toEqual(3);
+            });
+        });
     });
 });
