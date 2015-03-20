@@ -12,7 +12,7 @@ namespace Search.Api.Models.Response {
         /// The query layers.
         /// </value>
         [JsonProperty(PropertyName = "queryLayers")]
-        public ResponseContainer<Dictionary<int, IEnumerable<JObject>>> QueryLayers { get; set; }
+        public ResponseContainer<Dictionary<int, JObject>> QueryLayers { get; set; }
 
         /// <summary>
         /// Gets or sets the secure query layers.
@@ -21,7 +21,7 @@ namespace Search.Api.Models.Response {
         /// The secure query layers.
         /// </value>
         [JsonProperty(PropertyName = "secureQueryLayers")]        
-        public ResponseContainer<Dictionary<int, IEnumerable<JObject>>> SecureQueryLayers { get; set; }
+        public ResponseContainer<Dictionary<int, JObject>> SecureQueryLayers { get; set; }
 
         /// <summary>
         /// Gets or sets the status.

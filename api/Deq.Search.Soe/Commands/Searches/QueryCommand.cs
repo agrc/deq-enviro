@@ -11,9 +11,10 @@ using Deq.Search.Soe.Models.Search;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
 using EsriJson.Net.Graphic;
+using ESRI.ArcGIS.Geometry;
 
 namespace Deq.Search.Soe.Commands.Searches {
-    public class QueryCommand : Command<Dictionary<int, IEnumerable<Graphic>>> {
+    public class QueryCommand : Command<Dictionary<int, LayerSearchResult>> {
         private readonly IEnumerable<SearchLayerProperties> _layerProperties;
         private readonly EdgeCaseInformation _edgeCase;
         private readonly ISpatialFilter _queryFilter;
@@ -32,15 +33,16 @@ namespace Deq.Search.Soe.Commands.Searches {
                 })
                 .ToDictionary(result => result.map.Index,
                               result => Query(result.map, result.definitionExpression));
-
             Result = results;
         }
 
-        private IEnumerable<Graphic> Query(FeatureClassIndexMap map,
+        private LayerSearchResult Query(FeatureClassIndexMap map,
                                            string definitionExpression) {
-             var featureLayer = new FeatureLayer {
-                    FeatureClass = map.FeatureClass
-                };
+            var searchResult = new LayerSearchResult();
+            var geoBag = new GeometryBag() as IGeometryCollection;
+            var featureLayer = new FeatureLayer {
+                FeatureClass = map.FeatureClass
+            };
 
             if (map.LayerName == ApplicationCache.Settings.FacilityUst && _edgeCase != null && _edgeCase.IsProgramSearch)
             {
@@ -57,7 +59,6 @@ namespace Deq.Search.Soe.Commands.Searches {
 
             var cursor = featureLayer.Search(_queryFilter, true);
 
-            var results = new List<Graphic>();
             var count = 0;
 
             IFeature feature;
@@ -73,18 +74,24 @@ namespace Deq.Search.Soe.Commands.Searches {
 
                 var attributes = CommandExecutor.ExecuteCommand(new GetValueAtIndexCommand(indexes, feature))
                                                 .ToDictionary(k => k.Key, v => v.Value);
-                var geometry =
-                    CommandExecutor.ExecuteCommand(new CreateJsFormatGeometryCommand(feature.ShapeCopy,
-                                                                                     feature.ShapeCopy.SpatialReference));
 
-                var graphic = new Graphic(geometry, attributes);
+                searchResult.Features.Add(attributes);
 
-                results.Add(graphic);
+                geoBag.AddGeometry(feature.ShapeCopy);
+            }
+
+            if (count > 0)
+            {
+                var env = (geoBag as IGeometry3).Envelope;
+                searchResult.Extent.Add("xmax", env.XMax);
+                searchResult.Extent.Add("xmin", env.XMin);
+                searchResult.Extent.Add("ymax", env.YMax);
+                searchResult.Extent.Add("ymin", env.YMin);
             }
 
             Marshal.ReleaseComObject(cursor);
 
-            return results;
+            return searchResult;
         }
 
         public override string ToString() {

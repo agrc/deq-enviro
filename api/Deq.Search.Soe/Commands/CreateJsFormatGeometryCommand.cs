@@ -45,7 +45,7 @@ namespace Deq.Search.Soe.Commands {
                 var line = new Polyline();
 
                 var simpleGeom = Geometry as IPolyline5;
-                simpleGeom.Generalize(2);
+                simpleGeom.Generalize(50);
 
                 if (SpatialReference != null) {
                     simpleGeom.Project(SpatialReference);

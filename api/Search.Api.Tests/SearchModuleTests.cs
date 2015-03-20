@@ -17,14 +17,14 @@ namespace Search.Api.Tests {
             public void Setup() {
                 var serviceMoq = new Mock<IQuerySoeService>();
                 var result =
-                    new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(
-                        new Dictionary<int, IEnumerable<JObject>> {
+                    new ResponseContainer<Dictionary<int, JObject>>(
+                        new Dictionary<int, JObject> {
                             {
-                                1, new Collection<JObject>()
+                                1, new JObject()
                             }
                         });
 
-                serviceMoq.Setup(x => x.Query(It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), false))
+                serviceMoq.Setup(x => x.Query(It.IsAny<Dictionary<string, string>>(), false))
                           .ReturnsAsync(result);
 
                 var bootstrapper = new ConfigurableBootstrapper(cfg => {

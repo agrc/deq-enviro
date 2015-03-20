@@ -18,7 +18,7 @@ namespace Search.Api.Services {
         ///     if set to <c>true</c> [secure].
         /// </param>
         /// <returns></returns>
-        public async Task<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>> Query(
+        public async Task<ResponseContainer<Dictionary<int, JObject>>> Query(
             IEnumerable<KeyValuePair<string, string>> formValues, bool secure)
         {
             using (var client = new HttpClient())
@@ -38,7 +38,7 @@ namespace Search.Api.Services {
 
                 var response = await client.PostAsync(_url, content);
 
-                return await response.Content.ReadAsAsync<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>>(
+                return await response.Content.ReadAsAsync<ResponseContainer<Dictionary<int, JObject>>>(
                     new[]
                         {
                             new TextPlainResponseFormatter()

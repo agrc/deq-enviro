@@ -70,7 +70,7 @@ namespace Search.Api {
                         }
                         catch (InvalidOperationException)
                         {
-                            result.SecureQueryLayers = new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(
+                            result.SecureQueryLayers = new ResponseContainer<Dictionary<int, JObject>>(
                                 null, HttpStatusCode.OK, "User not found")
                                 {
                                     Status = 422
@@ -82,7 +82,7 @@ namespace Search.Api {
                         }
                         catch (ArgumentNullException)
                         {
-                            result.SecureQueryLayers = new ResponseContainer<Dictionary<int, IEnumerable<JObject>>>(
+                            result.SecureQueryLayers = new ResponseContainer<Dictionary<int, JObject>>(
                                 null, HttpStatusCode.OK, "User not found")
                                 {
                                     Status = 422

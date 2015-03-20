@@ -14,6 +14,6 @@ namespace Search.Api.Services {
         /// <param name="formValues">The form values.</param>
         /// <param name="secure">if set to <c>true</c> [secure].</param>
         /// <returns></returns>
-        Task<ResponseContainer<Dictionary<int, IEnumerable<JObject>>>> Query(IEnumerable<KeyValuePair<string, string>> formValues, bool secure);
+        Task<ResponseContainer<Dictionary<int, JObject>>> Query(IEnumerable<KeyValuePair<string, string>> formValues, bool secure);
     }
 }
