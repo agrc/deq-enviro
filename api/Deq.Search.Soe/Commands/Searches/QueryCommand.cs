@@ -39,7 +39,9 @@ namespace Deq.Search.Soe.Commands.Searches {
         private LayerSearchResult Query(FeatureClassIndexMap map,
                                            string definitionExpression) {
             var searchResult = new LayerSearchResult();
-            var geoBag = new GeometryBag() as IGeometryCollection;
+            var geometryCollection = new GeometryBag() as IGeometryCollection;
+
+           
             var featureLayer = new FeatureLayer {
                 FeatureClass = map.FeatureClass
             };
@@ -77,16 +79,22 @@ namespace Deq.Search.Soe.Commands.Searches {
 
                 searchResult.Features.Add(attributes);
 
-                geoBag.AddGeometry(feature.ShapeCopy);
+                if (geometryCollection != null)
+                {
+                    geometryCollection.AddGeometry(feature.ShapeCopy);
+                }
             }
 
             if (count > 0)
             {
-                var env = (geoBag as IGeometry3).Envelope;
-                searchResult.Extent.Add("xmax", env.XMax);
-                searchResult.Extent.Add("xmin", env.XMin);
-                searchResult.Extent.Add("ymax", env.YMax);
-                searchResult.Extent.Add("ymin", env.YMin);
+                var bag = geometryCollection as IGeometryBag;
+                if (bag != null)
+                {
+                    var envelope = bag.Envelope;
+                    var extent = new EsriJson.Net.Geometry.Extent(envelope.XMin, envelope.YMin, envelope.XMax,
+                                                                  envelope.YMax);
+                    searchResult.Extent = extent;
+                }
             }
 
             Marshal.ReleaseComObject(cursor);

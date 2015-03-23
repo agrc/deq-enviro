@@ -91,7 +91,6 @@
   <ItemGroup>
     <Compile Include="Attributes\EndpointAttribute.cs" />
     <Compile Include="Cache\ApplicationCache.cs" />
-    <Compile Include="Commands\CreateJsFormatGeometryCommand.cs" />
     <Compile Include="Commands\GetValueAtIndexCommand.cs" />
     <Compile Include="Commands\CreateLayerMapCommand.cs" />
     <Compile Include="Commands\CreateRestImplementationCommand.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Models\FeatureClassIndexMap.cs" />
     <Compile Include="Models\IndexFieldMap.cs" />
     <Compile Include="Models\Search\EdgeCaseInformation.cs" />
-    <Compile Include="Models\Search\Extent.cs" />
     <Compile Include="Models\Search\QueryArgs.cs" />
     <Compile Include="Models\Search\SearchLayerProperties.cs" />
     <Compile Include="Models\Search\LayerSearchResult.cs" />
@@ -179,7 +177,7 @@
   <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.Server.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_IncrementBeforeBuild="True" />
+      <UserProperties BuildVersion_IncrementBeforeBuild="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
