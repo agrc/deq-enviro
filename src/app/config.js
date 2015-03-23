@@ -146,7 +146,6 @@ define([
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
             DEQEnviro: deqServiceFolder + '/MapService/MapServer',
             json: 'webdata/DEQEnviro.json',
-            geometryService: esriConfig.defaults.geometryService,
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',

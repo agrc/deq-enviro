@@ -1,33 +1,29 @@
 require([
-    'app/search/Shape',
     'app/config',
+    'app/search/Shape',
 
     'dojo/_base/window',
-    'dojo/dom-construct',
-    'dojo/dom-class',
-    'dojo/query',
-    'dojo/promise/Promise',
     'dojo/Deferred',
+    'dojo/dom-class',
+    'dojo/dom-construct',
     'dojo/promise/all',
+    'dojo/promise/Promise',
+    'dojo/query',
 
-    'matchers/topics',
-
-    'stubmodule'
+    'matchers/topics'
 ], function(
-    WidgetUnderTest,
     config,
+    WidgetUnderTest,
 
     win,
-    domConstruct,
-    domClass,
-    query,
-    Promise,
     Deferred,
+    domClass,
+    domConstruct,
     all,
+    Promise,
+    query,
 
-    topics,
-
-    stubmodule
+    topics
 ) {
     describe('app/search/Shape', function() {
         var widget;
@@ -115,30 +111,23 @@ require([
 
                 all([p1, p2]).then(done);
             });
-            it('should buffer a point or line with buffer radius', function (done) {
+            it('should buffer a point or line with buffer radius', function () {
                 var def = new Deferred();
                 var bufferSpy = jasmine.createSpy('buffer').and.returnValue(def);
-                var geoMock = function () {
-                    return {
-                        buffer: bufferSpy,
-                        on: function () {}
-                    };
+                var geoMock = {
+                    buffer: bufferSpy,
+                    on: function () {}
                 };
-                stubmodule('app/search/Shape', {
-                    'esri/tasks/GeometryService': geoMock
-                }).then(function (StubbedModule) {
-                    var testWidget2 = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
-                    spyOn(testWidget2.toolbar, 'deactivate');
-                    testWidget2.geometry = {type: 'point'};
-                    testWidget2.bufferNum.value = '1';
 
-                    testWidget2.getGeometry();
-                    expect(bufferSpy).toHaveBeenCalled();
+                widget.initGeoService();
+                widget.geoService = geoMock;
+                widget.geometry = {type: 'point'};
+                widget.bufferNum.value = '1';
 
-                    destroy(testWidget2);
+                widget.getGeometry();
+                expect(bufferSpy).toHaveBeenCalled();
 
-                    done();
-                });
+                destroy(widget);
             });
         });
         describe('clear', function () {

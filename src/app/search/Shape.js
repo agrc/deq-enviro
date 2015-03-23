@@ -1,45 +1,45 @@
 define([
-    'dojo/text!./templates/Shape.html',
+    '../config',
+    '../map/MapController',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
 
     'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/query',
-    'dojo/dom-class',
-    'dojo/topic',
     'dojo/Deferred',
+    'dojo/dom-class',
     'dojo/has',
+    'dojo/query',
+    'dojo/text!./templates/Shape.html',
+    'dojo/topic',
 
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-
-    'esri/toolbars/draw',
-    'esri/tasks/GeometryService',
+    'esri/config',
     'esri/tasks/BufferParameters',
-
-    '../map/MapController',
-    '../config'
+    'esri/tasks/GeometryService',
+    'esri/toolbars/draw'
 ], function(
-    template,
+    config,
+    MapController,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
 
     declare,
     lang,
-    query,
-    domClass,
-    topic,
     Deferred,
+    domClass,
     has,
+    query,
+    template,
+    topic,
 
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-
-    Draw,
-    GeometryService,
+    esriConfig,
     BufferParameters,
-
-    MapController,
-    config
+    GeometryService,
+    Draw
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
@@ -156,7 +156,7 @@ define([
             console.log('app/search/Shape::initGeoService', arguments);
 
             var that = this;
-            this.geoService = new GeometryService(config.urls.geometryService);
+            this.geoService = esriConfig.defaults.geometryService;
             this.geoService.on('buffer-complete', function (result) {
                 that.getGeometryDef.resolve(result.geometries[0]);
                 topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, result.geometries[0]);
