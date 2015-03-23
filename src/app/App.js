@@ -220,7 +220,8 @@ define([
 
             this.map = new BaseMap(this.mapDiv, {
                 useDefaultBaseMap: false,
-                showLabels: true
+                showLabels: true,
+                showAttribution: false
             });
 
             MapController.init({map: this.map});
