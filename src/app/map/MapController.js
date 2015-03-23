@@ -309,8 +309,8 @@ define([
         
             var sumExtent;
             for (var lyr in results) {
-                if (results.hasOwnProperty(lyr) && results[lyr].Features.length) {
-                    var ext = new Extent(results[lyr].Extent);
+                if (results.hasOwnProperty(lyr) && results[lyr].features.length) {
+                    var ext = new Extent(results[lyr].extent);
                     ext.setSpatialReference(config.spatialReference);
 
                     if (!sumExtent) {

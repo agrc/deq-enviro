@@ -409,7 +409,7 @@ define([
                     var ql = config.getQueryLayerByIndex(layerIndex);
                     layerName = ql.name;
                     var header = {};
-                    var count = data[layerIndex].Features.length;
+                    var count = data[layerIndex].features.length;
                     var color;
                     if (ql[fn.ENVIROAPPSYMBOL] === 'n/a') {
                         color = config.symbols.colors[colorIndex];
@@ -429,7 +429,7 @@ define([
 
                     if (count > 0) {
                         oids = []; // reset and then populated in getAttributes
-                        storeData = storeData.concat(array.map(data[layerIndex].Features, getAttributes));
+                        storeData = storeData.concat(array.map(data[layerIndex].features, getAttributes));
 
                         // show data on map
                         new ResultLayer(color, oids, ql.geometryType, layerIndex);

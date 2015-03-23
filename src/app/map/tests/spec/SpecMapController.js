@@ -181,22 +181,22 @@ require([
             it('unions all of the extents and passes to zoom', function () {
                 var testResponse = {
                     34: {
-                        Extent: {
+                        extent: {
                             xmax: 5,
                             xmin: 3,
                             ymax: 5,
                             ymin: 3
                         },
-                        Features: [1,2]
+                        features: [1,2]
                     },
                     s1: {
-                        Extent: {
+                        extent: {
                             xmax: 6,
                             xmin: 4,
                             ymax: 6,
                             ymin: 4
                         },
-                        Features: [3,4]
+                        features: [3,4]
                     }
                 };
                 testObject.zoomToFeaturesFound(testResponse);

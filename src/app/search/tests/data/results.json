@@ -1,6 +1,6 @@
 {
     "7": {
-        "Features": [{
+        "features": [{
             "ID": "4302110758",
             "NAME": "LITTLE SALT LAKE GOVT 1 (WSW)       ",
             "ADDRESS": "n/a",
@@ -102,13 +102,13 @@
         }]
     },
     "5": {
-        "Features": []
+        "features": []
     },
     "11": {
-        "Features": []
+        "features": []
     },
     "15": {
-        "Features": [{
+        "features": [{
             "ID": "84720MRCNZ10622",
             "NAME": "AMERICAN PACIFIC CORPORATION UTAH OPERATIONS",
             "ADDRESS": "10622 WEST 6400 NORTH",
