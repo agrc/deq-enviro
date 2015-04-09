@@ -34,7 +34,7 @@ require([
         beforeEach(function() {
             spyOn(config, 'getQueryLayerByIndex').and.returnValue(queryLayer);
             testObject = new ClassUnderTest([1,2,3], [1,2,3], 'point', layerIndex);
-            topicMatchers.listen(config.topics.appSearch.identify);
+            topicMatchers.listen(config.topics.appResultLayer.identifyFeature);
         });
 
         describe('Sanity', function() {
@@ -58,10 +58,7 @@ require([
                 var spy = jasmine.createSpy('stopPropagation');
                 testObject.onClick({graphic: g, stopPropagation: spy});
 
-                expect(config.topics.appSearch.identify).toHaveBeenPublishedWith({
-                    parent: testObject.layerIndex,
-                    OBJECTID: oid
-                });
+                expect(config.topics.appResultLayer.identifyFeature).toHaveBeenPublishedWith(oid, layerIndex);
                 expect(spy).toHaveBeenCalled();
             });
         });

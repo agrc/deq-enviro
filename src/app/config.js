@@ -54,7 +54,7 @@ define([
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
-    
+
     var baseUrl = window.location.protocol + '//' + agsDomain;
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
@@ -120,7 +120,8 @@ define([
                 addLayer: 'app/search/ResultLayer.addLayer',
                 removeLayer: 'app/search/ResultLayer.removeLayer',
                 highlightFeature: 'app/search/ResultLayer.highlightFeature',
-                clearSelection: 'app/search/ResultLayer.clearSelection'
+                clearSelection: 'app/search/ResultLayer.clearSelection',
+                identifyFeature: 'app/search/ResultLayer.identifyFeature'
             },
             appSearchIdentifyPane: {
                 backToResults: 'app/search/IdentifyPane.backToResults'

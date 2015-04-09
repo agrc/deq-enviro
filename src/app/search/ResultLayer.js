@@ -198,8 +198,8 @@ define([
             var g = evt.graphic;
             g.attributes.parent = this.layerIndex;
 
-            topic.publish(config.topics.appSearch.identify, g.attributes);
             topic.publish(config.topics.appResultLayer.highlightFeature, g.attributes.OBJECTID, this.layerIndex);
+            topic.publish(config.topics.appResultLayer.identifyFeature, g.attributes.OBJECTID, this.layerIndex);
             topic.publish(config.topics.app.showGrid);
         }
     });

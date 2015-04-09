@@ -110,7 +110,9 @@ define([
                 topic.subscribe(config.topics.appSearch.clear,
                     lang.hitch(this, 'clear')),
                 topic.subscribe(config.topics.appSearch.featuresFound,
-                    lang.hitch(this, 'onFeaturesFound'))
+                    lang.hitch(this, 'onFeaturesFound')),
+                topic.subscribe(config.topics.appResultLayer.identifyFeature,
+                    lang.hitch(this, 'identifyMapFeature'))
             );
         },
         initGrid: function () {
@@ -540,6 +542,17 @@ define([
             }
 
             topic.publish(config.topics.appSearchResultsGrid.downloadFeaturesDefined, downloadIDs, isSelection);
+        },
+        identifyMapFeature: function (oid, layerIndex) {
+            // summary:
+            //      queries for feature attributes and identifies the feature
+            // oid: Number
+            // layerIndex: String
+            console.log('app/search/ResultsGrid:identifyMapFeature', arguments);
+
+            var uid = layerIndex + '-' + oid;
+            var item = this.grid.store.get(uid);
+            topic.publish(config.topics.appSearch.identify, item);
         }
     });
 });
