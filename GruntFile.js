@@ -65,8 +65,8 @@ module.exports = function(grunt) {
         browsers: browsers,
         testname: 'deq-enviro',
         maxRetries: 10,
-        'public': 'public',
         maxPollRetries: 10,
+        'public': 'public',
         throttled: 3,
         sauceConfig: {
             'max-duration': 10800
