@@ -50,7 +50,7 @@ module.exports = function(grunt) {
     ];
     var deployExcludes = [
         '!util/**',
-        '!**/*.uncompressed.js',
+        //'!**/*.uncompressed.js',
         '!**/*consoleStripped.js',
         '!**/*.min.*',
         '!build-report.txt'

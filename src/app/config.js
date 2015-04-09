@@ -33,8 +33,8 @@ define([
     var apiKey;
     var agsDomain;
     if (has('agrc-build') === 'prod') {
-        // mapserv.utah.gov
-        apiKey = 'AGRC-1B07B497348512';
+        // *.utah.gov
+        apiKey = 'AGRC-D3CDE591211690';
         agsDomain = 'mapserv.utah.gov';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
@@ -49,6 +49,7 @@ define([
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('api.mapserv.utah.gov');
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
@@ -149,7 +150,7 @@ define([
             json: 'webdata/DEQEnviro.json',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
-            search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
+            search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map'
         },
