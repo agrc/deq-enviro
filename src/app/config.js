@@ -33,8 +33,8 @@ define([
     var apiKey;
     var agsDomain;
     if (has('agrc-build') === 'prod') {
-        // mapserv.utah.gov
-        apiKey = 'AGRC-1B07B497348512';
+        // *.utah.gov
+        apiKey = 'AGRC-D3CDE591211690';
         agsDomain = 'mapserv.utah.gov';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
@@ -49,16 +49,17 @@ define([
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('api.mapserv.utah.gov');
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
-    
+
     var baseUrl = window.location.protocol + '//' + agsDomain;
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
-    var secureUrl = baseUrl + '/Secure/MapServer';
+    var secureUrl = deqServiceFolder + '/Secure/MapServer';
     window.AGRC = {
         // app: app.App
         //      global reference to App
@@ -76,7 +77,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '1.0.0-3',
+        version: '1.0.0',
 
         // popupDelay: Number
         //      The delay (in milliseconds) before a popup is shown on hover.
@@ -120,7 +121,8 @@ define([
                 addLayer: 'app/search/ResultLayer.addLayer',
                 removeLayer: 'app/search/ResultLayer.removeLayer',
                 highlightFeature: 'app/search/ResultLayer.highlightFeature',
-                clearSelection: 'app/search/ResultLayer.clearSelection'
+                clearSelection: 'app/search/ResultLayer.clearSelection',
+                identifyFeature: 'app/search/ResultLayer.identifyFeature'
             },
             appSearchIdentifyPane: {
                 backToResults: 'app/search/IdentifyPane.backToResults'
@@ -146,10 +148,9 @@ define([
             UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
             DEQEnviro: deqServiceFolder + '/MapService/MapServer',
             json: 'webdata/DEQEnviro.json',
-            geometryService: esriConfig.defaults.geometryService,
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
-            search: location.pathname.replace(/\/(src|dist)\/[^/]*$/, '') + '/api/search',
+            search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map'
         },

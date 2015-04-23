@@ -254,7 +254,7 @@ namespace Deq.Search.Soe.Endpoints {
 
             }
 
-            Dictionary<int, IEnumerable<Graphic>> result;
+            Dictionary<int, LayerSearchResult> result;
             var queryCommand = new QueryCommand(queryFilter, layerProperties, edge);
 
             try
@@ -266,7 +266,7 @@ namespace Deq.Search.Soe.Endpoints {
                 return Json(new ResponseContainer(HttpStatusCode.InternalServerError, ex.Message));
             }
 
-            return Json(new ResponseContainer<Dictionary<int, IEnumerable<Graphic>>>(result));
+            return Json(new ResponseContainer<Dictionary<int, LayerSearchResult>>(result));
         }
     }
 }

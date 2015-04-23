@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
+using EsriJson.Net.Geometry;
+using Newtonsoft.Json;
 
 namespace Deq.Search.Soe.Models.Search {
     /// <summary>
-    ///     The format the response object should be in
+    ///     The format of the individual layer search results
     /// </summary>
-    public class SearchResult {
+    public class LayerSearchResult {
         /// <summary>
         ///     Gets or sets the geometry.
         /// </summary>
         /// <value>
         ///     The geometry represented as json.
         /// </value>
-        public string Geometry { get; set; }
+        [JsonProperty(PropertyName = "extent")]
+        public Extent Extent { get; set; }
 
         /// <summary>
         ///     Gets or sets the attributes.
@@ -19,6 +22,12 @@ namespace Deq.Search.Soe.Models.Search {
         /// <value>
         ///     The attributes as a key value pair.
         /// </value>
-        public Dictionary<string, object> Attributes { get; set; }
+        [JsonProperty(PropertyName = "features")]
+        public List<Dictionary<string, object>> Features { get; set; }
+
+        public LayerSearchResult()
+        {
+            Features = new List<Dictionary<string, object>>();
+        }
     }
 }

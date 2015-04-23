@@ -76,6 +76,7 @@
     <Compile Include="CoordinateReferenceSystem\CoorindateReferenceSystem.cs" />
     <Compile Include="EsriJsonObject.cs" />
     <Compile Include="Geometry\Converters\RingPointConverter.cs" />
+    <Compile Include="Geometry\Extent.cs" />
     <Compile Include="Geometry\IGeometry.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\Polygon.cs" />

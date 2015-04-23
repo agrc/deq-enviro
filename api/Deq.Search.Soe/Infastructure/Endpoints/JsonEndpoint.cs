@@ -12,7 +12,8 @@ namespace Deq.Search.Soe.Infastructure.Endpoints {
         /// <param name="response"> The response parsed to json by json.net and converted to a byte array. </param>
         /// <returns> </returns>
         internal static byte[] Json(object response) {
-            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
+            var value = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
+            return value;
         }
     }
 }

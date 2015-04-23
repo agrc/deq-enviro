@@ -91,7 +91,6 @@
   <ItemGroup>
     <Compile Include="Attributes\EndpointAttribute.cs" />
     <Compile Include="Cache\ApplicationCache.cs" />
-    <Compile Include="Commands\CreateJsFormatGeometryCommand.cs" />
     <Compile Include="Commands\GetValueAtIndexCommand.cs" />
     <Compile Include="Commands\CreateLayerMapCommand.cs" />
     <Compile Include="Commands\CreateRestImplementationCommand.cs" />
@@ -123,7 +122,7 @@
     <Compile Include="Models\Search\EdgeCaseInformation.cs" />
     <Compile Include="Models\Search\QueryArgs.cs" />
     <Compile Include="Models\Search\SearchLayerProperties.cs" />
-    <Compile Include="Models\Search\SearchResult.cs" />
+    <Compile Include="Models\Search\LayerSearchResult.cs" />
     <Compile Include="Models\Search\SearchType.cs" />
     <Compile Include="SoeBase.cs" />
     <Compile Include="Endpoints\DeqSearchRestEndpoint.cs" />
