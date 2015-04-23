@@ -4,7 +4,9 @@ import agrc.logging
 import build_json
 import update_sgid
 import update_fgdb
+import update_ftp
 from agrc import messaging
+from agrc import ags
 import settings
 import sys
 
@@ -32,6 +34,15 @@ def run():
         fgdbErrors = update_fgdb.run(logger, sys.argv[1])
     else:
         fgdbErrors = update_fgdb.run(logger)
+
+    logger.logMsg('restarting services')
+    admin = ags.AGSAdmin(settings.AGS_USER, settings.AGS_PASSWORD, settings.agsServer)
+    admin.stopService('DEQEnviro/Secure', 'MapServer')
+    admin.startService('DEQEnviro/Secure', 'MapServer')
+    admin.stopService('DEQEnviro/MapService', 'MapServer')
+    admin.startService('DEQEnviro/MapService', 'MapServer')
+
+    update_ftp.run(logger)
     
     logger.logMsg('\n\n***** Script completed successfully.')
 

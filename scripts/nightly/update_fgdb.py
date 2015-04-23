@@ -67,6 +67,7 @@ def update(local, remote, relatedTables='table'):
             if relatedTables == 'None':
                 logger.logMsg('copying instead of appending')
                 arcpy.Delete_management(local)
+                logger.logMsg('deleted')
                 arcpy.Copy_management(remote, local)
             else:
                 arcpy.Append_management(remote, local, 'NO_TEST')
