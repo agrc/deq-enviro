@@ -87,7 +87,73 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
+        bump: {
+            options: {
+                files: bumpFiles,
+                commitFiles: bumpFiles,
+                push: false
+            }
+        },
+        clean: {
+            build: ['dist'],
+            deploy: ['deploy']
+        },
+        compress: {
+            options: {
+                archive: 'deploy/dist.zip'
+            },
+            main: {
+                files: [{
+                    src: ['**'].concat(deployExcludes),
+                    dest: './',
+                    cwd: 'dist/',
+                    expand: true
+                }]
+            }
+        },
+        connect: {
+            uses_defaults: {}
+        },
+        copy: {
+            main: {
+                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+            }
+        },
+        dojo: {
+            prod: {
+                options: {
+                    profiles: ['profiles/prod.build.profile.js', 'profiles/build.profile.js'] // Profile for build
+                }
+            },
+            stage: {
+                options: {
+                    profiles: ['profiles/stage.build.profile.js', 'profiles/build.profile.js'] // Profile for build
+                }
+            },
+            options: {
+                dojo: 'src/dojo/dojo.js', // Path to dojo.js file in dojo source
+                releaseDir: '../dist',
+                require: 'src/app/run.js', // Optional: Module to require for the build (Default: nothing)
+                basePath: './src'
+            }
+        },
+        esri_slurp: {
+            options: {
+                version: '3.13'
+            },
+            dev: {
+                options: {
+                    beautify: true
+                },
+                dest: 'src/esri'
+            },
+            travis: {
+                options: {
+                    beautify: false
+                },
+                dest: 'src/esri'
+            }
+        },
         jasmine: {
             main: {
                 src: ['src/app/run.js'],
@@ -115,39 +181,6 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             }
         },
-        watch: {
-            src: {
-                files: jshintFiles.concat(otherFiles),
-                options: {
-                    livereload: true
-                }
-            },
-            jshint: {
-                files: jshintFiles,
-                tasks: ['jshint:main', 'jasmine:main:build']
-            }
-        },
-        connect: {
-            uses_defaults: {}
-        },
-        dojo: {
-            prod: {
-                options: {
-                    profiles: ['profiles/prod.build.profile.js', 'profiles/build.profile.js'] // Profile for build
-                }
-            },
-            stage: {
-                options: {
-                    profiles: ['profiles/stage.build.profile.js', 'profiles/build.profile.js'] // Profile for build
-                }
-            },
-            options: {
-                dojo: 'src/dojo/dojo.js', // Path to dojo.js file in dojo source
-                releaseDir: '../dist',
-                require: 'src/app/run.js', // Optional: Module to require for the build (Default: nothing)
-                basePath: './src'
-            }
-        },
         imagemin: { // Task
             dynamic: { // Another target
                 options: { // Target options
@@ -161,11 +194,7 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        copy: {
-            main: {
-                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
-            }
-        },
+        pkg: grunt.file.readJSON('package.json'),
         processhtml: {
             options: {},
             dist: {
@@ -175,34 +204,11 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: {
-            build: ['dist'],
-            deploy: ['deploy']
-        },
-        esri_slurp: {
-            options: {
-                version: '3.13'
-            },
-            dev: {
-                options: {
-                    beautify: true
-                },
-                dest: 'src/esri'
-            },
-            travis: {
-                options: {
-                    beautify: false
-                },
-                dest: 'src/esri'
+        'saucelabs-jasmine': {
+            all: {
+                options: sauceConfig
             }
-        },
-        bump: {
-            options: {
-                files: bumpFiles,
-                commitFiles: bumpFiles,
-                push: false
-            }
-        },
+        }
         secrets: secrets,
         sftp: {
             stage: {
@@ -247,24 +253,18 @@ module.exports = function(grunt) {
                 }
             }
         },
-        compress: {
-            options: {
-                archive: 'deploy/dist.zip'
+        watch: {
+            src: {
+                files: jshintFiles.concat(otherFiles),
+                options: {
+                    livereload: true
+                }
             },
-            main: {
-                files: [{
-                    src: ['**'].concat(deployExcludes),
-                    dest: './',
-                    cwd: 'dist/',
-                    expand: true
-                }]
+            jshint: {
+                files: jshintFiles,
+                tasks: ['jshint:main', 'jasmine:main:build']
             }
         },
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
-            }
-        }
     });
 
     // Loading dependencies
