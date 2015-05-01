@@ -60,17 +60,18 @@ module.exports = function(grunt) {
     var secrets;
     var sauceConfig = {
         urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
-        tunnelTimeout: 20,
+        tunnelTimeout: 120,
         build: process.env.TRAVIS_JOB_ID,
         browsers: browsers,
         testname: 'deq-enviro',
-        maxRetries: 5,
+        maxRetries: 10,
         'public': 'public',
         maxPollRetries: 10,
         throttled: 3,
         sauceConfig: {
             'max-duration': 10800
-        }
+        },
+        statusCheckAttempts: 500
     };
     try {
         secrets = grunt.file.readJSON('secrets.json');
@@ -259,7 +260,8 @@ module.exports = function(grunt) {
                 srcBasePath: 'deploy/',
                 username: '<%= secrets.username %>',
                 password: '<%= secrets.password %>',
-                showProgress: true
+                showProgress: true,
+                readyTimeout: 120000
             }
         },
         sshexec: {
@@ -291,7 +293,7 @@ module.exports = function(grunt) {
                 files: jshintFiles,
                 tasks: ['jshint:main', 'jasmine:main:build']
             }
-        },
+        }
     });
 
     // Loading dependencies

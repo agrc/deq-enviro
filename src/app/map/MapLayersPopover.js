@@ -56,6 +56,37 @@ define([
                     map: MapController.map
                 }, domConstruct.create('div', {}, this.domNode)),
                 new ReferenceLayerToggle({
+                    layerName: 'UST Facilities',
+                    mapServiceUrl: config.urls.DEQEnviro,
+                    layerIndex: 4,
+                    showLegend: true,
+                    legendHeader: 'TankRiskAverageTest'
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
+                new ScaleDependentReferenceLayerToggle({
+                    layerName: 'Environmental Risk Water Points',
+                    mapServiceUrl: config.urls.DEQEnviro,
+                    layerIndex: 5,
+                    layerProps: {opacity: 0.4},
+                    showLegend: true,
+                    minScaleLevel: config.RiskLayersMinScaleLevel
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
+                new ScaleDependentReferenceLayerToggle({
+                    layerName: 'Environmental Risk Streams',
+                    mapServiceUrl: config.urls.DEQEnviro,
+                    layerIndex: 6,
+                    layerProps: {opacity: 0.4},
+                    showLegend: true,
+                    minScaleLevel: config.RiskLayersMinScaleLevel
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
+                new ScaleDependentReferenceLayerToggle({
+                    layerName: 'Environmental Risk Lakes',
+                    mapServiceUrl: config.urls.DEQEnviro,
+                    layerIndex: 7,
+                    layerProps: {opacity: 0.4},
+                    showLegend: true,
+                    minScaleLevel: config.RiskLayersMinScaleLevel
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
+                new ReferenceLayerToggle({
                     layerName: 'Indian Country and Tribal',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 3,

@@ -144,25 +144,19 @@ define([
             // layerIndex: Number
             console.log('app/map/MapController:addReferenceLayer', arguments);
 
-            // check to see if layer has already been added to the map
-            var that = this;
-            var lyr;
-            var alreadyAdded = array.some(this.map.layerIds, function (id) {
-                return that.map.getLayer(id).url === url;
-            });
+            var LayerClass = (tiledService) ? ArcGISTiledMapServiceLayer : ArcGISDynamicMapServiceLayer;
+            var config = lang.mixin({
+                visible: false,
+                id: url + '_' + layerIndex
+            }, layerProps);
 
-            if (!alreadyAdded) {
-                var LayerClass = (tiledService) ? ArcGISTiledMapServiceLayer : ArcGISDynamicMapServiceLayer;
-                var config = lang.mixin({visible: false}, layerProps);
+            var lyr = new LayerClass(url, config);
 
-                lyr = new LayerClass(url, config);
+            this.map.addLayer(lyr);
+            this.map.addLoaderToLayer(lyr);
 
-                this.map.addLayer(lyr);
-                this.map.addLoaderToLayer(lyr);
-
-                if (layerIndex !== null) {
-                    lyr.setVisibleLayers([-1]);
-                }
+            if (layerIndex !== null) {
+                lyr.setVisibleLayers([-1]);
             }
         },
         toggleReferenceLayer: function (url, layerIndex, on) {
@@ -171,15 +165,7 @@ define([
 
             console.log('app/map/MapController:toggleReferenceLayer', arguments);
 
-            var lyr;
-            var that = this;
-            array.some(this.map.layerIds, function (id) {
-                var l = that.map.getLayer(id);
-                if (l.url === url) {
-                    lyr = l;
-                    return true;
-                }
-            });
+            var lyr = this.map.getLayer(url + '_' + layerIndex);
 
             if (layerIndex !== null) {
                 var visLyrs = lyr.visibleLayers;

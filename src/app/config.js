@@ -196,8 +196,12 @@ define([
         },
 
         // TRSMinScaleLevel: Number
-        //      The minimum scale level that the TRS Layer widget will appear disabled.
+        //      The minimum scale level that the TRS Layer will draw.
         TRSMinScaleLevel: 5,
+
+        // RiskLayersMinScaleLevel: Number
+        //      The minimum scale level that the three risk layers draw.
+        RiskLayersMinScaleLevel: 10,
 
         // appJson: Object
         //      Cache for data returned by getAppJson

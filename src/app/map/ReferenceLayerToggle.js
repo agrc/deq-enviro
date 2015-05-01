@@ -81,14 +81,6 @@ define([
             //    private
             console.log('app/map/ReferenceLayerToggle::postCreate', arguments);
 
-            topic.publish(
-                this.topics.addLayer,
-                this.mapServiceUrl,
-                this.tiledService,
-                this.layerIndex,
-                this.layerProps
-            );
-
             if (this.showLegend) {
                 this.legend = new Legend({
                     mapServiceUrl: this.mapServiceUrl,
@@ -107,6 +99,14 @@ define([
             //      Fired when the user toggles the checkbox
             console.log('app/map/ReferenceLayerToggle:onCheckboxChange', arguments);
         
+            topic.publish(
+                this.topics.addLayer,
+                this.mapServiceUrl,
+                this.tiledService,
+                this.layerIndex,
+                this.layerProps
+            );
+
             topic.publish(this.topics.toggleLayer, this.mapServiceUrl, this.layerIndex, this.checkbox.checked);
         },
         displayLegend: function () {
