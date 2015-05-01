@@ -1,4 +1,5 @@
 /* jshint camelcase: false */
+var path = require('path');
 var osx = 'OS X 10.10';
 var windows = 'Windows 8.1';
 var browsers = [{
@@ -87,6 +88,32 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        arcgis_press: {
+            options: {
+                server: {
+                    username: secrets.ags_username,
+                    password: secrets.ags_password
+                },
+                mapServerBasePath: path.join(process.cwd(), 'maps'),
+                services: {
+                    mapService: {
+                        type: 'MapServer',
+                        serviceName: 'MapService',
+                        resource: 'MapService.mxd',
+                        folder: 'DEQEnviro'
+                    }
+                }
+            },
+            dev: {
+                options: { server: { host: 'localhost' } }
+            },
+            stage: {
+                options: { server: { host: secrets.stageHost } }
+            },
+            prod: {
+                options: { server: { host: secrets.prodHost } }
+            }
+        },
         bump: {
             options: {
                 files: bumpFiles,
@@ -208,7 +235,7 @@ module.exports = function(grunt) {
             all: {
                 options: sauceConfig
             }
-        }
+        },
         secrets: secrets,
         sftp: {
             stage: {
