@@ -53,15 +53,6 @@ require([
             });
         });
         describe('addReferenceLayer', function () {
-            it('doesn\'t add the layer to the map if it\'s already added', function () {
-                map.layerIds = ['one', 'two'];
-                map.getLayer = function (/* layerId */) {
-                    return layer;
-                };
-                testObject.addReferenceLayer(url, false, null);
-
-                expect(map.addLayer).not.toHaveBeenCalled();
-            });
             it('adds the correct layer type', function () {
                 testObject.addReferenceLayer('blah', false, null);
 

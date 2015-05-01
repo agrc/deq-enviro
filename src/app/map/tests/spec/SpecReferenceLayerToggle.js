@@ -54,16 +54,15 @@ require([
             it('should create a ReferenceLayerToggle', function() {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
-            it('published the appropriate addLayer topic', function () {
-                expect(topics.addLayer).toHaveBeenPublishedWith(url, true, index);
-            });
+        });
+        describe('onCheckboxChange', function () {
             it('publishes the appropriate toggleLayer topic', function () {
                 widget.checkbox.checked = true;
                 widget.onCheckboxChange();
 
+                expect(topics.addLayer).toHaveBeenPublishedWith(url, true, index);
                 expect(topics.toggleLayer).toHaveBeenPublishedWith(url, index, true);
             });
         });
-
     });
 });
