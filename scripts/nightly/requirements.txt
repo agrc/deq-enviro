@@ -1,1 +1,3 @@
-gspread==0.1
+gspread==0.2
+oauth2client==1.4
+pyopenssl==0.14

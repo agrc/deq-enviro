@@ -19,6 +19,7 @@ scripts/download/DeqEnviro.py
 scripts/nightly/Logs
 scripts/nightly/scratch.gdb
 scripts/nightly/settings/__init__.py
+scripts/nightly/settings/oauth2key.json
 scripts/secrets.cfg
 secrets.json
 src/agrc/*
