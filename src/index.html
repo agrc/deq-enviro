@@ -29,6 +29,17 @@
     <script src='app/run.js'></script>
     <!-- /build -->
 
+    <!-- build:template:stage
+    <script type="text/javascript">
+        // show test in test build app title
+        require(['dojo/ready'], function (ready) {
+            ready(function () {
+                AGRC.app.titleSpan.innerHTML += ' [TEST]';
+            });
+        });
+    </script>
+    /build -->
+
     <!-- GOOGLE ANALYTICS -->
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

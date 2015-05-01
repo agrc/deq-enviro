@@ -95,24 +95,55 @@ module.exports = function(grunt) {
                     username: secrets.ags_username,
                     password: secrets.ags_password
                 },
+                commonServiceProperties: {
+                    folder: 'DEQEnviro'
+                },
                 mapServerBasePath: path.join(process.cwd(), 'maps'),
                 services: {
                     mapService: {
                         type: 'MapServer',
                         serviceName: 'MapService',
-                        resource: 'MapService.mxd',
-                        folder: 'DEQEnviro'
+                        resource: 'MapService.mxd'
+                    },
+                    secure: {
+                        type: 'MapServer',
+                        serviceName: 'Secure',
+                        resource: 'Secure.mxd'
                     }
                 }
             },
             dev: {
-                options: { server: { host: 'localhost' } }
+                options: {
+                    server: {
+                        host: 'localhost'
+                    },
+                    commonServiceProperties: {
+                        minInstancesPerNode: 0,
+                        maxInstancesPerNode: 2
+                    }
+                }
             },
             stage: {
-                options: { server: { host: secrets.stageHost } }
+                options: {
+                    server: {
+                        host: secrets.stageHost
+                    },
+                    commonServiceProperties: {
+                        minInstancesPerNode: 0,
+                        maxInstancesPerNode: 2
+                    }
+                }
             },
             prod: {
-                options: { server: { host: secrets.prodHost } }
+                options: {
+                    server: {
+                        host: secrets.prodHost
+                    },
+                    commonServiceProperties: {
+                        minInstancesPerNode: 1,
+                        maxInstancesPerNode: 4
+                    }
+                }
             }
         },
         bump: {
@@ -225,7 +256,13 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         processhtml: {
             options: {},
-            dist: {
+            stage: {
+                files: {
+                    'dist/index.html': ['src/index.html'],
+                    'dist/user_admin.html': ['src/user_admin.html']
+                }
+            },
+            prod: {
                 files: {
                     'dist/index.html': ['src/index.html'],
                     'dist/user_admin.html': ['src/user_admin.html']
@@ -267,7 +304,8 @@ module.exports = function(grunt) {
         sshexec: {
             options: {
                 username: '<%= secrets.username %>',
-                password: '<%= secrets.password %>'
+                password: '<%= secrets.password %>',
+                readyTimeout: 120000
             },
             stage: {
                 command: ['cd ' + deployDir, 'unzip -o dist.zip', 'rm dist.zip'].join(';'),
@@ -331,7 +369,7 @@ module.exports = function(grunt) {
         'clean:build',
         'dojo:prod',
         'copy',
-        'processhtml:dist'
+        'processhtml:prod'
     ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
@@ -346,7 +384,7 @@ module.exports = function(grunt) {
         'clean:build',
         'dojo:stage',
         'copy',
-        'processhtml:dist'
+        'processhtml:stage'
     ]);
     grunt.registerTask('deploy-stage', [
         'clean:deploy',

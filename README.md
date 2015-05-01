@@ -32,7 +32,7 @@ Runs nightly on test and prod servers.
 
 Builds `DEQEnviro.json` which the web app uses to configure itself. Part of building this json file is getting all of the map service layer indices so it needs to be rerun manually after adding, removing or reordering any of the map service layers. 
 
-Make sure that you have a latest version of pip before `pip install requirements.txt`.
+Make sure that you have a latest version of pip before `pip install -r requirements.txt`.
 
 This script requires `settings/oauth2key.json`. Check out [the oauth2 gspread docs](http://gspread.readthedocs.org/en/latest/oauth2.html) to learn how to generate it. Make sure to grant read permission to the email address in `client_email` to the config spreadsheets.
 
