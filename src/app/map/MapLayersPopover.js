@@ -56,7 +56,7 @@ define([
                     map: MapController.map
                 }, domConstruct.create('div', {}, this.domNode)),
                 new ReferenceLayerToggle({
-                    layerName: 'UST Facilities',
+                    layerName: 'Environmental Investigation of UST Facilities',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 4,
                     showLegend: true,

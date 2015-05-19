@@ -132,7 +132,7 @@ body, html, .app {
     z-index: 1100 !important;
 }
 .popover {
-    max-width: 300px;
+    max-width: 350px;
 }
 .popover-content {
     max-height: 400px;
