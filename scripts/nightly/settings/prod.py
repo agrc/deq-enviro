@@ -5,5 +5,5 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on prod.s
     'WATER': os.path.join(dbConnects, 'SGID10 as WATER on prod.sde'),
     'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on prod.sde')}
 updateFTP = True
-queryLayersUrl = 'https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web#gid=0'
+queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1-HJViZduddtnxSq35yzhR6YU0U6Pwo0OaimXPHT4vPw/edit#gid=0'
 sendEmails = True
