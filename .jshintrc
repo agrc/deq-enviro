@@ -15,7 +15,8 @@
         "waitsFor",
         "describe",
         "xdescribe",
-        "process"
+        "process",
+        "JSON"
     ],
 
     "bitwise": true,

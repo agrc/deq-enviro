@@ -35,11 +35,11 @@ function (
             });
         });
         it('generates a query layer name lookup object', function () {
-            expect(StubbedModule.queryLayerNames['6']).toEqual('Large Industrial Source Emissions');
+            expect(StubbedModule.queryLayerNames['11']).toEqual('Large Industrial Source Emissions');
         });
         describe('getQueryLayerByIndex', function () {
             it('returns the correct layer', function () {
-                expect(StubbedModule.getQueryLayerByIndex('6').NAME).toBe('Company');
+                expect(StubbedModule.getQueryLayerByIndex('11').NAME).toBe('Company');
             });
         });
     });

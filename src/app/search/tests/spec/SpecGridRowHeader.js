@@ -24,7 +24,8 @@ require([
 
         beforeEach(function() {
             spyOn(config, 'getQueryLayerByIndex').and.returnValue({
-                index: '2'
+                index: '2',
+                legendTitle: 'n/a'
             });
             widget = new WidgetUnderTest({
                 name: 'Scott',

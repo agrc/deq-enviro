@@ -121,7 +121,8 @@ define([
 
             var leg = new Legend({
                 mapServiceUrl: url,
-                layerId: parseInt(ql.index.replace('s', ''), 10)
+                layerId: parseInt(ql.index.replace('s', ''), 10),
+                header: (ql.legendTitle === 'n/a') ? '' : ql.legendTitle
             });
             leg.startup();
 

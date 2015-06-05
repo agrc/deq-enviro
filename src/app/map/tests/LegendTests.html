@@ -34,8 +34,9 @@
             'dojo/domReady!'
         ], function(Module) {
             widgetUnderTest = new Module({
-                mapServiceUrl: '/arcgis/rest/services/DEQEnviro/MapServer',
-                layerId: 0
+                mapServiceUrl: '/arcgis/rest/services/DEQEnviro/MapService/MapServer',
+                layerId: 0,
+                header: 'Test Header'
             }, 'node');
 
             widgetUnderTest.startup();

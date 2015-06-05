@@ -33,7 +33,8 @@ qlFields = [
     ['Additional Searches', fieldnames.additionalSearches],
     ['Custom Symbology Field', fieldnames.ENVIROAPPSYMBOL],
     ['Sort Field', fieldnames.sortField],
-    ['Related Tables', fieldnames.relatedTables]
+    ['Related Tables', fieldnames.relatedTables],
+    ['Legend Title', fieldnames.legendTitle]
 ]
 
 tblFields = [
