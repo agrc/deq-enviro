@@ -201,7 +201,7 @@ define([
 
         // RiskLayersMinScaleLevel: Number
         //      The minimum scale level that the three risk layers draw.
-        RiskLayersMinScaleLevel: 10,
+        RiskLayersMinScaleLevel: 9,
 
         // appJson: Object
         //      Cache for data returned by getAppJson
