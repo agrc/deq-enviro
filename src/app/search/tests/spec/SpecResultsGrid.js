@@ -33,28 +33,32 @@ require([
                         name: 'blah',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.DAQAirEmissionsInventory',
-                        sortField: 'n/a'
+                        sortField: 'n/a',
+                        legendTitle: 'n/a'
                     }, {
                         index: '15',
                         color: [1,2,3,4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.DWQNPDESDischargers',
-                        sortField: 'n/a'
+                        sortField: 'n/a',
+                        legendTitle: 'n/a'
                     }, {
                         index: '5',
                         color: [1,2,3,4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.FeatureClassName',
-                        sortField: 'n/a'
+                        sortField: 'n/a',
+                        legendTitle: 'n/a'
                     }, {
                         index: '11',
                         color: [1,2,3,4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID.HELLO.EnvironmentalIncidents',
-                        sortField: 'n/a'
+                        sortField: 'n/a',
+                        legendTitle: 'n/a'
                     }
                 ]
             };
