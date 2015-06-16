@@ -406,7 +406,9 @@ define([
             var layerIndex;
 
             var colorIndex = 0;
-            for (layerIndex in data) {
+            // for (layerIndex in data) {
+            this.getSortedQueryLayerIds(data, config.appJson.queryLayers).forEach(function (i) {
+                layerIndex = i;
                 if (data.hasOwnProperty(layerIndex)) {
                     var ql = config.getQueryLayerByIndex(layerIndex);
                     layerName = ql.name;
@@ -447,7 +449,7 @@ define([
                     // loop through colors and start over after 12
                     colorIndex = (colorIndex < 11) ? colorIndex + 1 : 0;
                 }
-            }
+            });
             return storeData;
         },
         onRowEnter: function (evt) {
@@ -553,6 +555,22 @@ define([
             var uid = layerIndex + '-' + oid;
             var item = this.grid.store.get(uid);
             topic.publish(config.topics.appSearch.identify, item);
+        },
+        getSortedQueryLayerIds: function (data, queryLayers) {
+            // summary:
+            //      returns a list of query layer ids that are sorted to match
+            //      the order that they appear in the search list
+            // data: Object the data returned from the search service
+            // queryLayers: The array of query layers as defined in DEQEnviro.json
+            console.log('app/search/ResultsGrid:getSortedQueryLayerIds', arguments);
+        
+            var ids = queryLayers.map(function (ql) {
+                return ql.index;
+            });
+
+            return ids.filter(function (i) {
+                return data[i];
+            });
         }
     });
 });

@@ -272,5 +272,12 @@ require([
                 expect(list).toEqual(sorted);
             });
         });
+        describe('getSortedQueryLayerIds', function () {
+            it('sorts the query layers to match the passed in array', function () {
+                var sorted = widget.getSortedQueryLayerIds(testdata, config.appJson.queryLayers);
+
+                expect(sorted).toEqual(['7', '15', '5', '11']);
+            });
+        });
     });
 });
