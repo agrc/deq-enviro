@@ -214,7 +214,7 @@ define([
                     url = config.urls.DEQEnviro + '/' + this.index + '?f=json';
                 }
                 var that = this;
-                request(url, {handleAs: 'json'}).then(function (json) {
+                request(url, {handleAs: 'json', headers: {'X-Requested-With': null}}).then(function (json) {
                     config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
                 });
                 this.requestedSymbology = true;
@@ -288,7 +288,7 @@ define([
             //      when clicking on the help tip
             // evt: mouse click object
             console.log('app/QueryLayer:onHelpTipClick', arguments);
-        
+
             evt.preventDefault();
             window.open(this.helpTip.href, 'new');
         }

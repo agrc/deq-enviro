@@ -107,6 +107,9 @@ define([
                             relationshipId: rel.id,
                             outFields: '*',
                             returnGeometry: false
+                        },
+                        headers: {
+                            'X-Requested-With': null
                         }
                     }).then(function (response) {
                         buildGrid(response, rel.relatedTableId);
@@ -118,7 +121,7 @@ define([
                     domClass.add(that.noRelatedTablesMsg, 'hidden');
                     domClass.remove(that.pillsDiv, 'hidden');
 
-                    // should only ever be one relatedRecordGroup since we are 
+                    // should only ever be one relatedRecordGroup since we are
                     // only passing in one objectid
                     var grid = new RelatedTableGrid({
                         tableId: tableId,
@@ -149,7 +152,10 @@ define([
             var url = config.urls.DEQEnviro + '/' + item.parent;
             request(url, {
                 handleAs: 'json',
-                query: {f: 'json'}
+                query: {f: 'json'},
+                headers: {
+                    'X-Requested-With': null
+                }
             }).then(queryRelationships);
         },
         destroyGrids: function () {
