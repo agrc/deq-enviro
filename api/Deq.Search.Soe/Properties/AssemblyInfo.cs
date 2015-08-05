@@ -30,5 +30,5 @@ using ESRI.ArcGIS.SOESupport;
     Date = "4/15/2014 1:51:49 PM",
     Description = "Deq Search Api",
     TargetProduct = "Server",
-    TargetVersion = "10.2",
+    TargetVersion = "10.3",
     Version = "1.0")]
