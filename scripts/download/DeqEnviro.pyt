@@ -71,13 +71,17 @@ class TableInfo(object):
         :param values: the values you want to find.
         '''
 
-        quote_style = str
-        if len(self.ids) > 0 and isinstance(self.ids[0], basestring):
-            quote_style = lambda v: "'{}'".format(v)
+        if len(self.ids) > 0:
+            if isinstance(self.ids[0], basestring):
+                quote_style = lambda v: "'{}'".format(v)
+            else:
+                quote_style = str
 
-        ids = map(quote_style, self.ids)
+            ids = map(quote_style, self.ids)
 
-        return '{} in ({})'.format(field, ','.join(ids))
+            return '{} in ({})'.format(field, ','.join(ids))
+        else:
+            return '1 = 2'
 
     def export(self, location):
         '''exports the selection_name to the `location`.
