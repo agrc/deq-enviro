@@ -492,6 +492,7 @@ class Tool(object):
         finally:
             arcpy.env.workspace = this
 
+        # not needed when running on arcgis server
         arcpy.Delete_management(input_location)
 
     def _create_xls(self, input_location, output_location):
@@ -578,7 +579,9 @@ class Tool(object):
         folder_to_zip = output_location
         delete_temp_gdb = True
 
+        # not needed when running on server
         self._delete_scratch_data(output_location)
+
         self._create_scratch_folder(output_location)
 
         gdb = self._create_fgdb(output_location)
@@ -614,6 +617,7 @@ class Tool(object):
         else:
             raise Exception('file type not supported: {}'.format(file_type))
 
+        # no needed for server
         if delete_temp_gdb:
             self._delete_scratch_data(output_location, ['gdb'])
 
