@@ -30,10 +30,33 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 Runs nightly on test and prod servers.
 
-Builds `DEQEnviro.json` which the web app uses to configure itself. Part of building this json file is getting all of the map service layer indices so it needs to be rerun manually after adding, removing or reordering any of the map service layers. 
+Builds `DEQEnviro.json` which the web app uses to configure itself. Part of building this json file is getting all of the map service layer indices so it needs to be rerun manually after adding, removing or reordering any of the map service layers.
 
 Make sure that you have a latest version of pip before `pip install -r requirements.txt`.
 
 This script requires `settings/oauth2key.json`. Check out [the oauth2 gspread docs](http://gspread.readthedocs.org/en/latest/oauth2.html) to learn how to generate it. Make sure to grant read permission to the email address in `client_email` to the config spreadsheets.
 
 Updates related data in SGID10. Reads sources from the config spreadsheet.
+
+## Deploy Steps
+
+1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
+    - Import RavenDB and web.config from previous server.
+1. Set up users & roles in ArcGIS Server
+    - Create new roles called `deq_water` & `deq_admin`.
+    - Create users with the same names as the roles. Use the password from the Permission Proxy `web.config`.
+1. Publish `maps/MapService.mxd` and `maps/Secure.mxd` to a `DEQEnviro` folder in ArcGIS Server.
+    - `Secure` should be locked down to just the `deq_admin` and `deq_water` roles.
+1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
+    - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
+1. Run and publish `scripts/download/DeqEnviro.pyt/download` as `Toolbox/download` in the same `DEQEnviro` folder.
+    - You can use these inputs as a test:  
+    ```
+    {"BFNONTARGETED":["Pre5","Pre9","Pre8","Pre4","Pre7","Pre10","Pre12","Pre13","Pre14","Pre11","13","14"],"BFTARGETED":["2A","3","5","6","4","8","9","10","11","12","1","2","7"]}  
+    shp  
+    C:\MapData\DEQEnviro\QueryLayers.gdb
+    ```
+    - `pip install xlsxwriter` from the python installation that ArcGIS Server uses (x64).
+1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
+1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
+    - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
