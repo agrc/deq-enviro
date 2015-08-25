@@ -43,7 +43,7 @@ define([
     } else {
         // localhost
         apiKey = 'AGRC-E5B94F99865799';
-        agsDomain = window.location.host;
+        agsDomain = '127.0.0.1';
     }
 
     // force api to use CORS on mapserv thus removing the test request on app load
