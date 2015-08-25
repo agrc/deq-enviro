@@ -1,6 +1,8 @@
 @import 'DateFilter.css';
 @import 'FieldFilter.css';
 
-.query-layer-filter {
-
+.query-layer-filter [data-dojo-attach-point='filtersContainer'] {
+    max-height: 340px;
+    overflow-y: auto;
+    margin-bottom: 5px;
 }

@@ -9,11 +9,14 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../../../dijit/themes/claro/claro.css" />
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
-    <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../resources/QueryLayerFilter.css">
+    <link rel="stylesheet" href="../../../app/resources/App.css">
     <style type='text/css'>
         body {
             padding: 50px;
+            overflow: auto;
+        }
+        .popover-content {
+            border: solid 1px gray;
         }
     </style>
 
@@ -92,9 +95,17 @@
 </script>
 </head>
 <body class='claro'>
-    <div id="node"></div>
-    <div id="node2"></div>
-    <div id="node3"></div>
-    <div id="node4"></div>
+    <div class="popover-content">
+        <div id="node4"></div>
+    </div>
+    <div class="popover-content">
+        <div id="node"></div>
+    </div>
+    <div class="popover-content">
+        <div id="node2"></div>
+    </div>
+    <div class="popover-content">
+        <div id="node3"></div>
+    </div>
 </body>
 </html>
