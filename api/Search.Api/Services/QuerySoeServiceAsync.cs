@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Containers;
 using Newtonsoft.Json.Linq;
 using Search.Api.Formatters;
+using Search.Api.Properties;
 
 namespace Search.Api.Services {
     public class QuerySoeServiceAsync : IQuerySoeService {
@@ -23,7 +25,8 @@ namespace Search.Api.Services {
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost");
+
+                client.BaseAddress = new Uri(Settings.Default.gisServerBaseUrl);
 
                 var content = new MultipartFormDataContent();
                 foreach (var pair in formValues)

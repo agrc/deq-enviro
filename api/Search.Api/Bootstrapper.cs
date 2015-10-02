@@ -24,13 +24,6 @@ namespace Search.Api {
                     ConnectionStringName = "RavenDb"
                 }.Initialize();
 
-            Store.JsonRequestFactory.ConfigureRequest +=
-                (sender, args) =>
-                    {
-                        args.Request.PreAuthenticate = true;
-                        ((HttpWebRequest) args.Request).UnsafeAuthenticatedConnectionSharing = true;
-                    };
-
             RavenConfig.Register(typeof (UserByIdIndex), Store);
         }
 
