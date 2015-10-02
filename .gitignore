@@ -1,3 +1,8 @@
+_SpecRunner.html
+.DS_Store
+.grunt/
+.project
+.pydevproject
 *.idea/
 *.noseids
 *.odc
@@ -5,14 +10,10 @@
 *.sde
 *.sublime-workspace
 *.svn*
-.DS_Store
-.grunt/
-.project
-.pydevproject
-_SpecRunner.html
 api/Search.Api/.nuget
 deploy
 dist/*
+html-report/
 node_modules/
 scripts/download/.noseids
 scripts/download/DeqEnviro.py
@@ -39,7 +40,6 @@ src/jasmine-jsreporter/
 src/jquery/
 src/ladda-bootstrap/
 src/lodash/
-src/matchers/
 src/mustache/
 src/put-selector/
 src/spin.js/

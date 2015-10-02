@@ -5,7 +5,7 @@ define([
     'dojo/string',
 
     'app/search/SiteName'
-], function(
+], function (
     declare,
     array,
 
@@ -37,7 +37,7 @@ define([
             //      description
             // params: Object
             console.log('app/search/AdditionalSearch:constructor', arguments);
-        
+
             this.baseClass += ' ' + params.fieldType;
         },
         getSearchParam: function () {
@@ -46,7 +46,7 @@ define([
             console.log('app/search/AdditionalSearch:getSearchParam', arguments);
 
             this.inherited(arguments);
-        
+
             var query;
             var that = this;
             if (this.fieldType === 'text') {

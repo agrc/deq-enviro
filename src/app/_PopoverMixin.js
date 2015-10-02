@@ -1,9 +1,13 @@
 define([
+    'jquery',
+    'bootstrap',
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/dom-construct'
 
-], function(
+], function (
+    $,
+    bootstrap,
     declare,
     lang,
     domConstruct
@@ -51,14 +55,14 @@ define([
             // summary:
             //      shows the popover
             console.log('app/_PopoverMixin:show', arguments);
-        
+
             $(this.popoverBtn).popover('show');
         },
         hide: function () {
             // summary:
             //      hides the popover
             console.log('app/_PopoverMixin:hide', arguments);
-        
+
             $(this.popoverBtn).popover('hide');
         }
     });

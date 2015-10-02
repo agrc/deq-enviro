@@ -14,7 +14,7 @@ define([
     '../config',
 
     'esri/geometry/Polygon'
-], function(
+], function (
     template,
 
     declare,
@@ -59,6 +59,11 @@ define([
             console.log('app/search/County::onChange', arguments);
 
             var value = this.select.value;
+            var that = this;
+            var onFail = function (errMsg) {
+                that.errMsg.innerHTML = errMsg;
+                domClass.remove(that.errMsg, 'hidden');
+            };
             var onSuccess = function (data) {
                 if (data.length > 0) {
                     var geo = new Polygon(data[0].geometry);
@@ -68,11 +73,6 @@ define([
                 } else {
                     onFail('No feature found!');
                 }
-            };
-            var that = this;
-            var onFail = function (errMsg) {
-                that.errMsg.innerHTML = errMsg;
-                domClass.remove(that.errMsg, 'hidden');
             };
             var promise;
 
@@ -128,7 +128,7 @@ define([
             // summary:
             //      clears the graphic and associated geometry
             console.log('app/search/County:clear', arguments);
-        
+
             this.geometry = null;
 
             topic.publish(config.topics.appMapMapController.clearGraphics);

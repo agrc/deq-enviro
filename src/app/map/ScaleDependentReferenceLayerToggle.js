@@ -1,19 +1,23 @@
 define([
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/topic',
-    'dojo/dom-class',
+    '../config',
 
     './ReferenceLayerToggle',
-    '../config'
-], function(
-    declare,
-    lang,
-    topic,
-    domClass,
+
+    'dojo/dom-class',
+    'dojo/topic',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
+
+    'bootstrap'
+], function (
+    config,
 
     ReferenceLayerToggle,
-    config
+
+    domClass,
+    topic,
+    declare,
+    lang
 ) {
     return declare([ReferenceLayerToggle], {
         // description:
@@ -34,23 +38,23 @@ define([
             // summary:
             //      description
             console.log('app.map.ScaleDependentReferenceLayerToggle::postCreate', arguments);
-        
+
             // default to disabled
             this.updateDisabledState(this.minScaleLevel - 1);
 
             this.own(
                 topic.subscribe(config.topics.appMapMapController.mapZoom, lang.hitch(this, 'updateDisabledState'))
             );
-            
+
             this.inherited(arguments);
         },
         updateDisabledState: function (zoomLevel) {
             // summary:
-            //      
+            //
             // zoomLevel: Number
             //    The new zoom level of the map
             console.log('app.map.ScaleDependentReferenceLayerToggle::updateDisabledState', arguments);
-        
+
             if (zoomLevel < this.minScaleLevel) {
                 this.checkbox.disabled = true;
                 domClass.add(this.label, 'disabled');
@@ -65,7 +69,7 @@ define([
             // summary:
             //      creates a tooltip for this widget
             console.log('app.map.ScaleDependentReferenceLayerToggle::createTooltip', arguments);
-        
+
             $(this.domNode).tooltip({
                 title: this.msg,
                 delay: {

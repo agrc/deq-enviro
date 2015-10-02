@@ -25,7 +25,6 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Production](http://enviro.deq.utah.gov)
 
-
 ## Nightly Script
 
 Runs nightly on test and prod servers.

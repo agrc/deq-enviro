@@ -5,7 +5,7 @@ define([
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin'
-], function(
+], function (
     template,
 
     declare,
@@ -26,12 +26,12 @@ define([
 
         // paramName: String
         // summary:
-        //      The name of the parameter for the search service 
+        //      The name of the parameter for the search service
         paramName: 'programId',
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -45,7 +45,7 @@ define([
             //      returns the search parameters
             // returns: String
             console.log('app.search.ID::getSearchParam', arguments);
-        
+
             var value = this.textBox.value.trim();
             if (value === '') {
                 throw this.invalidMsg;
@@ -57,7 +57,7 @@ define([
             // summary:
             //      clears the text box
             console.log('app/search/ID:clear', arguments);
-        
+
             this.textBox.value = '';
         }
     });

@@ -8,7 +8,7 @@ define([
     'dijit/_TemplatedMixin',
 
     'app/search/_RadioCheckboxMixin'
-], function(
+], function (
     template,
     radioTemplate,
 
@@ -42,13 +42,13 @@ define([
             // summary:
             //      description
             console.log('Radio:onChange', arguments);
-        
+
         },
         clear: function () {
             // summary:
-            //      
+            //
             console.log('Radio:clear', arguments);
-        
+
             this.item.checked = false;
         }
     });

@@ -14,7 +14,7 @@ define([
 
     'app/config',
     './RelatedTableGrid'
-], function(
+], function (
     template,
 
     declare,
@@ -56,7 +56,7 @@ define([
         //      used to listen for when this tab is shown
         tab: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -75,7 +75,9 @@ define([
             //      fires grid factories that have been queued up by getRelatedFeatures
             console.log('app/search/RelatedTables:buildGrids', arguments);
 
-            array.forEach(this.gridFactories, function (f) { f(); });
+            array.forEach(this.gridFactories, function (f) {
+                f();
+            });
             this.gridFactories = [];
         },
         getRelatedFeatures: function (item) {
@@ -97,6 +99,35 @@ define([
             fiveFields[fn.CITY] = item[fn.CITY];
             fiveFields[fn.TYPE] = item[fn.TYPE];
 
+            var buildGrid = function (relatedResponse, tableId) {
+                var gridFactory = function () {
+                    domClass.add(that.noRelatedTablesMsg, 'hidden');
+                    domClass.remove(that.pillsDiv, 'hidden');
+
+                    // should only ever be one relatedRecordGroup since we are
+                    // only passing in one objectid
+                    var grid = new RelatedTableGrid({
+                        tableId: tableId,
+                        records: (relatedResponse.relatedRecordGroups.length > 0) ?
+                        relatedResponse.relatedRecordGroups[0].relatedRecords :
+                        false,
+                        pillsDiv: that.pillsDiv,
+                        fields: relatedResponse.fields,
+                        fiveFields: fiveFields
+                    }, domConstruct.create('div', null, that.panesDiv));
+                    grid.startup();
+                    that.grids.push(grid);
+                };
+
+                // if related records tab is showing then build grids, otherwise
+                // put them in a queue for later
+                if (domClass.contains(that.tab.parentElement, 'active')) {
+                    gridFactory();
+                } else {
+                    that.gridFactories.push(gridFactory);
+                }
+            };
+            var url = config.urls.DEQEnviro + '/' + item.parent;
             var queryRelationships = function (layerProps) {
                 array.forEach(layerProps.relationships, function (rel) {
                     request(url + '/queryRelatedRecords', {
@@ -116,40 +147,11 @@ define([
                     });
                 });
             };
-            var buildGrid = function (relatedResponse, tableId) {
-                var gridFactory = function () {
-                    domClass.add(that.noRelatedTablesMsg, 'hidden');
-                    domClass.remove(that.pillsDiv, 'hidden');
-
-                    // should only ever be one relatedRecordGroup since we are
-                    // only passing in one objectid
-                    var grid = new RelatedTableGrid({
-                        tableId: tableId,
-                        records: (relatedResponse.relatedRecordGroups.length > 0) ?
-                            relatedResponse.relatedRecordGroups[0].relatedRecords :
-                            false,
-                        pillsDiv: that.pillsDiv,
-                        fields: relatedResponse.fields,
-                        fiveFields: fiveFields
-                    }, domConstruct.create('div', null, that.panesDiv));
-                    grid.startup();
-                    that.grids.push(grid);
-                };
-
-                // if related records tab is showing then build grids, otherwise
-                // put them in a queue for later
-                if (domClass.contains(that.tab.parentElement, 'active')) {
-                    gridFactory();
-                } else {
-                    that.gridFactories.push(gridFactory);
-                }
-            };
 
             domClass.remove(this.noRelatedTablesMsg, 'hidden');
             domClass.add(this.pillsDiv, 'hidden');
             that.destroyGrids();
 
-            var url = config.urls.DEQEnviro + '/' + item.parent;
             request(url, {
                 handleAs: 'json',
                 query: {f: 'json'},

@@ -32,7 +32,7 @@ define([
     'ijit/widgets/authentication/LoginRegister',
 
     'lodash'
-], function(
+], function (
     template,
 
     declare,
@@ -101,7 +101,7 @@ define([
         identifyPane: null,
 
 
-        constructor: function() {
+        constructor: function () {
             // summary:
             //      first function to fire after page loads
             console.info('app.App::constructor', arguments);
@@ -133,7 +133,7 @@ define([
                 })
             );
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Fires when
             console.log('app.App::postCreate', arguments);
@@ -212,8 +212,11 @@ define([
             });
 
             this.buildAnimations();
+
+            // for functional tests to know when app is loaded
+            domClass.add(document.body, 'loaded');
         },
-        initMap: function() {
+        initMap: function () {
             // summary:
             //      Sets up the map
             console.info('app.App::initMap', arguments);

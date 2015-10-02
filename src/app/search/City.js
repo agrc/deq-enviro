@@ -4,7 +4,7 @@ define([
     'dojo/aspect',
 
     'agrc/widgets/locate/MagicZoom'
-], function(
+], function (
     declare,
     Deferred,
     aspect,
@@ -16,7 +16,7 @@ define([
         //      Wrapper around MagicZoom to implement getGeometry
 
         baseClass: 'magic-zoom pad',
-        
+
         // geometry: esri/geometry/Polygon
         //      The most recently zoomed to geometry
         geometry: null,
@@ -57,7 +57,7 @@ define([
             // summary:
             //      clears the text box and any related graphics
             console.log('app/search/City:clear', arguments);
-        
+
             this.textBox.value = '';
 
             this.graphicsLayer.clear();

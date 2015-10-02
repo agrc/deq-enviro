@@ -7,7 +7,7 @@ define([
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin'
-], function(
+], function (
     declare,
     array,
     lang,
@@ -35,10 +35,10 @@ define([
             // summary:
             //      description
             console.log('app/search/_RadioCheckboxMixin:constructor', arguments);
-        
+
             this.items = [];
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             console.log('app.search._RadioCheckboxMixin::postCreate', arguments);
@@ -46,7 +46,7 @@ define([
             var that = this;
             array.forEach(this.filterTxt.split(', '), function (txt) {
                 var parts = /(^.+?)\s\((.+)\)$/.exec(txt);
-                var item = new that.itemClass({
+                var item = new that.itemClass({ // eslint-disable-line new-cap
                     value: parts[1],
                     label: parts[2],
                     name: that.id + '_radio'
@@ -62,21 +62,21 @@ define([
             // summary:
             //      description
             console.log('app/search/_RadioCheckboxMixin:onChange', arguments);
-        
+
         },
         isValid: function () {
             // summary:
             //      description
             // returns: Boolean
             console.log('app/search/_RadioCheckboxMixin:isValid', arguments);
-        
+
             return true;
         },
         getSelectedValues: function () {
             // summary:
             //      returns the values of the selected items
             console.log('app/search/_RadioCheckboxMixin:getSelectedValues', arguments);
-        
+
             var queries = [];
 
             array.forEach(this.items, function (c) {
@@ -101,7 +101,7 @@ define([
             // summary:
             //      clears all checkboxes
             console.log('app/search/_RadioCheckboxMixin:clear', arguments);
-        
+
             array.forEach(this.items, function (c) {
                 c.clear();
             });

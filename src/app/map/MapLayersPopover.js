@@ -14,7 +14,7 @@ define([
     'app/map/MapController',
     'app/map/BaseMapSelector',
     'app/_PopoverMixin'
-], function(
+], function (
     template,
 
     declare,
@@ -33,7 +33,7 @@ define([
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _PopoverMixin], {
         // description:
-        //      Popover that is toggled by the "Map Layers" map button. 
+        //      Popover that is toggled by the "Map Layers" map button.
         //      Contains controls to allow the user to toggle reference and base map layers.
 
         templateString: template,
@@ -43,7 +43,7 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:

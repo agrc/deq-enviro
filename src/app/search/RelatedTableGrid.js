@@ -18,7 +18,7 @@ define([
 
     'app/config',
     'app/formatDates'
-], function(
+], function (
     template,
 
     declare,
@@ -77,7 +77,7 @@ define([
         //      related to
         fiveFields: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:

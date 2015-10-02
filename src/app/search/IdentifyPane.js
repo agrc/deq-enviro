@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'dojo/text!./templates/IdentifyPane.html',
 
     'dojo/_base/declare',
@@ -23,7 +24,8 @@ define([
 
     'dgrid/OnDemandGrid'
 
-], function(
+], function (
+    $,
     template,
 
     declare,
@@ -70,7 +72,7 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
@@ -99,7 +101,7 @@ define([
                 tab: this.relatedAnchor
             }, this.relatedTablesDiv);
         },
-        setupConnections: function() {
+        setupConnections: function () {
             // summary:
             //      wire events, and such
             //
@@ -114,7 +116,7 @@ define([
             //      updates the three link types for this feature
             // item: Object
             console.log('app/search/IdentifyPane:updateLinks', arguments);
-        
+
             var fn = config.fieldNames.queryLayers;
             var obj = {};
             obj[fn.ID] = item[fn.ID];
@@ -196,7 +198,7 @@ define([
             //      hash of properties from feature
             // fields: [<fieldname>, <field alias>][]
             console.log('app/search/IdentifyPane:getStoreData', arguments);
-        
+
             return array.map(fields, function (f) {
                 return {
                     fieldAlias: f[1],
@@ -209,7 +211,7 @@ define([
             //      fires when user clicks on the back to results button
             // evt: Event Object
             console.log('app/search/IdentifyPane:backToResults', arguments);
-        
+
             evt.preventDefault();
 
             this.attributesAnchor.click();
@@ -222,7 +224,7 @@ define([
             //      zooms to the identified feature
             // evt: Event Object
             console.log('app/search/IdentifyPane:zoomToFeature', arguments);
-        
+
             evt.preventDefault();
 
             topic.publish(config.topics.appMapMapController.zoom, this.currentFeatureGeometry);

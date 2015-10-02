@@ -14,7 +14,7 @@ define([
     'app/search/CheckboxFilter',
     'app/search/RadioFilter',
     'app/search/FieldFilter'
-], function(
+], function (
     template,
 
     declare,
@@ -64,10 +64,10 @@ define([
             // summary:
             //      description
             console.log('app/search/QueryLayerFilter:constructor', arguments);
-        
+
             this.filters = [];
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -91,7 +91,7 @@ define([
             // summary:
             //      description
             console.log('app/search/QueryLayerFilter:validate', arguments);
-        
+
             this.applyBtn.disabled = !array.every(this.filters, function (f) {
                 return f.isValid();
             });
@@ -100,14 +100,14 @@ define([
             // summary:
             //      applys the filter to the query layer
             console.log('app/search/QueryLayerFilter:onApply', arguments);
-        
+
             return query;
         },
         onApplyBtnClick: function () {
             // summary:
             //      apply button click handler
             console.log('app/search/QueryLayerFilter:onApplyBtnClick', arguments);
-        
+
             var queries = [];
 
             array.forEach(this.filters, function (f) {
@@ -125,7 +125,7 @@ define([
             // summary:
             //      clears all filters
             console.log('app/search/QueryLayerFilter:onClear', arguments);
-        
+
             array.forEach(this.filters, function (f) {
                 f.clear();
             });

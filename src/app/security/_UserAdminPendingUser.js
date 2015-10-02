@@ -5,7 +5,7 @@ define([
     'dojo/_base/lang',
 
     'ijit/widgets/authentication/_UserAdminPendingUser'
-], function(
+], function (
     template,
 
     declare,
@@ -24,7 +24,7 @@ define([
             // summary:
             //      opens the _UserAdminUser dialog for this user
             console.log('app/security/_UserAdminPendingUser:open', arguments);
-        
+
             this.userAdmin.editUser({
                 accessRules: this.accessRules,
                 additional: this.additional,

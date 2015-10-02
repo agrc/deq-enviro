@@ -35,7 +35,7 @@ define([
     'app/search/ResultLayer',
     'app/search/GridRowHeader'
 
-], function(
+], function (
     template,
 
     declare,
@@ -89,7 +89,7 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
@@ -98,7 +98,7 @@ define([
 
             this.setupConnections();
         },
-        setupConnections: function() {
+        setupConnections: function () {
             // summary:
             //      wire events, and such
             //
@@ -185,7 +185,7 @@ define([
                         console.log('Grid:mayHaveChildren', item.parent);
                         return !item.parent;
                     },
-                    query: function (query, options){
+                    query: function (query, options) {
                         console.log('Grid:query', query, options);
                         query = query || {};
                         options = options || {};
@@ -242,7 +242,7 @@ define([
                 );
             }
         },
-        // jshint ignore:start
+        /*eslint-disable*/
         sortValues: function (sortOptions, a, b) {
             var options = {
                 desc: sortOptions.descending,
@@ -259,7 +259,7 @@ define([
                 hre = /^0x[0-9a-f]+$/i,
                 ore = /^0/,
                 options = options || {},
-                i = function(s) { return options.insensitive && (''+s).toLowerCase() || ''+s },
+                i = function (s) { return options.insensitive && ('' + s).toLowerCase() || '' + s },
                 // convert all to strings strip whitespace
                 x = i(a).replace(sre, '') || '',
                 y = i(b).replace(sre, '') || '',
@@ -267,7 +267,7 @@ define([
                 xN = x.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
                 yN = y.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
                 // numeric, hex or date detection
-                xD = parseInt(x.match(hre)) || (xN.length != 1 && x.match(dre) && Date.parse(x)),
+                xD = parseInt(x.match(hre)) || (xN.length !== 1 && x.match(dre) && Date.parse(x)),
                 yD = parseInt(y.match(hre)) || xD && y.match(dre) && Date.parse(y) || null,
                 oFxNcL, oFyNcL,
                 mult = options.desc ? -1 : 1;
@@ -276,7 +276,7 @@ define([
                 if ( xD < yD ) return -1 * mult;
                 else if ( xD > yD ) return 1 * mult;
             // natural sorting through split numeric strings and default strings
-            for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
+            for (var cLoc = 0, numS = Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
                 // find floats not starting with '0', string or 0 if not defined (Clint Priest)
                 oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
                 oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
@@ -292,13 +292,13 @@ define([
             }
             return 0;
         },
-        // jshint ignore:end
+        /*eslint-enable*/
         onGridSort: function () {
             // summary:
             //      Used to temporarily collapse trees for sorting which increases performance
             //      exponentially.
             console.log('app/search/ResultsGrid:onGridSort', arguments);
-        
+
             var expanded = [];
             var that = this;
             // collapse any open trees
@@ -393,6 +393,8 @@ define([
             var storeData = [];
             var fn = config.fieldNames.queryLayers;
             var oids = [];
+            // declare this outside of for loop so that getAttributes can use it
+            var layerIndex;
             var getAttributes = function (graphic) {
                 oids.push(graphic[fn.OBJECTID]);
                 graphic.parent = layerIndex;
@@ -401,9 +403,6 @@ define([
                 return graphic;
             };
             var layerName;
-
-            // declare this outside of for loop so that getAttributes can use it
-            var layerIndex;
 
             var colorIndex = 0;
             // for (layerIndex in data) {
@@ -563,7 +562,7 @@ define([
             // data: Object the data returned from the search service
             // queryLayers: The array of query layers as defined in DEQEnviro.json
             console.log('app/search/ResultsGrid:getSortedQueryLayerIds', arguments);
-        
+
             var ids = queryLayers.map(function (ql) {
                 return ql.index;
             });

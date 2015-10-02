@@ -9,7 +9,7 @@ define([
 
     'app/config'
 
-], function(
+], function (
     declare,
     array,
     lang,
@@ -23,8 +23,6 @@ define([
     return declare(null, {
         // description:
         //      Creates checkboxes for all available secured layers.
-
-
 
         buildLayerCheckboxes: function () {
             // summary:
@@ -49,7 +47,7 @@ define([
             //      returns values for all selected layer checkboxs
             // returns: String[]
             console.log('app/security/_LayersMixin:getLayers', arguments);
-            
+
             var layers = [];
             query('input', this.layersContainer).forEach(function (node) {
                 if (node.checked) {

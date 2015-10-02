@@ -18,7 +18,7 @@ define([
 
     'app/config',
     'app/map/MapController'
-], function(
+], function (
     template,
 
     declare,
@@ -70,7 +70,7 @@ define([
         //      }
         downloadFeatures: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -81,7 +81,7 @@ define([
 
             this.inherited(arguments);
         },
-        setupConnections: function() {
+        setupConnections: function () {
             // summary:
             //      wire events, and such
             //
@@ -90,13 +90,13 @@ define([
             var that = this;
             this.own(
                 topic.subscribe(config.topics.appSearchResultsGrid.downloadFeaturesDefined,
-                    function(idMap, isSelection) {
+                    function (idMap, isSelection) {
                         that.updateCount(idMap);
                         that.downloadFeatures = idMap;
                         that.toggleSelectionBtn(isSelection);
                     }
                 ),
-                this.watch('count', function(name, original, change){
+                this.watch('count', function (name, original, change) {
                     that.updateVisibility(change);
                 }),
                 topic.subscribe(config.topics.appSearch.clear, lang.hitch(this, 'clear')),
@@ -113,7 +113,7 @@ define([
             this.hideDownloadLink();
             this.toggleSelectionBtn(false);
         },
-        updateCount: function(data) {
+        updateCount: function (data) {
             // summary:
             //      receives the data from the search xhr and sets the count
             //      value of the label to the number of results
@@ -132,14 +132,13 @@ define([
 
             return count;
         },
-        updateVisibility: function(value) {
+        updateVisibility: function (value) {
             // summary:
             //      enables and disables the download button based on result counts
             // value
             console.log('app.download.Download::updateButtonState', arguments);
 
-            if(value !== '0')
-            {
+            if (value !== '0') {
                 domClass.replace(this.domNode, 'show', 'hidden');
                 return;
             }

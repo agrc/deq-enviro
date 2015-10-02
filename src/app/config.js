@@ -40,10 +40,11 @@ define([
         // test.mapserv.utah.gov
         apiKey = 'AGRC-AC122FA9671436';
         agsDomain = 'test.mapserv.utah.gov';
+        esriConfig.defaults.io.corsEnabledServers.push(agsDomain);
     } else {
         // localhost
         apiKey = 'AGRC-E5B94F99865799';
-        agsDomain = '127.0.0.1';
+        agsDomain = '';
     }
 
     // force api to use CORS on mapserv thus removing the test request on app load
@@ -56,7 +57,7 @@ define([
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
 
-    var baseUrl = window.location.protocol + '//' + agsDomain;
+    var baseUrl = (agsDomain !== '') ? window.location.protocol + '//' + agsDomain : '';
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = deqServiceFolder + '/Secure/MapServer';

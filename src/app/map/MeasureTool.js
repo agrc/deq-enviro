@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'dojo/text!./templates/MeasureTool.html',
 
     'dojo/_base/declare',
@@ -10,7 +11,8 @@ define([
     'esri/dijit/Measurement',
 
     'app/_PopoverMixin'
-], function(
+], function (
+    $,
     template,
 
     declare,
@@ -40,7 +42,7 @@ define([
         // map: Map
         map: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -48,8 +50,10 @@ define([
             console.log('app.map.MeasureTool::postCreate', arguments);
 
             // this is to prevent bad coords calculated in Measurement
-            this.map.spatialReference._isWrappable = function () { return true; };
-            
+            this.map.spatialReference._isWrappable = function () {
+                return true;
+            };
+
             this.widget = new Measurement({
                 map: this.map
                 // advancedLocationUnits: true
@@ -61,7 +65,7 @@ define([
 
             this.inherited(arguments);
         },
-        setupConnections: function() {
+        setupConnections: function () {
             // summary:
             //      wire events, and such
             //

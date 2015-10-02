@@ -14,7 +14,7 @@ define([
     'esri/SpatialReference',
     'esri/tasks/FeatureSet',
     'esri/tasks/query'
-], function(
+], function (
     config,
 
     Destroyable,

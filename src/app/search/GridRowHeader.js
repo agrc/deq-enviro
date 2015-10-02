@@ -13,7 +13,7 @@ define([
 
     'agrc/modules/Formatting'
 
-], function(
+], function (
     template,
 
     declare,
@@ -61,19 +61,19 @@ define([
             // summary:
             //      description
             console.log('app/search/GridRowHeader:constructor', arguments);
-        
+
             this.inherited(arguments);
         },
         postMixInProperties: function () {
             // summary:
             //      description
             console.log('app/search/GridRowHeader:postMixInProperties', arguments);
-        
+
             this.count = formatting.addCommas(this.count);
 
             this.inherited(arguments);
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -116,7 +116,7 @@ define([
             //      description
             // ql: QueryLayer
             console.log('app/search/GridRowHeader:buildLegend', arguments);
-        
+
             var url = (ql.index[0] === 's') ? config.urls.secure : config.urls.DEQEnviro;
 
             var leg = new Legend({

@@ -11,7 +11,7 @@ define([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/layers/GraphicsLayer'
-], function(
+], function (
     config,
 
     array,
@@ -59,7 +59,7 @@ define([
 
             lang.mixin(this, params);
 
-            // clear selected features if the user clicks on the map but 
+            // clear selected features if the user clicks on the map but
             // not on any feature
             var that = this;
             this.map.on('click', function (evt) {
@@ -292,7 +292,7 @@ define([
             //      zooms the map to the sum extent of all of the features found
             // results: Object
             console.log('app/map/MapController:zoomToFeaturesFound', arguments);
-        
+
             var sumExtent;
             for (var lyr in results) {
                 if (results.hasOwnProperty(lyr) && results[lyr].features.length) {

@@ -8,7 +8,7 @@
             typeof window !== 'undefined' &&
             window.dojoConfig &&
             window.dojoConfig.isJasmineTestRunner
-            ) ? '/src': './',
+            ) ? '/src' : './',
         packages: [
             'agrc',
             'app',
@@ -65,4 +65,4 @@
     require(config, ['dojo/parser', 'dojo/domReady!', 'jquery'], function (parser) {
         parser.parse();
     });
-})();
+}());

@@ -9,7 +9,7 @@ define([
 
     'app/config'
 
-], function(
+], function (
     template,
 
     declare,
@@ -31,7 +31,7 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -45,7 +45,7 @@ define([
             //      description
             // param: type or return: type
             console.log('app/map/BaseMapSelector:loadDefaultThemes', arguments);
-        
+
             this.inherited(arguments);
 
             var that = this;
@@ -62,7 +62,7 @@ define([
             //      description
             // evt: Event Object
             console.log('app/map/BaseMapSelector:onChange', arguments);
-        
+
             this.changeTheme(evt.target.value);
         }
     });

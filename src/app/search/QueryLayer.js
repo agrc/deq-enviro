@@ -15,7 +15,7 @@ define([
     'app/config',
     'app/search/QueryLayerFilter'
 
-], function(
+], function (
     template,
 
     declare,
@@ -93,7 +93,7 @@ define([
         additionalSearchObjects: null,
 
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:

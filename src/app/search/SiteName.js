@@ -5,7 +5,7 @@ define([
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin'
-], function(
+], function (
     template,
 
     declare,
@@ -34,7 +34,7 @@ define([
             //      returns the appropriately formatted search object
             // returns: {}
             console.log('app/search/SiteName::getSearchParam', arguments);
-        
+
             if (this.textBox.value.trim() === '') {
                 throw this.invalidMsg;
             }
@@ -48,7 +48,7 @@ define([
             // summary:
             //      clears out the text box
             console.log('app/search/SiteName:clear', arguments);
-        
+
             this.textBox.value = '';
         }
     });

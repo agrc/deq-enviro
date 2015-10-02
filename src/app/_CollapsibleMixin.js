@@ -2,7 +2,7 @@ define([
     'dojo/_base/declare',
 
     'bootstrap'
-], function(
+], function (
     declare
 ) {
     return declare(null, {
@@ -14,7 +14,7 @@ define([
             // summary:
             //      description
             console.log('app/_CollapsibleMixin::postCreate', arguments);
-        
+
             var pane = $('.accordion-collapse', this.domNode).collapse({
                 parent: this.domNode,
                 toggle: false

@@ -12,7 +12,7 @@ define([
     './Legend',
     '../config'
 
-], function(
+], function (
     template,
 
     declare,
@@ -28,7 +28,7 @@ define([
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
-        //      Provides controls for the user to show/hide a reference layer on the map. 
+        //      Provides controls for the user to show/hide a reference layer on the map.
         //      Can handle stand-alone services or individual layers within a service.
 
         templateString: template,
@@ -74,7 +74,7 @@ define([
         //      passed to legend widget
         legendHeader: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
@@ -98,7 +98,7 @@ define([
             // summary:
             //      Fired when the user toggles the checkbox
             console.log('app/map/ReferenceLayerToggle:onCheckboxChange', arguments);
-        
+
             topic.publish(
                 this.topics.addLayer,
                 this.mapServiceUrl,
@@ -114,7 +114,7 @@ define([
             //      Have to re-initialize the legend each time because it's destroyed
             //      when the MapLayersPopover is closed. Not sure why.
             console.log('app/map/ReferenceLayerToggle:displayLegend', arguments);
-        
+
             $(this.legendTip).tooltip({
                 title: this.legend.domNode,
                 html: true,
@@ -128,7 +128,7 @@ define([
             // summary:
             //      description
             console.log('app/map/ReferenceLayerToggle:hideLegend', arguments);
-        
+
             $(this.legendTip).tooltip('hide');
         }
     });

@@ -7,7 +7,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin'
 
-], function(
+], function (
     template,
 
     declare,

@@ -13,7 +13,7 @@ define([
 
     'selectpicker',
     'datepicker'
-], function(
+], function (
     template,
 
     declare,
@@ -42,7 +42,7 @@ define([
         //      props: phone, address, city, state, zip
         additional: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -90,7 +90,7 @@ define([
             // summary:
             //      overriden to require at least one layer and geographic region
             console.log('app/security/_UserAdminUser:isValid', arguments);
-        
+
             var counties = $(this.countiesSelect).val();
             var endDate = $(this.endDate).datepicker('getDate').getTime();
             return (
@@ -125,7 +125,7 @@ define([
             // summary:
             //      overriden from inherited to add additional properties
             console.log('app/security/_UserAdminUser:getData', arguments);
-        
+
             var data = this.inherited(arguments);
             data.additional = {
                 phone: this.phoneTxt.value,

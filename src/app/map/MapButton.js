@@ -7,7 +7,7 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin'
 
-], function(
+], function (
     template,
 
     declare,
@@ -19,7 +19,7 @@ define([
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
         //      Tool buttons for placing below the zoom controls on the map.
-        //      NOTE: This widget must be placed within a div.map-button-container 
+        //      NOTE: This widget must be placed within a div.map-button-container
         //      within the map div. This is to allow for multiple buttons per map.
 
         templateString: template,
@@ -36,7 +36,7 @@ define([
         //      to use with this tool. For example, `list`.
         iconName: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
@@ -45,7 +45,7 @@ define([
 
             this.setupConnections();
         },
-        setupConnections: function() {
+        setupConnections: function () {
             // summary:
             //      wire events, and such
             //

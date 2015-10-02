@@ -8,7 +8,7 @@ define([
 
     'app/search/_RadioCheckboxMixin',
     'app/Checkbox'
-], function(
+], function (
     template,
 
     declare,

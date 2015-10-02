@@ -11,7 +11,7 @@ define([
 
     // use esri/request so that LoginRegister can add token if needed
     'esri/request'
-], function(
+], function (
     _TemplatedMixin,
     _WidgetBase,
 
@@ -44,7 +44,7 @@ define([
         //      text that shows above the legend items
         header: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -70,7 +70,7 @@ define([
             //      builds the legend elements from the items array
             // items: Object[]
             console.log('app.map.Legend::buildLegend', arguments);
-        
+
             var that = this;
             array.forEach(items, function (item) {
                 domConstruct.place(dojoString.substitute(rowTemplate, item), that.table);

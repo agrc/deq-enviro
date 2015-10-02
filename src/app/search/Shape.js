@@ -19,7 +19,7 @@ define([
     'esri/tasks/BufferParameters',
     'esri/tasks/GeometryService',
     'esri/toolbars/draw'
-], function(
+], function (
     config,
     MapController,
 
@@ -72,7 +72,7 @@ define([
 
         // Properties to be sent into constructor
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -82,7 +82,7 @@ define([
             this.toolbar = new Draw(MapController.map);
 
             query('.btn-group .btn', this.domNode)
-                .onclick(lang.hitch(this, 'onToolBtnClick'));
+                .on('click', lang.hitch(this, 'onToolBtnClick'));
 
             this.own(
                 this.toolbar.on('draw-complete', lang.hitch(this, 'onDrawComplete'))

@@ -1,4 +1,5 @@
 define([
+    'bootstrap',
     'dojo/text!./templates/Print.html',
 
     'dojo/_base/declare',
@@ -20,7 +21,8 @@ define([
 
     'app/_PopoverMixin',
     'app/config'
-], function(
+], function (
+    bootstrap,
     template,
 
     declare,
@@ -66,7 +68,7 @@ define([
         // map: Map
         map: null,
 
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //      Overrides method of same name in dijit._Widget.
             // tags:
@@ -118,7 +120,7 @@ define([
             //      print completed successfully
             // evt: {result: {url: String}}
             console.log('app/map/Print:onComplete', arguments);
-        
+
             this.downloadLink.href = evt.result.url;
             domClass.remove(this.downloadLinkAlert, 'hidden');
 
@@ -131,7 +133,7 @@ define([
             //      print returned an error
             // evt: {error: Error}
             console.log('app/map/Print:onError', arguments);
-        
+
             this.showErrMsg(evt.error.message);
             this.hideLoader();
         },
@@ -140,7 +142,7 @@ define([
             //      disables the print button and sets message text
             // msg: String
             console.log('app/map/Print:showLoader', arguments);
-        
+
             this.printBtn.disabled = true;
             this.printBtn.innerHTML = msg;
 
@@ -153,7 +155,7 @@ define([
             // summary:
             //      resets the button
             console.log('app/map/Print:hideLoader', arguments);
-        
+
             this.printBtn.disabled = false;
             this.printBtn.innerHTML = this.btnText;
             $(this.popoverBtn).popover('show');
@@ -162,7 +164,7 @@ define([
             // summary:
             //      hides the link after the user clicks on it
             console.log('app/map/Print:hideLink', arguments);
-        
+
             domClass.add(this.downloadLinkAlert, 'hidden');
             $(this.popoverBtn).popover('show');
         }

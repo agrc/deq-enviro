@@ -1,18 +1,10 @@
-/* jshint camelcase: false */
 var path = require('path');
 var osx = 'OS X 10.10';
 var windows = 'Windows 8.1';
 var browsers = [{
-
-    // OSX
-
     browserName: 'safari',
     platform: osx
 }, {
-
-
-    // Windows
-
     browserName: 'firefox',
     platform: windows
 }, {
@@ -26,23 +18,28 @@ var browsers = [{
     browserName: 'internet explorer',
     platform: 'Windows 8',
     version: '10'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '9'
 }];
+// ports
+var seleniumPort = 4444;  // selenium server
+var serverReplayPort = 9002;  // server-replay answers here (/arcgis /webdata)
+var internProxyPort = 9000;  // intern proxy port (everything that goes through here gets code coverage reports)
+var internTestServerPort = 9001;  // grunt-contrib-connect server for hosting intern tests
+var developmentPort = 8000;
 
-module.exports = function(grunt) {
-    var jsFiles = 'src/app/**/*.js';
+
+module.exports = function (grunt) {
+    grunt.loadNpmTasks('intern');
+    grunt.loadNpmTasks('grunt-server-replay');
+    require('load-grunt-tasks')(grunt);
+
+    var gruntFile = 'GruntFile.js';
+    var jsFiles = ['src/app/**/*.js', 'tests/**/*.js', gruntFile];
     var otherFiles = [
         'src/app/**/*.html',
         'src/app/**/*.css',
         'src/index.html',
         'src/ChangeLog.html'
     ];
-    var gruntFile = 'GruntFile.js';
-    var internFile = 'tests/intern.js';
-    var jshintFiles = [jsFiles, gruntFile, internFile];
     var bumpFiles = [
         'package.json',
         'bower.json',
@@ -58,26 +55,9 @@ module.exports = function(grunt) {
     ];
     var deployDir = 'wwwroot/DEQEnviro';
     var secrets;
-    var sauceConfig = {
-        urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
-        tunnelTimeout: 120,
-        build: process.env.TRAVIS_JOB_ID,
-        browsers: browsers,
-        testname: 'deq-enviro',
-        maxRetries: 10,
-        maxPollRetries: 10,
-        throttled: 5,
-        sauceConfig: {
-            'max-duration': 10800
-        },
-        statusCheckAttempts: 500
-    };
     try {
         secrets = grunt.file.readJSON('secrets.json');
-        sauceConfig.username = secrets.sauce_name;
-        sauceConfig.key = secrets.sauce_key;
     } catch (e) {
-        // swallow for build server
         secrets = {
             stageHost: '',
             prodHost: '',
@@ -170,7 +150,38 @@ module.exports = function(grunt) {
             }
         },
         connect: {
-            uses_defaults: {}
+            intern_unit: {
+                options: {
+                    livereload: true,
+                    port: developmentPort,
+                    base: '.'
+                }
+            },
+            intern_functional: {
+                options: {
+                    port: internTestServerPort,
+                    hostname: 'localhost',
+                    middleware: function (connect, options, defaultMiddleware) {
+                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                        return (defaultMiddleware) ? [proxy].concat(defaultMiddleware) : [proxy];
+                    }
+                },
+                proxies: [{
+                    // response servered from /tests/har_data/page_load.har
+                    context: ['/arcgis', '/src/webdata', '/dist/webdata'],
+                    host: 'localhost',
+                    port: serverReplayPort,
+                    rewrite: {
+                        '/src/webdata/DEQEnviro.json': '/webdata/DEQEnviro.json',
+                        '/dist/webdata/DEQEnviro.json': '/webdata/DEQEnviro.json'
+                    }
+                }, {
+                    // response served up through intern for code coverage
+                    context: '/',
+                    host: 'localhost',
+                    port: internProxyPort
+                }]
+            }
         },
         copy: {
             main: {
@@ -189,10 +200,18 @@ module.exports = function(grunt) {
                 }
             },
             options: {
-                dojo: 'src/dojo/dojo.js', // Path to dojo.js file in dojo source
+                dojo: 'src/dojo/dojo.js',
                 releaseDir: '../dist',
-                require: 'src/app/run.js', // Optional: Module to require for the build (Default: nothing)
+                require: 'src/app/run.js',
                 basePath: './src'
+            }
+        },
+        eslint: {
+            options: {
+                configFile: '.eslintrc'
+            },
+            main: {
+                src: jsFiles
             }
         },
         esri_slurp: {
@@ -212,36 +231,9 @@ module.exports = function(grunt) {
                 dest: 'src/esri'
             }
         },
-        jasmine: {
-            main: {
-                src: ['src/app/run.js'],
+        imagemin: {
+            dynamic: {
                 options: {
-                    specs: ['src/app/**/Spec*.js'],
-                    vendor: [
-                        'src/jasmine-favicon-reporter/vendor/favico.js',
-                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
-                        'src/app/tests/jasmineTestBootstrap.js',
-                        'src/dojo/dojo.js',
-                        'src/app/tests/jsReporterSanitizer.js',
-                        'src/app/tests/jasmineAMDErrorChecking.js'
-                    ],
-                    host: 'http://localhost:8000'
-                }
-            }
-        },
-        jshint: {
-            main: {
-                // must use src for newer to work
-                src: jshintFiles
-            },
-            options: {
-                jshintrc: '.jshintrc'
-            }
-        },
-        imagemin: { // Task
-            dynamic: { // Another target
-                options: { // Target options
                     optimizationLevel: 3
                 },
                 files: [{
@@ -250,6 +242,56 @@ module.exports = function(grunt) {
                     src: '**/*.{png,jpg,gif}', // Actual patterns to match
                     dest: 'src/'
                 }]
+            }
+        },
+        intern: {
+            options: {
+                runType: 'runner',
+                config: 'tests/intern',
+                reporters: ['Pretty'],
+                tunnelOptions: {
+                    username: secrets.sauce_name,
+                    accessKey: secrets.sauce_key
+                },
+                suites: ['tests/unit/all'],
+                functionalSuites: ['tests/functional/all']
+            },
+            src: {
+                options: {
+                    leaveRemoteOpen: true,
+                    tunnel: 'NullTunnel',
+                    indexPrefix: 'src',
+                    suites: []
+                }
+            },
+            dist: {
+                options: {
+                    tunnel: 'NullTunnel',
+                    indexPrefix: 'dist'
+                }
+            },
+            travis: {
+                options: {
+                    environments: browsers,
+                    indexPrefix: 'dist',
+                    reporters: ['Runner']
+                }
+            },
+            testServer: {
+                options: {
+                    tunnel: 'NullTunnel',
+                    indexUrl: 'http://test.mapserv.utah.gov/deqenviro',
+                    proxyPort: 9001,
+                    suites: []
+                }
+            },
+            prodServer: {
+                options: {
+                    tunnel: 'NullTunnel',
+                    indexUrl: 'http://enviro.deq.utah.gov',
+                    proxyPort: 9001,
+                    suites: []
+                }
             }
         },
         pkg: grunt.file.readJSON('package.json'),
@@ -268,12 +310,22 @@ module.exports = function(grunt) {
                 }
             }
         },
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
+        secrets: secrets,
+        selenium_start: {
+            options: {
+                port: seleniumPort
             }
         },
-        secrets: secrets,
+        server_replay: {
+            main: {
+                options: {
+                    port: serverReplayPort,
+                    // TODO: will be multiple files in the future: https://github.com/agrc/grunt-server-replay/issues/1
+                    harPath: 'tests/functional/har_data/page_load.har',
+                    debug: false
+                }
+            }
+        },
         sftp: {
             stage: {
                 files: {
@@ -292,7 +344,6 @@ module.exports = function(grunt) {
                 }
             },
             options: {
-                path: './' + deployDir + '/',
                 srcBasePath: 'deploy/',
                 username: '<%= secrets.username %>',
                 password: '<%= secrets.password %>',
@@ -321,45 +372,36 @@ module.exports = function(grunt) {
         },
         watch: {
             src: {
-                files: jshintFiles.concat(otherFiles),
+                files: jsFiles.concat(otherFiles),
                 options: {
                     livereload: true
-                }
+                },
+                tasks: ['eslint']
             },
-            jshint: {
-                files: jshintFiles,
-                tasks: ['jshint:main', 'jasmine:main:build']
+            intern_functional: {
+                files: [jsFiles, 'tests/**/*.*'],
+                tasks: ['intern:src']
             }
         }
     });
 
-    // Loading dependencies
-    for (var key in grunt.file.readJSON('package.json').devDependencies) {
-        if (key !== 'grunt' && key.indexOf('grunt') === 0) {
-            grunt.loadNpmTasks(key);
-        }
-    }
-
     // Default task.
     grunt.registerTask('default', [
         'if-missing:esri_slurp:dev',
-        'jasmine:main:build',
-        'newer:jshint:main',
-        'connect',
-        'watch'
+        'eslint:main',
+        'connect:intern_unit',
+        'watch:src'
     ]);
 
+    // TESTING
     grunt.registerTask('travis', [
         'if-missing:esri_slurp:travis',
-        'jshint',
-        'sauce',
-        'build-prod'
-    ]);
-
-    grunt.registerTask('sauce', [
-        'jasmine:main:build',
-        'connect',
-        'saucelabs-jasmine'
+        'eslint',
+        'server_replay',
+        'build-prod',
+        'configureProxies:intern_functional',
+        'connect:intern_functional',
+        'intern:travis'
     ]);
 
     // PROD
@@ -390,5 +432,34 @@ module.exports = function(grunt) {
         'compress:main',
         'sftp:stage',
         'sshexec:stage'
+    ]);
+
+    // INTERN
+    grunt.registerTask('intern-functional-dev', [
+        'server_replay',
+        'configureProxies:intern_functional',
+        'connect:intern_functional',
+        'selenium_start',
+        'intern:src',
+        'watch:intern_functional'
+    ]);
+    grunt.registerTask('intern-dist', [
+        'server_replay',
+        'configureProxies:intern_functional',
+        'connect:intern_functional',
+        'selenium_start',
+        'intern:dist'
+    ]);
+    grunt.registerTask('intern-testServer', [
+        'selenium_start',
+        'configureProxies:intern_functional',
+        'connect:intern_functional',
+        'intern:testServer'
+    ]);
+    grunt.registerTask('intern-prodServer', [
+        'selenium_start',
+        'configureProxies:intern_functional',
+        'connect:intern_functional',
+        'intern:prodServer'
     ]);
 };

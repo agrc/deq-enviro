@@ -6,7 +6,7 @@ define([
 
     'app/search/_RadioCheckboxMixin',
     'app/Checkbox'
-], function(
+], function (
     template,
 
     declare,
@@ -43,7 +43,7 @@ define([
             // summary:
             //      strip off field name
             console.log('app/search/FieldFilter:postCreate', arguments);
-        
+
             var parts = this.filterTxt.split(', ');
             var reg = /(^.+?)\|(.+?)\s\((.+)\)$/;
             var skip = 1;
@@ -68,7 +68,7 @@ define([
             // summary:
             //      description
             console.log('app/search/FieldFilter:getQuery', arguments);
-        
+
             var values = this.getSelectedValues();
             var query;
 

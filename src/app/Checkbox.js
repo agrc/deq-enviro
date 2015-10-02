@@ -5,7 +5,7 @@ define([
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin'
-], function(
+], function (
     template,
 
     declare,
@@ -42,7 +42,7 @@ define([
             // summary:
             //      description
             console.log('Checkbox:clear', arguments);
-        
+
             this.item.checked = false;
         }
     });

@@ -1,4 +1,5 @@
-/*global profile:true*/
+/*eslint-disable no-unused-vars */
+/*global profile:true */
 profile = {
     resourceTags: {
         test: function () {

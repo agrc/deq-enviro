@@ -12,7 +12,7 @@ define([
 
     'app/config',
     'app/security/_LayersMixin'
-], function(
+], function (
     template,
 
     declare,

@@ -14,7 +14,7 @@ define([
     'esri/geometry/Point',
     'esri/tasks/BufferParameters',
     'esri/tasks/GeometryService'
-], function(
+], function (
     config,
 
     FindAddress,
@@ -124,7 +124,7 @@ define([
             // summary:
             //      clears/resets text boxes
             console.log('app/search/Address:clear', arguments);
-        
+
             this.txtAddress.value = '';
             this.txtZone.value = '';
             this.numBuffer.value = 1;
