@@ -51,8 +51,9 @@ body, html, .app {
 }
 .app .title-container>img {
     position: absolute;
-    top: -3px;
-    left: 0;
+    top: 0;
+    left: 4px;
+    height: 61px;
 }
 .app .title-container .links-container {
     position: absolute;
