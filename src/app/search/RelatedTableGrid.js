@@ -101,7 +101,7 @@ define([
             });
 
             // add additional info link column
-            columns.push({
+            columns.splice(1, 0, {
                 field: 'additionalInfo',
                 label: 'Additional Info',
                 renderCell: function (object, value, node) {

@@ -462,7 +462,7 @@ module.exports = function (grunt) {
         'configureProxies:intern_functional',
         'connect:intern_functional',
         'selenium_start',
-        'intern:travis',
+        'intern:src',
         'watch:intern_functional'
     ]);
     grunt.registerTask('intern-dist', [

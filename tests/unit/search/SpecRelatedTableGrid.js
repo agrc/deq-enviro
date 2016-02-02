@@ -42,7 +42,7 @@ define([
         bdd.beforeEach(function () {
             container = domConstruct.create('div');
             sinon.stub(config, 'getRelatedTableByIndex').returns({
-                fields: [['blah', 'blah']],
+                fields: [['blah', 'blah'], ['blah1', 'blah1 add']],
                 index: 33,
                 additionalLink: 'http://blah.com',
                 additionalLinkFields: 'MAJ_STDESC, ACKEY'
@@ -136,6 +136,11 @@ define([
                 widget.createPill(container, 'blah');
 
                 expect(domClass.contains(container.children[1], 'active')).to.equal(false);
+            });
+        });
+        bdd.describe('postCreate', function () {
+            bdd.it('sets additional info to be the second column', function () {
+                expect(widget.grid.columns[1].field).to.equal('additionalInfo');
             });
         });
         bdd.describe('formatData', function () {
