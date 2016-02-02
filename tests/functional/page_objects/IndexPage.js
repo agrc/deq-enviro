@@ -57,6 +57,7 @@ define([
             ;
         },
         openPanel: function (panel) {
+            // panel: String (queryLayers | location)
             return this.remote
                 .findByCssSelector('a[href="#' + panel + 'Panel"]')
                     .click()
@@ -65,12 +66,12 @@ define([
             ;
         },
         selectQueryLayers: function (layers) {
+            // layers: String[]
+            //      The label names of the query layers that you want selected
             var that = this;
-
             var selector = '.query-layer input[name="' + layers.join('"], .query-layer input[name="') + '"]';
 
             return this.remote
-                // .then(pollUntil(isElementVisible, ['.query-layer-header'], 5000))
                 .findAllByCssSelector('.query-layer-header')
                     .then(function (headers) {
                         // click on head header allowing time for them to open
@@ -111,6 +112,21 @@ define([
                     .click()
                     .end()
             ;
+        },
+        citySearch: function (cityName) {
+            return this.remote
+                .findByCssSelector('option[value="city"]')
+                    .click()
+                    .end()
+                .findByCssSelector('input[placeholder="city name..."]')
+                    .type(cityName)
+                    .sleep(500)
+                    .type(keys.RETURN)
+                    .end()
+                .findByCssSelector('button[data-dojo-attach-point="searchBtn"]')
+                    .sleep(500)
+                    .click()
+                    .end()
         }
     };
 

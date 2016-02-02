@@ -66,7 +66,15 @@ define([
                 'app/map/MapController': {map: {graphics: {}}}
             }).then(function (StubbedModule) {
                 Module = StubbedModule;
-                widget = new StubbedModule({}, domConstruct.create('div', {}, win.body()));
+                widget = new StubbedModule({
+                    app: {
+                        currentAnimationPromise: {
+                            then: function (cb) {
+                                cb();
+                            }
+                        }
+                    }
+                }, domConstruct.create('div', {}, win.body()));
                 widget.startup();
                 sinon.stub(widget.stackContainer, 'selectChild');
             });

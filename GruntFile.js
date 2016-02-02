@@ -150,12 +150,33 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            intern_unit: {
+            unit_tests: {
                 options: {
                     livereload: true,
                     port: developmentPort,
                     base: '.'
                 }
+            },
+            dev: {
+                options: {
+                    livereload: true,
+                    port: 8001,
+                    base: 'src',
+                    middleware: function (connect, options, defaultMiddleware) {
+                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                        return (defaultMiddleware) ? [proxy].concat(defaultMiddleware) : [proxy];
+                    }
+                },
+                proxies: [{
+                    context: '/arcgis',
+                    host: 'localhost'
+                }, {
+                    context: '/api',
+                    host: 'localhost',
+                    rewrite: {
+                        '/api': secrets.pathToDevApi
+                    }
+                }]
             },
             intern_functional: {
                 options: {
@@ -168,7 +189,7 @@ module.exports = function (grunt) {
                 },
                 proxies: [{
                     // response servered from /tests/har_data/page_load.har
-                    context: ['/arcgis', '/src/webdata', '/dist/webdata'],
+                    context: ['/arcgis', '/src/webdata', '/dist/webdata', '/api/search'],
                     host: 'localhost',
                     port: serverReplayPort,
                     rewrite: {
@@ -318,10 +339,9 @@ module.exports = function (grunt) {
         },
         server_replay: {
             main: {
+                src: 'tests/functional/har_data/*.har',
                 options: {
                     port: serverReplayPort,
-                    // TODO: will be multiple files in the future: https://github.com/agrc/grunt-server-replay/issues/1
-                    harPath: 'tests/functional/har_data/page_load.har',
                     debug: false
                 }
             }
@@ -389,7 +409,9 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'if-missing:esri_slurp:dev',
         'eslint:main',
-        'connect:intern_unit',
+        'configureProxies:dev',
+        'connect:dev',
+        'connect:unit_tests',
         'watch:src'
     ]);
 
@@ -440,7 +462,7 @@ module.exports = function (grunt) {
         'configureProxies:intern_functional',
         'connect:intern_functional',
         'selenium_start',
-        'intern:src',
+        'intern:travis',
         'watch:intern_functional'
     ]);
     grunt.registerTask('intern-dist', [

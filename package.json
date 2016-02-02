@@ -19,7 +19,7 @@
     "grunt-newer": "^1.1.1",
     "grunt-processhtml": "^0.3.9",
     "grunt-selenium-webdriver": "^0.2.482",
-    "grunt-server-replay": "^0.1",
+    "grunt-server-replay": "^1.0",
     "grunt-ssh": "^0.12.9",
     "intern": "^3.0.6",
     "load-grunt-tasks": "^3.4.0",

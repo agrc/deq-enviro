@@ -6,6 +6,7 @@ define({
     },
     environments: [
         { browserName: 'chrome' }
+        // { browserName: 'safari' }
     ],
     environmentRetries: 10,
     maxConcurrency: 5,

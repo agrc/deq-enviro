@@ -1,67 +1,65 @@
 define([
-    'dojo/text!./templates/App.html',
-
-    'dojo/_base/declare',
-    'dojo/_base/array',
-    'dojo/_base/lang',
-
-    'dojo/dom',
-    'dojo/dom-style',
-    'dojo/dom-class',
-    'dojo/topic',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-    'dijit/registry',
-
-    'dojox/fx',
-
     'agrc/widgets/map/BaseMap',
 
     'app/config',
     'app/map/MapButton',
-    'app/map/MapLayersPopover',
-    'app/search/Search',
-    'app/search/ResultsGrid',
-    'app/search/IdentifyPane',
     'app/map/MapController',
+    'app/map/MapLayersPopover',
     'app/map/MeasureTool',
     'app/map/Print',
+    'app/search/IdentifyPane',
+    'app/search/ResultsGrid',
+    'app/search/Search',
+
+    'dijit/registry',
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/Deferred',
+    'dojo/dom',
+    'dojo/dom-class',
+    'dojo/dom-style',
+    'dojo/text!./templates/App.html',
+    'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
+
+    'dojox/fx',
 
     'ijit/widgets/authentication/LoginRegister',
 
     'lodash'
 ], function (
-    template,
-
-    declare,
-    array,
-    lang,
-
-    dom,
-    domStyle,
-    domClass,
-    topic,
-
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-    registry,
-
-    coreFx,
-
     BaseMap,
 
     config,
     MapButton,
-    MapLayersPopover,
-    Search,
-    ResultsGrid,
-    IdentifyPane,
     MapController,
+    MapLayersPopover,
     MeasureTool,
     Print,
+    IdentifyPane,
+    ResultsGrid,
+    Search,
+
+    registry,
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    Deferred,
+    dom,
+    domClass,
+    domStyle,
+    template,
+    topic,
+    array,
+    declare,
+    lang,
+
+    coreFx,
 
     LoginRegister,
 
@@ -161,7 +159,9 @@ define([
                     title: 'Print',
                     iconName: 'print'
                 }, this.printBtnDiv),
-                new Search({}, this.searchDiv),
+                new Search({
+                    app: this
+                }, this.searchDiv),
                 this.login = new LoginRegister({
                     appName: config.appName,
                     logoutDiv: this.logoutDiv,
@@ -238,6 +238,7 @@ define([
             var initialCenter;
             var open;
             var onEnd = function (opened) {
+                that.currentAnimationPromise.resolve();
                 open = opened;
                 // delay because sometimes resize was being called a bit too early
                 window.setTimeout(function () {
@@ -280,6 +281,7 @@ define([
             ]);
 
             var toggle = function (animation) {
+                that.currentAnimationPromise = new Deferred();
                 // don't re-open if it's already open
                 if (animation === openGridAnimation && open) {
                     return true;
