@@ -1,5 +1,6 @@
 @import 'DateFilter.css';
 @import 'FieldFilter.css';
+@import 'RadioFilter.css';
 
 .query-layer-filter [data-dojo-attach-point='filtersContainer'] {
     max-height: 340px;
