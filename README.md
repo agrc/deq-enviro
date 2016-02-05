@@ -21,9 +21,11 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Master Plan](https://github.com/agrc/deq-enviro/wiki/Master-Plan)
 
-[Stage](http://test.mapserv.utah.gov/deqenviro/)
+[Dev - localhost:8001](http://localhost:8001) (after running `grunt`)
 
-[Production](http://enviro.deq.utah.gov)
+[Stage - test.mapserv.utah.gov/deqenviro/](http://test.mapserv.utah.gov/deqenviro/)
+
+[Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
 
 ## Nightly Script
 

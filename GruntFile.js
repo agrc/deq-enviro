@@ -10,6 +10,10 @@ var browsers = [{
 }, {
     browserName: 'chrome',
     platform: windows
+// waiting for: https://github.com/theintern/leadfoot/issues/67
+// }, {
+//     browserName: 'microsoftedge',
+//     platform: 'Windows 10'
 }, {
     browserName: 'internet explorer',
     platform: windows,
@@ -69,6 +73,7 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         arcgis_press: {
+            // not sure that this really works...
             options: {
                 server: {
                     username: secrets.ags_username,
@@ -168,7 +173,7 @@ module.exports = function (grunt) {
                     }
                 },
                 proxies: [{
-                    context: '/arcgis',
+                    context: ['/arcgis', '/permissionproxy'],
                     host: 'localhost'
                 }, {
                     context: '/api',
