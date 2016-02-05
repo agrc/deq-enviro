@@ -129,11 +129,13 @@ define([
             this.rememberCheckedState();
 
             $(this.helpTip).tooltip({
-                container: 'body'
+                container: 'body',
+                trigger: 'hover'
             });
             if (this.secure === 'Yes') {
                 $(this.secureTip).tooltip({
-                    container: 'body'
+                    container: 'body',
+                    trigger: 'hover'
                 });
             }
 
@@ -288,6 +290,8 @@ define([
             //      when clicking on the help tip
             // evt: mouse click object
             console.log('app/QueryLayer:onHelpTipClick', arguments);
+
+            $(this.helpTip).tooltip('hide');
 
             evt.preventDefault();
             window.open(this.helpTip.href, 'new');
