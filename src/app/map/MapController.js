@@ -45,6 +45,10 @@ define([
         //      the layer that shows the highlighted feature
         highlightLayer: null,
 
+        // selectedGraphic: Graphic
+        //      the currently selected feature on the map
+        selectedGraphic: null,
+
 
         // Properties to be sent into constructor
         // map: agrc/widgets/map/BaseMap
@@ -65,6 +69,7 @@ define([
             this.map.on('click', function (evt) {
                 if (that.highlightLayer && !evt.graphic) {
                     that.highlightLayer.clear();
+                    that.selectedGraphic = null;
                 }
             });
 
@@ -250,7 +255,9 @@ define([
             }
 
             this[layerPropName].clear();
-            this[layerPropName].add(new Graphic(geometry, symbolSet[geometry.type]));
+            var graphic = new Graphic(geometry, symbolSet[geometry.type]);
+            this[layerPropName].add(graphic);
+            this.selectedGraphic = graphic;
         },
         destroy: function () {
             // summary:
@@ -285,6 +292,7 @@ define([
             }
             if (this.highlightLayer) {
                 this.highlightLayer.clear();
+                this.selectedGraphic = null;
             }
         },
         zoomToFeaturesFound: function (results) {
@@ -310,6 +318,13 @@ define([
             if (sumExtent) {
                 this.zoom(sumExtent);
             }
+        },
+        getSelectedFeature: function () {
+            // summary:
+            //      returns the currently selected feature or null if there is no selection
+            console.log('app/map/MapController:getSelectedFeature', arguments);
+
+            return this.selectedGraphic;
         }
     };
 });

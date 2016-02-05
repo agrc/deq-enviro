@@ -1,6 +1,7 @@
 define([
     'app/config',
     'app/search/Shape',
+    'app/map/MapController',
 
     'dojo/Deferred',
     'dojo/dom-class',
@@ -23,6 +24,7 @@ define([
 ], function (
     config,
     WidgetUnderTest,
+    mapController,
 
     Deferred,
     domClass,
@@ -147,6 +149,29 @@ define([
 
                 widget.getGeometry();
                 expect(bufferSpy).to.have.been.called;
+
+                destroy(widget);
+            });
+            bdd.it('gets selected feature if no geometry is defined', function () {
+                var def = new Deferred();
+                var bufferSpy = sinon.stub().returns(def);
+                var geoMock = {
+                    buffer: bufferSpy,
+                    on: function () {}
+                };
+
+                var g = {};
+                var graphic = {
+                    geometry: g
+                };
+                mapController.selectedGraphic = graphic;
+
+                widget.initGeoService();
+                widget.geoService = geoMock;
+                widget.bufferNum.value = '1';
+
+                widget.getGeometry();
+                expect(bufferSpy.args[0][0].geometries[0]).to.equal(g);
 
                 destroy(widget);
             });

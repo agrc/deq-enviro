@@ -6,14 +6,14 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/_base/declare',
-    'dojo/_base/lang',
     'dojo/Deferred',
     'dojo/dom-class',
     'dojo/has',
     'dojo/query',
     'dojo/text!./templates/Shape.html',
     'dojo/topic',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
 
     'esri/config',
     'esri/tasks/BufferParameters',
@@ -21,20 +21,20 @@ define([
     'esri/toolbars/draw'
 ], function (
     config,
-    MapController,
+    mapController,
 
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    declare,
-    lang,
     Deferred,
     domClass,
     has,
     query,
     template,
     topic,
+    declare,
+    lang,
 
     esriConfig,
     BufferParameters,
@@ -79,7 +79,7 @@ define([
             //      private
             console.log('app.search.Shape::postCreate', arguments);
 
-            this.toolbar = new Draw(MapController.map);
+            this.toolbar = new Draw(mapController.map);
 
             query('.btn-group .btn', this.domNode)
                 .on('click', lang.hitch(this, 'onToolBtnClick'));
@@ -124,6 +124,10 @@ define([
             console.log('app/search/Shape::getGeometry', arguments);
 
             this.getGeometryDef = new Deferred();
+
+            if (!this.geometry && mapController.selectedGraphic) {
+                this.geometry = mapController.selectedGraphic.geometry;
+            }
 
             if (this.geometry) {
                 if (this.bufferNum.value > 0) {

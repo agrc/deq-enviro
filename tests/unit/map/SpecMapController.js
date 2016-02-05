@@ -178,18 +178,24 @@ define([
             });
         });
         bdd.describe('graphic', function () {
+            var x = 325975.0;
+            var g = {
+                'x': x,
+                'y': 4192037.0,
+                'type': 'point',
+                'spatialReference': null
+            };
             bdd.it('creates a new graphics layer on the first call', function () {
-                var g = {
-                    'x': 325975.0,
-                    'y': 4192037.0,
-                    'type': 'point',
-                    'spatialReference': null
-                };
-                testObject.searchGraphics = null;
-
                 testObject.graphic('test', config.symbols.zoom, g);
 
                 expect(testObject.test).to.exist;
+            });
+            bdd.it('stores the selected feature for future use', function () {
+                testObject.selectedGraphic = null;
+
+                testObject.graphic('test2', config.symbols.zoom, g);
+
+                expect(testObject.selectedGraphic).not.to.be.null;
             });
         });
         bdd.describe('zoomToFeaturesFound', function () {

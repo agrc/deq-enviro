@@ -281,11 +281,11 @@ define([
             ]);
 
             var toggle = function (animation) {
-                that.currentAnimationPromise = new Deferred();
                 // don't re-open if it's already open
                 if (animation === openGridAnimation && open) {
                     return true;
                 }
+                that.currentAnimationPromise = new Deferred();
 
                 // don't try to animation if the map is currently zooming
                 MapController.mapIsZoomingOrPanning().then(function () {
