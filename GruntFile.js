@@ -188,7 +188,7 @@ module.exports = function (grunt) {
                     }
                 },
                 proxies: [{
-                    // response servered from /tests/har_data/page_load.har
+                    // response servered from har files (see server_replay)
                     context: ['/arcgis', '/src/webdata', '/dist/webdata', '/api/search'],
                     host: 'localhost',
                     port: serverReplayPort,

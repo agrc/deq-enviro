@@ -332,13 +332,16 @@ define([
                     return;
                 }
 
-                if (!headers[ql.heading]) {
-                    headers[ql.heading] = new QueryLayerHeader({
-                        name: ql.heading,
-                        index: ql.index
-                    }, domConstruct.create('div', {}, this.queryLayersContainer));
-                }
-                this.own(new QueryLayer(ql, domConstruct.create('div', {}, headers[ql.heading].panelBody)));
+                var qlHeaders = ql.heading.split('; ');
+                qlHeaders.forEach(function createQueryLayer(qlh) {
+                    if (!headers[qlh]) {
+                        headers[qlh] = new QueryLayerHeader({
+                            name: qlh,
+                            index: ql.index
+                        }, domConstruct.create('div', {}, this.queryLayersContainer));
+                    }
+                    this.own(new QueryLayer(ql, domConstruct.create('div', {}, headers[qlh].panelBody)));
+                }, this);
             }, this);
         },
         onSelectChange: function () {
@@ -469,7 +472,14 @@ define([
 
             array.forEach(this.selectedQueryLayers, function (ql) {
                 var a = (ql.secure === 'No') ? obj.queryLayers : obj.secureQueryLayers;
-                a.push(ql.toJson());
+                // do not submit the same index for more than one layer (see points of diversion)
+                var json = ql.toJson();
+                var exists = a.some(function checkForIndex(j) {
+                    return j.id === json.id;
+                });
+                if (!exists) {
+                    a.push(json);
+                }
             });
 
             // convert empty arrays to nulls

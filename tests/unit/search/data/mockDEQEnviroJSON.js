@@ -5,7 +5,7 @@ define([], function () {
             'metaDataUrl': 'http://168.178.6.35/DAQ/DaqPermitTitleMeta.htm',
             'index': 1,
             'name': 'Permitting and Compliance - Operating Permits/Title V Permits',
-            'heading': 'Air',
+            'heading': 'Air; Another Heading',
             'description': 'The Permitting Branch is responsible for issuing two kinds of permits, construction and operating permits. Operating permits are issued, on an ongoing basis, through Title V of the CAA.  Major and Minor Source Compliance sections are responsible for ensuring that all regulatory requirements are met. This is done through inspections, audits, and enforcement.',
             'geometryType': 'point'
         }, {

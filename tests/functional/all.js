@@ -1,5 +1,5 @@
 define([
     'tests/functional/load'
-    // 'tests/functional/search' // doesn't work in safari :(
+    // 'tests/functional/search'
     // 'tests/tests/statewide'
 ]);

@@ -194,8 +194,8 @@ define([
             bdd.it('builds the correct number of query layers and headers', function () {
                 widget.buildQueryLayers(mockDEQEnviroJSON.queryLayers);
 
-                expect(query('.query-layer', widget.domNode).length).to.equal(5);
-                expect(query('.query-layer-header', widget.domNode).length).to.equal(3);
+                expect(query('.query-layer', widget.domNode).length).to.equal(6);
+                expect(query('.query-layer-header', widget.domNode).length).to.equal(4);
             });
         });
         bdd.describe('onSelectChange', function () {
@@ -327,6 +327,21 @@ define([
                     ]
                 });
             });
+            bdd.it('does not return duplicate query layer indexes', function () {
+                widget.selectedQueryLayers = [
+                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
+                    new QueryLayer({index: '1', defQuery: '03', secure: 'No'}),
+                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'})
+                ];
+
+                expect(widget.getQueryLayersParam()).to.deep.equal({
+                    queryLayers: [
+                        {id: '1', defQuery: '01'},
+                        {id: '2', defQuery: '02'}
+                    ],
+                    secureQueryLayers: null
+                });
+            })
         });
         bdd.describe('clear', function () {
             bdd.beforeEach(function () {
