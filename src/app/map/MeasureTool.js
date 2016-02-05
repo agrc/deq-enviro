@@ -55,8 +55,8 @@ define([
             };
 
             this.widget = new Measurement({
-                map: this.map
-                // advancedLocationUnits: true
+                map: this.map,
+                advancedLocationUnits: true
             }, this.measureDiv);
             this.widget.startup();
             this.own(this.widget);
