@@ -1,32 +1,31 @@
 define([
-    'dojo/text!./templates/GridRowHeader.html',
-
-    'dojo/_base/declare',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-
-    'dojox/gfx',
+    'agrc/modules/Formatting',
 
     'app/config',
     'app/map/Legend',
 
-    'agrc/modules/Formatting'
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
 
+    'dojo/dom-class',
+    'dojo/text!./templates/GridRowHeader.html',
+    'dojo/_base/declare',
+
+    'dojox/gfx'
 ], function (
-    template,
-
-    declare,
-
-    _WidgetBase,
-    _TemplatedMixin,
-
-    gfx,
+    formatting,
 
     config,
     Legend,
 
-    formatting
+    _TemplatedMixin,
+    _WidgetBase,
+
+    domClass,
+    template,
+    declare,
+
+    gfx
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -107,6 +106,7 @@ define([
             var ql = config.getQueryLayerByIndex(this[config.fieldNames.queryLayers.UNIQUE_ID]);
             if (ql[config.fieldNames.queryLayers.ENVIROAPPSYMBOL] !== 'n/a') {
                 this.buildLegend(ql);
+                domClass.remove(this.customLegendText, 'hidden');
             }
 
             this.inherited(arguments);

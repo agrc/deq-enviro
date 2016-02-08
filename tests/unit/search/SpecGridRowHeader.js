@@ -3,6 +3,7 @@ define([
     'app/search/GridRowHeader',
 
     'dojo/dom-construct',
+    'dojo/dom-class',
     'dojo/_base/window',
 
     'intern!bdd',
@@ -18,6 +19,7 @@ define([
     WidgetUnderTest,
 
     domConstruct,
+    domClass,
     win,
 
     bdd,
@@ -41,7 +43,8 @@ define([
         bdd.beforeEach(function () {
             sinon.stub(config, 'getQueryLayerByIndex').returns({
                 index: '2',
-                legendTitle: 'n/a'
+                legendTitle: 'n/a',
+                ENVIROAPPSYMBOL: 'blah'
             });
             widget = new WidgetUnderTest({
                 name: 'Scott',
@@ -61,6 +64,11 @@ define([
         bdd.describe('Sanity', function () {
             bdd.it('should create a GridRowHeader', function () {
                 expect(widget).to.be.instanceOf(WidgetUnderTest);
+            });
+        });
+        bdd.describe('postCreate', function () {
+            bdd.it('shows custom legend text', function () {
+                expect(domClass.contains(widget.customLegendText, 'hidden')).to.not.be.ok;
             });
         });
     });

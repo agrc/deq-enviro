@@ -10,3 +10,7 @@
     position: relative;
     top: 2px;
 }
+.grid-row-header .custom-legend {
+    color: gray;
+    font-size: smaller;
+}
