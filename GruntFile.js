@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         '!**/*.min.*',
         '!build-report.txt'
     ];
-    var deployDir = 'wwwroot/DEQEnviro';
+    var deployDir = 'wwwroot/deqenviro';
     var secrets;
     try {
         secrets = grunt.file.readJSON('secrets.json');
@@ -369,6 +369,7 @@ module.exports = function (grunt) {
                 }
             },
             options: {
+                path: './' + deployDir + '/',
                 srcBasePath: 'deploy/',
                 username: '<%= secrets.username %>',
                 password: '<%= secrets.password %>',
