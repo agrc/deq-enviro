@@ -59,6 +59,12 @@ namespace Deq.Search.Soe.Commands.Searches {
                 }
             }
 
+            if (_queryFilter.Geometry != null && map.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+            {
+                var topoOp = _queryFilter.Geometry as ITopologicalOperator2;
+                _queryFilter.Geometry = (topoOp).Buffer(-250) as IPolygon;
+            }
+
             var cursor = featureLayer.Search(_queryFilter, true);
 
             var count = 0;
