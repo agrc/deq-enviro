@@ -436,13 +436,15 @@ define([
             if (this.currentPane.getGeometry) {
                 // search type requires an async process to get geometry
                 this.currentPane.getGeometry().then(function (geo) {
-                    try {
-                        params.geometry = geo;
-                        topic.publish(config.topics.app.showGrid);
-                        that.app.currentAnimationPromise.then(makeRequest);
-                    } catch (er) {
-                        onError(er);
-                    }
+                    params.geometry = geo;
+                    topic.publish(config.topics.app.showGrid);
+                    that.app.currentAnimationPromise.then(function () {
+                        try {
+                            makeRequest();
+                        } catch (er) {
+                            onError(er);
+                        }
+                    });
                 }, onError);
             } else {
                 // search type just has a value to pass to the search service (ID & Name searches)
