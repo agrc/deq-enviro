@@ -520,6 +520,7 @@ define([
             }
 
             topic.publish(config.topics.appSearch.clear);
+            topic.publish(config.topics.appMapMapController.clearGraphics);
 
             this.hideErrMsg();
             this.select.value = 'empty';
