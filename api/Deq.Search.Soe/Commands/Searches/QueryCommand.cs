@@ -59,13 +59,19 @@ namespace Deq.Search.Soe.Commands.Searches {
                 }
             }
 
+            IFeatureCursor cursor;
             if (_queryFilter.Geometry != null && map.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
             {
                 var topoOp = _queryFilter.Geometry as ITopologicalOperator2;
                 _queryFilter.Geometry = (topoOp).Buffer(-250) as IPolygon;
+                cursor = featureLayer.Search(_queryFilter, true);
+                _queryFilter.Geometry = topoOp as IGeometry;
+            }
+            else
+            {
+                cursor = featureLayer.Search(_queryFilter, true);
             }
 
-            var cursor = featureLayer.Search(_queryFilter, true);
 
             var count = 0;
 
