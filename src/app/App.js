@@ -28,7 +28,11 @@ define([
 
     'dojox/fx',
 
+    'esri/geometry/Extent',
+
     'ijit/widgets/authentication/LoginRegister',
+
+    'layer-selector',
 
     'lodash'
 ], function (
@@ -61,7 +65,11 @@ define([
 
     coreFx,
 
+    Extent,
+
     LoginRegister,
+
+    LayerSelector,
 
     _
 ) {
@@ -109,6 +117,8 @@ define([
             this.setUpListeners();
 
             this.inherited(arguments);
+
+            this.childWidgets = [];
         },
         setUpListeners: function () {
             // summary:
@@ -224,8 +234,24 @@ define([
             this.map = new BaseMap(this.mapDiv, {
                 useDefaultBaseMap: false,
                 showLabels: true,
-                showAttribution: false
+                showAttribution: false,
+                extent: new Extent({
+                    xmax: -11762120.612131765,
+                    xmin: -13074391.513731329,
+                    ymax: 5225035.106177688,
+                    ymin: 4373832.359194187,
+                    spatialReference: {
+                        wkid: 3857
+                    }
+                })
             });
+            this.childWidgets.push(
+                new LayerSelector({
+                    map: this.map,
+                    quadWord: config.quadWord,
+                    baseLayers: ['Lite', 'Hybrid', 'Terrain', 'Topo']
+                })
+            );
 
             MapController.init({map: this.map});
         },

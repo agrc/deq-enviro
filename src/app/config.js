@@ -1,11 +1,11 @@
 /* jshint maxlen:false */
 define([
+    'dojo/Deferred',
+    'dojo/has',
+    'dojo/request/xhr',
     'dojo/_base/array',
     'dojo/_base/Color',
     'dojo/_base/lang',
-    'dojo/Deferred',
-    'dojo/has',
-    'dojo/request',
 
     'esri/config',
     'esri/SpatialReference',
@@ -15,12 +15,12 @@ define([
     'esri/symbols/SimpleMarkerSymbol',
     'esri/tasks/GeometryService'
 ], function (
+    Deferred,
+    has,
+    xhr,
     array,
     Color,
     lang,
-    Deferred,
-    has,
-    request,
 
     esriConfig,
     SpatialReference,
@@ -30,20 +30,31 @@ define([
     SimpleMarkerSymbol,
     GeometryService
 ) {
-    var apiKey;
     var agsDomain;
+    var AGRC = {};
     if (has('agrc-build') === 'prod') {
         // *.utah.gov
-        apiKey = 'AGRC-D3CDE591211690';
+        AGRC.apiKey = 'AGRC-D3CDE591211690';
         agsDomain = 'mapserv.utah.gov';
+        // mapserv.utah.gov or enviro.deq.utah.gov
+        AGRC.quadWord = 'result-table-secure-antenna';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
-        apiKey = 'AGRC-AC122FA9671436';
+        AGRC.apiKey = 'AGRC-AC122FA9671436';
         agsDomain = 'test.mapserv.utah.gov';
         esriConfig.defaults.io.corsEnabledServers.push(agsDomain);
+        AGRC.quadWord = 'opera-event-little-pinball';
     } else {
         // localhost
-        apiKey = 'AGRC-E5B94F99865799';
+        xhr(require.baseUrl + 'secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            AGRC.quadWord = secrets.quadWord;
+            AGRC.apiKey = secrets.apiKey;
+        }, function () {
+            throw 'Error getting secrets!';
+        });
         agsDomain = '';
     }
 
@@ -61,12 +72,10 @@ define([
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = deqServiceFolder + '/Secure/MapServer';
-    window.AGRC = {
+    window.AGRC = lang.mixin(AGRC, {
         // app: app.App
         //      global reference to App
         app: null,
-
-        apiKey: apiKey,
 
         // appName: String
         //      name of the app used in permissionsproxy
@@ -162,8 +171,7 @@ define([
             landOwnership: 0,
             environmentalCovenants: 1,
             huc: 2,
-            indianTribal: 3,
-            city: 1 // Terrain service
+            indianTribal: 3
         },
 
         // fieldNames: {}
@@ -193,7 +201,8 @@ define([
         // featureClassNames: {}
         featureClassNames: {
             counties: 'SGID10.BOUNDARIES.Counties',
-            utah: 'SGID10.BOUNDARIES.Utah'
+            utah: 'SGID10.BOUNDARIES.Utah',
+            city: 'SGID10.BOUNDARIES.Municipalities'
         },
 
         // TRSMinScaleLevel: Number
@@ -215,7 +224,7 @@ define([
 
         // spatialReference SpatialReference
         //      The spatial reference of the map
-        spatialReference: new SpatialReference(26912),
+        spatialReference: new SpatialReference(3857),
 
         // symbols: Object
         //      Graphic symbols used in this app
@@ -300,7 +309,7 @@ define([
             var that = this;
 
             if (!this.appJson) {
-                request(this.urls.json, {
+                xhr(this.urls.json, {
                     handleAs: 'json'
                 }).then(function (json) {
                     that.queryLayerNames = {};
@@ -354,7 +363,7 @@ define([
 
             return returnLayer;
         }
-    };
+    });
 
     return window.AGRC;
 });

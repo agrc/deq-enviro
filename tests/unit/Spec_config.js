@@ -26,7 +26,7 @@ define([
         bdd.beforeEach(function () {
             var def = new Deferred();
             stubmodule('app/config', {
-                'dojo/request': function () {
+                'dojo/request/xhr': function () {
                     return def;
                 }
             }).then(function (newModule) {

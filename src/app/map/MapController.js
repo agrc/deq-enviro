@@ -1,10 +1,10 @@
 define([
-    '../config',
+    'app/config',
 
-    'dojo/_base/array',
-    'dojo/_base/lang',
     'dojo/Deferred',
     'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/lang',
 
     'esri/geometry/Extent',
     'esri/graphic',
@@ -14,10 +14,10 @@ define([
 ], function (
     config,
 
-    array,
-    lang,
     Deferred,
     topic,
+    array,
+    lang,
 
     Extent,
     Graphic,
@@ -232,7 +232,7 @@ define([
             geometry.spatialReference = this.map.spatialReference;
 
             if (geometry.type === 'point') {
-                this.extentChangePromise = this.map.centerAndZoom(geometry, 8)
+                this.extentChangePromise = this.map.centerAndZoom(geometry, 13)
                     .then(removePromise);
             } else if (geometry.type === 'extent') {
                 this.extentChangePromise = this.map.setExtent(geometry, true);

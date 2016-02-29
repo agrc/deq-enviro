@@ -2,8 +2,9 @@
   "name": "deq-enviro",
   "version": "1.1.0-3",
   "dependencies": {
-    "agrc": "agrc-widgets#2.7.0",
-    "bootstrap": "~3.2",
+    "agrc": "agrc-widgets#~4.0",
+    "esri": "arcgis-js-api#~3.14.0",
+    "bootstrap": "~3.3",
     "bootstrap-datepicker": "~1.3.0",
     "bootstrap-select": "~1.6.3",
     "dgrid": "~0.3.16",
@@ -16,9 +17,15 @@
     "put-selector": "~0.3.5",
     "stubmodule": "dojo2",
     "util": "dojo-util#1.10",
-    "xstyle": "c65b384d29"
+    "xstyle": "c65b384d29",
+    "layer-selector": "agrc-layer-selector#~0.4.0"
   },
   "resolutions": {
-    "xstyle": "c65b384d29"
+    "xstyle": "c65b384d29",
+    "dgrid": "0.3.17/esri-3.14.0",
+    "dijit": "v1.10.4/esri-3.14.0",
+    "dojo": "v1.10.4/esri-3.14.0",
+    "dojox": "v1.10.4/esri-3.14.0",
+    "util": "v1.10.4/esri-3.14.0"
   }
 }

@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/agrc/deq-enviro.png?branch=master)](https://travis-ci.org/agrc/deq-enviro)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/agrc-deq-enviro.svg)](https://saucelabs.com/u/agrc-deq-enviro)
-
 deq-enviro
 ==========
 
@@ -26,6 +24,14 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 [Stage - test.mapserv.utah.gov/deqenviro/](http://test.mapserv.utah.gov/deqenviro/)
 
 [Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
+
+## Testing
+
+Unit and functional tests are run via intern.
+
+[Unit tests URL ](http://localhost:8000/node_modules/intern/client.html?config=tests/intern&suites=tests/unit/all) after running `grunt default`
+
+Run `grunt intern-functional-dev` to run functional tests.
 
 ## Nightly Script
 
@@ -61,3 +67,5 @@ Updates related data in SGID10. Reads sources from the config spreadsheet.
 1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
 1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
     - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
+
+Tested with [BrowserStack](http://www.browserstack.com)

@@ -81,13 +81,19 @@ define([
                 promise = this.api.search(
                     config.featureClassNames.utah,
                     ['shape@'],
-                    {predicate: config.fieldNames.utah.STATE + ' = \'Utah\''}
+                    {
+                        predicate: config.fieldNames.utah.STATE + ' = \'Utah\'',
+                        spatialReference: 3857
+                    }
                 );
             } else {
                 promise = this.api.search(
                     config.featureClassNames.counties,
                     ['shape@'],
-                    {predicate: config.fieldNames.counties.NAME + ' = \'' + value + '\''}
+                    {
+                        predicate: config.fieldNames.counties.NAME + ' = \'' + value + '\'',
+                        spatialReference: 3857
+                    }
                 );
             }
             return promise.then(onSuccess, onFail);

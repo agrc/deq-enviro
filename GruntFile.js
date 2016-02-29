@@ -1,6 +1,6 @@
 var path = require('path');
-var osx = 'OS X 10.10';
-var windows = 'Windows 8.1';
+var osx = 'MAC';
+var windows = 'WIN8';
 var browsers = [{
     browserName: 'safari',
     platform: osx
@@ -20,7 +20,7 @@ var browsers = [{
     version: '11'
 }, {
     browserName: 'internet explorer',
-    platform: 'Windows 8',
+    platform: windows,
     version: '10'
 }];
 // ports
@@ -240,23 +240,6 @@ module.exports = function (grunt) {
                 src: jsFiles
             }
         },
-        esri_slurp: {
-            options: {
-                version: '3.13'
-            },
-            dev: {
-                options: {
-                    beautify: true
-                },
-                dest: 'src/esri'
-            },
-            travis: {
-                options: {
-                    beautify: false
-                },
-                dest: 'src/esri'
-            }
-        },
         imagemin: {
             dynamic: {
                 options: {
@@ -276,8 +259,8 @@ module.exports = function (grunt) {
                 config: 'tests/intern',
                 reporters: ['Pretty'],
                 tunnelOptions: {
-                    username: secrets.sauce_name,
-                    accessKey: secrets.sauce_key
+                    username: secrets.bs_name,
+                    accessKey: secrets.bs_key
                 },
                 suites: ['tests/unit/all'],
                 functionalSuites: ['tests/functional/all']
@@ -413,7 +396,6 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', [
-        'if-missing:esri_slurp:dev',
         'eslint:main',
         'configureProxies:dev',
         'connect:dev',
@@ -423,7 +405,6 @@ module.exports = function (grunt) {
 
     // TESTING
     grunt.registerTask('travis', [
-        'if-missing:esri_slurp:travis',
         'eslint',
         'server_replay',
         'build-prod',

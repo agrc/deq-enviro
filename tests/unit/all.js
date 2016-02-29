@@ -1,7 +1,6 @@
 define([
     './download/SpecDownload',
 
-    './map/SpecBaseMapSelector',
     './map/SpecLegend',
     './map/SpecMapButton',
     './map/SpecMapController',

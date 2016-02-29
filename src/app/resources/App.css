@@ -10,6 +10,7 @@
 @import '../map/resources/Print.css';
 @import '../search/resources/Search.css';
 @import '../security/resources/_RequestPane.css';
+@import '../../layer-selector/resources/LayerSelector.css';
 
 body, html, .app {
     width: 100%;

@@ -1,35 +1,31 @@
 define([
-    'dojo/text!./templates/MapLayersPopover.html',
-
-    'dojo/_base/declare',
-    'dojo/dom-construct',
-
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin',
-
-    'app/map/ReferenceLayerToggle',
-    'app/map/ScaleDependentReferenceLayerToggle',
     'app/config',
     'app/map/MapController',
-    'app/map/BaseMapSelector',
-    'app/_PopoverMixin'
+    'app/map/ReferenceLayerToggle',
+    'app/map/ScaleDependentReferenceLayerToggle',
+    'app/_PopoverMixin',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+
+    'dojo/dom-construct',
+    'dojo/text!./templates/MapLayersPopover.html',
+    'dojo/_base/declare'
 ], function (
-    template,
-
-    declare,
-    domConstruct,
-
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin,
-
-    ReferenceLayerToggle,
-    ScaleDependentReferenceLayerToggle,
     config,
     MapController,
-    BaseMapSelector,
-    _PopoverMixin
+    ReferenceLayerToggle,
+    ScaleDependentReferenceLayerToggle,
+    _PopoverMixin,
+
+    _TemplatedMixin,
+    _WidgetBase,
+    _WidgetsInTemplateMixin,
+
+    domConstruct,
+    template,
+    declare
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _PopoverMixin], {
         // description:
@@ -51,10 +47,6 @@ define([
             console.log('app/map/MapLayersPopover::postCreate', arguments);
 
             this.own(
-                // needs to be loaded first before other layers are added to the map
-                new BaseMapSelector({
-                    map: MapController.map
-                }, domConstruct.create('div', {}, this.domNode)),
                 new ReferenceLayerToggle({
                     layerName: 'Environmental Risk of UST Facilities',
                     mapServiceUrl: config.urls.DEQEnviro,

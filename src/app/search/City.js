@@ -1,15 +1,19 @@
 define([
-    'dojo/_base/declare',
-    'dojo/Deferred',
+    'agrc/widgets/locate/MagicZoom',
+
+    'app/config',
+
     'dojo/aspect',
-
-    'agrc/widgets/locate/MagicZoom'
+    'dojo/Deferred',
+    'dojo/_base/declare'
 ], function (
-    declare,
-    Deferred,
-    aspect,
+    MagicZoom,
 
-    MagicZoom
+    config,
+
+    aspect,
+    Deferred,
+    declare
 ) {
     return declare([MagicZoom], {
         // description:
@@ -23,6 +27,16 @@ define([
 
         // validationMsg: String
         validationMsg: 'Please select a city!',
+
+        apiKey: config.apiKey,
+        wkid: config.spatialReference.wkid,
+        promptMessage: 'please begin typing a city name',
+        searchLayer: config.featureClassNames.city,
+        searchField: config.fieldNames.cities.NAME,
+        placeHolder: 'city name...',
+        maxResultsToDisplay: 5,
+        symbolFill: config.symbols.zoom.polygon,
+        preserveGraphics: true,
 
         postCreate: function () {
             // summary:
