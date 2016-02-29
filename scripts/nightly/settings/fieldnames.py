@@ -27,6 +27,7 @@ specialFiltersDefaultOn = 'specialFiltersDefaultOn'
 additionalSearches = 'additionalSearches'
 sortField = 'sortField'
 legendTitle = 'legendTitle'
+codedValues = 'codedValues'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'

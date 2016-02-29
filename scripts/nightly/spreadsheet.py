@@ -34,7 +34,8 @@ qlFields = [
     ['Custom Symbology Field', fieldnames.ENVIROAPPSYMBOL],
     ['Sort Field', fieldnames.sortField],
     ['Related Tables', fieldnames.relatedTables],
-    ['Legend Title', fieldnames.legendTitle]
+    ['Legend Title', fieldnames.legendTitle],
+    ['Coded Values', fieldnames.codedValues]
 ]
 
 tblFields = [
@@ -80,7 +81,7 @@ def get_reference_layers():
 
 def get_links():
     return _get_worksheet_data(_login().worksheet('Other Links'), linksFields)
-    
+
 def get_datasets():
     # return all querylayers, tables, and reference layers
     return get_query_layers() + get_related_tables() + get_reference_layers()

@@ -7,6 +7,7 @@ import spreadsheet
 from os import path
 from build_json import parse_fields
 from collections import namedtuple
+import re
 
 commonFields = [fieldnames.ID,
                 fieldnames.NAME,
@@ -91,59 +92,60 @@ def update_query_layers(test_layer=None):
         if test_layer and fcname != test_layer:
             continue
         try:
-            if fcname.startswith('SGID10') or fcname.startswith('DirectFrom.Source'):
-                # update fgd from SGID
-                logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
-                localFc = path.join(settings.fgd, fcname.split('.')[-1])
-                if fcname.startswith('SGID10'):
-                    remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
-                else:
-                    remoteFc = path.join(settings.dbConnects, l[fieldnames.sourceData])
-                update(localFc, remoteFc, l[fieldnames.relatedTables])
+            # update fgd from SGID
+            logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
+            localFc = path.join(settings.fgd, fcname.split('.')[-1])
+            if fcname.startswith('SGID10'):
+                remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
+            else:
+                remoteFc = path.join(settings.dbConnects, l[fieldnames.sourceData])
+            update(localFc, remoteFc, l[fieldnames.relatedTables])
 
-                # APP-SPECIFIC OPTIMIZATIONS
-                # make sure that it has the five main fields for the fdg only
-                upper_fields = [x.name.upper() for x in arcpy.ListFields(localFc)]
-                for f in commonFields:
-                    if f not in upper_fields:
-                        logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
+            # APP-SPECIFIC OPTIMIZATIONS
+            # make sure that it has the five main fields for the fdg only
+            upper_fields = [x.name.upper() for x in arcpy.ListFields(localFc)]
+            for f in commonFields:
+                if f not in upper_fields:
+                    logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
 
-                        # get mapped field properties
-                        if not l[f] == 'n/a':
-                            try:
-                                mappedFld = arcpy.ListFields(localFc, l[f])[0]
-                            except IndexError:
-                                errors.append('Could not find {} in {}'.format(l[f], fcname))
-                                continue
-                        else:
-                            mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
-                                                                                                'scale': 0,
-                                                                                                'length': 50,
-                                                                                                'type': 'String'})
-                        arcpy.AddField_management(localFc, f, 'TEXT', field_length=255)
-
-                    # calc field
-                    expression = l[f]
-                    if not expression == 'n/a':
+                    # get mapped field properties
+                    if not l[f] == 'n/a':
                         try:
                             mappedFld = arcpy.ListFields(localFc, l[f])[0]
                         except IndexError:
                             errors.append('Could not find {} in {}'.format(l[f], fcname))
                             continue
-                        if mappedFld.type != 'String':
-                            expression = 'str(int(!{}!))'.format(expression)
-                        else:
-                            expression = '!{}!.encode("utf-8")'.format(expression)
                     else:
-                        expression = '"{}"'.format(expression)
-                    arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
+                        mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
+                                                                                            'scale': 0,
+                                                                                            'length': 50,
+                                                                                            'type': 'String'})
+                    arcpy.AddField_management(localFc, f, 'TEXT', field_length=255)
 
-                validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)
+                # calc field
+                expression = l[f]
+                if not expression == 'n/a':
+                    try:
+                        mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                    except IndexError:
+                        errors.append('Could not find {} in {}'.format(l[f], fcname))
+                        continue
+                    if mappedFld.type != 'String':
+                        expression = 'str(int(!{}!))'.format(expression)
+                    else:
+                        expression = '!{}!.encode("utf-8")'.format(expression)
+                else:
+                    expression = '"{}"'.format(expression)
+                arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
 
-                # scrub out any empty geometries
-                arcpy.RepairGeometry_management(localFc)
+            validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)
 
-                successes.append(fcname)
+            apply_coded_values(localFc, l[fieldnames.codedValues])
+
+            # scrub out any empty geometries
+            arcpy.RepairGeometry_management(localFc)
+
+            successes.append(fcname)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname,
                                                                                       logger.logError().strip()))
@@ -162,6 +164,23 @@ def validate_fields(dataFields, fieldString, datasetName):
         return er
     else:
         return []
+
+
+def apply_coded_values(fc, codedValuesTxt):
+    if len(codedValuesTxt.strip()) == 0:
+        return
+
+    field_name = re.search(ur'(^\S*)\:', codedValuesTxt).group(1)
+    codes = re.findall(ur'(\S*) \(.*?\),', codedValuesTxt)
+    descriptions = re.findall(ur'\S* \((.*?)\),', codedValuesTxt)
+
+    logger.logMsg('applying coded values for {} field'.format(field_name))
+
+    layer = arcpy.MakeFeatureLayer_management(fc)
+    for code, desc in zip(codes, descriptions):
+        arcpy.SelectLayerByAttribute_management(layer, where_clause='{} = \'{}\''.format(field_name, code))
+        arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
+
 
 if __name__ == '__main__':
     from agrc import logging
