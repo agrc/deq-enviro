@@ -17,4 +17,4 @@ cache:
   - node_modules
 env:
   global:
-    secure: R8G8QFAcw/q9cSSbsEn3k/+g1yj/drqdCPHxQyMyvsBSaV2ucCyx/p49+jM+gegfB4mUD931MuQ6BsCBFaRA3xuMaFmTzOgdmre+5gIg47/uN6VAbCXGQBJHkFLePCSEWQ1C140xxgMxLg5AFUSCNIldbB075vBVM44Ny8iVVSg=
+    secure: "eu2bqSbtF/gfBed80KzeeVc/5k8HwQGSqIQN8x1Li6AKV53uMvDVZ9DFeVxqzVIOEoEPjIguLXwQUncSHxjvSV9kgb9sHQ+wDCjA1psX0fU4kEk//4SMfZeatLyivkhW6wwdVMVYkOK1qEvaPUwObscqfQYFwoKUHXh5R06o//s="

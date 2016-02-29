@@ -28,6 +28,6 @@
     "uglify-js": "^2.4.15"
   },
   "scripts": {
-    "test": "grunt travis"
+    "test": "grunt travis -v"
   }
 }

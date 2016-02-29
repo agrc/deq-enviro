@@ -10,7 +10,7 @@ define({
     ],
     environmentRetries: 10,
     maxConcurrency: 5,
-    tunnel: 'SauceLabsTunnel',
+    tunnel: 'BrowserStackTunnel',
     loaderOptions: {
         packages: [
             { name: 'agrc', location: 'src/agrc'},
