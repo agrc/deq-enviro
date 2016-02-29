@@ -1,14 +1,13 @@
-/* jshint camelcase:false */
 define([
-    '../config',
+    'app/config',
 
     'agrc/widgets/locate/FindAddress',
 
-    'dojo/_base/declare',
     'dojo/aspect',
     'dojo/Deferred',
     'dojo/text!./resources/Address.html',
     'dojo/topic',
+    'dojo/_base/declare',
 
     'esri/config',
     'esri/geometry/Point',
@@ -19,11 +18,11 @@ define([
 
     FindAddress,
 
-    declare,
     aspect,
     Deferred,
     template,
     topic,
+    declare,
 
     esriConfig,
     Point,
@@ -45,6 +44,10 @@ define([
 
         // validationMsg: String
         validationMsg: 'Missing values!',
+
+        zoomLevel: 17,
+        wkid: config.spatialReference.wkid,
+        apiKey: config.apiKey,
 
         postCreate: function () {
             // summary:

@@ -240,23 +240,6 @@ module.exports = function (grunt) {
                 src: jsFiles
             }
         },
-        esri_slurp: {
-            options: {
-                version: '3.13'
-            },
-            dev: {
-                options: {
-                    beautify: true
-                },
-                dest: 'src/esri'
-            },
-            travis: {
-                options: {
-                    beautify: false
-                },
-                dest: 'src/esri'
-            }
-        },
         imagemin: {
             dynamic: {
                 options: {
@@ -413,7 +396,6 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', [
-        'if-missing:esri_slurp:dev',
         'eslint:main',
         'configureProxies:dev',
         'connect:dev',
@@ -423,7 +405,6 @@ module.exports = function (grunt) {
 
     // TESTING
     grunt.registerTask('travis', [
-        'if-missing:esri_slurp:travis',
         'eslint',
         'server_replay',
         'build-prod',

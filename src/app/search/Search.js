@@ -165,20 +165,10 @@ define([
                 domClass.remove(btn, 'hidden');
             };
             this.own(
-            this.address = new Address({
-                apiKey: config.apiKey
-            }, this.addressPane),
+            this.address = new Address(null, this.addressPane),
             this.city = new City({
                 map: MapController.map,
-                promptMessage: 'please begin typing a city name',
-                mapServiceURL: config.urls.terrain,
-                searchLayerIndex: config.layerIndices.city,
-                searchField: config.fieldNames.cities.NAME,
-                placeHolder: 'city name...',
-                maxResultsToDisplay: 5,
-                symbolFill: config.symbols.zoom.polygon,
-                graphicsLayer: MapController.map.graphics,
-                preserveGraphics: true
+                graphicsLayer: MapController.map.graphics
             }, this.cityPane),
             this.county = new County({}, this.countyPane),
             this.site = new SiteName(null, this.sitePane),

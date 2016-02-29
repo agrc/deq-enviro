@@ -20,6 +20,7 @@ define({
             { name: 'dojox', location: 'src/dojox'},
             { name: 'esri', location: 'src/esri'},
             { name: 'ijit', location: 'src/ijit'},
+            { name: 'layer-selector', location: 'src/layer-selector'},
             {
                 name: 'jquery',
                 location: 'src/jquery/dist',

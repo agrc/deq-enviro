@@ -42,6 +42,9 @@
                 location: './ladda-bootstrap',
                 main: 'dist/ladda'
             },{
+                name: 'layer-selector',
+                location: './layer-selector'
+            },{
                 name: 'datepicker',
                 location: './bootstrap-datepicker',
                 main: 'js/bootstrap-datepicker'

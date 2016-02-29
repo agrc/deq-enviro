@@ -23,6 +23,7 @@ scripts/nightly/settings/__init__.py
 scripts/nightly/settings/oauth2key.json
 scripts/secrets.cfg
 secrets.json
+src/agrc-jasmine-matchers/
 src/agrc/*
 src/bootstrap-datepicker/
 src/bootstrap-select/
@@ -32,6 +33,7 @@ src/dgrid/
 src/dijit/
 src/dojo/
 src/dojox/
+src/dstore/
 src/esri
 src/favico.js/
 src/ijit/
@@ -39,9 +41,11 @@ src/jasmine-favicon-reporter/
 src/jasmine-jsreporter/
 src/jquery/
 src/ladda-bootstrap/
+src/layer-selector/
 src/lodash/
 src/mustache/
 src/put-selector/
+src/secrets.json
 src/spin.js/
 src/spinjs/
 src/stubmodule/

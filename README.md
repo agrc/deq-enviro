@@ -27,6 +27,14 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
 
+## Testing
+
+Unit and functional tests are run via intern.
+
+[Unit tests URL ](http://localhost:8000/node_modules/intern/client.html?config=tests/intern&suites=tests/unit/all) after running `grunt default`
+
+Run `grunt intern-functional-dev` to run functional tests.
+
 ## Nightly Script
 
 Runs nightly on test and prod servers.
