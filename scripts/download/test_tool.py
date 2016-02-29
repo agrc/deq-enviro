@@ -25,8 +25,8 @@ class Parameter(object):
 
 class TestTableModel(unittest.TestCase):
     workspace = 'C:\\MapData\\DEQEnviro\\QueryLayers.gdb'
-    link = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.py'
-    source = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.pyt'
+    link = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro.py'
+    source = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro.pyt'
 
     @classmethod
     def setUpClass(cls):
@@ -143,8 +143,8 @@ class TestTableModel(unittest.TestCase):
 
 class TestRelationshipModel(unittest.TestCase):
     workspace = 'C:\\MapData\\DEQEnviro\\QueryLayers.gdb'
-    link = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.py'
-    source = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro2.pyt'
+    link = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro.py'
+    source = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro2.pyt'
 
     @classmethod
     def setUpClass(cls):
@@ -213,8 +213,8 @@ class TestRelationshipModel(unittest.TestCase):
 
 class TestTool(unittest.TestCase):
 
-    link = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro.py'
-    source = 'C:\\Projects\\GitHub\\deq-enviro\\scripts\\download\DeqEnviro2.pyt'
+    link = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro.py'
+    source = 'C:\\Projects\\deq-enviro\\scripts\\download\DeqEnviro2.pyt'
     #: the location the partial query layers test db
     workspace = 'C:\\MapData\\DEQEnviro\\QueryLayers.gdb'
     scratch = 'C:\\Users\\agrc-arcgis\\Documents\\ArcGIS\\scratch'
