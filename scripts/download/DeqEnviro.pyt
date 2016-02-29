@@ -520,7 +520,8 @@ class Tool(object):
             workbook = xlsxwriter.Workbook(save_location)
 
             for table in tables:
-                worksheet = workbook.add_worksheet(table)
+                # trim worksheet names to be less than 32 chars - required for xlsx format
+                worksheet = workbook.add_worksheet(table[0:31])
                 # write header
                 worksheet.write_row('A1', map(lambda x: x.name, arcpy.ListFields(table)))
 
