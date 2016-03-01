@@ -55,7 +55,7 @@ define([
         }, function () {
             throw 'Error getting secrets!';
         });
-        agsDomain = '';
+        agsDomain = 'localhost';
     }
 
     // force api to use CORS on mapserv thus removing the test request on app load

@@ -56,6 +56,7 @@ Updates related data in SGID10. Reads sources from the config spreadsheet.
     - `Secure` should be locked down to just the `deq_admin` and `deq_water` roles.
 1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
     - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
+    - synchronous
 1. Run and publish `scripts/download/DeqEnviro.pyt/download` as `Toolbox/download` in the same `DEQEnviro` folder.
     - You can use these inputs as a test:  
     ```
