@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "1.1.0-3",
+  "version": "1.1.0-4",
   "devDependencies": {
     "grunt": "~0.4",
     "grunt-arcgis-press": "^0.2.0",
