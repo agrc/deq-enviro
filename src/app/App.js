@@ -186,7 +186,7 @@ define([
             ];
             this.switchBottomPanel(this.resultsGridDiv);
 
-            this.map.on('load', function () {
+            var onMapLoad = function () {
                 var tool = new MeasureTool({
                     popoverBtn: that.measureToolsBtn.domNode,
                     map: that.map
@@ -200,7 +200,12 @@ define([
                 });
                 that.own(print);
                 print.startup();
-            });
+            };
+            if (this.map.loaded) {
+                onMapLoad();
+            } else {
+                this.map.on('load', onMapLoad);
+            }
 
             this.own(topic.subscribe(this.login.topics.signInSuccess, function (loginResult) {
                 config.user = loginResult.user;
