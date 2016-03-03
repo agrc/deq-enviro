@@ -54,7 +54,6 @@ module.exports = function (grunt) {
         '!util/**',
         //'!**/*.uncompressed.js',
         '!**/*consoleStripped.js',
-        '!**/*.min.*',
         '!build-report.txt'
     ];
     var deployDir = 'wwwroot/deqenviro';
