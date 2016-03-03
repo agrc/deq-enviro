@@ -162,7 +162,8 @@ define([
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
-            exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map'
+            exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map',
+            printProxy: deqServiceFolder + '/../PrintProxy/GPServer/PrintProxy'
         },
 
         // layerIndices: Object

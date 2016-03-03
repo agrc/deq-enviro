@@ -1,49 +1,49 @@
 define([
-    'bootstrap',
-    'dojo/text!./templates/Print.html',
+    'app/config',
+    'app/_PopoverMixin',
 
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/_base/array',
+    'bootstrap',
+
+    'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
+
+    'dojo/aspect',
     'dojo/dom-class',
     'dojo/query',
-    'dojo/aspect',
+    'dojo/text!./templates/Print.html',
+    'dojo/_base/array',
+    'dojo/_base/declare',
+    'dojo/_base/lang',
 
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-
-    'esri/tasks/PrintTemplate',
+    'esri/tasks/LegendLayer',
     'esri/tasks/PrintParameters',
     'esri/tasks/PrintTask',
-    'esri/tasks/LegendLayer',
+    'esri/tasks/PrintTemplate',
 
-    'ijit/modules/_ErrorMessageMixin',
-
-    'app/_PopoverMixin',
-    'app/config'
+    'ijit/modules/_ErrorMessageMixin'
 ], function (
-    bootstrap,
-    template,
+    config,
+    _PopoverMixin,
 
-    declare,
-    lang,
-    array,
+    bootstrap,
+
+    _TemplatedMixin,
+    _WidgetBase,
+
+    aspect,
     domClass,
     query,
-    aspect,
+    template,
+    array,
+    declare,
+    lang,
 
-    _WidgetBase,
-    _TemplatedMixin,
-
-    PrintTemplate,
+    LegendLayer,
     PrintParameters,
     PrintTask,
-    LegendLayer,
+    PrintTemplate,
 
-    _ErrorMessageMixin,
-
-    _PopoverMixin,
-    config
+    _ErrorMessageMixin
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _PopoverMixin, _ErrorMessageMixin], {
         // description:
@@ -87,8 +87,11 @@ define([
             this.params = new PrintParameters();
             this.params.map = this.map;
             this.params.template = template;
+            this.params.extraParameters = {
+                'ExportWebMapService_URL': config.urls.exportWebMap
+            }
 
-            this.task = new PrintTask(config.urls.exportWebMap);
+            this.task = new PrintTask(config.urls.printProxy);
 
             this.own(
                 this.task.on('complete', lang.hitch(this, 'onComplete')),
