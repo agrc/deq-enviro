@@ -142,14 +142,13 @@ define([
                 })
             );
         },
-        addReferenceLayer: function (url, tiledService, layerIndex, layerProps) {
+        addReferenceLayer: function (url, LayerClass, layerIndex, layerProps) {
             // summary:
             //      description
             // layer: esri/layer
             // layerIndex: Number
             console.log('app/map/MapController:addReferenceLayer', arguments);
 
-            var LayerClass = (tiledService) ? ArcGISTiledMapServiceLayer : ArcGISDynamicMapServiceLayer;
             var config = lang.mixin({
                 visible: false,
                 id: url + '_' + layerIndex

@@ -155,7 +155,7 @@ define([
         // urls: Object
         //      Urls for the project
         urls: {
-            UtahPLSS: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
+            UtahPLSS: 'http://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
             DEQEnviro: deqServiceFolder + '/MapService/MapServer',
             json: 'webdata/DEQEnviro.json',
             terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
@@ -208,7 +208,7 @@ define([
 
         // TRSMinScaleLevel: Number
         //      The minimum scale level that the TRS Layer will draw.
-        TRSMinScaleLevel: 5,
+        TRSMinScaleLevel: 10,
 
         // RiskLayersMinScaleLevel: Number
         //      The minimum scale level that the three risk layers draw.

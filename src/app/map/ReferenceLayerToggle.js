@@ -58,9 +58,9 @@ define([
         //      widget to be associated with
         layerIndex: null,
 
-        // tiledService: Boolean [optional]
-        //      True is the layer is a tile map service. Defaults to false.
-        tiledService: null,
+        // layerClass: esri/layer constructor
+        //      The class constructor for the layer that you want to create
+        layerClass: null,
 
         // layerProps: Object [optional]
         //      Properites to be passed in to the layer constructor
@@ -102,7 +102,7 @@ define([
             topic.publish(
                 this.topics.addLayer,
                 this.mapServiceUrl,
-                this.tiledService,
+                this.layerClass,
                 this.layerIndex,
                 this.layerProps
             );

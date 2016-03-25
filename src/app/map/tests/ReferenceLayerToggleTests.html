@@ -6,7 +6,7 @@
     <!-- META TAGS -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-    <!-- CSS -->        
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../../../esri/css/esri.css" />
     <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/ReferenceLayerToggle.css">
@@ -45,10 +45,21 @@
 
             'agrc/widgets/map/BaseMap',
 
+            'esri/layers/ArcGISDynamicMapServiceLayer',
+            'esri/layers/VectorTileLayer',
 
             'dojo/domReady!'
-        ], function(Module, MapController, BaseMap) {
+        ], function(
+            Module,
+            MapController,
+
+            BaseMap,
+
+            ArcGISDynamicMapServiceLayer,
+            VectorTileLayer
+        ) {
             map = new BaseMap('mapDiv', {
+                useDefaultBaseMap: false,
                 zoom: 5
             });
             MapController.init({map: map});
@@ -58,21 +69,23 @@
                 map: map,
                 mapServiceUrl: '/arcgis/rest/services/DEQEnviro/MapServer',
                 layerIndex: 0,
+                layerClass: ArcGISDynamicMapServiceLayer,
                 showLegend: true
             }, 'node');
             widgetUnderTest.startup();
 
             widgetUnderTest2 = new Module({
-                layerName: 'Cached Layer',
+                layerName: 'Vector Layer',
                 map: map,
-                mapServiceUrl: 'http://mapserv.utah.gov/arcgis/rest/services/UtahPLSS/MapServer',
-                tiledService: true
+                layerClass: VectorTileLayer,
+                mapServiceUrl: 'http://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
             }, 'node2');
             widgetUnderTest2.startup();
 
             widgetUnderTest3 = new Module({
                 layerName: 'Individual layer within Map Service',
                 map: map,
+                layerClass: ArcGISDynamicMapServiceLayer,
                 mapServiceUrl: 'http://mapserv.utah.gov/arcgis/rest/services/LandUsePlanning/MapServer',
                 layerIndex: 1
             }, 'node3');
@@ -81,6 +94,7 @@
             widgetUnderTest4 = new Module({
                 layerName: 'Individual layer within Map Service',
                 map: map,
+                layerClass: ArcGISDynamicMapServiceLayer,
                 mapServiceUrl: 'http://mapserv.utah.gov/arcgis/rest/services/LandUsePlanning/MapServer',
                 layerIndex: 15
             }, 'node4');

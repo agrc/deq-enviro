@@ -11,7 +11,10 @@ define([
 
     'dojo/dom-construct',
     'dojo/text!./templates/MapLayersPopover.html',
-    'dojo/_base/declare'
+    'dojo/_base/declare',
+
+    'esri/layers/ArcGISDynamicMapServiceLayer',
+    'esri/layers/VectorTileLayer'
 ], function (
     config,
     MapController,
@@ -25,7 +28,10 @@ define([
 
     domConstruct,
     template,
-    declare
+    declare,
+
+    ArcGISDynamicMapServiceLayer,
+    VectorTileLayer
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _PopoverMixin], {
         // description:
@@ -52,6 +58,7 @@ define([
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 4,
                     showLegend: true,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     legendHeader: 'TankRiskAverageTest'
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
@@ -60,6 +67,7 @@ define([
                     layerIndex: 5,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
@@ -68,6 +76,7 @@ define([
                     layerIndex: 6,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
@@ -76,6 +85,7 @@ define([
                     layerIndex: 7,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
@@ -83,6 +93,7 @@ define([
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 3,
                     layerProps: {opacity: 0.7},
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
@@ -90,18 +101,20 @@ define([
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 0,
                     layerProps: {opacity: 0.7},
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Hydrologic Units',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: 2,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     layerProps: {opacity: 0.7}
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Township/Range/Section',
                     mapServiceUrl: config.urls.UtahPLSS,
-                    tiledService: true,
+                    layerClass: VectorTileLayer,
                     minScaleLevel: config.TRSMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
@@ -110,6 +123,7 @@ define([
                     layerIndex: 1,
                     layerProps: {opacity: 0.7},
                     showLegend: true,
+                    layerClass: ArcGISDynamicMapServiceLayer,
                     legendHeader: 'DIVISION, BRANCH, PROGRAM'
                 }, domConstruct.create('div', {}, this.domNode, 'first'))
             );

@@ -6,7 +6,6 @@ define([
     'dojo/_base/window',
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
-    'esri/layers/ArcGISTiledMapServiceLayer',
 
     'intern!bdd',
 
@@ -22,7 +21,6 @@ define([
     win,
 
     ArcGISDynamicMapServiceLayer,
-    ArcGISTiledMapServiceLayer,
 
     bdd,
 
@@ -51,7 +49,7 @@ define([
                 layerName: 'blah',
                 mapServiceUrl: url,
                 layerIndex: index,
-                tiledService: true
+                layerClass: ArcGISDynamicMapServiceLayer
             }, domConstruct.create('div', null, win.body()));
         });
 
@@ -72,7 +70,7 @@ define([
                 widget.checkbox.checked = true;
                 widget.onCheckboxChange();
 
-                expect(topics.addLayer).to.have.been.publishedWith(url, true, index);
+                expect(topics.addLayer).to.have.been.publishedWith(url, ArcGISDynamicMapServiceLayer, index);
                 expect(topics.toggleLayer).to.have.been.publishedWith(url, index, true);
             });
         });

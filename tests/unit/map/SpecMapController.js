@@ -79,17 +79,17 @@ define([
         });
         bdd.describe('addReferenceLayer', function () {
             bdd.it('adds the correct layer type', function () {
-                testObject.addReferenceLayer('blah', false, null);
+                testObject.addReferenceLayer('blah', ArcGISDynamicMapServiceLayer, null);
 
                 expect(map.addLayer.lastCall.args[0]).to.be.instanceOf(ArcGISDynamicMapServiceLayer);
                 expect(map.addLoaderToLayer).to.have.been.called;
 
-                testObject.addReferenceLayer('blah', true, null);
+                testObject.addReferenceLayer('blah', ArcGISTiledMapServiceLayer, null);
 
                 expect(map.addLayer.lastCall.args[0]).to.be.instanceOf(ArcGISTiledMapServiceLayer);
             });
             bdd.it('can handle a layer within a map service', function () {
-                testObject.addReferenceLayer('blah', false, 1);
+                testObject.addReferenceLayer('blah', ArcGISDynamicMapServiceLayer, 1);
 
                 var lyr = map.addLayer.lastCall.args[0];
 
