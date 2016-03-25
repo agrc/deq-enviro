@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Utah Environmental Interactive Map</title>
+    <title>Utah Environmental Interactive Map</title>
     <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css"/>
 
     <style type="text/css">
@@ -11,38 +11,46 @@
     </style>
 </head>
 <body>
-	<h1>Utah Environmental Interactive Map Change Log</h1>
+    <h1>Utah Environmental Interactive Map Change Log</h1>
     <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back to the app</a>
     <a href="https://github.com/agrc/deq-enviro/issues?milestone=&page=1&state=open" class="btn btn-default">Open Issues</a>
-	<h2>1.1.0-5 <small>Mar 3, 2016</small></h2>
-	<ul>
-		<li>Added a "Coded Values" column to the config spreadsheet allowing for display of descriptions for coded values within the application (<a href='https://github.com/agrc/deq-enviro/issues/154'>#154</a>).</li>
-		<li>Fixed bug causing an error when attempting to download Irrigated Crop Consumptive Use Zones as XLS (<a href='https://github.com/agrc/deq-enviro/issues/339'>#339</a>).</li>
-		<li>Switch to web mercator and layer selector resulting in access to new Google imagery (<a href='https://github.com/agrc/deq-enviro/issues/336'>#336</a>).</li>
-	</ul>
-	<h2>1.1.0-3 <small>Feb 11, 2016</small></h2>
-	<ul>
-		<li>Add a search tolerance of 250 meters for searches on polygon features (<a href='https://github.com/agrc/deq-enviro/issues/259'>#259</a>).</li>
-		<li>Clear selected feature on "Clear Search" button click (<a href='https://github.com/agrc/deq-enviro/issues/338'>#338</a>).</li>
-	</ul>
-	<h2>1.1.0-2 <small>Feb 8, 2016</small></h2>
-	<ul>
-		<li>Pinned the "Apply" and "Clear" buttons to the bottom of the popup window (<a href='https://github.com/agrc/deq-enviro/issues/324'>#324</a>).</li>
-		<li>Updated the filter and legend for the "NPDES_Discharges" layer (<a href='https://github.com/agrc/deq-enviro/issues/323'>#323</a>).</li>
-		<li>Updated the legend for the "Source Water Assessment Zones" layer (<a href='https://github.com/agrc/deq-enviro/issues/321'>#321</a>).</li>
-		<li>Added titles to query layer legends (<a href='https://github.com/agrc/deq-enviro/issues/302'>#302</a>).</li>
-		<li>Added functional tests via Intern and ported all unit tests from Jasmine to Intern (<a href='https://github.com/agrc/deq-enviro/issues/319'>#319</a>).</li>
-		<li>Fixed bug that was causing the map to zoom incorrectly after searching so that some features were off the side of the map (<a href='https://github.com/agrc/deq-enviro/issues/273'>#273</a>).</li>
-		<li>Reordered the columns in the related table grids so that "Additional Info" is in the 2nd position (<a href='https://github.com/agrc/deq-enviro/issues/305'>#305</a>).</li>
-		<li>Fixed a bug causing the "?" popup window to remain open after clicking on it (<a href='https://github.com/agrc/deq-enviro/issues/309'>#309</a>).</li>
-		<li>Enable the ability for a user to use a selected feature as the input geometry for the shape search (<a href='https://github.com/agrc/deq-enviro/issues/310'>#310</a>).</li>
-		<li>Added an additional "Points of Diversion" query layer under the "Drinking Water" heading (<a href='https://github.com/agrc/deq-enviro/issues/307'>#307</a>).</li>
-		<li>Added addition coordinate types (including UTM) to the measurement tool (<a href='https://github.com/agrc/deq-enviro/issues/207'>#207</a>).</li>
-		<li>Update the query layer result headers with custom legends to include a message about hovering over the icon to see the legend (<a href='https://github.com/agrc/deq-enviro/issues/303'>#303</a>).</li>
-		<li>Various updates for upgrading to ArcGIS Server 10.3.</li>
-		<li>Updated DEQ logo</li>
-	</ul>
-	<h2>1.1.0-1 <small>Jun 16, 2015</small></h2>
+    <h2>1.1.0-6 <small>Mar 25, 2016</small></h2>
+    <ul>
+        <li>Fixed visible scale ranges for risk and township/range/section layers (<a href='https://github.com/agrc/deq-enviro/issues/341'>#341</a>).</li>
+        <ul>
+            <li>Switched the TRS layer to point to a vector tiles service.</li>
+        </ul>
+        <li>Fixed bug causing the city search graphics to overlap with search results (<a href='https://github.com/agrc/deq-enviro/issues/342'>#342</a>).</li>
+    </ul>
+    <h2>1.1.0-5 <small>Mar 3, 2016</small></h2>
+    <ul>
+        <li>Added a "Coded Values" column to the config spreadsheet allowing for display of descriptions for coded values within the application (<a href='https://github.com/agrc/deq-enviro/issues/154'>#154</a>).</li>
+        <li>Fixed bug causing an error when attempting to download Irrigated Crop Consumptive Use Zones as XLS (<a href='https://github.com/agrc/deq-enviro/issues/339'>#339</a>).</li>
+        <li>Switch to web mercator and layer selector resulting in access to new Google imagery (<a href='https://github.com/agrc/deq-enviro/issues/336'>#336</a>).</li>
+    </ul>
+    <h2>1.1.0-3 <small>Feb 11, 2016</small></h2>
+    <ul>
+        <li>Add a search tolerance of 250 meters for searches on polygon features (<a href='https://github.com/agrc/deq-enviro/issues/259'>#259</a>).</li>
+        <li>Clear selected feature on "Clear Search" button click (<a href='https://github.com/agrc/deq-enviro/issues/338'>#338</a>).</li>
+    </ul>
+    <h2>1.1.0-2 <small>Feb 8, 2016</small></h2>
+    <ul>
+        <li>Pinned the "Apply" and "Clear" buttons to the bottom of the popup window (<a href='https://github.com/agrc/deq-enviro/issues/324'>#324</a>).</li>
+        <li>Updated the filter and legend for the "NPDES_Discharges" layer (<a href='https://github.com/agrc/deq-enviro/issues/323'>#323</a>).</li>
+        <li>Updated the legend for the "Source Water Assessment Zones" layer (<a href='https://github.com/agrc/deq-enviro/issues/321'>#321</a>).</li>
+        <li>Added titles to query layer legends (<a href='https://github.com/agrc/deq-enviro/issues/302'>#302</a>).</li>
+        <li>Added functional tests via Intern and ported all unit tests from Jasmine to Intern (<a href='https://github.com/agrc/deq-enviro/issues/319'>#319</a>).</li>
+        <li>Fixed bug that was causing the map to zoom incorrectly after searching so that some features were off the side of the map (<a href='https://github.com/agrc/deq-enviro/issues/273'>#273</a>).</li>
+        <li>Reordered the columns in the related table grids so that "Additional Info" is in the 2nd position (<a href='https://github.com/agrc/deq-enviro/issues/305'>#305</a>).</li>
+        <li>Fixed a bug causing the "?" popup window to remain open after clicking on it (<a href='https://github.com/agrc/deq-enviro/issues/309'>#309</a>).</li>
+        <li>Enable the ability for a user to use a selected feature as the input geometry for the shape search (<a href='https://github.com/agrc/deq-enviro/issues/310'>#310</a>).</li>
+        <li>Added an additional "Points of Diversion" query layer under the "Drinking Water" heading (<a href='https://github.com/agrc/deq-enviro/issues/307'>#307</a>).</li>
+        <li>Added addition coordinate types (including UTM) to the measurement tool (<a href='https://github.com/agrc/deq-enviro/issues/207'>#207</a>).</li>
+        <li>Update the query layer result headers with custom legends to include a message about hovering over the icon to see the legend (<a href='https://github.com/agrc/deq-enviro/issues/303'>#303</a>).</li>
+        <li>Various updates for upgrading to ArcGIS Server 10.3.</li>
+        <li>Updated DEQ logo</li>
+    </ul>
+    <h2>1.1.0-1 <small>Jun 16, 2015</small></h2>
     <ul>
         <li>Add risk data reference layers (<a href='https://github.com/agrc/deq-enviro/issues/294'>#294</a>).</li>
         <li>Added the option for a title in the query layer legends (<a href='https://github.com/agrc/deq-enviro/issues/302'>#302</a>).</li>
