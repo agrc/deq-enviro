@@ -5,6 +5,7 @@ define([
 
     'dojo/aspect',
     'dojo/Deferred',
+    'dojo/topic',
     'dojo/_base/declare'
 ], function (
     MagicZoom,
@@ -13,6 +14,7 @@ define([
 
     aspect,
     Deferred,
+    topic,
     declare
 ) {
     return declare([MagicZoom], {
@@ -38,19 +40,6 @@ define([
         symbolFill: config.symbols.zoom.polygon,
         preserveGraphics: true,
 
-        postCreate: function () {
-            // summary:
-            //      wires up onZoomed listener
-            console.log('app/search/City::postCreate', arguments);
-
-            var that = this;
-
-            this.own(aspect.after(this, 'onZoomed', function (graphic) {
-                that.geometry = graphic.geometry;
-            }, true));
-
-            this.inherited(arguments);
-        },
         getGeometry: function () {
             // summary:
             //      Called by Search
@@ -75,6 +64,15 @@ define([
             this.textBox.value = '';
 
             this.graphicsLayer.clear();
+        },
+        _zoom: function (graphic) {
+            // summary:
+            //      overriden so we have control of graphics
+            // graphic: Graphic
+            console.log('app/search/City:_zoom', arguments);
+
+            topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, graphic.geometry);
+            this.geometry = graphic.geometry;
         }
     });
 });

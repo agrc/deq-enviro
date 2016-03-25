@@ -167,8 +167,7 @@ define([
             this.own(
             this.address = new Address(null, this.addressPane),
             this.city = new City({
-                map: MapController.map,
-                graphicsLayer: MapController.map.graphics
+                map: MapController.map
             }, this.cityPane),
             this.county = new County({}, this.countyPane),
             this.site = new SiteName(null, this.sitePane),

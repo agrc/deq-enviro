@@ -76,16 +76,6 @@ define([
                 });
             });
         });
-        bdd.describe('postCreate', function () {
-            bdd.it('wires up onZoomed to collect the zoomed geometry', function () {
-                var geo = {};
-                var graphic = {geometry: geo};
-
-                widget.onZoomed(graphic);
-
-                expect(widget.geometry).to.equal(geo);
-            });
-        });
         bdd.describe('clear', function () {
             bdd.it('clears text box', function () {
                 widget.textBox.value = 'blah';
