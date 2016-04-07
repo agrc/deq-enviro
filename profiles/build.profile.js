@@ -51,7 +51,7 @@ var profile = {
         }
     },
     userConfig: {
-        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri']
+        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri', 'layer-selector']
     },
     staticHasFeatures: {
         // The trace & log APIs are used for debugging the loader, so we don’t need them in the build
@@ -63,7 +63,7 @@ var profile = {
 
         // We’re fully async, so get rid of the legacy loader
         'dojo-sync-loader':0,
-        
+
         // dojo-xhr-factory relies on dojo-sync-loader
         'dojo-xhr-factory':0,
 
