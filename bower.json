@@ -11,7 +11,7 @@
     "dijit": "1.10",
     "dojo": "1.10",
     "dojox": "1.10",
-    "ijit": "agrc-ijit#3.1.1",
+    "ijit": "agrc-ijit#3.1.2",
     "jquery": "~1",
     "lodash": "~2.4.1",
     "put-selector": "~0.3.5",
