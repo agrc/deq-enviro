@@ -12,8 +12,8 @@ except:
 print('creating new database')
 new_db = base_folder + 'QueryLayers_NEW.gdb'
 old_db = base_folder + 'QueryLayers.gdb'
-new_ref_db = base_folder + 'ReferenceData.gdb'
-old_ref_db = base_folder + 'ReferenceData_NEW.gdb'
+new_ref_db = base_folder + 'ReferenceData_NEW.gdb'
+old_ref_db = base_folder + 'ReferenceData.gdb'
 if arcpy.Exists(new_db):
     arcpy.Delete_management(new_db)
 arcpy.CreateFileGDB_management(base_folder, 'QueryLayers_NEW.gdb')
