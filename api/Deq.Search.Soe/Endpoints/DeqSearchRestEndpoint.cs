@@ -218,6 +218,7 @@ namespace Deq.Search.Soe.Endpoints {
                             CommandExecutor.ExecuteCommand(new ComposeMultiConditionQueryCommand("Name", accessRules,
                                                                                                  false))
                     };
+                countyFilter.set_OutputSpatialReference("Name", queryFilter.Geometry.SpatialReference);
 
                 var cursor = ApplicationCache.County.Search(countyFilter, true);
 
