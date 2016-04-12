@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="gisServerBaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">http://localhost</Value>
     </Setting>
   </Settings>
 </SettingsFile>

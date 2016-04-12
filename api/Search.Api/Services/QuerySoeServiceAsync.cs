@@ -25,8 +25,14 @@ namespace Search.Api.Services {
         {
             using (var client = new HttpClient())
             {
-
-                client.BaseAddress = new Uri(Settings.Default.gisServerBaseUrl);
+                var baseUrl = "http://test.mapserv.utah.gov";
+#if DEBUG
+                baseUrl = "http://localhost";
+#endif
+#if RELEASE
+                baseUrl = "http://mapserv.utah.gov";
+#endif
+                client.BaseAddress = new Uri(baseUrl);
 
                 var content = new MultipartFormDataContent();
                 foreach (var pair in formValues)
