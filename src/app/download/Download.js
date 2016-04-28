@@ -177,7 +177,8 @@ define([
 
             var params = {
                 'table_id_map': JSON.stringify(this.downloadFeatures),
-                'file_type': this.fileTypes.value
+                'file_type': this.fileTypes.value,
+                'location': config.downloadDataPath
             };
 
             this.gp.submitJob(params);
