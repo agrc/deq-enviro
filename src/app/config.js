@@ -203,7 +203,7 @@ define([
         featureClassNames: {
             counties: 'SGID10.BOUNDARIES.Counties',
             utah: 'SGID10.BOUNDARIES.Utah',
-            city: 'SGID10.BOUNDARIES.Municipalities'
+            city: 'SGID10.BOUNDARIES.Municipalities_Carto' // _Carto version to make sure that Draper is not split on county line
         },
 
         // TRSMinScaleLevel: Number
