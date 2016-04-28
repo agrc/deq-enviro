@@ -17,7 +17,9 @@ html-report/
 node_modules/
 scripts/download/.noseids
 scripts/download/DeqEnviro.py
+scripts/nightly/gspread*
 scripts/nightly/Logs
+scripts/nightly/requests*
 scripts/nightly/scratch.gdb
 scripts/nightly/settings/__init__.py
 scripts/nightly/settings/oauth2key.json
