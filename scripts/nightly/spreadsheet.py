@@ -44,7 +44,11 @@ tblFields = [
     ['SGID Table Name', fieldnames.sgidName],
     ['Fields', fieldnames.fields],
     ['Additional Information', fieldnames.additionalLink],
-    ['Additional Information Link Fields', fieldnames.additionalLinkFields]
+    ['Additional Information Link Fields', fieldnames.additionalLinkFields],
+    ['SGID Relationship Name', fieldnames.relationshipName],
+    ['Primary Key', fieldnames.primaryKey],
+    ['Foreign Key', fieldnames.foreignKey],
+    ['Parent Dataset Name', fieldnames.parentDatasetName]
 ]
 
 rlFields = [

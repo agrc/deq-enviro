@@ -56,6 +56,23 @@ def update_related_tables(test_layer=None):
                 remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
                 update(localTbl, remoteTbl)
                 validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)
+
+                # create relationship class if missing
+                rcName = t[fieldnames.relationshipName].split('.')[-1]
+                rcPath = path.join(settings.fgd, rcName)
+                if not arcpy.Exists(rcPath):
+                    origin = path.join(settings.fgd, t[fieldnames.parentDatasetName].split('.')[-1])
+                    arcpy.CreateRelationshipClass_management(origin,
+                                                             localTbl,
+                                                             rcPath,
+                                                             'SIMPLE',
+                                                             name,
+                                                             t[fieldnames.parentDatasetName].split('.')[-1],
+                                                             'BOTH',
+                                                             'ONE_TO_MANY',
+                                                             'NONE',
+                                                             t[fieldnames.primaryKey],
+                                                             t[fieldnames.foreignKey])
                 successes.append(name)
         except:
             errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
@@ -64,8 +81,12 @@ def update_related_tables(test_layer=None):
 def update(local, remote, relatedTables='table'):
     logger.logMsg('updating: {} \n    from: {}'.format(local, remote))
     if not arcpy.Exists(local):
-        logger.logMsg('creating new local feature class')
-        arcpy.CopyFeatures_management(remote, local)
+        if arcpy.Describe(remote).dataType == 'Table':
+            logger.logMsg('creating new local table')
+            arcpy.CopyRows_management(remote, local)
+        else:
+            logger.logMsg('creating new local feature class')
+            arcpy.CopyFeatures_management(remote, local)
     else:
         arcpy.TruncateTable_management(local)
         try:
