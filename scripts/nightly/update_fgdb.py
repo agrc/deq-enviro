@@ -8,6 +8,8 @@ from os import path
 from build_json import parse_fields
 from collections import namedtuple
 import re
+import shutil
+from agrc import ags
 
 commonFields = [fieldnames.ID,
                 fieldnames.NAME,
@@ -31,6 +33,15 @@ def run(logr, test_layer=None):
     arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(3857)
     arcpy.env.geographicTransformations = 'NAD_1983_to_WGS_1984_5'
 
+    if test_layer is None:
+        admin = ags.AGSAdmin(settings.AGS_USER, settings.AGS_PASSWORD, settings.agsServer)
+        admin.stopService('DEQEnviro/Secure', 'MapServer')
+        admin.stopService('DEQEnviro/MapService', 'MapServer')
+
+        logger.logMsg('deleting fgdb\n')
+        shutil.rmtree(settings.fgd)
+        arcpy.CreateFileGDB_management(path.dirname(settings.fgd), path.basename(settings.fgd))
+
     logger.logMsg('processing query layers\n')
     update_query_layers(test_layer)
 
@@ -39,6 +50,10 @@ def run(logr, test_layer=None):
 
     logger.logMsg('compacting file geodatabase\n')
     arcpy.Compact_management(settings.fgd)
+
+    if test_layer is None:
+        admin.startService('DEQEnviro/Secure', 'MapServer')
+        admin.startService('DEQEnviro/MapService', 'MapServer')
 
     return errors
 
@@ -116,10 +131,15 @@ def update_query_layers(test_layer=None):
             # update fgd from SGID
             logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
             localFc = path.join(settings.fgd, fcname.split('.')[-1])
+
             if fcname.startswith('SGID10'):
                 remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
             else:
                 remoteFc = path.join(settings.dbConnects, l[fieldnames.sourceData])
+
+            if len(validate_fields([f.name for f in arcpy.ListFields(remoteFc)], l, fcname)) > 0:
+                continue
+
             update(localFc, remoteFc, l[fieldnames.relatedTables])
 
             # APP-SPECIFIC OPTIMIZATIONS
@@ -159,8 +179,6 @@ def update_query_layers(test_layer=None):
                     expression = '"{}"'.format(expression)
                 arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
 
-            validate_fields([f.name for f in arcpy.ListFields(localFc)], l[fieldnames.fields], fcname)
-
             apply_coded_values(localFc, l[fieldnames.codedValues])
 
             # scrub out any empty geometries
@@ -172,10 +190,11 @@ def update_query_layers(test_layer=None):
                                                                                       logger.logError().strip()))
 
 
-def validate_fields(dataFields, fieldString, datasetName):
+def validate_fields(dataFields, queryLayer, datasetName):
     msg = '{}: Could not find matches in the source data for the following fields from the query layers spreadsheet: {}'
     dataFields = set(dataFields)
-    spreadsheetFields = set([f[0] for f in parse_fields(fieldString)])
+    additionalFields = [queryLayer[f] for f in commonFields]
+    spreadsheetFields = set([f[0] for f in parse_fields(queryLayer[fieldnames.fields])] + additionalFields) - set(['n/a'])
 
     invalidFields = spreadsheetFields - dataFields
 
