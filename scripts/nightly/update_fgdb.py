@@ -69,8 +69,11 @@ def update_related_tables(test_layer=None):
                 logger.logMsg('\nProcessing: {}'.format(name.split('.')[-1]))
                 localTbl = path.join(settings.fgd, name.split('.')[-1])
                 remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
+
+                if len(validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)) > 0:
+                    continue
+
                 update(localTbl, remoteTbl)
-                validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)
 
                 # create relationship class if missing
                 rcName = t[fieldnames.relationshipName].split('.')[-1]
