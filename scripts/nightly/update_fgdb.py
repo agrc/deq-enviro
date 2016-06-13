@@ -70,7 +70,7 @@ def update_related_tables(test_layer=None):
                 localTbl = path.join(settings.fgd, name.split('.')[-1])
                 remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
 
-                if len(validate_fields([f.name for f in arcpy.ListFields(localTbl)], t[fieldnames.fields], name)) > 0:
+                if len(validate_fields([f.name for f in arcpy.ListFields(remoteTbl)], t[fieldnames.fields], name)) > 0:
                     continue
 
                 update(localTbl, remoteTbl)
@@ -119,7 +119,7 @@ def update(local, remote, relatedTables='table'):
             with arcpy.da.Editor(settings.fgd):
                 flds = [f.name for f in arcpy.ListFields(remote)]
                 logger.logMsg('append failed, using insert cursor')
-                with arcpy.da.SearchCursor(remote, flds) as rcur, arcpy.da.InsertCursor(local, flds) as icur:
+                with arcpy.da.SearchCursor(remote, flds, spatial_reference=arcpy.SpatialReference(3857)) as rcur, arcpy.da.InsertCursor(local, flds) as icur:
                     for row in rcur:
                         icur.insertRow(row)
 
