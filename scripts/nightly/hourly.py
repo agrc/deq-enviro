@@ -1,5 +1,12 @@
 # script intended to be scheduled to run hourly to update DAQ data
 
+'''
+TODO:
+Define pallet that is run in separate lift <pallet.py> hourly scheduled task
+Define two crates that point to each prod server folder
+Do not define copy_data or arcgis_services
+'''
+
 import update_sgid
 import update_fgdb
 from agrc import messaging
@@ -10,6 +17,7 @@ emailer = None
 logger = None
 scriptName = 'DEQ Hourly'
 sgidName = 'SGID10.ENVIRONMENT.DAQAirMonitorByStation'
+
 
 def run():
     global emailer, logger
@@ -22,6 +30,7 @@ def run():
     if check_errors(update_fgdb.run(logger, sgidName)):
         return
 
+
 def check_errors(errors):
     if len(errors) > 0:
         emailer.sendEmail('{} - Errors'.format(scriptName),
@@ -29,6 +38,7 @@ def check_errors(errors):
         return True
     else:
         return False
+
 
 def run_with_try_catch():
     try:
@@ -38,6 +48,3 @@ def run_with_try_catch():
         emailer.sendEmail('{} - Script Error'.format(scriptName), logger.log)
     finally:
         logger.writeLogToFile()
-
-if __name__ == "__main__":
-    run_with_try_catch()

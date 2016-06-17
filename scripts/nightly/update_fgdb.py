@@ -1,15 +1,15 @@
 # copies data from SGID to the app and makes necessary optimizations
 
 import arcpy
+import logging
+import re
 import settings
-from settings import fieldnames
 import spreadsheet
-from os import path
 from build_json import parse_fields
 from collections import namedtuple
-import re
-import shutil
-from agrc import ags
+from forklift.exceptions import ValidationException
+from os import path
+from settings import fieldnames
 
 commonFields = [fieldnames.ID,
                 fieldnames.NAME,
@@ -18,195 +18,118 @@ commonFields = [fieldnames.ID,
                 fieldnames.TYPE,
                 fieldnames.ENVIROAPPLABEL,
                 fieldnames.ENVIROAPPSYMBOL]
-logger = None
-errors = []
+logger = logging.getLogger('forklift')
 field_type_mappings = {'Integer': 'LONG',
                        'String': 'TEXT',
                        'SmallInteger': 'SHORT'}
-successes = []
 
 
-def run(logr, test_layer=None):
-    global logger, errors
-    logger = logr
-
-    arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(3857)
-    arcpy.env.geographicTransformations = 'NAD_1983_to_WGS_1984_5'
-
-    if test_layer is None:
-        admin = ags.AGSAdmin(settings.AGS_USER, settings.AGS_PASSWORD, settings.agsServer)
-        admin.stopService('DEQEnviro/Secure', 'MapServer')
-        admin.stopService('DEQEnviro/MapService', 'MapServer')
-
-        logger.logMsg('deleting fgdb\n')
-        shutil.rmtree(settings.fgd)
-        arcpy.CreateFileGDB_management(path.dirname(settings.fgd), path.basename(settings.fgd))
-
-    logger.logMsg('processing query layers\n')
-    update_query_layers(test_layer)
-
-    logger.logMsg('processing related tables\n')
-    update_related_tables(test_layer)
-
-    logger.logMsg('compacting file geodatabase\n')
-    arcpy.Compact_management(settings.fgd)
-
-    if test_layer is None:
-        admin.startService('DEQEnviro/Secure', 'MapServer')
-        admin.startService('DEQEnviro/MapService', 'MapServer')
-
-    return errors
-
-
-def update_related_tables(test_layer=None):
-    global successes
-    for t in spreadsheet.get_related_tables():
-        name = t[fieldnames.sgidName]
-        if test_layer and name != test_layer:
+def get_crate_infos(test_layer=None):
+    infos = []
+    for dataset in spreadsheet.get_datasets():
+        #: skip if using test_layer and it's not the current layer
+        if test_layer and dataset[fieldnames.sgidName] != test_layer:
             continue
-        try:
-            if name.startswith('SGID10'):
-                logger.logMsg('\nProcessing: {}'.format(name.split('.')[-1]))
-                localTbl = path.join(settings.fgd, name.split('.')[-1])
-                remoteTbl = path.join(settings.sgid[name.split('.')[1]], name)
 
-                if len(validate_fields([f.name for f in arcpy.ListFields(remoteTbl)], t[fieldnames.fields], name)) > 0:
-                    continue
+        sgidName = dataset[fieldnames.sgidName]
+        sourceData = dataset[fieldnames.sourceData]
 
-                update(localTbl, remoteTbl)
-
-                # create relationship class if missing
-                rcName = t[fieldnames.relationshipName].split('.')[-1]
-                rcPath = path.join(settings.fgd, rcName)
-                if not arcpy.Exists(rcPath):
-                    origin = path.join(settings.fgd, t[fieldnames.parentDatasetName].split('.')[-1])
-                    arcpy.CreateRelationshipClass_management(origin,
-                                                             localTbl,
-                                                             rcPath,
-                                                             'SIMPLE',
-                                                             name,
-                                                             t[fieldnames.parentDatasetName].split('.')[-1],
-                                                             'BOTH',
-                                                             'ONE_TO_MANY',
-                                                             'NONE',
-                                                             t[fieldnames.primaryKey],
-                                                             t[fieldnames.foreignKey])
-                successes.append(name)
-        except:
-            errors.append('Execution error trying to update fgdb with {}:\n{}'.format(name, logger.logError()))
-
-
-def update(local, remote, relatedTables='table'):
-    logger.logMsg('updating: {} \n    from: {}'.format(local, remote))
-    if not arcpy.Exists(local):
-        if arcpy.Describe(remote).dataType == 'Table':
-            logger.logMsg('creating new local table')
-            arcpy.CopyRows_management(remote, local)
+        if sgidName.startswith('DirectFrom.Source'):
+            source_workspace = sourceData.split('.gdb')[0] + '.gdb'
+            source_name = sourceData.split(r'.gdb')[1].lstrip('\\')
         else:
-            logger.logMsg('creating new local feature class')
-            arcpy.CopyFeatures_management(remote, local)
-    else:
-        arcpy.TruncateTable_management(local)
-        try:
-            if relatedTables == 'None':
-                logger.logMsg('copying instead of appending')
-                arcpy.Delete_management(local)
-                logger.logMsg('deleted')
-                arcpy.CopyFeatures_management(remote, local)
-            else:
-                arcpy.Append_management(remote, local, 'NO_TEST')
-        except:
-            with arcpy.da.Editor(settings.fgd):
-                flds = [f.name for f in arcpy.ListFields(remote)]
-                logger.logMsg('append failed, using insert cursor')
-                with arcpy.da.SearchCursor(remote, flds, spatial_reference=arcpy.SpatialReference(3857)) as rcur, arcpy.da.InsertCursor(local, flds) as icur:
-                    for row in rcur:
-                        icur.insertRow(row)
+            source_workspace = settings.sgid[sgidName.split('.')[1]]
+            source_name = sgidName
+
+        infos.append((source_name, source_workspace, settings.fgd, sgidName.split('.')[2]))
+
+    return infos
 
 
-def update_query_layers(test_layer=None):
-    global successes
-    for l in spreadsheet.get_query_layers():
-        fcname = l[fieldnames.sgidName]
-        if test_layer and fcname != test_layer:
-            continue
-        try:
-            # update fgd from SGID
-            logger.logMsg('\nProcessing: {}'.format(fcname.split('.')[-1]))
-            localFc = path.join(settings.fgd, fcname.split('.')[-1])
+def post_process_crate(crate):
+    config = get_spreadsheet_config_from_crate(crate)
+    if fieldnames.relationshipName in config.keys():
+        #: make sure that it has the five main fields
+        upper_fields = [x.name.upper() for x in arcpy.ListFields(crate.destination)]
+        for fld in commonFields:
+            if fld not in upper_fields:
+                logger.info('{} not found. Adding to {}'.format(fld, crate.destination))
 
-            if fcname.startswith('SGID10'):
-                remoteFc = path.join(settings.sgid[fcname.split('.')[1]], fcname)
-            else:
-                remoteFc = path.join(settings.dbConnects, l[fieldnames.sourceData])
-
-            if len(validate_fields([f.name for f in arcpy.ListFields(remoteFc)], l, fcname)) > 0:
-                continue
-
-            update(localFc, remoteFc, l[fieldnames.relatedTables])
-
-            # APP-SPECIFIC OPTIMIZATIONS
-            # make sure that it has the five main fields for the fdg only
-            upper_fields = [x.name.upper() for x in arcpy.ListFields(localFc)]
-            for f in commonFields:
-                if f not in upper_fields:
-                    logger.logMsg('{} not found. Adding to {}'.format(f, localFc))
-
-                    # get mapped field properties
-                    if not l[f] == 'n/a':
-                        try:
-                            mappedFld = arcpy.ListFields(localFc, l[f])[0]
-                        except IndexError:
-                            errors.append('Could not find {} in {}'.format(l[f], fcname))
-                            continue
-                    else:
-                        mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
-                                                                                            'scale': 0,
-                                                                                            'length': 50,
-                                                                                            'type': 'String'})
-                    arcpy.AddField_management(localFc, f, 'TEXT', field_length=255)
-
-                # calc field
-                expression = l[f]
-                if not expression == 'n/a':
+                # get mapped field properties
+                if not config[fld] == 'n/a':
                     try:
-                        mappedFld = arcpy.ListFields(localFc, l[f])[0]
+                        mappedFld = arcpy.ListFields(crate.destination, config[fld])[0]
                     except IndexError:
-                        errors.append('Could not find {} in {}'.format(l[f], fcname))
-                        continue
-                    if mappedFld.type != 'String':
-                        expression = 'str(int(!{}!))'.format(expression)
-                    else:
-                        expression = '!{}!.encode("utf-8")'.format(expression)
+                        raise Exception('Could not find {} in {}'.format(config[fld], crate.destination_name))
                 else:
-                    expression = '"{}"'.format(expression)
-                arcpy.CalculateField_management(localFc, f, expression, 'PYTHON')
+                    mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
+                                                                                        'scale': 0,
+                                                                                        'length': 50,
+                                                                                        'type': 'String'})
+                arcpy.AddField_management(crate.destination, fld, 'TEXT', field_length=255)
 
-            apply_coded_values(localFc, l[fieldnames.codedValues])
+            # calc field
+            expression = config[fld]
+            if not expression == 'n/a':
+                try:
+                    mappedFld = arcpy.ListFields(crate.destination, config[fld])[0]
+                except IndexError:
+                    raise Exception('Could not find {} in {}'.format(config[fld], crate.destination_name))
 
-            # scrub out any empty geometries
-            arcpy.RepairGeometry_management(localFc)
+                if mappedFld.type != 'String':
+                    expression = 'str(int(!{}!))'.format(expression)
+                else:
+                    expression = '!{}!.encode("utf-8")'.format(expression)
+            else:
+                expression = '"{}"'.format(expression)
+            arcpy.CalculateField_management(crate.destination, fld, expression, 'PYTHON')
 
-            successes.append(fcname)
-        except:
-            errors.append('Execution error trying to update fgdb with {}:\n{}'.format(fcname,
-                                                                                      logger.logError().strip()))
+        apply_coded_values(crate.destination, config[fieldnames.codedValues])
+
+        # scrub out any empty geometries
+        arcpy.RepairGeometry_management(crate.destination)
+    else:
+        # create relationship class if missing
+        rcName = config[fieldnames.relationshipName].split('.')[-1]
+        rcPath = path.join(settings.fgd, rcName)
+        if not arcpy.Exists(rcPath):
+            origin = path.join(settings.fgd, config[fieldnames.parentDatasetName].split('.')[-1])
+            arcpy.CreateRelationshipClass_management(origin,
+                                                     crate.destination,
+                                                     rcPath,
+                                                     'SIMPLE',
+                                                     config[fieldnames.sgidName],
+                                                     config[fieldnames.parentDatasetName].split('.')[-1],
+                                                     'BOTH',
+                                                     'ONE_TO_MANY',
+                                                     'NONE',
+                                                     config[fieldnames.primaryKey],
+                                                     config[fieldnames.foreignKey])
 
 
-def validate_fields(dataFields, queryLayer, datasetName):
+def get_spreadsheet_config_from_crate(crate):
+    for config in spreadsheet.get_datasets():
+        if config[fieldnames.sgidName].split('.')[2] == crate.destination_name:
+            return config
+
+    raise Exception('{} not found in spreadsheet!'.format(crate.destination_name))
+
+
+def validate_crate(crate):
+    dataFields = [f.name for f in arcpy.ListFields(crate.destination)]
+    config = get_spreadsheet_config_from_crate(crate)
+
     msg = '{}: Could not find matches in the source data for the following fields from the query layers spreadsheet: {}'
     dataFields = set(dataFields)
-    additionalFields = [queryLayer[f] for f in commonFields]
-    spreadsheetFields = set([f[0] for f in parse_fields(queryLayer[fieldnames.fields])] + additionalFields) - set(['n/a'])
+    additionalFields = [config[f] for f in commonFields]
+    spreadsheetFields = set([f[0] for f in parse_fields(config[fieldnames.fields])] + additionalFields) - set(['n/a'])
 
     invalidFields = spreadsheetFields - dataFields
 
     if len(invalidFields) > 0:
-        er = msg.format(datasetName, ', '.join(invalidFields))
-        errors.append(er)
-        return er
-    else:
-        return []
+        raise ValidationException(msg.format(crate.destination_name, ', '.join(invalidFields)))
+
+    return True
 
 
 def apply_coded_values(fc, codedValuesTxt):
@@ -223,17 +146,3 @@ def apply_coded_values(fc, codedValuesTxt):
     for code, desc in zip(codes, descriptions):
         arcpy.SelectLayerByAttribute_management(layer, where_clause='{} = \'{}\''.format(field_name, code))
         arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
-
-
-if __name__ == '__main__':
-    from agrc import logging
-    import sys
-
-    logger = logging.Logger()
-
-    # first argument is optionally the SGID feature class or table name
-    if len(sys.argv) == 2:
-        print(run(logger, sys.argv[1]))
-    else:
-        print(run(logger))
-    print('done')

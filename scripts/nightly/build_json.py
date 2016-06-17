@@ -1,5 +1,10 @@
-# Builds a .json file used by the app. 
-# Also returns lists used to update SDE and file geodatabase data.
+#!/usr/bin/env python
+# * coding: utf8 *
+'''
+build_json.py
+
+A module that builds DEQEnviro.json that is used to confire the web app on load.
+'''
 
 import os
 import json
@@ -11,6 +16,7 @@ from agrc import ags
 
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
+
 def run():
     layers = get_dataset_info(spreadsheet.get_query_layers())
     tables = get_dataset_info(spreadsheet.get_related_tables())
@@ -21,16 +27,15 @@ def run():
     for l in links:
         linksDict[l[fieldnames.ID]] = l
 
-    j = {
-         fieldnames.queryLayers: layers,
+    j = {fieldnames.queryLayers: layers,
          fieldnames.relatedTables: tables,
-         fieldnames.otherLinks: linksDict
-         }
+         fieldnames.otherLinks: linksDict}
     f = open(jsonFile, 'w')
     print >> f, json.dumps(j, indent=4)
     f.close()
 
     return j
+
 
 def get_dataset_info(spreadsheetData):
     admin = ags.AGSAdmin(settings.DEQNIGHTLY_USER, settings.DEQNIGHTLY_PASSWORD, settings.agsServer)
@@ -52,9 +57,10 @@ def get_dataset_info(spreadsheetData):
         l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
         if n in serviceLayers.keys():
             l[fieldnames.index] = serviceLayers[n]
-    
+
     return spreadsheetData
-    
+
+
 def parse_fields(fieldTxt):
     fields = []
     for txt in fieldTxt.split(', '):
@@ -63,9 +69,5 @@ def parse_fields(fieldTxt):
         alias = txt[splitIndex + 2:-1].strip()
         if fieldname is not None and alias is not None:
             fields.append([fieldname, alias])
-    
-    return fields
 
-if __name__ == '__main__':
-    run()
-    print('done')
+    return fields

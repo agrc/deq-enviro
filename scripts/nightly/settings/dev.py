@@ -10,11 +10,12 @@ agsServer = 'localhost'
 
 # database connections
 dbConnects = os.path.join(os.path.dirname(os.path.abspath(__file__)), r'..\databases')
-sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on local.sde'),
-    'WATER': os.path.join(dbConnects, 'SGID10 as WATER on local.sde'),
-    'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on local.sde')}
+sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on stage.sde'),
+        'WATER': os.path.join(dbConnects, 'SGID10 as WATER on stage.sde'),
+        'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on stage.sde')}
 
-fgd = r'C:\MapData\DEQEnviro\QueryLayers.gdb'
+fgd = r'C:\Scheduled\staging\DEQEnviro\QueryLayers.gdb'
+tempPointsGDB = r'C:\Scheduled\staging\DEQEnviro\TempPoints.gdb'
 
 sendEmails = False
 updateFTP = False

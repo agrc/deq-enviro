@@ -5,11 +5,12 @@ import gspread
 import json
 from oauth2client.client import SignedJwtAssertionCredentials
 from settings import fieldnames
+from os import path
 import settings
 
 
 qlFields = [
-    #[<spreadsheet header name>, <result object property name>]
+    #: [<spreadsheet header name>, <result object property name>]
     ['Name', fieldnames.name],
     ['Layer Description', fieldnames.description],
     ['Metadata Link', fieldnames.metaDataUrl],
@@ -65,7 +66,7 @@ linksFields = [
 
 def _login():
     # had to login everytime because the session was being closed
-    json_key = json.load(open('settings/oauth2key.json'))
+    json_key = json.load(open(path.join(path.dirname(__file__), 'settings', 'oauth2key.json')))
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = SignedJwtAssertionCredentials(
         json_key['client_email'],
@@ -74,21 +75,27 @@ def _login():
     gc = gspread.authorize(credentials)
     return gc.open_by_url(settings.queryLayersUrl)
 
+
 def get_query_layers():
     return _get_worksheet_data(_login().worksheet('Query Layers'), qlFields)
+
 
 def get_related_tables():
     return _get_worksheet_data(_login().worksheet('Related Tables'), tblFields)
 
+
 def get_reference_layers():
     return _get_worksheet_data(_login().worksheet('Reference Layers'), rlFields)
+
 
 def get_links():
     return _get_worksheet_data(_login().worksheet('Other Links'), linksFields)
 
+
 def get_datasets():
     # return all querylayers, tables, and reference layers
     return get_query_layers() + get_related_tables() + get_reference_layers()
+
 
 def _get_worksheet_data(wksh, fields):
     data = []

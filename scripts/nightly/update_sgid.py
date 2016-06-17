@@ -1,21 +1,29 @@
-# handles updating data in SGID from the various data sources
-# performs ETL process if necessary
+#!/usr/bin/env python
+# * coding: utf8 *
+'''
+update_sgid.py
+
+handles updating data in SGID from the various data sources
+performs ETL process if necessary
+'''
+
 
 import arcpy
+import logging
 import spreadsheet
 import settings
+from forklift.models import Crate
 from settings import fieldnames
 from os import path
-import scratch
 
-excludeFields = {'GlobalID', 
-                 'POSTTONET', 
+excludeFields = {'GlobalID',
+                 'POSTTONET',
                  'Shape',
                  'SHAPE',
-                 'OBJECTID', 
+                 'OBJECTID',
                  'FID',
-                 'Shape.len', 
-                 'Shape.area', 
+                 'Shape.len',
+                 'Shape.area',
                  'Shape.STArea()',
                  'Shape.STLength()',
                  'Shape_Length',
@@ -24,67 +32,84 @@ latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 utm = arcpy.SpatialReference(26912)
 wgs = arcpy.SpatialReference(4326)
-truncateFields = [
-                  #[<field name>, <max length>]
-                  ['PROJDESC', 2000]
-                  ]
-logger = None
+
+#: [<field name>, <max length>]
+truncateFields = [['PROJDESC', 2000]]
+logger = logging.getLogger('forklift')
 errors = []
 
 
-def run(logr, test_layer=None):
-    global logger, errors
-    logger = logr
+def _get_crate_infos(test_layer=None, temp=False):
+    infos = []
     for dataset in spreadsheet.get_datasets():
+        #: skip if using test_layer and it's not the current layer
         if test_layer and dataset[fieldnames.sgidName] != test_layer:
             continue
-        try:
-            sgidName = dataset[fieldnames.sgidName]
-            sourceName = dataset[fieldnames.sourceData]
-            source = path.join(settings.dbConnects, sourceName)
-            
-            # only try to update rows with valid sgid names and data sources
-            if sgidName.startswith('SGID10') and not sourceName.startswith('<'):
-                sgid = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
-                sgidType = arcpy.Describe(sgid).datasetType
-                sourceType = arcpy.Describe(source).datasetType
-                
-                logger.logMsg('\n\nupdating: {}({}) \n    from: {}({})'.format(sgidName,
-                                                                           sgidType, 
-                                                                           sourceName,
-                                                                           sourceType))
-                
-                fields = compare_field_names(get_field_names(source), get_field_names(sgid))
-                commonFields = fields[0]
-                mismatchFields = fields[1]
-                
-                if len(mismatchFields) > 0:
-                    logger.logMsg('Field mismatches: {}'.format(mismatchFields))
-                    errors.append('Field mismatches between {} & {}: \n{}'.format(sgidName,
-                                                                                  sourceName,
-                                                                                  mismatchFields))
-                
-                if sgidType == sourceType:
-                    logger.logMsg('No ETL needed, copying data')
-                    update_sgid_data(source, sgid)
-                else:
-                    # bring on the ETL, should always be table -> point feature class
-                    sgidScratch = arcpy.CreateFeatureclass_management(scratch.scratchGDB, 
-                                                                      r'/{}'.format(sgidName.split('.')[-1]), 
-                                                                      "#", 
-                                                                      sgid)
-                    sgidFields = ['SHAPE@XY'] + commonFields
-                    sourceFields = get_source_fields(commonFields)
-                    
-                    etl(sgidScratch, sgidFields, source, sourceFields)
-                    
-                    update_sgid_data(sgidScratch, sgid)
-        except:
-            errors.append('Execution error trying to update {}:\n{}'.format(sgidName, logger.logError().strip()))
-    return errors
+
+        sgidName = dataset[fieldnames.sgidName]
+        sourceData = dataset[fieldnames.sourceData]
+
+        #: only try to update rows with valid sgid names and data sources
+        if sgidName.startswith('SGID10') and not sourceData.startswith('<'):
+            sgid = settings.sgid[sgidName.split('.')[1]]
+            source = path.join(settings.dbConnects, sourceData)
+
+            sgidType = arcpy.Describe(path.join(sgid, sgidName)).datasetType
+            sourceType = arcpy.Describe(source).datasetType
+
+            if temp is False:
+                if sourceType == sgidType:
+                    infos.append((path.basename(source),
+                                  path.dirname(source),
+                                  sgid,
+                                  sgidName))
+            else:
+                if sourceType != sgidType:
+                    infos.append((path.basename(source),
+                                  path.dirname(source),
+                                  settings.tempPointsGDB,
+                                  path.basename(source).split('.')[-1]))
+
+    return infos
+
+
+def get_crate_infos(test_layer=None):
+    return _get_crate_infos(test_layer)
+
+
+def get_temp_crate_infos(test_layer=None):
+    return _get_crate_infos(test_layer, temp=True)
+
+
+def start_etl(crate_results):
+    #: ETL tables to points into SGID
+    for dataset in spreadsheet.get_datasets():
+        sgidName = dataset[fieldnames.sgidName]
+        sourceName = dataset[fieldnames.sourceData]
+
+        #: skip if using test_layer and it's not the current layer
+        if (sgidName.startswith('SGID10') and not sourceName.startswith('<')) or crate_results[sourceName] != Crate.UPDATED:
+            continue
+
+        #: should always be table -> point feature class
+        source = path.join(settings.tempPointsGDB, sourceName)
+        sgid = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
+        commonFields = compare_field_names(get_field_names(source, get_field_names(sgid)))
+        sgid_template = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
+        sgidScratch = arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
+                                                          r'/{}'.format(sgidName.split('.')[-1]),
+                                                          "#",
+                                                          sgid_template)
+        sgidFields = ['SHAPE@XY'] + commonFields
+        sourceFields = get_source_fields(commonFields)
+
+        etl(sgidScratch, sgidFields, source, sourceFields)
+
+        update_sgid_data(sgidScratch, sgid)
+
 
 def etl(dest, destFields, source, sourceFields):
-    logger.logMsg('ETL needed')
+    logger.info('ETL needed')
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
     if source.split('\\')[-1].startswith('TEMPO'):
         where = None
@@ -125,7 +150,7 @@ def etl(dest, destFields, source, sourceFields):
                         continue
                 else:
                     continue
-                
+
             # some fields need to be truncated
             for tf in truncateFields:
                 fName = tf[0]
@@ -133,12 +158,13 @@ def etl(dest, destFields, source, sourceFields):
                 if fName in sourceFields:
                     i = sourceFields.index(fName)
                     value = row[i]
-                    if not value is None:
+                    if value is not None:
                         row[i] = row[i][:maxLength]
-            
+
             icursor.insertRow([(x, y)] + row[2:])
 
         del scursor
+
 
 def scrub_coord(value):
     if isinstance(value, (int, long, float)):
@@ -146,45 +172,36 @@ def scrub_coord(value):
     else:
         return float(value.replace(',', '').strip())
 
+
 def get_source_fields(commonFields):
-    # add duplicate xy fields to the start of the list so that we can 
+    # add duplicate xy fields to the start of the list so that we can
     # use them to create points later
     upper = [f.upper() for f in commonFields]
-    
+
     if set(eastingNorthing).issubset(upper):
         xy = [commonFields[upper.index(eastingNorthing[0])],
               commonFields[upper.index(eastingNorthing[1])]]
     else:
         xy = latitudeLongitude
-    return list(xy) +  commonFields
-    
+    return list(xy) + commonFields
+
+
 def update_sgid_data(source, destination):
     arcpy.TruncateTable_management(destination)
     arcpy.Append_management(source, destination, 'NO_TEST')
-    
+
+
 def compare_field_names(source, sgid):
     # returns a list containing:
     # [<source fields>, <sgid fields>, <mismatches>]
     def upper(a):
         return set([s.upper() for s in a])
     mismatchedFields = list((upper(sgid) ^ upper(source)) - upper(excludeFields))
-    
+
     l = list(set(sgid & source))
-    
+
     return (l, mismatchedFields)
+
 
 def get_field_names(ds):
     return set([f.name for f in arcpy.ListFields(ds)])
-    
-if __name__ == "__main__":
-    from agrc import logging
-    import sys
-    
-    logger = logging.Logger()
-
-    # first argument is optionally the SGID feature class or table name
-    if len(sys.argv) == 2:
-        print(run(logger, sys.argv[1]))
-    else:
-        print(run(logger))
-    print('done')
