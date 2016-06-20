@@ -62,7 +62,7 @@ def _get_crate_infos(test_layer=None, temp=False):
                     infos.append((path.basename(source),
                                   path.dirname(source),
                                   sgid,
-                                  sgidName))
+                                  sgidName.split('.')[-1]))
             else:
                 if sourceType != sgidType:
                     infos.append((path.basename(source),

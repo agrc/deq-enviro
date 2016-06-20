@@ -41,7 +41,7 @@ class GetCrateInfos(unittest.TestCase):
         self.assertEqual(infos[0], ('LatLong_point',
                                     test_data,
                                     settings.sgid['WATER'],
-                                    'SGID10.WATER.Stations'))
+                                    'Stations'))
 
     def test_get_temp_crate_infos(self, get_datasets_mock):
         get_datasets_mock.return_value = get_datasets_return_value
@@ -49,7 +49,8 @@ class GetCrateInfos(unittest.TestCase):
 
         self.assertEqual(2, len(infos))
         self.assertEqual(infos[0], ('SGID10.WATER.Providers',
-                                    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')), 'settings', '..', 'databases', 'SGID10 as WATER on local.sde'),
+                                    os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')),
+                                                 'settings', '..', 'databases', 'SGID10 as WATER on local.sde'),
                                     settings.tempPointsGDB,
                                     'Providers'))
         self.assertEqual(infos[1], ('LatLong',
