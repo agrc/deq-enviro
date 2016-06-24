@@ -81,31 +81,52 @@ def get_temp_crate_infos(test_layer=None):
     return _get_crate_infos(test_layer, temp=True)
 
 
-def start_etl(crate_results):
+def start_etl(crates):
+    #: these crates are all table -> point etls as returned from get_temp_crate_infos
+    def get_spreadsheet_config_from_crate(crate):
+        for config in spreadsheet.get_datasets():
+            if crate.source.endswith(config[fieldnames.sourceData]):
+                return config
+        raise Exception('{} not found in spreadsheet!'.format(crate.source))
+
     #: ETL tables to points into SGID
-    for dataset in spreadsheet.get_datasets():
+    for crate in crates:
+        dataset = get_spreadsheet_config_from_crate(crate)
         sgidName = dataset[fieldnames.sgidName]
         sourceName = dataset[fieldnames.sourceData]
 
-        #: skip if using test_layer and it's not the current layer
-        if (sgidName.startswith('SGID10') and not sourceName.startswith('<')) or crate_results[sourceName] != Crate.UPDATED:
+        if not sgidName.startswith('SGID10') or sourceName.startswith('<') or crate.result[0] not in [Crate.UPDATED, Crate.CREATED]:
             continue
 
+        logger.info(sgidName)
+        logger.debug(crate)
         #: should always be table -> point feature class
-        source = path.join(settings.tempPointsGDB, sourceName)
         sgid = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
-        commonFields = compare_field_names(get_field_names(source, get_field_names(sgid)))
-        sgid_template = path.join(settings.sgid[sgidName.split('.')[1]], sgidName)
-        sgidScratch = arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
-                                                          r'/{}'.format(sgidName.split('.')[-1]),
-                                                          "#",
-                                                          sgid_template)
+        fields = compare_field_names(get_field_names(crate.destination), get_field_names(sgid))
+        commonFields = fields[0]
+        mismatchFields = fields[1]
+
+        if len(mismatchFields) > 0:
+            msg = '\n\nField mismatches between {} & {}: \n{}'.format(sgidName, sourceName, mismatchFields)
+            logger.error(msg)
+            self.success[0] = False
+            if self.success[1] is None:
+                self.success[1] = [msg]
+            else:
+                self.success[1].append(msg)
+        temp_sgid = path.join(arcpy.env.scratchGDB, crate.destination_name)
+        if arcpy.Exists(temp_sgid):
+            arcpy.Delete_management(temp_sgid)
+        arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
+                                            crate.destination_name,
+                                            "#",
+                                            sgid)
         sgidFields = ['SHAPE@XY'] + commonFields
         sourceFields = get_source_fields(commonFields)
 
-        etl(sgidScratch, sgidFields, source, sourceFields)
+        etl(temp_sgid, sgidFields, crate.destination, sourceFields)
 
-        update_sgid_data(sgidScratch, sgid)
+        update_sgid_data(temp_sgid, sgid)
 
 
 def etl(dest, destFields, source, sourceFields):
@@ -189,6 +210,7 @@ def get_source_fields(commonFields):
 def update_sgid_data(source, destination):
     arcpy.TruncateTable_management(destination)
     arcpy.Append_management(source, destination, 'NO_TEST')
+    arcpy.Delete_management(source)
 
 
 def compare_field_names(source, sgid):
