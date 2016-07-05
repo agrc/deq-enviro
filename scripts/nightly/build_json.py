@@ -67,7 +67,7 @@ def parse_fields(fieldTxt):
         splitIndex = txt.find(' (')
         fieldname = txt[:splitIndex].strip()
         alias = txt[splitIndex + 2:-1].strip()
-        if fieldname is not None and alias is not None:
+        if fieldname is not None and fieldname != '' and alias is not None and alias != '':
             fields.append([fieldname, alias])
 
     return fields

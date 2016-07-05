@@ -69,17 +69,17 @@ def zipws(path, zip, keep):
                         if os.path.join(dirpath, file).find('gdb') == -1 and os.path.join(dirpath, file).find('.zip') == -1:
                             zip.write(os.path.join(dirpath, file), file.split(".")[0] + '\\' + file)
                 except Exception, e:
-                    logger.logError("Error adding %s: %s" % (file, e))
+                    logger.error("Error adding %s: %s" % (file, e))
     return None
 
 
 def run(logr):
     global logger
     logger = logr
-    logger.logMsg('updating ftp packages')
+    logger.info('updating ftp packages')
 
     for package in packages:
-        logger.logMsg(package['Name'])
+        logger.info(package['Name'])
         packageCategory = package["Category"]
 
         if packageCategory == '':
@@ -104,11 +104,11 @@ def run(logr):
         if arcpy.Exists(os.path.join(packageFolderPath, package["Name"] + ".gdb")):
             arcpy.Delete_management(os.path.join(packageFolderPath, package["Name"] + ".gdb"))
         arcpy.CreateFileGDB_management(packageFolderPath, package["Name"] + ".gdb", "9.3")
-        logger.logMsg('geodatabase created')
+        logger.info('geodatabase created')
 
         # populate local file geodatabase
         for fc in package["FeatureClasses"]:
-            logger.logMsg(fc)
+            logger.info(fc)
             arcpy.env.workspace = sdeConnectionStr  # ZZZ
 
             if arcpy.Exists(os.path.join(sdeConnectionStr, fc)):

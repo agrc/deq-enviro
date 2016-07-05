@@ -35,8 +35,13 @@ def get_crate_infos(test_layer=None):
         sourceData = dataset[fieldnames.sourceData]
 
         if sgidName.startswith('DirectFrom.Source'):
-            source_workspace = sourceData.split('.gdb')[0] + '.gdb'
-            source_name = sourceData.split(r'.gdb')[1].lstrip('\\')
+            #: gdb or sde
+            if len(sourceData.split('.gdb')) > 1:
+                dbtype = '.gdb'
+            else:
+                dbtype = '.sde'
+            source_workspace = path.join(settings.dbConnects, sourceData.split(dbtype)[0]) + dbtype
+            source_name = sourceData.split(dbtype)[1].lstrip('\\')
         else:
             source_workspace = settings.sgid[sgidName.split('.')[1]]
             source_name = sgidName
@@ -48,7 +53,7 @@ def get_crate_infos(test_layer=None):
 
 def post_process_crate(crate):
     config = get_spreadsheet_config_from_crate(crate)
-    if fieldnames.relationshipName in config.keys():
+    if commonFields[0] in config.keys():
         #: make sure that it has the five main fields
         upper_fields = [x.name.upper() for x in arcpy.ListFields(crate.destination)]
         for fld in commonFields:
@@ -88,7 +93,7 @@ def post_process_crate(crate):
 
         # scrub out any empty geometries
         arcpy.RepairGeometry_management(crate.destination)
-    else:
+    elif fieldnames.relationshipName in config.keys():
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName].split('.')[-1]
         rcPath = path.join(settings.fgd, rcName)
@@ -116,17 +121,22 @@ def get_spreadsheet_config_from_crate(crate):
 
 
 def validate_crate(crate):
-    dataFields = [f.name for f in arcpy.ListFields(crate.destination)]
+    dataFields = [f.name for f in arcpy.ListFields(crate.source)]
     config = get_spreadsheet_config_from_crate(crate)
 
     msg = '{}: Could not find matches in the source data for the following fields from the query layers spreadsheet: {}'
     dataFields = set(dataFields)
-    additionalFields = [config[f] for f in commonFields]
+    try:
+        additionalFields = [config[f] for f in commonFields]
+    except:
+        #: related tables don't have the additional fields
+        additionalFields = []
     spreadsheetFields = set([f[0] for f in parse_fields(config[fieldnames.fields])] + additionalFields) - set(['n/a'])
 
     invalidFields = spreadsheetFields - dataFields
 
     if len(invalidFields) > 0:
+        import pdb; pdb.set_trace()
         raise ValidationException(msg.format(crate.destination_name, ', '.join(invalidFields)))
 
     return True
@@ -140,7 +150,7 @@ def apply_coded_values(fc, codedValuesTxt):
     codes = re.findall(ur'(\S*) \(.*?\),', codedValuesTxt)
     descriptions = re.findall(ur'\S* \((.*?)\),', codedValuesTxt)
 
-    logger.logMsg('applying coded values for {} field'.format(field_name))
+    logger.info('applying coded values for {} field'.format(field_name))
 
     layer = arcpy.MakeFeatureLayer_management(fc)
     for code, desc in zip(codes, descriptions):

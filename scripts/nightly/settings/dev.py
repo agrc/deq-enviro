@@ -5,7 +5,7 @@ import os
 queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1aVJ68hOyp4H6sKEEuL-xtB2qE_y6W0gDg35TgUSxtFg/edit#gid=0'
 mapServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
 securedServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
-webdata = r'\\vmware-host\Shared Folders\Documents\Projects\deq-enviro\src\webdata'
+webdata = r'C:\inetpub\wwwroot\deqenviro\webdata'
 agsServer = 'localhost'
 
 # database connections

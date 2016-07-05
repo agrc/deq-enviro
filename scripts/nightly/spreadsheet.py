@@ -54,7 +54,8 @@ tblFields = [
 
 rlFields = [
     ['SGID Feature Class Name', fieldnames.sgidName],
-    ['Source Data', fieldnames.sourceData]
+    ['Source Data', fieldnames.sourceData],
+    ['Fields', fieldnames.fields]
 ]
 
 linksFields = [
