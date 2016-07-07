@@ -1,0 +1,25 @@
+<table style='width: 100%'>
+    <tbody>
+        <tr>
+            <td colspan='2' style='background-color: {{#success}}#83ec8f{{/success}}
+                {{^success}}#fc7973{{/success}}'>
+                {{name}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2'><b>{{message}}</b></td>
+        </tr>
+        {{#crates}}
+        <tr>
+            <td style='padding-left: 10px'>{{name}}</td>
+            <td>{{result}}</td>
+        </tr>
+        {{#crate_message}}
+        <tr>
+            <td colspan='2' style='padding-left: 20px'><b>{{crate_message}}</b></td>
+        </tr>
+        {{/crate_message}}
+        {{/crates}}
+        <tr><td></td></tr>
+    </tbody>
+</table>

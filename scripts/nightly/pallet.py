@@ -11,10 +11,26 @@ import settings
 import update_sgid
 import update_fgdb
 import update_ftp
+import pystache
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from forklift.models import Pallet, Crate
+from forklift.messaging import send_email
 from os import path
 
 current_folder = path.dirname(__file__)
+
+
+def send_report_email(name, report_data):
+    report_data['name'] = name
+    template = path.join(path.abspath(path.dirname(__file__)), 'report_template.html')
+    with open(template, 'r') as template_file:
+        email_content = pystache.render(template_file.read(), report_data)
+
+    message = MIMEMultipart()
+    message.attach(MIMEText(email_content, 'html'))
+
+    send_email(settings.reportEmail, 'DEQ Nightly Report'.format(name), message)
 
 
 #: pallets are executed in alphabetical order
@@ -30,6 +46,9 @@ class DEQNightly0TempTables(Pallet):
     def process(self):
         self.log.info('ETL-ing temp tables to points in SGID...')
         update_sgid.start_etl(self.get_crates())
+
+    def ship(self):
+        send_report_email('Temp Tables', self.get_report())
 
 
 class DEQNightly1SDEUpdatePallet(Pallet):
@@ -50,6 +69,9 @@ class DEQNightly1SDEUpdatePallet(Pallet):
             self.log.info('UPDATING FTP PACKAGES')
             update_ftp.run(self.log)
 
+    def ship(self):
+        send_report_email('SGID', self.get_report())
+
 
 class DEQNightly2FGDBUpdatePallet(Pallet):
     def __init__(self, test_layer=None):
@@ -66,25 +88,24 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
         return update_fgdb.validate_crate(crate)
 
     def build(self, target):
+        pass
         if self.test_layer is not None:
             self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
         else:
             self.add_crates(update_fgdb.get_crate_infos())
 
     def process(self):
+        pass
         for crate in self.get_crates():
             if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_crate(crate)
 
     def ship(self):
-        self.log.info('BUILDING JSON FILE')
-        build_json.run()
-#
-#         #: TODO - notify Harold
-#         # if len(sdeErrors) + len(fgdbErrors) > 0:
-#         #     errors = 'SDE UPDATE ERRORS:\n\n{}\n\n\n\nFGDB UPDATE ERRORS:\n\n{}'.format('\n\n'.join(sdeErrors), '\n\n'.join(fgdbErrors))
-#         #     emailer.sendEmail('{} - Data Errors'.format(scriptName),
-#         #                       'There were {} errors in the nightly deq script: \n{}'.format(len(sdeErrors + fgdbErrors), errors))
-#         # else:
-#         #     emailer.sendEmail('{} - Script Ran Successfully'.format(scriptName), 'Updated datasets:\n{}'.format('\n'.join(update_fgdb.successes)))
+        try:
+            self.log.info('BUILDING JSON FILE')
+            build_json.run()
+        except:
+            raise
+        finally:
+            send_report_email('App Data', self.get_report())

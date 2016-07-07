@@ -1,0 +1,14 @@
+{
+    "message": "",
+    "crates": [{
+        "crate_message": "",
+        "name": "DDWIrrigatedCropConsumptiveUseZones",
+        "result": "Created table successfully."
+    }, {
+        "crate_message": "",
+        "name": "DDWIrrigatedCropConsumptiveUseZones",
+        "result": "Created table successfully."
+    }],
+    "name": "App Data",
+    "success": true
+}

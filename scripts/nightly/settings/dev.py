@@ -19,3 +19,5 @@ tempPointsGDB = r'C:\Scheduled\staging\DEQEnviro\TempPoints.gdb'
 
 sendEmails = False
 updateFTP = False
+
+reportEmail = 'stdavis@utah.gov'
