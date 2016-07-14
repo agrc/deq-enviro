@@ -136,7 +136,6 @@ def validate_crate(crate):
     invalidFields = spreadsheetFields - dataFields
 
     if len(invalidFields) > 0:
-        import pdb; pdb.set_trace()
         raise ValidationException(msg.format(crate.destination_name, ', '.join(invalidFields)))
 
     return True
@@ -156,3 +155,5 @@ def apply_coded_values(fc, codedValuesTxt):
     for code, desc in zip(codes, descriptions):
         arcpy.SelectLayerByAttribute_management(layer, where_clause='{} = \'{}\''.format(field_name, code))
         arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
+        
+    arcpy.Delete_management(layer)
