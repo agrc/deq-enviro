@@ -4,6 +4,9 @@
 main.py
 
 A module that contains the main forklift pallets for deq
+
+Note: There is a separate scheduled task that runs this pallet for SGID10.ENVIRONMENT.DAQAirMonitorByStation
+on an hourly basis.
 '''
 
 import build_json
