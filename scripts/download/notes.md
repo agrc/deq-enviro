@@ -1,1 +1,0 @@
-This tool need to be published from a toolbox that is on the C drive, not Scott's funky Z shared drive.

@@ -62,7 +62,7 @@ Updates related data in SGID10. Reads sources from the config spreadsheet.
     ```
     {"BFNONTARGETED":["Pre5","Pre9","Pre8","Pre4","Pre7","Pre10","Pre12","Pre13","Pre14","Pre11","13","14"],"BFTARGETED":["2A","3","5","6","4","8","9","10","11","12","1","2","7"]}  
     shp  
-    C:\MapData\DEQEnviro\QueryLayers.gdb
+    C:\MapData\deqquerylayers.gdb
     ```
     - `pip install xlsxwriter` from the python installation that ArcGIS Server uses (x64).
 1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
