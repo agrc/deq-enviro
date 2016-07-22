@@ -84,21 +84,33 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
                                 ('DEQEnviro/MapService', 'MapServer'),
                                 ('DEQEnviro/ExportWebMap', 'GPServer'),
                                 ('DEQEnviro/Toolbox', 'GPServer')]
-        self.copy_data = [settings.fgd]
         self.test_layer = test_layer
+
+        self.staging = 'C:\\Scheduled\\staging'
+        self.sgid = path.join(self.garage, 'SGID10.sde')
+        self.boundaries = path.join(self.staging, 'boundaries.gdb')
+        self.water = path.join(self.staging, 'water.gdb')
+        self.environment = path.join(self.staging, 'environment.gdb')
+
+        self.copy_data = [settings.fgd,
+                          settings.reference,
+                          self.boundaries,
+                          self.water,
+                          self.environment]
 
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
     def build(self, target):
-        pass
+        self.add_crate(('Counties', self.sgid, self.boundaries))
+        self.add_crate(('HUC', self.sgid, self.water))
+        self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
         if self.test_layer is not None:
             self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
         else:
             self.add_crates(update_fgdb.get_crate_infos())
 
     def process(self):
-        pass
         for crate in self.get_crates():
             if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
                 self.log.info('post processing crate: %s', crate.destination_name)
