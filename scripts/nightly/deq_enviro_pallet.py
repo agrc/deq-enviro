@@ -22,6 +22,10 @@ from forklift.messaging import send_email
 from os import path
 
 current_folder = path.dirname(__file__)
+services = [('DEQEnviro/Secure', 'MapServer'),
+            ('DEQEnviro/MapService', 'MapServer'),
+            ('DEQEnviro/ExportWebMap', 'GPServer'),
+            ('DEQEnviro/Toolbox', 'GPServer')]
 
 
 def send_report_email(name, report_data):
@@ -80,31 +84,15 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightly2FGDBUpdatePallet, self).__init__()
 
-        self.arcgis_services = [('DEQEnviro/Secure', 'MapServer'),
-                                ('DEQEnviro/MapService', 'MapServer'),
-                                ('DEQEnviro/ExportWebMap', 'GPServer'),
-                                ('DEQEnviro/Toolbox', 'GPServer')]
+        self.arcgis_services = services
         self.test_layer = test_layer
 
-        self.staging = 'C:\\Scheduled\\staging'
-        self.sgid = path.join(self.garage, 'SGID10.sde')
-        self.boundaries = path.join(self.staging, 'boundaries.gdb')
-        self.water = path.join(self.staging, 'water.gdb')
-        self.environment = path.join(self.staging, 'environment.gdb')
-
-        self.copy_data = [settings.fgd,
-                          settings.reference,
-                          self.boundaries,
-                          self.water,
-                          self.environment]
+        self.copy_data = [settings.fgd]
 
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
     def build(self, target):
-        self.add_crate(('Counties', self.sgid, self.boundaries))
-        self.add_crate(('HUC', self.sgid, self.water))
-        self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
         if self.test_layer is not None:
             self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
         else:
@@ -124,3 +112,26 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
             raise
         finally:
             send_report_email('App Data', self.get_report())
+
+
+class DEQNightly3ReferenceData(Pallet):
+    def __init__(self, test_layer=None):
+        super(DEQNightly3ReferenceData, self).__init__()
+
+        self.arcgis_services = services
+
+        self.staging = 'C:\\Scheduled\\staging'
+        self.sgid = path.join(self.garage, 'SGID10.sde')
+        self.boundaries = path.join(self.staging, 'boundaries.gdb')
+        self.water = path.join(self.staging, 'water.gdb')
+        self.environment = path.join(self.staging, 'environment.gdb')
+
+        self.copy_data = [settings.reference,
+                          self.boundaries,
+                          self.water,
+                          self.environment]
+
+    def build(self, target):
+        self.add_crate(('Counties', self.sgid, self.boundaries))
+        self.add_crate(('HUC', self.sgid, self.water))
+        self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
