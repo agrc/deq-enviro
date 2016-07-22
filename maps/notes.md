@@ -1,1 +1,0 @@
-The stand alone tables in `MapService.mxd` are pointed at production data. This is the only way that I could get it to publish correctly to mapserv. Should probably revisit this after the 10.3 upgrade.
