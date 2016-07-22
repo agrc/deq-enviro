@@ -126,8 +126,7 @@ class DEQNightly3ReferenceData(Pallet):
         self.water = path.join(self.staging, 'water.gdb')
         self.environment = path.join(self.staging, 'environment.gdb')
 
-        self.copy_data = [settings.reference,
-                          self.boundaries,
+        self.copy_data = [self.boundaries,
                           self.water,
                           self.environment]
 

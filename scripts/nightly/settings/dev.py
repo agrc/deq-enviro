@@ -15,7 +15,6 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on stage.
         'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on stage.sde')}
 
 fgd = r'C:\Scheduled\staging\deqquerylayers.gdb'
-reference = r'C:\Scheduled\staging\deqreferencedata.gdb'
 tempPointsGDB = r'C:\Scheduled\staging\DEQEnviro\TempPoints.gdb'
 
 sendEmails = False
