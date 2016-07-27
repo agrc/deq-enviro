@@ -19,6 +19,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from forklift.models import Pallet, Crate
 from forklift.messaging import send_email
+from forklift import lift
+from forklift import core
 from os import path
 
 current_folder = path.dirname(__file__)
@@ -42,6 +44,9 @@ def send_report_email(name, report_data):
 
 #: pallets are executed in alphabetical order
 class DEQNightly0TempTables(Pallet):
+    #: this is for source tables -> point feature classes
+    #: it first copies the tables to a temp gdb
+    #: then it etl's them directly into sgid
     def __init__(self, test_layer=None):
         super(DEQNightly0TempTables, self).__init__()
 
@@ -60,6 +65,7 @@ class DEQNightly0TempTables(Pallet):
 
 class DEQNightly1SDEUpdatePallet(Pallet):
     #: this pallet assumes that the destination data already exits
+    #: this is for all non-etl data updates to SGID
     def __init__(self, test_layer=None):
         super(DEQNightly1SDEUpdatePallet, self).__init__()
 
@@ -81,6 +87,7 @@ class DEQNightly1SDEUpdatePallet(Pallet):
 
 
 class DEQNightly2FGDBUpdatePallet(Pallet):
+    #: this pallet updates the deqquerylayers.gdb from SGID
     def __init__(self, test_layer=None):
         super(DEQNightly2FGDBUpdatePallet, self).__init__()
 
@@ -92,13 +99,22 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
-    def build(self, target):
+    def build(self, configuration):
+        self.configuration = configuration
+
+    def requires_processing(self):
+        return True
+
+    def process(self):
+        #: This needs to happen after the crates in DEQNightly0TempTables
+        #: have been processed. That's why I'm creating them and manually processing them.
         if self.test_layer is not None:
             self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
         else:
             self.add_crates(update_fgdb.get_crate_infos())
 
-    def process(self):
+        lift.process_crates_for([self], core.update, self.configuration)
+
         for crate in self.get_crates():
             if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
                 self.log.info('post processing crate: %s', crate.destination_name)
@@ -118,6 +134,8 @@ class DEQNightly3ReferenceData(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightly3ReferenceData, self).__init__()
 
+        self.test_layer = test_layer
+
         self.arcgis_services = services
 
         self.staging = 'C:\\Scheduled\\staging'
@@ -131,6 +149,7 @@ class DEQNightly3ReferenceData(Pallet):
                           self.environment]
 
     def build(self, target):
-        self.add_crate(('Counties', self.sgid, self.boundaries))
-        self.add_crate(('HUC', self.sgid, self.water))
-        self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
+        if self.test_layer is None:
+            self.add_crate(('Counties', self.sgid, self.boundaries))
+            self.add_crate(('HUC', self.sgid, self.water))
+            self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))

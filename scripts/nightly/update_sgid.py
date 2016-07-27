@@ -109,18 +109,20 @@ def start_etl(crates):
         if len(mismatchFields) > 0:
             msg = '\n\nField mismatches between {} & {}: \n{}'.format(sgidName, sourceName, mismatchFields)
             logger.error(msg)
-            self.success[0] = False
-            if self.success[1] is None:
-                self.success[1] = [msg]
+            crate.success[0] = False
+            if crate.success[1] is None:
+                crate.success[1] = [msg]
             else:
-                self.success[1].append(msg)
-        temp_sgid = path.join(arcpy.env.scratchGDB, crate.destination_name)
+                crate.success[1].append(msg)
+        temp_sgid_name = sgidName.split('.')[-1] + '_points'
+        temp_sgid = path.join(settings.tempPointsGDB, temp_sgid_name)
         if arcpy.Exists(temp_sgid):
             arcpy.Delete_management(temp_sgid)
-        arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
-                                            crate.destination_name,
+        arcpy.CreateFeatureclass_management(settings.tempPointsGDB,
+                                            temp_sgid_name,
                                             "#",
-                                            sgid)
+                                            sgid,
+                                            spatial_reference=utm)
         sgidFields = ['SHAPE@XY'] + commonFields
         sourceFields = get_source_fields(commonFields)
 
@@ -130,7 +132,6 @@ def start_etl(crates):
 
 
 def etl(dest, destFields, source, sourceFields):
-    logger.info('ETL needed')
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
     if source.split('\\')[-1].startswith('TEMPO'):
         where = None
@@ -210,7 +211,6 @@ def get_source_fields(commonFields):
 def update_sgid_data(source, destination):
     arcpy.TruncateTable_management(destination)
     arcpy.Append_management(source, destination, 'NO_TEST')
-    arcpy.Delete_management(source)
 
 
 def compare_field_names(source, sgid):
