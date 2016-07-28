@@ -32,14 +32,12 @@ define([
 ) {
     var agsDomain;
     var AGRC = {};
-    AGRC.downloadDataPath = 'C:\\MapData\\DEQEnviro\\QueryLayers.gdb'; // dev and test
     if (has('agrc-build') === 'prod') {
         // *.utah.gov
         AGRC.apiKey = 'AGRC-D3CDE591211690';
         agsDomain = 'mapserv.utah.gov';
         // mapserv.utah.gov or enviro.deq.utah.gov
         AGRC.quadWord = 'result-table-secure-antenna';
-        AGRC.downloadDataPath = 'C:\\ClusterStorage\\Volume1\\data\\DEQEnviro\\QueryLayers.gdb';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         AGRC.apiKey = 'AGRC-AC122FA9671436';
@@ -102,6 +100,8 @@ define([
         defaultBaseMap: 'Lite',
 
         printMapTitle: 'Printed from the Utah DEQ Interactive Map',
+
+        downloadDataPath: 'C:\\MapData\\deqquerylayers.gdb',
 
         // topics: Object
         //      The topic strings used in this app
