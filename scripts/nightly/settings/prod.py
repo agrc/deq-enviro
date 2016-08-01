@@ -9,3 +9,6 @@ queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1-HJViZduddtnxSq35yzhR6
 sendEmails = True
 
 reportEmail = 'haroldsandbeck@utah.gov'
+
+mapData1 = r'\\172.16.17.51\c$\MapData'
+mapData2 = r'\\172.16.17.52\c$\MapData'

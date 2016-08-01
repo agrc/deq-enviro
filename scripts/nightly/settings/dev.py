@@ -21,3 +21,6 @@ sendEmails = False
 updateFTP = False
 
 reportEmail = 'stdavis@utah.gov'
+
+mapData1 = r'C:\MapData'
+mapData2 = r'C:\MapData'
