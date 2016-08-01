@@ -16,18 +16,17 @@ from os import path
 from traceback import format_exc
 from update_fgdb import validate_crate
 from settings.dev import reportEmail
-import arcpy
 import logging
 import settings
 
 
 try:
-    sgid_name = 'DAQAirMonitorByStation'
+    sgid_name = 'DAQAirMonitorData'
     sgid_db = settings.sgid['ENVIRONMENT']
     fgdb = r'C:\MapData\deqquerylayers.gdb'
     stage_db = r'C:\Scheduled\staging\deqquerylayers.gdb'
     source_db = path.join(settings.dbConnects, r'eqmairvisionp.sde')
-    source_name = 'AVData.dbo.interactive_map_monitoring_sites'
+    source_name = 'AVData.dbo.interactive_map_monitoring_data'
     bad_results = [Crate.UNHANDLED_EXCEPTION, Crate.UNINITIALIZED]
 
     _setup_logging(False)
@@ -36,8 +35,8 @@ try:
 
     log.info('creating crates')
     sde_update_crate = Crate(source_name, source_db, sgid_db, sgid_name)
-    fgdb_update_crate = Crate(sgid_name, sgid_db, fgdb, sgid_name, arcpy.SpatialReference(3857), 'NAD_1983_To_WGS_1984_5')
-    stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name, arcpy.SpatialReference(3857), 'NAD_1983_To_WGS_1984_5')
+    fgdb_update_crate = Crate(sgid_name, sgid_db, fgdb, sgid_name)
+    stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
 
     log.info('processing sde crate')
     sde_update_crate.set_result(update(sde_update_crate, validate_crate))
