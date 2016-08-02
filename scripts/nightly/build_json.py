@@ -71,3 +71,6 @@ def parse_fields(fieldTxt):
             fields.append([fieldname, alias])
 
     return fields
+
+if __name__ == '__main__':
+    run()
