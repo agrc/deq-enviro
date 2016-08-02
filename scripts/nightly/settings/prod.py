@@ -11,5 +11,6 @@ sendEmails = True
 
 reportEmail = 'haroldsandbeck@utah.gov'
 
+webdata = r'\\172.16.77.69\c$\inetpub\wwwroot\deqenviro\webdata'
 mapData1 = r'\\172.16.17.51\c$\MapData'
 mapData2 = r'\\172.16.17.52\c$\MapData'
