@@ -147,7 +147,8 @@ define([
                     testWidget2.downloadFeatures = idMap;
                     expect(testWidget2.download()).to.deep.equal({
                         'table_id_map': '{}',
-                        'file_type': type
+                        'file_type': type,
+                        'location': config.downloadDataPath
                     });
                     destroy(testWidget2);
                 });
