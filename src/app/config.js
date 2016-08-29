@@ -35,7 +35,7 @@ define([
     if (has('agrc-build') === 'prod') {
         // *.utah.gov
         AGRC.apiKey = 'AGRC-D3CDE591211690';
-        agsDomain = 'mapserv.utah.gov';
+        agsDomain = 'enviro.deq.utah.gov';
         // mapserv.utah.gov or enviro.deq.utah.gov
         AGRC.quadWord = 'result-table-secure-antenna';
     } else if (has('agrc-build') === 'stage') {
@@ -87,7 +87,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '1.2.0',
+        version: '1.2.1',
 
         // popupDelay: Number
         //      The delay (in milliseconds) before a popup is shown on hover.
