@@ -1,4 +1,4 @@
-gspread==0.2.5
-oauth2client==1.4
-pyopenssl==0.14
+gspread==0.4.1
+oauth2client==3.0.0
+pyopenssl==16.1.0
 pystache==0.5.4

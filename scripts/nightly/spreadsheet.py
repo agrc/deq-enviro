@@ -2,8 +2,7 @@
 # which confusingly has more than just query layers data in it. :)
 
 import gspread
-import json
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 from settings import fieldnames
 from os import path
 import settings
@@ -67,12 +66,8 @@ linksFields = [
 
 def _login():
     # had to login everytime because the session was being closed
-    json_key = json.load(open(path.join(path.dirname(__file__), 'settings', 'oauth2key.json')))
     scope = ['https://spreadsheets.google.com/feeds']
-    credentials = SignedJwtAssertionCredentials(
-        json_key['client_email'],
-        json_key['private_key'],
-        scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json'), scope)
     gc = gspread.authorize(credentials)
     return gc.open_by_url(settings.queryLayersUrl)
 
