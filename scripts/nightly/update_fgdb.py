@@ -93,7 +93,7 @@ def post_process_crate(crate):
 
         # scrub out any empty geometries or empty ID's
         arcpy.RepairGeometry_management(crate.destination)
-        lyr = arcpy.MakeFeatureLayer_management(crate.destination, '{}_lyr'.format(crate.destination_name), '{} IS NOT NULL'.format(fieldnames.ID))
+        lyr = arcpy.MakeFeatureLayer_management(crate.destination, '{}_lyr'.format(crate.destination_name), '{} IS NULL'.format(fieldnames.ID))
         arcpy.DeleteFeatures_management(lyr)
         arcpy.Delete_management(lyr)
     elif fieldnames.relationshipName in config.keys():
