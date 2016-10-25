@@ -91,8 +91,11 @@ def post_process_crate(crate):
 
         apply_coded_values(crate.destination, config[fieldnames.codedValues])
 
-        # scrub out any empty geometries
+        # scrub out any empty geometries or empty ID's
         arcpy.RepairGeometry_management(crate.destination)
+        lyr = arcpy.MakeFeatureLayer_management(crate.destination, '{}_lyr'.format(crate.destination_name), '{} IS NOT NULL'.format(fieldnames.ID))
+        arcpy.DeleteFeatures_management(lyr)
+        arcpy.Delete_management(lyr)
     elif fieldnames.relationshipName in config.keys():
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName].split('.')[-1]
@@ -155,5 +158,5 @@ def apply_coded_values(fc, codedValuesTxt):
     for code, desc in zip(codes, descriptions):
         arcpy.SelectLayerByAttribute_management(layer, where_clause='{} = \'{}\''.format(field_name, code))
         arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
-        
+
     arcpy.Delete_management(layer)
