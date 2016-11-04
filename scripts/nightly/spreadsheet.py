@@ -6,8 +6,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 from settings import fieldnames
 from os import path
 import settings
+import logging
+from time import sleep
 
 
+logger = logging.getLogger('forklift')
 qlFields = [
     #: [<spreadsheet header name>, <result object property name>]
     ['Name', fieldnames.name],
@@ -65,11 +68,28 @@ linksFields = [
 
 
 def _login():
+    logger.debug('logging into google spreadsheet')
     # had to login everytime because the session was being closed
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json'), scope)
     gc = gspread.authorize(credentials)
-    return gc.open_by_url(settings.queryLayersUrl)
+
+    tries = 1
+    import pdb; pdb.set_trace()
+
+    while tries <= 3:
+        try:
+            sheet = gc.open_by_url(settings.queryLayersUrl)
+
+            return sheet
+        except Exception as ex:
+            if tries == 3:
+                raise ex
+
+            logger.warn('login error, retrying...')
+            sleep(30)
+
+        tries = tries + 1
 
 
 def get_query_layers():
