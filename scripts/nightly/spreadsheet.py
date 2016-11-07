@@ -75,7 +75,6 @@ def _login():
     gc = gspread.authorize(credentials)
 
     tries = 1
-    import pdb; pdb.set_trace()
 
     while tries <= 3:
         try:
