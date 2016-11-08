@@ -19,6 +19,8 @@ import logging.config
 from logging import shutdown
 import settings
 from forklift.__main__ import log_location, detailed_formatter
+from os import makedirs
+import sys
 
 
 def _setup_logging():
@@ -31,7 +33,7 @@ def _setup_logging():
     debug = 'DEBUG'
 
     try:
-        makedirs(dirname(log_location))
+        makedirs(path.dirname(log_location))
     except:
         pass
 
