@@ -43,12 +43,12 @@ def send_report_email(name, report_data):
 
 
 #: pallets are executed in alphabetical order
-class DEQNightly0TempTables(Pallet):
+class DEQNightly0TempTablesPallet(Pallet):
     #: this is for source tables -> point feature classes
     #: it first copies the tables to a temp gdb
     #: then it etl's them directly into sgid
     def __init__(self, test_layer=None):
-        super(DEQNightly0TempTables, self).__init__()
+        super(DEQNightly0TempTablesPallet, self).__init__()
 
         self.test_layer = test_layer
 
@@ -130,9 +130,9 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
             send_report_email('App Data', self.get_report())
 
 
-class DEQNightly3ReferenceData(Pallet):
+class DEQNightly3ReferenceDataPallet(Pallet):
     def __init__(self, test_layer=None):
-        super(DEQNightly3ReferenceData, self).__init__()
+        super(DEQNightly3ReferenceDataPallet, self).__init__()
 
         self.test_layer = test_layer
 
