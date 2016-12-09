@@ -41,6 +41,9 @@ errors = []
 
 def _get_crate_infos(test_layer=None, temp=False):
     infos = []
+    if not arcpy.Exists(settings.tempTablesGDB):
+        arcpy.CreateFileGDB_management(path.dirname(settings.tempTablesGDB), path.basename(settings.tempTablesGDB))
+
     for dataset in spreadsheet.get_datasets():
         #: skip if using test_layer and it's not the current layer
         if test_layer and dataset[fieldnames.sgidName] != test_layer:
@@ -48,11 +51,32 @@ def _get_crate_infos(test_layer=None, temp=False):
 
         sgidName = dataset[fieldnames.sgidName]
         sourceData = dataset[fieldnames.sourceData]
+        try:
+            idField = dataset[fieldnames.ID]
+        except KeyError:
+            #: this is for related tables
+            try:
+                idField = dataset[fieldnames.foreignKey]
+            except KeyError:
+                idField = None
 
         #: only try to update rows with valid sgid names and data sources
         if sgidName.startswith('SGID10') and not sourceData.startswith('<'):
             sgid = settings.sgid[sgidName.split('.')[1]]
             source = path.join(settings.dbConnects, sourceData)
+
+            if source.find('TEMPO.') > -1:
+                #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
+                #: copy them to temp tables and feed those into forklift as a workaround.
+                temp_source = path.join(settings.tempTablesGDB, path.basename(source).split('.')[-1])
+
+                if not arcpy.Exists(temp_source):
+                    arcpy.CopyRows_management(source, temp_source)[0]
+                else:
+                    arcpy.TruncateTable_management(temp_source)
+                    arcpy.Append_management(source, temp_source)
+
+                source = temp_source
 
             sgidType = arcpy.Describe(path.join(sgid, sgidName)).datasetType
             sourceType = arcpy.Describe(source).datasetType
@@ -62,13 +86,15 @@ def _get_crate_infos(test_layer=None, temp=False):
                     infos.append((path.basename(source),
                                   path.dirname(source),
                                   sgid,
-                                  sgidName.split('.')[-1]))
+                                  sgidName.split('.')[-1],
+                                  idField))
             else:
                 if sourceType != sgidType:
                     infos.append((path.basename(source),
                                   path.dirname(source),
                                   settings.tempPointsGDB,
-                                  path.basename(source).split('.')[-1]))
+                                  path.basename(source).split('.')[-1],
+                                  idField))
 
     return infos
 
@@ -85,7 +111,7 @@ def start_etl(crates):
     #: these crates are all table -> point etls as returned from get_temp_crate_infos
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_datasets():
-            if crate.source.endswith(config[fieldnames.sourceData]):
+            if crate.source.endswith(config[fieldnames.sourceData].split('.')[-1]):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(crate.source))
 
