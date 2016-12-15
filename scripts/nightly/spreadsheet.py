@@ -16,6 +16,7 @@ qlFields = [
     ['Name', fieldnames.name],
     ['Layer Description', fieldnames.description],
     ['Metadata Link', fieldnames.metaDataUrl],
+    ['Primary Key', fieldnames.primaryKey],
     [fieldnames.ID, fieldnames.ID],
     ['Division Heading', fieldnames.heading],
     [fieldnames.NAME, fieldnames.NAME],

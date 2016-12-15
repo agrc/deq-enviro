@@ -51,14 +51,12 @@ def _get_crate_infos(test_layer=None, temp=False):
 
         sgidName = dataset[fieldnames.sgidName]
         sourceData = dataset[fieldnames.sourceData]
-        try:
-            idField = dataset[fieldnames.ID]
-        except KeyError:
-            #: this is for related tables
-            try:
-                idField = dataset[fieldnames.foreignKey]
-            except KeyError:
-                idField = None
+
+        #: use None if there is no primary Key field defined
+        if fieldnames.primaryKey in dataset and len(dataset[fieldnames.primaryKey]) > 0:
+            idField = dataset[fieldnames.primaryKey]
+        else:
+            idField = None
 
         #: only try to update rows with valid sgid names and data sources
         if sgidName.startswith('SGID10') and not sourceData.startswith('<'):
