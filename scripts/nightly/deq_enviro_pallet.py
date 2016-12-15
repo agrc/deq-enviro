@@ -9,6 +9,7 @@ Note: There is a separate scheduled task that runs this pallet for SGID10.ENVIRO
 on an hourly basis.
 '''
 
+import arcpy
 import build_json
 import settings
 import update_sgid
@@ -112,6 +113,14 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
             self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
         else:
             self.add_crates(update_fgdb.get_crate_infos())
+
+        #: use Copy_management to copy a few problem tables that need to not have an OBJECTID field
+        problem_tables = ['SGID10.ENVIRONMENT.DEQMAP_EIChemical']
+        if not arcpy.Exists(self.get_crates()[0].destination_workspace):
+            arcpy.CreateFileGDB_management(path.dirname(self.get_crates()[0].destination_workspace), path.basename(self.get_crates()[0].destination_workspace))
+        for crate in self.get_crates():
+            if crate.source_name in problem_tables and not arcpy.Exists(crate.destination):
+                arcpy.Copy_management(crate.source, crate.destination)
 
         lift.process_crates_for([self], core.update, self.configuration)
 
