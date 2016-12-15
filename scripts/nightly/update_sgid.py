@@ -53,8 +53,8 @@ def _get_crate_infos(test_layer=None, temp=False):
         sourceData = dataset[fieldnames.sourceData]
 
         #: use None if there is no primary Key field defined
-        if fieldnames.primaryKey in dataset and len(dataset[fieldnames.primaryKey]) > 0:
-            idField = dataset[fieldnames.primaryKey]
+        if fieldnames.oidField in dataset and len(dataset[fieldnames.oidField]) > 0:
+            idField = dataset[fieldnames.oidField]
         else:
             idField = None
 

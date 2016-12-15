@@ -32,6 +32,7 @@ relationshipName = 'relationshipName'
 primaryKey = 'primaryKey'
 foreignKey = 'foreignKey'
 parentDatasetName = 'parentDatasetName'
+oidField = 'oidField'
 
 queryLayers = 'queryLayers'
 relatedTables = 'relatedTables'

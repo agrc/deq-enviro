@@ -16,7 +16,7 @@ qlFields = [
     ['Name', fieldnames.name],
     ['Layer Description', fieldnames.description],
     ['Metadata Link', fieldnames.metaDataUrl],
-    ['Primary Key', fieldnames.primaryKey],
+    ['OID Field', fieldnames.oidField],
     [fieldnames.ID, fieldnames.ID],
     ['Division Heading', fieldnames.heading],
     [fieldnames.NAME, fieldnames.NAME],
@@ -50,6 +50,7 @@ tblFields = [
     ['Additional Information', fieldnames.additionalLink],
     ['Additional Information Link Fields', fieldnames.additionalLinkFields],
     ['SGID Relationship Name', fieldnames.relationshipName],
+    ['OID Field', fieldnames.oidField],
     ['Primary Key', fieldnames.primaryKey],
     ['Foreign Key', fieldnames.foreignKey],
     ['Parent Dataset Name', fieldnames.parentDatasetName]
