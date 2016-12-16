@@ -8,7 +8,7 @@ SGID10.ENVIRONMENT.DAQAirMonitorByStation
 '''
 
 
-from forklift.core import update
+from forklift import core
 from forklift.messaging import send_email
 from forklift.models import Crate
 from os import path
@@ -37,7 +37,7 @@ def _setup_logging():
     except:
         pass
 
-    file_handler = logging.handlers.RotatingFileHandler(log_location, backupCount=18)
+    file_handler = logging.handlers.RotatingFileHandler(log_location.replace('forklift.log', 'deqhourly.log'), backupCount=18)
     file_handler.doRollover()
     file_handler.setFormatter(detailed_formatter)
     file_handler.setLevel(debug)
@@ -70,18 +70,20 @@ try:
     stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
 
     log.info('processing sde crate')
-    sde_update_crate.set_result(update(sde_update_crate, validate_crate))
+    core.init(log)
+    sde_update_crate.set_result(core.update(sde_update_crate, validate_crate))
     log.info('processing fgdb crate')
-    fgdb_update_crate1.set_result(update(fgdb_update_crate1, validate_crate))
-    fgdb_update_crate2.set_result(update(fgdb_update_crate2, validate_crate))
+    fgdb_update_crate1.set_result(core.update(fgdb_update_crate1, validate_crate))
+    fgdb_update_crate2.set_result(core.update(fgdb_update_crate2, validate_crate))
     log.info('processing staging crate')
-    stage_update_crate.set_result(update(stage_update_crate, validate_crate))
+    stage_update_crate.set_result(core.update(stage_update_crate, validate_crate))
 
     if sde_update_crate.result[0] in bad_results or fgdb_update_crate1.result in bad_results or fgdb_update_crate2.result in bad_results:
         send_email(reportEmail,
                    'DEQ Hourly Crate Error',
                    'SDE Update Crate:\n{}\n\nFGDB Update Crates:\n{}\n{}'.format(sde_update_crate, fgdb_update_crate1, fgdb_update_crate2))
 except Exception as e:
+    log.error(format_exc())
     send_email(reportEmail, 'DEQ Hourly Script Error', format_exc())
 finally:
     shutdown()
