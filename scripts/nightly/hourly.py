@@ -52,6 +52,7 @@ def _setup_logging():
 
     return log
 
+
 try:
     sgid_name = 'DAQAirMonitorData'
     sgid_db = settings.sgid['ENVIRONMENT']
@@ -63,7 +64,7 @@ try:
     log = _setup_logging()
 
     log.info('creating crates')
-    sde_update_crate = Crate(source_name, source_db, sgid_db, sgid_name)
+    sde_update_crate = Crate(source_name, source_db, sgid_db, sgid_name, source_primary_key='EPAID')
     fgdb_update_crate1 = Crate(sgid_name, sgid_db, path.join(settings.mapData1, 'deqquerylayers.gdb'), sgid_name)
     fgdb_update_crate2 = Crate(sgid_name, sgid_db, path.join(settings.mapData2, 'deqquerylayers.gdb'), sgid_name)
     stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
