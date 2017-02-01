@@ -79,7 +79,7 @@ class DEQNightly1SDEUpdatePallet(Pallet):
             self.add_crates(update_sgid.get_crate_infos())
 
     def process(self):
-        if settings.updateFTP:
+        if settings.updateFTP and not self.test_layer:
             self.log.info('UPDATING FTP PACKAGES')
             update_ftp.run(self.log)
 
