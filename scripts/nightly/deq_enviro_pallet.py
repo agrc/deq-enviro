@@ -74,16 +74,35 @@ class DEQNightly1SDEUpdatePallet(Pallet):
 
     def build(self, target):
         if self.test_layer is not None:
-            self.add_crates(update_sgid.get_crate_infos(self.test_layer))
+            crate_infos = update_sgid.get_crate_infos(self.test_layer)
         else:
-            self.add_crates(update_sgid.get_crate_infos())
+            crate_infos = update_sgid.get_crate_infos()
+
+        self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
+
+        self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
     def process(self):
         if settings.updateFTP and not self.test_layer:
             self.log.info('UPDATING FTP PACKAGES')
             update_ftp.run(self.log)
 
+    def update_problem_layers(self):
+        for source_name, source_workspace, destination_workspace, destination_name, id_field in self.problem_layer_infos:
+            if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
+                continue
+            try:
+                source = path.join(source_workspace, source_name)
+                destination = path.join(destination_workspace, destination_name)
+                self.log.info('manually updating %s', destination)
+                arcpy.TruncateTable_management(destination)
+                arcpy.Append_management(source, destination, 'TEST')
+            except:
+                self.log.error('error manually updating %s!', destination)
+                self.success = (Crate.UNHANDLED_EXCEPTION, 'Error updating {}'.format(destination_name))
+
     def ship(self):
+        self.update_problem_layers()
         send_report_email('SGID', self.get_report())
 
 
@@ -110,17 +129,13 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
         #: This needs to happen after the crates in DEQNightly0TempTables
         #: have been processed. That's why I'm creating them and manually processing them.
         if self.test_layer is not None:
-            self.add_crates(update_fgdb.get_crate_infos(self.test_layer))
+            crate_infos = update_fgdb.get_crate_infos(self.test_layer)
         else:
-            self.add_crates(update_fgdb.get_crate_infos())
+            crate_infos = update_fgdb.get_crate_infos()
 
-        #: use Copy_management to copy a few problem tables that need to not have an OBJECTID field
-        problem_tables = ['SGID10.ENVIRONMENT.DEQMAP_EIChemical']
-        if not arcpy.Exists(self.get_crates()[0].destination_workspace):
-            arcpy.CreateFileGDB_management(path.dirname(self.get_crates()[0].destination_workspace), path.basename(self.get_crates()[0].destination_workspace))
-        for crate in self.get_crates():
-            if crate.source_name in problem_tables and not arcpy.Exists(crate.destination):
-                arcpy.Copy_management(crate.source, crate.destination)
+        self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
+
+        self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
         lift.process_crates_for([self], core.update, self.configuration)
 
@@ -129,7 +144,23 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_crate(crate)
 
+    def update_problem_layers(self):
+        for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
+            if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
+                continue
+            try:
+                source = path.join(source_workspace, source_name)
+                destination = path.join(destination_workspace, destination_name)
+                self.log.info('manually updating %s', destination)
+                arcpy.TruncateTable_management(destination)
+                arcpy.Append_management(source, destination, 'TEST')
+            except:
+                self.log.error('error manually updating %s!', destination)
+                self.success = (Crate.UNHANDLED_EXCEPTION, 'Error updating {}'.format(destination_name))
+
     def ship(self):
+        self.update_problem_layers()
+
         try:
             self.log.info('BUILDING JSON FILE')
             build_json.run()

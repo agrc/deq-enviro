@@ -25,3 +25,6 @@ reportEmail = 'stdavis@utah.gov'
 
 mapData1 = r'C:\MapData'
 mapData2 = r'C:\MapData'
+
+#: these layers cause issues for forklift so they are skipped and manually updated within the pallet
+PROBLEM_LAYERS = ['DEQMAP_EIChemical']
