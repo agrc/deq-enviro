@@ -49,11 +49,7 @@ tblFields = [
     ['Fields', fieldnames.fields],
     ['Additional Information', fieldnames.additionalLink],
     ['Additional Information Link Fields', fieldnames.additionalLinkFields],
-    ['SGID Relationship Name', fieldnames.relationshipName],
-    ['OID Field', fieldnames.oidField],
-    ['Primary Key', fieldnames.primaryKey],
-    ['Foreign Key', fieldnames.foreignKey],
-    ['Parent Dataset Name', fieldnames.parentDatasetName]
+    ['OID Field', fieldnames.oidField]
 ]
 
 rlFields = [
@@ -112,6 +108,10 @@ def get_links():
 def get_datasets():
     # return all querylayers, tables, and reference layers
     return get_query_layers() + get_related_tables() + get_reference_layers()
+
+
+def get_relationship_classes():
+    return _login().worksheet('Relationship Classes').get_all_records()
 
 
 def _get_worksheet_data(wksh, fields):

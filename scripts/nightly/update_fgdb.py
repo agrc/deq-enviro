@@ -96,18 +96,25 @@ def post_process_crate(crate):
         lyr = arcpy.MakeFeatureLayer_management(crate.destination, '{}_lyr'.format(crate.destination_name), '{} IS NULL'.format(fieldnames.ID))
         arcpy.DeleteFeatures_management(lyr)
         arcpy.Delete_management(lyr)
-    elif fieldnames.relationshipName in config.keys():
+
+
+def create_relationship_classes(test_layer):
+    for config in spreadsheet.get_relationship_classes():
         # create relationship class if missing
-        rcName = config[fieldnames.relationshipName].split('.')[-1]
+        rcName = config[fieldnames.relationshipName]
         rcPath = path.join(settings.fgd, rcName)
+        if test_layer is not None and config[fieldnames.parentDatasetName] != test_layer.split('.')[-1]:
+            continue
+
         if not arcpy.Exists(rcPath):
-            origin = path.join(settings.fgd, config[fieldnames.parentDatasetName].split('.')[-1])
+            origin = path.join(settings.fgd, config[fieldnames.parentDatasetName])
+            destination = path.join(settings.fgd, config[fieldnames.relatedTableName])
             arcpy.CreateRelationshipClass_management(origin,
-                                                     crate.destination,
+                                                     destination,
                                                      rcPath,
                                                      'SIMPLE',
-                                                     config[fieldnames.sgidName],
-                                                     config[fieldnames.parentDatasetName].split('.')[-1],
+                                                     config[fieldnames.relatedTableName],
+                                                     config[fieldnames.parentDatasetName],
                                                      'BOTH',
                                                      'ONE_TO_MANY',
                                                      'NONE',

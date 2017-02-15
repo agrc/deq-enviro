@@ -135,32 +135,43 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 
+        lift.process_crates_for([self], core.update, self.configuration)
+
         self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
-        lift.process_crates_for([self], core.update, self.configuration)
+        self.update_problem_layers()
 
         for crate in self.get_crates():
             if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_crate(crate)
 
+        update_fgdb.create_relationship_classes(self.test_layer)
+
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
             if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
                 continue
             try:
+                crate = Crate(source_name, source_workspace, destination_workspace, destination_name)
                 source = path.join(source_workspace, source_name)
                 destination = path.join(destination_workspace, destination_name)
-                self.log.info('manually updating %s', destination)
-                arcpy.TruncateTable_management(destination)
-                arcpy.Append_management(source, destination, 'TEST')
-            except:
+                if not arcpy.Exists(destination):
+                    self.log.info('creating %s', destination)
+                    arcpy.Copy_management(source, destination)
+                    crate.result = (Crate.CREATED, None)
+                else:
+                    self.log.info('manually updating %s', destination)
+                    arcpy.TruncateTable_management(destination)
+                    arcpy.Append_management(source, destination, 'TEST')
+                    crate.result = (Crate.UPDATED, None)
+            except Exception as ex:
                 self.log.error('error manually updating %s!', destination)
-                self.success = (Crate.UNHANDLED_EXCEPTION, 'Error updating {}'.format(destination_name))
+                crate.result = (Crate.UNHANDLED_EXCEPTION, ex)
+
+            self._crates.append(crate)
 
     def ship(self):
-        self.update_problem_layers()
-
         try:
             self.log.info('BUILDING JSON FILE')
             build_json.run()
