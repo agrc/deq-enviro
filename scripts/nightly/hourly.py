@@ -57,7 +57,7 @@ try:
     sgid_name = 'DAQAirMonitorData'
     sgid_db = settings.sgid['ENVIRONMENT']
     stage_db = r'C:\Scheduled\staging\deqquerylayers.gdb'
-    source_db = path.join(settings.dbConnects, r'eqmairvisionp.sde')
+    source_db = path.join(settings.dbConnects, r'AVData.sde')
     source_name = 'AVData.dbo.interactive_map_monitoring_data'
     bad_results = [Crate.UNHANDLED_EXCEPTION, Crate.UNINITIALIZED]
 
