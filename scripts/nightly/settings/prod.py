@@ -6,8 +6,10 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on prod.s
         'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on prod.sde')}
 updateFTP = True
 queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1-HJViZduddtnxSq35yzhR6YU0U6Pwo0OaimXPHT4vPw/edit#gid=0'
-mapServiceJson = 'http://mapserv.utah.gov/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
-securedServiceJson = 'http://mapserv.utah.gov/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
+
+agsServer = '172.16.17.51'
+mapServiceJson = 'http://172.16.17.51:6080/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
+securedServiceJson = 'http://172.16.17.51:6080/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
 sendEmails = True
 
 reportEmail = 'haroldsandbeck@utah.gov'
