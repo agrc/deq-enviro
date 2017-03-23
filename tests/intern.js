@@ -66,7 +66,7 @@ define({
                 main: 'sinon-chai'
             }, {
                 name: 'sinon',
-                location: 'node_modules/sinon/lib',
+                location: 'node_modules/sinon/pkg',
                 main: 'sinon'
             }, {
                 name: 'chai-subset',
