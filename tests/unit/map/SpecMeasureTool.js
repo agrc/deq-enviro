@@ -7,6 +7,8 @@ define([
     'dojo/Deferred',
     'dojo/dom-construct',
 
+    'esri/SpatialReference',
+
     'intern!bdd',
 
     'intern/chai!expect'
@@ -18,6 +20,8 @@ define([
 
     Deferred,
     domConstruct,
+
+    SpatialReference,
 
     bdd,
 
@@ -32,17 +36,16 @@ define([
         var btn;
 
         bdd.beforeEach(function () {
-            var def = new Deferred();
             btn = new MapButton(null, domConstruct.create('div', null, document.body));
-            var map = new BaseMap(domConstruct.create('div'));
-            map.on('load', function () {
-                widget = new WidgetUnderTest({
-                    popoverBtn: btn.domNode,
-                    map: map
-                }, domConstruct.create('div', null, document.body));
-                def.resolve();
+            var map = new BaseMap(domConstruct.create('div'), {
+                useDefaultBaseMap: false
             });
-            return def.promise
+            map.spatialReference = new SpatialReference(3857);
+            map.graphics = {remove: function () {}};
+            widget = new WidgetUnderTest({
+                popoverBtn: btn.domNode,
+                map: map
+            }, domConstruct.create('div', null, document.body));
         });
 
         bdd.afterEach(function () {

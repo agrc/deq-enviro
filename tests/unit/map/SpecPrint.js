@@ -37,17 +37,14 @@ define([
         };
 
         bdd.beforeEach(function () {
-            var def = new Deferred();
             var btn = new MapButton(null, domConstruct.create('div', null, document.body));
-            var map = new BaseMap(domConstruct.create('div'));
-            map.on('load', function () {
-                widget = new WidgetUnderTest({
-                    map: map,
-                    popoverBtn: btn.domNode
-                }, domConstruct.create('div', null, document.body));
-                def.resolve();
+            var map = new BaseMap(domConstruct.create('div'), {
+                useDefaultBaseMap: false
             });
-            return def.promise;
+            widget = new WidgetUnderTest({
+                map: map,
+                popoverBtn: btn.domNode
+            }, domConstruct.create('div', null, document.body));
         });
 
         bdd.afterEach(function () {
