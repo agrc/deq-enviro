@@ -3,10 +3,15 @@
         "browser": true,
         "jasmine": true,
         "amd": true,
-        "node": true
+        "node": true,
+        "jquery": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 8
     },
     "globals": {
-        "$": false
+        "AGRC": true,
+        "ga": true
     },
     "rules": {
         "no-bitwise": 2,
@@ -21,16 +26,16 @@
         "no-use-before-define": 2,
         "complexity": [
             2,
-            15
+            17
         ],
         "no-caller": 2,
         "no-irregular-whitespace": 2,
         "no-undef": 2,
         "no-unused-vars": 2,
         "space-return-throw-case": 0,
-        "space-after-keywords": [
+        "keyword-spacing": [
             2,
-            "always"
+            {"after": true}
         ],
         "space-before-blocks": [
             2,
