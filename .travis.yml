@@ -1,9 +1,10 @@
 language: node_js
 node_js:
-- 4.2
+- 6.10
 before_install:
 - npm install -g grunt-cli
 - npm install -g bower
+- npm install -g npm
 - bower install
 - npm update
 - bower update
