@@ -1,16 +1,8 @@
 define({
-    proxyPort: 9000,
-    proxyUrl: 'http://localhost:9001/',
-    capabilities: {
-        'selenium-version': '2.48.0'
-    },
+    suites: ['tests/unit/all'],
     environments: [
-        { browserName: 'chrome' }
-        // { browserName: 'safari' }
+        { browserName: 'phantomjs' }
     ],
-    environmentRetries: 10,
-    maxConcurrency: 5,
-    tunnel: 'BrowserStackTunnel',
     loaderOptions: {
         packages: [
             { name: 'agrc', location: 'src/agrc'},

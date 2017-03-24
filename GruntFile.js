@@ -1,39 +1,5 @@
-var path = require('path');
-var osx = 'MAC';
-var windows = 'WIN8';
-var browsers = [{
-    browserName: 'safari',
-    platform: osx
-}, {
-    browserName: 'firefox',
-    platform: windows
-}, {
-    browserName: 'chrome',
-    platform: windows
-// waiting for: https://github.com/theintern/leadfoot/issues/67
-// }, {
-//     browserName: 'microsoftedge',
-//     platform: 'Windows 10'
-}, {
-    browserName: 'internet explorer',
-    platform: windows,
-    version: '11'
-}, {
-    browserName: 'internet explorer',
-    platform: windows,
-    version: '10'
-}];
-// ports
-var seleniumPort = 4444;  // selenium server
-var serverReplayPort = 9002;  // server-replay answers here (/arcgis /webdata)
-var internProxyPort = 9000;  // intern proxy port (everything that goes through here gets code coverage reports)
-var internTestServerPort = 9001;  // grunt-contrib-connect server for hosting intern tests
-var developmentPort = 8000;
-
-
 module.exports = function (grunt) {
     grunt.loadNpmTasks('intern');
-    grunt.loadNpmTasks('grunt-server-replay');
     require('load-grunt-tasks')(grunt);
 
     var gruntFile = 'GruntFile.js';
@@ -71,64 +37,6 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        arcgis_press: {
-            // not sure that this really works...
-            options: {
-                server: {
-                    username: secrets.ags_username,
-                    password: secrets.ags_password
-                },
-                commonServiceProperties: {
-                    folder: 'DEQEnviro'
-                },
-                mapServerBasePath: path.join(process.cwd(), 'maps'),
-                services: {
-                    mapService: {
-                        type: 'MapServer',
-                        serviceName: 'MapService',
-                        resource: 'MapService.mxd'
-                    },
-                    secure: {
-                        type: 'MapServer',
-                        serviceName: 'Secure',
-                        resource: 'Secure.mxd'
-                    }
-                }
-            },
-            dev: {
-                options: {
-                    server: {
-                        host: 'localhost'
-                    },
-                    commonServiceProperties: {
-                        minInstancesPerNode: 0,
-                        maxInstancesPerNode: 2
-                    }
-                }
-            },
-            stage: {
-                options: {
-                    server: {
-                        host: secrets.stageHost
-                    },
-                    commonServiceProperties: {
-                        minInstancesPerNode: 0,
-                        maxInstancesPerNode: 2
-                    }
-                }
-            },
-            prod: {
-                options: {
-                    server: {
-                        host: secrets.prodHost
-                    },
-                    commonServiceProperties: {
-                        minInstancesPerNode: 1,
-                        maxInstancesPerNode: 4
-                    }
-                }
-            }
-        },
         bump: {
             options: {
                 files: bumpFiles,
@@ -157,55 +65,9 @@ module.exports = function (grunt) {
             unit_tests: {
                 options: {
                     livereload: true,
-                    port: developmentPort,
+                    port: 8000,
                     base: '.'
                 }
-            },
-            dev: {
-                options: {
-                    livereload: true,
-                    port: 8001,
-                    base: 'src',
-                    middleware: function (connect, options, defaultMiddleware) {
-                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-                        return (defaultMiddleware) ? [proxy].concat(defaultMiddleware) : [proxy];
-                    }
-                },
-                proxies: [{
-                    context: ['/arcgis', '/permissionproxy'],
-                    host: 'localhost'
-                }, {
-                    context: '/api',
-                    host: 'localhost',
-                    rewrite: {
-                        '/api': secrets.pathToDevApi
-                    }
-                }]
-            },
-            intern_functional: {
-                options: {
-                    port: internTestServerPort,
-                    hostname: 'localhost',
-                    middleware: function (connect, options, defaultMiddleware) {
-                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-                        return (defaultMiddleware) ? [proxy].concat(defaultMiddleware) : [proxy];
-                    }
-                },
-                proxies: [{
-                    // response servered from har files (see server_replay)
-                    context: ['/arcgis', '/src/webdata', '/dist/webdata', '/api/search'],
-                    host: 'localhost',
-                    port: serverReplayPort,
-                    rewrite: {
-                        '/src/webdata/DEQEnviro.json': '/webdata/DEQEnviro.json',
-                        '/dist/webdata/DEQEnviro.json': '/webdata/DEQEnviro.json'
-                    }
-                }, {
-                    // response served up through intern for code coverage
-                    context: '/',
-                    host: 'localhost',
-                    port: internProxyPort
-                }]
             }
         },
         copy: {
@@ -253,53 +115,17 @@ module.exports = function (grunt) {
             }
         },
         intern: {
-            options: {
-                runType: 'runner',
-                config: 'tests/intern',
-                reporters: ['Pretty'],
-                tunnelOptions: {
-                    username: secrets.bs_name,
-                    accessKey: secrets.bs_key
-                },
-                suites: ['tests/unit/all'],
-                functionalSuites: ['tests/functional/all']
-            },
-            src: {
+            main: {
                 options: {
-                    leaveRemoteOpen: true,
-                    tunnel: 'NullTunnel',
-                    indexPrefix: 'src',
-                    suites: []
+                    runType: 'runner',
+                    config: 'tests/intern',
+                    reporters: ['Runner'],
+                    tunnel: 'NullTunnel'
                 }
-            },
-            dist: {
-                options: {
-                    tunnel: 'NullTunnel',
-                    indexPrefix: 'dist'
-                }
-            },
-            travis: {
-                options: {
-                    environments: browsers,
-                    indexPrefix: 'dist',
-                    reporters: ['Runner']
-                }
-            },
-            testServer: {
-                options: {
-                    tunnel: 'NullTunnel',
-                    indexUrl: 'http://test.mapserv.utah.gov/deqenviro',
-                    proxyPort: 9001,
-                    suites: []
-                }
-            },
-            prodServer: {
-                options: {
-                    tunnel: 'NullTunnel',
-                    indexUrl: 'http://enviro.deq.utah.gov',
-                    proxyPort: 9001,
-                    suites: []
-                }
+            }
+        },
+        phantom: {
+            main: {
             }
         },
         pkg: grunt.file.readJSON('package.json'),
@@ -319,20 +145,6 @@ module.exports = function (grunt) {
             }
         },
         secrets: secrets,
-        selenium_start: {
-            options: {
-                port: seleniumPort
-            }
-        },
-        server_replay: {
-            main: {
-                src: 'tests/functional/har_data/*.har',
-                options: {
-                    port: serverReplayPort,
-                    debug: false
-                }
-            }
-        },
         sftp: {
             stage: {
                 files: {
@@ -379,37 +191,28 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            src: {
+            main: {
                 files: jsFiles.concat(otherFiles),
                 options: {
                     livereload: true
                 },
                 tasks: ['eslint']
-            },
-            intern_functional: {
-                files: [jsFiles, 'tests/**/*.*'],
-                tasks: ['intern:src']
             }
         }
     });
 
     // Default task.
     grunt.registerTask('default', [
-        'eslint:main',
-        'configureProxies:dev',
-        'connect:dev',
-        'connect:unit_tests',
-        'watch:src'
+        'eslint',
+        'connect',
+        'watch'
     ]);
 
     // TESTING
-    grunt.registerTask('travis', [
+    grunt.registerTask('test', [
         'eslint',
-        'server_replay',
-        'build-prod',
-        'configureProxies:intern_functional',
-        'connect:intern_functional',
-        'intern:travis'
+        'phantom',
+        'intern'
     ]);
 
     // PROD
@@ -440,34 +243,5 @@ module.exports = function (grunt) {
         'compress:main',
         'sftp:stage',
         'sshexec:stage'
-    ]);
-
-    // INTERN
-    grunt.registerTask('intern-functional-dev', [
-        'server_replay',
-        'configureProxies:intern_functional',
-        'connect:intern_functional',
-        'selenium_start',
-        'intern:src',
-        'watch:intern_functional'
-    ]);
-    grunt.registerTask('intern-dist', [
-        'server_replay',
-        'configureProxies:intern_functional',
-        'connect:intern_functional',
-        'selenium_start',
-        'intern:dist'
-    ]);
-    grunt.registerTask('intern-testServer', [
-        'selenium_start',
-        'configureProxies:intern_functional',
-        'connect:intern_functional',
-        'intern:testServer'
-    ]);
-    grunt.registerTask('intern-prodServer', [
-        'selenium_start',
-        'configureProxies:intern_functional',
-        'connect:intern_functional',
-        'intern:prodServer'
     ]);
 };

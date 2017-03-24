@@ -1,13 +1,14 @@
 language: node_js
 node_js:
-- 6.10
+  - 6.10
 before_install:
-- npm install -g grunt-cli
-- npm install -g bower
-- npm install -g npm
-- bower install
-- npm update
-- bower update
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - npm install -g npm
+  - npm install -g phantomjs
+  - bower install
+  - npm update
+  - bower update
 notifications:
   email:
     on_success: change
@@ -15,7 +16,4 @@ notifications:
 sudo: false
 cache:
   directories:
-  - node_modules
-env:
-  global:
-    secure: "eu2bqSbtF/gfBed80KzeeVc/5k8HwQGSqIQN8x1Li6AKV53uMvDVZ9DFeVxqzVIOEoEPjIguLXwQUncSHxjvSV9kgb9sHQ+wDCjA1psX0fU4kEk//4SMfZeatLyivkhW6wwdVMVYkOK1qEvaPUwObscqfQYFwoKUHXh5R06o//s="
+    - node_modules
