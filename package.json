@@ -3,9 +3,7 @@
   "version": "1.2.1",
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-arcgis-press": "^0.2.0",
     "grunt-bump": "^0.8.0",
-    "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-connect": "^1.0.2",
@@ -14,11 +12,9 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-dojo": "^1.0.1",
     "grunt-eslint": "^19.0.0",
-    "grunt-if-missing": "^1.0.0",
     "grunt-newer": "^1.1.1",
+    "grunt-phantom": "^0.2.1",
     "grunt-processhtml": "^0.4.1",
-    "grunt-selenium-webdriver": "^0.2.482",
-    "grunt-server-replay": "^1.0",
     "grunt-ssh": "^0.12.9",
     "intern": "^3.4.3",
     "load-grunt-tasks": "^3.4.0",
@@ -28,6 +24,6 @@
     "uglify-js": "^2.8.15"
   },
   "scripts": {
-    "test": "grunt travis -v"
+    "test": "grunt test -v"
   }
 }
