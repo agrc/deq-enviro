@@ -3,18 +3,18 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var gruntFile = 'GruntFile.js';
-    var jsFiles = ['src/app/**/*.js', 'tests/**/*.js', gruntFile];
+    var jsFiles = ['_src/app/**/*.js', 'tests/**/*.js', gruntFile];
     var otherFiles = [
-        'src/app/**/*.html',
-        'src/app/**/*.css',
-        'src/index.html',
-        'src/ChangeLog.html'
+        '_src/app/**/*.html',
+        '_src/app/**/*.css',
+        '_src/index.html',
+        '_src/ChangeLog.html'
     ];
     var bumpFiles = [
         'package.json',
         'bower.json',
-        'src/app/package.json',
-        'src/app/config.js'
+        '_src/app/package.json',
+        '_src/app/config.js'
     ];
     var deployExcludes = [
         '!util/**',
@@ -37,16 +37,32 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['latest'],
+                plugins: ['transform-remove-strict-mode']
+            },
+            src: {
+                files: [{
+                    expand: true,
+                    cwd: '_src/app/',
+                    src: ['**/*.js'],
+                    dest: 'src/app/'
+                }]
+            }
+        },
         bump: {
             options: {
                 files: bumpFiles,
-                commitFiles: bumpFiles.concat(['src/ChangeLog.html']),
+                commitFiles: bumpFiles.concat(['_src/ChangeLog.html']),
                 push: false
             }
         },
         clean: {
             build: ['dist'],
-            deploy: ['deploy']
+            deploy: ['deploy'],
+            src: ['src/app']
         },
         compress: {
             options: {
@@ -71,8 +87,14 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            main: {
+            dist: {
                 files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+            },
+            src: {
+                expand: true,
+                cwd: '_src',
+                src: ['**/*.html', '**/*.css', '**/*.png', '**/*.jpg', 'secrets.json', 'app/package.json'],
+                dest: 'src'
             }
         },
         dojo: {
@@ -196,7 +218,7 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 },
-                tasks: ['eslint']
+                tasks: ['eslint', 'newer:babel', 'newer:copy:src']
             }
         }
     });
@@ -204,6 +226,9 @@ module.exports = function (grunt) {
     // Default task.
     grunt.registerTask('default', [
         'eslint',
+        'clean:src',
+        'babel',
+        'copy:src',
         'connect',
         'watch'
     ]);
@@ -217,10 +242,13 @@ module.exports = function (grunt) {
 
     // PROD
     grunt.registerTask('build-prod', [
+        'clean:src',
+        'babel',
+        'copy:src',
         'newer:imagemin:dynamic',
         'clean:build',
         'dojo:prod',
-        'copy',
+        'copy:dist',
         'processhtml:prod'
     ]);
     grunt.registerTask('deploy-prod', [
@@ -232,10 +260,13 @@ module.exports = function (grunt) {
 
     // STAGE
     grunt.registerTask('build-stage', [
+        'clean:src',
+        'babel',
+        'copy:src',
         'newer:imagemin:dynamic',
         'clean:build',
         'dojo:stage',
-        'copy',
+        'copy:dist',
         'processhtml:stage'
     ]);
     grunt.registerTask('deploy-stage', [
