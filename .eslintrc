@@ -9,6 +9,7 @@
     "parserOptions": {
         "ecmaVersion": 8
     },
+    "plugins": ["html"],
     "globals": {
         "AGRC": true,
         "ga": true
