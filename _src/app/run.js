@@ -12,11 +12,16 @@
         packages: [
             'agrc',
             'app',
+            'dgrid',
             'dijit',
             'dojo',
             'dojox',
             'esri',
             'ijit',
+            'moment',
+            'put-selector',
+            'sherlock',
+            'xstyle',
             {
                 name: 'jquery',
                 location: './jquery/dist',
@@ -29,11 +34,7 @@
                 name: 'spin',
                 location: './spinjs',
                 main: 'spin'
-            },
-            'dgrid',
-            'put-selector',
-            'xstyle',
-            {
+            },{
                 name: 'lodash',
                 location: './lodash',
                 main: 'dist/lodash'
@@ -52,8 +53,7 @@
                 name: 'selectpicker',
                 location: './bootstrap-select',
                 main: 'dist/js/bootstrap-select'
-            },
-            'sherlock'
+            }
         ],
         map: {
             'ijit': {
