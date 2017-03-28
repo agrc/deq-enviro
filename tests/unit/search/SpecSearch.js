@@ -172,12 +172,12 @@ define([
                 fieldType: 'text'
             };
             bdd.it('removes item from select and stack container', function () {
-                expect(widget.select.children.length).to.equal(7);
+                expect(widget.select.children.length).to.equal(8);
 
                 widget.addAdditionalSearch(obj);
                 widget.addAdditionalSearch(obj2);
 
-                expect(widget.select.children.length).to.equal(9);
+                expect(widget.select.children.length).to.equal(10);
 
                 var as = widget.additionalSearches[0];
                 sinon.spy(as, 'destroy');
@@ -185,7 +185,7 @@ define([
 
                 widget.removeAdditionalSearches();
 
-                expect(widget.select.children.length).to.equal(7);
+                expect(widget.select.children.length).to.equal(8);
                 expect(as.destroy).to.have.been.called;
                 expect(widget.stackContainer.removeChild).to.have.been.calledWith(as);
             });
@@ -371,14 +371,14 @@ define([
                 ql[fn.NAME] = 'blah';
                 widget.onAddQueryLayer(ql);
 
-                expect(query('option:not(.hidden)', widget.select).length).to.equal(7);
+                expect(query('option:not(.hidden)', widget.select).length).to.equal(8);
 
                 var ql2 = {};
                 ql2[fn.ID] = 'blah';
                 ql2[fn.NAME] = 'n/a';
                 widget.onAddQueryLayer(ql2);
 
-                expect(query('option:not(.hidden)', widget.select).length).to.equal(6);
+                expect(query('option:not(.hidden)', widget.select).length).to.equal(7);
 
                 var ql3 = {};
                 ql3[fn.ID] = 'n/a';
@@ -390,12 +390,12 @@ define([
                 ql4[fn.NAME] = 'blah';
                 widget.onAddQueryLayer(ql4);
 
-                expect(query('option:not(.hidden)', widget.select).length).to.equal(5);
+                expect(query('option:not(.hidden)', widget.select).length).to.equal(6);
 
                 widget.onRemoveQueryLayer(ql3);
                 widget.onRemoveQueryLayer(ql2);
 
-                expect(query('option:not(.hidden)', widget.select).length).to.equal(7);
+                expect(query('option:not(.hidden)', widget.select).length).to.equal(8);
             });
             bdd.it('sets back to empty if current pane is hidden', function () {
                 var fn = config.fieldNames.queryLayers;

@@ -52,7 +52,8 @@
                 name: 'selectpicker',
                 location: './bootstrap-select',
                 main: 'dist/js/bootstrap-select'
-            }
+            },
+            'sherlock'
         ],
         map: {
             'ijit': {
@@ -62,6 +63,9 @@
                     'app/security/_UserAdminUser',
                 'ijit/widgets/authentication/_UserAdminPendingUser':
                     'app/security/_UserAdminPendingUser'
+            },
+            'sherlock': {
+                'spinjs': 'spin'
             }
         }
     };

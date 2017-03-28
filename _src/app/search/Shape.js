@@ -1,12 +1,12 @@
 define([
     'app/config',
     'app/map/MapController',
+    'app/search/_BufferMixin',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/Deferred',
     'dojo/dom-class',
     'dojo/has',
     'dojo/query',
@@ -15,19 +15,16 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
-    'esri/config',
-    'esri/tasks/BufferParameters',
-    'esri/tasks/GeometryService',
     'esri/toolbars/draw'
 ], function (
     config,
     mapController,
+    _BufferMixin,
 
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    Deferred,
     domClass,
     has,
     query,
@@ -36,12 +33,9 @@ define([
     declare,
     lang,
 
-    esriConfig,
-    BufferParameters,
-    GeometryService,
     Draw
 ) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _BufferMixin], {
         // description:
         //      Controls and tools for defining a search area by drawing on the map.
 
@@ -61,16 +55,6 @@ define([
         // noGeoMsg: String
         //      shown when the user clicks search before defining a geometry
         noGeoMsg: 'You must draw a shape first!',
-
-        // noBufferMsg: String
-        //      shown when the user draws a line or point without defining a buffer radius
-        noBufferMsg: 'You must enter a buffer radius greater than zero!',
-
-        // geoService: GeometryService
-        //      used to buffer points and lines
-        geoService: null,
-
-        // Properties to be sent into constructor
 
         postCreate: function () {
             // summary:
@@ -123,72 +107,26 @@ define([
             // returns: Promise
             console.log('app/search/Shape::getGeometry', arguments);
 
-            this.getGeometryDef = new Deferred();
-
-            if (!this.geometry && mapController.selectedGraphic) {
-                this.geometry = mapController.selectedGraphic.geometry;
-            }
-
-            if (this.geometry) {
-                if (this.bufferNum.value > 0) {
-                    // start spinner
-                    topic.publish(config.topics.appSearch.searchStarted);
-                    if (!this.geoService) {
-                        this.initGeoService();
-                    }
-                    this.bufferParams.distances = [this.bufferNum.value];
-                    this.bufferParams.geometries = [this.geometry];
-                    this.geoService.buffer(this.bufferParams);
-                } else if (this.geometry.type === 'polygon') {
-                    this.getGeometryDef.resolve(this.geometry);
-                } else {
-                    this.getGeometryDef.reject(this.noBufferMsg);
-                }
-            } else {
-                this.getGeometryDef.reject(this.noGeoMsg);
-            }
-
             this.toolbar.deactivate();
 
             this.unselectBtns();
 
-            return this.getGeometryDef.promise;
-        },
-        initGeoService: function () {
-            // summary:
-            //      sets up the geometry service
-            console.log('app/search/Shape::initGeoService', arguments);
-
-            var that = this;
-            this.geoService = esriConfig.defaults.geometryService;
-            this.geoService.on('buffer-complete', function (result) {
-                that.getGeometryDef.resolve(result.geometries[0]);
-                topic.publish(config.topics.appMapMapController.zoomToSearchGraphic, result.geometries[0]);
-            });
-            this.geoService.on('error', function () {
-                that.getGeometryDef.reject('There was an error with the buffer');
-            });
-
-            this.bufferParams = new BufferParameters();
-            this.bufferParams.spatialReference = config.spatialReference;
-            this.bufferParams.unit = GeometryService.UNIT_STATUTE_MILE;
+            return this.inherited(arguments);
         },
         clear: function () {
             // summary:
             //      clears graphics, disables active tool and unactivates any buttons
             console.log('app/search/Shape:clear', arguments);
 
-            topic.publish(config.topics.appMapMapController.clearGraphics);
-
             this.toolbar.deactivate();
 
             this.unselectBtns();
 
-            this.bufferNum.value = '';
+            this.inherited(arguments);
         },
         unselectBtns: function () {
             // summary:
-            //      unselectes all buttons in the widget
+            //      unselects all buttons in the widget
             console.log('app/search/Shape:unselectBtns', arguments);
 
             query('.btn-group .btn', this.domNode)

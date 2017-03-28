@@ -30,6 +30,7 @@ define([
     './search/SpecSearch',
     './search/SpecShape',
     './search/SpecSiteName',
+    './search/SpecStream',
 
     './security/Spec_LayersMixin',
     './security/Spec_RequestPane',

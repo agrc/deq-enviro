@@ -39,3 +39,7 @@ relatedTableName = 'Related Table Name'
 parentDatasetName = 'Parent Dataset Name'
 primaryKey = 'Primary Key'
 foreignKey = 'Foreign Key'
+
+# NHD Data
+GNIS_Name = 'GNIS_Name'
+COUNTY = 'COUNTY'

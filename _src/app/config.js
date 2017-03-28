@@ -169,10 +169,12 @@ define([
         // layerIndices: Object
         //      Indices of layers within map services.
         layerIndices: {
-            landOwnership: 0,
-            environmentalCovenants: 1,
-            huc: 2,
-            indianTribal: 3
+            streams: 0,
+            landOwnership: 1,
+            environmentalCovenants: 2,
+            huc: 3,
+            indianTribal: 4,
+            searchStreams: 44
         },
 
         // fieldNames: {}
@@ -196,6 +198,10 @@ define([
                 ENVIROAPPLABEL: 'ENVIROAPPLABEL',
                 ENVIROAPPSYMBOL: 'ENVIROAPPSYMBOL',
                 OBJECTID: 'OBJECTID'
+            },
+            searchStreams: {
+                GNIS_Name: 'GNIS_Name',
+                COUNTY: 'COUNTY'
             }
         },
 
