@@ -174,6 +174,12 @@ define([
             environmentalCovenants: 2,
             huc: 3,
             indianTribal: 4,
+            risk: {
+                facilities: 5,
+                waterPoints: 6,
+                streams: 7,
+                lakes: 8
+            },
             searchStreams: 44
         },
 
@@ -219,6 +225,10 @@ define([
         // RiskLayersMinScaleLevel: Number
         //      The minimum scale level that the three risk layers draw.
         RiskLayersMinScaleLevel: 14,
+
+        // NHDMinScaleLevel: Number
+        //      The minimum scale level that the nhd layer will draw.
+        NHDMinScaleLevel: 13,
 
         // appJson: Object
         //      Cache for data returned by getAppJson
