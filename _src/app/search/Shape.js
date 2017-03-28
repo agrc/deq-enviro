@@ -1,6 +1,6 @@
 define([
-    '../config',
-    '../map/MapController',
+    'app/config',
+    'app/map/MapController',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
