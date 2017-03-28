@@ -45,6 +45,9 @@ define({
                 name: 'selectpicker',
                 location: 'src/bootstrap-select',
                 main: 'dist/js/bootstrap-select'
+            },{
+                name: 'sherlock',
+                location: 'src/sherlock'
             },
 
             // packages specific to testing
@@ -74,6 +77,9 @@ define({
                     'app/security/_UserAdminUser',
                 'ijit/widgets/authentication/_UserAdminPendingUser':
                     'app/security/_UserAdminPendingUser'
+            },
+            'sherlock': {
+                'spinjs': 'spin'
             }
         },
         has: {

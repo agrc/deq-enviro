@@ -5,6 +5,7 @@
 @import 'Shape.css';
 @import 'SiteName.css';
 @import 'ID.css';
+@import 'Stream.css';
 @import '../../../agrc/resources/locate/FindAddress.css';
 @import '../../../agrc/resources/locate/MagicZoom.css';
 @import 'ResultsGrid.css';
@@ -25,9 +26,6 @@
 }
 .search .magic-zoom .matches-table {
     width: 318px;
-}
-.search .dijitStackContainer {
-    margin-bottom: 20px;
 }
 .search [data-dojo-attach-point='empty'] {
     padding: 0;

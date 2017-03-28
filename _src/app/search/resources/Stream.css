@@ -1,0 +1,18 @@
+@import '../../../sherlock/resources/Sherlock.css';
+
+.stream {
+    margin-top: 10px;
+    height: 313px;
+}
+.stream .sherlock {
+    position: relative;
+    width: 100%;
+    padding: 0;
+}
+.stream .sherlock .input-group,
+.stream .sherlock .matches-table {
+    width: 318px;
+}
+.stream .sherlock .dropdown-menu {
+    box-shadow: none;
+}
