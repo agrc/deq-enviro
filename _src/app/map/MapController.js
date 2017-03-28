@@ -10,6 +10,7 @@ define([
     'esri/graphic',
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/FeatureLayer',
     'esri/layers/GraphicsLayer'
 ], function (
     config,
@@ -23,6 +24,7 @@ define([
     Graphic,
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
+    FeatureLayer,
     GraphicsLayer
 ) {
     return {
@@ -154,12 +156,16 @@ define([
                 id: url + '_' + layerIndex
             }, layerProps);
 
+            if (LayerClass === FeatureLayer) {
+                url = `${url}/${layerIndex}`;
+            }
+
             var lyr = new LayerClass(url, config);
 
             this.map.addLayer(lyr);
             this.map.addLoaderToLayer(lyr);
 
-            if (layerIndex !== null) {
+            if (layerIndex !== null && LayerClass !== FeatureLayer) {
                 lyr.setVisibleLayers([-1]);
             }
         },
@@ -171,7 +177,7 @@ define([
 
             var lyr = this.map.getLayer(url + '_' + layerIndex);
 
-            if (layerIndex !== null) {
+            if (layerIndex !== null && !(lyr instanceof FeatureLayer)) {
                 var visLyrs = lyr.visibleLayers;
                 if (on) {
                     visLyrs.push(layerIndex);

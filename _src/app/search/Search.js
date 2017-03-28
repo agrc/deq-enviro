@@ -354,6 +354,10 @@ define([
             this.stackContainer.selectChild(this.currentPane);
             this.zoomedGeometry = null;
             this.hideErrMsg();
+
+            if (this.select.value === 'stream') {
+                topic.publish(config.topics.appSearch.onStreamSelect);
+            }
         },
         search: function () {
             // summary:

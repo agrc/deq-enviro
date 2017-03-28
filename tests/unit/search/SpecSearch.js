@@ -217,6 +217,18 @@ define([
 
                 expect(previousPane).to.have.been.called;
             });
+            bdd.it('fires topic when streams are selected', () => {
+                topics.listen(config.topics.appSearch.onStreamSelect);
+
+                widget.onSelectChange();
+
+                expect(config.topics.appSearch.onStreamSelect).not.to.have.been.published();
+
+                widget.select.value = 'stream';
+                widget.onSelectChange();
+
+                expect(config.topics.appSearch.onStreamSelect).to.have.been.published();
+            });
         });
         bdd.describe('search', function () {
             var geomSearch;
