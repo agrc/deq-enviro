@@ -1,30 +1,27 @@
 define([
-    'dojo/text!./templates/ReferenceLayerToggle.html',
+    'app/config',
+    'app/map/Legend',
 
-    'dojo/_base/declare',
-    'dojo/_base/array',
-    'dojo/topic',
-    'dojo/dom-construct',
-
-    'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dijit/_WidgetBase',
 
-    './Legend',
-    '../config'
-
+    'dojo/dom-construct',
+    'dojo/text!./templates/ReferenceLayerToggle.html',
+    'dojo/topic',
+    'dojo/_base/array',
+    'dojo/_base/declare'
 ], function (
-    template,
-
-    declare,
-    array,
-    topic,
-    domConstruct,
-
-    _WidgetBase,
-    _TemplatedMixin,
-
+    config,
     Legend,
-    config
+
+    _TemplatedMixin,
+    _WidgetBase,
+
+    domConstruct,
+    template,
+    topic,
+    array,
+    declare
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -91,6 +88,15 @@ define([
             } else {
                 domConstruct.destroy(this.legendTip);
             }
+
+            this.own(
+                topic.subscribe(config.topics.appSearch.onStreamSelect, () => {
+                    if (this.mapServiceUrl === config.urls.DEQEnviro && this.layerIndex === config.layerIndices.streams) {
+                        this.checkbox.checked = true;
+                        this.onCheckboxChange();
+                    }
+                })
+            );
 
             this.inherited(arguments);
         },

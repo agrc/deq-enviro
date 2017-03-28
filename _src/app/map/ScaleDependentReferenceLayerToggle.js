@@ -1,7 +1,6 @@
 define([
-    '../config',
-
-    './ReferenceLayerToggle',
+    'app/config',
+    'app/map/ReferenceLayerToggle',
 
     'dojo/dom-class',
     'dojo/topic',
@@ -11,7 +10,6 @@ define([
     'bootstrap'
 ], function (
     config,
-
     ReferenceLayerToggle,
 
     domClass,

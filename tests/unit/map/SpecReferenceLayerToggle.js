@@ -3,6 +3,7 @@ define([
     'app/map/ReferenceLayerToggle',
 
     'dojo/dom-construct',
+    'dojo/topic',
     'dojo/_base/window',
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
@@ -12,12 +13,17 @@ define([
     'intern/chai!',
     'intern/chai!expect',
 
+    'sinon',
+
+    'sinon-chai',
+
     'tests/helpers/topics'
 ], function (
     config,
     WidgetUnderTest,
 
     domConstruct,
+    topic,
     win,
 
     ArcGISDynamicMapServiceLayer,
@@ -27,9 +33,14 @@ define([
     chai,
     expect,
 
+    sinon,
+
+    sinonChai,
+
     topicsHelper
 ) {
     chai.use(topicsHelper.plugin);
+    chai.use(sinonChai);
     var url = '/arcgis/rest/services/Wildlife/Data/MapServer';
     var index = 3;
     var destroy = function (widget) {
@@ -63,6 +74,19 @@ define([
         bdd.describe('Sanity', function () {
             bdd.it('should create a ReferenceLayerToggle', function () {
                 expect(widget).to.be.instanceOf(WidgetUnderTest);
+            });
+        });
+        bdd.describe('postCreate', () => {
+            bdd.it('checks box and calls on change when topic fires', () => {
+                sinon.stub(widget, 'onCheckboxChange');
+                widget.checkbox.checked = false;
+                widget.mapServiceUrl = config.urls.DEQEnviro;
+                widget.layerIndex = config.layerIndices.streams;
+
+                topic.publish(config.topics.appSearch.onStreamSelect);
+
+                expect(widget.checkbox.checked).to.be.true;
+                expect(widget.onCheckboxChange).to.have.been.called;
             });
         });
         bdd.describe('onCheckboxChange', function () {
