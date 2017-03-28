@@ -48,6 +48,9 @@ define({
             },{
                 name: 'sherlock',
                 location: 'src/sherlock'
+            },{
+                name: 'moment',
+                location: 'src/moment'
             },
 
             // packages specific to testing

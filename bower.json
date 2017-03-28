@@ -3,32 +3,26 @@
   "version": "1.3.0-0",
   "dependencies": {
     "agrc": "agrc-widgets#~4.0",
-    "esri": "arcgis-js-api#~3.15.0",
-    "bootstrap": "~3.3",
+    "esri": "arcgis-js-api#~3.20",
+    "bootstrap": "3.3.6",
     "bootstrap-datepicker": "~1.3.0",
     "bootstrap-select": "~1.6.3",
-    "dgrid": "~0.3.16",
-    "dijit": "1.10",
-    "dojo": "1.10",
-    "dojox": "1.10",
     "ijit": "agrc-ijit#3.1.2",
-    "jquery": "~1",
     "lodash": "~2.4.1",
     "put-selector": "~0.3.5",
     "stubmodule": "dojo2",
-    "util": "dojo-util#1.10",
-    "xstyle": "~0.3.2",
     "layer-selector": "agrc-layer-selector#~0.4.0",
     "sherlock": "agrc-sherlock#^1.0.0"
   },
   "resolutions": {
-    "xstyle": "~0.3.2",
-    "dgrid": "0.3.17/esri-3.14.0",
-    "dijit": "v1.10.4/esri-3.14.0",
-    "dojo": "v1.10.4/esri-3.14.0",
-    "dojox": "v1.10.4/esri-3.14.0",
-    "util": "v1.10.4/esri-3.14.0",
-    "esri": "~3.15.0",
-    "spinjs": "~2.3.2"
+    "esri": "~3.20",
+    "spinjs": "~2.3.2",
+    "dojox": "v1.12.1/esri-3.20.0",
+    "dojo": "v1.12.1/esri-3.20.0",
+    "dijit": "v1.12.1/esri-3.20.0",
+    "util": "v1.12.1/esri-3.20.0",
+    "dgrid": "0.3.17/esri-3.20.0",
+    "dstore": "1.1.1",
+    "xstyle": "0.3.2"
   }
 }
