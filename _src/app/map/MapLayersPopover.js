@@ -53,10 +53,17 @@ define([
             console.log('app/map/MapLayersPopover::postCreate', arguments);
 
             this.own(
+                new ScaleDependentReferenceLayerToggle({
+                    layerName: 'NHD Streams',
+                    mapServiceUrl: config.urls.DEQEnviro,
+                    layerIndex: config.layerIndices.streams,
+                    minScaleLevel: config.NHDMinScaleLevel,
+                    layerClass: ArcGISDynamicMapServiceLayer
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Environmental Risk of UST Facilities',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 4,
+                    layerIndex: config.layerIndices.risk.facilities,
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     legendHeader: 'TankRiskAverageTest'
@@ -64,7 +71,7 @@ define([
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Environmental Risk Water Points',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 5,
+                    layerIndex: config.layerIndices.risk.waterPoints,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
@@ -73,7 +80,7 @@ define([
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Environmental Risk Streams',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 6,
+                    layerIndex: config.layerIndices.risk.streams,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
@@ -82,7 +89,7 @@ define([
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Environmental Risk Lakes',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 7,
+                    layerIndex: config.layerIndices.risk.lakes,
                     layerProps: {opacity: 0.4},
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
@@ -91,7 +98,7 @@ define([
                 new ReferenceLayerToggle({
                     layerName: 'Indian Country and Tribal',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 3,
+                    layerIndex: config.layerIndices.indianTribal,
                     layerProps: {opacity: 0.7},
                     layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
@@ -99,7 +106,7 @@ define([
                 new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 0,
+                    layerIndex: config.layerIndices.landOwnership,
                     layerProps: {opacity: 0.7},
                     layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
@@ -107,7 +114,7 @@ define([
                 new ReferenceLayerToggle({
                     layerName: 'Hydrologic Units',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 2,
+                    layerIndex: config.layerIndices.huc,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     layerProps: {opacity: 0.7}
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
@@ -120,7 +127,7 @@ define([
                 new ReferenceLayerToggle({
                     layerName: 'Environmental Covenants',
                     mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: 1,
+                    layerIndex: config.layerIndices.environmentalCovenants,
                     layerProps: {opacity: 0.7},
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
