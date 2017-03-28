@@ -11,6 +11,7 @@ define([
     'app/search/QueryLayerHeader',
     'app/search/Shape',
     'app/search/SiteName',
+    'app/search/Stream',
     'app/_CollapsibleMixin',
 
     'dijit/layout/ContentPane',
@@ -50,6 +51,7 @@ define([
     QueryLayerHeader,
     Shape,
     SiteName,
+    Stream,
     _CollapsibleMixin,
 
     ContentPane,
@@ -115,6 +117,9 @@ define([
         // shape: Shape
         shape: null,
 
+        // stream: Stream
+        stream: null,
+
         // download: Download
         download: null,
 
@@ -165,20 +170,21 @@ define([
                 domClass.remove(btn, 'hidden');
             };
             this.own(
-            this.address = new Address(null, this.addressPane),
-            this.city = new City({
-                map: MapController.map
-            }, this.cityPane),
-            this.county = new County({}, this.countyPane),
-            this.site = new SiteName(null, this.sitePane),
-            this.id = new ID(null, this.idPane),
-            this.shape = new Shape({}, this.shapePane),
-            topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
-            topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn)),
-            this.download = new Download({}, this.downloadDiv)
-        );
+                this.address = new Address(null, this.addressPane),
+                this.city = new City({
+                    map: MapController.map
+                }, this.cityPane),
+                this.county = new County({}, this.countyPane),
+                this.site = new SiteName(null, this.sitePane),
+                this.id = new ID(null, this.idPane),
+                this.shape = new Shape({}, this.shapePane),
+                this.stream = new Stream({}, this.streamPane),
+                topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
+                topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn)),
+                this.download = new Download({}, this.downloadDiv)
+            );
 
-            this.childWidgets = [this.address, this.city, this.county, this.shape, this.download];
+            this.childWidgets = [this.address, this.city, this.county, this.shape, this.stream, this.download];
 
             this.currentPane = this.empty;
 

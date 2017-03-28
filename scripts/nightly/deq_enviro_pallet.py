@@ -12,6 +12,7 @@ on an hourly basis.
 import arcpy
 import build_json
 import settings
+from settings import fieldnames
 import update_sgid
 import update_fgdb
 import update_ftp
@@ -29,6 +30,7 @@ services = [('DEQEnviro/Secure', 'MapServer'),
             ('DEQEnviro/MapService', 'MapServer'),
             ('DEQEnviro/ExportWebMap', 'GPServer'),
             ('DEQEnviro/Toolbox', 'GPServer')]
+STREAMS = 'StreamsNHDHighRes'
 
 
 def send_report_email(name, report_data):
@@ -208,10 +210,63 @@ class DEQNightly3ReferenceDataPallet(Pallet):
 
         self.copy_data = [self.boundaries,
                           self.water,
-                          self.environment]
+                          self.environment,
+                          settings.fgd]
 
     def build(self, target):
         if self.test_layer is None:
             self.add_crate(('Counties', self.sgid, self.boundaries))
-            self.add_crate(('HUC', self.sgid, self.water))
+            self.add_crates(['HUC', STREAMS], {
+                'source_workspace': self.sgid,
+                'destination_workspace': self.water
+            })
             self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
+
+    def process(self):
+        for crate in self.get_crates():
+            if crate.destination_name == STREAMS:
+                if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
+                    self.log.info('post processing streams data')
+
+                    scratch = arcpy.env.scratchGDB
+                    temp_field = 'TEMP'
+
+                    #: temporary datasets
+                    dissolved = path.join(scratch, 'DissolvedStreams')
+                    identified = path.join(scratch, 'IdentifiedStreams')
+
+                    #: layers
+                    streams_layer = 'streams_layer'
+                    no_name_layer = 'no_name_layer'
+
+                    #: field names
+                    GNIS_Name = fieldnames.GNIS_Name
+                    NAME = fieldnames.NAME
+                    COUNTY = fieldnames.COUNTY
+
+                    #: final output
+                    search_streams = path.join(settings.fgd, 'SearchStreams')
+
+                    #: clean up from last run, if needed
+                    for cleanup_dataset in [dissolved, identified, search_streams]:
+                        if arcpy.Exists(cleanup_dataset):
+                            arcpy.Delete_management(cleanup_dataset)
+
+                    query = '{0} IS NOT NULL AND {0} <> \'\''.format(GNIS_Name)
+                    arcpy.MakeFeatureLayer_management(crate.destination, streams_layer, query)
+                    arcpy.Dissolve_management(streams_layer, dissolved, dissolve_field=GNIS_Name, unsplit_lines='UNSPLIT_LINES')
+                    arcpy.Identity_analysis(dissolved, path.join(self.boundaries, 'Counties'), identified)
+                    arcpy.AddField_management(identified, temp_field, 'TEXT', '', '', 50)
+                    arcpy.CalculateField_management(identified, temp_field, '!{}! + !{}!'.format(GNIS_Name, NAME), 'PYTHON')
+                    arcpy.MakeFeatureLayer_management(identified, no_name_layer, '{0} IS NOT NULL AND {0} <> \'\''.format(NAME))
+                    arcpy.Dissolve_management(no_name_layer, search_streams, temp_field)
+                    arcpy.JoinField_management(search_streams, temp_field, no_name_layer, temp_field, [GNIS_Name, NAME])
+                    arcpy.AddField_management(search_streams, COUNTY, 'TEXT', '', '', 25)
+                    arcpy.CalculateField_management(search_streams, COUNTY, '!{}!'.format(NAME), 'PYTHON')
+                    arcpy.DeleteField_management(search_streams, NAME)
+                    arcpy.DeleteField_management(search_streams, temp_field)
+
+                    for delete_layer in [streams_layer, no_name_layer]:
+                        arcpy.Delete_management(delete_layer)
+
+                    break
