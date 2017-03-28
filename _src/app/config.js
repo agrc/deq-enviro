@@ -126,7 +126,8 @@ define([
                 searchStarted: 'app/search/Search.searchStarted',
                 searchError: 'app/search/Search.searchError',
                 clear: 'app/search/Search.clear',
-                identify: 'app/search/identify'
+                identify: 'app/search/identify',
+                onStreamSelect: 'app/search/onStreamSelect'
             },
             appResultLayer: {
                 addLayer: 'app/search/ResultLayer.addLayer',
@@ -208,6 +209,10 @@ define([
             searchStreams: {
                 GNIS_Name: 'GNIS_Name',
                 COUNTY: 'COUNTY'
+            },
+            nhd: {
+                FCode: 'FCode',
+                GNIS_Name: 'GNIS_Name'
             }
         },
 
