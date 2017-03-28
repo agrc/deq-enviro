@@ -8,7 +8,8 @@ module.exports = function (grunt) {
         '_src/app/**/*.html',
         '_src/app/**/*.css',
         '_src/index.html',
-        '_src/ChangeLog.html'
+        '_src/ChangeLog.html',
+        '_src/webdata/DEQEnviro.json'
     ];
     var bumpFiles = [
         'package.json',
@@ -93,7 +94,7 @@ module.exports = function (grunt) {
             src: {
                 expand: true,
                 cwd: '_src',
-                src: ['**/*.html', '**/*.css', '**/*.png', '**/*.jpg', 'secrets.json', 'app/package.json'],
+                src: ['**/*.html', '**/*.css', '**/*.png', '**/*.jpg', '**/*.json', 'app/package.json'],
                 dest: 'src'
             }
         },
