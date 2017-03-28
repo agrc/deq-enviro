@@ -156,10 +156,9 @@ define([
         // urls: Object
         //      Urls for the project
         urls: {
-            UtahPLSS: 'http://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
+            UtahPLSS: 'https://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
             DEQEnviro: deqServiceFolder + '/MapService/MapServer',
             json: 'webdata/DEQEnviro.json',
-            terrain: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Terrain/MapServer',
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
