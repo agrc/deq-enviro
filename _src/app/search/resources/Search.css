@@ -6,6 +6,7 @@
 @import 'SiteName.css';
 @import 'ID.css';
 @import 'Stream.css';
+@import 'Coordinates.css';
 @import '../../../agrc/resources/locate/FindAddress.css';
 @import '../../../agrc/resources/locate/MagicZoom.css';
 @import 'ResultsGrid.css';
