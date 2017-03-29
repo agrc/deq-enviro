@@ -89,7 +89,7 @@ define([
             this.params.template = template;
             this.params.extraParameters = {
                 'ExportWebMapService_URL': config.urls.exportWebMap
-            }
+            };
 
             this.task = new PrintTask(config.urls.printProxy);
 
