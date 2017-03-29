@@ -15,6 +15,7 @@
         "ga": true
     },
     "rules": {
+        "semi": [2, "always"],
         "no-bitwise": 2,
         "curly": [
             2,
