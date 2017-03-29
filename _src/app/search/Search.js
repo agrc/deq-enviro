@@ -5,6 +5,7 @@ define([
     'app/search/AdditionalSearch',
     'app/search/Address',
     'app/search/City',
+    'app/search/Coordinates',
     'app/search/County',
     'app/search/ID',
     'app/search/QueryLayer',
@@ -45,6 +46,7 @@ define([
     AdditionalSearch,
     Address,
     City,
+    Coordinates,
     County,
     ID,
     QueryLayer,
@@ -120,6 +122,9 @@ define([
         // stream: Stream
         stream: null,
 
+        // coordinates: Coordinates
+        coordinates: null,
+
         // download: Download
         download: null,
 
@@ -179,12 +184,13 @@ define([
                 this.id = new ID(null, this.idPane),
                 this.shape = new Shape({}, this.shapePane),
                 this.stream = new Stream({}, this.streamPane),
+                this.coordinates = new Coordinates({}, this.coordinatesPane),
                 topic.subscribe(config.topics.app.showGrid, _.partial(showBtn, this.hideGridBtn)),
                 topic.subscribe(config.topics.app.hideGrid, _.partial(showBtn, this.showGridBtn)),
                 this.download = new Download({}, this.downloadDiv)
             );
 
-            this.childWidgets = [this.address, this.city, this.county, this.shape, this.stream, this.download];
+            this.childWidgets = [this.address, this.city, this.county, this.shape, this.stream, this.coordinates, this.download];
 
             this.currentPane = this.empty;
 

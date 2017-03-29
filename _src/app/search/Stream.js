@@ -75,7 +75,8 @@ define([
                 maxResultsToDisplay: 10,
                 placeHolder: 'stream name...',
                 graphicsLayer: this.graphicsLayer,
-                preserveGraphics: true
+                preserveGraphics: true,
+                symbolLine: config.symbols.zoom.polyline
             }, this.sherlockDiv);
 
             this.own(
@@ -99,6 +100,8 @@ define([
             console.log('app/search/Stream:clear', arguments);
 
             this.graphicsLayer.clear();
+
+            this.geomtry = null;
 
             this.sherlock.textBox.value = '';
 
