@@ -105,7 +105,7 @@ define([
                     }
                     msg += ' to have been published';
                     return msg;
-                }
+                };
                 this.assert(pass, getMsg(), getMsg(true));
             });
         }
