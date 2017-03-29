@@ -27,7 +27,7 @@ namespace Search.Api.Services {
             {
                 var baseUrl = "http://test.mapserv.utah.gov:6080";
 #if DEBUG
-                baseUrl = "http://localhost";
+                baseUrl = "http://localhost:6080";
 #endif
 #if RELEASE
                 baseUrl = "http://mapserv.utah.gov";
