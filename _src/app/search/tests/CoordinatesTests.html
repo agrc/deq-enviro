@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stream Tests</title>
+    <title>Coordinates Tests</title>
 
     <!-- META TAGS -->
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -25,7 +25,7 @@
 
         require({
             baseUrl: baseUrl,
-            packages: ['agrc', 'app', 'esri', 'dojo', 'dijit', 'dojox', 'xstyle', 'sherlock', 'spinjs',
+            packages: ['app', 'esri', 'dojo', 'dijit', 'dojox', 'xstyle', 'agrc', 'moment',
                 {
                     name: 'jquery',
                     location: 'jquery/dist',
@@ -37,26 +37,27 @@
                 }
             ]
         }, [
-            'app/search/Stream',
+            'app/search/Coordinates',
             'app/map/MapController',
 
             'esri/Map',
 
             'dojo/domReady!'
-        ], function (Stream, MapController, Map) {
+        ], function (Coordinates, MapController, Map) {
             MapController.map = new Map('mapDiv', { basemap: 'streets' });
             MapController.init();
 
-            widgetUnderTest = new Stream({
+            widgetUnderTest = new Coordinates({
             }, 'node');
 
             widgetUnderTest.startup();
         });
 </script>
 </head>
-<body class='claro'>
+<body>
     <div id="mapDiv"></div>
     <div id="node"></div>
-    <button onclick='widgetUnderTest.getGeometry();'>getGeometry</button>
+    <button class='btn btn-primary' onclick='widgetUnderTest.getGeometry();'>getGeometry</button>
+    <button class='btn btn-primary' onclick='widgetUnderTest.clear();'>clear</button>
 </body>
 </html>
