@@ -115,7 +115,7 @@ define([
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
-                    layerName: 'Hydrologic Units',
+                    layerName: 'Hydrologic Units (HUC8)',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.huc,
                     layerClass: ArcGISDynamicMapServiceLayer,
