@@ -591,11 +591,11 @@
                     "Beneficial Uses"
                 ], 
                 [
-                    "Protected", 
+                    "PROTECTED", 
                     "Protected Uses"
                 ], 
                 [
-                    "Blu_Ribbon", 
+                    "BLU_Ribbon", 
                     "Blue Ribbon Fishery"
                 ], 
                 [
@@ -971,6 +971,73 @@
             "legendTitle": "n/a", 
             "TYPE": "n/a", 
             "heading": "Water Quality"
+        }, 
+        {
+            "secure": "No", 
+            "sortField": "n/a", 
+            "sgidName": "SGID10.ENVIRONMENT.DAQAirMonitorByStation", 
+            "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100141&DivName=DAQ", 
+            "specialFilters": "n/a", 
+            "ENVIROAPPSYMBOL": "n/a", 
+            "index": "13", 
+            "relatedTables": "AVData.sde\\AVData.dbo.interactive_map_monitoring_data", 
+            "codedValues": "", 
+            "specialFiltersDefaultOn": "N", 
+            "gramaLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100142&DivName=DAQ&LayerName=Air+Monitoring+by+Station", 
+            "geometryType": "point", 
+            "additionalSearches": "n/a", 
+            "description": "The Air Monitoring Section is responsible for operating and maintaining an ambient air monitoring network... -- [READ MORE click on the \"?\"]", 
+            "CITY": "StationCity", 
+            "additionalLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100143&DivName=DAQ", 
+            "ID": "StationID", 
+            "NAME": "StationName", 
+            "metaDataUrl": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100140&DivName=DAQ", 
+            "oidField": "StationID", 
+            "name": "Air Monitoring by Station", 
+            "ENVIROAPPLABEL": "MapLabel", 
+            "fields": [
+                [
+                    "StationID", 
+                    "Station ID"
+                ], 
+                [
+                    "StationName", 
+                    "Station Name"
+                ], 
+                [
+                    "EPAID", 
+                    "EPA ID"
+                ], 
+                [
+                    "StationAddress", 
+                    "Station Address"
+                ], 
+                [
+                    "StationCity", 
+                    "Station City"
+                ], 
+                [
+                    "StationCounty", 
+                    "Station County"
+                ], 
+                [
+                    "StationZip", 
+                    "Station Zip"
+                ], 
+                [
+                    "Latitude", 
+                    "Latitude"
+                ], 
+                [
+                    "Longitude", 
+                    "Longitude"
+                ]
+            ], 
+            "sourceData": "AVData.sde\\AVData.dbo.interactive_map_monitoring_sites", 
+            "ADDRESS": "StationAddress", 
+            "legendTitle": "n/a", 
+            "TYPE": "n/a", 
+            "heading": "Air Quality"
         }, 
         {
             "secure": "No", 
@@ -2881,11 +2948,50 @@
             "legendTitle": "n/a", 
             "TYPE": "TYPE", 
             "heading": "Environmental Response & Remediation; Drinking Water"
+        }, 
+        {
+            "secure": "No", 
+            "sortField": "n/a", 
+            "sgidName": "SGID10.WATER.HUC", 
+            "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100026&DivName=DWQ", 
+            "specialFilters": "n/a", 
+            "ENVIROAPPSYMBOL": "n/a", 
+            "index": "41", 
+            "relatedTables": "None", 
+            "codedValues": "", 
+            "specialFiltersDefaultOn": "N", 
+            "gramaLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100027&DivName=DWQ&LayerName=Assessed+Lakes", 
+            "geometryType": "polygon", 
+            "additionalSearches": "n/a", 
+            "description": "Hydrologic Unit boundaries according to 8-digit Hydrologic Unit Catalog (HUC) sub basins ... -- [READ MORE click on the \"?\"]", 
+            "CITY": "n/a", 
+            "additionalLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100028&DivName=DWQ", 
+            "ID": "HUC", 
+            "NAME": "NAME", 
+            "metaDataUrl": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100025&DivName=DWQ", 
+            "oidField": "", 
+            "name": "Hydrologic Units (HUC8)", 
+            "ENVIROAPPLABEL": "HUC", 
+            "fields": [
+                [
+                    "HUC", 
+                    "Hydrologic Unit Catalog ID"
+                ], 
+                [
+                    "NAME", 
+                    "Hydrologic Unit Name"
+                ]
+            ], 
+            "sourceData": "<direct from SGID>", 
+            "ADDRESS": "n/a", 
+            "legendTitle": "n/a", 
+            "TYPE": "n/a", 
+            "heading": "Water Quality"
         }
     ], 
     "relatedTables": [
         {
-            "index": "48", 
+            "index": "49", 
             "oidField": "FacilityID", 
             "name": "Tank UST", 
             "fields": [
@@ -2924,7 +3030,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSTankUst"
         }, 
         {
-            "index": "49", 
+            "index": "50", 
             "oidField": "FacilityID", 
             "name": "Compliance UST", 
             "fields": [
@@ -2951,7 +3057,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSComplianceUst"
         }, 
         {
-            "index": "50", 
+            "index": "51", 
             "oidField": "FacilityID", 
             "name": "LUST", 
             "fields": [
@@ -2982,7 +3088,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSLust"
         }, 
         {
-            "index": "45", 
+            "index": "46", 
             "oidField": "IC_A_KEY", 
             "name": "Agreements", 
             "fields": [
@@ -3009,7 +3115,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRANCHIC"
         }, 
         {
-            "index": "46", 
+            "index": "47", 
             "oidField": "RESTRIC_KEY", 
             "name": "Remedies", 
             "fields": [
@@ -3036,7 +3142,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRREMED"
         }, 
         {
-            "index": "47", 
+            "index": "48", 
             "oidField": "ACKEY", 
             "name": "Major Activities", 
             "fields": [
@@ -3063,7 +3169,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRANCHACTMAJ"
         }, 
         {
-            "index": "51", 
+            "index": "52", 
             "oidField": "RPTYEARKEY", 
             "name": "Report Year", 
             "fields": [
@@ -3090,7 +3196,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.TIER2RPTYR"
         }, 
         {
-            "index": "52", 
+            "index": "53", 
             "oidField": "RPTYRKEY", 
             "name": "Report Year", 
             "fields": [
@@ -3117,7 +3223,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.TRIRPTYR"
         }, 
         {
-            "index": "54", 
+            "index": "55", 
             "oidField": "Chemical_Number", 
             "name": "Chemicals", 
             "fields": [
@@ -3144,7 +3250,7 @@
             "sourceData": "erspillsdatabase.sde\\ERSpillsDatabase.dbo.DEQmap_Chemical"
         }, 
         {
-            "index": "53", 
+            "index": "54", 
             "oidField": "ID", 
             "name": "Impacted Media", 
             "fields": [
@@ -3171,7 +3277,7 @@
             "sourceData": "erspillsdatabase.sde\\ERSpillsDatabase.dbo.DEQmap_ImpactedMedia"
         }, 
         {
-            "index": "42", 
+            "index": "43", 
             "oidField": "GUID", 
             "name": "UIC Wells", 
             "fields": [
@@ -3198,7 +3304,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UIC_Program\\UDEQ.UICADMIN.UICWell"
         }, 
         {
-            "index": "57", 
+            "index": "58", 
             "oidField": "GUID", 
             "name": "UIC Well Operating Status", 
             "fields": [
@@ -3217,7 +3323,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICWellOperatingStatus"
         }, 
         {
-            "index": "55", 
+            "index": "56", 
             "oidField": "GUID", 
             "name": "UIC Authorization", 
             "fields": [
@@ -3244,7 +3350,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICAuthorization"
         }, 
         {
-            "index": "56", 
+            "index": "57", 
             "oidField": "GUID", 
             "name": "UIC Authorization Action", 
             "fields": [
@@ -3261,6 +3367,41 @@
             "additionalLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100511&DivName=DWQ&LayerName=Underground+Injection+Control_UIC+Authorization+Action", 
             "additionalLinkFields": "Harold needs to talk to Scott.", 
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICAuthorizationAction"
+        }, 
+        {
+            "index": "59", 
+            "oidField": "EPAID", 
+            "name": "Monitoring Data", 
+            "fields": [
+                [
+                    "ParameterName", 
+                    "Parameter Name"
+                ], 
+                [
+                    "AqsParameterDescription", 
+                    "Parameter Description"
+                ], 
+                [
+                    "FinalValue", 
+                    "Parameter Value"
+                ], 
+                [
+                    "ReportedUnitName", 
+                    "Parameter Units"
+                ], 
+                [
+                    "Date_", 
+                    "Date"
+                ], 
+                [
+                    "NullCode", 
+                    "Data Nullified?"
+                ]
+            ], 
+            "sgidName": "SGID10.ENVIRONMENT.DAQAirMonitorData", 
+            "additionalLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100500&DivName=DAQ&LayerName=Air+Monitoring+by+Station_Monitoring+Data", 
+            "additionalLinkFields": "EPAID, ParameterName", 
+            "sourceData": "AVData.sde\\AVData.dbo.interactive_map_monitoring_data"
         }
     ]
 }
