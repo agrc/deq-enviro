@@ -54,13 +54,15 @@ Updates related data in SGID10. Reads sources from the config spreadsheet.
     - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
     - synchronous
 1. Run and publish `scripts/download/DeqEnviro.pyt/download` as `Toolbox/download` in the same `DEQEnviro` folder.
+    - `pip install xlsxwriter` on the hosting servier fom the python installation that ArcGIS Server uses (x64).
+    - `pip install xlsxwriter` on the publishing server for the python installation that ArcGIS Desktop uses (x32).
     - You can use these inputs as a test:  
     ```
     {"BFNONTARGETED":["Pre5","Pre9","Pre8","Pre4","Pre7","Pre10","Pre12","Pre13","Pre14","Pre11","13","14"],"BFTARGETED":["2A","3","5","6","4","8","9","10","11","12","1","2","7"]}  
     shp  
     C:\MapData\deqquerylayers.gdb
     ```
-    - `pip install xlsxwriter` from the python installation that ArcGIS Server uses (x64).
+    
 1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
 1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
     - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
