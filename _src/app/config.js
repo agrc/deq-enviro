@@ -274,7 +274,7 @@ define([
                     4
                 )
             },
-            resultSymbolOpacity: 0.75,
+            resultSymbolOpacity: 0.65,
             colors: [
                 [31, 120, 180],
                 [51, 160, 44],
