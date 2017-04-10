@@ -548,7 +548,7 @@
             "sgidName": "SGID10.ENVIRONMENT.DWQAssessedWaters", 
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100031&DivName=DWQ", 
             "specialFilters": "checkbox: ASSESSMENT = '1:Supports all designated uses' (1:Supports all designated uses), ASSESSMENT = '2:Supports all assessed uses' (2:Supports all assessed uses), ASSESSMENT = '3:Insufficient Data. Need more' (3:Insufficient Data. Need more), ASSESSMENT = '4A/4C:Approved TMDL. Impaired' (4A/4C:Approved TMDL. Impaired), ASSESSMENT = '4A:Approved TMDL. Impaired' (4A:Approved TMDL. Impaired), ASSESSMENT = '5/4A:TMDL required/TMDL Apprvd' (5/4A:TMDL required/TMDL Apprvd), ASSESSMENT = '5:TMDL required. 303d impaired' (5:TMDL required. 303d impaired)", 
-            "ENVIROAPPSYMBOL": "n/a", 
+            "ENVIROAPPSYMBOL": "ASSESSMENT", 
             "index": "25", 
             "relatedTables": "None", 
             "codedValues": "", 
