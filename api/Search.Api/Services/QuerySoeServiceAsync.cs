@@ -25,7 +25,7 @@ namespace Search.Api.Services {
         {
             using (var client = new HttpClient())
             {
-                var baseUrl = "http://test.mapserv.utah.gov:6080";
+                var baseUrl = "http://test.mapserv.utah.gov";
 #if DEBUG
                 baseUrl = "http://localhost:6080";
 #endif
