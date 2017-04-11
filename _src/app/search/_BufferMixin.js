@@ -88,6 +88,7 @@ define([
             this.bufferParams = new BufferParameters();
             this.bufferParams.spatialReference = config.spatialReference;
             this.bufferParams.unit = GeometryService.UNIT_STATUTE_MILE;
+            this.bufferParams.geodesic = true;
         },
         clear() {
             // summary:
