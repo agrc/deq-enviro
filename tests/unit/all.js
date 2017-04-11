@@ -13,6 +13,7 @@ define([
     './search/SpecAddress',
     './search/SpecCheckboxFilter',
     './search/SpecCity',
+    './search/SpecCoordinates',
     './search/SpecCounty',
     './search/SpecDateFilter',
     './search/SpecFieldFilter',

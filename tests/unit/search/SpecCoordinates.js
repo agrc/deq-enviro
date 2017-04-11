@@ -3,13 +3,17 @@ define([
 
     'dojo/dom-construct',
 
-    'intern!bdd'
+    'intern!bdd',
+
+    'intern/chai!expect'
 ], function (
     Coordinates,
 
     domConstruct,
 
-    bdd
+    bdd,
+
+    expect
 ) {
     bdd.describe('app/search/Coordinates', () => {
         var widget;
