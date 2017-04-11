@@ -63,7 +63,12 @@ define([
                         destroy: function () {}
                     };
                 },
-                'app/map/MapController': {map: {graphics: {}}}
+                'app/map/MapController': {
+                    map: {
+                        graphics: {},
+                        removeLayer: () => {}
+                    }
+                }
             }).then(function (StubbedModule) {
                 Module = StubbedModule;
                 widget = new StubbedModule({
