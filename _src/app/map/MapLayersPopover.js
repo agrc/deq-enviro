@@ -108,7 +108,7 @@ define([
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
-                    mapServiceUrl: config.urls.DEQEnviro,
+                    mapServiceUrl: config.urls.landOwnership,
                     layerIndex: config.layerIndices.landOwnership,
                     layerProps: {opacity: 0.7},
                     layerClass: ArcGISDynamicMapServiceLayer,

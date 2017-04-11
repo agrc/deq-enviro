@@ -61,6 +61,7 @@ define([
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('api.mapserv.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('tlamap.trustlands.utah.gov');
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
@@ -164,24 +165,25 @@ define([
             search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map',
-            printProxy: deqServiceFolder + '/../PrintProxy/GPServer/PrintProxy'
+            printProxy: deqServiceFolder + '/../PrintProxy/GPServer/PrintProxy',
+            landOwnership: 'https://tlamap.trustlands.utah.gov/arcgis/rest/services/SpecialProject/UT_SITLA_LandOwnership_WM/MapServer'
         },
 
         // layerIndices: Object
         //      Indices of layers within map services.
         layerIndices: {
             streams: 0,
-            landOwnership: 1,
-            environmentalCovenants: 2,
-            huc: 3,
-            indianTribal: 4,
+            environmentalCovenants: 1,
+            huc: 2,
+            indianTribal: 3,
             risk: {
-                facilities: 5,
-                waterPoints: 6,
-                streams: 7,
-                lakes: 8
+                facilities: 4,
+                waterPoints: 5,
+                streams: 6,
+                lakes: 7
             },
-            searchStreams: 44
+            searchStreams: 44,
+            landOwnership: 0 // in the SITLA service
         },
 
         // fieldNames: {}
