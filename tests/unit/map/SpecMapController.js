@@ -162,7 +162,7 @@ define([
 
                 testObject.addQueryLayer(lyr, 'polygon');
 
-                expect(map.addLayer.lastCall.args[1]).to.equal(2);
+                expect(map.addLayer.lastCall.args[1]).to.equal(99);
             });
         });
         bdd.describe('zoom', function () {
