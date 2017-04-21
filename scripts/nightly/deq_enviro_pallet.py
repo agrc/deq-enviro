@@ -54,7 +54,7 @@ class DEQNightly0TempTablesPallet(Pallet):
         self.test_layer = test_layer
 
     def build(self, target):
-        self.add_crates(update_sgid.get_temp_crate_infos(self.test_layer))
+        self.add_crates(update_sgid.get_temp_crate_infos(self.staging_rack, self.test_layer))
 
     def process(self):
         self.log.info('ETL-ing temp tables to points in SGID...')
@@ -74,9 +74,9 @@ class DEQNightly1SDEUpdatePallet(Pallet):
 
     def build(self, target):
         if self.test_layer is not None:
-            crate_infos = update_sgid.get_crate_infos(self.test_layer)
+            crate_infos = update_sgid.get_crate_infos(self.staging_rack, self.test_layer)
         else:
-            crate_infos = update_sgid.get_crate_infos()
+            crate_infos = update_sgid.get_crate_infos(self.staging_rack)
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 
@@ -111,16 +111,16 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightly2FGDBUpdatePallet, self).__init__()
 
-        self.arcgis_services = services
         self.test_layer = test_layer
-
-        self.copy_data = [settings.fgd]
 
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
     def build(self, configuration):
         self.configuration = configuration
+        self.arcgis_services = services
+
+        self.copy_data = [path.join(self.staging_rack, settings.fgd)]
 
     def requires_processing(self):
         return True
@@ -129,9 +129,9 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
         #: This needs to happen after the crates in DEQNightly0TempTables
         #: have been processed. That's why I'm creating them and manually processing them.
         if self.test_layer is not None:
-            crate_infos = update_fgdb.get_crate_infos(self.test_layer)
+            crate_infos = update_fgdb.get_crate_infos(self.staging_rack, self.test_layer)
         else:
-            crate_infos = update_fgdb.get_crate_infos()
+            crate_infos = update_fgdb.get_crate_infos(self.staging_rack)
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 
@@ -146,7 +146,7 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_crate(crate)
 
-        update_fgdb.create_relationship_classes(self.test_layer)
+        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
@@ -189,11 +189,10 @@ class DEQNightly3ReferenceDataPallet(Pallet):
 
         self.arcgis_services = services
 
-        self.staging = 'C:\\Scheduled\\staging'
         self.sgid = path.join(self.garage, 'SGID10.sde')
-        self.boundaries = path.join(self.staging, 'boundaries.gdb')
-        self.water = path.join(self.staging, 'water.gdb')
-        self.environment = path.join(self.staging, 'environment.gdb')
+        self.boundaries = path.join(self.staging_rack, 'boundaries.gdb')
+        self.water = path.join(self.staging_rack, 'water.gdb')
+        self.environment = path.join(self.staging_rack, 'environment.gdb')
 
         self.copy_data = [self.boundaries,
                           self.water,

@@ -14,9 +14,7 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on local.
         'WATER': os.path.join(dbConnects, 'SGID10 as WATER on local.sde'),
         'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on local.sde')}
 
-fgd = r'C:\Scheduled\staging\deqquerylayers.gdb'
-tempPointsGDB = r'C:\Scheduled\staging\DEQEnviro\TempPoints.gdb'
-tempTablesGDB = r'C:\Scheduled\staging\DEQEnviro\TempTables.gdb'
+fgd = 'deqquerylayers.gdb'
 
 sendEmails = False
 updateFTP = False

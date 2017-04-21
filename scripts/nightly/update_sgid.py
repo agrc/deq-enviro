@@ -39,11 +39,8 @@ logger = logging.getLogger('forklift')
 errors = []
 
 
-def _get_crate_infos(test_layer=None, temp=False):
+def _get_crate_infos(scratch, test_layer=None, temp=False):
     infos = []
-    if not arcpy.Exists(settings.tempTablesGDB):
-        arcpy.CreateFileGDB_management(path.dirname(settings.tempTablesGDB), path.basename(settings.tempTablesGDB))
-
     for dataset in spreadsheet.get_datasets():
         #: skip if using test_layer and it's not the current layer
         if test_layer and dataset[fieldnames.sgidName] != test_layer:
@@ -66,7 +63,7 @@ def _get_crate_infos(test_layer=None, temp=False):
             if source.find('TEMPO.') > -1:
                 #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
                 #: copy them to temp tables and feed those into forklift as a workaround.
-                temp_source = path.join(settings.tempTablesGDB, path.basename(source).split('.')[-1])
+                temp_source = path.join(arcpy.env.scratchGDB, path.basename(source).split('.')[-1])
 
                 if not arcpy.Exists(temp_source):
                     arcpy.CopyRows_management(source, temp_source)[0]
@@ -90,19 +87,19 @@ def _get_crate_infos(test_layer=None, temp=False):
                 if sourceType != sgidType:
                     infos.append((path.basename(source),
                                   path.dirname(source),
-                                  settings.tempPointsGDB,
+                                  arcpy.env.scratchGDB,
                                   path.basename(source).split('.')[-1],
                                   idField))
 
     return infos
 
 
-def get_crate_infos(test_layer=None):
-    return _get_crate_infos(test_layer)
+def get_crate_infos(scratch, test_layer=None):
+    return _get_crate_infos(scratch, test_layer)
 
 
-def get_temp_crate_infos(test_layer=None):
-    return _get_crate_infos(test_layer, temp=True)
+def get_temp_crate_infos(scratch, test_layer=None):
+    return _get_crate_infos(scratch, test_layer, temp=True)
 
 
 def start_etl(crates):
@@ -139,10 +136,10 @@ def start_etl(crates):
             else:
                 crate.success[1].append(msg)
         temp_sgid_name = sgidName.split('.')[-1] + '_points'
-        temp_sgid = path.join(settings.tempPointsGDB, temp_sgid_name)
+        temp_sgid = path.join(arcpy.env.scratchGDB, temp_sgid_name)
         if arcpy.Exists(temp_sgid):
             arcpy.Delete_management(temp_sgid)
-        arcpy.CreateFeatureclass_management(settings.tempPointsGDB,
+        arcpy.CreateFeatureclass_management(arcpy.env.scratchGDB,
                                             temp_sgid_name,
                                             "#",
                                             sgid,

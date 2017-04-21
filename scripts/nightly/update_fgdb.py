@@ -24,7 +24,7 @@ field_type_mappings = {'Integer': 'LONG',
                        'SmallInteger': 'SHORT'}
 
 
-def get_crate_infos(test_layer=None):
+def get_crate_infos(staging, test_layer=None):
     infos = []
     for dataset in spreadsheet.get_datasets():
         #: skip if using test_layer and it's not the current layer
@@ -46,7 +46,7 @@ def get_crate_infos(test_layer=None):
             source_workspace = settings.sgid[sgidName.split('.')[1]]
             source_name = sgidName
 
-        infos.append((source_name, source_workspace, settings.fgd, sgidName.split('.')[2]))
+        infos.append((source_name, source_workspace, path.join(staging, settings.fgd), sgidName.split('.')[2]))
 
     return infos
 
@@ -98,17 +98,17 @@ def post_process_crate(crate):
         arcpy.Delete_management(lyr)
 
 
-def create_relationship_classes(test_layer):
+def create_relationship_classes(scratch, test_layer):
     for config in spreadsheet.get_relationship_classes():
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName]
-        rcPath = path.join(settings.fgd, rcName)
+        rcPath = path.join(scratch, settings.fgd, rcName)
         if test_layer is not None and config[fieldnames.parentDatasetName] != test_layer.split('.')[-1]:
             continue
 
         if not arcpy.Exists(rcPath):
-            origin = path.join(settings.fgd, config[fieldnames.parentDatasetName])
-            destination = path.join(settings.fgd, config[fieldnames.relatedTableName])
+            origin = path.join(scratch, settings.fgd, config[fieldnames.parentDatasetName])
+            destination = path.join(scratch, settings.fgd, config[fieldnames.relatedTableName])
             arcpy.CreateRelationshipClass_management(origin,
                                                      destination,
                                                      rcPath,

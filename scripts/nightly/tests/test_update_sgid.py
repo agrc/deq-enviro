@@ -51,11 +51,11 @@ class GetCrateInfos(unittest.TestCase):
         self.assertEqual(infos[0], ('SGID10.WATER.Providers',
                                     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')),
                                                  'settings', '..', 'databases', 'SGID10 as WATER on local.sde'),
-                                    settings.tempPointsGDB,
+                                    arcpy.env.scratchGDB,
                                     'Providers'))
         self.assertEqual(infos[1], ('LatLong',
                                     test_data,
-                                    settings.tempPointsGDB,
+                                    arcpy.env.scratchGDB,
                                     'LatLong'))
 
 
