@@ -98,17 +98,17 @@ def post_process_crate(crate):
         arcpy.Delete_management(lyr)
 
 
-def create_relationship_classes(scratch, test_layer):
+def create_relationship_classes(staging, test_layer):
     for config in spreadsheet.get_relationship_classes():
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName]
-        rcPath = path.join(scratch, settings.fgd, rcName)
+        rcPath = path.join(staging, settings.fgd, rcName)
         if test_layer is not None and config[fieldnames.parentDatasetName] != test_layer.split('.')[-1]:
             continue
 
         if not arcpy.Exists(rcPath):
-            origin = path.join(scratch, settings.fgd, config[fieldnames.parentDatasetName])
-            destination = path.join(scratch, settings.fgd, config[fieldnames.relatedTableName])
+            origin = path.join(staging, settings.fgd, config[fieldnames.parentDatasetName])
+            destination = path.join(staging, settings.fgd, config[fieldnames.relatedTableName])
             arcpy.CreateRelationshipClass_management(origin,
                                                      destination,
                                                      rcPath,
