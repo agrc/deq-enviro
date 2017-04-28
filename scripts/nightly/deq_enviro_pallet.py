@@ -70,6 +70,8 @@ class DEQNightly1SDEUpdatePallet(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightly1SDEUpdatePallet, self).__init__()
 
+        self.problem_layer_infos = []
+
         self.test_layer = test_layer
 
     def build(self, target):
