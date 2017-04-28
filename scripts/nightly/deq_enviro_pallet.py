@@ -51,6 +51,8 @@ class DEQNightly0TempTablesPallet(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightly0TempTablesPallet, self).__init__()
 
+        self.problem_layer_infos = []
+
         self.test_layer = test_layer
 
     def build(self, target):
@@ -112,6 +114,8 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
     #: this pallet updates the deqquerylayers.gdb from SGID
     def __init__(self, test_layer=None):
         super(DEQNightly2FGDBUpdatePallet, self).__init__()
+
+        self.problem_layer_infos = []
 
         self.test_layer = test_layer
 
