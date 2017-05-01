@@ -459,7 +459,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100021&DivName=DDW", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "CUZONE", 
-            "index": "18", 
+            "index": "17", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -494,7 +494,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100026&DivName=DWQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "20", 
+            "index": "19", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -549,7 +549,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100031&DivName=DWQ", 
             "specialFilters": "checkbox: ASSESSMENT = '1:Supports all designated uses' (1:Supports all designated uses), ASSESSMENT = '2:Supports all assessed uses' (2:Supports all assessed uses), ASSESSMENT = '3:Insufficient Data. Need more' (3:Insufficient Data. Need more), ASSESSMENT = '4A/4C:Approved TMDL. Impaired' (4A/4C:Approved TMDL. Impaired), ASSESSMENT = '4A:Approved TMDL. Impaired' (4A:Approved TMDL. Impaired), ASSESSMENT = '5/4A:TMDL required/TMDL Apprvd' (5/4A:TMDL required/TMDL Apprvd), ASSESSMENT = '5:TMDL required. 303d impaired' (5:TMDL required. 303d impaired)", 
             "ENVIROAPPSYMBOL": "ASSESSMENT", 
-            "index": "25", 
+            "index": "24", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -616,7 +616,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100036&DivName=DWQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "21", 
+            "index": "20", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -691,7 +691,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100041&DivName=DWQ", 
             "specialFilters": "field: FISH_ADVIS|text (Fish Advisory), Fish Consumption Advisory (fish consumption advisory in effect), No Consumption Advisory (no advisories issued)", 
             "ENVIROAPPSYMBOL": "FISH_ADVIS", 
-            "index": "22", 
+            "index": "21", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -774,7 +774,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100046&DivName=DWQ", 
             "specialFilters": "field: AWQMS_TYPE|text (Type), Canal Drainage (water (excess) conveyance away from area of use), Canal Irrigation (water used for crop irrigation), Canal Transport (water in-route to area of use), Facility (industrial/municipal facility discharge to state waters), Lake (natural lake water), Mine/Mine Discharge (water sample within or discharging from a mine), Ground Water (groundwater sample), River/Stream (water from river/stream bed), Seep (water sample from a seep), Spring (water sample form a spring), Storm sewer (storm drain water sample location), Waste Sewer (sewer system water sample location), Well (water well sample site), Wetland (impounded or natural wetland sample)", 
             "ENVIROAPPSYMBOL": "AWQMS_TYPE", 
-            "index": "23", 
+            "index": "22", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -845,7 +845,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100051&DivName=DWQ", 
             "specialFilters": "field: PermitType|text (Permit Type), Biosolids (de-watered sewage sludge composting), Concentrated Animal Feeding Operation (concentrated animal feeding operation (dairy or feedlot)), Coal Mine (coal mining and processing), Construction De-watering (construction site de-watering (usually groundwater)), Construction Stormwater (storm water discharge at a construction site), EPA Permit (discharge permits issued by EPA), Fish Hatchery (fish propagation operations ), General Permit (general permit), General Permit Pesticides (pesticide application), Industrial (discharge from industrial/production processes), Industrial Stormwater (storm water discharge from industrial facility), Municipal (public-owned wastewater treatment facility discharge), Municipal Stormwater (storm water discharge from city storm drains), Water Supply and Irrigation (culinary water processing discharges)", 
             "ENVIROAPPSYMBOL": "PermitType", 
-            "index": "24", 
+            "index": "23", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -932,7 +932,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100151&DivName=DWQ", 
             "specialFilters": "field: query|prefix (GUID IN (SELECT Facility_FK FROM UICWell WHERE), WellSubClass|number (Well Subclass), 1001 (1 Hazardous Waste Disposal), 1000 (1 Non Hazardous Industrial Waste Disposal), 1002 (1 Non Hazardous Municipal Waste Disposal), 1003 (1 Radioactive Waste Disposal), 1999 (1 Other Class I), 3000 (3 Copper Mining), 3001 (3 Nacholite Mining), 3002 (3 Salt Solution Mining), 3003 (3 Sulfur Mining by Frasch Process), 3004 (3 Uranium Mining), 3999 (3 Other (Class III)), 4001 (4 Exempt CERCLA Remediation), 4002 (4 Exempt RCRA Remediation), 4000 (4 Hazardous Injection Into or Above USDW (BANNED)), 4999 (4 Other (Class IV)), 5000 (5 Agricultural Drainage), 5001 (5 Aquifer Recharge), 5050 (5 Aquifer Storage and Recovery), 5100 (5 CessPools/Untreated Sewage Waste Disposal), 5003 (5 Direct Heat Re-Injection), 5004 (5 Domestic Wastewater Treatment Plant Effluent Disposal), 5005 (5 Electric Power Re-Injection), 5006 (5 Experimental Technology), 5998 (5 Experimental Technology CO2 Sequestration), 5007 (5 Ground Water Aquaculture Return Flow), 5008 (5 Heat Pump/AC Return Flow), 5010 (5 Industrial Drainage), 5014 (5 Industrial Process -  Appliance Service), 5015 (5 Industrial Process -  Beauty/Barber), 5012 (5 Industrial Process -  Car Wash), 5013 (5 Industrial Process -  Car Wash (no engine/undercarriage)), 5029 (5 Industrial Process -  Cooling Water (no additives)), 5030 (5 Industrial Process -  Cooling Water (with additives)), 5034 (5 Industrial Process -  Drinking Water Treatment Residual), 5017 (5 Industrial Process -  Dry Cleaner), 5028 (5 Industrial Process -  Equipment Manufacturing), 5031 (5 Industrial Process -  Food Processing), 5019 (5 Industrial Process -  Funeral Services), 5018 (5 Industrial Process -  Laundromat (no DC)), 5021 (5 Industrial Process -  Machine/Welding), 5022 (5 Industrial Process -  Medical Services), 5027 (5 Industrial Process -  Metal Plating), 5016 (5 Industrial Process -  Nail Salon), 5023 (5 Industrial Process -  Pesticide Services), 5024 (5 Industrial Process -  Photographic Processing), 5025 (5 Industrial Process -  Printing), 5032 (5 Industrial Process -  Small Engine), 5026 (5 Industrial Process -  Veterinary/Kennel/Grooming), 5011 (5 Industrial Process -  Water and Waste (General)), 5020 (5 Industrial Process -  Wood/Furniture Finishing), 5035 (5 In-Situ Fossil Fuel Recovery), 5037 (5 Mining Sand Or Other Backfill), 5038 (5 Motor Vehicle Waste Disposal (BANNED)), 5040 (5 Saline Water Intrusion Barrier), 5101 (5 Septic Systems), 5044 (5 Solution Mining), 5046 (5 Spent-Brine Return Flow), 5047 (5 Storm Water Drainage), 5048 (5 Subsidence Control Wells), 5002 (5 Subsurface Environmental Remediation), 5045 (5 Other Drainage), 5999 (5 Other (Class V)), 6001 (6 CO2 Sequestration Type 1), 6002 (6 CO2 Sequestration Type 2), 7000 (Non-Injection); field: query|prefix (GUID IN (SELECT Facility_FK FROM UICWell WHERE GUID IN (SELECT Well_FK FROM UICWellOperatingStatus WHERE), OperatingStatusType|text (Well Operating Status Type), UC (Under Construction), AC (Active), PA (Abandoned - Approved), TA (Abandoned - Temporary), AN (Abandoned - Not Approved), PW (Proposed Under Permit Application), PR (Proposed Under Authorization By Rule), PI (Post Injection CO2 Well), OT (Other)", 
             "ENVIROAPPSYMBOL": "FacilityCity", 
-            "index": "36", 
+            "index": "35", 
             "relatedTables": "UDEQ.UICADMIN.UICWell FeatureClass Table\nUDEQ.UICADMIN.UICWellOperatingStatus GDB Table\nUDEQ.UICADMIN.UICAuthorization GDB Table\nUDEQ.UICADMIN.UICAuthorizationAction GDB Table", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -979,7 +979,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100141&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "13", 
+            "index": "12", 
             "relatedTables": "AVData.sde\\AVData.dbo.interactive_map_monitoring_data", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1046,7 +1046,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100121&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "12", 
+            "index": "11", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1145,7 +1145,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100061&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "Tot_TPY", 
-            "index": "14", 
+            "index": "13", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1208,7 +1208,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100056&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "NOxVOCTPY", 
-            "index": "15", 
+            "index": "14", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1243,7 +1243,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100066&DivName=DAQ", 
             "specialFilters": "field: WELL_STATUS_MAIN|text (Well Status), A (Active (service well)), APD (Approved Permit (not yet spudded)), DRL (Drilling (Spudded but not yet complete)), OPS (Drilling Operations Suspended), I (Inactive), LA (Location Abandoned), NEW (New Permit (Not yet approved or drilled)), PA (Plugged and Abandoned), P (Producing), RET (Returned APD (Unapproved)), S (Shut-In), TA (Temporarily-Abandoned); field: WELL_TYPE_MAIN|text (Well Type), OW (Oil well), GW (Gas well), D (Dry hole), WI (Water injection (service well)), GI (Gas injection (service well)), GS (Gas storage (service well)), WD (Water disposal (service well)), WS (Water source (service well)), TW (Test well (service well)), NA (Well type not available); field: JURISDICTION|text (Jurisdiction), state (State), indian (Indian)", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "19", 
+            "index": "18", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1346,7 +1346,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100126&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "16", 
+            "index": "15", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1473,7 +1473,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100131&DivName=DAQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "17", 
+            "index": "16", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1600,7 +1600,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100076&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "10", 
+            "index": "9", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1695,7 +1695,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100081&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "11", 
+            "index": "10", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1790,7 +1790,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100101&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "32", 
+            "index": "31", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1897,7 +1897,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100096&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "31", 
+            "index": "30", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -1988,7 +1988,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100071&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "27", 
+            "index": "26", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2079,7 +2079,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100146&DivName=DERR", 
             "specialFilters": "date: Date_Discovered_For_Filter (Date Discovered)", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "26", 
+            "index": "25", 
             "relatedTables": "View dbo.DEQmap_Chemical (This will be the Chemical Tab)\nView dbo.DEQmap_ImpactedMedia (This will be the Impacted Media Tab)", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2150,7 +2150,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100086&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "29", 
+            "index": "28", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2257,7 +2257,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100091&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "30", 
+            "index": "29", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2364,7 +2364,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100106&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "33", 
+            "index": "32", 
             "relatedTables": "View Arcserver.TIER2RPTYR (This will be the Report Year Tab)", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2439,7 +2439,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100111&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "34", 
+            "index": "33", 
             "relatedTables": "View Arcserver.TRIRPTYR (This will be the Report Year Tab)", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2514,7 +2514,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100156&DivName=DERR", 
             "specialFilters": "radio: TANK = 0 (Tank Status: Closed), TANK = 1 (Tank Status: Open); radio: RELEASE = 1 (Has Release(s)), OPENRELEASE = 1 (Has Open Release(s)), OPENRELEASE = 0 (Has Closed Release(s))", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "28", 
+            "index": "27", 
             "relatedTables": "View dbo.FMSTankUst\nView dbo.FMSComplianceUst\nView dbo.FMSLust.", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2617,7 +2617,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100116&DivName=DERR", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "35", 
+            "index": "34", 
             "relatedTables": "View Arcserver.CERCLABRANCHIC\nView Arcserver.CERCLABRREMED\nView Arcserver.CERCLABRANCHACTMAJ", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2716,7 +2716,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100136&DivName=DSHW", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "38", 
+            "index": "37", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2771,7 +2771,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100136&DivName=DSHW", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "39", 
+            "index": "38", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2826,7 +2826,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100136&DivName=DSHW", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "37", 
+            "index": "36", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2873,7 +2873,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100161&DivName=DDW", 
             "specialFilters": "checkbox: TYPE <> 'Abandonded Well' AND NOT SOURCE LIKE 'Non-Production Well%' AND NOT(TYPE = 'Underground' AND SUMMARY_ST = 'T') (All other PODs), TYPE = 'Abandonded Well' (Abandoned PODs), SOURCE LIKE 'Non-Production Well%' (Test PODs), TYPE = 'Underground' AND SUMMARY_ST = 'T' (Terminated PODs)", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "40", 
+            "index": "39", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "Y", 
@@ -2956,7 +2956,7 @@
             "docLink": "http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100026&DivName=DWQ", 
             "specialFilters": "n/a", 
             "ENVIROAPPSYMBOL": "n/a", 
-            "index": "41", 
+            "index": "40", 
             "relatedTables": "None", 
             "codedValues": "", 
             "specialFiltersDefaultOn": "N", 
@@ -2991,7 +2991,7 @@
     ], 
     "relatedTables": [
         {
-            "index": "49", 
+            "index": "48", 
             "oidField": "FacilityID", 
             "name": "Tank UST", 
             "fields": [
@@ -3030,7 +3030,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSTankUst"
         }, 
         {
-            "index": "50", 
+            "index": "49", 
             "oidField": "FacilityID", 
             "name": "Compliance UST", 
             "fields": [
@@ -3057,7 +3057,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSComplianceUst"
         }, 
         {
-            "index": "51", 
+            "index": "50", 
             "oidField": "FacilityID", 
             "name": "LUST", 
             "fields": [
@@ -3088,7 +3088,7 @@
             "sourceData": "ustdata.sde\\USTDATA.dbo.FMSLust"
         }, 
         {
-            "index": "46", 
+            "index": "45", 
             "oidField": "IC_A_KEY", 
             "name": "Agreements", 
             "fields": [
@@ -3115,7 +3115,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRANCHIC"
         }, 
         {
-            "index": "47", 
+            "index": "46", 
             "oidField": "RESTRIC_KEY", 
             "name": "Remedies", 
             "fields": [
@@ -3142,7 +3142,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRREMED"
         }, 
         {
-            "index": "48", 
+            "index": "47", 
             "oidField": "ACKEY", 
             "name": "Major Activities", 
             "fields": [
@@ -3169,7 +3169,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.CERCLABRANCHACTMAJ"
         }, 
         {
-            "index": "52", 
+            "index": "51", 
             "oidField": "RPTYEARKEY", 
             "name": "Report Year", 
             "fields": [
@@ -3196,7 +3196,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.TIER2RPTYR"
         }, 
         {
-            "index": "53", 
+            "index": "52", 
             "oidField": "RPTYRKEY", 
             "name": "Report Year", 
             "fields": [
@@ -3223,7 +3223,7 @@
             "sourceData": "cercla.sde\\cercla.Arcserver.TRIRPTYR"
         }, 
         {
-            "index": "55", 
+            "index": "54", 
             "oidField": "Chemical_Number", 
             "name": "Chemicals", 
             "fields": [
@@ -3250,7 +3250,7 @@
             "sourceData": "erspillsdatabase.sde\\ERSpillsDatabase.dbo.DEQmap_Chemical"
         }, 
         {
-            "index": "54", 
+            "index": "53", 
             "oidField": "ID", 
             "name": "Impacted Media", 
             "fields": [
@@ -3277,7 +3277,7 @@
             "sourceData": "erspillsdatabase.sde\\ERSpillsDatabase.dbo.DEQmap_ImpactedMedia"
         }, 
         {
-            "index": "43", 
+            "index": "42", 
             "oidField": "GUID", 
             "name": "UIC Wells", 
             "fields": [
@@ -3304,7 +3304,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UIC_Program\\UDEQ.UICADMIN.UICWell"
         }, 
         {
-            "index": "58", 
+            "index": "57", 
             "oidField": "GUID", 
             "name": "UIC Well Operating Status", 
             "fields": [
@@ -3323,7 +3323,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICWellOperatingStatus"
         }, 
         {
-            "index": "56", 
+            "index": "55", 
             "oidField": "GUID", 
             "name": "UIC Authorization", 
             "fields": [
@@ -3350,7 +3350,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICAuthorization"
         }, 
         {
-            "index": "57", 
+            "index": "56", 
             "oidField": "GUID", 
             "name": "UIC Authorization Action", 
             "fields": [
@@ -3369,7 +3369,7 @@
             "sourceData": "udeq.sde\\UDEQ.UICADMIN.UICAuthorizationAction"
         }, 
         {
-            "index": "59", 
+            "index": "58", 
             "oidField": "EPAID", 
             "name": "Monitoring Data", 
             "fields": [
