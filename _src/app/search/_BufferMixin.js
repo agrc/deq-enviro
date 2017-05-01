@@ -26,8 +26,7 @@ define([
         //      mixin for searchs that have buffers
 
         // noBufferMsg: String
-        //      shown when the user draws a line or point without defining a buffer radius
-        noBufferMsg: 'You must enter a buffer radius greater than zero!',
+        noBufferMsg: `You must enter a buffer radius greater than ${config.minBuffer} miles!`,
 
         // geoService: GeometryService
         //      used to buffer points and lines
@@ -37,6 +36,16 @@ define([
         //      the deferred returned from getGeometry
         getGeometryDef: null,
 
+        postCreate() {
+            // summary:
+            //      sets up any buffer related stuff in the widget
+            console.log('app/search/_BufferMixin:postCreate', arguments);
+
+            this.bufferNum.min = config.minBuffer;
+            this.bufferLabel.innerHTML = `Buffer (miles, min: ${config.minBuffer})`;
+
+            this.inherited(arguments);
+        },
         getGeometry() {
             // summary:
             //      gets the geometry to send to the search service
@@ -50,7 +59,7 @@ define([
             }
 
             if (this.geometry) {
-                if (this.bufferNum.value > 0) {
+                if (this.bufferNum.value >= config.minBuffer) {
                     // start spinner
                     topic.publish(config.topics.appSearch.searchStarted);
                     if (!this.geoService) {
