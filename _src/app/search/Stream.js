@@ -72,7 +72,7 @@ define([
                 provider,
                 map: MapController.map,
                 promptMessage: 'begin typing a stream name',
-                maxResultsToDisplay: 10,
+                maxResultsToDisplay: 20,
                 placeHolder: 'stream name...',
                 graphicsLayer: this.graphicsLayer,
                 preserveGraphics: true,
