@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/map/MapController',
     'app/search/Stream',
 
@@ -16,6 +17,7 @@ define([
 
     'sinon-chai'
 ], function (
+    config,
     MapController,
     Stream,
 
@@ -75,6 +77,7 @@ define([
             });
             bdd.it('returns no buffer message', () => {
                 widget.geometry = {};
+                widget.bufferNum.value = config.minBufferMsg - 0.01;
                 return widget.getGeometry().then(null, (msg) => {
                     expect(msg).to.equal(widget.noBufferMsg);
                 });

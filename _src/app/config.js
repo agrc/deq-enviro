@@ -97,6 +97,8 @@ define([
 
         labelsMinScale: 250000,
 
+        minBuffer: 0.2, // in miles
+
         defaultBaseMap: 'Lite',
 
         printMapTitle: 'Printed from the Utah DEQ Interactive Map',
