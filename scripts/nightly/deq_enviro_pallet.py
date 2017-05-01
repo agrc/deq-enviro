@@ -25,7 +25,7 @@ from forklift import lift
 from forklift import core
 from os import path
 
-current_folder = path.dirname(__file__)
+current_folder = path.dirname(path.realpath(__file__))
 services = [('DEQEnviro/Secure', 'MapServer'),
             ('DEQEnviro/MapService', 'MapServer'),
             ('DEQEnviro/ExportWebMap', 'GPServer'),
@@ -212,6 +212,8 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                           self.water,
                           self.environment,
                           settings.fgd]
+
+        self.static_data = [path.join(current_folder, '..', 'data', 'deqreferencedata.gdb')]
 
     def build(self, target):
         if self.test_layer is None:
