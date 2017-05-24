@@ -13,6 +13,7 @@ import logging
 import spreadsheet
 import settings
 from forklift.models import Crate
+from forklift.core import hash_field
 from settings import fieldnames
 from os import path
 
@@ -27,7 +28,8 @@ excludeFields = {'GlobalID',
                  'Shape.STArea()',
                  'Shape.STLength()',
                  'Shape_Length',
-                 'Shape_Area'}
+                 'Shape_Area',
+                 hash_field}
 latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 utm = arcpy.SpatialReference(26912)
@@ -37,6 +39,9 @@ wgs = arcpy.SpatialReference(4326)
 truncateFields = [['PROJDESC', 2000]]
 logger = logging.getLogger('forklift')
 errors = []
+
+temp_suffix = '_temp'
+period_replacement = '___'
 
 
 def _get_crate_infos(scratch, test_layer=None, temp=False):
@@ -63,7 +68,7 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
             if source.find('TEMPO.') > -1:
                 #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
                 #: copy them to temp tables and feed those into forklift as a workaround.
-                temp_source = path.join(arcpy.env.scratchGDB, path.basename(source).split('.')[-1])
+                temp_source = path.join(scratch, path.basename(source).split('.')[-1] + temp_suffix)
 
                 if not arcpy.Exists(temp_source):
                     arcpy.CopyRows_management(source, temp_source)[0]
@@ -80,15 +85,15 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                 if sourceType == sgidType:
                     infos.append((path.basename(source),
                                   path.dirname(source),
-                                  sgid,
-                                  sgidName.split('.')[-1],
+                                  scratch,
+                                  sgidName.replace('.', period_replacement),
                                   idField))
             else:
                 if sourceType != sgidType:
                     infos.append((path.basename(source),
                                   path.dirname(source),
-                                  arcpy.env.scratchGDB,
-                                  path.basename(source).split('.')[-1],
+                                  scratch,
+                                  path.basename(source).split('.')[-1].rstrip(temp_suffix),
                                   idField))
 
     return infos
@@ -98,15 +103,15 @@ def get_crate_infos(scratch, test_layer=None):
     return _get_crate_infos(scratch, test_layer)
 
 
-def get_temp_crate_infos(scratch, test_layer=None):
-    return _get_crate_infos(scratch, test_layer, temp=True)
+def get_temp_crate_infos(test_layer=None):
+    return _get_crate_infos(arcpy.env.scratchGDB, test_layer, temp=True)
 
 
 def start_etl(crates):
     #: these crates are all table -> point etls as returned from get_temp_crate_infos
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_datasets():
-            if crate.source.endswith(config[fieldnames.sourceData].split('.')[-1]):
+            if crate.source.endswith(config[fieldnames.sourceData].split('.')[-1].rstrip(temp_suffix)):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(crate.source))
 
@@ -130,11 +135,11 @@ def start_etl(crates):
         if len(mismatchFields) > 0:
             msg = '\n\nField mismatches between {} & {}: \n{}'.format(sgidName, sourceName, mismatchFields)
             logger.error(msg)
-            crate.success[0] = False
-            if crate.success[1] is None:
-                crate.success[1] = [msg]
+            crate.set_result((Crate.INVALID_DATA, None))
+            if crate.result[1] is None:
+                crate.result[1] = [msg]
             else:
-                crate.success[1].append(msg)
+                crate.result[1].append(msg)
         temp_sgid_name = sgidName.split('.')[-1] + '_points'
         temp_sgid = path.join(arcpy.env.scratchGDB, temp_sgid_name)
         if arcpy.Exists(temp_sgid):
@@ -248,3 +253,11 @@ def compare_field_names(source, sgid):
 
 def get_field_names(ds):
     return set([f.name for f in arcpy.ListFields(ds)])
+
+
+def update_sgid_for_crates(crates):
+    updated_crates = [crate for crate in crates if crate.result[0] in [Crate.CREATED, Crate.UPDATED]]
+    for crate in updated_crates:
+        sgid_name = crate.destination_name.split(period_replacement)[1]
+        destination = path.join(settings.sgid[sgid_name], sgid_name)
+        update_sgid_data(crate.destination, destination)

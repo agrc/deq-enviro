@@ -56,7 +56,7 @@ class DEQNightly0TempTablesPallet(Pallet):
         self.test_layer = test_layer
 
     def build(self, target):
-        self.add_crates(update_sgid.get_temp_crate_infos(self.staging_rack, self.test_layer))
+        self.add_crates(update_sgid.get_temp_crate_infos(self.test_layer))
 
     def process(self):
         self.log.info('ETL-ing temp tables to points in SGID...')
@@ -67,7 +67,7 @@ class DEQNightly0TempTablesPallet(Pallet):
 
 
 class DEQNightly1SDEUpdatePallet(Pallet):
-    #: this pallet assumes that the destination data already exits
+    #: this pallet assumes that the destination data in SGID already exits
     #: this is for all non-etl data updates to SGID
     def __init__(self, test_layer=None):
         super(DEQNightly1SDEUpdatePallet, self).__init__()
@@ -77,10 +77,14 @@ class DEQNightly1SDEUpdatePallet(Pallet):
         self.test_layer = test_layer
 
     def build(self, target):
+        sgid_stage = path.join(self.staging_rack, 'sgid_stage.gdb')
+
+        if not arcpy.Exists(sgid_stage):
+            arcpy.CreateFileGDB_management(path.dirname(sgid_stage), path.basename(sgid_stage))
         if self.test_layer is not None:
-            crate_infos = update_sgid.get_crate_infos(self.staging_rack, self.test_layer)
+            crate_infos = update_sgid.get_crate_infos(sgid_stage, self.test_layer)
         else:
-            crate_infos = update_sgid.get_crate_infos(self.staging_rack)
+            crate_infos = update_sgid.get_crate_infos(sgid_stage)
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 
@@ -90,6 +94,8 @@ class DEQNightly1SDEUpdatePallet(Pallet):
         if settings.updateFTP and not self.test_layer:
             self.log.info('UPDATING FTP PACKAGES')
             update_ftp.run(self.log)
+
+        update_sgid.update_sgid_for_crates(self.get_crates())
 
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name, id_field in self.problem_layer_infos:
