@@ -111,7 +111,7 @@ def start_etl(crates):
     #: these crates are all table -> point etls as returned from get_temp_crate_infos
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_datasets():
-            if crate.source.endswith(config[fieldnames.sourceData].split('.')[-1].rstrip(temp_suffix)):
+            if crate.source.rstrip(temp_suffix).endswith(config[fieldnames.sourceData].split('.')[-1]):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(crate.source))
 
