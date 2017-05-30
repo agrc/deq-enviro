@@ -213,7 +213,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                           self.environment,
                           settings.fgd]
 
-        self.static_data = [path.join(current_folder, '..', 'data', 'deqreferencedata.gdb')]
+        self.static_data = [path.join(current_folder, '..', '..', 'data', 'deqreferencedata.gdb')]
 
     def build(self, target):
         if self.test_layer is None:
