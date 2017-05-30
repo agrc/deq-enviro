@@ -19,15 +19,15 @@ define([
             // within the same table
             var fieldsHash = JSON.stringify(fields);
             var dateFields;
-            if (!dateFieldsCache[fieldsHash]) {
+            if (dateFieldsCache[fieldsHash]) {
+                dateFields = dateFieldsCache[fieldsHash];
+            } else {
                 dateFields = [];
                 array.forEach(fields, function (f) {
                     if (f.type === 'esriFieldTypeDate') {
                         dateFields.push(f.name);
                     }
                 });
-            } else {
-                dateFields = dateFieldsCache[fieldsHash];
             }
 
             var atts = record.attributes;
@@ -43,10 +43,11 @@ define([
             if (time) {
                 // dates are stored in database as UTC. Don't let JS add timezone offset to them
                 var dt = new Date(time);
+
                 return (dt.getUTCMonth() + 1) + '/' + dt.getUTCDate() + '/' + dt.getUTCFullYear();
-            } else {
-                return 'null';
             }
+
+            return 'null';
         }
     };
 });

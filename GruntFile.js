@@ -19,7 +19,6 @@ module.exports = function (grunt) {
     ];
     var deployExcludes = [
         '!util/**',
-        //'!**/*.uncompressed.js',
         '!**/*consoleStripped.js',
         '!build-report.txt'
     ];
@@ -79,7 +78,7 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            unit_tests: {
+            unitTests: {
                 options: {
                     livereload: true,
                     port: 8000,
@@ -89,7 +88,10 @@ module.exports = function (grunt) {
         },
         copy: {
             dist: {
-                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+                files: [{ expand: true,
+                    cwd: 'src/',
+                    src: ['*.html'],
+                    dest: 'dist/' }]
             },
             src: {
                 expand: true,

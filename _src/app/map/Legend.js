@@ -54,12 +54,13 @@ define([
             var that = this;
             var requestObj = {
                 url: this.mapServiceUrl + '/legend',
-                content: {f: 'json'}
+                content: { f: 'json' }
             };
             request(requestObj).then(function (response) {
                 array.some(response.layers, function (lyr) {
                     if (lyr.layerId === that.layerId) {
                         that.buildLegend(lyr.legend);
+
                         return true;
                     }
                 });

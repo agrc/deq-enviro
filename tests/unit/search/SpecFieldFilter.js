@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/search/FieldFilter',
 
@@ -17,9 +18,9 @@ define([
 ) {
     bdd.describe('app/search/FieldFilter', function () {
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -69,7 +70,6 @@ define([
                 expect(widget.getQuery()).to.equal('WELL_STATUS_MAIN IN (\'A\', \'OPS\', \'I\')');
             });
             bdd.it('doesn\'t wrap values with quote for number fields', function () {
-
                 var widget2 = new WidgetUnderTest({
                     filterTxt: 'WELL_STATUS_MAIN|number (Well Status), 1 (Abandoned), 2 (Test)'
                 }, domConstruct.create('div', null, document.body));

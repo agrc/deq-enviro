@@ -94,7 +94,7 @@ define([
             this.attributeGrid = new Grid({
                 columns: columns,
                 showHeader: false,
-                store: new Memory({idProperty: 'fieldAlias'})
+                store: new Memory({ idProperty: 'fieldAlias' })
             }, this.attributeGridDiv);
 
             this.relatedTables = new RelatedTables({
@@ -130,12 +130,12 @@ define([
             var ql = config.getQueryLayerByIndex(item.parent);
 
             var updateLink = function (node, url) {
-                if (url !== '') {
+                if (url === '') {
+                    domClass.add(node, 'hidden');
+                } else {
                     domClass.remove(node, 'hidden');
                     // support url's with or without existing query parameters
                     node.href = url + ((url.indexOf('?') === -1) ? '?' : '&') + query;
-                } else {
-                    domClass.add(node, 'hidden');
                 }
             };
             updateLink(this.docLink, ql.docLink);

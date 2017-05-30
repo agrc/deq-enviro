@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/search/ResultLayer',
@@ -48,7 +49,7 @@ define([
         bdd.beforeEach(function () {
             topics.beforeEach();
             sinon.stub(config, 'getQueryLayerByIndex').returns(queryLayer);
-            testObject = new ClassUnderTest([1,2,3], [1,2,3], 'point', layerIndex);
+            testObject = new ClassUnderTest([1, 2, 3], [1, 2, 3], 'point', layerIndex);
             topics.listen(config.topics.appResultLayer.identifyFeature);
         });
 
@@ -74,10 +75,11 @@ define([
             bdd.it('passes the appropriate data to the topic', function () {
                 var oid = 123;
                 var g = {
-                    attributes: {OBJECTID: oid}
+                    attributes: { OBJECTID: oid }
                 };
                 var spy = sinon.spy();
-                testObject.onClick({graphic: g, stopPropagation: spy});
+                testObject.onClick({ graphic: g,
+                    stopPropagation: spy });
 
                 expect(config.topics.appResultLayer.identifyFeature).to.have.been.publishedWith(oid, layerIndex);
                 expect(spy).to.have.been.called;

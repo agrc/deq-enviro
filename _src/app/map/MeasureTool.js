@@ -50,7 +50,7 @@ define([
             console.log('app.map.MeasureTool::postCreate', arguments);
 
             // this is to prevent bad coords calculated in Measurement
-            this.map.spatialReference._isWrappable = function () {
+            this.map.spatialReference._isWrappable = function () { // eslint-disable-line no-underscore-dangle
                 return true;
             };
 

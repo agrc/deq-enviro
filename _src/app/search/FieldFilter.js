@@ -53,7 +53,8 @@ define([
             if (fParts[1] === 'query') {
                 this.queryPrefix = fParts[3];
                 fParts = reg.exec(parts[1]);
-                skip = 2;
+                const two = 2;
+                skip = two;
             }
 
             this.fieldName = fParts[1];
@@ -81,18 +82,17 @@ define([
 
                 if (!this.queryPrefix) {
                     return query;
-                } else {
-                    // add one ")" for each "(" found in the prefix
-                    var postfix = '';
-                    array.forEach(new Array(this.queryPrefix.split('(').length - 1), function () {
-                        postfix += ')';
-                    });
-
-                    return (!this.queryPrefix) ? query : this.queryPrefix + ' ' + query + postfix;
                 }
-            } else {
-                return null;
+                    // add one ")" for each "(" found in the prefix
+                var postfix = '';
+                array.forEach(new Array(this.queryPrefix.split('(').length - 1), function () {
+                    postfix += ')';
+                });
+
+                return (this.queryPrefix) ? this.queryPrefix + ' ' + query + postfix : query;
             }
+
+            return null;
         }
     });
 });

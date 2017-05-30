@@ -17,9 +17,9 @@ define([
 ) {
     bdd.describe('app/Checkbox', function () {
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {

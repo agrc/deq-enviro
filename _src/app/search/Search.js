@@ -190,7 +190,15 @@ define([
                 this.download = new Download({}, this.downloadDiv)
             );
 
-            this.childWidgets = [this.address, this.city, this.county, this.shape, this.stream, this.coordinates, this.download];
+            this.childWidgets = [
+                this.address,
+                this.city,
+                this.county,
+                this.shape,
+                this.stream,
+                this.coordinates,
+                this.download
+            ];
 
             this.currentPane = this.empty;
 
@@ -299,10 +307,11 @@ define([
                 array.every(that.select.children, function (node) {
                     if (node.value === as.fieldName) {
                         domConstruct.destroy(node);
+
                         return false;
-                    } else {
-                        return true;
                     }
+
+                    return true;
                 });
                 as.destroy();
             });
@@ -388,7 +397,7 @@ define([
                     data: JSON.stringify(params),
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        Accept: 'application/json'
                     },
                     handleAs: 'json',
                     timeout: 60000
@@ -435,6 +444,7 @@ define([
             // check for no search type selected
             if (this.currentPane === this.empty) {
                 onError(this.noSearchTypeSelectedErrMsg);
+
                 return;
             }
 
@@ -572,10 +582,10 @@ define([
                 var msg = lang.getObject(prop + '.message', false, response);
                 if (!msg || !/Max records/.test(msg)) {
                     return false;
-                } else {
-                    layerId = /\((\w+)\)/.exec(msg)[1];
-                    return true;
                 }
+                layerId = /\((\w+)\)/.exec(msg)[1];
+
+                return true;
             };
 
             if (!check('queryLayers') && !check('secureQueryLayers')) {

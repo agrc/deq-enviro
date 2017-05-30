@@ -87,10 +87,12 @@ define([
             var that = this;
             var tableInfo = config.getRelatedTableByIndex(this.tableId + '');
             var columns = array.map(tableInfo.fields, function (f) {
-                var columnInfo = {field: f[0], label: f[1]};
+                var columnInfo = { field: f[0],
+                    label: f[1] };
                 var fieldType;
                 array.some(that.fields, function (fld) {
                     fieldType = fld.type;
+
                     return fld.name === f[0];
                 });
                 if (fieldType === 'esriFieldTypeDate') {
@@ -151,7 +153,7 @@ define([
             console.log('app/search/RelatedTableGrid:createPill', arguments);
 
             var isFirst = pillsContainer.children.length === 0;
-            var li = domConstruct.create('li', {className: isFirst ? 'active' : ''}, pillsContainer);
+            var li = domConstruct.create('li', { className: isFirst ? 'active' : '' }, pillsContainer);
             this.tab = domConstruct.create('a', {
                 href: '#' + this.id,
                 role: 'tab',

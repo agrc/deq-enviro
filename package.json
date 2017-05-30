@@ -4,6 +4,7 @@
   "devDependencies": {
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.0",
+    "eslint-config-agrc": "^1.2.0",
     "eslint-plugin-html": "^2.0.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",

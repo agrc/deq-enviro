@@ -17,9 +17,7 @@ define([
 
     expect
 ) {
-
     var widget;
-
 
     bdd.describe('app/map/MapButton', function () {
         bdd.afterEach(function () {

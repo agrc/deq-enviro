@@ -258,7 +258,7 @@ define([
                 })
             );
 
-            MapController.init({map: this.map});
+            MapController.init({ map: this.map });
         },
         buildAnimations: function () {
             // summary:
@@ -272,10 +272,11 @@ define([
                 that.currentAnimationPromise.resolve();
                 open = opened;
                 // delay because sometimes resize was being called a bit too early
+                const delay = 50;
                 window.setTimeout(function () {
                     that.map.resize(true);
                     that.map.centerAt(initialCenter, true);
-                }, 50);
+                }, delay);
             };
             var openGridAnimation = coreFx.combine([
                 coreFx.animateProperty({

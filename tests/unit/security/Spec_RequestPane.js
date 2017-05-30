@@ -40,9 +40,9 @@ define([
     bdd.describe('app/security/_RequestPane', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -82,7 +82,8 @@ define([
         });
         bdd.describe('postCreat', function () {
             bdd.it('should create the layer checkboxes', function () {
-                expect(widget.layersContainer.children.length).to.equal(2);
+                const numLayers = 2;
+                expect(widget.layersContainer.children.length).to.equal(numLayers);
 
                 var lyr = widget.layersContainer.children[0];
 

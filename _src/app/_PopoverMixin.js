@@ -1,16 +1,19 @@
 define([
-    'jquery',
     'bootstrap',
+
+    'dojo/dom-construct',
     'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/dom-construct'
 
+    'jquery'
 ], function (
-    $,
     bootstrap,
+
+    domConstruct,
     declare,
     lang,
-    domConstruct
+
+    $
 ) {
     return declare(null, {
         // description:
@@ -37,7 +40,7 @@ define([
                 innerHTML: title
             });
             domConstruct.create('button', {
-                'class': 'close',
+                class: 'close',
                 innerHTML: '&times;',
                 click: lang.hitch(this, 'hide')
             }, titleDiv);

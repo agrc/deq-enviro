@@ -124,6 +124,7 @@ define([
             var fn = config.fieldNames.queryLayers;
             var cap = function (str) {
                 str = str.toLowerCase();
+
                 return str[0].toUpperCase() + str.slice(1);
             };
             var columns = [
@@ -136,9 +137,7 @@ define([
                     renderCell: function (item, value) {
                         // console.log('renderCell');
                         // format header rows only
-                        if (item.count !== undefined) {
-                            return new GridRowHeader(item).domNode;
-                        } else {
+                        if (item.count === undefined) {
                             // not using a widget because I'm guessing it would hurt performance
                             // for larger datasets
                             var div = put('div.btn-cont');
@@ -155,19 +154,22 @@ define([
                                 });
                             }
                             put(div, 'span', value);
+
                             return div;
                         }
+
+                        return new GridRowHeader(item).domNode;
                     }
-                }),{
+                }), {
                     field: fn.NAME,
                     label: cap(fn.NAME)
-                },{
+                }, {
                     field: fn.TYPE,
                     label: cap(fn.TYPE)
-                },{
+                }, {
                     field: fn.ADDRESS,
                     label: cap(fn.ADDRESS)
-                },{
+                }, {
                     field: fn.CITY,
                     label: cap(fn.CITY)
                 }
@@ -179,15 +181,16 @@ define([
                     idProperty: fn.UNIQUE_ID,
                     getChildren: function (item, options) {
                         console.log('Grid:getChildren');
-                        return this.query({parent: item[fn.UNIQUE_ID]}, options);
+
+                        return this.query({ parent: item[fn.UNIQUE_ID] }, options);
                     },
                     mayHaveChildren: function (item) {
                         console.log('Grid:mayHaveChildren', item.parent);
+
                         return !item.parent;
                     },
-                    query: function (query, options) {
-                        console.log('Grid:query', query, options);
-                        query = query || {};
+                    query: function (queryObject, options) {
+                        queryObject = queryObject || {};
                         options = options || {};
 
                         // this block is to make the sorting of strings case-insensitive
@@ -198,11 +201,12 @@ define([
                             options.sort = sortFunc;
                         }
 
-                        if (!query.parent && !options.deep) {
+                        if (!queryObject.parent && !options.deep) {
                             // Default to a single-level query for root items (no parent)
-                            query.parent = undefined;
+                            queryObject.parent = undefined;
                         }
-                        return this.queryEngine(query, options)(this.data);
+
+                        return this.queryEngine(queryObject, options)(this.data);
                     }
                 }),
                 allowSelectAll: true,
@@ -400,6 +404,7 @@ define([
                 graphic.parent = layerIndex;
                 graphic[fn.UNIQUE_ID] = layerIndex + '-' + graphic[fn.OBJECTID];
                 graphic.geometry = graphic.geometry;
+
                 return graphic;
             };
             var layerName;
@@ -418,7 +423,7 @@ define([
                         color = config.symbols.colors[colorIndex];
                     } else {
                         // set to white and set color index back so that we can reuse it
-                        color = [255, 255, 255];
+                        color = [255, 255, 255]; // eslint-disable-line no-magic-numbers
                         colorIndex -= 1;
                     }
 
@@ -435,7 +440,7 @@ define([
                         storeData = storeData.concat(array.map(data[layerIndex].features, getAttributes));
 
                         // show data on map
-                        new ResultLayer(color, oids, ql.geometryType, layerIndex);
+                        new ResultLayer(color, oids, ql.geometryType, layerIndex); // eslint-disable-line no-new
                     } else {
                         // show a no data row
                         var noResultsFound = {};
@@ -446,9 +451,11 @@ define([
                     }
 
                     // loop through colors and start over after 12
-                    colorIndex = (colorIndex < 11) ? colorIndex + 1 : 0;
+                    const lastIndex = 11;
+                    colorIndex = (colorIndex < lastIndex) ? colorIndex + 1 : 0;
                 }
             });
+
             return storeData;
         },
         onRowEnter: function (evt) {
@@ -507,6 +514,7 @@ define([
                         return false;
                     }
                 }
+
                 return true;
             };
             var addItem = function (parent, id) {
@@ -520,7 +528,9 @@ define([
 
             if (isEmpty(idHash)) {
                 isSelection = false;
-                if (!this.allDownloadIDs) {
+                if (this.allDownloadIDs) {
+                    downloadIDs = this.allDownloadIDs;
+                } else {
                     array.forEach(this.grid.store.data, function (item) {
                         if (item.parent && item.ID !== config.messages.noFeaturesFound) {
                             addItem(item.parent, item.ID);
@@ -528,8 +538,6 @@ define([
                     });
                     // cache so that we don't have to loop through all rows in the grid every time
                     this.allDownloadIDs = downloadIDs;
-                } else {
-                    downloadIDs = this.allDownloadIDs;
                 }
             } else {
                 isSelection = true;

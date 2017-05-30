@@ -154,7 +154,7 @@ define([
 
             request(url, {
                 handleAs: 'json',
-                query: {f: 'json'},
+                query: { f: 'json' },
                 headers: {
                     'X-Requested-With': null
                 }

@@ -151,7 +151,7 @@ define([
             // layerIndex: Number
             console.log('app/map/MapController:addReferenceLayer', arguments);
 
-            var config = lang.mixin({
+            var layerConfig = lang.mixin({
                 visible: false,
                 id: url + '_' + layerIndex
             }, layerProps);
@@ -160,7 +160,7 @@ define([
                 url = `${url}/${layerIndex}`;
             }
 
-            var lyr = new LayerClass(url, config);
+            var lyr = new LayerClass(url, layerConfig);
 
             this.map.addLayer(lyr);
             this.map.addLoaderToLayer(lyr);
@@ -203,7 +203,8 @@ define([
             //      Used to determine layer order (polygons go on the bottom)
             console.log('app/map/MapController:addQueryLayer', arguments);
 
-            var index = (geometryType === 'polygon') ? 99 : undefined;
+            const maxIndex = 99;
+            var index = (geometryType === 'polygon') ? maxIndex : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
         },
@@ -237,7 +238,8 @@ define([
             geometry.spatialReference = this.map.spatialReference;
 
             if (geometry.type === 'point') {
-                this.extentChangePromise = this.map.centerAndZoom(geometry, 13)
+                const zoomLevel = 13;
+                this.extentChangePromise = this.map.centerAndZoom(geometry, zoomLevel)
                     .then(removePromise);
             } else if (geometry.type === 'extent') {
                 this.extentChangePromise = this.map.setExtent(geometry, true);
@@ -312,10 +314,10 @@ define([
                     var ext = new Extent(results[lyr].extent);
                     ext.setSpatialReference(config.spatialReference);
 
-                    if (!sumExtent) {
-                        sumExtent = ext;
-                    } else {
+                    if (sumExtent) {
                         sumExtent = sumExtent.union(ext);
+                    } else {
+                        sumExtent = ext;
                     }
                 }
             }

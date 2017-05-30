@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/search/QueryLayer',
@@ -56,6 +57,7 @@ define([
 
         bdd.beforeEach(function () {
             topics.beforeEach();
+
             return stubmodule('app/search/Search', {
                 'app/search/City': function () {
                     return {
@@ -214,7 +216,7 @@ define([
             bdd.it('calls clear on the previous pane', function () {
                 var previousPane = sinon.spy();
                 var value = 'blah';
-                widget.currentPane = {clear: previousPane};
+                widget.currentPane = { clear: previousPane };
                 widget.select.value = 'blah';
                 widget[value] = {};
 
@@ -299,18 +301,27 @@ define([
         bdd.describe('getQueryLayersParam', function () {
             bdd.it('formats the data for each query layer appropriately', function () {
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
-                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'}),
-                    new QueryLayer({index: 's4', deqQuery: null, secure: 'Yes'})
+                    new QueryLayer({ index: '1',
+                        defQuery: '01',
+                        secure: 'No' }),
+                    new QueryLayer({ index: '2',
+                        defQuery: '02',
+                        secure: 'No' }),
+                    new QueryLayer({ index: 's4',
+                        deqQuery: null,
+                        secure: 'Yes' })
                 ];
 
                 expect(widget.getQueryLayersParam()).to.deep.equal({
                     queryLayers: [
-                        {id: '1', defQuery: '01'},
-                        {id: '2', defQuery: '02'}
+                        { id: '1',
+                            defQuery: '01' },
+                        { id: '2',
+                            defQuery: '02' }
                     ],
                     secureQueryLayers: [
-                        {id: '4', defQuery: null}
+                        { id: '4',
+                            defQuery: null }
                     ]
                 });
             });
@@ -321,40 +332,57 @@ define([
             });
             bdd.it('does not define queryLayers or secureQueryLayers if no features', function () {
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
-                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'})
+                    new QueryLayer({ index: '1',
+                        defQuery: '01',
+                        secure: 'No' }),
+                    new QueryLayer({ index: '2',
+                        defQuery: '02',
+                        secure: 'No' })
                 ];
 
                 expect(widget.getQueryLayersParam()).to.deep.equal({
                     queryLayers: [
-                        {id: '1', defQuery: '01'},
-                        {id: '2', defQuery: '02'}
+                        { id: '1',
+                            defQuery: '01' },
+                        { id: '2',
+                            defQuery: '02' }
                     ],
                     secureQueryLayers: null
                 });
 
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: 's4', deqQuery: null, secure: 'Yes'})
+                    new QueryLayer({ index: 's4',
+                        deqQuery: null,
+                        secure: 'Yes' })
                 ];
 
                 expect(widget.getQueryLayersParam()).to.deep.equal({
                     queryLayers: null,
                     secureQueryLayers: [
-                        {id: '4', defQuery: null}
+                        { id: '4',
+                            defQuery: null }
                     ]
                 });
             });
             bdd.it('does not return duplicate query layer indexes', function () {
                 widget.selectedQueryLayers = [
-                    new QueryLayer({index: '1', defQuery: '01', secure: 'No'}),
-                    new QueryLayer({index: '1', defQuery: '03', secure: 'No'}),
-                    new QueryLayer({index: '2', defQuery: '02', secure: 'No'})
+                    new QueryLayer({ index: '1',
+                        defQuery: '01',
+                        secure: 'No' }),
+                    new QueryLayer({ index: '1',
+                        defQuery: '03',
+                        secure: 'No' }),
+                    new QueryLayer({ index: '2',
+                        defQuery: '02',
+                        secure: 'No' })
                 ];
 
                 expect(widget.getQueryLayersParam()).to.deep.equal({
                     queryLayers: [
-                        {id: '1', defQuery: '01'},
-                        {id: '2', defQuery: '02'}
+                        { id: '1',
+                            defQuery: '01' },
+                        { id: '2',
+                            defQuery: '02' }
                     ],
                     secureQueryLayers: null
                 });
@@ -362,11 +390,11 @@ define([
         });
         bdd.describe('clear', function () {
             bdd.beforeEach(function () {
-                config.user = {token: ''};
+                config.user = { token: '' };
             });
             bdd.it('calls clear on the current search pane', function () {
                 var clearSpy = sinon.spy();
-                widget.currentPane = {clear: clearSpy};
+                widget.currentPane = { clear: clearSpy };
 
                 widget.clear();
 
@@ -440,7 +468,7 @@ define([
 
                 expect(function () {
                     widget.checkForMaxRecords({
-                        queryLayers: {message: 'blah'}
+                        queryLayers: { message: 'blah' }
                     });
                 }).to.throw();
             });

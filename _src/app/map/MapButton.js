@@ -50,7 +50,6 @@ define([
             //      wire events, and such
             //
             console.log('app/MapButton::setupConnections', arguments);
-
         }
     });
 });

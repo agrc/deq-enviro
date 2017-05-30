@@ -40,9 +40,9 @@ define([
         sinon = sinon.sandbox.create();
 
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(() => {
@@ -76,8 +76,10 @@ define([
                 });
             });
             bdd.it('returns no buffer message', () => {
+                const step = 0.01;
                 widget.geometry = {};
-                widget.bufferNum.value = config.minBufferMsg - 0.01;
+                widget.bufferNum.value = config.minBufferMsg - step;
+
                 return widget.getGeometry().then(null, (msg) => {
                     expect(msg).to.equal(widget.noBufferMsg);
                 });
@@ -92,7 +94,8 @@ define([
                 widget.clear();
 
                 expect(widget.sherlock.textBox.value).to.equal('');
-                expect(widget.graphicsLayer.clear).to.have.been.called;
+
+                return expect(widget.graphicsLayer.clear).to.have.been.called;
             });
         });
     });

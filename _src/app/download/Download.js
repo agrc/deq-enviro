@@ -140,6 +140,7 @@ define([
 
             if (value !== '0') {
                 domClass.replace(this.domNode, 'show', 'hidden');
+
                 return;
             }
 
@@ -156,6 +157,7 @@ define([
 
             if (fileType === '') {
                 this.showErrMsg(this.noFormatMsg);
+
                 return;
             }
 
@@ -176,9 +178,11 @@ define([
             }
 
             var params = {
-                'table_id_map': JSON.stringify(this.downloadFeatures),
-                'file_type': this.fileTypes.value,
-                'location': config.downloadDataPath
+                /* eslint-disable camelcase */
+                table_id_map: JSON.stringify(this.downloadFeatures),
+                file_type: this.fileTypes.value,
+                location: config.downloadDataPath
+                /* eslint-enable camelcase */
             };
 
             this.gp.submitJob(params);

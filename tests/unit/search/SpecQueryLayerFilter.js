@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/search/DateFilter',
     'app/search/QueryLayerFilter',
@@ -31,9 +32,9 @@ define([
     bdd.describe('app/search/QueryLayerFilter', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -69,11 +70,11 @@ define([
                     getQuery: function () {
                         return 'blah1';
                     }
-                },{
+                }, {
                     getQuery: function () {
                         return 'blah2';
                     }
-                },{
+                }, {
                     getQuery: function () {
                         return 'blah3';
                     }

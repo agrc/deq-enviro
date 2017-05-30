@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'agrc/widgets/map/BaseMap',
 
@@ -29,9 +30,9 @@ define([
 ) {
     bdd.describe('app/map/MeasureTool', function () {
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
         var btn;
 
@@ -41,7 +42,7 @@ define([
                 useDefaultBaseMap: false
             });
             map.spatialReference = new SpatialReference(3857);
-            map.graphics = {remove: function () {}};
+            map.graphics = { remove: function () {} };
             widget = new WidgetUnderTest({
                 popoverBtn: btn.domNode,
                 map: map

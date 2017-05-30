@@ -82,7 +82,8 @@ define([
             // add opacity to color
             this.color = this.color.concat([config.symbols.resultSymbolOpacity]);
 
-            var surf = gfx.createSurface(this.surfaceContainer, 14, 14);
+            const patchSize = 14;
+            var surf = gfx.createSurface(this.surfaceContainer, patchSize, patchSize);
 
             var shape;
             if (this.geometryType === 'point') {
@@ -93,12 +94,18 @@ define([
                 });
             } else {
                 shape = surf.createPolyline([
-                    {x: 1, y: 1},
-                    {x: 13, y: 1},
-                    {x: 9, y: 7},
-                    {x: 13, y: 13},
-                    {x: 1, y: 13},
-                    {x: 1, y: 1}
+                    { x: 1,
+                        y: 1 },
+                    { x: 13,
+                        y: 1 },
+                    { x: 9,
+                        y: 7 },
+                    { x: 13,
+                        y: 13 },
+                    { x: 1,
+                        y: 13 },
+                    { x: 1,
+                        y: 1 }
                 ]);
             }
             shape.setFill(this.color).setStroke('black');

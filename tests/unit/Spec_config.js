@@ -32,8 +32,10 @@ define([
             }).then(function (newModule) {
                 StubbedModule = newModule;
                 def.resolve(JSON.parse(DEQEnviroJSON));
+
                 return StubbedModule.getAppJson();
             });
+
             return def.promise;
         });
         bdd.it('generates a query layer name lookup object', function () {

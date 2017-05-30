@@ -36,7 +36,6 @@ define([
             // summary:
             //      description
             console.log('Checkbox:onChange', arguments);
-
         },
         clear: function () {
             // summary:

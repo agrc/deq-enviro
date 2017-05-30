@@ -9,6 +9,7 @@ require(['dojo/domReady!'], function () {
                         return true;
                     }
                 }
+
                 return false;
             };
 

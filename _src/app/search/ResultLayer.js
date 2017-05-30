@@ -44,12 +44,7 @@ define([
                     xoffset: 0,
                     yoffset: 0,
                     outline: {
-                        color: [
-                            0,
-                            0,
-                            0,
-                            255
-                        ],
+                        color: [0, 0, 0, 255], // eslint-disable-line no-magic-numbers
                         width: 1
                     }
                 },
@@ -65,12 +60,7 @@ define([
                     outline: {
                         type: 'esriSLS',
                         style: 'esriSLSSolid',
-                        color: [
-                            0,
-                            0,
-                            0,
-                            255
-                        ],
+                        color: [0, 0, 0, 255], // eslint-disable-line no-magic-numbers
                         width: 0.4
                     }
                 },
@@ -81,6 +71,7 @@ define([
 
         var ren = renderers[geoType];
         ren.symbol.color = color;
+
         return ren;
     };
 

@@ -93,10 +93,11 @@ define([
 
             var counties = $(this.countiesSelect).val();
             var endDate = $(this.endDate).datepicker('getDate').getTime();
+
             return (
                 counties !== null &&
                 this.getLayers().length > 0 &&
-                endDate === endDate // not NaN
+                !Number.isNaN(endDate)
                 ) &&
                 !(
                     this.emailTxt.value === this.email &&

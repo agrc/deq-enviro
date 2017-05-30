@@ -5,17 +5,17 @@ define(function (require) {
 
     var record;
     var fields = [{
-        'name': 'EMPTY',
-        'type': 'esriFieldTypeDate'
+        name: 'EMPTY',
+        type: 'esriFieldTypeDate'
     }, {
-        'name': 'NORMAL',
-        'type': 'esriFieldTypeDate'
+        name: 'NORMAL',
+        type: 'esriFieldTypeDate'
     }, {
-        'name': 'ANOTHERFIELD',
-        'type': 'esriFieldTypeString'
+        name: 'ANOTHERFIELD',
+        type: 'esriFieldTypeString'
     }, {
-        'name': 'MDT',
-        'type': 'esriFieldTypeDate'
+        name: 'MDT',
+        type: 'esriFieldTypeDate'
     }];
 
     registerSuite({
@@ -47,7 +47,8 @@ define(function (require) {
         },
 
         'handles MDT values': function () {
-            expect(record.attributes.MDT.slice(-9)).to.be.equal('1/20/1980');
+            const position = -9;
+            expect(record.attributes.MDT.slice(position)).to.be.equal('1/20/1980');
         }
     });
 });

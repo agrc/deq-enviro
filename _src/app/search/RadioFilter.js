@@ -42,7 +42,6 @@ define([
             // summary:
             //      description
             console.log('Radio:onChange', arguments);
-
         },
         clear: function () {
             // summary:

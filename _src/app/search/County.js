@@ -49,7 +49,7 @@ define([
             //      description
             console.log('app/search/County::constructor', arguments);
 
-            this.api = new WebAPI({apiKey: config.apiKey});
+            this.api = new WebAPI({ apiKey: config.apiKey });
 
             this.inherited(arguments);
         },
@@ -96,6 +96,7 @@ define([
                     }
                 );
             }
+
             return promise.then(onSuccess, onFail);
         },
         getGeometry: function () {

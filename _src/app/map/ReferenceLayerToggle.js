@@ -91,7 +91,8 @@ define([
 
             this.own(
                 topic.subscribe(config.topics.appSearch.onStreamSelect, () => {
-                    if (this.mapServiceUrl === config.urls.DEQEnviro && this.layerIndex === config.layerIndices.streams) {
+                    if (this.mapServiceUrl === config.urls.DEQEnviro &&
+                        this.layerIndex === config.layerIndices.streams) {
                         this.checkbox.checked = true;
                         this.onCheckboxChange();
                     }

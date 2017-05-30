@@ -75,7 +75,7 @@ define([
                     layerName: 'Environmental Risk Water Points',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.risk.waterPoints,
-                    layerProps: {opacity: 0.4},
+                    layerProps: { opacity: 0.4 },
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
@@ -84,7 +84,7 @@ define([
                     layerName: 'Environmental Risk Streams',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.risk.streams,
-                    layerProps: {opacity: 0.4},
+                    layerProps: { opacity: 0.4 },
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
@@ -93,7 +93,7 @@ define([
                     layerName: 'Environmental Risk Lakes',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.risk.lakes,
-                    layerProps: {opacity: 0.4},
+                    layerProps: { opacity: 0.4 },
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     minScaleLevel: config.RiskLayersMinScaleLevel
@@ -102,7 +102,7 @@ define([
                     layerName: 'Indian Country and Tribal',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.indianTribal,
-                    layerProps: {opacity: 0.7},
+                    layerProps: { opacity: 0.7 },
                     layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
@@ -110,7 +110,7 @@ define([
                     layerName: 'Land Ownership',
                     mapServiceUrl: config.urls.landOwnership,
                     layerIndex: config.layerIndices.landOwnership,
-                    layerProps: {opacity: 0.7},
+                    layerProps: { opacity: 0.7 },
                     layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
@@ -119,7 +119,7 @@ define([
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.huc,
                     layerClass: ArcGISDynamicMapServiceLayer,
-                    layerProps: {opacity: 0.7}
+                    layerProps: { opacity: 0.7 }
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Township/Range/Section',
@@ -131,7 +131,7 @@ define([
                     layerName: 'Environmental Covenants',
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.environmentalCovenants,
-                    layerProps: {opacity: 0.7},
+                    layerProps: { opacity: 0.7 },
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     legendHeader: 'DIVISION, BRANCH, PROGRAM'

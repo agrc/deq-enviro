@@ -56,7 +56,6 @@ define([
             // summary:
             //      description
             console.log('app/search/DateFilter:postCreate', arguments);
-
         },
         listenForChange: function (evt) {
             // summary:
@@ -76,14 +75,15 @@ define([
             //      enabled button if valid
             console.log('app/search/DateFilter:isValid', arguments);
 
-            return this.from.value.length === 10 &&
-                this.to.value.length === 10;
+            const validLength = 10;
+
+            return this.from.value.length === validLength &&
+                this.to.value.length === validLength;
         },
         onChange: function () {
             // summary:
             //      fires when a date is changed
             console.log('app/search/DateFilter:onChange', arguments);
-
         },
         getQuery: function () {
             // summary:
@@ -92,6 +92,7 @@ define([
 
             var getDateString = function (input) {
                 var dt = $(input).datepicker('getDate');
+
                 return dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
             };
 

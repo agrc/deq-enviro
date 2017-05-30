@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers, no-underscore-dangle */
 define([
     'app/search/Address',
 
@@ -23,9 +24,9 @@ define([
 ) {
     bdd.describe('app/search/Address', function () {
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -55,8 +56,6 @@ define([
                 return widget.getGeometry().then(function () {}, function () {
                     def.resolve();
                 });
-
-                return def.promise;
             });
             bdd.it('rejects if _onError is called', function () {
                 widget.txtAddress.value = '1';
@@ -65,15 +64,17 @@ define([
                     def.resolve();
                 });
                 widget._onError();
+
                 return def.promise;
             });
         });
         bdd.describe('buffer', function () {
             var result = {
-                location: {x: 12345, y: 12345}
+                location: { x: 12345,
+                    y: 12345 }
             };
             bdd.it('creates a geometry service if there isn\'t one already', function () {
-                var blah = {buffer: function () {}};
+                var blah = { buffer: function () {} };
 
                 widget.buffer(result);
 

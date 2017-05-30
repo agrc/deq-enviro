@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers, max-len, camelcase */
 define([
     'dojo/Deferred',
     'dojo/has',
@@ -68,7 +69,7 @@ define([
     var selectionColor = new Color([240, 18, 190]);
     var selectionFillColor = new Color(selectionColor.toRgb().concat([0.35]));
 
-    var baseUrl = (agsDomain !== '') ? window.location.protocol + '//' + agsDomain : '';
+    var baseUrl = (agsDomain === '') ? '' : window.location.protocol + '//' + agsDomain;
     esriConfig.defaults.geometryService = new GeometryService(baseUrl + '/arcgis/rest/services/Geometry/GeometryServer');
     var deqServiceFolder = baseUrl + '/arcgis/rest/services/DEQEnviro';
     var secureUrl = deqServiceFolder + '/Secure/MapServer';
@@ -334,7 +335,9 @@ define([
             var def = new Deferred();
             var that = this;
 
-            if (!this.appJson) {
+            if (this.appJson) {
+                def.resolve(this.appJson);
+            } else {
                 xhr(this.urls.json, {
                     handleAs: 'json'
                 }).then(function (json) {
@@ -344,8 +347,6 @@ define([
                     });
                     def.resolve(that.appJson = json);
                 });
-            } else {
-                def.resolve(this.appJson);
             }
 
             return def.promise;
@@ -379,10 +380,11 @@ define([
             array.some(datasets, function (ql) {
                 if (ql.index === index) {
                     returnLayer = ql;
+
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
             });
 
             this._cached[index] = returnLayer;

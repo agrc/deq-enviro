@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/map/MapController',
     'app/search/City',
@@ -35,9 +36,9 @@ define([
     bdd.describe('app/search/City', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
         var map = {
             loaded: true,

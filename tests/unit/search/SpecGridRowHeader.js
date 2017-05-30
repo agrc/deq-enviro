@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/search/GridRowHeader',
@@ -35,9 +36,9 @@ define([
     bdd.describe('app/search/GridRowHeader', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -49,7 +50,7 @@ define([
             widget = new WidgetUnderTest({
                 name: 'Scott',
                 count: 15,
-                color: [1,2,3]
+                color: [1, 2, 3]
             }, domConstruct.create('div', {}, win.body()));
             widget.startup();
         });

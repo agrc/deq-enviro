@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'jquery',
     'app/config',
@@ -44,9 +45,9 @@ define([
     bdd.describe('app/search/QueryLayer', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
         var index = '0';
         var topicNames = config.topics.appQueryLayer;
@@ -126,13 +127,15 @@ define([
                 widget.defQuery = defQuery;
             });
             bdd.it('returns the correct object', function () {
-                expect(widget.toJson()).to.deep.equal({id: index, defQuery: defQuery});
+                expect(widget.toJson()).to.deep.equal({ id: index,
+                    defQuery: defQuery });
             });
             bdd.it('removes the s for secured layers', function () {
                 widget.secure = 'Yes';
                 widget.index = 's1';
 
-                expect(widget.toJson()).to.deep.equal({id: '1', defQuery: defQuery});
+                expect(widget.toJson()).to.deep.equal({ id: '1',
+                    defQuery: defQuery });
             });
         });
         bdd.describe('stores checked state in localStorage', function () {

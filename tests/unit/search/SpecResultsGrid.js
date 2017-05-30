@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/search/ResultsGrid',
@@ -51,7 +52,7 @@ define([
                 queryLayers: [
                     {
                         index: '7',
-                        color: [1,2,3,4],
+                        color: [1, 2, 3, 4],
                         name: 'blah',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.DAQAirEmissionsInventory',
@@ -59,7 +60,7 @@ define([
                         legendTitle: 'n/a'
                     }, {
                         index: '15',
-                        color: [1,2,3,4],
+                        color: [1, 2, 3, 4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.DWQNPDESDischargers',
@@ -67,7 +68,7 @@ define([
                         legendTitle: 'n/a'
                     }, {
                         index: '5',
-                        color: [1,2,3,4],
+                        color: [1, 2, 3, 4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID10.HELLO.FeatureClassName',
@@ -75,7 +76,7 @@ define([
                         legendTitle: 'n/a'
                     }, {
                         index: '11',
-                        color: [1,2,3,4],
+                        color: [1, 2, 3, 4],
                         name: 'blah2',
                         geometryType: 'point',
                         sgidName: 'SGID.HELLO.EnvironmentalIncidents',
@@ -106,7 +107,7 @@ define([
                 sinon.spy(widget, 'getStoreData');
                 sinon.stub(widget, 'initGrid', function () {
                     widget.grid = {
-                        store: {setData: function () {}},
+                        store: { setData: function () {} },
                         refresh: function () {}
                     };
                 });
@@ -130,9 +131,9 @@ define([
                         return 1;
                     } else if (a[fn.UNIQUE_ID] < b[fn.UNIQUE_ID]) {
                         return -1;
-                    } else {
-                        return 0;
                     }
+
+                    return 0;
                 });
                 result.forEach(function (i, ind) {
                     console.log(i[fn.UNIQUE_ID] + ' - ' + ind);
@@ -193,7 +194,7 @@ define([
             });
             bdd.it('expands if the row is a header', function () {
                 var evt = {
-                    target: {className: 'blah'}
+                    target: { className: 'blah' }
                 };
 
                 widget.onRowClick(evt);
@@ -204,7 +205,7 @@ define([
             });
             bdd.it('skips if the user clicked on an icon', function () {
                 var evt = {
-                    target: {className: 'dgrid-expando-icon'}
+                    target: { className: 'dgrid-expando-icon' }
                 };
 
                 widget.onRowClick(evt);
@@ -256,19 +257,19 @@ define([
                 descending: false
             };
             bdd.it('sorts strings', function () {
-                expect(widget.sortValues(opts, {fieldname: 'a'}, {fieldname: 'b'}))
+                expect(widget.sortValues(opts, { fieldname: 'a' }, { fieldname: 'b' }))
                     .to.equal(-1);
             });
             bdd.it('sorts as numbers if possible', function () {
-                expect(widget.sortValues(opts, {fieldname: '4'}, {fieldname: '10'}))
+                expect(widget.sortValues(opts, { fieldname: '4' }, { fieldname: '10' }))
                     .to.equal(-1);
             });
             bdd.it('can handle capital letters', function () {
-                expect(widget.sortValues(opts, {fieldname: 'tooele'}, {fieldname: 'Woodside'}))
+                expect(widget.sortValues(opts, { fieldname: 'tooele' }, { fieldname: 'Woodside' }))
                     .to.equal(-1);
             });
             bdd.it('can handle whitespace', function () {
-                expect(widget.sortValues(opts, {fieldname: 'a'}, {fieldname: ' b'}))
+                expect(widget.sortValues(opts, { fieldname: 'a' }, { fieldname: ' b' }))
                     .to.equal(-1);
             });
             bdd.it('sorts the entire id', function () {

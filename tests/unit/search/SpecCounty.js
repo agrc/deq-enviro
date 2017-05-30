@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/search/County',
@@ -40,9 +41,9 @@ define([
     bdd.describe('app/search/County', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -65,7 +66,7 @@ define([
         });
         bdd.describe('onChange', function () {
             bdd.it('searches for counties and state', function () {
-                widget.api.search = sinon.stub().returns({then: function () {}});
+                widget.api.search = sinon.stub().returns({ then: function () {} });
 
                 widget.select.value = 'STATEWIDE';
 
@@ -89,7 +90,7 @@ define([
 
                 widget.onChange();
 
-                def.resolve([{geometry: geo}]);
+                def.resolve([{ geometry: geo }]);
 
                 expect(config.topics.appMapMapController.zoomToSearchGraphic).to.have.been.published();
             });
@@ -107,11 +108,11 @@ define([
             bdd.it('set\'s geometry prop for later retrieval', function () {
                 var def = new Deferred();
                 sinon.stub(widget.api, 'search').returns(def.promise);
-                var geo = {rings: [1,2]};
+                var geo = { rings: [1, 2] };
 
                 widget.onChange();
 
-                def.resolve([{geometry: geo}]);
+                def.resolve([{ geometry: geo }]);
 
                 expect(widget.geometry.rings).to.equal(geo.rings);
             });
@@ -132,7 +133,7 @@ define([
                 var geo = {};
                 sinon.stub(widget.api, 'search').returns(def.promise);
 
-                def.resolve([{geometry: geo}]);
+                def.resolve([{ geometry: geo }]);
 
                 return widget.getGeometry().then(function (g) {
                     expect(g).not.to.be.null;
@@ -143,11 +144,14 @@ define([
             bdd.it('grabs state extent on first show', function () {
                 sinon.stub(widget.api, 'search', function () {
                     widget.geometry = {};
-                    return {then: function () {}};
+
+                    return { then: function () {} };
                 });
 
+                /* eslint-disable no-underscore-dangle */
                 widget._onShow();
                 widget._onShow();
+                /* eslint-enable no-underscore-dangle */
 
                 expect(widget.api.search).to.have.callCount(1);
             });

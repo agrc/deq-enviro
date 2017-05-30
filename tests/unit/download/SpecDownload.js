@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/download/Download',
@@ -39,9 +40,9 @@ define([
     bdd.describe('app/download/Download', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
 
         bdd.beforeEach(function () {
@@ -65,9 +66,9 @@ define([
             bdd.describe('multiple program results', function () {
                 bdd.it('displays the correct count of results', function () {
                     var response = {
-                        'result': {
-                            '5': [{}, {}, {}, {}, {}],
-                            '6': [{}, {}, {}, {}, {}, {}]
+                        result: {
+                            5: [{}, {}, {}, {}, {}],
+                            6: [{}, {}, {}, {}, {}, {}]
                         }
                     };
 
@@ -77,9 +78,9 @@ define([
                 });
                 bdd.it('displays 0', function () {
                     var response = {
-                        'result': {
-                            '5': [],
-                            '6': []
+                        result: {
+                            5: [],
+                            6: []
                         }
                     };
 
@@ -89,7 +90,7 @@ define([
                 bdd.it('can adds commas', function () {
                     var a = [];
                     a.length = 1000;
-                    widget.updateCount({'test': a});
+                    widget.updateCount({ test: a });
 
                     expect(widget.get('count')).to.equal('1,000');
                 });
@@ -98,9 +99,9 @@ define([
         bdd.describe('Visibility of widget', function () {
             bdd.it('widget should be hidden when there are no results', function () {
                 var response = {
-                    'result': {
-                        '5': [],
-                        '6': []
+                    result: {
+                        5: [],
+                        6: []
                     }
                 };
 
@@ -111,9 +112,9 @@ define([
             });
             bdd.it('widget should be visible when there are results', function () {
                 var response = {
-                    'result': {
-                        '5': [{}],
-                        '6': []
+                    result: {
+                        5: [{}],
+                        6: []
                     }
                 };
 
@@ -138,7 +139,7 @@ define([
             });
             bdd.it('sends the proper parameters to the gp tool', function () {
                 return stubmodule('app/download/Download', {
-                    'app/map/MapController': {map: {showLoader: function () {}}}
+                    'app/map/MapController': { map: { showLoader: function () {} } }
                 }).then(function (StubbedModule) {
                     var testWidget2 = new StubbedModule({}, domConstruct.create('div', {}, document.body));
                     var type = 'xls';
@@ -146,9 +147,11 @@ define([
                     var idMap = {};
                     testWidget2.downloadFeatures = idMap;
                     expect(testWidget2.download()).to.deep.equal({
-                        'table_id_map': '{}',
-                        'file_type': type,
-                        'location': config.downloadDataPath
+                        /* eslint-disable camelcase */
+                        table_id_map: '{}',
+                        file_type: type,
+                        location: config.downloadDataPath
+                        /* eslint-enable camelcase */
                     });
                     destroy(testWidget2);
                 });

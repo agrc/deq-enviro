@@ -1,4 +1,5 @@
-// TODO: finish porting the rest of the matchers from https://github.com/agrc/agrc-jasmine-matchers and put in a new repo
+// TODO: finish porting the rest of the matchers
+//  from https://github.com/agrc/agrc-jasmine-matchers and put in a new repo
 define([
     'dojo/topic'
 ], function (
@@ -37,10 +38,10 @@ define([
             }
             topics.forEach(function (t) {
                 handles.push(topic.subscribe(t, function () {
-                    if (!publishes[t]) {
-                        publishes[t] = [arguments];
-                    } else {
+                    if (publishes[t]) {
                         publishes[t].push(arguments);
+                    } else {
+                        publishes[t] = [arguments];
                     }
                 }));
             });
@@ -104,6 +105,7 @@ define([
                         msg += ' not';
                     }
                     msg += ' to have been published';
+
                     return msg;
                 };
                 this.assert(pass, getMsg(), getMsg(true));

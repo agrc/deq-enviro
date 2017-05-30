@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 define([
     'app/config',
     'app/search/Shape',
@@ -50,9 +51,9 @@ define([
     bdd.describe('app/search/Shape', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
         var btns;
 
@@ -108,7 +109,7 @@ define([
                 expect(widget.getGeometry()).to.be.instanceOf(Promise);
             });
             bdd.it('immediately returns geometry if it\'s a polygon', function () {
-                widget.geometry = {type: 'polygon'};
+                widget.geometry = { type: 'polygon' };
 
                 return widget.getGeometry().then(function (geo) {
                     expect(geo).to.equal(widget.geometry);
@@ -120,13 +121,13 @@ define([
                 });
             });
             bdd.it('rejects with message if point/line but no buffer', function () {
-                widget.geometry = {type: 'point'};
+                widget.geometry = { type: 'point' };
 
                 var p1 = widget.getGeometry().then(null, function (msg) {
                     expect(msg).to.equal(widget.noBufferMsg);
                 });
 
-                widget.geometry = {type: 'polyline'};
+                widget.geometry = { type: 'polyline' };
 
                 var p2 = widget.getGeometry().then(null, function (msg) {
                     expect(msg).to.equal(widget.noBufferMsg);
@@ -144,7 +145,7 @@ define([
 
                 widget.initGeoService();
                 widget.geoService = geoMock;
-                widget.geometry = {type: 'point'};
+                widget.geometry = { type: 'point' };
                 widget.bufferNum.value = '1';
 
                 widget.getGeometry();

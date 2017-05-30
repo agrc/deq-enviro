@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
     'app/map/MapController',
@@ -50,15 +51,15 @@ define([
                 on: sinon.stub(),
                 setExtent: sinon.stub()
             };
-            map.setExtent.returns({then: function () {}});
-            map.on.returns({remove: function () {}});
+            map.setExtent.returns({ then: function () {} });
+            map.on.returns({ remove: function () {} });
             map.graphics = {
                 add: function () {},
                 clear: function () {}
             };
 
             testObject = ClassUnderTest;
-            testObject.init({map: map});
+            testObject.init({ map: map });
         });
 
         bdd.afterEach(function () {
@@ -148,7 +149,7 @@ define([
         bdd.describe('addQueryLayer', function () {
             var lyr;
             bdd.beforeEach(function () {
-                lyr = {on: function () {}};
+                lyr = { on: function () {} };
             });
             bdd.it('adds the layer to the map', function () {
                 testObject.addQueryLayer(lyr, 'point');
@@ -168,9 +169,9 @@ define([
         bdd.describe('zoom', function () {
             bdd.it('zooms the map to the geometry', function () {
                 var value = 'blah';
-                var geo = {getExtent: function () {
+                var geo = { getExtent: function () {
                     return value;
-                }};
+                } };
 
                 testObject.zoom(geo);
 
@@ -180,10 +181,10 @@ define([
         bdd.describe('graphic', function () {
             var x = 325975.0;
             var g = {
-                'x': x,
-                'y': 4192037.0,
-                'type': 'point',
-                'spatialReference': null
+                x: x,
+                y: 4192037.0,
+                type: 'point',
+                spatialReference: null
             };
             bdd.it('creates a new graphics layer on the first call', function () {
                 testObject.graphic('test', config.symbols.zoom, g);
@@ -211,7 +212,7 @@ define([
                             ymax: 5,
                             ymin: 3
                         },
-                        features: [1,2]
+                        features: [1, 2]
                     },
                     s1: {
                         extent: {
@@ -220,7 +221,7 @@ define([
                             ymax: 6,
                             ymin: 4
                         },
-                        features: [3,4]
+                        features: [3, 4]
                     }
                 };
                 testObject.zoomToFeaturesFound(testResponse);

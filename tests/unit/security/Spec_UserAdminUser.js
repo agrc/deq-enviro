@@ -36,9 +36,9 @@ define([
     bdd.describe('app/security/_UserAdminUser', function () {
         sinon = sinon.sandbox.create();
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (destroyWidget) {
+            destroyWidget.destroyRecursive();
+            destroyWidget = null;
         };
         var phone = '801-699-1234';
         var endDate = 1412283976527;

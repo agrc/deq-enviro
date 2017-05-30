@@ -33,6 +33,7 @@ define([
     QueryLayerFilter
 ) {
     var topics = config.topics.appQueryLayer;
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
         //      Encapsulates the query layer controls and functionality.
@@ -216,9 +217,10 @@ define([
                     url = config.urls.DEQEnviro + '/' + this.index + '?f=json';
                 }
                 var that = this;
-                request(url, {handleAs: 'json', headers: {'X-Requested-With': null}}).then(function (json) {
-                    config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
-                });
+                request(url, { handleAs: 'json',
+                    headers: { 'X-Requested-With': null } }).then(function (json) {
+                        config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
+                    });
                 this.requestedSymbology = true;
             }
         },

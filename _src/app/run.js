@@ -26,37 +26,37 @@
                 name: 'jquery',
                 location: './jquery/dist',
                 main: 'jquery'
-            },{
+            }, {
                 name: 'bootstrap',
                 location: './bootstrap',
                 main: 'dist/js/bootstrap'
-            },{
+            }, {
                 name: 'spin',
                 location: './spinjs',
                 main: 'spin'
-            },{
+            }, {
                 name: 'lodash',
                 location: './lodash',
                 main: 'dist/lodash'
-            },{
+            }, {
                 name: 'ladda',
                 location: './ladda-bootstrap',
                 main: 'dist/ladda'
-            },{
+            }, {
                 name: 'layer-selector',
                 location: './layer-selector'
-            },{
+            }, {
                 name: 'datepicker',
                 location: './bootstrap-datepicker',
                 main: 'js/bootstrap-datepicker'
-            },{
+            }, {
                 name: 'selectpicker',
                 location: './bootstrap-select',
                 main: 'dist/js/bootstrap-select'
             }
         ],
         map: {
-            'ijit': {
+            ijit: {
                 'ijit/widgets/authentication/_LoginRegisterRequestPane':
                     'app/security/_RequestPane',
                 'ijit/widgets/authentication/_UserAdminUser':
@@ -64,8 +64,8 @@
                 'ijit/widgets/authentication/_UserAdminPendingUser':
                     'app/security/_UserAdminPendingUser'
             },
-            'sherlock': {
-                'spinjs': 'spin'
+            sherlock: {
+                spinjs: 'spin'
             }
         }
     };

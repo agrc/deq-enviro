@@ -77,18 +77,18 @@ define([
 
             this.btnText = this.printBtn.innerHTML;
 
-            var template = new PrintTemplate();
-            template.layout = 'Portrait';
-            template.format = 'PDF';
-            template.layoutOptions = {
+            var printTemplate = new PrintTemplate();
+            printTemplate.layout = 'Portrait';
+            printTemplate.format = 'PDF';
+            printTemplate.layoutOptions = {
                 titleText: config.printMapTitle
             };
 
             this.params = new PrintParameters();
             this.params.map = this.map;
-            this.params.template = template;
+            this.params.template = printTemplate;
             this.params.extraParameters = {
-                'ExportWebMapService_URL': config.urls.exportWebMap
+                ExportWebMapService_URL: config.urls.exportWebMap // eslint-disable-line camelcase
             };
 
             this.task = new PrintTask(config.urls.printProxy);

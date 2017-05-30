@@ -62,7 +62,6 @@ define([
             // summary:
             //      description
             console.log('app/search/_RadioCheckboxMixin:onChange', arguments);
-
         },
         isValid: function () {
             // summary:
