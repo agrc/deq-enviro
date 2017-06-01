@@ -11,6 +11,7 @@ define([
     'dojo/query',
     'dojo/text!app/search/templates/Coordinates.html',
     'dojo/_base/declare',
+    'dojo/_base/lang',
 
     'esri/graphic',
     'esri/layers/GraphicsLayer'
@@ -27,6 +28,7 @@ define([
     query,
     template,
     declare,
+    lang,
 
     Graphic,
     GraphicsLayer
@@ -65,7 +67,8 @@ define([
 
             this.own(
                 this.zoomToCoords,
-                this.zoomToCoords.on('zoom', this.onZoomed.bind(this))
+                this.zoomToCoords.on('zoom', this.onZoomed.bind(this)),
+                query('.zoom-to-coordinate form input', this.domNode).on('change', lang.hitch(this, 'clear', true))
             );
 
             this.inherited(arguments);
@@ -80,18 +83,22 @@ define([
 
             this.graphicsLayer.add(new Graphic(this.geometry, config.symbols.zoom.point));
         },
-        clear() {
+        clear(skipCoords) {
             // summary:
             //      clears the point graphics and text boxes
+            // skipCoords: Boolean [optional]
+            //      if true, then skip clearing coord text boxes
             console.log('app/search/Coordinates:clear', arguments);
 
             this.graphicsLayer.clear();
 
             this.geometry = null;
 
-            query('input[data-required="true"]', this.zoomToCoords.domNode).forEach((node) => {
-                node.value = '';
-            });
+            if (!skipCoords) {
+                query('input[data-required="true"]', this.zoomToCoords.domNode).forEach((node) => {
+                    node.value = '';
+                });
+            }
 
             this.inherited(arguments);
         }
