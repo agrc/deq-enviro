@@ -207,11 +207,12 @@ class DEQNightly3ReferenceDataPallet(Pallet):
         self.boundaries = path.join(self.staging_rack, 'boundaries.gdb')
         self.water = path.join(self.staging_rack, 'water.gdb')
         self.environment = path.join(self.staging_rack, 'environment.gdb')
+        self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
 
         self.copy_data = [self.boundaries,
                           self.water,
                           self.environment,
-                          settings.fgd]
+                          self.deqquerylayers]
 
         self.static_data = [path.join(current_folder, '..', '..', 'data', 'deqreferencedata.gdb')]
 
@@ -247,7 +248,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                     COUNTY = fieldnames.COUNTY
 
                     #: final output
-                    search_streams = path.join(settings.fgd, 'SearchStreams')
+                    search_streams = path.join(self.deqquerylayers, 'SearchStreams')
 
                     #: clean up from last run, if needed
                     for cleanup_dataset in [dissolved, identified, search_streams]:
