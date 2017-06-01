@@ -185,7 +185,7 @@ define([
                 streams: 6,
                 lakes: 7
             },
-            searchStreams: 44,
+            searchStreams: 8,
             landOwnership: 0 // in the SITLA service
         },
 
