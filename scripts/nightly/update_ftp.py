@@ -68,7 +68,7 @@ def zipws(path, zip, keep):
                     else:
                         if os.path.join(dirpath, file).find('gdb') == -1 and os.path.join(dirpath, file).find('.zip') == -1:
                             zip.write(os.path.join(dirpath, file), file.split(".")[0] + '\\' + file)
-                except Exception, e:
+                except Exception as e:
                     logger.error("Error adding %s: %s" % (file, e))
     return None
 

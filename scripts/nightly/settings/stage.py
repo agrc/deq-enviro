@@ -1,4 +1,4 @@
-from dev import *
+from .dev import *
 
 # overrides for stage environment
 mapServiceJson = 'http://localhost:6080/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'

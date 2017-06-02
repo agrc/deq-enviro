@@ -215,7 +215,7 @@ def etl(dest, destFields, source, sourceFields):
 
 
 def scrub_coord(value):
-    if isinstance(value, (int, long, float)):
+    if isinstance(value, (int, float)):
         return value
     else:
         return float(value.replace(',', '').strip())

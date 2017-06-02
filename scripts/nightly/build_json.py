@@ -31,7 +31,7 @@ def run():
          fieldnames.relatedTables: tables,
          fieldnames.otherLinks: linksDict}
     f = open(jsonFile, 'w')
-    print >> f, json.dumps(j, indent=4)
+    print(json.dumps(j, indent=4), file=f)
     f.close()
 
     return j
@@ -55,7 +55,7 @@ def get_dataset_info(spreadsheetData):
     for l in spreadsheetData:
         n = l[fieldnames.sgidName].split('.')[-1]
         l[fieldnames.fields] = parse_fields(l[fieldnames.fields])
-        if n in serviceLayers.keys():
+        if n in list(serviceLayers.keys()):
             l[fieldnames.index] = serviceLayers[n]
 
     return spreadsheetData

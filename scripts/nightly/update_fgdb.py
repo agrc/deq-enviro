@@ -53,7 +53,7 @@ def get_crate_infos(staging, test_layer=None):
 
 def post_process_crate(crate):
     config = get_spreadsheet_config_from_crate(crate)
-    if commonFields[0] in config.keys():
+    if commonFields[0] in list(config.keys()):
         #: make sure that it has the five main fields
         upper_fields = [x.name.upper() for x in arcpy.ListFields(crate.destination)]
         for fld in commonFields:
@@ -155,9 +155,9 @@ def apply_coded_values(fc, codedValuesTxt):
     if len(codedValuesTxt.strip()) == 0:
         return
 
-    field_name = re.search(ur'(^\S*)\:', codedValuesTxt).group(1)
-    codes = re.findall(ur'(\S*) \(.*?\),', codedValuesTxt)
-    descriptions = re.findall(ur'\S* \((.*?)\),', codedValuesTxt)
+    field_name = re.search(r'(^\S*)\:', codedValuesTxt).group(1)
+    codes = re.findall(r'(\S*) \(.*?\),', codedValuesTxt)
+    descriptions = re.findall(r'\S* \((.*?)\),', codedValuesTxt)
 
     logger.info('applying coded values for {} field'.format(field_name))
 

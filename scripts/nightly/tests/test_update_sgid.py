@@ -122,7 +122,7 @@ class ETL(unittest.TestCase):
         update_sgid.etl(dest, destFields, source, sourceFields)
 
         cur = arcpy.SearchCursor(dest)
-        row = cur.next()
+        row = next(cur)
         self.assertEqual(len(row.PROJDESC), 2000)
         del cur, row
 
