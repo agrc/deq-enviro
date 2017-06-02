@@ -12,7 +12,7 @@ import requests
 import spreadsheet
 from settings import fieldnames
 import settings
-from agrc import ags
+from agrc.agrc import ags
 
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
