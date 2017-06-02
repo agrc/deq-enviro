@@ -4,3 +4,4 @@
 [submodule "scripts/agrc"]
 	path = scripts/nightly/agrc
 	url = https://github.com/agrc/agrc.python.git
+	branch = py3
