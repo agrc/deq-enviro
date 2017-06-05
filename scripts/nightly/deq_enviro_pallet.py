@@ -58,7 +58,11 @@ class DEQNightly0TempTablesPallet(Pallet):
         self.test_layer = test_layer
 
     def build(self, target):
-        self.add_crates(update_sgid.get_temp_crate_infos(self.test_layer))
+        crate_infos, errors = update_sgid.get_temp_crate_infos(self.test_layer)
+        self.add_crates(crate_infos)
+
+        if len(errors) > 0:
+            self.success = (False, '\n\n'.join(errors))
 
     def process(self):
         self.log.info('ETL-ing temp tables to points in SGID...')
@@ -84,9 +88,12 @@ class DEQNightly1SDEUpdatePallet(Pallet):
         if not arcpy.Exists(sgid_stage):
             arcpy.CreateFileGDB_management(path.dirname(sgid_stage), path.basename(sgid_stage))
         if self.test_layer is not None:
-            crate_infos = update_sgid.get_crate_infos(sgid_stage, self.test_layer)
+            crate_infos, errors = update_sgid.get_crate_infos(sgid_stage, self.test_layer)
         else:
-            crate_infos = update_sgid.get_crate_infos(sgid_stage)
+            crate_infos, errors = update_sgid.get_crate_infos(sgid_stage)
+
+        if len(errors) > 0:
+            self.success = (False, '\n\n'.join(errors))
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 

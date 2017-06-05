@@ -47,56 +47,59 @@ period_replacement = '___'
 def _get_crate_infos(scratch, test_layer=None, temp=False):
     infos = []
     for dataset in spreadsheet.get_datasets():
-        #: skip if using test_layer and it's not the current layer
-        if test_layer and dataset[fieldnames.sgidName] != test_layer:
-            continue
+        try:
+            #: skip if using test_layer and it's not the current layer
+            if test_layer and dataset[fieldnames.sgidName] != test_layer:
+                continue
 
-        sgidName = dataset[fieldnames.sgidName]
-        sourceData = dataset[fieldnames.sourceData]
+            sgidName = dataset[fieldnames.sgidName]
+            sourceData = dataset[fieldnames.sourceData]
 
-        #: use None if there is no primary Key field defined
-        if fieldnames.oidField in dataset and len(dataset[fieldnames.oidField]) > 0:
-            idField = dataset[fieldnames.oidField]
-        else:
-            idField = None
-
-        #: only try to update rows with valid sgid names and data sources
-        if sgidName.startswith('SGID10') and not sourceData.startswith('<'):
-            sgid = settings.sgid[sgidName.split('.')[1]]
-            source = path.join(settings.dbConnects, sourceData)
-
-            if source.find('TEMPO.') > -1:
-                #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
-                #: copy them to temp tables and feed those into forklift as a workaround.
-                temp_source = path.join(scratch, path.basename(source).split('.')[-1] + temp_suffix)
-
-                if not arcpy.Exists(temp_source):
-                    arcpy.CopyRows_management(source, temp_source)[0]
-                else:
-                    arcpy.TruncateTable_management(temp_source)
-                    arcpy.Append_management(source, temp_source)
-
-                source = temp_source
-
-            sgidType = arcpy.Describe(path.join(sgid, sgidName)).datasetType
-            sourceType = arcpy.Describe(source).datasetType
-
-            if temp is False:
-                if sourceType == sgidType:
-                    infos.append((path.basename(source),
-                                  path.dirname(source),
-                                  scratch,
-                                  sgidName.replace('.', period_replacement),
-                                  idField))
+            #: use None if there is no primary Key field defined
+            if fieldnames.oidField in dataset and len(dataset[fieldnames.oidField]) > 0:
+                idField = dataset[fieldnames.oidField]
             else:
-                if sourceType != sgidType:
-                    infos.append((path.basename(source),
-                                  path.dirname(source),
-                                  scratch,
-                                  path.basename(source).split('.')[-1].rstrip(temp_suffix),
-                                  idField))
+                idField = None
 
-    return infos
+            #: only try to update rows with valid sgid names and data sources
+            if sgidName.startswith('SGID10') and not sourceData.startswith('<'):
+                sgid = settings.sgid[sgidName.split('.')[1]]
+                source = path.join(settings.dbConnects, sourceData)
+
+                if source.find('TEMPO.') > -1:
+                    #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
+                    #: copy them to temp tables and feed those into forklift as a workaround.
+                    temp_source = path.join(scratch, path.basename(source).split('.')[-1] + temp_suffix)
+
+                    if not arcpy.Exists(temp_source):
+                        arcpy.CopyRows_management(source, temp_source)[0]
+                    else:
+                        arcpy.TruncateTable_management(temp_source)
+                        arcpy.Append_management(source, temp_source)
+
+                    source = temp_source
+
+                sgidType = arcpy.Describe(path.join(sgid, sgidName)).datasetType
+                sourceType = arcpy.Describe(source).datasetType
+
+                if temp is False:
+                    if sourceType == sgidType:
+                        infos.append((path.basename(source),
+                                      path.dirname(source),
+                                      scratch,
+                                      sgidName.replace('.', period_replacement),
+                                      idField))
+                else:
+                    if sourceType != sgidType:
+                        infos.append((path.basename(source),
+                                      path.dirname(source),
+                                      scratch,
+                                      path.basename(source).split('.')[-1].rstrip(temp_suffix),
+                                      idField))
+
+        except Exception as e:
+            errors.append('Error with {}: {}'.format(dataset, e))
+    return (infos, errors)
 
 
 def get_crate_infos(scratch, test_layer=None):
