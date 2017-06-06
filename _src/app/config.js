@@ -98,7 +98,7 @@ define([
 
         labelsMinScale: 250000,
 
-        minBuffer: 0.2, // in miles
+        minBuffer: 0.1, // in miles
 
         defaultBaseMap: 'Lite',
 
