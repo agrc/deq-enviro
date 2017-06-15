@@ -69,13 +69,19 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                 if source.find('TEMPO.') > -1:
                     #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
                     #: copy them to temp tables and feed those into forklift as a workaround.
-                    temp_source = path.join(scratch, path.basename(source).split('.')[-1] + temp_suffix)
+                    name = path.basename(source).split('.')[-1]
+                    temp_source = path.join(scratch, name + temp_suffix)
+
+                    with open(path.join(path.dirname(path.realpath(__file__)), 'settings', 'sql', name + '.sql')) as sql:
+                        arcpy.MakeQueryLayer_management(path.dirname(source), name, sql.read(), idField + temp_suffix)
 
                     if not arcpy.Exists(temp_source):
-                        arcpy.CopyRows_management(source, temp_source)[0]
+                        arcpy.CopyRows_management(name, temp_source)[0]
                     else:
                         arcpy.TruncateTable_management(temp_source)
-                        arcpy.Append_management(source, temp_source)
+                        arcpy.Append_management(name, temp_source)
+
+                    arcpy.Delete_management(name)
 
                     source = temp_source
 
@@ -98,7 +104,9 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                                       idField))
 
         except Exception as e:
-            errors.append('Error with {}: {}'.format(dataset, e))
+            msg = 'Error with {}: {}'.format(dataset, e)
+            errors.append(msg)
+            logger.error(msg)
     return (infos, errors)
 
 
@@ -138,11 +146,8 @@ def start_etl(crates):
         if len(mismatchFields) > 0:
             msg = '\n\nField mismatches between {} & {}: \n{}'.format(sgidName, sourceName, mismatchFields)
             logger.error(msg)
-            crate.set_result((Crate.INVALID_DATA, None))
-            if crate.result[1] is None:
-                crate.result[1] = [msg]
-            else:
-                crate.result[1].append(msg)
+            crate.set_result((Crate.INVALID_DATA, msg))
+
         temp_sgid_name = sgidName.split('.')[-1] + '_points'
         temp_sgid = path.join(arcpy.env.scratchGDB, temp_sgid_name)
         if arcpy.Exists(temp_sgid):
@@ -164,16 +169,9 @@ def etl(dest, destFields, source, sourceFields):
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
     if source.split('\\')[-1].startswith('TEMPO'):
         where = None
-    with arcpy.da.InsertCursor(dest, destFields) as icursor:
-        # da.SearchCursor throws errors if we pass in sourceFields on data from daq.odc
-        # this is my work-around
-        scursor = arcpy.SearchCursor(source, where)
-        for orig_row in scursor:
-            # create new list with data in correct order
-            row = []
-            for fn in sourceFields:
-                row.append(orig_row.getValue(fn))
-
+    with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
+        for row in scursor:
+            row = list(row)
             # use xy fields to create the point in feature class
             if sourceFields[0] == latitudeLongitude[0]:
                 # project points from ll to utm
@@ -247,7 +245,10 @@ def compare_field_names(source, sgid):
     # [<source fields>, <sgid fields>, <mismatches>]
     def upper(a):
         return set([s.upper() for s in a])
-    mismatchedFields = list((upper(sgid) ^ upper(source)) - upper(excludeFields))
+
+    sgid = upper(sgid)
+    source = upper(source)
+    mismatchedFields = list((sgid ^ source) - upper(excludeFields))
 
     l = list(set(sgid & source))
 
