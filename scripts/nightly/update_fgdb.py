@@ -96,7 +96,7 @@ def post_process_crate(crate):
         arcpy.RepairGeometry_management(crate.destination)
         with arcpy.da.UpdateCursor(crate.destination, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
             for row in ucur:
-                ucur.deleteRow(row)
+                ucur.deleteRow()
 
 
 def create_relationship_classes(staging, test_layer):
