@@ -66,7 +66,7 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                 sgid = settings.sgid[sgidName.split('.')[1]]
                 source = path.join(settings.dbConnects, sourceData)
 
-                if source.find('TEMPO.') > -1:
+                if source.find('TEMPO.') > -1 and temp:
                     #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
                     #: copy them to temp tables and feed those into forklift as a workaround.
                     name = path.basename(source).split('.')[-1]
