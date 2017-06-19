@@ -236,7 +236,7 @@ def get_source_fields(commonFields):
 
 
 def update_sgid_data(source, destination):
-    arcpy.TruncateTable_management(destination)
+    arcpy.DeleteRows_management(destination)
     arcpy.Append_management(source, destination, 'NO_TEST')
 
 
