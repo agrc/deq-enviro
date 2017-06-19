@@ -94,9 +94,10 @@ def post_process_crate(crate):
         # scrub out any empty geometries or empty ID's
         #: note: arcpy.DeleteFeature_management(lyr) was leaving a weird schema lock even after deleting the layer
         arcpy.RepairGeometry_management(crate.destination)
-        with arcpy.da.UpdateCursor(crate.destination, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
-            for row in ucur:
-                ucur.deleteRow()
+        with arcpy.da.Editor(crate.destination_workspace):
+            with arcpy.da.UpdateCursor(crate.destination, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
+                for row in ucur:
+                    ucur.deleteRow()
 
 
 def create_relationship_classes(staging, test_layer):
