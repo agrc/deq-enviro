@@ -84,7 +84,7 @@ def post_process_crate(crate):
                 if mappedFld.type != 'String':
                     expression = 'str(int(!{}!))'.format(expression)
                 else:
-                    expression = '!{}!.encode("utf-8")'.format(expression)
+                    expression = '!{}!'.format(expression)
             else:
                 expression = '"{}"'.format(expression)
             arcpy.CalculateField_management(crate.destination, fld, expression, 'PYTHON')
