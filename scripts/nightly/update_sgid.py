@@ -79,7 +79,7 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                         arcpy.CopyRows_management(name, temp_source)[0]
                     else:
                         arcpy.TruncateTable_management(temp_source)
-                        arcpy.Append_management(name, temp_source)
+                        arcpy.Append_management(name, temp_source, 'NO_TEST')
 
                     arcpy.Delete_management(name)
 
