@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# * coding: utf8 *
 '''
 hourly.py
 
@@ -21,6 +19,7 @@ import settings
 from forklift.__main__ import log_location, detailed_formatter
 from os import makedirs
 import sys
+import arcpy
 
 
 def _setup_logging():
@@ -55,6 +54,7 @@ def _setup_logging():
 
 try:
     sgid_name = 'DAQAirMonitorData'
+    sgid_stage = arcpy.env.scratchGDB
     sgid_db = settings.sgid['ENVIRONMENT']
     stage_db = r'C:\Scheduled\staging\deqquerylayers.gdb'
     source_db = path.join(settings.dbConnects, r'AVData.sde')
@@ -64,7 +64,7 @@ try:
     log = _setup_logging()
 
     log.info('creating crates')
-    sde_update_crate = Crate(source_name, source_db, sgid_db, sgid_name, source_primary_key='EPAID')
+    sde_update_crate = Crate(source_name, source_db, sgid_stage, sgid_name)
     fgdb_update_crate1 = Crate(sgid_name, sgid_db, path.join(settings.mapData1, 'deqquerylayers.gdb'), sgid_name)
     fgdb_update_crate2 = Crate(sgid_name, sgid_db, path.join(settings.mapData2, 'deqquerylayers.gdb'), sgid_name)
     stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
@@ -72,6 +72,11 @@ try:
     log.info('processing sde crate')
     core.init(log)
     sde_update_crate.set_result(core.update(sde_update_crate, validate_crate))
+    if sde_update_crate.result[0] in [Crate.UPDATED, Crate.CREATED]:
+        log.info('updating data in SDE')
+        sgid_destination = path.join(sgid_db, 'SGID10.ENVIRONMENT.{}'.format(sgid_name))
+        arcpy.management.TruncateTable(sgid_destination)
+        arcpy.management.Append(sde_update_crate.destination, sgid_destination, 'NO_TEST')
     log.info('processing fgdb crate')
     fgdb_update_crate1.set_result(core.update(fgdb_update_crate1, validate_crate))
     fgdb_update_crate2.set_result(core.update(fgdb_update_crate2, validate_crate))
