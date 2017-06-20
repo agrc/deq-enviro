@@ -65,8 +65,6 @@ try:
 
     log.info('creating crates')
     sde_update_crate = Crate(source_name, source_db, sgid_stage, sgid_name)
-    fgdb_update_crate1 = Crate(sgid_name, sgid_db, path.join(settings.mapData1, 'deqquerylayers.gdb'), sgid_name)
-    fgdb_update_crate2 = Crate(sgid_name, sgid_db, path.join(settings.mapData2, 'deqquerylayers.gdb'), sgid_name)
     stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
 
     log.info('processing sde crate')
@@ -77,16 +75,20 @@ try:
         sgid_destination = path.join(sgid_db, 'SGID10.ENVIRONMENT.{}'.format(sgid_name))
         arcpy.management.TruncateTable(sgid_destination)
         arcpy.management.Append(sde_update_crate.destination, sgid_destination, 'NO_TEST')
-    log.info('processing fgdb crate')
-    fgdb_update_crate1.set_result(core.update(fgdb_update_crate1, validate_crate))
-    fgdb_update_crate2.set_result(core.update(fgdb_update_crate2, validate_crate))
+
+        log.info('updating prod fgdbs')
+        for dest_fgdb in [settings.mapData1, settings.mapData2]:
+            dest = path.join(dest_fgdb, 'deqquerylayers.gdb', sgid_name)
+            arcpy.management.TruncateTable(dest)
+            arcpy.management.Append(sde_update_crate.destination, dest, 'NO_TEST')
+
     log.info('processing staging crate')
     stage_update_crate.set_result(core.update(stage_update_crate, validate_crate))
 
-    if sde_update_crate.result[0] in bad_results or fgdb_update_crate1.result in bad_results or fgdb_update_crate2.result in bad_results:
+    if sde_update_crate.result[0] in bad_results:
         send_email(reportEmail,
                    'DEQ Hourly Crate Error',
-                   'SDE Update Crate:\n{}\n\nFGDB Update Crates:\n{}\n{}'.format(sde_update_crate, fgdb_update_crate1, fgdb_update_crate2))
+                   'SDE Update Crate:\n{}\n\nFGDB Update Crates:\n{}\n{}'.format(sde_update_crate))
 except Exception as e:
     log.error(format_exc())
     send_email(reportEmail, 'DEQ Hourly Script Error', format_exc())
