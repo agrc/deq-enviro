@@ -89,6 +89,8 @@ try:
         send_email(reportEmail,
                    'DEQ Hourly Crate Error',
                    'SDE Update Crate:\n{}\n\nFGDB Update Crates:\n{}\n{}'.format(sde_update_crate))
+
+    log.info('Process completed successfully. Have a nice day.')
 except Exception as e:
     log.error(format_exc())
     send_email(reportEmail, 'DEQ Hourly Script Error', format_exc())
