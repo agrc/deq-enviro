@@ -26,3 +26,5 @@ mapData2 = r'C:\MapData'
 
 #: these layers cause issues for forklift so they are skipped and manually updated within the pallet
 PROBLEM_LAYERS = ['DEQMAP_EIChemical']
+
+FTP_root = r'C:\Temp'

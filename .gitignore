@@ -21,6 +21,9 @@ scripts/nightly/requests
 scripts/nightly/scratch.gdb
 scripts/nightly/settings/__init__.py
 scripts/nightly/settings/deq-enviro-key.json
+scripts/nightly/settings/dev.py
+scripts/nightly/settings/prod.py
+scripts/nightly/settings/stage.py
 scripts/secrets.cfg
 secrets.json
 src/

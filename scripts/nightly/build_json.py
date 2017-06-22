@@ -70,5 +70,6 @@ def parse_fields(fieldTxt):
 
     return fields
 
+
 if __name__ == '__main__':
     run()

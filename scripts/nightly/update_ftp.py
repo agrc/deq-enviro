@@ -3,6 +3,8 @@ import arcpy
 import os
 import zipfile
 import settings
+from shutil import rmtree
+
 
 packages = [
     {
@@ -50,7 +52,6 @@ packages = [
 ]
 
 logger = None
-outPathRoot = r'\\grhnas01sp.state.ut.us\ftp\UtahSGID_Vector\UTM12_NAD83\\'
 sdeConnectionStr = settings.sgid['ENVIRONMENT']
 
 
@@ -86,30 +87,26 @@ def run(logr):
             # get from first featureclass in the package
             packageCategory = package["FeatureClassses"][0].split(".")[0]
 
-        categoryFolderPath = os.path.join(outPathRoot, packageCategory)
+        categoryFolderPath = os.path.join(settings.FTP_root, packageCategory)
 
         if not os.path.isdir(categoryFolderPath):
             os.makedirs(categoryFolderPath)
 
-        packageFolderPath = os.path.join(outPathRoot, packageCategory, 'PackagedData', '_Statewide', package["Name"])
-        unpackagedFolderPath = os.path.join(outPathRoot, packageCategory, 'UnpackagedData')
+        packageFolderPath = os.path.join(settings.FTP_root, packageCategory, 'PackagedData', '_Statewide', package["Name"])
+        unpackagedFolderPath = os.path.join(settings.FTP_root, packageCategory, 'UnpackagedData')
 
-        if not os.path.isdir(packageFolderPath):
-            os.makedirs(packageFolderPath)
-
-        if not os.path.isdir(unpackagedFolderPath):
-            os.makedirs(unpackagedFolderPath)
+        for clean_path in [packageFolderPath, unpackagedFolderPath]:
+            if os.path.exists(clean_path):
+                rmtree(clean_path)
+            os.makedirs(clean_path)
 
         # make geodatabase
-        if arcpy.Exists(os.path.join(packageFolderPath, package["Name"] + ".gdb")):
-            arcpy.Delete_management(os.path.join(packageFolderPath, package["Name"] + ".gdb"))
-        arcpy.CreateFileGDB_management(packageFolderPath, package["Name"] + ".gdb", "9.3")
+        arcpy.CreateFileGDB_management(packageFolderPath, package["Name"] + ".gdb")
         logger.info('geodatabase created')
 
         # populate local file geodatabase
         for fc in package["FeatureClasses"]:
             logger.info(fc)
-            arcpy.env.workspace = sdeConnectionStr  # ZZZ
 
             if arcpy.Exists(os.path.join(sdeConnectionStr, fc)):
                 # add feature class to local file geodatabase to be packaged later
@@ -124,7 +121,7 @@ def run(logr):
                 if not os.path.isdir(fcUnpackagedFolderPath):
                     os.makedirs(fcUnpackagedFolderPath)
 
-                arcpy.CreateFileGDB_management(fcUnpackagedFolderPath, fc.split(".")[2] + ".gdb", "9.3")
+                arcpy.CreateFileGDB_management(fcUnpackagedFolderPath, fc.split(".")[2] + ".gdb")
 
                 arcpy.Copy_management(os.path.join(packageFolderPath, package["Name"] + ".gdb", fc.split(".")[2]),
                                       os.path.join(fcUnpackagedFolderPath, fc.split(".")[2] + ".gdb", fc.split(".")[2]))
@@ -133,31 +130,26 @@ def run(logr):
                 zipws(os.path.join(fcUnpackagedFolderPath, fc.split(".")[2] + ".gdb"), zfGDBUnpackaged, True)
                 zfGDBUnpackaged.close()
 
-                arcpy.Delete_management(os.path.join(fcUnpackagedFolderPath, fc.split(".")[2] + '.gdb'))
-
         arcpy.env.workspace = os.path.join(packageFolderPath, package["Name"] + ".gdb")
 
         # create zip file for shapefile package
         zfSHP = zipfile.ZipFile(os.path.join(packageFolderPath, package["Name"] + '_shp.zip'), 'w', zipfile.ZIP_DEFLATED)
-        arcpy.env.overwriteOutput = True  # Overwrite pre-existing files
 
         # output zipped shapefiles for each feature class
-        fileGDB_FCs = arcpy.ListFeatureClasses()
-
-        for fc in fileGDB_FCs:
-            # create shapefile for the feature class
+        for fc in arcpy.ListFeatureClasses():
+            # create shapefile from the feature class
             arcpy.FeatureClassToShapefile_conversion(os.path.join(packageFolderPath, package["Name"]+".gdb", fc), packageFolderPath)
 
-            # add to package zipfile package
-            zipws(packageFolderPath, zfSHP, False)
-
             # create unpackaged zip file and move data into that zip file
-            zfSHPUnpackaged = zipfile.ZipFile(os.path.join(unpackagedFolderPath, fc, '_Statewide', fc + '_shp.zip'), 'w', zipfile.ZIP_DEFLATED)
+            zip_folder = os.path.join(unpackagedFolderPath, fc, '_Statewide')
+            if not os.path.exists(zip_folder):
+                os.makedirs(zip_folder)
+            zfSHPUnpackaged = zipfile.ZipFile(os.path.join(zip_folder, fc + '_shp.zip'), 'w', zipfile.ZIP_DEFLATED)
             zipws(packageFolderPath, zfSHPUnpackaged, False)
             zfSHPUnpackaged.close()
 
-            # delete temporary shapefiles
-            arcpy.Delete_management(os.path.join(packageFolderPath, fc + ".shp"))
+        # add to package zipfile package
+        zipws(packageFolderPath, zfSHP, False)
         zfSHP.close()
 
         # zip package geodatabase
@@ -170,5 +162,38 @@ def run(logr):
                 zfFGDB.write(fn, package["Name"]+".gdb/" + fn[rootlen:])
         zfFGDB.close()
 
-        # delete temp geodatabase
-        arcpy.Delete_management(os.path.join(packageFolderPath, package["Name"]+".gdb"))
+
+if __name__ == '__main__':
+    import logging
+    from forklift.__main__ import detailed_formatter
+    import sys
+
+    # copied from forklift
+    log = logging.getLogger('deqhourly')
+
+    log.logThreads = 0
+    log.logProcesses = 0
+
+    debug = 'DEBUG'
+
+    try:
+        os.path.makedirs(os.path.dirname(settings.FTP_root))
+    except:
+        pass
+
+    file_handler = logging.handlers.RotatingFileHandler(os.path.join(settings.FTP_root, 'update_ftp.log'), backupCount=18)
+    file_handler.doRollover()
+    file_handler.setFormatter(detailed_formatter)
+    file_handler.setLevel(debug)
+
+    console_handler = logging.StreamHandler(stream=sys.stdout)
+    console_handler.setFormatter(detailed_formatter)
+    console_handler.setLevel(debug)
+
+    log.addHandler(file_handler)
+    log.addHandler(console_handler)
+    log.setLevel(debug)
+
+    run(log)
+
+    log.info('complete!')
