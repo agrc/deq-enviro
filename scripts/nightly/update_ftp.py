@@ -24,30 +24,9 @@ packages = [
             "SGID10.ENVIRONMENT.FUD",
             "SGID10.ENVIRONMENT.FACILITYUST",
             "SGID10.ENVIRONMENT.EWA",
-            "SGID10.ENVIRONMENT.DSHWSolidHazWasteUsedOilFacilities"
+            "SGID10.ENVIRONMENT.DWMRCHazWasteUsedOilFacilities",
+            "SGID10.ENVIRONMENT.DWMRSolidWasteFacilities"
         ]
-    }, {
-        "Name": "DEQLandRelatedSites",
-        "Category": "ENVIRONMENT",
-        "ClipOptions": "",
-        "FeatureClasses": [
-            "SGID10.ENVIRONMENT.BFTARGETED",
-            "SGID10.ENVIRONMENT.BFNONTARGETED",
-            "SGID10.ENVIRONMENT.TRI",
-            "SGID10.ENVIRONMENT.TIER2",
-            "SGID10.ENVIRONMENT.ICBUFFERZONES",
-            "SGID10.ENVIRONMENT.FACILITYUST",
-            "SGID10.ENVIRONMENT.DSHWSolidHazWasteUsedOilFacilities"
-        ]
-    }, {
-        "Name": "DEQLandRelatedSites",
-        "Category": "ENVIRONMENT",
-        "ClipOptions": "",
-        "FeatureClasses": ["SGID10.ENVIRONMENT.DWQAssessmentUnits",
-                           "SGID10.ENVIRONMENT.DWQGroundWaterPermits",
-                           "SGID10.ENVIRONMENT.DWQMonitoredLakes132",
-                           "SGID10.ENVIRONMENT.LakeMonitoring",
-                           "SGID10.ENVIRONMENT.StreamMonitorSites"]
     }
 ]
 
