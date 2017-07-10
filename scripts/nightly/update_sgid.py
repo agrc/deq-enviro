@@ -64,25 +64,6 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                 sgid = settings.sgid[sgidName.split('.')[1]]
                 source = path.join(settings.dbConnects, sourceData)
 
-                if source.find('TEMPO.') > -1 and temp:
-                    #: oracle views can't handle some code in forklift (arcpy.da.SearchCursor(table, listOfFields)...)
-                    #: copy them to temp tables and feed those into forklift as a workaround.
-                    name = path.basename(source).split('.')[-1]
-                    temp_source = path.join(scratch, name + temp_suffix)
-
-                    with open(path.join(path.dirname(path.realpath(__file__)), 'settings', 'sql', name + '.sql')) as sql:
-                        arcpy.MakeQueryLayer_management(path.dirname(source), name, sql.read(), idField + temp_suffix)
-
-                    if not arcpy.Exists(temp_source):
-                        arcpy.CopyRows_management(name, temp_source)[0]
-                    else:
-                        arcpy.TruncateTable_management(temp_source)
-                        arcpy.Append_management(name, temp_source, 'NO_TEST')
-
-                    arcpy.Delete_management(name)
-
-                    source = temp_source
-
                 sgidType = arcpy.Describe(path.join(sgid, sgidName)).datasetType
                 sourceType = arcpy.Describe(source).datasetType
 
@@ -165,8 +146,6 @@ def start_etl(crates):
 
 def etl(dest, destFields, source, sourceFields):
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
-    if source.split('\\')[-1].startswith('TEMPO'):
-        where = None
     with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
         for row in scursor:
             row = list(row)
