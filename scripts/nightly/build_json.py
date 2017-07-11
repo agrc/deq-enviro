@@ -5,7 +5,6 @@ A module that builds DEQEnviro.json that is used to confire the web app on load.
 '''
 
 import os
-import json
 import requests
 import spreadsheet
 from settings import fieldnames
@@ -29,7 +28,6 @@ def run():
          fieldnames.relatedTables: tables,
          fieldnames.otherLinks: linksDict}
     f = open(jsonFile, 'w')
-    print(json.dumps(j, indent=4), file=f)
     f.close()
 
     return j
