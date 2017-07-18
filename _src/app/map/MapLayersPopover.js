@@ -58,10 +58,10 @@ define([
                     mapServiceUrl: config.urls.DEQEnviro,
                     layerIndex: config.layerIndices.streams,
                     minScaleLevel: config.NHDMinScaleLevel,
-                    layerClass: ArcGISDynamicMapServiceLayer
+                    layerClass: ArcGISDynamicMapServiceLayer,
+                    showLegend: true
                     // I tried using a FeatureLayer for this layer but Mark's symbology (which
-                    // he feels very stongly about) didn't transfer over. I'm leaving the FeatureLayer
-                    // code in just in case we want to use it in the future
+                    // he feels very stongly about) didn't transfer over.
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Environmental Risk of UST Facilities',
