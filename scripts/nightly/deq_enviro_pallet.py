@@ -15,7 +15,6 @@ import settings
 from settings import fieldnames
 import update_sgid
 import update_fgdb
-import update_ftp
 import pystache
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -100,10 +99,6 @@ class DEQNightly1SDEUpdatePallet(Pallet):
         self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
     def process(self):
-        if settings.updateFTP and not self.test_layer:
-            self.log.info('UPDATING FTP PACKAGES')
-            update_ftp.run(self.log)
-
         update_sgid.update_sgid_for_crates(self.get_crates())
 
     def update_problem_layers(self):

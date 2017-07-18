@@ -17,7 +17,6 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on local.
 fgd = 'deqquerylayers.gdb'
 
 sendEmails = False
-updateFTP = False
 
 reportEmail = 'stdavis@utah.gov'
 
@@ -26,5 +25,3 @@ mapData2 = r'C:\MapData'
 
 #: these layers cause issues for forklift so they are skipped and manually updated within the pallet
 PROBLEM_LAYERS = ['DEQMAP_EIChemical']
-
-FTP_root = r'C:\Temp'
