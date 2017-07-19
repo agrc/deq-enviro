@@ -30,9 +30,9 @@ def run():
     j = {fieldnames.queryLayers: layers,
          fieldnames.relatedTables: tables,
          fieldnames.otherLinks: linksDict}
-    f = open(jsonFile, 'w')
-    print >> f, json.dumps(j, indent=4)
-    f.close()
+    
+    with open(jsonFile, 'w') as f:
+        json.dump(j, f)
 
     return j
 
