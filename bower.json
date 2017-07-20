@@ -2,7 +2,7 @@
   "name": "deq-enviro",
   "version": "1.3.0-4",
   "dependencies": {
-    "agrc": "agrc-widgets#~4.0",
+    "agrc": "agrc-widgets#~6.0.1",
     "esri": "arcgis-js-api#~3.20",
     "bootstrap": "3.3.6",
     "bootstrap-datepicker": "~1.3.0",
@@ -22,8 +22,6 @@
     "dijit": "v1.12.1/esri-3.20.0",
     "dgrid": "0.3.17/esri-3.20.0",
     "dstore": "1.1.1",
-    "xstyle": "0.3.2",
-    "agrc": "~6.0",
-    "util": "v1.12.1/esri-3.20.0"
+    "xstyle": "0.3.2"
   }
 }
