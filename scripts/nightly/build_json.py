@@ -10,6 +10,7 @@ import spreadsheet
 from settings import fieldnames
 import settings
 from agrc.agrc import ags
+import json
 
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 
@@ -27,8 +28,8 @@ def run():
     j = {fieldnames.queryLayers: layers,
          fieldnames.relatedTables: tables,
          fieldnames.otherLinks: linksDict}
-    f = open(jsonFile, 'w')
-    f.close()
+    with open(jsonFile, 'w') as f:
+        json.dump(j, f)
 
     return j
 
