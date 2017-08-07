@@ -216,7 +216,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                           self.environment,
                           self.deqquerylayers]
 
-        self.static_data = [path.join(current_folder, '..', '..', 'data', 'deqreferencedata.gdb')]
+        self.static_data = [path.join(r'C:\Scheduled\static', 'deqreferencedata.gdb')]
 
     def build(self, target):
         if self.test_layer is None:
