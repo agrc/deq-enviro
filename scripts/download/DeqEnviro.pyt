@@ -119,7 +119,8 @@ class RelationshipInfo(object):
                          for i, toople in enumerate(origin_keys))
 
     def __str__(self):
-        return '{}\r\ndestination table: {}\r\norigin table: {}\r\nprimary key: {}\r\nforeign key: {}'.format(self.name, self.destination_table_name, self.origin_table_name, self.primary_key, self.foreign_key)
+        return '{}\r\ndestination table: {}\r\norigin table: {}\r\nprimary key: {}\r\nforeign key: {}'.format(
+            self.name, self.destination_table_name, self.origin_table_name, self.primary_key, self.foreign_key)
 
     @property
     def cardinality(self):
@@ -366,9 +367,10 @@ class Tool(object):
         for table in self.table_info.values():
             relationship_class_names = relationship_class_names + table.relationship_names
 
-        relationships = map(RelationshipInfo, set(relationship_class_names))
+        for name in set(relationship_class_names):
+            self.relationship_info[name] = RelationshipInfo(name)
 
-        for relation in relationships:
+        for relation in self.relationship_info.values():
             self._dig_deeper(relation)
 
         return self.table_info, self.relationship_info
@@ -381,11 +383,12 @@ class Tool(object):
         arcpy.AddMessage('--build_parent_table_info')
 
         for table_name, ids in table_id_map.iteritems():
+            arcpy.AddMessage(table_name)
             # table_name: 'VCP'
             # ids: ['C040']
 
             info = TableInfo(table_name, ids, 'ID')
-            self.table_info.setdefault(table_name, info)
+            self.table_info[table_name] = info
 
     def _new_table(self, name):
         return name not in self.table_info.keys()
@@ -410,6 +413,8 @@ class Tool(object):
             for row in cursor:
                 ids.append(row[0])
 
+        arcpy.management.Delete(table_info.selection_name)
+
         return ids
 
     def _create_table_info(self, relationship):
@@ -417,7 +422,7 @@ class Tool(object):
 
         :param relationship: the relationship it belongs to
         '''
-        arcpy.AddMessage('--create_table_info::{}'.format(relationship.name))
+        arcpy.AddMessage('--create_table_info::{}'.format(relationship.destination_table_name))
 
         origin = relationship.origin_table_name
 
@@ -436,7 +441,7 @@ class Tool(object):
         '''
         arcpy.AddMessage('--dig_deeper::{}'.format(relationship.name))
 
-        while self._new_table(relationship.destination_table_name):
+        if self._new_table(relationship.destination_table_name):
             table_info = self._create_table_info(relationship)
             self.table_info[relationship.destination_table_name] = table_info
 
@@ -445,6 +450,10 @@ class Tool(object):
                     info = RelationshipInfo(name)
                     self.relationship_info[name] = info
                     self._dig_deeper(info)
+        elif relationship.origin_table_name in self.table_info.keys():
+            arcpy.AddMessage('--appending ids')
+            table_info = self.table_info[relationship.destination_table_name]
+            table_info.ids = table_info.ids + self._get_ids(relationship.origin_table_name, relationship)
 
     def _export_to_fgdb(self, output_location):
         '''a recursive function that discovers tables through relationships
