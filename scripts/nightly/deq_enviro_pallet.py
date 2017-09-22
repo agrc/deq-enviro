@@ -151,7 +151,7 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
 
         self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
 
-        lift.process_crates_for([self], core.update, self.configuration)
+        lift.process_crates_for([self], core.update)
 
         self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
