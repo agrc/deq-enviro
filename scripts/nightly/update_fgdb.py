@@ -1,14 +1,15 @@
 # copies data from SGID to the app and makes necessary optimizations
 
-import arcpy
 import logging
 import re
+from collections import namedtuple
+from os import path
+
+import arcpy
 import settings
 import spreadsheet
 from build_json import parse_fields
-from collections import namedtuple
 from forklift.exceptions import ValidationException
-from os import path
 from settings import fieldnames
 
 commonFields = [fieldnames.ID,
@@ -72,6 +73,12 @@ def post_process_crate(crate):
                                                                                         'length': 50,
                                                                                         'type': 'String'})
                 arcpy.AddField_management(crate.destination, fld, 'TEXT', field_length=255)
+
+                if fld == fieldnames.ID:
+                    unique = 'UNIQUE'
+                else:
+                    unique = 'NON_UNIQUE'
+                arcpy.AddIndex_management(crate.destination, fld, fld + '_index', unique)
 
             # calc field
             expression = config[fld]
