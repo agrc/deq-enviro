@@ -24,13 +24,11 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 [Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
 
 ## Testing
-
 Unit tests are run via intern.
 
 [Unit tests URL ](http://localhost:8000/node_modules/intern/client.html?config=tests/intern&suites=tests/unit/all) after running `grunt default`
 
 ## Nightly Script
-
 Runs nightly on test and prod servers.
 
 Builds `DEQEnviro.json` which the web app uses to configure itself. Part of building this json file is getting all of the map service layer indices so it needs to be rerun manually after adding, removing or reordering any of the map service layers.
@@ -41,8 +39,16 @@ This script requires `settings/oauth2key.json`. Check out [the oauth2 gspread do
 
 Updates related data in SGID10. Reads sources from the config spreadsheet.
 
-## Deploy Steps
+## Data Schema Changes
+Most updates are taken care of via the [config spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web) and updating the schema of data.
 
+#### Adding a new field
+1. Add the field to the "Identify Attributes" column in the config spreadsheet. This will make it show up in the identify pane in the app.
+1. Add the field to the data in SGID10 (prod & staging).
+1. Add the field to the data in `staging/deqquerylayers.gdb`.
+1. Delete the associated dataset in `staging/sgid_stage.gdb` if it's there.
+
+## Deploy Steps
 1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
     - Import RavenDB and web.config from previous server.
 1. Set up users & roles in ArcGIS Server
@@ -62,7 +68,7 @@ Updates related data in SGID10. Reads sources from the config spreadsheet.
     shp  
     C:\MapData\deqquerylayers.gdb
     ```
-    
+
 1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
 1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
     - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
