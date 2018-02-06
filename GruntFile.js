@@ -238,6 +238,7 @@ module.exports = function (grunt) {
     // TESTING
     grunt.registerTask('test', [
         'eslint',
+        'babel',
         'intern'
     ]);
 
