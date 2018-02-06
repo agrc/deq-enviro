@@ -6,8 +6,8 @@ define([
     'dojo/_base/declare',
     'dojo/dom-construct',
     'dojo/string',
-    'dojo/text!./templates/Legend.html',
-    'dojo/text!./templates/LegendRow.html',
+    'dojo/text!app/map/templates/Legend.html',
+    'dojo/text!app/map/templates/LegendRow.html',
 
     // use esri/request so that LoginRegister can add token if needed
     'esri/request'
