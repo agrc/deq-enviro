@@ -55,9 +55,6 @@ define([
             if (widget) {
                 destroy(widget);
             }
-            if (MapController.map) {
-                MapController.map.destroy();
-            }
         });
 
         bdd.describe('Sanity', () => {
