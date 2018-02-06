@@ -152,10 +152,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        phantom: {
-            main: {
-            }
-        },
         pkg: grunt.file.readJSON('package.json'),
         processhtml: {
             options: {},
@@ -242,7 +238,6 @@ module.exports = function (grunt) {
     // TESTING
     grunt.registerTask('test', [
         'eslint',
-        'phantom',
         'intern'
     ]);
 

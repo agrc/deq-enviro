@@ -18,7 +18,6 @@
     "grunt-dojo": "^1.0.1",
     "grunt-eslint": "^19.0.0",
     "grunt-newer": "^1.1.1",
-    "grunt-phantom": "^0.2.1",
     "grunt-processhtml": "^0.4.1",
     "grunt-ssh": "^0.12.9",
     "intern": "^3.4.3",
