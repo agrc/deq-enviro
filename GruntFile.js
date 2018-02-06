@@ -145,10 +145,7 @@ module.exports = function (grunt) {
                     runType: 'runner',
                     config: 'tests/intern',
                     reporters: ['Runner'],
-                    tunnel: 'SauceLabsTunnel',
-                    tunnelOptions: {
-                        drivers: ['chrome']
-                    }
+                    tunnel: 'SauceLabsTunnel'
                 }
             }
         },
@@ -239,6 +236,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'eslint',
         'babel',
+        'copy:src',
         'intern'
     ]);
 

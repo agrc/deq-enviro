@@ -5,7 +5,9 @@ define([
 
     'intern!bdd',
 
-    'intern/chai!expect'
+    'intern/chai!expect',
+
+    'jquery'
 ], function (
     WidgetUnderTest,
 

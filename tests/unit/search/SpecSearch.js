@@ -52,11 +52,6 @@ define([
     topics,
     mockDEQEnviroJSON
 ) {
-    MapController.map = {
-        addLayer: function () {},
-        on: function () {}
-    };
-
     chai.use(sinonChai);
     chai.use(topics.plugin);
     bdd.describe('app/search/Search', function () {
@@ -65,6 +60,12 @@ define([
         var Module;
 
         bdd.beforeEach(function () {
+            MapController.map = {
+                addLayer: function () {},
+                removeLayer: function () {},
+                on: function () {}
+            };
+
             topics.beforeEach();
 
             return stubmodule('app/search/Search', {
