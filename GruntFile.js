@@ -145,7 +145,10 @@ module.exports = function (grunt) {
                     runType: 'runner',
                     config: 'tests/intern',
                     reporters: ['Runner'],
-                    tunnel: 'NullTunnel'
+                    tunnel: 'SeleniumTunnel',
+                    tunnelOptions: {
+                        drivers: ['chrome']
+                    }
                 }
             }
         },
