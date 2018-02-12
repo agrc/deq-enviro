@@ -1,4 +1,5 @@
 define([
+    'app/map/MapController',
     'app/search/Coordinates',
 
     'dojo/dom-construct',
@@ -7,6 +8,7 @@ define([
 
     'intern/chai!expect'
 ], function (
+    MapController,
     Coordinates,
 
     domConstruct,
@@ -20,6 +22,9 @@ define([
         var destroy = function (destroyWidget) {
             destroyWidget.destroyRecursive();
             destroyWidget = null;
+        };
+        MapController.map = {
+            addLayer: function () {}
         };
 
         bdd.beforeEach(() => {

@@ -145,12 +145,8 @@ module.exports = function (grunt) {
                     runType: 'runner',
                     config: 'tests/intern',
                     reporters: ['Runner'],
-                    tunnel: 'NullTunnel'
+                    tunnel: 'SauceLabsTunnel'
                 }
-            }
-        },
-        phantom: {
-            main: {
             }
         },
         pkg: grunt.file.readJSON('package.json'),
@@ -239,7 +235,8 @@ module.exports = function (grunt) {
     // TESTING
     grunt.registerTask('test', [
         'eslint',
-        'phantom',
+        'babel',
+        'copy:src',
         'intern'
     ]);
 

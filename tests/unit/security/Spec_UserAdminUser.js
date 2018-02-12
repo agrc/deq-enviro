@@ -13,7 +13,9 @@ define([
 
     'sinon',
 
-    'sinon-chai'
+    'sinon-chai',
+
+    'jquery'
 ], function (
     WidgetUnderTest,
 

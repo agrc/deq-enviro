@@ -169,7 +169,8 @@ define([
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map',
             printProxy: deqServiceFolder + '/../PrintProxy/GPServer/PrintProxy',
-            landOwnership: 'https://tlamap.trustlands.utah.gov/arcgis/rest/services/SpecialProject/UT_SITLA_LandOwnership_WM/MapServer'
+            landOwnership: 'https://gis.trustlands.utah.gov/server/' +
+                           'rest/services/Ownership/UT_SITLA_Ownership_LandOwnership_WM/FeatureServer/0'
         },
 
         // layerIndices: Object

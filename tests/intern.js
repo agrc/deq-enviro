@@ -1,7 +1,7 @@
 define({
     suites: ['tests/unit/all'],
     environments: [
-        { browserName: 'phantomjs' }
+        { browserName: 'chrome' }
     ],
     loaderOptions: {
         packages: [

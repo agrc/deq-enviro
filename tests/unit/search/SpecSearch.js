@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'app/config',
+    'app/map/MapController',
     'app/search/QueryLayer',
     'app/search/Search',
-    'tests/unit/search/data/mockDEQEnviroJSON',
 
     'dojo/Deferred',
     'dojo/dom-construct',
@@ -16,18 +16,21 @@ define([
     'intern/chai!',
     'intern/chai!expect',
 
-    'tests/helpers/topics',
-
     'sinon',
 
     'sinon-chai',
 
-    'stubmodule'
+    'stubmodule',
+
+    'tests/helpers/topics',
+    'tests/unit/search/data/mockDEQEnviroJSON',
+
+    'jquery'
 ], function (
     config,
+    MapController,
     QueryLayer,
     WidgetUnderTest,
-    mockDEQEnviroJSON,
 
     Deferred,
     domConstruct,
@@ -40,13 +43,14 @@ define([
     chai,
     expect,
 
-    topics,
-
     sinon,
 
     sinonChai,
 
-    stubmodule
+    stubmodule,
+
+    topics,
+    mockDEQEnviroJSON
 ) {
     chai.use(sinonChai);
     chai.use(topics.plugin);
@@ -56,6 +60,12 @@ define([
         var Module;
 
         bdd.beforeEach(function () {
+            MapController.map = {
+                addLayer: function () {},
+                removeLayer: function () {},
+                on: function () {}
+            };
+
             topics.beforeEach();
 
             return stubmodule('app/search/Search', {

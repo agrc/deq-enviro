@@ -46,7 +46,11 @@ define([
         };
 
         bdd.beforeEach(() => {
-            MapController.map = new Map(domConstruct.create('div', null, document.body), { basemap: 'streets' });
+            MapController.map = {
+                addLayer: function () {},
+                removeLayer: function () {},
+                on: function () {}
+            };
             MapController.selectedGraphic = null;
             widget = new Stream(null, domConstruct.create('div', null, document.body));
         });
@@ -54,9 +58,6 @@ define([
         bdd.afterEach(() => {
             if (widget) {
                 destroy(widget);
-            }
-            if (MapController.map) {
-                MapController.map.destroy();
             }
         });
 
