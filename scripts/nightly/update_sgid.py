@@ -239,7 +239,7 @@ def get_field_names(ds):
 
 
 def update_sgid_for_crates(crates):
-    updated_crates = [crate for crate in crates if crate.result[0] in [Crate.CREATED, Crate.UPDATED]]
+    updated_crates = [crate for crate in crates if crate.was_updated()]
     for crate in updated_crates:
         sgid_name = crate.destination_name.replace(period_replacement, '.')
         destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
