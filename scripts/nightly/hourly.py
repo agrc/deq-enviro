@@ -6,20 +6,20 @@ SGID10.ENVIRONMENT.DAQAirMonitorByStation
 '''
 
 
+import logging.config
+import sys
+from logging import shutdown
+from os import makedirs, path
+from traceback import format_exc
+
+import arcpy
+import settings
 from forklift import core
+from forklift.__main__ import detailed_formatter, log_location
 from forklift.messaging import send_email
 from forklift.models import Crate
-from os import path
-from traceback import format_exc
-from update_fgdb import validate_crate
 from settings.dev import reportEmail
-import logging.config
-from logging import shutdown
-import settings
-from forklift.__main__ import log_location, detailed_formatter
-from os import makedirs
-import sys
-import arcpy
+from update_fgdb import validate_crate
 
 
 def _setup_logging():

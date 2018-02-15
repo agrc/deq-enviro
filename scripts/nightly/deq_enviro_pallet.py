@@ -9,20 +9,20 @@ Note: There is a separate scheduled task that runs this pallet for SGID10.ENVIRO
 on an hourly basis.
 '''
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from os import path
+
 import arcpy
 import build_json
-import settings
-from settings import fieldnames
-import update_sgid
-import update_fgdb
 import pystache
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from forklift.models import Pallet, Crate
+import settings
+import update_fgdb
+import update_sgid
+from forklift import core, lift
 from forklift.messaging import send_email
-from forklift import lift
-from forklift import core
-from os import path
+from forklift.models import Crate, Pallet
+from settings import fieldnames
 
 current_folder = path.dirname(path.realpath(__file__))
 services = [('DEQEnviro/Secure', 'MapServer'),

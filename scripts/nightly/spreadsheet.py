@@ -1,14 +1,15 @@
 # in charge of parsing and returning data from the query layers spreadsheet
 # which confusingly has more than just query layers data in it. :)
 
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-from settings import fieldnames
-from os import path
-import settings
 import logging
+from os import path
 from time import sleep
 
+from oauth2client.service_account import ServiceAccountCredentials
+
+import gspread
+import settings
+from settings import fieldnames
 
 logger = logging.getLogger('forklift')
 qlFields = [

@@ -4,13 +4,14 @@ build_json.py
 A module that builds DEQEnviro.json that is used to confire the web app on load.
 '''
 
-import os
-import requests
-import spreadsheet
-from settings import fieldnames
-import settings
-from agrc.agrc import ags
 import json
+import os
+
+import requests
+import settings
+import spreadsheet
+from agrc.agrc import ags
+from settings import fieldnames
 
 jsonFile = os.path.join(settings.webdata, 'DEQEnviro.json')
 

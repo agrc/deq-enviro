@@ -6,14 +6,15 @@ performs ETL process if necessary
 '''
 
 
-import arcpy
 import logging
-import spreadsheet
-import settings
-from forklift.models import Crate
-from forklift.core import hash_field
-from settings import fieldnames
 from os import path
+
+import arcpy
+import settings
+import spreadsheet
+from forklift.core import hash_field
+from forklift.models import Crate
+from settings import fieldnames
 
 excludeFields = {'GlobalID',
                  'POSTTONET',
