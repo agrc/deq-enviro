@@ -70,7 +70,7 @@ try:
     log.info('processing sde crate')
     core.init(log)
     sde_update_crate.set_result(core.update(sde_update_crate, validate_crate))
-    if sde_update_crate.result[0] in [Crate.UPDATED, Crate.CREATED]:
+    if sde_update_crate.was_updated():
         log.info('updating data in SDE')
         sgid_destination = path.join(sgid_db, 'SGID10.ENVIRONMENT.{}'.format(sgid_name))
         arcpy.management.TruncateTable(sgid_destination)

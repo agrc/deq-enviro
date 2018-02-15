@@ -158,7 +158,7 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
         self.update_problem_layers()
 
         for crate in self.get_crates():
-            if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
+            if crate.was_updated():
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_crate(crate)
 
@@ -230,7 +230,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
     def process(self):
         for crate in self.get_crates():
             if crate.destination_name == STREAMS:
-                if crate.result[0] in [Crate.CREATED, Crate.UPDATED]:
+                if crate.was_updated():
                     self.log.info('post processing streams data')
 
                     scratch = arcpy.env.scratchGDB
