@@ -62,7 +62,7 @@ define([
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('api.mapserv.utah.gov');
-    esriConfig.defaults.io.corsEnabledServers.push('tlamap.trustlands.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('gis.trustlands.utah.gov');
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
