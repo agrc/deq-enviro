@@ -11,16 +11,18 @@ var profile = {
     layers: {
         'dojo/dojo': {
             include: [
-                'dojo/i18n',
-                'dojo/domReady',
-                'app/run',
                 'app/App',
-                'esri/dijit/Attribution',
-                'dojox/gfx/path',
-                'dojox/gfx/svg',
-                'dojox/gfx/shape',
+                'app/run',
+                'app/security/_LayersMixin',
                 'app/security/_RequestPane',
-                'ladda/dist/spin'
+                'dojox/gfx/filters',
+                'dojox/gfx/svg',
+                'dojox/gfx/svgext',
+                'esri/layers/LabelLayer',
+                'esri/layers/VectorTileLayerImpl',
+                'esri/PopupInfo',
+                'esri/tasks/RelationshipQuery',
+                'xstyle/core/load-css'
             ],
             includeLocales: ['en-us'],
             customBase: true,
@@ -36,11 +38,11 @@ var profile = {
     packages: ['dgrid1', 'dstore', {
         name: 'matchers',
         location: 'matchers/src'
-    },{
+    }, {
         name: 'stubmodule',
         location: 'stubmodule/src',
         main: 'stub-module'
-    },{
+    }, {
         name: 'moment',
         location: 'moment',
         main: 'moment',
@@ -53,21 +55,21 @@ var profile = {
                 return /\.js$/.test(filename);
             }
         }
-    },{
+    }, {
         name: 'mustache',
         location: 'mustache',
         main: 'mustache'
     }],
     map: {
-        'ladda': {
-            'spin': 'ladda/dist/spin'
+        ladda: {
+            spin: 'ladda/dist/spin'
         },
-        'sherlock': {
-            'spinjs': 'spin'
+        sherlock: {
+            spinjs: 'spin'
         }
     },
     userConfig: {
-        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri', 'layer-selector']
+        packages: ['app', 'dijit', 'dojox', 'agrc', 'ijit', 'esri', 'layer-selector', 'sherlock']
     },
     staticHasFeatures: {
         'dojo-trace-api': 0,
