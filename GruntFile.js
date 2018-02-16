@@ -59,6 +59,21 @@ module.exports = function (grunt) {
                 push: false
             }
         },
+        cachebreaker: {
+            main: {
+                options: {
+                    match: [
+                        'dojo/dojo.js',
+                        'app/resources/App.css',
+                        'app/run.js',
+                        'app/resources/UserAdmin.css'
+                    ]
+                },
+                files: {
+                    src: ['dist/*.html']
+                }
+            }
+        },
         clean: {
             build: ['dist'],
             deploy: ['deploy'],
@@ -90,13 +105,13 @@ module.exports = function (grunt) {
             dist: {
                 files: [{ expand: true,
                     cwd: 'src/',
-                    src: ['*.html'],
+                    src: ['*.html', 'web.config'],
                     dest: 'dist/' }]
             },
             src: {
                 expand: true,
                 cwd: '_src',
-                src: ['**/*.html', '**/*.css', '**/*.png', '**/*.jpg', '**/*.json', 'app/package.json'],
+                src: ['**/*.html', '**/*.css', '**/*.png', '**/*.jpg', '**/*.json', 'app/package.json', 'web.config'],
                 dest: 'src'
             }
         },
@@ -249,7 +264,8 @@ module.exports = function (grunt) {
         'clean:build',
         'dojo:prod',
         'copy:dist',
-        'processhtml:prod'
+        'processhtml:prod',
+        'cachebreaker'
     ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
@@ -267,7 +283,8 @@ module.exports = function (grunt) {
         'clean:build',
         'dojo:stage',
         'copy:dist',
-        'processhtml:stage'
+        'processhtml:stage',
+        'cachebreaker'
     ]);
     grunt.registerTask('deploy-stage', [
         'clean:deploy',
