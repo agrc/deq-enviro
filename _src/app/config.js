@@ -334,19 +334,25 @@ define([
             console.log('app.config::getAppJson', arguments);
 
             var def = new Deferred();
-            var that = this;
 
             if (this.appJson) {
                 def.resolve(this.appJson);
+            } else if (this.appJsonRequest) {
+                // prevent simultanious requests
+                this.appJsonRequest.then(() => {
+                    def.resolve(this.appJson);
+                });
             } else {
-                xhr(this.urls.json, {
+                // get a fresh copy of the json file on each load
+                this.appJsonRequest = xhr(this.urls.json, {
                     handleAs: 'json'
-                }).then(function (json) {
-                    that.queryLayerNames = {};
-                    array.forEach(json.queryLayers, function (ql) {
-                        that.queryLayerNames[ql.index] = ql.name;
+                }).then((json) => {
+                    this.queryLayerNames = {};
+                    json.queryLayers.forEach((ql) => {
+                        this.queryLayerNames[ql.index] = ql.name;
                     });
-                    def.resolve(that.appJson = json);
+                    this.appJsonRequest = null;
+                    def.resolve(this.appJson = json);
                 });
             }
 
