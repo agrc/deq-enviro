@@ -5,9 +5,7 @@ import logging
 from os import path
 from time import sleep
 
-from oauth2client.service_account import ServiceAccountCredentials
-
-import gspread
+import pygsheets
 import settings
 from settings import fieldnames
 
@@ -64,16 +62,17 @@ linksFields = [
     ['Description', fieldnames.description],
     ['URL', fieldnames.url]
 ]
+gc = None
 
 
 def _login():
-    logger.debug('logging into google spreadsheet')
-    # had to login everytime because the session was being closed
-    scope = ['https://spreadsheets.google.com/feeds']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json'), scope)
-    gc = gspread.authorize(credentials)
-
+    global gc
     tries = 1
+
+    if gc is None:
+        logger.debug('logging into google spreadsheet')
+        credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
+        gc = pygsheets.authorize(service_file=credentials, no_cache=True)
 
     while tries <= 3:
         try:
@@ -91,19 +90,19 @@ def _login():
 
 
 def get_query_layers():
-    return _get_worksheet_data(_login().worksheet('Query Layers'), qlFields)
+    return _get_worksheet_data(_login().worksheet('title', 'Query Layers'), qlFields)
 
 
 def get_related_tables():
-    return _get_worksheet_data(_login().worksheet('Related Tables'), tblFields)
+    return _get_worksheet_data(_login().worksheet('title', 'Related Tables'), tblFields)
 
 
 def get_reference_layers():
-    return _get_worksheet_data(_login().worksheet('Reference Layers'), rlFields)
+    return _get_worksheet_data(_login().worksheet('title', 'Reference Layers'), rlFields)
 
 
 def get_links():
-    return _get_worksheet_data(_login().worksheet('Other Links'), linksFields)
+    return _get_worksheet_data(_login().worksheet('title', 'Other Links'), linksFields)
 
 
 def get_datasets():
@@ -112,7 +111,7 @@ def get_datasets():
 
 
 def get_relationship_classes():
-    return _login().worksheet('Relationship Classes').get_all_records()
+    return _login().worksheet('title', 'Relationship Classes').get_all_records()
 
 
 def _get_worksheet_data(wksh, fields):
