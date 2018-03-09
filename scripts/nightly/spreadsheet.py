@@ -62,17 +62,14 @@ linksFields = [
     ['Description', fieldnames.description],
     ['URL', fieldnames.url]
 ]
-gc = None
 
 
 def _login():
-    global gc
-    tries = 1
+    logger.debug('logging into google spreadsheet')
+    credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
+    gc = pygsheets.authorize(service_file=credentials, no_cache=True)
 
-    if gc is None:
-        logger.debug('logging into google spreadsheet')
-        credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
-        gc = pygsheets.authorize(service_file=credentials, no_cache=True)
+    tries = 1
 
     while tries <= 3:
         try:
