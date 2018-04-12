@@ -94,7 +94,9 @@ def post_process_crate(crate):
                     expression = '!{}!'.format(expression)
             else:
                 expression = '"{}"'.format(expression)
-            arcpy.CalculateField_management(crate.destination, fld, expression, 'PYTHON')
+            calc_layer = arcpy.management.MakeFeatureLayer(crate.destination, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
+            arcpy.CalculateField_management(calc_layer, fld, expression, 'PYTHON')
+            arcpy.management.Delete(calc_layer)
 
         apply_coded_values(crate.destination, config[fieldnames.codedValues])
 
