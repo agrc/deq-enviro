@@ -92,9 +92,10 @@ def post_process_crate(crate):
                     expression = 'str(int(!{}!))'.format(expression)
                 else:
                     expression = '!{}!'.format(expression)
+                calc_layer = arcpy.management.MakeFeatureLayer(crate.destination, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
             else:
+                calc_layer = crate.destination
                 expression = '"{}"'.format(expression)
-            calc_layer = arcpy.management.MakeFeatureLayer(crate.destination, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
             arcpy.CalculateField_management(calc_layer, fld, expression, 'PYTHON')
             arcpy.management.Delete(calc_layer)
 
