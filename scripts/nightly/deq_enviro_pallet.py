@@ -230,7 +230,10 @@ class DEQNightly3ReferenceDataPallet(Pallet):
     def process(self):
         for crate in self.get_crates():
             if crate.destination_name == STREAMS:
-                if crate.was_updated():
+                #: final output
+                search_streams = path.join(self.deqquerylayers, 'SearchStreams')
+
+                if crate.was_updated() or not arcpy.Exists(search_streams):
                     self.log.info('post processing streams data')
 
                     scratch = arcpy.env.scratchGDB
@@ -248,9 +251,6 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                     GNIS_Name = fieldnames.GNIS_Name
                     NAME = fieldnames.NAME
                     COUNTY = fieldnames.COUNTY
-
-                    #: final output
-                    search_streams = path.join(self.deqquerylayers, 'SearchStreams')
 
                     #: clean up from last run, if needed
                     for cleanup_dataset in [dissolved, identified, search_streams]:
