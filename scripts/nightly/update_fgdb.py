@@ -82,6 +82,7 @@ def post_process_crate(crate):
 
             # calc field
             expression = config[fld]
+            uses_layer = False
             if not expression == 'n/a':
                 try:
                     mappedFld = arcpy.ListFields(crate.destination, config[fld])[0]
@@ -93,11 +94,14 @@ def post_process_crate(crate):
                 else:
                     expression = '!{}!'.format(expression)
                 calc_layer = arcpy.management.MakeFeatureLayer(crate.destination, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
+                uses_layer = True
             else:
                 calc_layer = crate.destination
                 expression = '"{}"'.format(expression)
             arcpy.CalculateField_management(calc_layer, fld, expression, 'PYTHON')
-            arcpy.management.Delete(calc_layer)
+
+            if uses_layer:
+                arcpy.management.Delete(calc_layer)
 
         apply_coded_values(crate.destination, config[fieldnames.codedValues])
 
