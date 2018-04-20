@@ -210,6 +210,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
         self.water = path.join(self.staging_rack, 'water.gdb')
         self.environment = path.join(self.staging_rack, 'environment.gdb')
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
+        self.search_streams = path.join(self.deqquerylayers, 'SearchStreams')
 
         self.copy_data = [self.boundaries,
                           self.water,
@@ -227,13 +228,13 @@ class DEQNightly3ReferenceDataPallet(Pallet):
             })
             self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
 
+    def requires_processing(self):
+        return not arcpy.Exists(self.search_streams) or super(DEQNightly3ReferenceDataPallet, self).requires_processing()
+
     def process(self):
         for crate in self.get_crates():
             if crate.destination_name == STREAMS:
-                #: final output
-                search_streams = path.join(self.deqquerylayers, 'SearchStreams')
-
-                if crate.was_updated() or not arcpy.Exists(search_streams):
+                if crate.was_updated() or not arcpy.Exists(self.search_streams):
                     self.log.info('post processing streams data')
 
                     scratch = arcpy.env.scratchGDB
@@ -253,7 +254,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                     COUNTY = fieldnames.COUNTY
 
                     #: clean up from last run, if needed
-                    for cleanup_dataset in [dissolved, identified, search_streams]:
+                    for cleanup_dataset in [dissolved, identified, self.search_streams]:
                         if arcpy.Exists(cleanup_dataset):
                             arcpy.Delete_management(cleanup_dataset)
 
@@ -264,12 +265,12 @@ class DEQNightly3ReferenceDataPallet(Pallet):
                     arcpy.AddField_management(identified, temp_field, 'TEXT', '', '', 50)
                     arcpy.CalculateField_management(identified, temp_field, '!{}! + !{}!'.format(GNIS_Name, NAME), 'PYTHON')
                     arcpy.MakeFeatureLayer_management(identified, no_name_layer, '{0} IS NOT NULL AND {0} <> \'\''.format(NAME))
-                    arcpy.Dissolve_management(no_name_layer, search_streams, temp_field)
-                    arcpy.JoinField_management(search_streams, temp_field, no_name_layer, temp_field, [GNIS_Name, NAME])
-                    arcpy.AddField_management(search_streams, COUNTY, 'TEXT', '', '', 25)
-                    arcpy.CalculateField_management(search_streams, COUNTY, '!{}!'.format(NAME), 'PYTHON')
-                    arcpy.DeleteField_management(search_streams, NAME)
-                    arcpy.DeleteField_management(search_streams, temp_field)
+                    arcpy.Dissolve_management(no_name_layer, self.search_streams, temp_field)
+                    arcpy.JoinField_management(self.search_streams, temp_field, no_name_layer, temp_field, [GNIS_Name, NAME])
+                    arcpy.AddField_management(self.search_streams, COUNTY, 'TEXT', '', '', 25)
+                    arcpy.CalculateField_management(self.search_streams, COUNTY, '!{}!'.format(NAME), 'PYTHON')
+                    arcpy.DeleteField_management(self.search_streams, NAME)
+                    arcpy.DeleteField_management(self.search_streams, temp_field)
 
                     for delete_layer in [streams_layer, no_name_layer]:
                         arcpy.Delete_management(delete_layer)
