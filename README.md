@@ -48,6 +48,12 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
 1. Add the field to the data in `staging/deqquerylayers.gdb`.
 1. Delete the associated dataset in `staging/sgid_stage.gdb` if it's there.
 
+#### Adding a new query layer
+1. Add the new row in the config spreadsheet
+1. Run forklift pallet.
+1. Add new layer to `maps/MapService.mxd` or `maps/Secure.mxd` and republish.
+1. Manually run `build_json.py` to get the layer number from the map service of the newly added layer.
+
 ## Deploy Steps
 1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
     - Import RavenDB and web.config from previous server.

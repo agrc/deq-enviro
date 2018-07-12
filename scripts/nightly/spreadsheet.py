@@ -67,7 +67,7 @@ linksFields = [
 def _login():
     logger.debug('logging into google spreadsheet')
     credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
-    gc = pygsheets.authorize(service_file=credentials, no_cache=True)
+    gc = pygsheets.authorize(service_file=credentials)
 
     tries = 1
 
