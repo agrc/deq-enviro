@@ -113,7 +113,7 @@ define([
         },
         updateLinks: function (item) {
             // summary:
-            //      updates the three link types for this feature
+            //      updates the four link types for this feature
             // item: Object
             console.log('app/search/IdentifyPane:updateLinks', arguments);
 
@@ -140,6 +140,7 @@ define([
             };
             updateLink(this.docLink, ql.docLink);
             updateLink(this.gramaLink, ql.gramaLink);
+            updateLink(this.permitLink, ql.permitLink);
             updateLink(this.additionalLink, ql.additionalLink);
         },
         identify: function (item) {

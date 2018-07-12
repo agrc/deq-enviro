@@ -1,32 +1,32 @@
 <div>
     <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-            <li class='active'>
-                <a data-dojo-attach-point='attributesAnchor'
+            <li class="active">
+                <a data-dojo-attach-point="attributesAnchor"
                     href="#attributes" data-toggle="tab">Attributes</a>
             </li>
             <li>
-                <a data-dojo-attach-point='relatedAnchor'
+                <a data-dojo-attach-point="relatedAnchor"
                     href="#related" data-toggle="tab">Related Records</a>
             </li>
-            <li><a href="#moreinfo" data-toggle='tab'>Links</a></li>
+            <li><a href="#moreinfo" data-toggle="tab">Links</a></li>
             <li>
-                <a href="#" data-dojo-attach-event='click: zoomToFeature'>
-                    <span class="glyphicon glyphicon-zoom-in"></span> 
+                <a href="#" data-dojo-attach-event="click: zoomToFeature">
+                    <span class="glyphicon glyphicon-zoom-in"></span>
                     Zoom to feature
                 </a>
             </li>
             <li>
-                <a href="#" data-dojo-attach-event='click: backToResults'>
-                    <span class="glyphicon glyphicon-arrow-left"></span> 
+                <a href="#" data-dojo-attach-event="click: backToResults">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
                     Back to results
                 </a>
             </li>
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane active" id='attributes'>
-            <span data-dojo-attach-point='errorMsg' 
+        <div class="tab-pane active" id="attributes">
+            <span data-dojo-attach-point="errorMsg"
                 class="alert alert-danger hidden">There was an error getting the attributes for this feature!</span>
             <div data-dojo-attach-point="attributeGridDiv"></div>
         </div>
@@ -34,15 +34,19 @@
             <div data-dojo-attach-point="relatedTablesDiv"></div>
         </div>
         <div class="tab-pane" id="moreinfo">
-            <a href="#" target='_blank' data-dojo-attach-point='docLink'>Documents</a>
+            <a href="#" target="_blank" data-dojo-attach-point="docLink">Documents</a>
             <span class="glyphicon glyphicon-new-window"></span>
             <br>
             <br>
-            <a href="#" target='_blank' data-dojo-attach-point='gramaLink'>GRAMA Request</a>
+            <a href="#" target="_blank" data-dojo-attach-point="gramaLink">GRAMA Request</a>
             <span class="glyphicon glyphicon-new-window"></span>
             <br>
             <br>
-            <a href="#" target='_blank' data-dojo-attach-point='additionalLink'>Additional Info</a>
+            <a href="#" target="_blank" data-dojo-attach-point="permitLink">Permit Information</a>
+            <span class="glyphicon glyphicon-new-window"></span>
+            <br>
+            <br>
+            <a href="#" target="_blank" data-dojo-attach-point="additionalLink">Additional Info</a>
             <span class="glyphicon glyphicon-new-window"></span>
         </div>
     </div>

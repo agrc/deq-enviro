@@ -28,6 +28,7 @@ qlFields = [
     ['Identify Attributes', fieldnames.fields],
     ['Document Search', fieldnames.docLink],
     ['GRAMA Request', fieldnames.gramaLink],
+    ['Permit Information', fieldnames.permitLink],
     ['Additional Information', fieldnames.additionalLink],
     ['Map Label Field', fieldnames.ENVIROAPPLABEL],
     ['Secure', fieldnames.secure],

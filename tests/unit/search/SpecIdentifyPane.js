@@ -130,6 +130,7 @@ define([
                 sinon.stub(config, 'getQueryLayerByIndex').returns({
                     docLink: 'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm',
                     gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    permitLink: 'blah',
                     additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
                 });
 
@@ -143,6 +144,7 @@ define([
                 var ql = {
                     docLink: '',
                     gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    permitLink: 'blah',
                     additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
                 };
                 sinon.stub(config, 'getQueryLayerByIndex').returns(ql);
@@ -161,6 +163,7 @@ define([
                 sinon.stub(config, 'getQueryLayerByIndex').returns({
                     docLink: 'http://168.178.6.35/DDW/DdwWSFacDocSearch.htm?example=someVal',
                     gramaLink: 'http://168.178.6.35/DDW/DdwWSFacGRAMA.htm',
+                    permitLink: 'blah',
                     additionalLink: 'http://168.178.6.35/DDW/DdwWSFacAddInfor.htm'
                 });
 
