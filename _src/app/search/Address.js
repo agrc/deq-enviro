@@ -1,7 +1,7 @@
 define([
-    'app/config',
-
     'agrc/widgets/locate/FindAddress',
+
+    'app/config',
 
     'dojo/aspect',
     'dojo/Deferred',
@@ -14,9 +14,9 @@ define([
     'esri/tasks/BufferParameters',
     'esri/tasks/GeometryService'
 ], function (
-    config,
-
     FindAddress,
+
+    config,
 
     aspect,
     Deferred,

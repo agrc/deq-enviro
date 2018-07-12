@@ -150,11 +150,9 @@ define([
             this.selectedQueryLayers = [];
 
             this.own(
-            topic.subscribe(config.topics.appQueryLayer.addLayer,
-                lang.hitch(this, 'onAddQueryLayer')),
-            topic.subscribe(config.topics.appQueryLayer.removeLayer,
-                lang.hitch(this, 'onRemoveQueryLayer'))
-        );
+                topic.subscribe(config.topics.appQueryLayer.addLayer, lang.hitch(this, 'onAddQueryLayer')),
+                topic.subscribe(config.topics.appQueryLayer.removeLayer, lang.hitch(this, 'onRemoveQueryLayer'))
+            );
 
             this.additionalSearches = [];
         },
@@ -175,7 +173,7 @@ define([
                 domClass.remove(btn, 'hidden');
             };
             this.own(
-                this.address = new Address(null, this.addressPane),
+                this.address = new Address({ map: MapController.map }, this.addressPane),
                 this.city = new City({
                     map: MapController.map
                 }, this.cityPane),
