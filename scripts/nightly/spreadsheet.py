@@ -64,24 +64,27 @@ linksFields = [
     ['URL', fieldnames.url]
 ]
 
+credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
+gc = pygsheets.authorize(service_file=credentials, no_cache=True)
+
 
 def _login():
+    global gc
     logger.debug('logging into google spreadsheet')
-    credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
-    gc = pygsheets.authorize(service_file=credentials, no_cache=True)
-
     tries = 1
+    max_tries = 10
 
-    while tries <= 3:
+    while tries <= max_tries:
         try:
             sheet = gc.open_by_url(settings.queryLayersUrl)
 
             return sheet
         except Exception as ex:
-            if tries == 3:
+            if tries == max_tries:
                 raise ex
 
             logger.warn('login error, retrying...')
+            gc = pygsheets.authorize(service_file=credentials, no_cache=True)
             sleep(30)
 
         tries = tries + 1
