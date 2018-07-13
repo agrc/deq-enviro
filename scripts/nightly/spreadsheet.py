@@ -65,7 +65,7 @@ linksFields = [
 ]
 
 credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
-gc = pygsheets.authorize(service_file=credentials, no_cache=True)
+gc = pygsheets.authorize(service_file=credentials)
 
 
 def _login():
@@ -84,7 +84,7 @@ def _login():
                 raise ex
 
             logger.warn('login error, retrying...')
-            gc = pygsheets.authorize(service_file=credentials, no_cache=True)
+            gc = pygsheets.authorize(service_file=credentials)
             sleep(30)
 
         tries = tries + 1
