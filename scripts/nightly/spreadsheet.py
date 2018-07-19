@@ -3,7 +3,7 @@
 
 import logging
 from os import path
-from time import sleep
+from time import sleep, time
 
 import pygsheets
 import settings
@@ -67,19 +67,21 @@ linksFields = [
 credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
 gc = None
 sheet = None
+authorize_time = None
 
 
 def _login():
-    global gc, sheet
+    global gc, sheet, authorize_time
     tries = 1
     max_tries = 10
+    authorize_shelf_life = 600  #: 10 minutes
 
     while tries <= max_tries:
         try:
-            if gc is None:
+            if gc is None or authorize_time is None or time() - authorize_time > authorize_shelf_life:
                 logger.debug('logging into google spreadsheet')
+                authorize_time = time()
                 gc = pygsheets.authorize(service_file=credentials)
-            if sheet is None:
                 sheet = gc.open_by_url(settings.queryLayersUrl)
 
             return sheet
