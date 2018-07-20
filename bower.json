@@ -16,16 +16,14 @@
   },
   "resolutions": {
     "esri": "~3.20",
-    "spinjs": "~2.3.2",
-    "dojox": "v1.12.1/esri-3.20.0",
-    "dojo": "v1.12.1/esri-3.20.0",
+    "agrc": "~6.1.2",
     "dijit": "v1.12.1/esri-3.20.0",
+    "dojo": "v1.12.1/esri-3.20.0",
+    "dojox": "v1.12.1/esri-3.20.0",
     "dgrid": "0.3.17/esri-3.20.0",
+    "util": "v1.12.1/esri-3.20.0",
     "dstore": "1.1.1",
     "xstyle": "0.3.2",
-    "util": "v1.12.1/esri-3.20.0",
-    "dgrid1": "v1.1.0/esri-3.20.0",
-    "moment": "~2.17",
-    "dojo-themes": "~1.12"
+    "spinjs": "~2.3.2"
   }
 }
