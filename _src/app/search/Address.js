@@ -120,6 +120,7 @@ define([
             params.geometries = [point];
             params.spatialReference = config.spatialReference;
             params.unit = GeometryService.UNIT_STATUTE_MILE;
+            params.geodesic = true;
 
             this.geometryService.buffer(params);
         },
