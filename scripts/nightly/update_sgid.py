@@ -112,7 +112,7 @@ def start_etl(crates):
         sgidName = dataset[fieldnames.sgidName]
         sourceName = dataset[fieldnames.sourceData]
 
-        if not sgidName.startswith('SGID10') or sourceName.startswith('<') or crate.result[0] not in [Crate.UPDATED, Crate.CREATED]:
+        if not sgidName.startswith('SGID10') or sourceName.startswith('<') or not crate.was_updated():
             continue
 
         logger.info(sgidName)
@@ -221,7 +221,7 @@ def update_sgid_data(source, destination):
 
 def compare_field_names(source, sgid):
     # returns a list containing:
-    # [<source fields>, <sgid fields>, <mismatches>]
+    # [<common fields>, <mismatches>]
     def upper(a):
         return set([s.upper() for s in a])
 
@@ -229,9 +229,9 @@ def compare_field_names(source, sgid):
     source = upper(source)
     mismatchedFields = list((sgid ^ source) - upper(excludeFields))
 
-    l = list(set(sgid & source))
+    common_fields = list(set(sgid & source))
 
-    return (l, mismatchedFields)
+    return (common_fields, mismatchedFields)
 
 
 def get_field_names(ds):

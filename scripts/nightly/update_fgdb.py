@@ -47,7 +47,17 @@ def get_crate_infos(staging, test_layer=None):
             source_workspace = settings.sgid[sgidName.split('.')[1]]
             source_name = sgidName
 
-        infos.append((source_name, source_workspace, path.join(staging, settings.fgd), sgidName.split('.')[2]))
+        #: use None if there is no primary Key field defined
+        if fieldnames.oidField in dataset and len(dataset[fieldnames.oidField]) > 0:
+            idField = dataset[fieldnames.oidField]
+        else:
+            idField = None
+
+        infos.append((source_name,
+                      source_workspace,
+                      path.join(staging, settings.fgd),
+                      sgidName.split('.')[2],
+                      idField))
 
     return infos
 

@@ -109,7 +109,7 @@ class DEQNightly1SDEUpdatePallet(Pallet):
                 self.log.info('manually updating %s', destination)
                 arcpy.TruncateTable_management(destination)
                 arcpy.Append_management(source, destination, 'TEST')
-            except:
+            except Exception:
                 self.log.error('error manually updating %s!', destination)
                 self.success = (Crate.UNHANDLED_EXCEPTION, 'Error updating {}'.format(destination_name))
 
