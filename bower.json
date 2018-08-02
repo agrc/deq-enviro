@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "1.4.0-2",
+  "version": "1.4.0-3",
   "dependencies": {
     "agrc": "agrc-widgets#~6.1.2",
     "esri": "arcgis-js-api#~3.25",
