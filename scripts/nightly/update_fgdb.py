@@ -164,7 +164,7 @@ def validate_crate(crate):
     dataFields = set(dataFields)
     try:
         additionalFields = [config[f] for f in commonFields]
-    except:
+    except Exception:
         #: related tables don't have the additional fields
         additionalFields = []
     spreadsheetFields = set([f[0] for f in parse_fields(config[fieldnames.fields])] + additionalFields) - set(['n/a'])
@@ -181,15 +181,17 @@ def apply_coded_values(fc, codedValuesTxt):
     if len(codedValuesTxt.strip()) == 0:
         return
 
-    field_name = re.search(r'(^\S*)\:', codedValuesTxt).group(1)
-    codes = re.findall(r'(\S*) \(.*?\),', codedValuesTxt)
-    descriptions = re.findall(r'\S* \((.*?)\),', codedValuesTxt)
+    for valuesForField in codedValuesTxt.split(';'):
+        field_name = re.search(r'(^\S*)\:', valuesForField).group(1)
+        codes = re.findall(r'(\S*) \(.*?\),?', valuesForField)
+        descriptions = re.findall(r'\S* \((.*?)\),?', valuesForField)
 
-    logger.info('applying coded values for {} field'.format(field_name))
+        logger.info('applying coded values for {} field'.format(field_name))
 
-    layer = arcpy.MakeFeatureLayer_management(fc)
-    for code, desc in zip(codes, descriptions):
-        arcpy.SelectLayerByAttribute_management(layer, where_clause='{} = \'{}\''.format(field_name, code))
-        arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
+        layer = arcpy.MakeFeatureLayer_management(fc)
+        for code, desc in zip(codes, descriptions):
+            where = '{} = \'{}\''.format(field_name, code)
+            arcpy.SelectLayerByAttribute_management(layer, where_clause=where)
+            arcpy.CalculateField_management(fc, field_name, '"{}"'.format(desc), 'PYTHON')
 
-    arcpy.Delete_management(layer)
+        arcpy.Delete_management(layer)
