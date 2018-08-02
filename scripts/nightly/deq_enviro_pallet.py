@@ -163,7 +163,7 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
         update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def update_problem_layers(self):
-        for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
+        for source_name, source_workspace, destination_workspace, destination_name, idField in self.problem_layer_infos:
             if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
                 continue
             try:
