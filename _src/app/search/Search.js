@@ -13,6 +13,7 @@ define([
     'app/search/Shape',
     'app/search/SiteName',
     'app/search/Stream',
+    'app/search/Zip',
     'app/_CollapsibleMixin',
 
     'dijit/layout/ContentPane',
@@ -54,6 +55,7 @@ define([
     Shape,
     SiteName,
     Stream,
+    Zip,
     _CollapsibleMixin,
 
     ContentPane,
@@ -106,6 +108,9 @@ define([
 
         // city: City
         city: null,
+
+        // zip: Zip
+        zip: null,
 
         // county: County
         county: null,
@@ -177,6 +182,9 @@ define([
                 this.city = new City({
                     map: MapController.map
                 }, this.cityPane),
+                this.zip = new Zip({
+                    map: MapController.map
+                }, this.zipPane),
                 this.county = new County({}, this.countyPane),
                 this.site = new SiteName(null, this.sitePane),
                 this.id = new ID(null, this.idPane),
@@ -191,6 +199,7 @@ define([
             this.childWidgets = [
                 this.address,
                 this.city,
+                this.zip,
                 this.county,
                 this.shape,
                 this.stream,

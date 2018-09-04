@@ -219,6 +219,9 @@ define([
             nhd: {
                 FCode: 'FCode',
                 GNIS_Name: 'GNIS_Name'
+            },
+            zip: {
+                ZIP5: 'ZIP5'
             }
         },
 
@@ -226,7 +229,8 @@ define([
         featureClassNames: {
             counties: 'SGID10.BOUNDARIES.Counties',
             utah: 'SGID10.BOUNDARIES.Utah',
-            city: 'SGID10.BOUNDARIES.Municipalities_Carto' // _Carto version to make sure that Draper is not split on county line
+            city: 'SGID10.BOUNDARIES.Municipalities_Carto', // _Carto version to make sure that Draper is not split on county line
+            zip: 'SGID10.BOUNDARIES.ZipCodes'
         },
 
         // TRSMinScaleLevel: Number
