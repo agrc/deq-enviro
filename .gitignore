@@ -9,6 +9,7 @@ _SpecRunner.html
 *.pyc
 *.sde
 api/Search.Api/.nuget
+api/Search.Api/.vs
 deploy/
 dist/
 html-report/
