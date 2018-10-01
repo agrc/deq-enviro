@@ -99,14 +99,6 @@ define([
                     minScaleLevel: config.RiskLayersMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
-                    layerName: 'Indian Country and Tribal',
-                    mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: config.layerIndices.indianTribal,
-                    layerProps: { opacity: 0.7 },
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    showLegend: true
-                }, domConstruct.create('div', {}, this.domNode, 'first')),
-                new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
                     mapServiceUrl: config.urls.landOwnership,
                     layerIndex: config.layerIndices.landOwnership,
