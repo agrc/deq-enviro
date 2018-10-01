@@ -13,6 +13,7 @@ module.exports = function (grunt) {
     ];
     var bumpFiles = [
         'package.json',
+        'package-lock.json',
         'bower.json',
         '_src/app/package.json',
         '_src/app/config.js'
