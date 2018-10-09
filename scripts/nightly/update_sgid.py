@@ -73,15 +73,13 @@ def _get_crate_infos(scratch, test_layer=None, temp=False):
                         infos.append((path.basename(source),
                                       path.dirname(source),
                                       scratch,
-                                      sgidName.replace('.', period_replacement),
-                                      idField))
+                                      sgidName.replace('.', period_replacement)))
                 else:
                     if sourceType != sgidType:
                         infos.append((path.basename(source),
                                       path.dirname(source),
                                       scratch,
-                                      path.basename(source).split('.')[-1].rstrip(temp_suffix),
-                                      idField))
+                                      path.basename(source).split('.')[-1].rstrip(temp_suffix)))
 
         except Exception as e:
             msg = 'Error with {}: {}'.format(dataset, e)

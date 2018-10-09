@@ -56,8 +56,7 @@ def get_crate_infos(staging, test_layer=None):
         infos.append((source_name,
                       source_workspace,
                       path.join(staging, settings.fgd),
-                      sgidName.split('.')[2],
-                      idField))
+                      sgidName.split('.')[2]))
 
     return infos
 
