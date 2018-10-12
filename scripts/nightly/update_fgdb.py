@@ -11,6 +11,8 @@ import spreadsheet
 from build_json import parse_fields
 from forklift.exceptions import ValidationException
 from settings import fieldnames
+from update_sgid import period_replacement
+
 
 commonFields = [fieldnames.ID,
                 fieldnames.NAME,
@@ -47,12 +49,6 @@ def get_crate_infos(staging, test_layer=None):
             source_workspace = settings.sgid[sgidName.split('.')[1]]
             source_name = sgidName
 
-        #: use None if there is no primary Key field defined
-        if fieldnames.oidField in dataset and len(dataset[fieldnames.oidField]) > 0:
-            idField = dataset[fieldnames.oidField]
-        else:
-            idField = None
-
         infos.append((source_name,
                       source_workspace,
                       path.join(staging, settings.fgd),
@@ -61,65 +57,65 @@ def get_crate_infos(staging, test_layer=None):
     return infos
 
 
-def post_process_crate(crate):
-    config = get_spreadsheet_config_from_crate(crate)
+def post_process_dataset(dataset):
+    config = get_spreadsheet_config_from_dataset(dataset)
     if commonFields[0] in list(config.keys()):
         #: make sure that it has the five main fields
-        upper_fields = [x.name.upper() for x in arcpy.ListFields(crate.destination)]
+        upper_fields = [x.name.upper() for x in arcpy.ListFields(dataset)]
         for fld in commonFields:
             if fld not in upper_fields:
-                logger.info('{} not found. Adding to {}'.format(fld, crate.destination))
+                logger.info('{} not found. Adding to {}'.format(fld, dataset))
 
                 # get mapped field properties
                 if not config[fld] == 'n/a':
                     try:
-                        mappedFld = arcpy.ListFields(crate.destination, config[fld])[0]
+                        mappedFld = arcpy.ListFields(dataset, config[fld])[0]
                     except IndexError:
-                        raise Exception('Could not find {} in {}'.format(config[fld], crate.destination_name))
+                        raise Exception('Could not find {} in {}'.format(config[fld], path.basename(dataset)))
                 else:
                     mappedFld = namedtuple('literal', 'precision scale length type')(**{'precision': 0,
                                                                                         'scale': 0,
                                                                                         'length': 50,
                                                                                         'type': 'String'})
-                arcpy.AddField_management(crate.destination, fld, 'TEXT', field_length=255)
+                arcpy.AddField_management(dataset, fld, 'TEXT', field_length=255)
 
                 if fld == fieldnames.ID:
                     unique = 'UNIQUE'
                 else:
                     unique = 'NON_UNIQUE'
-                arcpy.AddIndex_management(crate.destination, fld, fld + '_index', unique)
+                arcpy.AddIndex_management(dataset, fld, fld + '_index', unique)
 
             # calc field
             expression = config[fld]
             uses_layer = False
             if not expression == 'n/a':
                 try:
-                    mappedFld = arcpy.ListFields(crate.destination, config[fld])[0]
+                    mappedFld = arcpy.ListFields(dataset, config[fld])[0]
                 except IndexError:
-                    raise Exception('Could not find {} in {}'.format(config[fld], crate.destination_name))
+                    raise Exception('Could not find {} in {}'.format(config[fld], path.basename(dataset)))
 
                 if mappedFld.type != 'String':
                     expression = 'str(int(!{}!))'.format(expression)
                 else:
                     expression = '!{}!'.format(expression)
-                calc_layer = arcpy.management.MakeFeatureLayer(crate.destination, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
+                calc_layer = arcpy.management.MakeFeatureLayer(dataset, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
                 uses_layer = True
             else:
-                calc_layer = crate.destination
+                calc_layer = dataset
                 expression = '"{}"'.format(expression)
             arcpy.CalculateField_management(calc_layer, fld, expression, 'PYTHON')
 
             if uses_layer:
                 arcpy.management.Delete(calc_layer)
 
-        apply_coded_values(crate.destination, config[fieldnames.codedValues])
+        apply_coded_values(dataset, config[fieldnames.codedValues])
 
         # scrub out any empty geometries or empty ID's
         #: note: arcpy.DeleteFeature_management(lyr) was leaving a weird schema lock even after deleting the layer
-        arcpy.RepairGeometry_management(crate.destination)
-        with arcpy.da.Editor(crate.destination_workspace):
-            with arcpy.da.UpdateCursor(crate.destination, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
-                for row in ucur:
+        arcpy.RepairGeometry_management(dataset)
+        with arcpy.da.Editor(path.dirname(dataset)):
+            with arcpy.da.UpdateCursor(dataset, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
+                for _ in ucur:
                     ucur.deleteRow()
 
 
@@ -147,17 +143,18 @@ def create_relationship_classes(staging, test_layer):
                                                      config[fieldnames.foreignKey])
 
 
-def get_spreadsheet_config_from_crate(crate):
+def get_spreadsheet_config_from_dataset(dataset):
+    name = path.basename(dataset)
     for config in spreadsheet.get_datasets():
-        if config[fieldnames.sgidName].split('.')[2] == crate.destination_name:
+        if config[fieldnames.sgidName].split('.')[-1] == name:
             return config
 
-    raise Exception('{} not found in spreadsheet!'.format(crate.destination_name))
+    raise Exception('{} not found in spreadsheet!'.format(name))
 
 
 def validate_crate(crate):
     dataFields = [f.name for f in arcpy.ListFields(crate.source)]
-    config = get_spreadsheet_config_from_crate(crate)
+    config = get_spreadsheet_config_from_dataset(crate.destination)
 
     msg = '{}: Could not find matches in the source data for the following fields from the query layers spreadsheet: {}'
     dataFields = set(dataFields)
@@ -168,7 +165,7 @@ def validate_crate(crate):
         additionalFields = []
     spreadsheetFields = set([f[0] for f in parse_fields(config[fieldnames.fields])] + additionalFields) - set(['n/a'])
 
-    invalidFields = spreadsheetFields - dataFields
+    invalidFields = spreadsheetFields - dataFields - set(commonFields)
 
     if len(invalidFields) > 0:
         raise ValidationException(msg.format(crate.destination_name, ', '.join(invalidFields)))

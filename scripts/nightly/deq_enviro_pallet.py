@@ -17,16 +17,12 @@ import pystache
 import settings
 import update_fgdb
 import update_sgid
-from forklift import core, lift
+import update_app_database
 from forklift.messaging import send_email
 from forklift.models import Crate, Pallet
 from settings import fieldnames
 
 current_folder = path.dirname(path.realpath(__file__))
-services = [('DEQEnviro/Secure', 'MapServer'),
-            ('DEQEnviro/MapService', 'MapServer'),
-            ('DEQEnviro/ExportWebMap', 'GPServer'),
-            ('DEQEnviro/Toolbox', 'GPServer')]
 STREAMS = 'StreamsNHDHighRes'
 
 
@@ -39,55 +35,30 @@ def send_report_email(name, report_data):
     message = MIMEMultipart()
     message.attach(MIMEText(email_content, 'html'))
 
-    send_email(settings.reportEmail, 'DEQ Nightly Report'.format(name), message)
+    send_email(settings.reportEmail, 'DEQ Nightly Report: {}'.format(name), message)
 
 
-#: pallets are executed in alphabetical order
-class DEQNightly0TempTablesPallet(Pallet):
-    #: this is for source tables -> point feature classes
-    #: it first copies the tables to a temp gdb
-    #: then it etl's them directly into sgid
+class DEQNightly0UpdatePallet(Pallet):
+    #: this is for all non-etl data updates to the app database
+    #: the corresponding SGID data is updated in the ship method
     def __init__(self, test_layer=None):
-        super(DEQNightly0TempTablesPallet, self).__init__()
+        super(DEQNightly0UpdatePallet, self).__init__()
 
         self.problem_layer_infos = []
 
         self.test_layer = test_layer
 
-    def build(self, target):
-        crate_infos, errors = update_sgid.get_temp_crate_infos(self.test_layer)
-        self.add_crates(crate_infos)
+        self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
+        self.copy_data = [self.deqquerylayers]
 
-        if len(errors) > 0:
-            self.success = (False, '\n\n'.join(errors))
+    def build(self, configuration):
+        self.configuration = configuration
 
-    def process(self):
-        self.log.info('ETL-ing temp tables to points in SGID...')
-        update_sgid.start_etl(self.get_crates())
-
-    def ship(self):
-        send_report_email('Temp Tables', self.get_report())
-
-
-class DEQNightly1SDEUpdatePallet(Pallet):
-    #: this pallet assumes that the destination data in SGID already exits
-    #: this is for all non-etl data updates to SGID
-    def __init__(self, test_layer=None):
-        super(DEQNightly1SDEUpdatePallet, self).__init__()
-
-        self.problem_layer_infos = []
-
-        self.test_layer = test_layer
-
-    def build(self, target):
-        sgid_stage = path.join(self.staging_rack, 'sgid_stage.gdb')
-
-        if not arcpy.Exists(sgid_stage):
-            arcpy.CreateFileGDB_management(path.dirname(sgid_stage), path.basename(sgid_stage))
+        app_database = path.join(self.staging_rack, settings.fgd)
         if self.test_layer is not None:
-            crate_infos, errors = update_sgid.get_crate_infos(sgid_stage, self.test_layer)
+            crate_infos, errors = update_app_database.get_crate_infos(app_database, self.test_layer)
         else:
-            crate_infos, errors = update_sgid.get_crate_infos(sgid_stage)
+            crate_infos, errors = update_app_database.get_crate_infos(app_database)
 
         if len(errors) > 0:
             self.success = (False, '\n\n'.join(errors))
@@ -96,74 +67,22 @@ class DEQNightly1SDEUpdatePallet(Pallet):
 
         self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
 
-    def process(self):
-        update_sgid.update_sgid_for_crates(self.get_crates())
-
-    def update_problem_layers(self):
-        for source_name, source_workspace, destination_workspace, destination_name, id_field in self.problem_layer_infos:
-            if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
-                continue
-            try:
-                source = path.join(source_workspace, source_name)
-                destination = path.join(destination_workspace, destination_name)
-                self.log.info('manually updating %s', destination)
-                arcpy.TruncateTable_management(destination)
-                arcpy.Append_management(source, destination, 'TEST')
-            except Exception:
-                self.log.error('error manually updating %s!', destination)
-                self.success = (Crate.UNHANDLED_EXCEPTION, 'Error updating {}'.format(destination_name))
-
-    def ship(self):
-        self.update_problem_layers()
-        send_report_email('SGID', self.get_report())
-
-
-class DEQNightly2FGDBUpdatePallet(Pallet):
-    #: this pallet updates the deqquerylayers.gdb from SGID
-    def __init__(self, test_layer=None):
-        super(DEQNightly2FGDBUpdatePallet, self).__init__()
-
-        self.problem_layer_infos = []
-
-        self.test_layer = test_layer
-
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
-
-    def build(self, configuration):
-        self.configuration = configuration
-        self.arcgis_services = services
-
-        self.copy_data = [path.join(self.staging_rack, settings.fgd)]
 
     def requires_processing(self):
         return True
 
     def process(self):
-        #: This needs to happen after the crates in DEQNightly0TempTables
-        #: have been processed. That's why I'm creating them and manually processing them.
-        if self.test_layer is not None:
-            crate_infos = update_fgdb.get_crate_infos(self.staging_rack, self.test_layer)
-        else:
-            crate_infos = update_fgdb.get_crate_infos(self.staging_rack)
-
-        self.add_crates([info for info in crate_infos if info[3] not in settings.PROBLEM_LAYERS])
-
-        lift.process_crates_for([self], core.update)
-
-        self.problem_layer_infos = [info for info in crate_infos if info[3] in settings.PROBLEM_LAYERS]
-
         self.update_problem_layers()
 
         for crate in self.get_crates():
             if crate.was_updated():
                 self.log.info('post processing crate: %s', crate.destination_name)
-                update_fgdb.post_process_crate(crate)
-
-        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+                update_fgdb.post_process_dataset(crate.destination)
 
     def update_problem_layers(self):
-        for source_name, source_workspace, destination_workspace, destination_name, idField in self.problem_layer_infos:
+        for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
             if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
                 continue
             try:
@@ -186,6 +105,8 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
             self._crates.append(crate)
 
     def ship(self):
+        update_sgid.update_sgid_for_crates(self.slip['crates'])
+
         try:
             self.log.info('BUILDING JSON FILE')
             build_json.run()
@@ -195,13 +116,58 @@ class DEQNightly2FGDBUpdatePallet(Pallet):
             send_report_email('App Data', self.get_report())
 
 
-class DEQNightly3ReferenceDataPallet(Pallet):
+#: pallets are executed in alphabetical order
+class DEQNightly1TempTablesPallet(Pallet):
+    #: this is for source tables -> point feature classes
+    #: it first copies the tables to a temp gdb
+    #: then it etl's them directly into the app database
+    #: the corresponding SGID data is updated in the ship method
     def __init__(self, test_layer=None):
-        super(DEQNightly3ReferenceDataPallet, self).__init__()
+        super(DEQNightly1TempTablesPallet, self).__init__()
+
+        self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
+        self.deqquerylayers_temp = path.join(self.staging_rack, settings.fgd.replace('.gdb', '_temp.gdb'))
+        self.copy_data = [self.deqquerylayers]
+        self.updated_datasets = []
+
+        self.problem_layer_infos = []
 
         self.test_layer = test_layer
 
-        self.arcgis_services = services
+    def build(self, target):
+        crate_infos, errors = update_app_database.get_temp_crate_infos(self.deqquerylayers_temp, self.test_layer)
+        self.add_crates(crate_infos)
+
+        if len(errors) > 0:
+            self.success = (False, '\n\n'.join(errors))
+
+        self.copy_data = [path.join(self.staging_rack, settings.fgd)]
+
+    def process(self):
+        self.log.info('ETL-ing temp tables to points in app database...')
+        self.updated_datasets = update_app_database.start_etl(self.get_crates(), self.deqquerylayers)
+
+        for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
+            update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
+
+
+    def ship(self):
+        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+
+        for sgid_name in self.updated_datasets:
+            source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
+            destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
+
+            update_sgid.update_sgid_data(source, destination)
+
+        send_report_email('Temp Tables', self.get_report())
+
+
+class DEQNightly2ReferenceDataPallet(Pallet):
+    def __init__(self, test_layer=None):
+        super(DEQNightly2ReferenceDataPallet, self).__init__()
+
+        self.test_layer = test_layer
 
         self.sgid = path.join(self.garage, 'SGID10.sde')
         self.boundaries = path.join(self.staging_rack, 'boundaries.gdb')
@@ -227,7 +193,7 @@ class DEQNightly3ReferenceDataPallet(Pallet):
             self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
 
     def requires_processing(self):
-        return not arcpy.Exists(self.search_streams) or super(DEQNightly3ReferenceDataPallet, self).requires_processing()
+        return not arcpy.Exists(self.search_streams) or super(DEQNightly2ReferenceDataPallet, self).requires_processing()
 
     def process(self):
         for crate in self.get_crates():

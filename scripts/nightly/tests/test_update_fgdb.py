@@ -98,5 +98,5 @@ class GetSpreadsheetConfigFromCrate(unittest.TestCase):
 
         crate = Mock()
         crate.destination_name = 'GroundWaterZones'
-        ql = update_fgdb.get_spreadsheet_config_from_crate(crate)
+        ql = update_fgdb.get_spreadsheet_config_from_dataset(crate)
         self.assertEqual('DirectFrom.Source.GroundWaterZones', ql[fieldnames.sgidName])
