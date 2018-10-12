@@ -3,6 +3,7 @@ _SpecRunner.html
 .grunt/
 .project
 .pydevproject
+.vscode/
 *.idea/
 *.noseids
 *.odc
