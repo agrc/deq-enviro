@@ -11,7 +11,7 @@ mapServiceJson = 'http://172.16.17.51:6080/arcgis/rest/services/DEQEnviro/MapSer
 securedServiceJson = 'http://172.16.17.51:6080/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
 sendEmails = True
 
-reportEmail = 'haroldsandbeck@utah.gov'
+reportEmail = ['haroldsandbeck@utah.gov', 'mhorning@utah.gov']
 
 webdata = r'\\172.16.77.69\c$\inetpub\wwwroot\deqenviro\webdata'
 mapData1 = r'\\172.16.17.51\c$\MapData'
