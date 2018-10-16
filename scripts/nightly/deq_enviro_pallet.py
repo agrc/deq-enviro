@@ -54,11 +54,10 @@ class DEQNightly0UpdatePallet(Pallet):
     def build(self, configuration):
         self.configuration = configuration
 
-        app_database = path.join(self.staging_rack, settings.fgd)
         if self.test_layer is not None:
-            crate_infos, errors = update_app_database.get_crate_infos(app_database, self.test_layer)
+            crate_infos, errors = update_app_database.get_crate_infos(self.deqquerylayers, self.test_layer)
         else:
-            crate_infos, errors = update_app_database.get_crate_infos(app_database)
+            crate_infos, errors = update_app_database.get_crate_infos(self.deqquerylayers)
 
         if len(errors) > 0:
             self.success = (False, '\n\n'.join(errors))
@@ -140,8 +139,6 @@ class DEQNightly1TempTablesPallet(Pallet):
 
         if len(errors) > 0:
             self.success = (False, '\n\n'.join(errors))
-
-        self.copy_data = [path.join(self.staging_rack, settings.fgd)]
 
     def process(self):
         self.log.info('ETL-ing temp tables to points in app database...')
