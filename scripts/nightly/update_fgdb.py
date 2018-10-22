@@ -27,36 +27,6 @@ field_type_mappings = {'Integer': 'LONG',
                        'SmallInteger': 'SHORT'}
 
 
-def get_crate_infos(staging, test_layer=None):
-    infos = []
-    for dataset in spreadsheet.get_datasets():
-        #: skip if using test_layer and it's not the current layer
-        if test_layer and dataset[fieldnames.sgidName] != test_layer:
-            continue
-
-        sgidName = dataset[fieldnames.sgidName]
-        sourceData = dataset[fieldnames.sourceData]
-
-        if sgidName.startswith('DirectFrom.Source'):
-            #: gdb or sde
-            if len(sourceData.split('.gdb')) > 1:
-                dbtype = '.gdb'
-            else:
-                dbtype = '.sde'
-            source_workspace = path.join(settings.dbConnects, sourceData.split(dbtype)[0]) + dbtype
-            source_name = sourceData.split(dbtype)[1].lstrip('\\')
-        else:
-            source_workspace = settings.sgid[sgidName.split('.')[1]]
-            source_name = sgidName
-
-        infos.append((source_name,
-                      source_workspace,
-                      path.join(staging, settings.fgd),
-                      sgidName.split('.')[2]))
-
-    return infos
-
-
 def post_process_dataset(dataset):
     config = get_spreadsheet_config_from_dataset(dataset)
     if commonFields[0] in list(config.keys()):
