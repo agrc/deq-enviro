@@ -21,6 +21,7 @@ import update_app_database
 from forklift.messaging import send_email
 from forklift.models import Crate, Pallet
 from settings import fieldnames
+import spreadsheet
 
 current_folder = path.dirname(path.realpath(__file__))
 STREAMS = 'StreamsNHDHighRes'
@@ -160,9 +161,40 @@ class DEQNightly1TempTablesPallet(Pallet):
         send_report_email('Temp Tables', self.get_report())
 
 
-class DEQNightly2ReferenceDataPallet(Pallet):
+class DEQNightlyRelatedTablesPallet(Pallet):
     def __init__(self, test_layer=None):
-        super(DEQNightly2ReferenceDataPallet, self).__init__()
+        super(DEQNightlyRelatedTablesPallet, self).__init__()
+
+        self.test_layer = test_layer
+
+        self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
+        self.copy_data = [self.deqquerylayers]
+
+    def build(self, configuration):
+        self.configuration = configuration
+
+        if self.test_layer is not None:
+            crate_infos, errors = update_app_database.get_related_table_crate_infos(self.deqquerylayers, self.test_layer)
+        else:
+            crate_infos, errors = update_app_database.get_related_table_crate_infos(self.deqquerylayers)
+
+        if len(errors) > 0:
+            self.success = (False, '\n\n'.join(errors))
+
+        self.add_crates(crate_infos)
+
+    def validate_crate(self, crate):
+        return update_fgdb.validate_crate(crate)
+
+    def ship(self):
+        update_sgid.update_sgid_for_crates(self.slip['crates'])
+
+        send_report_email('App Data', self.get_report())
+
+
+class DEQNightlyReferenceDataPallet(Pallet):
+    def __init__(self, test_layer=None):
+        super(DEQNightlyReferenceDataPallet, self).__init__()
 
         self.test_layer = test_layer
 
@@ -181,16 +213,23 @@ class DEQNightly2ReferenceDataPallet(Pallet):
         self.static_data = [path.join(r'C:\Scheduled\static', 'deqreferencedata.gdb')]
 
     def build(self, target):
-        if self.test_layer is None:
-            self.add_crate(('Counties', self.sgid, self.boundaries))
-            self.add_crates(['HUC', STREAMS], {
-                'source_workspace': self.sgid,
-                'destination_workspace': self.water
-            })
-            self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
+        if self.test_layer:
+            return
+
+        self.add_crate(('Counties', self.sgid, self.boundaries))
+        self.add_crates(['HUC', STREAMS], {
+            'source_workspace': self.sgid,
+            'destination_workspace': self.water
+        })
+        self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
+
+        for dataset in spreadsheet.get_reference_layers():
+            source = dataset[settings.fieldnames.sourceData]
+            sgid_name = dataset[settings.fieldnames.sgidName]
+            self.add_crate((path.basename(source), path.dirname(source), self.deqquerylayers, sgid_name.split('.')[-1]))
 
     def requires_processing(self):
-        return not arcpy.Exists(self.search_streams) or super(DEQNightly2ReferenceDataPallet, self).requires_processing()
+        return not arcpy.Exists(self.search_streams) or super(DEQNightlyReferenceDataPallet, self).requires_processing()
 
     def process(self):
         for crate in self.get_crates():

@@ -111,11 +111,6 @@ def get_links():
     return _get_worksheet_data(_login().worksheet('title', 'Other Links'), linksFields)
 
 
-def get_datasets():
-    # return all querylayers, tables, and reference layers
-    return get_query_layers() + get_related_tables() + get_reference_layers()
-
-
 def get_relationship_classes():
     return _login().worksheet('title', 'Relationship Classes').get_all_records()
 

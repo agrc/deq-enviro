@@ -115,7 +115,7 @@ def create_relationship_classes(staging, test_layer):
 
 def get_spreadsheet_config_from_dataset(dataset):
     name = path.basename(dataset)
-    for config in spreadsheet.get_datasets():
+    for config in spreadsheet.get_query_layers() + spreadsheet.get_related_tables():
         if config[fieldnames.sgidName].split('.')[-1] == name:
             return config
 

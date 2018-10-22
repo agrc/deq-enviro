@@ -40,15 +40,24 @@ def get_crate_infos(destination_gdb, test_layer=None):
     return _get_crate_infos(destination_gdb, test_layer)
 
 
-def _get_crate_infos(destination_gdb, test_layer=None, temp=False):
+def get_related_table_crate_infos(destination_gdb, test_layer=None):
+    return _get_crate_infos(destination_gdb, test_layer, related_tables=True)
+
+
+def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_tables=False):
+    if related_tables:
+        datasets = spreadsheet.get_related_tables()
+    else:
+        datasets = spreadsheet.get_query_layers()
+
     infos = []
-    for dataset in spreadsheet.get_datasets():
+    for dataset in datasets:
         try:
             #: skip if using test_layer and it's not the current layer
-            if test_layer and dataset[settings.fieldnames.sgidName] != test_layer:
+            sgid_name = dataset[settings.fieldnames.sgidName]
+            if test_layer and sgid_name != test_layer:
                 continue
 
-            sgid_name = dataset[settings.fieldnames.sgidName]
             source_data = dataset[settings.fieldnames.sourceData]
 
             #: don't worries about <static> data
@@ -59,15 +68,16 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False):
             if not source_data.startswith(r'\\'):
                 source_data = path.join(settings.dbConnects, source_data)
 
-            is_table = arcpy.da.Describe(source_data)['datasetType'] == 'Table'
-            if temp:
-                if not is_table:
-                    continue
-            else:
-                if is_table:
-                    continue
+            if not related_tables:
+                is_table = arcpy.da.Describe(source_data)['datasetType'] == 'Table'
+                if temp:
+                    if not is_table:
+                        continue
+                else:
+                    if is_table:
+                        continue
 
-            #: only try to update rows with valid data sources
+            #: only try to update data with valid data sources
             if not source_data.startswith('<'):
                 source = path.join(settings.dbConnects, source_data)
 
@@ -88,8 +98,8 @@ def get_temp_crate_infos(temp_gdb, test_layer=None):
 def start_etl(crates, app_database):
     #: these crates are all table -> point etls as returned from get_temp_crate_infos
     def get_spreadsheet_config_from_crate(crate):
-        for config in spreadsheet.get_datasets():
-            if crate.source.rstrip(temp_suffix).endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
+        for config in spreadsheet.get_query_layers():
+            if crate.source.endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(crate.source))
 
@@ -100,7 +110,7 @@ def start_etl(crates, app_database):
         sgid_name = dataset[settings.fieldnames.sgidName]
         source_name = dataset[settings.fieldnames.sourceData]
 
-        if not sgid_name.startswith('SGID10') or source_name.startswith('<') or not crate.was_updated():
+        if not sgid_name.startswith('SGID10') or source_name.startswith('SGID10') or not crate.was_updated():
             continue
 
         logger.info(sgid_name)
