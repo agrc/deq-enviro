@@ -168,7 +168,6 @@ class DEQNightly2NonSGIDPallet(Pallet):
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.copy_data = [self.deqquerylayers]
-        self.updated_datasets
 
         self.test_layer = test_layer
 
