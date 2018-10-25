@@ -178,6 +178,9 @@ class DEQNightly2NonSGIDPallet(Pallet):
         if len(errors) > 0:
             self.success = (False, '\n\n'.join(errors))
 
+    def validate_crate(self, crate):
+        return update_fgdb.validate_crate(crate)
+
     def process(self):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
