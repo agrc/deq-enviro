@@ -161,6 +161,29 @@ class DEQNightly1TempTablesPallet(Pallet):
         send_report_email('Temp Tables', self.get_report())
 
 
+class DEQNightly2NonSGIDPallet(Pallet):
+    #: this is for data that is not updated in SGID
+    def __init__(self, test_layer=None):
+        super(DEQNightly2NonSGIDPallet, self).__init__()
+
+        self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
+        self.copy_data = [self.deqquerylayers]
+        self.updated_datasets
+
+        self.test_layer = test_layer
+
+    def build(self, target):
+        crate_infos, errors = update_app_database.get_non_sgid_crate_infos(self.deqquerylayers, self.test_layer)
+        self.add_crates(crate_infos)
+
+        if len(errors) > 0:
+            self.success = (False, '\n\n'.join(errors))
+
+    def process(self):
+        for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
+            update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
+
+
 class DEQNightlyRelatedTablesPallet(Pallet):
     def __init__(self, test_layer=None):
         super(DEQNightlyRelatedTablesPallet, self).__init__()

@@ -44,7 +44,11 @@ def get_related_table_crate_infos(destination_gdb, test_layer=None):
     return _get_crate_infos(destination_gdb, test_layer, related_tables=True)
 
 
-def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_tables=False):
+def get_non_sgid_crate_infos(destination_gdb, test_layer=None):
+    return _get_crate_infos(destination_gdb, test_layer, non_sgid=True)
+
+
+def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_tables=False, non_sgid=False):
     if related_tables:
         datasets = spreadsheet.get_related_tables()
     else:
@@ -59,6 +63,12 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
                 continue
 
             source_data = dataset[settings.fieldnames.sourceData]
+
+            if non_sgid and not sgid_name.startswith('DirectFrom'):
+                continue
+            else:
+                if sgid_name.startswith('DirectFrom'):
+                    continue
 
             #: don't worries about <static> data
             if source_data.startswith('<static>'):
