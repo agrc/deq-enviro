@@ -62,13 +62,14 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
             if test_layer and sgid_name != test_layer:
                 continue
 
-            source_data = dataset[settings.fieldnames.sourceData]
-
-            if non_sgid and not sgid_name.startswith('DirectFrom'):
-                continue
+            if non_sgid:
+                if not sgid_name.startswith('DirectFrom'):
+                    continue
             else:
                 if sgid_name.startswith('DirectFrom'):
                     continue
+
+            source_data = dataset[settings.fieldnames.sourceData]
 
             #: don't worries about <static> data
             if source_data.startswith('<static>'):
