@@ -160,7 +160,7 @@ def etl(dest, destFields, source, sourceFields):
     arcpy.management.TruncateTable(dest)
 
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
-    with arcpy.da.Editor(path.dirname(dest)), arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
+    with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
         for row in scursor:
             row = list(row)
             # use xy fields to create the point in feature class
@@ -182,17 +182,17 @@ def etl(dest, destFields, source, sourceFields):
                 else:
                     continue
             else:
-                # project points from utm to wgs
+                # project points from utm to mercator
                 if row[0] is not None and row[1] is not None:
                     try:
-                        x = scrub_coord(row[0])
-                        y = scrub_coord(row[1])
+                        scrubbed_x = scrub_coord(row[0])
+                        scrubbed_y = scrub_coord(row[1])
                     except ValueError:
                         continue
 
                     pnt = arcpy.Point()
-                    pnt.X = x
-                    pnt.Y = y
+                    pnt.X = scrubbed_x
+                    pnt.Y = scrubbed_y
                     pntGeo = arcpy.PointGeometry(pnt, utm)
                     pntProj = pntGeo.projectAs(merc)
                     if pntProj.firstPoint is not None:
@@ -213,9 +213,8 @@ def etl(dest, destFields, source, sourceFields):
                     if value is not None:
                         row[i] = row[i][:maxLength]
 
-            icursor.insertRow([(x, y)] + row[2:])
-
-        del scursor
+            new_values = [(x, y)] + row[2:]
+            icursor.insertRow(new_values)
 
 
 def get_source_fields(commonFields):
