@@ -10,7 +10,6 @@ import arcpy
 import settings
 
 
-utm = arcpy.SpatialReference(26912)
 period_replacement = '___'
 logger = logging.getLogger('forklift')
 

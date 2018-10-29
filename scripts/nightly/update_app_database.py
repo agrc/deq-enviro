@@ -18,6 +18,8 @@ temp_suffix = '_temp'
 logger = logging.getLogger('forklift')
 errors = []
 wgs = arcpy.SpatialReference(4326)
+utm = arcpy.SpatialReference(26912)
+merc = arcpy.SpatialReference(3857)
 latitudeLongitude = ['LONGITUDE', 'LATITUDE']
 eastingNorthing = ['EASTING', 'NORTHING']
 excludeFields = {'GlobalID',
@@ -134,7 +136,7 @@ def start_etl(crates, app_database):
                                                 path.basename(app_feature_class),
                                                 'POINT',
                                                 path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
-                                                spatial_reference=wgs)
+                                                spatial_reference=merc)
 
         common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination), get_field_names(app_feature_class))
 
@@ -171,7 +173,7 @@ def etl(dest, destFields, source, sourceFields):
                     pnt.X = lng
                     pnt.Y = lat
                     pntGeo = arcpy.PointGeometry(pnt, wgs)
-                    pntProj = pntGeo.projectAs(wgs)
+                    pntProj = pntGeo.projectAs(merc)
                     if pntProj.firstPoint is not None:
                         x = pntProj.firstPoint.X
                         y = pntProj.firstPoint.Y
@@ -180,11 +182,23 @@ def etl(dest, destFields, source, sourceFields):
                 else:
                     continue
             else:
+                # project points from utm to wgs
                 if row[0] is not None and row[1] is not None:
                     try:
                         x = scrub_coord(row[0])
                         y = scrub_coord(row[1])
                     except ValueError:
+                        continue
+
+                    pnt = arcpy.Point()
+                    pnt.X = x
+                    pnt.Y = y
+                    pntGeo = arcpy.PointGeometry(pnt, utm)
+                    pntProj = pntGeo.projectAs(merc)
+                    if pntProj.firstPoint is not None:
+                        x = pntProj.firstPoint.X
+                        y = pntProj.firstPoint.Y
+                    else:
                         continue
                 else:
                     continue
