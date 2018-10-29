@@ -148,10 +148,10 @@ class DEQNightly1TempTablesPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
-
-    def ship(self):
         update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
+
+    def ship(self):
         for sgid_name in self.updated_datasets:
             source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
