@@ -98,6 +98,7 @@ def create_relationship_classes(staging, test_layer):
             continue
 
         if not arcpy.Exists(rcPath):
+            logger.info('Creating %s', rcPath)
             origin = path.join(staging, settings.fgd, config[fieldnames.parentDatasetName])
             destination = path.join(staging, settings.fgd, config[fieldnames.relatedTableName])
             arcpy.CreateRelationshipClass_management(origin,
