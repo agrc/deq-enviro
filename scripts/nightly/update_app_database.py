@@ -130,18 +130,19 @@ def start_etl(crates, app_database):
         logger.debug(crate)
         #: should always be table -> point feature class
         app_feature_class = path.join(app_database, sgid_name.split('.')[-1])
+        temp_app_feature_class = path.join(crate.destination_workspace, sgid_name.split('.')[-1] + '_temp')
 
-        if not arcpy.Exists(app_feature_class):
-            arcpy.management.CreateFeatureclass(path.dirname(app_feature_class),
-                                                path.basename(app_feature_class),
+        if not arcpy.Exists(temp_app_feature_class):
+            arcpy.management.CreateFeatureclass(path.dirname(temp_app_feature_class),
+                                                path.basename(temp_app_feature_class),
                                                 'POINT',
                                                 path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
                                                 spatial_reference=merc)
 
-        common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination), get_field_names(app_feature_class))
+        common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination), get_field_names(temp_app_feature_class))
 
         if len(mismatch_fields) > 0:
-            msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(app_feature_class), source_name, mismatch_fields)
+            msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(temp_app_feature_class), source_name, mismatch_fields)
             logger.error(msg)
             crate.set_result((Crate.INVALID_DATA, msg))
             continue
@@ -149,7 +150,13 @@ def start_etl(crates, app_database):
         app_fields = ['SHAPE@XY'] + common_fields
         source_fields = get_source_fields(common_fields)
 
-        etl(app_feature_class, app_fields, crate.destination, source_fields)
+        etl(temp_app_feature_class, app_fields, crate.destination, source_fields)
+        if not arcpy.Exists(app_feature_class):
+            arcpy.management.Copy(temp_app_feature_class, app_feature_class)
+        else:
+            arcpy.management.TruncateTable(app_feature_class)
+
+        arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
 
         updated_datasets.append(sgid_name)
 
