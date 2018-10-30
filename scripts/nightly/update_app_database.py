@@ -128,7 +128,15 @@ def start_etl(crates, app_database):
 
         logger.info(sgid_name)
         logger.debug(crate)
-        #: should always be table -> point feature class
+
+        #: The reason why I am creating a temp feature class to load data into rather than loading it directly
+        #: into the prod feature class is this:
+        #: When attempting to use arcpy.da.InsertCursor in etl() to insert directly into the prod feature classes
+        #: arcpy choked on the ones that participate in relationship classes saying that it required an edit session.
+        #: However, when I added an edit session with arcpy.da.Editor, it caused some very strange behavior with the
+        #: point geometries. It would make all of the point geometries the same as the last point (in batches of 1000).
+        #: The only work-around that I found was to etl into temp feature classes and then use the Append tool to load
+        #: the data into the prod feature classes.
         app_feature_class = path.join(app_database, sgid_name.split('.')[-1])
         temp_app_feature_class = path.join(crate.destination_workspace, sgid_name.split('.')[-1] + '_temp')
 
