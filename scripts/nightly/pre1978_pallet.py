@@ -106,7 +106,8 @@ class Pre1978Pallet(Pallet):
             self.log.debug('copying parcels to local scratch database')
             sde_layer = arcpy.management.MakeFeatureLayer(crate.source,
                                                           'sde_layer_{}'.format(county),
-                                                          '{0} IS NOT NULL AND NOT {0} IN (\'\', \' \')'.format(fldBUILT_YR))
+                                                          '{0} IS NOT NULL AND NOT {0} IN (\'\', \' \')'
+                                                          .format(fldBUILT_YR))
             arcpy.management.CopyFeatures(sde_layer, local_lir)
 
             self.log.debug('adding and populating {} field'.format(fldBUILT_YR_NUM))
@@ -118,7 +119,10 @@ class Pre1978Pallet(Pallet):
                 except:
                     return None
             """)
-            arcpy.management.CalculateField(local_lir, fldBUILT_YR_NUM, 'getYear(!{}!)'.format(fldBUILT_YR), code_block=codeblock)
+            arcpy.management.CalculateField(local_lir,
+                                            fldBUILT_YR_NUM,
+                                            'getYear(!{}!)'.format(fldBUILT_YR),
+                                            code_block=codeblock)
 
             self.log.debug('selecting pre-1978 data')
             query = '{0} IS NOT NULL AND {0} <= 1978 AND {0} > 0'.format(fldBUILT_YR_NUM)
@@ -126,7 +130,9 @@ class Pre1978Pallet(Pallet):
 
             self.log.debug('copying address points for this county to local scratch')
             address_points_query = 'CountyID = \'{}\''.format(COUNTIES[county])
-            address_points_layer = arcpy.management.MakeFeatureLayer(address_points, 'address_points_layer_{}'.format(county), address_points_query)
+            address_points_layer = arcpy.management.MakeFeatureLayer(address_points,
+                                                                     'address_points_layer_{}'.format(county),
+                                                                     address_points_query)
             arcpy.management.CopyFeatures(address_points_layer, local_points)
             arcpy.management.AddField(local_points, fldAPOID, 'TEXT', field_length=10)
             arcpy.management.CalculateField(local_points, fldAPOID, '!OBJECTID!')
@@ -155,7 +161,8 @@ class Pre1978Pallet(Pallet):
                     ucur.deleteRow()
 
             self.log.debug('populating with new data')
-            joined_fields = [fi[0] for fi in FIELD_INFOS if fi[0] != fldCOUNTY] + [fldAPOID] + ['PARCEL_ADD', 'PARCEL_CITY']
+            joined_fields = [fi[0] for fi in FIELD_INFOS if fi[0] != fldCOUNTY] + \
+                [fldAPOID] + ['PARCEL_ADD', 'PARCEL_CITY']
             with arcpy.da.SearchCursor(joined, joined_fields) as joined_cursor, \
                     arcpy.da.InsertCursor(pre1978, [fi[0] for fi in FIELD_INFOS] + ['SHAPE@']) as insert_cursor:
                 for joined_row in joined_cursor:

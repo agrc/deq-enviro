@@ -68,7 +68,9 @@ def post_process_dataset(dataset):
                     expression = 'str(int(!{}!))'.format(expression)
                 else:
                     expression = '!{}!'.format(expression)
-                calc_layer = arcpy.management.MakeFeatureLayer(dataset, 'calc-layer', '{} IS NOT NULL'.format(config[fld]))
+                calc_layer = arcpy.management.MakeFeatureLayer(dataset,
+                                                               'calc-layer',
+                                                               '{} IS NOT NULL'.format(config[fld]))
                 uses_layer = True
             else:
                 calc_layer = dataset

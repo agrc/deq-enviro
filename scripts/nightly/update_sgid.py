@@ -29,7 +29,8 @@ def update_sgid_for_crates(crates_from_slip):
         sgid_lookup[dataset.split('.')[-1]] = dataset
     arcpy.env.workspace = None
 
-    updated_crates = [crate for crate in crates_from_slip if crate['was_updated'] and not crate['source'].startswith('SGID10')]
+    updated_crates = [crate for crate in crates_from_slip if crate['was_updated'] and
+                      not crate['source'].startswith('SGID10')]
 
     for crate_slip in updated_crates:
         sgid_name = sgid_lookup[crate_slip['name']]

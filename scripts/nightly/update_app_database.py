@@ -4,7 +4,6 @@ update_app_database.py
 Helper code for updating data in the application file geodatabase
 '''
 import spreadsheet
-from update_sgid import period_replacement
 from update_fgdb import commonFields
 import settings
 from os import path
@@ -95,9 +94,9 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
                 source = path.join(settings.dbConnects, source_data)
 
                 infos.append((path.basename(source),
-                                path.dirname(source),
-                                destination_gdb,
-                                sgid_name.split('.')[-1]))
+                              path.dirname(source),
+                              destination_gdb,
+                              sgid_name.split('.')[-1]))
 
         except Exception as e:
             msg = 'Error with {}: {}'.format(dataset, e)
@@ -105,8 +104,10 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
             logger.error(msg)
     return (infos, errors)
 
+
 def get_temp_crate_infos(temp_gdb, test_layer=None):
     return _get_crate_infos(temp_gdb, test_layer, temp=True)
+
 
 def start_etl(crates, app_database):
     #: these crates are all table -> point etls as returned from get_temp_crate_infos
@@ -147,10 +148,13 @@ def start_etl(crates, app_database):
                                                 path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
                                                 spatial_reference=merc)
 
-        common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination), get_field_names(temp_app_feature_class))
+        common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination),
+                                                             get_field_names(temp_app_feature_class))
 
         if len(mismatch_fields) > 0:
-            msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(temp_app_feature_class), source_name, mismatch_fields)
+            msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(temp_app_feature_class),
+                                                                      source_name,
+                                                                      mismatch_fields)
             logger.error(msg)
             crate.set_result((Crate.INVALID_DATA, msg))
             continue
@@ -175,7 +179,8 @@ def etl(dest, destFields, source, sourceFields):
     arcpy.management.TruncateTable(dest)
 
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
-    with arcpy.da.InsertCursor(dest, destFields) as icursor, arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
+    with arcpy.da.InsertCursor(dest, destFields) as icursor, \
+            arcpy.da.SearchCursor(source, sourceFields, where) as scursor:
         for row in scursor:
             row = list(row)
             # use xy fields to create the point in feature class
