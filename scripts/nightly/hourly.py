@@ -33,10 +33,11 @@ def _setup_logging():
 
     try:
         makedirs(path.dirname(log_location))
-    except:
+    except Exception:
         pass
 
-    file_handler = logging.handlers.RotatingFileHandler(log_location.replace('forklift.log', 'deqhourly.log'), backupCount=18)
+    file_handler = logging.handlers.RotatingFileHandler(log_location.replace('forklift.log', 'deqhourly.log'),
+                                                        backupCount=18)
     file_handler.doRollover()
     file_handler.setFormatter(detailed_formatter)
     file_handler.setLevel(debug)
@@ -54,41 +55,36 @@ def _setup_logging():
 
 try:
     sgid_name = 'DAQAirMonitorData'
-    sgid_stage = arcpy.env.scratchGDB
     sgid_db = settings.sgid['ENVIRONMENT']
-    stage_db = r'C:\Scheduled\staging\deqquerylayers.gdb'
+    stage_db = r'C:\forklift\data\hashed\deqquerylayers.gdb'
     source_db = path.join(settings.dbConnects, r'AVData.sde')
     source_name = 'AVData.dbo.interactive_map_monitoring_data'
-    bad_results = [Crate.UNHANDLED_EXCEPTION, Crate.UNINITIALIZED]
+    bad_results = [Crate.INVALID_DATA, Crate.UNHANDLED_EXCEPTION, Crate.UNINITIALIZED, Crate.ERROR]
 
     log = _setup_logging()
 
-    log.info('creating crates')
-    sde_update_crate = Crate(source_name, source_db, sgid_stage, sgid_name)
-    stage_update_crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
+    log.info('creating crate')
+    crate = Crate(sgid_name, sgid_db, stage_db, sgid_name)
 
-    log.info('processing sde crate')
+    log.info('processing crate')
     core.init(log)
-    sde_update_crate.set_result(core.update(sde_update_crate, validate_crate))
-    if sde_update_crate.was_updated():
+    crate.set_result(core.update(crate, validate_crate))
+    if crate.was_updated():
         log.info('updating data in SDE')
         sgid_destination = path.join(sgid_db, 'SGID10.ENVIRONMENT.{}'.format(sgid_name))
         arcpy.management.TruncateTable(sgid_destination)
-        arcpy.management.Append(sde_update_crate.destination, sgid_destination, 'NO_TEST')
+        arcpy.management.Append(crate.destination, sgid_destination, 'NO_TEST')
 
         log.info('updating prod fgdbs')
         for dest_fgdb in [settings.mapData1, settings.mapData2]:
             dest = path.join(dest_fgdb, 'deqquerylayers.gdb', sgid_name)
             arcpy.management.TruncateTable(dest)
-            arcpy.management.Append(sde_update_crate.destination, dest, 'NO_TEST')
+            arcpy.management.Append(crate.destination, dest, 'NO_TEST')
 
-    log.info('processing staging crate')
-    stage_update_crate.set_result(core.update(stage_update_crate, validate_crate))
-
-    if sde_update_crate.result[0] in bad_results:
+    if crate.result[0] in bad_results:
         send_email(reportEmail,
                    'DEQ Hourly Crate Error',
-                   'SDE Update Crate:\n{}\n\nFGDB Update Crates:\n{}\n{}'.format(sde_update_crate))
+                   'Crate Result: \n{}'.format(crate.result))
 
     log.info('Process completed successfully. Have a nice day.')
 except Exception as e:
