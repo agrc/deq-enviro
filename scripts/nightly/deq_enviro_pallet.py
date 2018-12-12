@@ -7,36 +7,20 @@ Note: There is a separate scheduled task that runs this pallet for
 SGID10.ENVIRONMENT.DAQAirMonitorByStation on an hourly basis.
 '''
 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from os import path
 
 import arcpy
 import build_json
-import pystache
 import settings
 import update_fgdb
 import update_sgid
 import update_app_database
-from forklift.messaging import send_email
 from forklift.models import Crate, Pallet
 from settings import fieldnames
 import spreadsheet
 
 current_folder = path.dirname(path.realpath(__file__))
 STREAMS = 'StreamsNHDHighRes'
-
-
-def send_report_email(name, report_data):
-    report_data['name'] = name
-    template = path.join(path.abspath(path.dirname(__file__)), 'report_template.html')
-    with open(template, 'r') as template_file:
-        email_content = pystache.render(template_file.read(), report_data)
-
-    message = MIMEMultipart()
-    message.attach(MIMEText(email_content, 'html'))
-
-    send_email(settings.reportEmail, 'DEQ Nightly Report: {}'.format(name), message)
 
 
 class DEQNightly0UpdatePallet(Pallet):
@@ -71,6 +55,7 @@ class DEQNightly0UpdatePallet(Pallet):
         return update_fgdb.validate_crate(crate)
 
     def requires_processing(self):
+        #: make sure that update_problem_layers is called every time
         return True
 
     def process(self):
@@ -107,16 +92,10 @@ class DEQNightly0UpdatePallet(Pallet):
     def ship(self):
         update_sgid.update_sgid_for_crates(self.slip['crates'])
 
-        try:
-            self.log.info('BUILDING JSON FILE')
-            build_json.run()
-        except Exception:
-            raise
-        finally:
-            send_report_email('App Data', self.get_report())
+        self.log.info('BUILDING JSON FILE')
+        build_json.run()
 
 
-#: pallets are executed in alphabetical order
 class DEQNightly1TempTablesPallet(Pallet):
     #: this is for source tables -> point feature classes
     #: it first copies the tables to a temp gdb
@@ -156,8 +135,6 @@ class DEQNightly1TempTablesPallet(Pallet):
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
 
             update_sgid.update_sgid_data(source, destination)
-
-        send_report_email('Temp Tables', self.get_report())
 
 
 class DEQNightly2NonSGIDPallet(Pallet):
@@ -213,8 +190,6 @@ class DEQNightlyRelatedTablesPallet(Pallet):
 
     def ship(self):
         update_sgid.update_sgid_for_crates(self.slip['crates'])
-
-        send_report_email('App Data', self.get_report())
 
 
 class DEQNightlyReferenceDataPallet(Pallet):
