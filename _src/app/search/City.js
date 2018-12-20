@@ -40,6 +40,14 @@ define([
         symbolFill: config.symbols.zoom.polygon,
         preserveGraphics: true,
 
+        postCreate() {
+            console.log('app/search/City:postCreate');
+
+            this.textBox.autocomplete = 'nope';
+
+            this.inherited(arguments);
+        },
+
         getGeometry: function () {
             // summary:
             //      Called by Search
