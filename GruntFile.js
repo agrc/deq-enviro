@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 module.exports = function (grunt) {
     grunt.loadNpmTasks('intern');
     require('load-grunt-tasks')(grunt);
@@ -227,6 +228,34 @@ module.exports = function (grunt) {
                 }
             }
         },
+        uglify: {
+            options: {
+                preserveComments: false,
+                sourceMap: true,
+                compress: {
+                    drop_console: true,
+                    passes: 2,
+                    dead_code: true
+                }
+            },
+            stage: {
+                options: {
+                    compress: {
+                        drop_console: false
+                    }
+                },
+                src: ['dist/dojo/dojo.js'],
+                dest: 'dist/dojo/dojo.js'
+            },
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['**/*.js', '!proj4/**/*.js'],
+                    dest: 'dist'
+                }]
+            }
+        },
         watch: {
             main: {
                 files: jsFiles.concat(otherFiles),
@@ -264,6 +293,7 @@ module.exports = function (grunt) {
         'newer:imagemin:dynamic',
         'clean:build',
         'dojo:prod',
+        'uglify:prod',
         'copy:dist',
         'processhtml:prod',
         'cachebreaker'
@@ -283,6 +313,7 @@ module.exports = function (grunt) {
         'newer:imagemin:dynamic',
         'clean:build',
         'dojo:stage',
+        'uglify:stage',
         'copy:dist',
         'processhtml:stage',
         'cachebreaker'
