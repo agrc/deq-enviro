@@ -167,8 +167,7 @@ define([
             secure: secureUrl,
             search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
-            exportWebMap: deqServiceFolder + '/ExportWebMap/GPServer/Export Web Map',
-            printProxy: deqServiceFolder + '/../PrintProxy/GPServer/PrintProxy',
+            printProxy: 'https://us-central1-utahkoopserver.cloudfunctions.net/printproxy/14/arcgis/rest/services/GPServer/export',
             landOwnership: 'https://gis.trustlands.utah.gov/server/' +
                            'rest/services/Ownership/UT_SITLA_Ownership_LandOwnership_WM/MapServer'
         },
