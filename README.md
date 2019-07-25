@@ -74,7 +74,9 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
     shp  
     C:\MapData\deqquerylayers.gdb
     ```
-
-1. Configure and schedule `scripts/nightly/main.py` to run nightly. Will likely need to copy `scripts/nightly/databases` and `scripts/nightly/settings/__init__.py` from the previous server.
+1. Add repo to forklift.
+    1. Copy `scripts/nightly/databases` & `scripts/nightly/settings/__init__.py` from old server.
+    1. Download and install the latest [oracle instant client](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html).
+    1. From within the forklift environment: `pip install -r .\scripts\nightly\requirements.txt`
 1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
     - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
