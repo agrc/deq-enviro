@@ -1,10 +1,10 @@
 '''
 pre1978_pallet.py
 
-This pallet updates data in SGID10.ENVIRONMENT.DAQPre1978LeadInHomes using AddressPoints and LIR parcel data.
+This pallet updates data in SGID.ENVIRONMENT.DAQPre1978LeadInHomes using AddressPoints and LIR parcel data.
 
 The data for this dataset is drawn from the LIR parcels data and address points. The address-related attributes
-as well as geometry is pulled from the SGID10.LOCATION.AddressPoints. If this data is not available, then the script
+as well as geometry is pulled from the SGID.LOCATION.AddressPoints. If this data is not available, then the script
 falls back to the LIR parcel data.
 
 The LIR parcel data is mainly use for its year built, property class and currency data.
@@ -72,13 +72,13 @@ FIELD_INFOS = [
 
 class Pre1978Pallet(Pallet):
     def build(self, target):
-        self.sgid = join(self.garage, 'SGID10.sde')
+        self.sgid = join(self.garage, 'SGID.sde')
         self.boundaries = join(self.staging_rack, 'cadastre.gdb')
 
         #: build parcel crates
         self.log.info('building parcel crates')
         for county in COUNTIES:
-            fc_name = 'SGID10.CADASTRE.Parcels_{}_LIR'.format(county)
+            fc_name = 'SGID.CADASTRE.Parcels_{}_LIR'.format(county)
             lir = join(self.sgid, fc_name)
 
             if not arcpy.Exists(lir):
@@ -88,9 +88,9 @@ class Pre1978Pallet(Pallet):
             self.add_crate((fc_name, self.sgid, self.boundaries, fc_name.replace('.', '_')))
 
     def process(self):
-        pre1978 = join(self.garage, 'SGID10 as ENVIRONMENT.sde', 'SGID10.ENVIRONMENT.DAQPre1978LeadInHomes')
-        address_points = join(self.sgid, 'SGID10.LOCATION.AddressPoints')
-        zip_codes = join(self.sgid, 'SGID10.BOUNDARIES.ZipCodes')
+        pre1978 = join(self.garage, 'SGID as ENVIRONMENT.sde', 'SGID.ENVIRONMENT.DAQPre1978LeadInHomes')
+        address_points = join(self.sgid, 'SGID.LOCATION.AddressPoints')
+        zip_codes = join(self.sgid, 'SGID.BOUNDARIES.ZipCodes')
 
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             match = re.search('Parcels_(.*)_LIR', crate.destination_name)
@@ -155,7 +155,7 @@ class Pre1978Pallet(Pallet):
                                        local_points,
                                        joined)
 
-            self.log.debug('deleting data in SGID10.ENVIRONMENT.DAQPre1978LeadInHomes for {}'.format(county))
+            self.log.debug('deleting data in SGID.ENVIRONMENT.DAQPre1978LeadInHomes for {}'.format(county))
             with arcpy.da.UpdateCursor(pre1978, ['OID@'], '{} = \'{}\''.format(fldCOUNTY, county)) as ucur:
                 for row in ucur:
                     ucur.deleteRow()
