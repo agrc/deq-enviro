@@ -4,7 +4,7 @@ main.py
 A module that contains the main forklift pallets for deq
 
 Note: There is a separate scheduled task that runs this pallet for
-SGID10.ENVIRONMENT.DAQAirMonitorByStation on an hourly basis.
+SGID.ENVIRONMENT.DAQAirMonitorByStation on an hourly basis.
 '''
 
 from os import path
@@ -198,7 +198,7 @@ class DEQNightlyReferenceDataPallet(Pallet):
 
         self.test_layer = test_layer
 
-        self.sgid = path.join(self.garage, 'SGID10.sde')
+        self.sgid = path.join(self.garage, 'SGID.sde')
         self.boundaries = path.join(self.staging_rack, 'boundaries.gdb')
         self.water = path.join(self.staging_rack, 'water.gdb')
         self.environment = path.join(self.staging_rack, 'environment.gdb')
