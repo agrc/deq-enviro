@@ -2,7 +2,7 @@
 hourly.py
 
 A script to update DAQ data that needs to be updated hourly.
-SGID10.ENVIRONMENT.DAQAirMonitorByStation
+SGID.ENVIRONMENT.DAQAirMonitorByStation
 '''
 
 
@@ -71,7 +71,7 @@ try:
     crate.set_result(core.update(crate, validate_crate))
     if crate.was_updated():
         log.info('updating data in SDE')
-        sgid_destination = path.join(sgid_db, 'SGID10.ENVIRONMENT.{}'.format(sgid_name))
+        sgid_destination = path.join(sgid_db, 'SGID.ENVIRONMENT.{}'.format(sgid_name))
         arcpy.management.TruncateTable(sgid_destination)
         arcpy.management.Append(crate.destination, sgid_destination, 'NO_TEST')
 
