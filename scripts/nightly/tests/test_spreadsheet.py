@@ -18,7 +18,7 @@ class SpreadsheetTests(unittest.TestCase):
         # a few of the fields
         self.assertEqual(l[fieldnames.ID], 'CUZONE')
         self.assertEqual(l[fieldnames.sourceData], r'\\168.178.43.239\GIS\DWGIS\DWDATA\DWPUBLIC.gdb\ConsumUseZones')
-        self.assertEqual(l[fieldnames.sgidName], 'SGID10.WATER.DDWIrrigatedCropConsumptiveUseZones')
+        self.assertEqual(l[fieldnames.sgidName], 'SGID.WATER.DDWIrrigatedCropConsumptiveUseZones')
 
     def test_get_related_tables(self):
         tbls = spreadsheet.get_related_tables()
@@ -28,7 +28,7 @@ class SpreadsheetTests(unittest.TestCase):
         t = tbls[0]
 
         self.assertEqual(t[fieldnames.sourceData], r'ustdata.sde\USTDATA.dbo.FMSTankUst')
-        self.assertEqual(t[fieldnames.sgidName], 'SGID10.ENVIRONMENT.DEQMAP_TANKUST')
+        self.assertEqual(t[fieldnames.sgidName], 'SGID.ENVIRONMENT.DEQMAP_TANKUST')
 
     def test_get_links(self):
         links = spreadsheet.get_links()

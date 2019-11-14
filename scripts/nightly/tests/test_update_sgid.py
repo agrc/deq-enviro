@@ -21,14 +21,14 @@ setTwo = set(['two', 'three', 'four', 'five'])
 test_data = os.path.join(os.path.dirname(__file__), 'data.gdb')
 get_datasets_return_value = [{fieldnames.sourceData: '\\168.178.43.239\GIS\DWGIS\DWDATA\DWPUBLIC.gdb\SourceWaterProtection\GroundWaterZones',
                               fieldnames.sgidName: 'DirectFrom.Source.GroundWaterZones'},
-                             {fieldnames.sourceData: 'SGID10 as WATER on local.sde\SGID10.WATER.Providers',
-                              fieldnames.sgidName: 'SGID10.ENVIRONMENT.DAQAirMonitorByStation'},
+                             {fieldnames.sourceData: 'SGID as WATER on local.sde\SGID.WATER.Providers',
+                              fieldnames.sgidName: 'SGID.ENVIRONMENT.DAQAirMonitorByStation'},
                              {fieldnames.sourceData: os.path.join(test_data, 'LatLong'),
-                              fieldnames.sgidName: 'SGID10.WATER.Stations'},  #: table to point
+                              fieldnames.sgidName: 'SGID.WATER.Stations'},  #: table to point
                              {fieldnames.sourceData: '<updated through ogm script at 4:15 AM daily>',
-                              fieldnames.sgidName: 'SGID10.ENERGY.DNROilGasWells'},
+                              fieldnames.sgidName: 'SGID.ENERGY.DNROilGasWells'},
                              {fieldnames.sourceData: os.path.join(test_data, 'LatLong_point'),
-                              fieldnames.sgidName: 'SGID10.WATER.Stations'}]  #: point to point
+                              fieldnames.sgidName: 'SGID.WATER.Stations'}]  #: point to point
 
 
 @patch('spreadsheet.get_datasets')
@@ -48,9 +48,9 @@ class GetCrateInfos(unittest.TestCase):
         infos = update_sgid.get_temp_crate_infos()
 
         self.assertEqual(2, len(infos))
-        self.assertEqual(infos[0], ('SGID10.WATER.Providers',
+        self.assertEqual(infos[0], ('SGID.WATER.Providers',
                                     os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')),
-                                                 'settings', '..', 'databases', 'SGID10 as WATER on local.sde'),
+                                                 'settings', '..', 'databases', 'SGID as WATER on local.sde'),
                                     arcpy.env.scratchGDB,
                                     'Providers'))
         self.assertEqual(infos[1], ('LatLong',

@@ -62,11 +62,11 @@ class ValidateFields(unittest.TestCase):
 get_datasets_return_value = [{fieldnames.sourceData: r'\\168.178.43.239\GIS\DWGIS\DWDATA\DWPUBLIC.gdb\SourceWaterProtection\GroundWaterZones',
                               fieldnames.sgidName: 'DirectFrom.Source.GroundWaterZones'},
                              {fieldnames.sourceData: os.path.join(test_data, 'LatLong'),
-                              fieldnames.sgidName: 'SGID10.WATER.Stations'},  #: table to point
+                              fieldnames.sgidName: 'SGID.WATER.Stations'},  #: table to point
                              {fieldnames.sourceData: '<updated through ogm script at 4:15 AM daily>',
-                              fieldnames.sgidName: 'SGID10.ENERGY.DNROilGasWells'},
+                              fieldnames.sgidName: 'SGID.ENERGY.DNROilGasWells'},
                              {fieldnames.sourceData: os.path.join(test_data, 'LatLong_point'),
-                              fieldnames.sgidName: 'SGID10.WATER.Stations'}]  #: point to point
+                              fieldnames.sgidName: 'SGID.WATER.Stations'}]  #: point to point
 
 
 @patch('spreadsheet.get_datasets')
@@ -81,11 +81,11 @@ class GetCrateInfos(unittest.TestCase):
                                     r'\\168.178.43.239\GIS\DWGIS\DWDATA\DWPUBLIC.gdb',
                                     settings.fgd,
                                     'GroundWaterZones'))
-        self.assertEqual(infos[1], (r'SGID10.WATER.Stations',
+        self.assertEqual(infos[1], (r'SGID.WATER.Stations',
                                     settings.sgid['WATER'],
                                     settings.fgd,
                                     'Stations'))
-        self.assertEqual(infos[2], (r'SGID10.ENERGY.DNROilGasWells',
+        self.assertEqual(infos[2], (r'SGID.ENERGY.DNROilGasWells',
                                     settings.sgid['ENERGY'],
                                     settings.fgd,
                                     'DNROilGasWells'))

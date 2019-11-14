@@ -10,9 +10,9 @@ agsServer = 'localhost'
 
 # database connections
 dbConnects = os.path.join(os.path.dirname(os.path.abspath(__file__)), r'..\databases')
-sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID10 as ENVIRONMENT on local.sde'),
-        'WATER': os.path.join(dbConnects, 'SGID10 as WATER on local.sde'),
-        'ENERGY': os.path.join(dbConnects, 'SGID10 as ENERGY on local.sde')}
+sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID as ENVIRONMENT on local.sde'),
+        'WATER': os.path.join(dbConnects, 'SGID as WATER on local.sde'),
+        'ENERGY': os.path.join(dbConnects, 'SGID as ENERGY on local.sde')}
 
 fgd = 'deqquerylayers.gdb'
 

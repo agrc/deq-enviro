@@ -124,7 +124,7 @@ def start_etl(crates, app_database):
         sgid_name = dataset[settings.fieldnames.sgidName]
         source_name = dataset[settings.fieldnames.sourceData]
 
-        if not sgid_name.startswith('SGID10') or source_name.startswith('SGID10') or not crate.was_updated():
+        if not sgid_name.startswith('SGID') or source_name.startswith('SGID') or not crate.was_updated():
             continue
 
         logger.info(sgid_name)
