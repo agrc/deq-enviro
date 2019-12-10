@@ -12,7 +12,8 @@
     "put-selector": "~0.3.5",
     "stubmodule": "dojo2",
     "layer-selector": "agrc-layer-selector#~0.4.0",
-    "sherlock": "agrc-sherlock#^1.0.0"
+    "sherlock": "agrc-sherlock#^1.0.0",
+    "dijit-themes": "https://github.com/dojo/dijit-themes.git#1.14.0"
   },
   "resolutions": {
     "agrc": "~6.1.2",
