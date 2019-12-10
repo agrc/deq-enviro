@@ -21,6 +21,12 @@ import spreadsheet
 
 current_folder = path.dirname(path.realpath(__file__))
 STREAMS = 'StreamsNHDHighRes'
+ARCGIS_SERVICES = [
+    ('DEQEnviro/MapService', 'MapServer'),
+    ('DEQEnviro/Secure', 'MapServer'),
+    ('DEQEnviro/ExportWebMap', 'GPServer'),
+    ('DEQEnviro/Toolbox', 'GPServer')
+]
 
 
 class DEQNightly0UpdatePallet(Pallet):
@@ -35,6 +41,7 @@ class DEQNightly0UpdatePallet(Pallet):
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.copy_data = [self.deqquerylayers]
+        self.arcgis_services = ARCGIS_SERVICES
 
     def build(self, configuration):
         self.configuration = configuration
@@ -107,6 +114,7 @@ class DEQNightly1TempTablesPallet(Pallet):
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.deqquerylayers_temp = path.join(self.staging_rack, settings.fgd.replace('.gdb', '_temp.gdb'))
         self.copy_data = [self.deqquerylayers]
+        self.arcgis_services = ARCGIS_SERVICES
         self.updated_datasets = []
 
         self.problem_layer_infos = []
@@ -144,6 +152,7 @@ class DEQNightly2NonSGIDPallet(Pallet):
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.copy_data = [self.deqquerylayers]
+        self.arcgis_services = ARCGIS_SERVICES
 
         self.test_layer = test_layer
 
@@ -170,6 +179,7 @@ class DEQNightlyRelatedTablesPallet(Pallet):
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.copy_data = [self.deqquerylayers]
+        self.arcgis_services = ARCGIS_SERVICES
 
     def build(self, configuration):
         self.configuration = configuration
@@ -209,6 +219,7 @@ class DEQNightlyReferenceDataPallet(Pallet):
                           self.water,
                           self.environment,
                           self.deqquerylayers]
+        self.arcgis_services = ARCGIS_SERVICES
 
         self.static_data = [path.join(r'C:\Scheduled\static', 'deqreferencedata.gdb')]
 
