@@ -85,7 +85,7 @@ class Pre1978Pallet(Pallet):
                 self.log.debug('no LIR dataset for {} county was found'.format(county))
                 continue
 
-            self.add_crate((fc_name, self.sgid, self.boundaries))
+            self.add_crate((fc_name.split('.')[-1], self.sgid, self.boundaries))
 
     def process(self):
         pre1978 = join(self.garage, 'SGID as ENVIRONMENT.sde', 'SGID.ENVIRONMENT.DAQPre1978LeadInHomes')
