@@ -57,9 +57,7 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
 ## Deploy Steps
 1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
     - Import RavenDB and web.config from previous server.
-1. Set up users & roles in ArcGIS Server
-    - Create new roles called `deq_water` & `deq_admin`.
-    - Create users with the same names as the roles. Use the password from the Permission Proxy `web.config`.
+    - Use [configs/permissionproxy.json](configs/permissionproxy.json) to create a new application
 1. Publish `maps/MapService.mxd` and `maps/Secure.mxd` to a `DEQEnviro` folder in ArcGIS Server.
     - `Secure` should be locked down to just the `deq_admin` and `deq_water` roles.
 1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
