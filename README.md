@@ -58,8 +58,16 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
 1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
     - Import RavenDB and web.config from previous server.
     - Use [configs/permissionproxy.json](configs/permissionproxy.json) to create a new application
+1. Build and deploy (using web deploy) [api/Search.Api/Search.Api.sln](api/Search.Api/Search.Api.sln) to the web server (<root>/deqenviro/api).
+    - Register SOE from the same project with ArcGIS Server.
 1. Publish `maps/MapService.mxd` and `maps/Secure.mxd` to a `DEQEnviro` folder in ArcGIS Server.
     - `Secure` should be locked down to just the `deq_admin` and `deq_water` roles.
+    - Add the SOE to each of these services:
+        - sitename: `NAME`
+        - maxrecords: `25000`
+        - returnFields: `ID,NAME,ADDRESS,CITY,TYPE,OBJECTID,ENVIROAPPLABEL,ENVIROAPPSYMBOL`
+        - facilityust: `FACILITYUST`
+        - programid: `ID`
 1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
     - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
     - synchronous
