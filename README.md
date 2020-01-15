@@ -79,7 +79,7 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
     ```
     {"BFNONTARGETED":["Pre5","Pre9","Pre8","Pre4","Pre7","Pre10","Pre12","Pre13","Pre14","Pre11","13","14"],"BFTARGETED":["2A","3","5","6","4","8","9","10","11","12","1","2","7"]}  
     shp  
-    C:\MapData\deqquerylayers.gdb
+    C:\forklift\data\production\deqquerylayers.gdb
     ```
 1. Add repo to forklift.
     1. Copy `scripts/nightly/databases` & `scripts/nightly/settings/__init__.py` from old server.
