@@ -59,6 +59,8 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
     - Import RavenDB and web.config from previous server.
     - Use [configs/permissionproxy.json](configs/permissionproxy.json) to create a new application
     - May need to set the `AccessRules.EndDate` to `5000000000000` for the initial user so that you can log in successfully the first time.
+1. Create a `deqnightly` user in ArcGIS Server and assign it to the `deq_admin` role.
+    - Fill in the credentials in the settings for the pallet.
 1. Build and deploy (using web deploy) [api/Search.Api/Search.Api.sln](api/Search.Api/Search.Api.sln) to the web server (<root>/deqenviro/api).
     - Register SOE from the same project with ArcGIS Server.
 1. Publish `maps/MapService.mxd` and `maps/Secure.mxd` to a `DEQEnviro` folder in ArcGIS Server.
