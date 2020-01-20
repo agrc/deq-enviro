@@ -138,7 +138,7 @@ class DEQNightly1TempTablesPallet(Pallet):
         update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def ship(self):
-        for sgid_name in self.updated_datasets:
+        for sgid_name in [sgid_name for sgid_name in self.updated_datasets if not sgid_name.startswith('ETLFrom')]:
             source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
 
@@ -146,7 +146,8 @@ class DEQNightly1TempTablesPallet(Pallet):
 
 
 class DEQNightly2NonSGIDPallet(Pallet):
-    #: this is for data that is not updated in SGID
+    #: this is for data that is not updated in SGID except for tables that need to be ETL'ed, those are
+    #: taken care of in DEQNightly1TempTablesPallet
     def __init__(self, test_layer=None):
         super(DEQNightly2NonSGIDPallet, self).__init__()
 
