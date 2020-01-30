@@ -32,18 +32,21 @@ define([
 ) {
     var agsDomain;
     var AGRC = {};
+    let mapDataLocation;
     if (has('agrc-build') === 'prod') {
         // *.utah.gov
         AGRC.apiKey = 'AGRC-D3CDE591211690';
         agsDomain = 'enviro.deq.utah.gov';
         // mapserv.utah.gov or enviro.deq.utah.gov
         AGRC.quadWord = 'result-table-secure-antenna';
+        mapDataLocation = 'C:\\MapData';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         AGRC.apiKey = 'AGRC-AC122FA9671436';
         agsDomain = 'test.mapserv.utah.gov';
         esriConfig.defaults.io.corsEnabledServers.push(agsDomain);
         AGRC.quadWord = 'opera-event-little-pinball';
+        mapDataLocation = 'C:\\forklift-stage\\data\\production';
     } else {
         // localhost
         xhr(require.baseUrl + 'secrets.json', {
@@ -56,6 +59,7 @@ define([
             throw 'Error getting secrets!';
         });
         agsDomain = 'localhost';
+        mapDataLocation = 'C:\\forklift\\data\\production';
     }
 
     // force api to use CORS on mapserv thus removing the test request on app load
@@ -104,7 +108,7 @@ define([
 
         printMapTitle: 'Printed from the Utah DEQ Interactive Map',
 
-        downloadDataPath: 'C:\\MapData\\deqquerylayers.gdb',
+        downloadDataPath: `${mapDataLocation}\\deqquerylayers.gdb`,
 
         // topics: Object
         //      The topic strings used in this app
