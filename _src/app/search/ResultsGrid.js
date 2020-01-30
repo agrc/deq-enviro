@@ -165,7 +165,8 @@ define([
                     label: cap(fn.NAME)
                 }, {
                     field: fn.TYPE,
-                    label: cap(fn.TYPE)
+                    label: cap(fn.TYPE),
+                    formatter: item => item
                 }, {
                     field: fn.ADDRESS,
                     label: cap(fn.ADDRESS)
