@@ -87,10 +87,14 @@ define([
             this.query.returnGeometry = true;
 
             // set up empty grid
-            var columns = {
-                fieldAlias: 'Field Alias',
-                value: 'Value'
-            };
+            var columns = [
+                {
+                    field: 'fieldAlias'
+                }, {
+                    field: 'value',
+                    formatter: item => item
+                }
+            ];
             this.attributeGrid = new Grid({
                 columns: columns,
                 showHeader: false,
