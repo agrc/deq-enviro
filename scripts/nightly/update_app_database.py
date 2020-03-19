@@ -147,7 +147,9 @@ def start_etl(crates, app_database):
                 x_field, y_field = latitudeLongitude
             else:
                 x_field, y_field = eastingNorthing
-            template = arcpy.management.MakeXYEventLayer(crate.destination, x_field, y_field, f'{sgid_name}_layer')
+            query = f'{x_field} NOT NULL AND {x_field} > 0 AND {y_field} NOT NULL AND {y_field} > 0'
+            template_layer = arcpy.management.MakeFeatureLayer(crate.destination, f'{sgid_name}_template_layer', query)
+            template = arcpy.management.MakeXYEventLayer(template_layer, x_field, y_field, f'{sgid_name}_layer')
             arcpy.management.CreateFeatureclass(path.dirname(temp_app_feature_class),
                                                 path.basename(temp_app_feature_class),
                                                 'POINT',
@@ -155,6 +157,7 @@ def start_etl(crates, app_database):
                                                 template,
                                                 spatial_reference=merc)
             arcpy.management.Delete(template)
+            arcpy.management.Delete(template_layer)
 
         common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination),
                                                              get_field_names(temp_app_feature_class))
