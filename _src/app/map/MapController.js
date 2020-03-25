@@ -128,8 +128,6 @@ define([
             // Deferred
             console.log('app/MapController:mapIsZoomingOrPanning', arguments);
 
-            console.log('this.extentChangePromise', this.extentChangePromise);
-
             return this.extentChangePromise || new Deferred().resolve();
         },
         setUpPublishes: function () {
@@ -231,21 +229,24 @@ define([
             // geometry: esri/geometry
             console.log('app/map/MapController::zoom', arguments);
 
-            var that = this;
-            var removePromise = function () {
-                that.extentChangePromise = null;
-            };
             geometry.spatialReference = this.map.spatialReference;
+
+            if (this.extentChangePromise && !this.extentChangePromise.isResolved()) {
+                this.extentChangePromise.resolve();
+            }
+
+            this.extentChangePromise = new Deferred();
+            const resolve = () => {
+                this.extentChangePromise.resolve();
+            };
 
             if (geometry.type === 'point') {
                 const zoomLevel = 13;
-                this.extentChangePromise = this.map.centerAndZoom(geometry, zoomLevel)
-                    .then(removePromise);
+                this.map.centerAndZoom(geometry, zoomLevel).then(resolve);
             } else if (geometry.type === 'extent') {
-                this.extentChangePromise = this.map.setExtent(geometry, true);
+                this.map.setExtent(geometry, true).then(resolve);
             } else {
-                this.extentChangePromise = this.map.setExtent(geometry.getExtent(), true)
-                    .then(removePromise);
+                this.map.setExtent(geometry.getExtent(), true).then(resolve);
             }
         },
         graphic: function (layerPropName, symbolSet, geometry) {
