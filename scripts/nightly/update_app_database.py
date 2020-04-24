@@ -124,7 +124,7 @@ def start_etl(crates, app_database):
         sgid_name = dataset[settings.fieldnames.sgidName]
         source_name = dataset[settings.fieldnames.sourceData]
 
-        if not sgid_name.startswith('SGID') or source_name.startswith('SGID') or not crate.was_updated():
+        if (not sgid_name.startswith('SGID') and not sgid_name.startswith('ETLFrom')) or source_name.startswith('SGID') or not crate.was_updated():
             continue
 
         logger.info(sgid_name)
@@ -142,11 +142,34 @@ def start_etl(crates, app_database):
         temp_app_feature_class = path.join(crate.destination_workspace, sgid_name.split('.')[-1] + '_temp')
 
         if not arcpy.Exists(temp_app_feature_class):
+            fields = get_field_names(crate.destination)
+            if latitudeLongitude[0] in fields:
+                x_field, y_field = latitudeLongitude
+            else:
+                x_field, y_field = eastingNorthing
+            #: make sure that coord fields are numeric
+            is_string = False
+            for field in arcpy.da.Describe(crate.destination)['fields']:
+                if field.name in [x_field, y_field] and field.type == 'String':
+                    is_string = True
+            if is_string:
+                #: make temp copy of table and then reload data
+                temp = arcpy.management.CreateTable(crate.destination_workspace, f'{crate.destination_name}_xylayer', crate.destination)
+                for field in [x_field, y_field]:
+                    arcpy.management.AlterField(temp, field, field_type='LONG')
+                arcpy.management.Append(temp, crate.destination, schema_type='NO_TEST')
+                xy_layer_source = temp
+            else:
+                xy_layer_source = crate.destination
+
+            template = arcpy.management.MakeXYEventLayer(xy_layer_source, x_field, y_field, f'{sgid_name}_layer')
             arcpy.management.CreateFeatureclass(path.dirname(temp_app_feature_class),
                                                 path.basename(temp_app_feature_class),
                                                 'POINT',
-                                                path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
+                                                # path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
+                                                template,
                                                 spatial_reference=merc)
+            arcpy.management.Delete(template)
 
         common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination),
                                                              get_field_names(temp_app_feature_class))
@@ -167,8 +190,7 @@ def start_etl(crates, app_database):
             arcpy.management.Copy(temp_app_feature_class, app_feature_class)
         else:
             arcpy.management.TruncateTable(app_feature_class)
-
-        arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
+            arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
 
         updated_datasets.append(sgid_name)
 

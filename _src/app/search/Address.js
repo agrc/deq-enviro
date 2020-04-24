@@ -132,6 +132,7 @@ define([
             this.txtAddress.value = '';
             this.txtZone.value = '';
             this.numBuffer.value = 1;
+            this.graphicsLayer.clear();
         }
     });
 });
