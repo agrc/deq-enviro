@@ -151,7 +151,6 @@ define([
 
             var that = this;
             config.getAppJson().then(function (json) {
-                that.disclaimerLink.href = json.otherLinks[1].url;
                 that.hotLinksLink.href = json.otherLinks[2].url;
             });
 
