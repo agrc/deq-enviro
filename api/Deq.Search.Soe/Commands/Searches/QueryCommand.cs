@@ -81,7 +81,7 @@ namespace Deq.Search.Soe.Commands.Searches {
                 count++;
                 if (count >= ApplicationCache.Settings.MaxRecords)
                 {
-                    throw new InvalidDataException("Max records exceeded on {0}. ({1})".With(map.LayerName, map.Index));
+                    throw new InvalidDataException("Number of records returned exceeded the max ({2}) for {0} - {1}".With(map.LayerName, map.Index, ApplicationCache.Settings.MaxRecords));
                 }
 
                 var indexes = map.FieldMap.Values.ToList();
