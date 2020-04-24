@@ -584,13 +584,17 @@ define([
             // response: Object
             console.log('app/search/Search:checkForMaxRecords', arguments);
 
-            var layerId;
+            let layerId;
+            let maxRecordsAmount;
             var check = function (prop) {
-                var msg = lang.getObject(prop + '.message', false, response);
-                if (!msg || !/Max records/.test(msg)) {
+                // example message from server:
+                // Number of records returned exceeded the max (25000) for OilGasWells - {19}
+                const msg = lang.getObject(prop + '.message', false, response);
+                if (!msg || !/exceeded the max/.test(msg)) {
                     return false;
                 }
-                layerId = /\((\w+)\)/.exec(msg)[1];
+                layerId = /- (\w+)/.exec(msg)[1];
+                maxRecordsAmount = /\((\w+)\)/.exec(msg)[1];
 
                 return true;
             };
@@ -599,7 +603,8 @@ define([
                 throw '';
             }
 
-            return dojoString.substitute(maxRecordsTemplate, config.getQueryLayerByIndex(layerId));
+            return dojoString.substitute(maxRecordsTemplate,
+                Object.assign(config.getQueryLayerByIndex(layerId), { maxRecordsAmount: maxRecordsAmount }));
         }
     });
 });
