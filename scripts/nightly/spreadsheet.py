@@ -64,7 +64,7 @@ linksFields = [
     ['URL', fieldnames.url]
 ]
 
-credentials = path.join(path.dirname(__file__), 'settings', 'deq-enviro-key.json')
+credentials = path.join(path.dirname(__file__), 'settings', 'ut-dts-agrc-deq-enviro-prod-aecfbfdedcc3.json')
 gc = None
 sheet = None
 authorize_time = None

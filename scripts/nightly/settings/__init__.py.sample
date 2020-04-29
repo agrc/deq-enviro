@@ -1,7 +1,5 @@
 from .dev import *
 
-GOOGLE_USER = 'username'
-GOOGLE_PASSWORD = 'password'
 DEQNIGHTLY_USER = 'username'
 DEQNIGHTLY_PASSWORD = 'password'
 webdata = r'<path to folder>'
