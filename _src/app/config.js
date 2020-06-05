@@ -240,10 +240,6 @@ define([
         //      The minimum scale level that the TRS Layer will draw.
         TRSMinScaleLevel: 10,
 
-        // RiskLayersMinScaleLevel: Number
-        //      The minimum scale level that the three risk layers draw.
-        RiskLayersMinScaleLevel: 14,
-
         // NHDMinScaleLevel: Number
         //      The minimum scale level that the nhd layer will draw.
         NHDMinScaleLevel: 13,

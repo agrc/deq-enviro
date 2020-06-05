@@ -64,41 +64,6 @@ define([
                     // he feels very stongly about) didn't transfer over.
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
-                    layerName: 'Environmental Risk of UST Facilities',
-                    mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: config.layerIndices.risk.facilities,
-                    showLegend: true,
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    legendHeader: 'TankRiskAverageTest'
-                }, domConstruct.create('div', {}, this.domNode, 'first')),
-                new ScaleDependentReferenceLayerToggle({
-                    layerName: 'Environmental Risk Water Points',
-                    mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: config.layerIndices.risk.waterPoints,
-                    layerProps: { opacity: 0.4 },
-                    showLegend: true,
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    minScaleLevel: config.RiskLayersMinScaleLevel
-                }, domConstruct.create('div', {}, this.domNode, 'first')),
-                new ScaleDependentReferenceLayerToggle({
-                    layerName: 'Environmental Risk Streams',
-                    mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: config.layerIndices.risk.streams,
-                    layerProps: { opacity: 0.4 },
-                    showLegend: true,
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    minScaleLevel: config.RiskLayersMinScaleLevel
-                }, domConstruct.create('div', {}, this.domNode, 'first')),
-                new ScaleDependentReferenceLayerToggle({
-                    layerName: 'Environmental Risk Lakes',
-                    mapServiceUrl: config.urls.DEQEnviro,
-                    layerIndex: config.layerIndices.risk.lakes,
-                    layerProps: { opacity: 0.4 },
-                    showLegend: true,
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    minScaleLevel: config.RiskLayersMinScaleLevel
-                }, domConstruct.create('div', {}, this.domNode, 'first')),
-                new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
                     mapServiceUrl: config.urls.landOwnership,
                     layerIndex: config.layerIndices.landOwnership,
