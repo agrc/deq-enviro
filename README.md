@@ -23,6 +23,16 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
 
+## Query Layer Data Requirements
+
+In order for a dataset to be used as a query layer within the application, it must satisfy all of the following requirements:
+
+* Accessible from our server (usually requires some firewall requests)
+* For tables that need to be translated into points:
+  * Coordinates stored in either `LATITUDE` & `LONGITUDE` or `EASTING` & `NORTHING` fields.
+* A row in the configuration spreadsheet that defines mappings for the five main fields (`ID`, `NAME`, `ADDRESS`, `CITY`, & `TYPE`). If there is no mapping for a specific field a value of `n/a` should be used in the config.
+* A unique id field. If the field is not automatically recognized by ArcGIS Pro, then the `OID Field` column in the config spreadsheet can be used to define it.
+
 ## Testing
 Unit tests are run via intern.
 
