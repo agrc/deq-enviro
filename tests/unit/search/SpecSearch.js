@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
+    'jquery',
+
     'app/config',
     'app/map/MapController',
     'app/search/QueryLayer',
@@ -11,11 +13,6 @@ define([
     'dojo/topic',
     'dojo/_base/window',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai',
@@ -23,10 +20,10 @@ define([
     'stubmodule',
 
     'tests/helpers/topics',
-    'tests/unit/search/data/mockDEQEnviroJSON',
-
-    'jquery'
+    'tests/unit/search/data/mockDEQEnviroJSON'
 ], function (
+    $,
+
     config,
     MapController,
     QueryLayer,
@@ -38,11 +35,6 @@ define([
     topic,
     win,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai,
@@ -52,6 +44,10 @@ define([
     topics,
     mockDEQEnviroJSON
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     chai.use(topics.plugin);
     bdd.describe('app/search/Search', function () {
@@ -478,11 +474,11 @@ define([
         });
         bdd.describe('checkForMaxRecords', function () {
             bdd.it('throw an error if no max records messages', function () {
-                expect(function () {
+                expect(() => {
                     widget.checkForMaxRecords({});
                 }).to.throw();
 
-                expect(function () {
+                expect(() => {
                     widget.checkForMaxRecords({
                         queryLayers: { message: 'blah' }
                     });
@@ -495,7 +491,7 @@ define([
                 });
                 expect(widget.checkForMaxRecords({
                     secureQueryLayers: {
-                        message: 'Max records exceeded on PointsOfDiversion1. (33)'
+                        message: 'Number of records returned exceeded the max (25000) for PointsOfDiversion1 - 33'
                     }
                 })).to.exist;
             });

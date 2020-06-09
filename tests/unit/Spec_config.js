@@ -4,10 +4,6 @@ define([
     'dojo/Deferred',
     'dojo/text!tests/unit/data/DEQEnviro.json',
 
-    'intern!bdd',
-
-    'intern/chai!expect',
-
     'stubmodule'
 ], function (
     config,
@@ -15,12 +11,11 @@ define([
     Deferred,
     DEQEnviroJSON,
 
-    bdd,
-
-    expect,
-
     stubmodule
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/config', function () {
         var StubbedModule;
         bdd.beforeEach(function () {

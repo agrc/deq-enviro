@@ -2,21 +2,16 @@ define([
     'app/search/QueryLayerHeader',
 
     'dojo/dom-construct',
-    'dojo/_base/window',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/_base/window'
 ], function (
     WidgetUnderTest,
 
     domConstruct,
-    win,
-
-    bdd,
-
-    expect
+    win
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/QueryLayerHeader', function () {
         var widget;
         var destroy = function (destroyWidget) {

@@ -1,18 +1,13 @@
 define([
-    'intern/order!jquery',
-    'intern/order!app/_CollapsibleMixin',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'jquery',
+    'app/_CollapsibleMixin'
 ], function (
     $,
-    ClassUnderTest,
-
-    bdd,
-
-    expect
+    ClassUnderTest
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     var testObject;
     bdd.describe('app/_CollapsibleMixin', function () {
         bdd.afterEach(function () {

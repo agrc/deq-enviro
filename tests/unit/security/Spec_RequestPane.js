@@ -8,11 +8,6 @@ define([
     'dojo/dom-construct',
     'dojo/query',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai'
@@ -26,15 +21,14 @@ define([
     domConstruct,
     query,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     chai.use(chaiSubset);
     bdd.describe('app/security/_RequestPane', function () {
@@ -122,7 +116,7 @@ define([
             });
         });
         bdd.describe('getData', function () {
-            bdd.it('get\'s extra fields', function () {
+            bdd.it('gets extra fields', function () {
                 widget.fNameTxt.value = 'first';
                 widget.lNameTxt.value = 'last';
                 widget.agencyTxt.value = 'agency';

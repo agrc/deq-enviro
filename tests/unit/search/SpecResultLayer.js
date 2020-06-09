@@ -6,11 +6,6 @@ define([
     'dojo/text!tests/unit/search/data/featureSet.json',
     'dojo/topic',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'tests/helpers/topics',
 
     'sinon',
@@ -23,17 +18,16 @@ define([
     fSet,
     topic,
 
-    bdd,
-
-    chai,
-    expect,
-
     topics,
 
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     chai.use(topics.plugin);
     bdd.describe('app/search/ResultLayer', function () {

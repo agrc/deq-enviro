@@ -2,21 +2,16 @@ define([
     'app/map/MapController',
     'app/search/Coordinates',
 
-    'dojo/dom-construct',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/dom-construct'
 ], function (
     MapController,
     Coordinates,
 
-    domConstruct,
-
-    bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/Coordinates', () => {
         var widget;
         var destroy = function (destroyWidget) {

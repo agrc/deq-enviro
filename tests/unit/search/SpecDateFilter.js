@@ -1,23 +1,21 @@
 /* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
+    'jquery',
+
     'app/search/DateFilter',
 
-    'dojo/dom-construct',
+    'dojo/dom-construct'
 
-    'intern!bdd',
-
-    'intern/chai!expect',
-
-    'jquery'
 ], function (
+    $,
+
     WidgetUnderTest,
 
-    domConstruct,
-
-    bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/DateFilter', function () {
         var widget;
         var destroy = function (destroyWidget) {

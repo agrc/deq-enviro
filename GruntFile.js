@@ -36,6 +36,7 @@ module.exports = function (grunt) {
             password: ''
         };
     }
+    const gruntConfig = grunt.file.readJSON('intern.json');
 
     // Project configuration.
     grunt.initConfig({
@@ -158,12 +159,7 @@ module.exports = function (grunt) {
         },
         intern: {
             main: {
-                options: {
-                    runType: 'runner',
-                    config: 'tests/intern',
-                    reporters: ['Runner'],
-                    tunnel: 'SauceLabsTunnel'
-                }
+                options: gruntConfig
             }
         },
         pkg: grunt.file.readJSON('package.json'),

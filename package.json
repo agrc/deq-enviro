@@ -22,7 +22,7 @@
     "grunt-newer": "^1.1.1",
     "grunt-processhtml": "0.4.2",
     "grunt-ssh": "^0.12.9",
-    "intern": "^3.4.3",
+    "intern": "^4.8.7",
     "load-grunt-tasks": "5.1.0",
     "signavio-chai-subset": "^1.1.2",
     "sinon": "^2.1.0",

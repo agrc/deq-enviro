@@ -1,16 +1,11 @@
 define([
-    'app/_PopoverMixin',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'app/_PopoverMixin'
 ], function (
-    ClassUnderTest,
-
-    bdd,
-
-    expect
+    ClassUnderTest
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     var testObject;
     bdd.describe('app/_PopoverMixin', function () {
         bdd.afterEach(function () {

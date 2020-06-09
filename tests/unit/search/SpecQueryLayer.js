@@ -9,11 +9,6 @@ define([
     'dojo/dom-construct',
     'dojo/_base/window',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai',
@@ -29,17 +24,16 @@ define([
     domConstruct,
     win,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai,
 
     topics
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(topics.plugin);
     chai.use(sinonChai);
     bdd.describe('app/search/QueryLayer', function () {

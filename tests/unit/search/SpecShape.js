@@ -12,11 +12,6 @@ define([
     'dojo/query',
     'dojo/_base/window',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'tests/helpers/topics',
 
     'sinon',
@@ -35,17 +30,16 @@ define([
     query,
     win,
 
-    bdd,
-
-    chai,
-    expect,
-
     topics,
 
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     chai.use(topics.plugin);
     bdd.describe('app/search/Shape', function () {

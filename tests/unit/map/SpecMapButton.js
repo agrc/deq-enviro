@@ -2,21 +2,16 @@ define([
     'app/map/MapButton',
 
     'dojo/dom-construct',
-    'dojo/_base/window',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/_base/window'
 ], function (
     WidgetUnderTest,
 
     domConstruct,
-    win,
-
-    bdd,
-
-    expect
+    win
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     var widget;
 
     bdd.describe('app/map/MapButton', function () {

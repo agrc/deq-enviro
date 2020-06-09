@@ -6,11 +6,6 @@ define([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ArcGISTiledMapServiceLayer',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai'
@@ -21,15 +16,14 @@ define([
     ArcGISDynamicMapServiceLayer,
     ArcGISTiledMapServiceLayer,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     bdd.describe('app/map/MapController', function () {
         sinon = sinon.sandbox.create();

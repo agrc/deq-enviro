@@ -1,6 +1,6 @@
 (function () {
-    // the baseUrl is relavant in source version and while running unit tests.
-    // the`typeof` is for when this file is passed as a require argument to the build system
+    // the baseUrl is relevant in source version and while running unit tests.
+    // the `typeof` is for when this file is passed as a require argument to the build system
     // since it runs on node, it doesn't have a window object. The basePath for the build system
     // is defined in build.profile.js
     var config = {

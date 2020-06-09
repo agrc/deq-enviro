@@ -5,11 +5,6 @@ define([
 
     'dojo/dom-construct',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai'
@@ -19,15 +14,14 @@ define([
 
     domConstruct,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     bdd.describe('app/search/QueryLayerFilter', function () {
         sinon = sinon.sandbox.create();

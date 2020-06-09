@@ -1,7 +1,7 @@
 define(function (require) {
     var formatDates = require('app/formatDates');
-    var registerSuite = require('intern!object');
-    var expect = require('intern/chai!expect');
+    const registerSuite = intern.getInterface('object').registerSuite;
+    const expect = intern.getPlugin('chai').expect;
 
     var record;
     var fields = [{
@@ -18,8 +18,7 @@ define(function (require) {
         type: 'esriFieldTypeDate'
     }];
 
-    registerSuite({
-        name: 'app/formatDates',
+    registerSuite('app/formatDates', {
         beforeEach: function () {
             record = {
                 attributes: {

@@ -1,29 +1,27 @@
 /* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'jquery',
+
     'app/config',
     'app/map/ScaleDependentReferenceLayerToggle',
 
     'dojo/dom-construct',
     'dojo/topic',
-    'dojo/_base/window',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/_base/window'
 ], function (
     $,
+
     config,
     WidgetUnderTest,
 
     domConstruct,
     topic,
-    win,
-
-    bdd,
-
-    expect
+    win
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     bdd.describe('app/map/ScaleDependentReferenceLayerToggle', function () {
         var widget;
         var destroy = function (destroyWidget) {

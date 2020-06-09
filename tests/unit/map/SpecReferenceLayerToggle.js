@@ -9,11 +9,6 @@ define([
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai',
@@ -29,17 +24,16 @@ define([
 
     ArcGISDynamicMapServiceLayer,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai,
 
     topicsHelper
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(topicsHelper.plugin);
     chai.use(sinonChai);
     var url = '/arcgis/rest/services/Wildlife/Data/MapServer';

@@ -8,11 +8,7 @@ define([
     'dojo/Deferred',
     'dojo/dom-construct',
 
-    'esri/SpatialReference',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'esri/SpatialReference'
 ], function (
     BaseMap,
 
@@ -22,12 +18,11 @@ define([
     Deferred,
     domConstruct,
 
-    SpatialReference,
-
-    bdd,
-
-    expect
+    SpatialReference
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/map/MeasureTool', function () {
         var widget;
         var destroy = function (destroyWidget) {

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions, no-magic-numbers */
 define([
     'jquery',
+
     'agrc/widgets/map/BaseMap',
 
     'app/map/MapButton',
@@ -8,14 +9,10 @@ define([
 
     'dojo/Deferred',
     'dojo/dom-class',
-    'dojo/dom-construct',
-    'dojo/query',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/dom-construct'
 ], function (
     $,
+
     BaseMap,
 
     MapButton,
@@ -23,13 +20,11 @@ define([
 
     Deferred,
     domClass,
-    domConstruct,
-    query,
-
-    bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/map/Print', function () {
         var widget;
         var destroy = function (destroyWidget) {

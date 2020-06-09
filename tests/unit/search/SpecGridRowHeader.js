@@ -7,11 +7,6 @@ define([
     'dojo/dom-class',
     'dojo/_base/window',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai'
@@ -23,15 +18,14 @@ define([
     domClass,
     win,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     bdd.describe('app/search/GridRowHeader', function () {
         sinon = sinon.sandbox.create();

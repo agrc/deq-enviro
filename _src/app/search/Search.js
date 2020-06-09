@@ -588,7 +588,7 @@ define([
             let maxRecordsAmount;
             var check = function (prop) {
                 // example message from server:
-                // Number of records returned exceeded the max (25000) for OilGasWells - {19}
+                // Number of records returned exceeded the max (25000) for OilGasWells - 19
                 const msg = lang.getObject(prop + '.message', false, response);
                 if (!msg || !/exceeded the max/.test(msg)) {
                     return false;
@@ -600,7 +600,7 @@ define([
             };
 
             if (!check('queryLayers') && !check('secureQueryLayers')) {
-                throw '';
+                throw new Error('missing max records message');
             }
 
             return dojoString.substitute(maxRecordsTemplate,

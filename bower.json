@@ -10,7 +10,7 @@
     "ijit": "agrc-ijit#3.1.2",
     "lodash": "~2.4.1",
     "put-selector": "~0.3.5",
-    "stubmodule": "dojo2",
+    "stubmodule": "*",
     "layer-selector": "agrc-layer-selector#~0.4.0",
     "sherlock": "agrc-sherlock#^1.0.0",
     "dijit-themes": "https://github.com/dojo/dijit-themes.git#1.14.0"
@@ -25,6 +25,7 @@
     "dojo": "v1.13.0/esri-3.25.0",
     "dstore": "1.1.2",
     "dojox": "v1.13.0/esri-3.25.0",
-    "util": "v1.13.0/esri-3.24.0"
+    "util": "v1.13.0/esri-3.24.0",
+    "moment": "2.22.1"
   }
 }

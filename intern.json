@@ -1,0 +1,111 @@
+{
+    "browser": {
+        "loader": {
+            "options": {
+                "aliases": [
+                    [
+                        "xstyle/css",
+                        "tests/mocks/css"
+                    ]
+                ],
+                "async": false,
+                "baseUrl": "../src",
+                "has": {
+                    "dojo-undef-api": true
+                },
+                "internLoaderPath": "src/dojo/dojo.js",
+                "map": {
+                    "ijit": {
+                        "ijit/widgets/authentication/_LoginRegisterRequestPane": "app/security/_RequestPane",
+                        "ijit/widgets/authentication/_UserAdminPendingUser": "app/security/_UserAdminPendingUser",
+                        "ijit/widgets/authentication/_UserAdminUser": "app/security/_UserAdminUser"
+                    },
+                    "sherlock": {
+                        "spinjs": "spin"
+                    }
+                },
+                "packages": [
+                    "agrc",
+                    "app",
+                    "dgrid",
+                    "dijit",
+                    "dojo",
+                    "dojox",
+                    "esri",
+                    "ijit",
+                    "moment",
+                    "put-selector",
+                    "sherlock",
+                    "xstyle",
+                    {
+                        "location": "../../tests",
+                        "name": "tests"
+                    },
+                    {
+                        "location": "./bootstrap-datepicker",
+                        "main": "js/bootstrap-datepicker",
+                        "name": "datepicker"
+                    },
+                    {
+                        "location": "./bootstrap-select",
+                        "main": "dist/js/bootstrap-select",
+                        "name": "selectpicker"
+                    },
+                    {
+                        "location": "./bootstrap",
+                        "main": "dist/js/bootstrap",
+                        "name": "bootstrap"
+                    },
+                    {
+                        "location": "./lodash",
+                        "main": "dist/lodash",
+                        "name": "lodash"
+                    },
+                    {
+                        "location": "./ladda-bootstrap",
+                        "main": "dist/ladda",
+                        "name": "ladda"
+                    },
+                    {
+                        "location": "./layer-selector",
+                        "name": "layer-selector"
+                    },
+                    {
+                        "location": "./jquery/dist",
+                        "main": "jquery",
+                        "name": "jquery"
+                    },
+                    {
+                        "location": "./spinjs",
+                        "main": "spin",
+                        "name": "spin"
+                    },
+                    {
+                        "location": "./stubmodule/src",
+                        "main": "stub-module",
+                        "name": "stubmodule"
+                    },
+                    {
+                        "location": "../node_modules/sinon-chai/lib",
+                        "main": "sinon-chai",
+                        "name": "sinon-chai"
+                    },
+                    {
+                        "location": "../node_modules/sinon/pkg",
+                        "main": "sinon",
+                        "name": "sinon"
+                    },
+                    {
+                        "location": "../node_modules/signavio-chai-subset/lib",
+                        "main": "chai-subset",
+                        "name": "chai-subset"
+                    }
+                ]
+            },
+            "script": "dojo"
+        }
+    },
+    "coverage": "/^(?src/app).*//",
+    "environments": "chrome",
+    "suites": "tests/unit/all"
+}

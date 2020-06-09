@@ -1,4 +1,6 @@
 define([
+    'jquery',
+
     'app/security/_UserAdminUser',
 
     'chai-subset',
@@ -6,17 +8,13 @@ define([
     'dojo/dom-construct',
     'dojo/query',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
 
     'sinon',
 
-    'sinon-chai',
-
-    'jquery'
+    'sinon-chai'
 ], function (
+    $,
+
     WidgetUnderTest,
 
     chaiSubset,
@@ -24,15 +22,14 @@ define([
     domConstruct,
     query,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(chaiSubset);
     chai.use(sinonChai);
     bdd.describe('app/security/_UserAdminUser', function () {

@@ -2,23 +2,17 @@ define([
     'app/App',
 
     'dojo/dom-class',
-    'dojo/dom-construct',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/dom-construct'
 ],
-
 function (
     App,
 
     domClass,
-    domConstruct,
-
-     bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/App', function () {
         var testWidget;
         bdd.beforeEach(function () {

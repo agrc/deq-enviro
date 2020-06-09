@@ -1,16 +1,11 @@
 define([
-    'app/security/_LayersMixin',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'app/security/_LayersMixin'
 ], function (
-    ClassUnderTest,
-
-    bdd,
-
-    expect
+    ClassUnderTest
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     var testObject;
     bdd.describe('app/security/_LayersMixin', function () {
         bdd.afterEach(function () {

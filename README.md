@@ -32,9 +32,13 @@ In order for a dataset to be used as a query layer within the application, it mu
 
 ## Testing
 
-Unit tests are run via intern.
+Unit tests are run via [intern](https://theintern.io/).
 
-[Unit tests URL](http://localhost:8000/node_modules/intern/client.html?config=tests/intern&suites=tests/unit/all) after running `grunt default`
+To run tests:
+
+1. `grunt`
+1. `npx intern serveOnly`
+1. Go to: [http://localhost:9000/__intern/](http://localhost:9000/__intern/)
 
 ## Nightly Script
 

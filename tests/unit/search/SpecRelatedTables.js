@@ -3,20 +3,15 @@ define([
 
     'dojo/dom-construct',
 
-    'intern!bdd',
-
-    'intern/chai!expect',
-
     'jquery'
 ], function (
     WidgetUnderTest,
 
-    domConstruct,
-
-    bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/RelatedTables', function () {
         var widget;
         var destroy = function (destroyWidget) {

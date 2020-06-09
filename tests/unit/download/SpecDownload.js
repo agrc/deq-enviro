@@ -7,11 +7,6 @@ define([
     'dojo/dom-construct',
     'dojo/topic',
 
-    'intern!bdd',
-
-    'intern/chai!',
-    'intern/chai!expect',
-
     'sinon',
 
     'sinon-chai',
@@ -25,17 +20,16 @@ define([
     domConstruct,
     topic,
 
-    bdd,
-
-    chai,
-    expect,
-
     sinon,
 
     sinonChai,
 
     stubmodule
 ) {
+    const bdd = intern.getInterface('bdd');
+    const chai = intern.getPlugin('chai');
+    const expect = chai.expect;
+
     chai.use(sinonChai);
     bdd.describe('app/download/Download', function () {
         sinon = sinon.sandbox.create();

@@ -2,20 +2,15 @@
 define([
     'app/search/FieldFilter',
 
-    'dojo/dom-construct',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/dom-construct'
 ], function (
     WidgetUnderTest,
 
-    domConstruct,
-
-    bdd,
-
-    expect
+    domConstruct
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/FieldFilter', function () {
         var widget;
         var destroy = function (destroyWidget) {

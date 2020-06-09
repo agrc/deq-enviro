@@ -5,23 +5,18 @@ define([
     'dojo/Deferred',
     'dojo/dom-construct',
     'dojo/promise/Promise',
-    'dojo/_base/window',
-
-    'intern!bdd',
-
-    'intern/chai!expect'
+    'dojo/_base/window'
 ], function (
     WidgetUnderTest,
 
     Deferred,
     domConstruct,
     Promise,
-    win,
-
-    bdd,
-
-    expect
+    win
 ) {
+    const bdd = intern.getInterface('bdd');
+    const expect = intern.getPlugin('chai').expect;
+
     bdd.describe('app/search/Address', function () {
         var widget;
         var destroy = function (destroyWidget) {
@@ -30,7 +25,9 @@ define([
         };
 
         bdd.beforeEach(function () {
-            widget = new WidgetUnderTest(null, domConstruct.create('div', null, win.body()));
+            widget = new WidgetUnderTest({
+                graphicsLayer: { clear: () => {} }
+            }, domConstruct.create('div', null, win.body()));
         });
 
         bdd.afterEach(function () {

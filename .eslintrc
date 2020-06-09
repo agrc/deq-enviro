@@ -2,7 +2,8 @@
     "extends": "agrc",
     "globals": {
         "AGRC": true,
-        "ga": true
+        "ga": true,
+        "intern": true
     },
     "env": {
         "jquery": true
