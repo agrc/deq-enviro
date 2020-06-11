@@ -19,8 +19,12 @@ errors = []
 wgs = arcpy.SpatialReference(4326)
 utm = arcpy.SpatialReference(26912)
 merc = arcpy.SpatialReference(3857)
-latitudeLongitude = ['LONGITUDE', 'LATITUDE']
-eastingNorthing = ['EASTING', 'NORTHING']
+EASTING = 'easting'
+NORTHING = 'northing'
+LONGITUDE = 'longitude'
+LATITUDE = 'latitude'
+X_FIELDS = [LONGITUDE, EASTING]
+Y_FIELDS = [LATITUDE, NORTHING]
 excludeFields = {'GlobalID',
                  'POSTTONET',
                  'Shape',
@@ -143,10 +147,16 @@ def start_etl(crates, app_database):
 
         if not arcpy.Exists(temp_app_feature_class):
             fields = get_field_names(crate.destination)
-            if latitudeLongitude[0] in fields:
-                x_field, y_field = latitudeLongitude
-            else:
-                x_field, y_field = eastingNorthing
+            x_field = None
+            y_field = None
+            for field in fields:
+                if field.lower() in X_FIELDS:
+                    x_field = field
+                elif field.lower() in Y_FIELDS:
+                    y_field = field
+
+            if x_field is None or y_field is None:
+                raise Exception(f'X nor Y fields could be found in {app_feature_class}!')
             #: make sure that coord fields are numeric
             is_string = False
             for field in arcpy.da.Describe(crate.destination)['fields']:
@@ -206,7 +216,7 @@ def etl(dest, destFields, source, sourceFields):
         for row in scursor:
             row = list(row)
             # use xy fields to create the point in feature class
-            if sourceFields[0] == latitudeLongitude[0]:
+            if sourceFields[0].lower() == LONGITUDE:
                 # project points from ll to wgs
                 lng = float(row[0])
                 lat = float(row[1])
@@ -262,13 +272,13 @@ def etl(dest, destFields, source, sourceFields):
 def get_source_fields(commonFields):
     # add duplicate xy fields to the start of the list so that we can
     # use them to create points later
-    upper = [f.upper() for f in commonFields]
+    fields = [f.lower() for f in commonFields]
 
-    if set(eastingNorthing).issubset(upper):
-        xy = [commonFields[upper.index(eastingNorthing[0])],
-              commonFields[upper.index(eastingNorthing[1])]]
+    if EASTING in fields:
+        xy = [commonFields[fields.index(EASTING)],
+              commonFields[fields.index(NORTHING)]]
     else:
-        xy = latitudeLongitude
+        xy = [LONGITUDE, LATITUDE]
     return list(xy) + commonFields
 
 
