@@ -84,7 +84,9 @@ def post_process_dataset(dataset):
 
         # scrub out any empty geometries or empty ID's
         #: note: arcpy.DeleteFeature_management(lyr) was leaving a weird schema lock even after deleting the layer
-        arcpy.RepairGeometry_management(dataset)
+
+        #: a bug in Pro 2.5.1 prevents this line from running, but will supposedly be fixed in 2.6
+        # arcpy.RepairGeometry_management(dataset)
         with arcpy.da.Editor(path.dirname(dataset)):
             with arcpy.da.UpdateCursor(dataset, 'OID@', '{} IS NULL'.format(fieldnames.ID)) as ucur:
                 for _ in ucur:
