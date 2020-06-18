@@ -173,7 +173,8 @@ define([
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             printProxy: 'https://us-central1-utahkoopserver.cloudfunctions.net/printproxy/14/arcgis/rest/services/GPServer/export',
             landOwnership: 'https://gis.trustlands.utah.gov/server/' +
-                           'rest/services/Ownership/UT_SITLA_Ownership_LandOwnership_WM/MapServer'
+                           'rest/services/Ownership/UT_SITLA_Ownership_LandOwnership_WM/MapServer',
+            parcels: 'https://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/StatewideParcels/VectorTileServer'
         },
 
         // layerIndices: Object
@@ -237,6 +238,10 @@ define([
         // NHDMinScaleLevel: Number
         //      The minimum scale level that the nhd layer will draw.
         NHDMinScaleLevel: 13,
+
+        // parcelsMinScaleLevel: Number
+        //      The minimum scale level that the nhd layer will draw.
+        parcelsMinScaleLevel: 15,
 
         // appJson: Object
         //      Cache for data returned by getAppJson

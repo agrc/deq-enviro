@@ -92,6 +92,12 @@ define([
                     showLegend: true,
                     layerClass: ArcGISDynamicMapServiceLayer,
                     legendHeader: 'DIVISION, BRANCH, PROGRAM'
+                }, domConstruct.create('div', {}, this.domNode, 'first')),
+                new ScaleDependentReferenceLayerToggle({
+                    layerName: 'Parcels',
+                    mapServiceUrl: config.urls.parcels,
+                    layerClass: VectorTileLayer,
+                    minScaleLevel: config.parcelsMinScaleLevel
                 }, domConstruct.create('div', {}, this.domNode, 'first'))
             );
 
