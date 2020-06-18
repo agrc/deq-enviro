@@ -183,13 +183,7 @@ define([
             environmentalCovenants: 1,
             huc: 2,
             indianTribal: 3,
-            risk: {
-                facilities: 4,
-                waterPoints: 5,
-                streams: 6,
-                lakes: 7
-            },
-            searchStreams: 8,
+            searchStreams: 4,
             landOwnership: 0 // in the SITLA service
         },
 
