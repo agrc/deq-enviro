@@ -183,8 +183,7 @@ define([
             streams: 0,
             environmentalCovenants: 1,
             huc: 2,
-            indianTribal: 3,
-            searchStreams: 4,
+            searchStreams: 3,
             landOwnership: 0 // in the SITLA service
         },
 
