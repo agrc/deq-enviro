@@ -339,13 +339,13 @@ define([
             if (this.appJson) {
                 def.resolve(this.appJson);
             } else if (this.appJsonRequest) {
-                // prevent simultanious requests
+                // prevent simultaneous requests
                 this.appJsonRequest.then(() => {
                     def.resolve(this.appJson);
                 });
             } else {
                 // get a fresh copy of the json file on each load
-                this.appJsonRequest = xhr(this.urls.json, {
+                this.appJsonRequest = xhr(`${this.urls.json}?rel=${window.AGRC.version}`, {
                     handleAs: 'json'
                 }).then((json) => {
                     this.queryLayerNames = {};
