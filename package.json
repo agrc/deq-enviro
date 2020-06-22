@@ -30,6 +30,6 @@
     "uglify-js": "3.8.0"
   },
   "scripts": {
-    "test": "grunt test -v"
+    "test": "grunt test && intern"
   }
 }
