@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('intern');
     require('load-grunt-tasks')(grunt);
 
     var gruntFile = 'GruntFile.js';
@@ -36,7 +35,6 @@ module.exports = function (grunt) {
             password: ''
         };
     }
-    const gruntConfig = grunt.file.readJSON('intern.json');
 
     // Project configuration.
     grunt.initConfig({
@@ -157,11 +155,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        intern: {
-            main: {
-                options: gruntConfig
-            }
-        },
         pkg: grunt.file.readJSON('package.json'),
         processhtml: {
             options: {},
@@ -277,8 +270,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'eslint',
         'babel',
-        'copy:src',
-        'intern'
+        'copy:src'
     ]);
 
     // PROD
