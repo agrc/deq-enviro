@@ -4,16 +4,10 @@ node_js:
 before_install:
   - npm install -g grunt-cli
   - npm install -g bower
-  - npm install -g npm
-  - npm install -g phantomjs
   - bower install
-  - npm update
-  - bower update
 notifications:
   email:
     on_success: change
     on_failure: change
-sudo: false
-cache:
-  directories:
-    - node_modules
+addons:
+  chrome: stable
