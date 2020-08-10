@@ -63,7 +63,7 @@ FIELD_INFOS = [
     ['City', 'TEXT', 30],           #: AddressPoints
     ['ZipCode', 'TEXT', 5],         #: AddressPoints
     ['AddNum', 'TEXT', 10],         #: AddressPoints
-    ['PROP_CLASS', 'TEXT', 30],     #: LIR
+    ['PROP_CLASS', 'TEXT', 100],    #: LIR
     [fldBUILT_YR, 'SHORT', 4],      #: LIR
     ['CURRENT_ASOF', 'DATE', 10],   #: LIR
     [fldCOUNTY, 'TEXT', 15]         #: Counties (this needs to always be last)
