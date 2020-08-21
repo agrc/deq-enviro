@@ -235,11 +235,6 @@ class DEQNightlyReferenceDataPallet(Pallet):
         })
         self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
 
-        for dataset in spreadsheet.get_reference_layers():
-            source = dataset[settings.fieldnames.sourceData]
-            sgid_name = dataset[settings.fieldnames.sgidName]
-            self.add_crate((path.basename(source), path.dirname(source), self.deqquerylayers, sgid_name.split('.')[-1]))
-
     def requires_processing(self):
         return not arcpy.Exists(self.search_streams) or super(DEQNightlyReferenceDataPallet, self).requires_processing()
 

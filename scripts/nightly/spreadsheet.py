@@ -52,12 +52,6 @@ tblFields = [
     ['OID Field', fieldnames.oidField]
 ]
 
-rlFields = [
-    ['SGID Feature Class Name', fieldnames.sgidName],
-    ['Source Data', fieldnames.sourceData],
-    ['Fields', fieldnames.fields]
-]
-
 linksFields = [
     [fieldnames.ID, fieldnames.ID],
     ['Description', fieldnames.description],
@@ -101,10 +95,6 @@ def get_query_layers():
 
 def get_related_tables():
     return _get_worksheet_data(_login().worksheet('title', 'Related Tables'), tblFields)
-
-
-def get_reference_layers():
-    return _get_worksheet_data(_login().worksheet('title', 'Reference Layers'), rlFields)
 
 
 def get_links():
