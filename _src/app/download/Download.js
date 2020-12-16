@@ -226,7 +226,7 @@ define([
             // response: Object
             console.log('app/download/Download:showDownloadLink', arguments);
 
-            this.downloadAnchor.href = response.result.value.url;
+            this.downloadAnchor.href = response.result.value.url.replace('http:', 'https:');
             domClass.remove(this.downloadAnchorContainer, 'hidden');
             this.hideLoader();
         },
