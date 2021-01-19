@@ -11,6 +11,7 @@ using Deq.Search.Soe.Extensions;
 using Deq.Search.Soe.Infastructure.Commands;
 using Deq.Search.Soe.Infastructure.Endpoints;
 using Deq.Search.Soe.Models.Search;
+using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SOESupport;
@@ -242,9 +243,17 @@ namespace Deq.Search.Soe.Endpoints {
 
                 if (queryFilter.Geometry != null)
                 {
-                    var topo = (ITopologicalOperator2) geom;
+                    IClone clone = queryFilter.Geometry as IClone;
+                    var queryFilterGeometry = clone.Clone() as IGeometry;
+                    if (((IArea) queryFilterGeometry).Area < 0)
+                    {
+                        ((ICurve)queryFilterGeometry).ReverseOrientation();
+                    }
+                    var topo = (ITopologicalOperator4) queryFilterGeometry;
+                    topo.IsKnownSimple_2 = false;
+                    topo.Simplify();
 
-                    queryFilter.Geometry = topo.Intersect(queryFilter.Geometry,
+                    queryFilter.Geometry = topo.Intersect(geom,
                                                           esriGeometryDimension.esriGeometry2Dimension);
                 }
                 else
