@@ -9,16 +9,11 @@ from os import path
 import arcpy
 import settings
 
+from swapper import swapper
+
 
 period_replacement = '___'
 logger = logging.getLogger('forklift')
-
-
-def update_sgid_data(source, destination):
-    logger.debug('updating: %s', destination)
-
-    arcpy.DeleteRows_management(destination)
-    arcpy.Append_management(source, destination, 'NO_TEST')
 
 
 def update_sgid_for_crates(crates_from_slip):
@@ -30,11 +25,13 @@ def update_sgid_for_crates(crates_from_slip):
     arcpy.env.workspace = None
 
     updated_crates = [crate for crate in crates_from_slip if crate['was_updated'] and
-                      not crate['source'].startswith('SGID')]
+                      'sgid.' not in crate['source'].lower()]
 
     for crate_slip in updated_crates:
         sgid_name = sgid_lookup[crate_slip['name']]
-        destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
+        owner_connection = settings.sgid[sgid_name.split('.')[1]]
+        destination = path.join(owner_connection, sgid_name)
 
         if sgid_name.startswith('SGID'):
             update_sgid_data(crate_slip['destination'], destination)
+            swapper.copy_and_replace(crate_slip['destination'], destination, owner_connection, ['internal'])
