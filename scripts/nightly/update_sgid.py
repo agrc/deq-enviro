@@ -5,9 +5,11 @@ handles updating data in SGID from the app database
 '''
 import logging
 from os import path
+from pathlib import Path
 
 import arcpy
 import settings
+from update_fgdb import commonFields
 
 from swapper import swapper
 
@@ -26,6 +28,8 @@ def update_sgid_for_crates(crates_from_slip):
 
     updated_crates = [crate for crate in crates_from_slip if crate['was_updated'] and
                       'sgid.' not in crate['source'].lower()]
+    
+    utm = arcpy.SpatialReference(26912)
 
     for crate_slip in updated_crates:
         sgid_name = sgid_lookup[crate_slip['name']]
@@ -33,5 +37,21 @@ def update_sgid_for_crates(crates_from_slip):
         destination = path.join(owner_connection, sgid_name)
 
         if sgid_name.startswith('SGID'):
-            update_sgid_data(crate_slip['destination'], destination)
-            swapper.copy_and_replace(crate_slip['destination'], destination, owner_connection, ['internal'])
+            logger.info(f'updating {sgid_name}')
+            scratch = Path(arcpy.env.scratchFolder) / 'deq_data_for_sgid.gdb'
+            source = crate_slip['destination'] 
+            temp_table = str(Path(scratch / Path(source).name))
+
+            if arcpy.Exists(temp_table):
+                logger.debug(f'deleting {temp_table}')
+                arcpy.Delete_management(temp_table)
+         
+            if arcpy.da.Describe(source)['datasetType'] == 'Table':
+                logger.debug('copying rows')
+                arcpy.CopyRows_management(source, temp_table)
+            else:
+                logger.debug('projecting')
+                arcpy.Project_management(source, temp_table, utm, 'NAD_1983_To_WGS_1984_5')
+
+            arcpy.DeleteField_management(temp_table, ['FORKLIFT_HASH'] + commonFields)
+            swapper.copy_and_replace(temp_table, destination, owner_connection, ['internal'])
