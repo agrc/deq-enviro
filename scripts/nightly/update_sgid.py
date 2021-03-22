@@ -36,7 +36,7 @@ def update_sgid_for_crates(crates_from_slip):
         owner_connection = settings.sgid[sgid_name.split('.')[1]]
         destination = path.join(owner_connection, sgid_name)
 
-        if sgid_name.startswith('SGID'):
+        if sgid_name.casefold().startswith('sgid'):
             logger.info(f'updating {sgid_name}')
             scratch = Path(arcpy.env.scratchFolder) / 'deq_data_for_sgid.gdb'
             source = crate_slip['destination']
