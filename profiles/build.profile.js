@@ -15,6 +15,8 @@ var profile = {
                 'app/run',
                 'app/security/_LayersMixin',
                 'app/security/_RequestPane',
+                'app/security/_UserAdminUser',
+                'app/security/_UserAdminPendingUser',
                 'dojox/gfx/filters',
                 'dojox/gfx/svg',
                 'dojox/gfx/svgext',
