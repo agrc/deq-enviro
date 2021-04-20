@@ -56,5 +56,10 @@ def update_sgid_for_crates(crates_from_slip):
                 logger.debug('projecting')
                 arcpy.Project_management(source, temp_table, utm, 'NAD_1983_To_WGS_1984_5')
 
-            arcpy.DeleteField_management(temp_table, ['FORKLIFT_HASH'] + update_fgdb.commonFields)
+            #: only remove app fields if they didn't already exist in source data
+            config = update_fgdb.get_spreadsheet_config_from_dataset(source)
+            delete_fields = [field for field in update_fgdb.commonFields if config[field].upper() != field] + ['FORKLIFT_HASH']
+            logger.debug(f'deleting fields: {delete_fields}')
+            arcpy.DeleteField_management(temp_table, delete_fields)
+
             swapper.copy_and_replace(Path(temp_table), Path(destination), Path(owner_connection), ['internal'])
