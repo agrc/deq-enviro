@@ -58,7 +58,15 @@ def update_sgid_for_crates(crates_from_slip):
 
             #: only remove app fields if they didn't already exist in source data
             config = update_fgdb.get_spreadsheet_config_from_dataset(source)
-            delete_fields = [field for field in update_fgdb.commonFields if config[field].upper() != field] + ['FORKLIFT_HASH']
+            delete_fields = []
+            for field in update_fgdb.commonFields + ['FORKLIFT_HASH']:
+                try:
+                    if config[field].upper() != field:
+                        delete_fields.append(field)
+                except KeyError:
+                    #: skip if this is a related table config
+                    continue
+
             logger.debug(f'deleting fields: {delete_fields}')
             arcpy.DeleteField_management(temp_table, delete_fields)
 
