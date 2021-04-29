@@ -67,7 +67,8 @@ def update_sgid_for_crates(crates_from_slip):
                     #: skip if this is a related table config
                     continue
 
-            logger.debug(f'deleting fields: {delete_fields}')
-            arcpy.DeleteField_management(temp_table, delete_fields)
+            if len(delete_fields) > 0:
+                logger.debug(f'deleting fields: {delete_fields}')
+                arcpy.DeleteField_management(temp_table, delete_fields)
 
             swapper.copy_and_replace(Path(temp_table), Path(destination), Path(owner_connection), ['internal'])
