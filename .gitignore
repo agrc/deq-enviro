@@ -29,3 +29,4 @@ scripts/secrets.cfg
 secrets.json
 src/
 scripts/nightly/settings/ut-dts-agrc-deq-enviro-prod-aecfbfdedcc3.json
+*.ipynb

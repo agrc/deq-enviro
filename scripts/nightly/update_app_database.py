@@ -160,18 +160,16 @@ def drinking_water_join(crate, app_feature_class):
     culinary_water_df = GeoAccessor.from_layer(FeatureLayer(culinary_water_feature_layer))
 
     logger.info('dropping unused fields')
-    preserve_fields = ['COUNTY', 'SHAPE', culinary_join_field]
+    preserve_fields = ['COUNTY', 'SHAPE']
+    culinary_water_df.set_index(culinary_join_field, inplace=True)
     drop_fields = [column for column in culinary_water_df.columns if column not in preserve_fields]
-    culinary_water_df = culinary_water_df.drop(drop_fields, axis=1)
+    culinary_water_df.drop(drop_fields, axis=1, inplace=True)
 
     logger.info('getting ratings data')
     ratings_df = GeoAccessor.from_table(crate.destination)
 
     logger.info('joining')
-    culinary_water_df.set_index(culinary_join_field)
-    ratings_df.set_index('PWSID')
-    joined_df = ratings_df.join(culinary_water_df, how='inner')
-    joined_df.drop(culinary_join_field, axis=1)
+    joined_df = ratings_df.join(culinary_water_df, on='PWSID', how='inner')
 
     logger.info('exporting data')
     joined_df.spatial.project(3857, transformation_name='NAD_1983_To_WGS_1984_5')
