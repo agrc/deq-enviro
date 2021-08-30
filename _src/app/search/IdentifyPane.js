@@ -87,12 +87,19 @@ define([
             this.query.returnGeometry = true;
 
             // set up empty grid
+            var urlRegex = /^https?:\/\/\S*$/;
             var columns = [
                 {
                     field: 'fieldAlias'
                 }, {
                     field: 'value',
-                    formatter: item => item
+                    formatter: item => {
+                        if (urlRegex.test(item)) {
+                            return `<a href="${item}" target="_blank">link</a>`;
+                        }
+
+                        return item;
+                    }
                 }
             ];
             this.attributeGrid = new Grid({

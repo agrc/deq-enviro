@@ -25,6 +25,7 @@ qlFields = [
     ['Source Data', fieldnames.sourceData],
     ['SGID Feature Class Name', fieldnames.sgidName],
     ['Geometry Type', fieldnames.geometryType],
+    ['ETL Type', fieldnames.etlType],
     ['Identify Attributes', fieldnames.fields],
     ['Document Search', fieldnames.docLink],
     ['GRAMA Request', fieldnames.gramaLink],

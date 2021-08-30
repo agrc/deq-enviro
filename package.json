@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "1.7.4",
+  "version": "1.8.0-1",
   "devDependencies": {
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.0",
@@ -30,6 +30,12 @@
     "uglify-js": "3.8.0"
   },
   "scripts": {
+    "build:prod": "grunt build-prod",
+    "build:stage": "grunt build-stage",
+    "deploy:prod": "grunt deploy-prod",
+    "deploy:stage": "grunt deploy-stage",
+    "start": "grunt",
     "test": "grunt test && intern"
-  }
+  },
+  "dependencies": {}
 }

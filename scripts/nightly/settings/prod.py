@@ -5,6 +5,7 @@ sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID as ENVIRONMENT on prod.sde
         'WATER': os.path.join(dbConnects, 'SGID as WATER on prod.sde'),
         'ENERGY': os.path.join(dbConnects, 'SGID as ENERGY on prod.sde')}
 queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1-HJViZduddtnxSq35yzhR6YU0U6Pwo0OaimXPHT4vPw/edit#gid=0'
+utahddw_file_name = 'utahddw.sde'
 
 agsServer = '172.16.17.53'
 mapServiceJson = 'http://172.16.17.53:6080/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'

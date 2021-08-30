@@ -3,15 +3,17 @@ update_app_database.py
 
 Helper code for updating data in the application file geodatabase
 '''
+import logging
+from os import path
+
+import arcpy
+from arcgis.features import FeatureLayer, GeoAccessor
+from forklift.core import hash_field
+from forklift.models import Crate
+
+import settings
 import spreadsheet
 from update_fgdb import commonFields
-import settings
-from os import path
-import arcpy
-import logging
-from forklift.models import Crate
-from forklift.core import hash_field
-
 
 temp_suffix = '_temp'
 logger = logging.getLogger('forklift')
@@ -134,77 +136,117 @@ def start_etl(crates, app_database):
         logger.info(sgid_name)
         logger.debug(crate)
 
-        #: The reason why I am creating a temp feature class to load data into rather than loading it directly
-        #: into the prod feature class is this:
-        #: When attempting to use arcpy.da.InsertCursor in etl() to insert directly into the prod feature classes
-        #: arcpy choked on the ones that participate in relationship classes saying that it required an edit session.
-        #: However, when I added an edit session with arcpy.da.Editor, it caused some very strange behavior with the
-        #: point geometries. It would make all of the point geometries the same as the last point (in batches of 1000).
-        #: The only work-around that I found was to etl into temp feature classes and then use the Append tool to load
-        #: the data into the prod feature classes.
         app_feature_class = path.join(app_database, sgid_name.split('.')[-1])
-        temp_app_feature_class = path.join(crate.destination_workspace, sgid_name.split('.')[-1] + '_temp')
 
-        if not arcpy.Exists(temp_app_feature_class):
-            fields = get_field_names(crate.destination)
-            x_field = None
-            y_field = None
-            for field in fields:
-                if field.lower() in X_FIELDS:
-                    x_field = field
-                elif field.lower() in Y_FIELDS:
-                    y_field = field
-
-            if x_field is None or y_field is None:
-                raise Exception(f'X nor Y fields could be found in {app_feature_class}!')
-            #: make sure that coord fields are numeric
-            is_string = False
-            for field in arcpy.da.Describe(crate.destination)['fields']:
-                if field.name in [x_field, y_field] and field.type == 'String':
-                    is_string = True
-            if is_string:
-                #: make temp copy of table and then reload data
-                temp = arcpy.management.CreateTable(crate.destination_workspace, f'{crate.destination_name}_xylayer', crate.destination)
-                for field in [x_field, y_field]:
-                    arcpy.management.AlterField(temp, field, field_type='LONG')
-                arcpy.management.Append(temp, crate.destination, schema_type='NO_TEST')
-                xy_layer_source = temp
+        try:
+            if dataset[settings.fieldnames.etlType] == 'drinking_water_join':
+                drinking_water_join(crate, app_feature_class)
             else:
-                xy_layer_source = crate.destination
-
-            template = arcpy.management.MakeXYEventLayer(xy_layer_source, x_field, y_field, f'{sgid_name}_layer')
-            arcpy.management.CreateFeatureclass(path.dirname(temp_app_feature_class),
-                                                path.basename(temp_app_feature_class),
-                                                'POINT',
-                                                # path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
-                                                template,
-                                                spatial_reference=merc)
-            arcpy.management.Delete(template)
-
-        common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination),
-                                                             get_field_names(temp_app_feature_class))
-
-        if len(mismatch_fields) > 0:
-            msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(temp_app_feature_class),
-                                                                      source_name,
-                                                                      mismatch_fields)
-            logger.error(msg)
-            crate.set_result((Crate.INVALID_DATA, msg))
+                #: default to table to points
+                table_to_points(crate, app_feature_class, source_name, sgid_name)
+        except MismatchingFields:
             continue
-
-        app_fields = ['SHAPE@XY'] + common_fields
-        source_fields = get_source_fields(common_fields)
-
-        etl(temp_app_feature_class, app_fields, crate.destination, source_fields)
-        if not arcpy.Exists(app_feature_class):
-            arcpy.management.Copy(temp_app_feature_class, app_feature_class)
-        else:
-            arcpy.management.TruncateTable(app_feature_class)
-            arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
 
         updated_datasets.append(sgid_name)
 
     return updated_datasets
+
+
+def drinking_water_join(crate, app_feature_class):
+    culinary_join_field = 'DWSYSNUM'
+    culinary_water_feature_layer = r'https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/CulinaryWaterServiceAreas/FeatureServer/0'
+
+    logger.info('loading data into culinary water dataframe')
+    culinary_water_df = GeoAccessor.from_layer(FeatureLayer(culinary_water_feature_layer))
+
+    logger.info('dropping unused fields')
+    preserve_fields = ['COUNTY', 'SHAPE']
+    culinary_water_df.set_index(culinary_join_field, inplace=True)
+    drop_fields = [column for column in culinary_water_df.columns if column not in preserve_fields]
+    culinary_water_df.drop(drop_fields, axis=1, inplace=True)
+
+    logger.info('getting ratings data')
+    ratings_df = GeoAccessor.from_table(crate.destination)
+
+    logger.info('joining')
+    joined_df = ratings_df.join(culinary_water_df, on='PWSID', how='inner')
+
+    logger.info('exporting data')
+    joined_df.spatial.project(3857, transformation_name='NAD_1983_To_WGS_1984_5')
+    joined_df.spatial.to_featureclass(app_feature_class, overwrite=True)
+
+
+def table_to_points(crate, app_feature_class, source_name, sgid_name):
+    #: The reason why I am creating a temp feature class to load data into rather than loading it directly
+    #: into the prod feature class is this:
+    #: When attempting to use arcpy.da.InsertCursor in etl() to insert directly into the prod feature classes
+    #: arcpy choked on the ones that participate in relationship classes saying that it required an edit session.
+    #: However, when I added an edit session with arcpy.da.Editor, it caused some very strange behavior with the
+    #: point geometries. It would make all of the point geometries the same as the last point (in batches of 1000).
+    #: The only work-around that I found was to etl into temp feature classes and then use the Append tool to load
+    #: the data into the prod feature classes.
+    temp_app_feature_class = path.join(crate.destination_workspace, sgid_name.split('.')[-1] + '_temp')
+
+    if not arcpy.Exists(temp_app_feature_class):
+        fields = get_field_names(crate.destination)
+
+        x_field = None
+        y_field = None
+        for field in fields:
+            if field.lower() in X_FIELDS:
+                x_field = field
+            elif field.lower() in Y_FIELDS:
+                y_field = field
+
+        if x_field is None or y_field is None:
+            raise Exception(f'X nor Y fields could be found in {source_name}!')
+        #: make sure that coord fields are numeric
+        is_string = False
+        for field in arcpy.da.Describe(crate.destination)['fields']:
+            if field.name in [x_field, y_field] and field.type == 'String':
+                is_string = True
+        if is_string:
+            #: make temp copy of table and then reload data
+            temp = arcpy.management.CreateTable(crate.destination_workspace, f'{crate.destination_name}_xylayer', crate.destination)
+            for field in [x_field, y_field]:
+                arcpy.management.AlterField(temp, field, field_type='LONG')
+            arcpy.management.Append(temp, crate.destination, schema_type='NO_TEST')
+            xy_layer_source = temp
+        else:
+            xy_layer_source = crate.destination
+
+        template = arcpy.management.MakeXYEventLayer(xy_layer_source, x_field, y_field, f'{sgid_name}_layer')
+
+        arcpy.management.CreateFeatureclass(path.dirname(temp_app_feature_class),
+                                            path.basename(temp_app_feature_class),
+                                            'POINT',
+                                            # path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name),
+                                            template,
+                                            spatial_reference=merc)
+        arcpy.management.Delete(template)
+
+    common_fields, mismatch_fields = compare_field_names(get_field_names(crate.destination),
+                                                            get_field_names(temp_app_feature_class))
+
+    if len(mismatch_fields) > 0:
+        msg = '\n\nField mismatches between {} & {}: \n{}'.format(path.basename(temp_app_feature_class),
+                                                                    source_name,
+                                                                    mismatch_fields)
+        logger.error(msg)
+        crate.set_result((Crate.INVALID_DATA, msg))
+
+        raise MismatchingFields()
+
+    app_fields = ['SHAPE@XY'] + common_fields
+    source_fields = get_source_fields(common_fields)
+
+    etl(temp_app_feature_class, app_fields, crate.destination, source_fields)
+
+    if not arcpy.Exists(app_feature_class):
+        arcpy.management.Copy(temp_app_feature_class, app_feature_class)
+    else:
+        arcpy.management.TruncateTable(app_feature_class)
+        arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
 
 
 def etl(dest, destFields, source, sourceFields):
@@ -306,3 +348,7 @@ def scrub_coord(value):
         return value
     else:
         return float(value.replace(',', '').strip())
+
+
+class MismatchingFields(Exception):
+    pass

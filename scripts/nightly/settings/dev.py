@@ -5,7 +5,7 @@ import os
 queryLayersUrl = 'https://docs.google.com/spreadsheets/d/1aVJ68hOyp4H6sKEEuL-xtB2qE_y6W0gDg35TgUSxtFg/edit#gid=0'
 mapServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
 securedServiceJson = 'http://localhost/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
-webdata = r'X:\deq-enviro\_src\webdata'
+webdata = r'W:\deq-enviro\_src\webdata'
 agsServer = 'localhost'
 
 # database connections
@@ -13,6 +13,7 @@ dbConnects = os.path.join(os.path.dirname(os.path.abspath(__file__)), r'..\datab
 sgid = {'ENVIRONMENT': os.path.join(dbConnects, 'SGID as ENVIRONMENT on local.sde'),
         'WATER': os.path.join(dbConnects, 'SGID as WATER on local.sde'),
         'ENERGY': os.path.join(dbConnects, 'SGID as ENERGY on local.sde')}
+utahddw_file_name = 'utahddw_at.sde'
 
 fgd = 'deqquerylayers.gdb'
 
