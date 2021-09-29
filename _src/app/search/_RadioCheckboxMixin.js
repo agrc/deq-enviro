@@ -45,7 +45,7 @@ define([
 
             var that = this;
             array.forEach(this.filterTxt.split(', '), function (txt) {
-                var parts = /(^.+?)\s\((.+)\)$/.exec(txt);
+                var parts = /(^.+?')\s\((.+)\)$/.exec(txt);
                 var item = new that.itemClass({ // eslint-disable-line new-cap
                     value: parts[1],
                     label: parts[2],
