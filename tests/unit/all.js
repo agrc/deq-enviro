@@ -9,6 +9,7 @@ require([
     'tests/unit/map/SpecReferenceLayerToggle',
     'tests/unit/map/SpecScaleDependentReferenceLayerToggle',
 
+    'tests/unit/search/Spec_utilities',
     'tests/unit/search/SpecAdditionalSearch',
     'tests/unit/search/SpecAddress',
     'tests/unit/search/SpecCheckboxFilter',

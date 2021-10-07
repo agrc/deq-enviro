@@ -6,7 +6,9 @@ define([
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
-    'dijit/_WidgetsInTemplateMixin'
+    'dijit/_WidgetsInTemplateMixin',
+
+    'app/search/utilities'
 ], function (
     declare,
     array,
@@ -15,7 +17,9 @@ define([
 
     _WidgetBase,
     _TemplatedMixin,
-    _WidgetsInTemplateMixin
+    _WidgetsInTemplateMixin,
+
+    utilities
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // description:
@@ -45,10 +49,10 @@ define([
 
             var that = this;
             array.forEach(this.filterTxt.split(', '), function (txt) {
-                var parts = /(^.+?')\s\((.+)\)$/.exec(txt);
+                var parts = utilities.getRadioFilterParts(txt);
                 var item = new that.itemClass({ // eslint-disable-line new-cap
-                    value: parts[1],
-                    label: parts[2],
+                    value: parts.value,
+                    label: parts.label,
                     name: that.id + '_radio'
                 }, domConstruct.create('div', null, that.domNode));
                 that.own(item);
