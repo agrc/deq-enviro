@@ -71,4 +71,8 @@ def update_sgid_for_crates(crates_from_slip):
                 logger.debug(f'deleting fields: {delete_fields}')
                 arcpy.DeleteField_management(temp_table, delete_fields)
 
+            current_metadata = arcpy.metadata.Metadata(destination)
             swapper.copy_and_replace(Path(temp_table), Path(destination), Path(owner_connection), ['internal'])
+            new_metadata = arcpy.metadata.Metadata(destination)
+            new_metadata.copy(current_metadata)
+            new_metadata.save()
