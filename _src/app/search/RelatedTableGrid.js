@@ -103,17 +103,19 @@ define([
             });
 
             // add additional info link column
-            columns.splice(1, 0, {
-                field: 'additionalInfo',
-                label: 'Additional Info',
-                renderCell: function (object, value, node) {
-                    domConstruct.create('a', {
-                        href: value,
-                        innerHTML: 'info',
-                        target: '_blank'
-                    }, node);
-                }
-            });
+            if (tableInfo.additionalLink !== 'n/a') {
+                columns.splice(1, 0, {
+                    field: 'additionalInfo',
+                    label: 'Additional Info',
+                    renderCell: function (object, value, node) {
+                        domConstruct.create('a', {
+                            href: value,
+                            innerHTML: 'info',
+                            target: '_blank'
+                        }, node);
+                    }
+                });
+            }
 
             this.createPill(this.pillsDiv, tableInfo.name);
 
