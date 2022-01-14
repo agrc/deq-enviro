@@ -2,7 +2,6 @@ define([
     'dojo/text!./templates/QueryLayer.html',
 
     'dojo/_base/declare',
-    'dojo/_base/Color',
     'dojo/_base/array',
     'dojo/topic',
     'dojo/dom-class',
@@ -19,7 +18,6 @@ define([
     template,
 
     declare,
-    Color,
     array,
     topic,
     domClass,
