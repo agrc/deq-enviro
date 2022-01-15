@@ -241,6 +241,10 @@ define([
             var classFunc = (disable) ? domClass.add : domClass.remove;
             classFunc(this.domNode, 'disabled');
             this.checkbox.disabled = disable;
+
+            if (!disable) {
+                this.secureTip.remove();
+            }
         },
         initFilter: function () {
             // summary:
