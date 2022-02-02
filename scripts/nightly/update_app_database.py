@@ -125,6 +125,12 @@ def get_spreadsheet_configs_for_crates(crates):
         except AttributeError:
             return crate['source']
 
+    def get_was_updated(crate):
+        try:
+            return crate.was_updated()
+        except AttributeError:
+            return crate['was_updated']
+
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_query_layers():
             if get_source_from_crate(crate).endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
@@ -138,7 +144,7 @@ def get_spreadsheet_configs_for_crates(crates):
         sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
         source_name = spreadsheet_config[settings.fieldnames.sourceData]
 
-        if (not sgid_name.startswith('SGID') and not sgid_name.startswith('ETLFrom')) or source_name.startswith('SGID') or not crate.was_updated():
+        if (not sgid_name.startswith('SGID') and not sgid_name.startswith('ETLFrom')) or source_name.startswith('SGID') or not get_was_updated(crate):
             continue
 
         updated_crates.append([spreadsheet_config, crate])
