@@ -11,13 +11,13 @@ from os import path
 
 import arcpy
 import build_json
+from update_app_database import get_spreadsheet_configs_for_crates
 import settings
 import update_fgdb
 import update_sgid
 import update_app_database
 from forklift.models import Crate, Pallet
 from settings import fieldnames
-import spreadsheet
 
 current_folder = path.dirname(path.realpath(__file__))
 STREAMS = 'StreamsNHDHighRes'
@@ -138,10 +138,12 @@ class DEQNightly1TempTablesPallet(Pallet):
         update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def ship(self):
-        for sgid_name in [sgid_name for sgid_name in self.updated_datasets if not sgid_name.startswith('ETLFrom')]:
+        for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates']):
+            sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
             source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
 
+            self.log.info(f'updating {destination}')
             update_sgid.update_sgid_data(source, destination)
 
 

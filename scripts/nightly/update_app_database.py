@@ -115,31 +115,50 @@ def get_temp_crate_infos(temp_gdb, test_layer=None):
     return _get_crate_infos(temp_gdb, test_layer, temp=True)
 
 
-def start_etl(crates, app_database):
-    #: these crates are all table -> point etls as returned from get_temp_crate_infos
+def get_spreadsheet_configs_for_crates(crates):
+    #: returns [[spreadsheet_config, crate]]
+
+    def get_source_from_crate(crate):
+        #: handle crates that are objects (during lift) or dictionaries (during ship)
+        try:
+            return crate.source
+        except AttributeError:
+            return crate['source']
+
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_query_layers():
-            if crate.source.endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
+            if get_source_from_crate(crate).endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
                 return config
-        raise Exception('{} not found in spreadsheet!'.format(crate.source))
+        raise Exception('{} not found in spreadsheet!'.format(get_source_from_crate(crate)))
 
-    #: ETL tables to points into app database
-    updated_datasets = []
+    updated_crates = []
+
     for crate in crates:
-        dataset = get_spreadsheet_config_from_crate(crate)
-        sgid_name = dataset[settings.fieldnames.sgidName]
-        source_name = dataset[settings.fieldnames.sourceData]
+        spreadsheet_config = get_spreadsheet_config_from_crate(crate)
+        sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
+        source_name = spreadsheet_config[settings.fieldnames.sourceData]
 
         if (not sgid_name.startswith('SGID') and not sgid_name.startswith('ETLFrom')) or source_name.startswith('SGID') or not crate.was_updated():
             continue
 
+        updated_crates.append([spreadsheet_config, crate])
+
+    return updated_crates
+
+def start_etl(crates, app_database):
+    #: these crates are all table -> point etls as returned from get_temp_crate_infos
+    #: ETL tables to points into app database
+    updated_datasets = []
+    for config, crate in get_spreadsheet_configs_for_crates(crates):
+        sgid_name = config[settings.fieldnames.sgidName]
+        source_name = config[settings.fieldnames.sourceData]
         logger.info(sgid_name)
         logger.debug(crate)
 
         app_feature_class = path.join(app_database, sgid_name.split('.')[-1])
 
         try:
-            if dataset[settings.fieldnames.etlType] == 'drinking_water_join':
+            if config[settings.fieldnames.etlType] == 'drinking_water_join':
                 drinking_water_join(crate, app_feature_class)
             else:
                 #: default to table to points
