@@ -140,7 +140,7 @@ class DEQNightly1TempTablesPallet(Pallet):
     def ship(self):
         for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates']):
             sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
-            source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
+            source = path.join(self.deqquerylayers, sgid_name.split('.')[-1])
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
 
             self.log.info(f'updating {destination}')
