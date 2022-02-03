@@ -37,11 +37,11 @@ def update_sgid_for_crates(crates_from_slip):
 
         if sgid_name.casefold().startswith('sgid'):
             source = crate_slip['destination']
-            update_sgid_data(source, destination)
+            update_sgid_data(source, destination, owner_connection)
 
 
 utm = arcpy.SpatialReference(26912)
-def update_sgid_data(source, destination):
+def update_sgid_data(source, destination, owner_connection):
     logger.info(f'updating {destination}')
     scratch = Path(arcpy.env.scratchFolder) / 'deq_data_for_sgid.gdb'
     temp_table = str(Path(scratch / Path(source).name))

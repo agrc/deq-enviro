@@ -142,9 +142,10 @@ class DEQNightly1TempTablesPallet(Pallet):
             sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
             source = path.join(self.deqquerylayers, sgid_name.split('.')[-1])
             destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
+            owner_connection = settings.sgid[sgid_name.split('.')[1]]
 
             self.log.info(f'updating {destination}')
-            update_sgid.update_sgid_data(source, destination)
+            update_sgid.update_sgid_data(source, destination, owner_connection)
 
 
 class DEQNightly2NonSGIDPallet(Pallet):
