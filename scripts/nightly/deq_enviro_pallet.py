@@ -138,13 +138,8 @@ class DEQNightly1TempTablesPallet(Pallet):
         update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def ship(self):
-        for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates']):
-            sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
-            source = path.join(self.deqquerylayers, sgid_name.replace('.', update_sgid.period_replacement))
-            destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
-
-            self.log.info(f'updating {destination}')
-            update_sgid.update_sgid_data(source, destination)
+        slip_crates = [crate for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates'])]
+        update_sgid.update_sgid_for_crates(slip_crates)
 
 
 class DEQNightly2NonSGIDPallet(Pallet):
