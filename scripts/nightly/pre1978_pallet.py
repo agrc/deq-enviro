@@ -88,7 +88,7 @@ class Pre1978Pallet(Pallet):
             self.add_crate((fc_name.split('.')[-1], self.sgid, self.boundaries))
 
     def process(self):
-        pre1978 = join(self.garage, 'SGID as ENVIRONMENT.sde', 'SGID.ENVIRONMENT.DAQPre1978LeadInHomes')
+        pre1978 = join(self.garage, 'SGID_internal_connection_files', 'Environment.sde', 'SGID.ENVIRONMENT.DAQPre1978LeadInHomes')
         address_points = join(self.sgid, 'SGID.LOCATION.AddressPoints')
         zip_codes = join(self.sgid, 'SGID.BOUNDARIES.ZipCodes')
 
