@@ -75,8 +75,11 @@ define([
             console.log('app.search.QueryLayerFilter::postCreate', arguments);
 
             var that = this;
-            array.forEach(this.filterTxt.split('; '), function (txt) {
+            this.filterTxt.split('; ').forEach(function (txt, index) {
                 var parts = /(^.+?):\s(.+$)/.exec(txt);
+                if (index > 0) {
+                    domConstruct.create('hr', null, that.filtersContainer);
+                }
                 var f = new that.filterTypes[parts[1]]({
                     filterTxt: parts[2]
                 }, domConstruct.create('div', null, that.filtersContainer));

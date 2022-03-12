@@ -7,3 +7,6 @@
     overflow-y: auto;
     margin-bottom: 5px;
 }
+.query-layer-filter [data-dojo-attach-point='filtersContainer'] hr {
+    margin: 0;
+}
