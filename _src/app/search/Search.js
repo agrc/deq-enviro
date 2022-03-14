@@ -547,8 +547,9 @@ define([
             topic.publish(config.topics.appMapMapController.clearGraphics);
 
             this.hideErrMsg();
-            this.select.value = 'empty';
+            this.select.value = 'county';
             this.onSelectChange();
+            this.county.onChange();
         },
         hideGrid: function () {
             // summary:
