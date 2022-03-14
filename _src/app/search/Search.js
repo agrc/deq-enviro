@@ -23,7 +23,6 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
-    'dojo/aspect',
     'dojo/dom-attr',
     'dojo/dom-class',
     'dojo/dom-construct',
@@ -65,7 +64,6 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
-    aspect,
     domAttr,
     domClass,
     domConstruct,

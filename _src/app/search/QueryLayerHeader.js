@@ -2,6 +2,7 @@ define([
     'dojo/text!./templates/QueryLayerHeader.html',
 
     'dojo/_base/declare',
+    'dojo/dom-construct',
 
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -11,6 +12,7 @@ define([
     template,
 
     declare,
+    domConstruct,
 
     _WidgetBase,
     _TemplatedMixin,
@@ -28,6 +30,28 @@ define([
 
         // name: String
         //      The name of the heading
-        name: null
+        name: null,
+
+        postCreate: function () {
+            // summary:
+            //      Overrides method of same name in dijit._Widget.
+            console.log('app/search/QueryLayerHeader::postCreate', arguments);
+
+            const openIcon = 'glyphicon-triangle-bottom';
+            const closeIcon = 'glyphicon-triangle-right';
+
+            $(this.collapsePanel).on('show.bs.collapse', (event) => {
+                event.stopPropagation();
+                this.icon.classList.remove(closeIcon);
+                this.icon.classList.add(openIcon);
+            });
+            $(this.collapsePanel).on('hide.bs.collapse', (event) => {
+                event.stopPropagation();
+                this.icon.classList.add(closeIcon);
+                this.icon.classList.remove(openIcon);
+            });
+
+            this.inherited(arguments);
+        }
     });
 });
