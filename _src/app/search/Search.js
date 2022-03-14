@@ -135,7 +135,7 @@ define([
         searchServiceGeneralErrorMsg: 'There was an error with the search service!',
 
         // noQueryLayersSelectedErrMsg: String
-        noQueryLayersSelectedErrMsg: 'You must select at least one query layer!',
+        noQueryLayersSelectedErrMsg: 'You must select some map data!',
 
         // noSearchTypeSelectedErrMsg: String
         noSearchTypeSelectedErrMsg: 'You must select a search criteria type!',
