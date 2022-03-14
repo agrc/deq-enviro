@@ -130,6 +130,9 @@ body, html, .app {
 *:focus {
     outline: none;
 }
+a:focus, a:hover {
+    text-decoration: none !important;
+}
 .dijitPopup {
     z-index: 1100 !important;
 }

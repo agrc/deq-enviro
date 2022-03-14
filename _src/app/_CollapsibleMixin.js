@@ -1,9 +1,11 @@
 define([
     'dojo/_base/declare',
+    'dojo/dom-construct',
 
     'bootstrap'
 ], function (
-    declare
+    declare,
+    domConstruct
 ) {
     return declare(null, {
         // description:
@@ -20,20 +22,34 @@ define([
                 toggle: false
             });
 
-            if (localStorage) {
-                pane.each(function () {
-                    var state = localStorage[this.id];
-                    if (state !== undefined) {
-                        $(this).collapse(state);
+            const openIcon = 'glyphicon-triangle-bottom';
+            const closeIcon = 'glyphicon-triangle-right';
+            pane.each(function () {
+                var state = localStorage[this.id];
+                if (state !== undefined) {
+                    $(this).collapse(state);
+                }
+
+                const anchor = $(`a[href="#${this.id}"]`)[0];
+                const header = $(':header', anchor)[0];
+                const icon = domConstruct.create('span', {
+                    className: 'glyphicon ' + (state === 'show' ? openIcon : closeIcon),
+                    style: {
+                        'font-size': '0.8em'
                     }
-                });
-                $(pane).on('shown.bs.collapse', function () {
+                }, header, 'first');
+
+                $(this).on('show.bs.collapse', () => {
                     localStorage[this.id] = 'show';
+                    icon.classList.remove(closeIcon);
+                    icon.classList.add(openIcon);
                 });
-                $(pane).on('hidden.bs.collapse', function () {
+                $(this).on('hide.bs.collapse', () => {
                     localStorage[this.id] = 'hide';
+                    icon.classList.add(closeIcon);
+                    icon.classList.remove(openIcon);
                 });
-            }
+            });
 
             this.inherited(arguments);
         }
