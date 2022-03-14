@@ -14,8 +14,18 @@
 @import '../../download/resources/Download.css';
 @import 'AdditionalSearch.css';
 
-.search .panel-group {
+.search {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     margin-bottom: 0;
+}
+.search .accordion-container {
+    flex: 1;
+    overflow-y: auto;
+}
+.search .accordion-container .spacer {
+    height: 65px;
 }
 .search .magic-zoom {
     position: relative;
@@ -35,5 +45,6 @@
     margin-top: 10px;
 }
 .search .search-button-container {
+    border-top: 1px solid #b5bcc7;
     padding: 15px;
 }
