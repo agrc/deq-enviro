@@ -218,6 +218,8 @@ define([
                 w.startup();
             });
 
+            this.onSelectChange();
+
             this.inherited(arguments);
         },
         onAddQueryLayer: function (qLayer) {
