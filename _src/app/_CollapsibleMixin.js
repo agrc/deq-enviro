@@ -19,7 +19,7 @@ define([
 
             var pane = $('.accordion-collapse', this.domNode).collapse({
                 parent: this.domNode,
-                toggle: false
+                toggle: true
             });
 
             const openIcon = 'glyphicon-triangle-bottom';
@@ -33,7 +33,7 @@ define([
                 const anchor = $(`a[href="#${this.id}"]`)[0];
                 const header = $(':header', anchor)[0];
                 const icon = domConstruct.create('span', {
-                    className: 'glyphicon ' + (state === 'show' ? openIcon : closeIcon),
+                    className: 'glyphicon ' + (state === 'hide' ? closeIcon : openIcon),
                     style: {
                         'font-size': '0.8em'
                     }

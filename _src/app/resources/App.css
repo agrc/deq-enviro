@@ -71,26 +71,25 @@ body, html, .app {
 .app .side-bar-container {
     width: 350px;
     padding: 0;
-    overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
     right: 5px;
     top: 75px;
     bottom: 5px;
 }
-.app .side-bar-container>.panel-group>.panel {
+.app .side-bar-container>.panel-group>.accordion-container>.panel {
     border-radius: 0;
 }
-.app .side-bar-container>.panel-group>.panel {
+.app .side-bar-container>.panel-group>.accordion-container>.panel {
     margin-top: -1px;
 }
-.app .side-bar-container>.panel-group {
+.app .side-bar-container>.panel-group >.accordion-container{
     margin: -1px;
 }
-.app .side-bar-container>.panel-group>.panel>.panel-heading {
+.app .side-bar-container>.panel-group>.accordion-container>.panel>.panel-heading {
     padding: 0;
 }
-.app .side-bar-container>.panel-group>.panel>.panel-heading>a {
+.app .side-bar-container>.panel-group>.accordion-container>.panel>.panel-heading>a {
     padding: 10px 15px;
     display: block;
 }

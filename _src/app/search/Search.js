@@ -448,6 +448,7 @@ define([
 
             // check for no search type selected
             if (this.currentPane === this.empty) {
+                this.locationPanel.scrollIntoView();
                 onError(this.noSearchTypeSelectedErrMsg);
 
                 return;
@@ -484,6 +485,7 @@ define([
             console.log('app/search/Search::getQueryLayersParam', arguments);
 
             if (this.selectedQueryLayers.length === 0) {
+                this.queryLayersPanel.scrollIntoView();
                 throw this.noQueryLayersSelectedErrMsg;
             }
 
