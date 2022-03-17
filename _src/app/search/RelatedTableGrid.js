@@ -119,6 +119,11 @@ define([
 
             this.createPill(this.pillsDiv, tableInfo.name);
 
+            const columnWidth = 200;
+            const gridWidth = columns.length * columnWidth;
+
+            this.gridDiv.style.width = gridWidth + 'px';
+
             this.grid = new (declare([Grid, ColumnResizer]))({
                 columns: columns,
                 className: 'dgrid-autoheight',
