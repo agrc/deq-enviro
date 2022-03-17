@@ -14,6 +14,7 @@ define([
     'dojo/_base/declare',
 
     'esri/layers/ArcGISDynamicMapServiceLayer',
+    'esri/layers/FeatureLayer',
     'esri/layers/VectorTileLayer'
 ], function (
     config,
@@ -31,6 +32,7 @@ define([
     declare,
 
     ArcGISDynamicMapServiceLayer,
+    FeatureLayer,
     VectorTileLayer
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, _PopoverMixin], {
@@ -86,12 +88,10 @@ define([
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Environmental Covenants',
-                    mapServiceUrl: config.urls.DEQEnviro,
+                    mapServiceUrl: config.urls.environmentalCovenants,
                     layerIndex: config.layerIndices.environmentalCovenants,
                     layerProps: { opacity: 0.7 },
-                    showLegend: true,
-                    layerClass: ArcGISDynamicMapServiceLayer,
-                    legendHeader: 'DIVISION, BRANCH, PROGRAM'
+                    layerClass: FeatureLayer
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Parcels',
