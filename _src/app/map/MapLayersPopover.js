@@ -63,7 +63,7 @@ define([
                     layerClass: ArcGISDynamicMapServiceLayer,
                     showLegend: true
                     // I tried using a FeatureLayer for this layer but Mark's symbology (which
-                    // he feels very stongly about) didn't transfer over.
+                    // he feels very strongly about) didn't transfer over.
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ReferenceLayerToggle({
                     layerName: 'Land Ownership',
@@ -91,7 +91,8 @@ define([
                     mapServiceUrl: config.urls.environmentalCovenants,
                     layerIndex: config.layerIndices.environmentalCovenants,
                     layerProps: { opacity: 0.7 },
-                    layerClass: FeatureLayer
+                    layerClass: FeatureLayer,
+                    showLegend: true
                 }, domConstruct.create('div', {}, this.domNode, 'first')),
                 new ScaleDependentReferenceLayerToggle({
                     layerName: 'Parcels',

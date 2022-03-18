@@ -8,6 +8,9 @@ define([
     'dojo/string',
     'dojo/text!app/map/templates/Legend.html',
     'dojo/text!app/map/templates/LegendRow.html',
+    'dojo/text!app/map/templates/LegendRowFeatureServer.html',
+
+    'esri/layers/FeatureLayer',
 
     // use esri/request so that LoginRegister can add token if needed
     'esri/request'
@@ -20,7 +23,10 @@ define([
     domConstruct,
     dojoString,
     template,
-    rowTemplate,
+    rowTemplateMapServer,
+    rowTemplateFeatureServer,
+
+    FeatureLayer,
 
     request
 ) {
@@ -51,6 +57,18 @@ define([
             //      private
             console.log('app.map.Legend::postCreate', arguments);
 
+            if (this.mapServiceUrl.toLowerCase().match(/featureserver/)) {
+                const featureLayer = new FeatureLayer(`${this.mapServiceUrl}/${this.layerId}`);
+                featureLayer.on('load', () => {
+                    this.buildLegend(featureLayer.renderer.infos.map(info => {
+                        return {
+                            label: info.label,
+                            color: info.symbol.color.toHex()
+                        };
+                    }));
+                });
+            }
+
             var that = this;
             var requestObj = {
                 url: this.mapServiceUrl + '/legend',
@@ -74,6 +92,7 @@ define([
 
             var that = this;
             array.forEach(items, function (item) {
+                const rowTemplate = item.imageData ? rowTemplateMapServer : rowTemplateFeatureServer;
                 domConstruct.place(dojoString.substitute(rowTemplate, item), that.table);
             });
 
