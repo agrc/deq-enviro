@@ -8,19 +8,21 @@ SGID.ENVIRONMENT.DAQAirMonitorByStation
 
 import logging.config
 import sys
+from collections import namedtuple
 from logging import shutdown
 from os import makedirs, path
 from traceback import format_exc
 
 import arcpy
-import settings
-from forklift import core
+from forklift import core, messaging
 from forklift.__main__ import detailed_formatter, log_location
-from forklift.messaging import send_email
 from forklift.models import Crate
+
+import settings
 from settings.dev import reportEmail
 from update_fgdb import validate_crate
 
+messaging.send_emails_override = True
 
 def _setup_logging():
     # copied from forklift
@@ -68,7 +70,9 @@ try:
 
     log.info('processing crate')
     core.init(log)
-    crate.set_result(core.update(crate, validate_crate))
+    MockChangeDetection = namedtuple('MockChangeDetection', ['has_table'])
+    mock_change_detection = MockChangeDetection(lambda x: False)
+    crate.set_result(core.update(crate, validate_crate, mock_change_detection))
     if crate.was_updated():
         log.info('updating data in SDE')
         sgid_destination = path.join(sgid_db, 'SGID.ENVIRONMENT.{}'.format(sgid_name))
@@ -77,18 +81,19 @@ try:
 
         log.info('updating prod fgdbs')
         for dest_fgdb in [settings.mapData1, settings.mapData2]:
+            log.info(dest_fgdb)
             dest = path.join(dest_fgdb, 'deqquerylayers.gdb', sgid_name)
             arcpy.management.TruncateTable(dest)
             arcpy.management.Append(crate.destination, dest, 'NO_TEST')
 
     if crate.result[0] in bad_results:
-        send_email(reportEmail,
+        messaging.send_email(reportEmail,
                    'DEQ Hourly Crate Error',
                    'Crate Result: \n{}'.format(crate.result))
 
     log.info('Process completed successfully. Have a nice day.')
 except Exception as e:
     log.error(format_exc())
-    send_email(reportEmail, 'DEQ Hourly Script Error', format_exc())
+    messaging.send_email(reportEmail, 'DEQ Hourly Script Error', format_exc())
 finally:
     shutdown()
