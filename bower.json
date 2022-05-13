@@ -2,7 +2,7 @@
   "name": "deq-enviro",
   "version": "1.8.6-0",
   "dependencies": {
-    "agrc": "agrc-widgets#~6.1.2",
+    "agrc": "agrc-widgets#~6.1.6",
     "esri": "arcgis-js-api#~3.35",
     "bootstrap": "3.3.6",
     "bootstrap-datepicker": "~1.3.0",
