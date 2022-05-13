@@ -202,7 +202,7 @@ define([
             console.log('app/map/MapController:addQueryLayer', arguments);
 
             const maxIndex = 99;
-            var index = (geometryType === 'polygon') ? maxIndex : undefined;
+            var index = (geometryType.toLowerCase() === 'polygon') ? maxIndex : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
         },
