@@ -120,13 +120,15 @@ define([
             this.fLayer = new FeatureLayer(url + '/' + parseInt(ql.index.replace('s', ''), 10), layerConfig);
             var that = this;
             this.fLayer.on('load', function () {
-                that.fLayer.setLabelingInfo([
-                    new LabelClass({
-                        labelExpression: '[' + config.fieldNames.queryLayers.ENVIROAPPLABEL + ']',
-                        labelPlacement: 'above-right',
-                        minScale: config.labelsMinScale
-                    })
-                ]);
+                if (config.fieldNames.queryLayers.ENVIROAPPLABEL !== 'n/a') {
+                    that.fLayer.setLabelingInfo([
+                        new LabelClass({
+                            labelExpression: '[' + config.fieldNames.queryLayers.ENVIROAPPLABEL + ']',
+                            labelPlacement: 'above-right',
+                            minScale: config.labelsMinScale
+                        })
+                    ]);
+                }
                 if (ql.ENVIROAPPSYMBOL === 'n/a') {
                     that.fLayer.setRenderer(new SimpleRenderer(getRenderer(geometryType, color)));
                 }
