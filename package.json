@@ -1,6 +1,6 @@
 {
   "name": "deq-enviro",
-  "version": "1.8.6-2",
+  "version": "1.8.6",
   "devDependencies": {
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "babel-preset-latest": "^6.24.0",
