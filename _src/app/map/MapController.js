@@ -201,8 +201,9 @@ define([
             //      Used to determine layer order (polygons go on the bottom)
             console.log('app/map/MapController:addQueryLayer', arguments);
 
-            const maxIndex = 99;
-            var index = (geometryType === 'polygon') ? maxIndex : undefined;
+            var genericGraphicsLayerIds = this.map.graphicsLayerIds.filter(id => id.startsWith('graphicsLayer'));
+
+            var index = (geometryType.toLowerCase() === 'polygon') ? genericGraphicsLayerIds.length : undefined;
             this.map.addLayer(layer, index);
             this.map.addLoaderToLayer(layer);
         },

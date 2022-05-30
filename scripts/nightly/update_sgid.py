@@ -71,9 +71,9 @@ def update_sgid_data(source, destination, owner_connection):
             #: skip if this is a related table config
             continue
 
-    delete_fields.append('FORKLIFT_HASH')
-    logger.debug(f'deleting fields: {delete_fields}')
-    arcpy.DeleteField_management(temp_table, delete_fields)
+    if len(delete_fields) > 0:
+        logger.debug(f'deleting fields: {delete_fields}')
+        arcpy.DeleteField_management(temp_table, delete_fields)
 
     current_metadata = arcpy.metadata.Metadata(destination)
     swapper.copy_and_replace(Path(temp_table), Path(destination), Path(owner_connection), ['internal'])

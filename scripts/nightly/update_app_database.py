@@ -82,9 +82,17 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
             if source_data.startswith('<static>'):
                 continue
 
+            # feature services
+            if source_data.startswith('https'):
+                [source_workspace, source_name] = source_data.split(r'/services/')
+                source_workspace = fr'{source_workspace}/services/'
             #: prepend path to database folder for database sources
-            if not source_data.startswith(r'\\'):
-                source_data = path.join(settings.dbConnects, source_data)
+            else:
+                if not source_data.startswith(r'\\'):
+                    source_data = path.join(settings.dbConnects, source_data)
+
+                source_workspace = path.dirname(source_data)
+                source_name = path.basename(source_data)
 
             if not related_tables:
                 is_table = arcpy.da.Describe(source_data)['datasetType'] == 'Table'
@@ -95,14 +103,10 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
                     if is_table:
                         continue
 
-            #: only try to update data with valid data sources
-            if not source_data.startswith('<'):
-                source = path.join(settings.dbConnects, source_data)
-
-                infos.append((path.basename(source),
-                              path.dirname(source),
-                              destination_gdb,
-                              sgid_name.split('.')[-1]))
+            infos.append((source_name,
+                            source_workspace,
+                            destination_gdb,
+                            sgid_name.split('.')[-1]))
 
         except Exception as e:
             msg = 'Error with {}: {}'.format(dataset, e)
