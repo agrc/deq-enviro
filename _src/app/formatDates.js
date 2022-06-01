@@ -2,7 +2,7 @@ define([
     'dojo/_base/array'
 ], function (
     array
-    ) {
+) {
     var dateFieldsCache = {};
 
     return {

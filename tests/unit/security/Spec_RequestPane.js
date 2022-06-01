@@ -142,8 +142,8 @@ define([
                     zip: 'zip'
                 });
                 expect(widget.getData().accessRules).to.containSubset({
-                        // startDate: 1412891655130,
-                        // endDate: 1420844055130,
+                    // startDate: 1412891655130,
+                    // endDate: 1420844055130,
                     options: {
                         layers: ['1', '2'],
                         locationTxt: 'blah'

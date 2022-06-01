@@ -109,8 +109,8 @@ define([
                     var grid = new RelatedTableGrid({
                         tableId: tableId,
                         records: (relatedResponse.relatedRecordGroups.length > 0) ?
-                        relatedResponse.relatedRecordGroups[0].relatedRecords :
-                        false,
+                            relatedResponse.relatedRecordGroups[0].relatedRecords :
+                            false,
                         pillsDiv: that.pillsDiv,
                         fields: relatedResponse.fields,
                         fiveFields: fiveFields

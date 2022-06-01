@@ -94,8 +94,8 @@ define([
                     lang.hitch(this, 'zoomToSearchGraphic')),
                 topic.subscribe(t.appMapMapController.graphic,
                     lang.partial(lang.hitch(this, 'graphic'),
-                                 'searchGraphics',
-                                 config.symbols.zoom)),
+                        'searchGraphics',
+                        config.symbols.zoom)),
                 topic.subscribe(t.appSearch.searchStarted, function () {
                     that.showLoader();
                     if (that.highlightLayer) {
@@ -116,8 +116,8 @@ define([
                     lang.hitch(this, 'zoom')),
                 topic.subscribe(t.appMapMapController.showHighlightedFeature,
                     lang.partial(lang.hitch(this, 'graphic'),
-                                 'highlightLayer',
-                                 config.symbols.selection)),
+                        'highlightLayer',
+                        config.symbols.selection)),
                 topic.subscribe(t.appSearch.featuresFound,
                     lang.hitch(this, 'zoomToFeaturesFound'))
             );

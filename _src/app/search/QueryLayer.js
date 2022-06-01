@@ -217,8 +217,8 @@ define([
                 var that = this;
                 request(url, { handleAs: 'json',
                     headers: { 'X-Requested-With': null } }).then(function (json) {
-                        config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
-                    });
+                    config.getQueryLayerByIndex(that.index).renderer = json.drawingInfo.renderer;
+                });
                 this.requestedSymbology = true;
             }
         },

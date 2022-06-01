@@ -409,38 +409,38 @@ define([
                     handleAs: 'json',
                     timeout: 60000
                 }).then(
-                function (response) {
-                    if (response.status !== 200 ||
+                    function (response) {
+                        if (response.status !== 200 ||
                         (response.queryLayers && response.queryLayers.status !== 200) ||
                         (response.secureQueryLayers && response.secureQueryLayers.status !== 200)) {
-                        try {
-                            onError(that.checkForMaxRecords(response));
-                        } catch (e) {
-                            onError(that.searchServiceGeneralErrorMsg);
-                        }
-                    } else {
-                        var results = {};
-                        if (response.secureQueryLayers) {
-                            // add s's to secure layer indices
-                            var result = response.secureQueryLayers.result;
-                            for (var p in result) {
-                                if (result.hasOwnProperty(p)) {
-                                    result['s' + p] = result[p];
-                                    delete result[p];
-                                }
+                            try {
+                                onError(that.checkForMaxRecords(response));
+                            } catch (e) {
+                                onError(that.searchServiceGeneralErrorMsg);
                             }
-                            lang.mixin(results, response.secureQueryLayers.result);
-                        }
+                        } else {
+                            var results = {};
+                            if (response.secureQueryLayers) {
+                            // add s's to secure layer indices
+                                var result = response.secureQueryLayers.result;
+                                for (var p in result) {
+                                    if (result.hasOwnProperty(p)) {
+                                        result['s' + p] = result[p];
+                                        delete result[p];
+                                    }
+                                }
+                                lang.mixin(results, response.secureQueryLayers.result);
+                            }
 
-                        if (response.queryLayers) {
-                            lang.mixin(results, response.queryLayers.result);
+                            if (response.queryLayers) {
+                                lang.mixin(results, response.queryLayers.result);
+                            }
+                            topic.publish(config.topics.appSearch.featuresFound, results);
+                            that.hideLoader();
                         }
-                        topic.publish(config.topics.appSearch.featuresFound, results);
-                        that.hideLoader();
-                    }
-                }, function () {
-                    onError(that.searchServiceGeneralErrorMsg);
-                });
+                    }, function () {
+                        onError(that.searchServiceGeneralErrorMsg);
+                    });
                 topic.publish(config.topics.appSearch.searchStarted);
             };
 

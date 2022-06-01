@@ -83,7 +83,7 @@ define([
                 if (!this.queryPrefix) {
                     return query;
                 }
-                    // add one ")" for each "(" found in the prefix
+                // add one ")" for each "(" found in the prefix
                 var postfix = '';
                 array.forEach(new Array(this.queryPrefix.split('(').length - 1), function () {
                     postfix += ')';
