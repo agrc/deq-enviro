@@ -98,7 +98,7 @@ define([
                 counties !== null &&
                 this.getLayers().length > 0 &&
                 !Number.isNaN(endDate)
-                ) &&
+            ) &&
                 !(
                     this.emailTxt.value === this.email &&
                     this.firstTxt.value === this.first &&
@@ -113,14 +113,14 @@ define([
                     this.getLayers() === this.accessRules.options.layers &&
                     endDate === this.accessRules.endDate
                 ) && (
-                    this.emailTxt.value.length > 0 &&
+                this.emailTxt.value.length > 0 &&
                     this.firstTxt.value.length > 0 &&
                     this.lastTxt.value.length > 0 &&
                     this.roleSelect.value.length > 0 &&
                     this.agencyTxt.value.length > 0 &&
                     counties !== null && counties.length > 0 &&
                     this.getLayers().length > 0
-                );
+            );
         },
         getData: function () {
             // summary:

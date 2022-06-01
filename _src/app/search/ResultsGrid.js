@@ -297,7 +297,7 @@ define([
             }
             return 0;
         },
-        /*eslint-enable*/
+        /* eslint-enable*/
         onGridSort: function () {
             // summary:
             //      Used to temporarily collapse trees for sorting which increases performance
@@ -404,6 +404,7 @@ define([
                 oids.push(graphic[fn.OBJECTID]);
                 graphic.parent = layerIndex;
                 graphic[fn.UNIQUE_ID] = layerIndex + '-' + graphic[fn.OBJECTID];
+                // eslint-disable-next-line no-self-assign
                 graphic.geometry = graphic.geometry;
 
                 return graphic;
