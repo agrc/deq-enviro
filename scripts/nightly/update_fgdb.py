@@ -33,6 +33,8 @@ def clip_to_state_boundary(dataset):
     arcpy.management.SelectLayerByLocation(dataset, overlap_type='INTERSECT', select_features=state)
     arcpy.management.SelectLayerByLocation(dataset, selection_type='SWITCH_SELECTION')
     arcpy.management.DeleteFeatures(dataset)
+    arcpy.management.Delete(state)
+    arcpy.management.Delete(dataset)
 
 def post_process_dataset(dataset):
     config = get_spreadsheet_config_from_dataset(dataset)
