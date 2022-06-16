@@ -11,7 +11,6 @@ import spreadsheet
 from build_json import parse_fields
 from forklift.exceptions import ValidationException
 from settings import fieldnames
-from update_sgid import period_replacement
 
 
 commonFields = [fieldnames.ID,
@@ -27,8 +26,22 @@ field_type_mappings = {'Integer': 'LONG',
                        'SmallInteger': 'SHORT'}
 
 
+def clip_to_state_boundary(dataset):
+    logger.info('Clipping %s to state boundary', dataset)
+    state = arcpy.management.MakeFeatureLayer('https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/UtahStateBoundary/FeatureServer/0', 'state', where_clause='STATE = \'UTAH\'')
+    dataset = arcpy.management.MakeFeatureLayer(dataset, 'dataset')
+    arcpy.management.SelectLayerByLocation(dataset, overlap_type='INTERSECT', select_features=state)
+    arcpy.management.SelectLayerByLocation(dataset, selection_type='SWITCH_SELECTION')
+    arcpy.management.DeleteFeatures(dataset)
+    arcpy.management.Delete(state)
+    arcpy.management.Delete(dataset)
+
 def post_process_dataset(dataset):
     config = get_spreadsheet_config_from_dataset(dataset)
+
+    if config[settings.fieldnames.etlType] == 'state_boundary':
+        clip_to_state_boundary(dataset)
+
     if commonFields[0] in list(config.keys()):
         #: make sure that it has the five main fields
         upper_fields = [x.name.upper() for x in arcpy.ListFields(dataset)]
