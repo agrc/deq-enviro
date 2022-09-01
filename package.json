@@ -28,7 +28,7 @@
     "signavio-chai-subset": "^1.1.2",
     "sinon": "^14.0.0",
     "sinon-chai": "^3.7.0",
-    "uglify-js": "^3.16.3"
+    "uglify-js": "^3.17.0"
   },
   "scripts": {
     "build:prod": "grunt build-prod",
