@@ -26,9 +26,9 @@
     "intern": "^4.8.7",
     "load-grunt-tasks": "5.1.0",
     "signavio-chai-subset": "^1.1.2",
-    "sinon": "^14.0.0",
+    "sinon": "^14.0.1",
     "sinon-chai": "^3.7.0",
-    "uglify-js": "^3.17.2"
+    "uglify-js": "^3.17.4"
   },
   "scripts": {
     "build:prod": "grunt build-prod",
