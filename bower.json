@@ -13,7 +13,8 @@
     "stubmodule": "*",
     "layer-selector": "agrc-layer-selector#~0.4.0",
     "sherlock": "agrc-sherlock#^1.0.0",
-    "dijit-themes": "https://github.com/dojo/dijit-themes.git#1.14.0"
+    "dijit-themes": "https://github.com/dojo/dijit-themes.git#1.14.0",
+    "natural-compare-lite": "litejs/natural-compare-lite#^1.4.0"
   },
   "resolutions": {
     "esri": "~3.35",

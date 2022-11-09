@@ -53,6 +53,10 @@
                 name: 'selectpicker',
                 location: './bootstrap-select',
                 main: 'dist/js/bootstrap-select'
+            }, {
+                name: 'natural-compare-lite',
+                location: './natural-compare-lite',
+                main: 'index'
             }
         ],
         map: {
