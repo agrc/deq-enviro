@@ -19,7 +19,7 @@
     "grunt-contrib-uglify": "^5.2.2",
     "grunt-contrib-watch": "1.1.0",
     "grunt-dojo": "^1.0.1",
-    "grunt-eslint": "^24.0.0",
+    "grunt-eslint": "^24.0.1",
     "grunt-newer": "^1.1.1",
     "grunt-processhtml": "^0.4.3",
     "grunt-ssh": "^0.12.9",
