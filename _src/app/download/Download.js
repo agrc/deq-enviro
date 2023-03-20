@@ -187,6 +187,11 @@ define([
 
             this.gp.submitJob(params);
 
+            window.gtag('event', 'download', {
+                format: this.fileTypes.value,
+                layers: Object.keys(this.downloadFeatures).join(', ')
+            });
+
             return params;
         },
         showLoader: function () {
