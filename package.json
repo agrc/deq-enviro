@@ -2,18 +2,25 @@
   "name": "deq-enviro",
   "version": "2.0.0",
   "private": true,
+  "description": "DEQ Interactive Map",
   "license": "MIT",
   "author": "UGRC",
   "type": "module",
+  "main": "./src/functions/index.js",
   "scripts": {
     "build": "vite build",
-    "dev": "vite",
+    "dev": "cross-env NODE_ENV=development run-p dev:*",
+    "dev:firebase": "firebase emulators:start --import .emulator-data --only functions",
+    "dev:vite": "vite",
     "format": "prettier --write .",
-    "lint": "eslint ./ --ext .js,.mjs,.jsx --ignore-path ./.eslintignore",
-    "lint:fix": "eslint ./ --ext .js,.mjs,.jsx --quiet --fix --ignore-path ./.eslintignore",
+    "lint": "eslint ./ --ext .js,.jsx --ignore-path ./.eslintignore",
+    "lint:fix": "eslint ./ --ext .js,.jsx --quiet --fix --ignore-path ./.eslintignore",
     "prepare": "if-env NODE_ENV=production && echo 'Skipping husky install' || husky install",
     "preview": "vite preview",
-    "start": "npm run dev"
+    "save-firebase-state": "firebase emulators:start --import .emulator-data --export-on-exit --only functions",
+    "start": "npm run dev",
+    "test": "vitest --coverage",
+    "coverage": "vitest run --coverage"
   },
   "browserslist": {
     "production": [
@@ -72,22 +79,29 @@
     }
   },
   "dependencies": {
+    "firebase-functions": "^4.2.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "reactfire": "^4.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.7",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-plugin": "^1.0.11",
     "eslint-plugin-pretty": "^0.0.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "firebase-tools": "^11.24.1",
     "husky": "^8.0.3",
     "if-env": "^1.0.4",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.6",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-packagejson": "^2.4.3",
-    "vite": "^4.2.0"
+    "vite": "^4.2.0",
+    "vitest": "^0.29.7"
   }
 }

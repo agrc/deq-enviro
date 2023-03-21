@@ -1,0 +1,143 @@
+{
+  "functions": {
+    "source": ".",
+    "codebase": "src",
+    "runtime": "nodejs18",
+    "ignore": [
+      ".emulator-data",
+      ".git",
+      ".github",
+      ".husky",
+      ".storybook",
+      ".vscode",
+      "coverage",
+      "dist",
+      "firebase-export-*",
+      "node_modules",
+      "public",
+      "*.config.js",
+      "*.rules",
+      "*.log",
+      "*.html",
+      "*.jsx",
+      ".eslintcache",
+      "_src",
+      "tests_old"
+    ]
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/robots.txt",
+        "destination": "/robots.txt"
+      },
+      {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap.xml"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "!/assets/**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'none'; font-src *; worker-src blob:; script-src 'self' 'unsafe-eval' https://*.google.com https://www.googletagmanager.com; connect-src 'self' https://*.cloudfunctions.net https://*.utah.gov https://*.googleapis.com https://*.arcgis.com https://www.google-analytics.com; img-src 'self' blob: data: https://www.gravatar.com https://*.wp.com https://*.utah.gov https://*.arcgis.com https://www.googletagmanager.com https://*.googleapis.com; style-src 'self' 'unsafe-inline';base-uri 'self'; form-action 'self'; frame-src *; object-src 'self' https://*.googleapis.com"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Referrer-Policy",
+            "value": "no-referrer-when-downgrade"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Permissions-Policy",
+            "value": "accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), encrypted-media=(), fullscreen=(self), geolocation=(self), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), speaker=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()"
+          }
+        ]
+      }
+    ]
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  }
+}
