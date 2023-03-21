@@ -40,6 +40,7 @@
     "no",
     "node",
     "node modules signavio chai subset lib",
+    "packagejson",
     "permissionproxy",
     "POSTTONET",
     "programid",
@@ -63,5 +64,6 @@
     "wstrn no",
     "xlsxwriter",
     "xylayer"
-  ]
+  ],
+  "editor.formatOnSave": true
 }
