@@ -1,18 +1,10 @@
-_SpecRunner.html
 .DS_Store
-.grunt/
-.project
-.pydevproject
 *.idea/
 *.noseids
 *.odc
 *.pyc
 *.sde
-api/Search.Api/.nuget
-api/Search.Api/.vs
 deploy/
-dist/
-html-report/
 node_modules/
 scripts/download/.noseids
 scripts/download/DeqEnviro.py
@@ -26,6 +18,5 @@ scripts/nightly/settings/prod.py
 scripts/nightly/settings/stage.py
 scripts/secrets.cfg
 secrets.json
-src/
 scripts/nightly/settings/ut-dts-agrc-deq-enviro-prod-aecfbfdedcc3.json
 *.ipynb

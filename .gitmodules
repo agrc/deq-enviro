@@ -1,7 +1,0 @@
-[submodule "api/EsriJson"]
-	path = api/EsriJson
-	url = https://github.com/steveoh/EsriJson.git
-[submodule "scripts/agrc"]
-	path = scripts/nightly/agrc
-	url = https://github.com/agrc/agrc.python.git
-	branch = py3
