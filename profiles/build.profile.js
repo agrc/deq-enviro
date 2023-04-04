@@ -50,7 +50,7 @@ var profile = {
         main: 'moment',
         trees: [
             // don't bother with .hidden, tests, min, src, and templates
-            ['.', '.', /(\/\.)|(~$)|(test|txt|src|min|templates)/]
+            ['.', '.', /(\/\.)|(~$)|(test|txt|src|min|templates|dist)/]
         ],
         resourceTags: {
             amd: function amd(filename, mid) {
