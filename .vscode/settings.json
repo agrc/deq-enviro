@@ -36,6 +36,7 @@
     "litejs",
     "maxrecords",
     "merc",
+    "Millis",
     "modules",
     "mrcnz",
     "no",
@@ -69,5 +70,6 @@
     "xlsxwriter",
     "xylayer"
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "testing.automaticallyOpenPeekView": "never"
 }
