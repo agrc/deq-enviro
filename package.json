@@ -10,7 +10,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "cross-env NODE_ENV=development run-p dev:*",
-    "dev:firebase": "firebase emulators:start --import .emulator-data --only functions",
+    "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/src/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions",
     "dev:vite": "vite",
     "format": "prettier --write .",
     "lint": "eslint ./ --ext .js,.jsx --ignore-path ./.eslintignore",
@@ -79,7 +79,10 @@
     }
   },
   "dependencies": {
+    "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.2.1",
+    "googleapis": "^117.0.0",
+    "got": "^12.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reactfire": "^4.2.2"
