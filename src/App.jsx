@@ -1,31 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useRemoteConfigString } from 'reactfire';
+import './App.css';
+import { fieldNames } from './config';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const queryLayersConfig = useRemoteConfigString('queryLayers');
+
+  if (queryLayersConfig.status === 'loading') {
+    console.log('loading remote config');
+
+    return <span>getting configs...</span>;
+  }
+
+  const queryLayers = JSON.parse(queryLayersConfig.data);
+  console.log('queryLayers', queryLayers);
 
   return (
     <div className="App">
-      <div>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Query Layers</h1>
+      {queryLayers.map((queryLayer) => (
+        <div key={queryLayer[fieldNames.queryLayers.name]}>
+          {queryLayer[fieldNames.queryLayers.name]}
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
