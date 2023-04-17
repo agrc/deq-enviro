@@ -108,3 +108,9 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
    1. From within the forklift environment: `pip install -r .\scripts\nightly\requirements.txt`
 1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
    - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
+
+## Local Development
+
+### updateRemoteConfigFromSheets Function
+
+You will need to copy the `functions-key-dev.json` key file from the terraform project to the `src/functions` directory in order to have permissions to hit the staging config spreadsheet.
