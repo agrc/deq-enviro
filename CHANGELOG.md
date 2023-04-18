@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-3](https://github.com/agrc/deq-enviro/compare/v2.0.0-2...v2.0.0-3) (2023-04-18)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** remove husky ([f6d1194](https://github.com/agrc/deq-enviro/commit/f6d119409e12bd9a920469b64f00f65221befb6e))
+
 ## [2.0.0-2](https://github.com/agrc/deq-enviro/compare/v2.0.0-1...v2.0.0-2) (2023-04-18)
 
 
