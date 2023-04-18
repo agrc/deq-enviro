@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-2](https://github.com/agrc/deq-enviro/compare/v2.0.0-1...v2.0.0-2) (2023-04-18)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** remove remote config template ([d990011](https://github.com/agrc/deq-enviro/commit/d990011e4c0502e7d578a0074693102bfa15a176))
+
 ## [2.0.0-1](https://github.com/agrc/deq-enviro/compare/v2.0.0-0...v2.0.0-1) (2023-04-18)
 
 
