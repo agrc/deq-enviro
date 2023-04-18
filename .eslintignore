@@ -4,7 +4,6 @@ dist/
 package.json
 package-lock.json
 .emulator-data/
-.husky/
 .vscode/
 coverage/
 firebase-export-*/

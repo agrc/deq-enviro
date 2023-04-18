@@ -7,7 +7,6 @@
       ".emulator-data",
       ".git",
       ".github",
-      ".husky",
       ".storybook",
       ".vscode",
       "coverage",
