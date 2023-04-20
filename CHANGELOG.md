@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0-4](https://github.com/agrc/deq-enviro/compare/v2.0.0-3...v2.0.0-4) (2023-04-20)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** split out remote config defaults update from function ([226b723](https://github.com/agrc/deq-enviro/commit/226b72358e49956a06de0d0ccfc98730bb488fd9))
+* **functions:** more user-friendly result messages ([91028d1](https://github.com/agrc/deq-enviro/commit/91028d1802d991aff820a84af3d076f04107fe1f))
+* **functions:** move feature service to config spreadsheet ([8263382](https://github.com/agrc/deq-enviro/commit/8263382e9dd81bd88cf7078bdac200dff7f673d4))
+* **functions:** move spreadsheet id to secret manager ([5b874ce](https://github.com/agrc/deq-enviro/commit/5b874cef52bd595d43fc80bab870e3490458bd6c))
+* **functions:** remove irrelevant unit test ([6dc083b](https://github.com/agrc/deq-enviro/commit/6dc083b3c272e4781f74178fa2bd4d9525600675))
+
+
+### 🚀 Features
+
+* **apps-scripts:** add example code and docs ([c393940](https://github.com/agrc/deq-enviro/commit/c3939400ae67fbdb53f2e668a2e5652736b44bcb))
+
 ## [2.0.0-3](https://github.com/agrc/deq-enviro/compare/v2.0.0-2...v2.0.0-3) (2023-04-18)
 
 
