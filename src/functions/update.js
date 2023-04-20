@@ -1,11 +1,10 @@
 import admin from 'firebase-admin';
-import fs from 'fs';
 import { google } from 'googleapis';
 import got from 'got';
 import { fieldNames } from '../config.js';
 
 const sheets = google.sheets('v4');
-const remote_config_defaults_path = 'src/remote_config_defaults.json';
+
 // TODO: figure out how to switch these between environments...
 const spreadsheetId = '1aVJ68hOyp4H6sKEEuL-xtB2qE_y6W0gDg35TgUSxtFg';
 const mapServiceUrl =
@@ -98,14 +97,11 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
   console.log('fetching template');
   const template = await remoteConfig.getTemplate();
 
-  if (
-    template.parameters.queryLayers.defaultValue.value === queryLayers &&
-    template.parameters.relatedTables.defaultValue.value === relatedTables &&
-    template.parameters.links.defaultValue.value === links
-  ) {
-    console.log('no changes detected, skipping remote config update');
-    return;
-  }
+  const originalValues = {
+    queryLayers: template.parameters.queryLayers.defaultValue.value,
+    relatedTables: template.parameters.relatedTables.defaultValue.value,
+    links: template.parameters.links.defaultValue.value,
+  };
 
   template.parameters.queryLayers.defaultValue.value = queryLayers;
   template.parameters.relatedTables.defaultValue.value = relatedTables;
@@ -114,25 +110,19 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);
 
+  if (
+    originalValues.queryLayers === queryLayers &&
+    originalValues.relatedTables === relatedTables &&
+    originalValues.links === links
+  ) {
+    return 'No changes detected.';
+  }
+
   console.log('publishing updated template');
   const updatedTemplate = await remoteConfig.publishTemplate(template);
   console.log('ETag from server: ' + updatedTemplate.etag);
 
-  if (fs.existsSync(remote_config_defaults_path)) {
-    console.log('updating local defaults file');
-    fs.writeFileSync(
-      remote_config_defaults_path,
-      JSON.stringify(
-        {
-          queryLayers,
-          relatedTables,
-          links,
-        },
-        null,
-        2
-      )
-    );
-  }
+  return 'Firebase Remote Configs updated successfully!';
 }
 
 export default async function main() {
@@ -160,17 +150,9 @@ export default async function main() {
 
   const links = getLinksConfig(response.data.values);
 
-  const configs = {
-    queryLayers,
-    relatedTables,
-    links,
-  };
-
-  await updateRemoteConfigs(
+  return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
     JSON.stringify(relatedTables),
     JSON.stringify(links)
   );
-
-  return configs;
 }
