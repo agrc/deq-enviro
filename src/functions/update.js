@@ -2,6 +2,7 @@ import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
 import { fieldNames } from '../config.js';
+import auth from '../utils/auth.js';
 
 const secretsClient = new SecretManagerServiceClient();
 
@@ -90,7 +91,10 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
 }
 
 export default async function main() {
-  await auth();
+  await auth([
+    'https://www.googleapis.com/auth/spreadsheets.readonly',
+    'https://www.googleapis.com/auth/firebase.remoteconfig',
+  ]);
 
   console.log('fetching data from Google Sheets...');
   const queryLayers = await getConfigs("'Query Layers'!A:AG", [

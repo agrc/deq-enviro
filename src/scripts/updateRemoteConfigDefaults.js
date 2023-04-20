@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import admin from 'firebase-admin';
 import fs from 'fs';
-import { google } from 'googleapis';
+import auth from '../utils/auth.js';
 
 dotenv.config();
 
@@ -11,21 +11,8 @@ admin.initializeApp({
   projectId: process.env.VITE_FIREBASE_PROJECT_ID,
 });
 
-async function auth() {
-  console.log('initializing authentication');
-
-  const auth = new google.auth.GoogleAuth({
-    scopes: ['https://www.googleapis.com/auth/firebase.remoteconfig'],
-  });
-
-  const authClient = await auth.getClient();
-  google.options({ auth: authClient });
-
-  return authClient;
-}
-
 async function main() {
-  await auth();
+  await auth(['https://www.googleapis.com/auth/firebase.remoteconfig']);
 
   const remoteConfig = admin.remoteConfig();
 
