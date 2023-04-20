@@ -1,14 +1,10 @@
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
-import got from 'got';
 import { fieldNames } from '../config.js';
 
 const sheets = google.sheets('v4');
 
-// TODO: figure out how to switch these between environments...
-const spreadsheetId = '1aVJ68hOyp4H6sKEEuL-xtB2qE_y6W0gDg35TgUSxtFg';
-const mapServiceUrl =
-  'https://mapserv.utah.gov/arcgis/rest/services/DEQEnviro/MapService/MapServer';
+const spreadsheetId = process.env.CONFIG_SPREADSHEET_ID;
 
 async function auth() {
   console.log('initializing authentication...');
@@ -39,40 +35,13 @@ export function arraysToObjects(arrays, skipFields = []) {
   });
 }
 
-export function addFeatureServices(configs, featureServices, nameField) {
-  return configs.map((config) => {
-    const featureService = featureServices[config[nameField].split('.')[2]];
-
-    config.featureService = featureService;
-
-    return config;
-  });
-}
-
-async function getFeatureServiceLayers(propName) {
-  console.log('fetching feature service layers...');
-  const response = await got.get(`${mapServiceUrl}?f=json`).json();
-
-  return response[propName].reduce((obj, layer) => {
-    obj[layer.name] = `${mapServiceUrl}/${layer.id}`;
-
-    return obj;
-  }, {});
-}
-
-async function getConfigs(range, skipFields, featureServiceProp, nameField) {
+async function getConfigs(range, skipFields) {
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId,
     range,
   });
 
   let configs = arraysToObjects(response.data.values, skipFields);
-
-  configs = addFeatureServices(
-    configs,
-    await getFeatureServiceLayers(featureServiceProp),
-    nameField
-  );
 
   return configs;
 }
@@ -129,19 +98,16 @@ export default async function main() {
   await auth();
 
   console.log('fetching data from Google Sheets...');
-  const queryLayers = await getConfigs(
-    "'Query Layers'!A:AJ",
-    ['Contact Info', 'ETL Type', 'Source Data', 'Unique ID'],
-    'layers',
-    fieldNames.queryLayers.sgidFeatureClassName
-  );
+  const queryLayers = await getConfigs("'Query Layers'!A:AG", [
+    'Contact Info',
+    'ETL Type',
+    'Source Data',
+    'Unique ID',
+  ]);
 
-  const relatedTables = await getConfigs(
-    "'Related Tables'!A:G",
-    ['Source Data'],
-    'tables',
-    fieldNames.relatedTables.sgidTableName
-  );
+  const relatedTables = await getConfigs("'Related Tables'!A:H", [
+    'Source Data',
+  ]);
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId,
