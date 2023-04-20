@@ -114,3 +114,9 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
 ### updateRemoteConfigFromSheets Function
 
 You will need to copy the `functions-key-dev.json` key file from the terraform project to the `src/functions` directory in order to have permissions to hit the staging config spreadsheet.
+
+## Config Spreadsheet Deploy Addon
+
+This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory.
+
+Note that the Apps Scripts GCP project needs to be pointed at the same GCP project as the hosting project.
