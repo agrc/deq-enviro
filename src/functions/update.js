@@ -80,14 +80,14 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
     originalValues.relatedTables === relatedTables &&
     originalValues.links === links
   ) {
-    return 'No changes detected.';
+    return 'No changes detected between the config spreadsheet and app configs.';
   }
 
   console.log('publishing updated template');
   const updatedTemplate = await remoteConfig.publishTemplate(template);
   console.log('ETag from server: ' + updatedTemplate.etag);
 
-  return 'Firebase Remote Configs updated successfully!';
+  return 'App configs updated successfully!';
 }
 
 export default async function main() {
