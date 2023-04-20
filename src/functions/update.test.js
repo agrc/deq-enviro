@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { fieldNames } from '../config';
-import { addFeatureServices, arraysToObjects, getLinksConfig } from './update';
+import { arraysToObjects, getLinksConfig } from './update';
 
 describe('arraysToObjects', () => {
   it('converts an array of arrays to an array of objects', () => {
@@ -27,46 +27,6 @@ describe('arraysToObjects', () => {
       { name: 'Mary', age: 25 },
     ];
     expect(arraysToObjects(arrays, ['skip'])).toEqual(objects);
-  });
-});
-
-describe('addFeatureServices', () => {
-  it('adds feature service URLs to configs', () => {
-    const configs = [
-      {
-        [fieldNames.queryLayers.sgidFeatureClassName]:
-          'SGID10.BOUNDARIES.Counties',
-      },
-      {
-        [fieldNames.queryLayers.sgidFeatureClassName]:
-          'SGID10.BOUNDARIES.SomethingElse',
-      },
-    ];
-    const featureServices = {
-      Counties: 'counties url',
-      SomethingElse: 'something else url',
-    };
-
-    const expected = [
-      {
-        [fieldNames.queryLayers.sgidFeatureClassName]:
-          'SGID10.BOUNDARIES.Counties',
-        featureService: 'counties url',
-      },
-      {
-        [fieldNames.queryLayers.sgidFeatureClassName]:
-          'SGID10.BOUNDARIES.SomethingElse',
-        featureService: 'something else url',
-      },
-    ];
-
-    expect(
-      addFeatureServices(
-        configs,
-        featureServices,
-        fieldNames.queryLayers.sgidFeatureClassName
-      )
-    ).toEqual(expected);
   });
 });
 
