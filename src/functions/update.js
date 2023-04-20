@@ -1,26 +1,21 @@
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
 import { fieldNames } from '../config.js';
 
-const sheets = google.sheets('v4');
+const secretsClient = new SecretManagerServiceClient();
 
-const spreadsheetId = process.env.CONFIG_SPREADSHEET_ID;
-
-async function auth() {
-  console.log('initializing authentication...');
-
-  const auth = new google.auth.GoogleAuth({
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets.readonly',
-      'https://www.googleapis.com/auth/firebase.remoteconfig',
-    ],
+export async function getSpreadsheetId() {
+  const [version] = await secretsClient.accessSecretVersion({
+    name: `projects/${
+      admin.app().options.projectId
+    }/secrets/CONFIG_SPREADSHEET_ID/versions/latest`,
   });
 
-  const authClient = await auth.getClient();
-  google.options({ auth: authClient });
-
-  return authClient;
+  return version.payload.data.toString();
 }
+
+const sheets = google.sheets('v4');
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
@@ -37,7 +32,7 @@ export function arraysToObjects(arrays, skipFields = []) {
 
 async function getConfigs(range, skipFields) {
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId,
+    spreadsheetId: await getSpreadsheetId(),
     range,
   });
 
@@ -110,7 +105,7 @@ export default async function main() {
   ]);
 
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId,
+    spreadsheetId: await getSpreadsheetId(),
     range: "'Other Links'!A:C",
   });
 
