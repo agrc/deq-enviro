@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-unresolved
+import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FirebaseAppProvider } from 'reactfire';
