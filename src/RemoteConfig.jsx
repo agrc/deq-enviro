@@ -1,4 +1,4 @@
-import { fetchAndActivate, getRemoteConfig } from 'firebase/remote-config';
+import { activate, fetchConfig, getRemoteConfig } from 'firebase/remote-config';
 import PropTypes from 'prop-types';
 import { RemoteConfigProvider, useInitRemoteConfig } from 'reactfire';
 import defaultConfig from './remote_config_defaults.json';
@@ -13,7 +13,11 @@ export default function RemoteConfig({ children }) {
         fetchTimeoutMillis: 10000,
       };
 
-      await fetchAndActivate(remoteConfig);
+      // immediately activate the latest cached config to help with initial load performance
+      await activate(remoteConfig);
+
+      // fetch new configs for the next load
+      fetchConfig(remoteConfig);
 
       return remoteConfig;
     }
