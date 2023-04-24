@@ -16,4 +16,9 @@
 
 .utah-design-system {
   --primary-color: #0080b7;
+  --secondary-color: #add361;
+}
+
+.esri-view .esri-view-surface--inset-outline:focus::after {
+  @apply outline-none;
 }

@@ -12,6 +12,7 @@
     "build:dev": "npm run build:dev:update-remote-config-defaults && npm run build",
     "build:dev:update-remote-config-defaults": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/src/functions/functions-key-dev.json\" && node src/build-scripts/updateRemoteConfigDefaults.js",
     "build:update-remote-config-defaults": "node src/build-scripts/updateRemoteConfigDefaults.js",
+    "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
     "dev": "cross-env NODE_ENV=development run-p dev:*",
     "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/src/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions",
     "dev:vite": "vite",
@@ -62,7 +63,6 @@
     "plugins": [
       "react",
       "prettier",
-      "import",
       "jsx-a11y",
       "react-hooks",
       "react-refresh"
@@ -72,7 +72,6 @@
       "plugin:react/recommended",
       "plugin:react/jsx-runtime",
       "plugin:react-hooks/recommended",
-      "plugin:import/recommended",
       "plugin:jsx-a11y/recommended",
       "prettier"
     ],
@@ -81,8 +80,11 @@
     }
   },
   "dependencies": {
+    "@arcgis/core": "^4.26.5",
     "@google-cloud/secret-manager": "^4.2.2",
     "@radix-ui/react-accordion": "^1.1.1",
+    "@ugrc/layer-selector": "^6.1.1",
+    "@ugrc/utilities": "^2.2.1",
     "@utahdts/utah-design-system": "^0.5.4",
     "@utahdts/utah-design-system-header": "^0.4.4",
     "firebase-admin": "^11.5.0",
@@ -98,6 +100,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "^0.29.7",
     "autoprefixer": "^10.4.14",
+    "cpy-cli": "^4.2.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^7.32.0",

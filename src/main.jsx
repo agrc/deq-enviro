@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
+import '@arcgis/core/assets/esri/themes/light/main.css';
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
