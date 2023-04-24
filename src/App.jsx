@@ -1,7 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { useEffect } from 'react';
 import { useRemoteConfigString } from 'reactfire';
+import MapComponent from './components/Map.jsx';
 import { fieldNames } from './config';
 
 function App() {
@@ -54,16 +54,17 @@ function App() {
   if (queryLayersConfig.status === 'loading') {
     console.log('loading remote config');
 
-    return <span>getting configs...</span>;
+    return null;
   }
 
   const queryLayers = JSON.parse(queryLayersConfig.data);
 
   return (
     <div className="h-full w-full flex">
-      <div className="flex-1 border-r border-gray-300">map</div>
+      <div className="flex-1 border-r border-gray-300">
+        <MapComponent />
+      </div>
       <div className="w-80 overflow-y-auto">
-        <h1>Query Layers</h1>
         {queryLayers.map((queryLayer) => (
           <div key={queryLayer[fieldNames.queryLayers.name]}>
             {queryLayer[fieldNames.queryLayers.name]}
