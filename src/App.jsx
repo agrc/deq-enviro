@@ -2,7 +2,7 @@ import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { useEffect } from 'react';
 import { useRemoteConfigString } from 'reactfire';
 import MapComponent from './components/Map.jsx';
-import { fieldNames } from './config';
+import SearchWizard from './components/search-wizard/Wizard.jsx';
 
 function App() {
   const queryLayersConfig = useRemoteConfigString('queryLayers');
@@ -65,11 +65,7 @@ function App() {
         <MapComponent />
       </div>
       <div className="w-80 overflow-y-auto">
-        {queryLayers.map((queryLayer) => (
-          <div key={queryLayer[fieldNames.queryLayers.name]}>
-            {queryLayer[fieldNames.queryLayers.name]}
-          </div>
-        ))}
+        <SearchWizard queryLayers={queryLayers} />
       </div>
     </div>
   );
