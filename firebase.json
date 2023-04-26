@@ -69,7 +69,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'none'; font-src *; worker-src blob:; script-src 'self' 'unsafe-eval' https://*.google.com https://www.googletagmanager.com; connect-src 'self' https://*.cloudfunctions.net https://*.utah.gov https://*.googleapis.com https://*.arcgis.com https://www.google-analytics.com; img-src 'self' blob: data: https://www.gravatar.com https://*.wp.com https://*.utah.gov https://*.arcgis.com https://www.googletagmanager.com https://*.googleapis.com; style-src 'self' 'unsafe-inline';base-uri 'self'; form-action 'self'; frame-src *; object-src 'self' https://*.googleapis.com"
+            "value": "default-src 'none'; font-src *; worker-src blob:; script-src 'self' 'unsafe-eval' https://*.google.com https://www.googletagmanager.com; connect-src 'self' https://*.cloudfunctions.net https://*.utah.gov https://*.googleapis.com https://*.arcgis.com https://www.google-analytics.com; img-src 'self' blob: data: https://www.gravatar.com https://*.wp.com https://*.utah.gov https://*.arcgis.com https://www.googletagmanager.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; base-uri 'self'; form-action 'self'; frame-src *; object-src 'self' https://*.googleapis.com"
           }
         ]
       },
