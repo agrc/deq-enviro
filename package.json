@@ -23,7 +23,9 @@
     "save-firebase-state": "firebase emulators:start --import .emulator-data --export-on-exit --only functions",
     "start": "npm run dev",
     "test": "vitest --coverage",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "browserslist": {
     "production": [
@@ -87,14 +89,25 @@
     "@ugrc/utilities": "^2.2.1",
     "@utahdts/utah-design-system": "^0.5.4",
     "@utahdts/utah-design-system-header": "^0.4.4",
+    "@xstate/react": "^3.2.1",
+    "clsx": "^1.2.1",
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.2.1",
     "googleapis": "^117.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reactfire": "^4.2.2"
+    "reactfire": "^4.2.2",
+    "xstate": "^4.37.1"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.7",
+    "@storybook/addon-interactions": "^7.0.7",
+    "@storybook/addon-links": "^7.0.7",
+    "@storybook/addon-styling": "^1.0.3",
+    "@storybook/blocks": "^7.0.7",
+    "@storybook/react": "^7.0.7",
+    "@storybook/react-vite": "^7.0.7",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
@@ -114,6 +127,9 @@
     "prettier": "^2.8.6",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-tailwindcss": "^0.2.7",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.7",
     "tailwindcss": "^3.3.1",
     "vite": "^4.2.0",
     "vitest": "^0.29.7"
