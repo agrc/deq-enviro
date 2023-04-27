@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
-import RemoteConfig from './RemoteConfig.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,9 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
       }}
     >
-      <RemoteConfig>
-        <App />
-      </RemoteConfig>
+      <App />
     </FirebaseAppProvider>
   </React.StrictMode>
 );
