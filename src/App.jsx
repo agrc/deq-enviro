@@ -1,5 +1,7 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
+import { getAnalytics } from 'firebase/analytics';
 import { useEffect } from 'react';
+import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
 import RemoteConfig from './RemoteConfig.jsx';
 import MapComponent from './components/Map.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
@@ -44,17 +46,21 @@ function App() {
     });
   }, []);
 
+  const app = useFirebaseApp();
+
   return (
-    <div className="h-full w-full flex">
-      <div className="flex-1 border-r border-gray-300">
-        <MapComponent />
+    <AnalyticsProvider sdk={getAnalytics(app)}>
+      <div className="flex h-full w-full">
+        <div className="flex-1 border-r border-gray-300">
+          <MapComponent />
+        </div>
+        <div className="w-80 overflow-y-auto">
+          <RemoteConfig>
+            <SearchWizard />
+          </RemoteConfig>
+        </div>
       </div>
-      <div className="w-80 overflow-y-auto">
-        <RemoteConfig>
-          <SearchWizard />
-        </RemoteConfig>
-      </div>
-    </div>
+    </AnalyticsProvider>
   );
 }
 
