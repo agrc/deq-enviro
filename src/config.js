@@ -45,3 +45,13 @@ export const fieldNames = {
     url: 'URL',
   },
 };
+
+export default {
+  fieldNames,
+  links: {
+    training: {
+      url: 'https://deq.utah.gov/general/training-videos-interactive-map',
+      description: 'Training Videos',
+    },
+  },
+};

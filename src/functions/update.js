@@ -42,21 +42,7 @@ async function getConfigs(range, skipFields) {
   return configs;
 }
 
-export function getLinksConfig(values) {
-  const [keys, ...rows] = values;
-
-  return rows.reduce((obj, row) => {
-    const id = row[keys.indexOf(fieldNames.links.id)];
-    obj[id] = {
-      description: row[keys.indexOf(fieldNames.links.description)],
-      url: row[keys.indexOf(fieldNames.links.url)],
-    };
-
-    return obj;
-  }, {});
-}
-
-async function updateRemoteConfigs(queryLayers, relatedTables, links) {
+async function updateRemoteConfigs(queryLayers, relatedTables) {
   const remoteConfig = admin.remoteConfig();
 
   console.log('fetching template');
@@ -65,12 +51,10 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
   const originalValues = {
     queryLayers: template.parameters.queryLayers.defaultValue.value,
     relatedTables: template.parameters.relatedTables.defaultValue.value,
-    links: template.parameters.links.defaultValue.value,
   };
 
   template.parameters.queryLayers.defaultValue.value = queryLayers;
   template.parameters.relatedTables.defaultValue.value = relatedTables;
-  template.parameters.links.defaultValue.value = links;
 
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);
@@ -78,7 +62,6 @@ async function updateRemoteConfigs(queryLayers, relatedTables, links) {
   if (
     originalValues.queryLayers === queryLayers &&
     originalValues.relatedTables === relatedTables &&
-    originalValues.links === links
   ) {
     return 'No changes detected between the config spreadsheet and app configs.';
   }
@@ -108,16 +91,8 @@ export default async function main() {
     'Source Data',
   ]);
 
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: await getSpreadsheetId(),
-    range: "'Other Links'!A:C",
-  });
-
-  const links = getLinksConfig(response.data.values);
-
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
     JSON.stringify(relatedTables),
-    JSON.stringify(links)
   );
 }
