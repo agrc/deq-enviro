@@ -1,7 +1,6 @@
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
-import { fieldNames } from '../config.js';
 import auth from '../utils/auth.js';
 
 const secretsClient = new SecretManagerServiceClient();
@@ -61,7 +60,7 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
 
   if (
     originalValues.queryLayers === queryLayers &&
-    originalValues.relatedTables === relatedTables &&
+    originalValues.relatedTables === relatedTables
   ) {
     return 'No changes detected between the config spreadsheet and app configs.';
   }
@@ -93,6 +92,6 @@ export default async function main() {
 
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
-    JSON.stringify(relatedTables),
+    JSON.stringify(relatedTables)
   );
 }

@@ -1,13 +1,11 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { useEffect } from 'react';
-import { useRemoteConfigString } from 'reactfire';
+import RemoteConfig from './RemoteConfig.jsx';
 import MapComponent from './components/Map.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
 import config from './config';
 
 function App() {
-  const queryLayersConfig = useRemoteConfigString('queryLayers');
-
   useEffect(() => {
     setUtahHeaderSettings({
       // this prop's implementation has not been released yet
@@ -46,21 +44,15 @@ function App() {
     });
   }, []);
 
-  if (queryLayersConfig.status === 'loading') {
-    console.log('loading remote config');
-
-    return null;
-  }
-
-  const queryLayers = JSON.parse(queryLayersConfig.data);
-
   return (
     <div className="h-full w-full flex">
       <div className="flex-1 border-r border-gray-300">
         <MapComponent />
       </div>
       <div className="w-80 overflow-y-auto">
-        <SearchWizard queryLayers={queryLayers} />
+        <RemoteConfig>
+          <SearchWizard />
+        </RemoteConfig>
       </div>
     </div>
   );

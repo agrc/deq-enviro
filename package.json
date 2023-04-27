@@ -95,6 +95,7 @@
     "firebase-functions": "^4.2.1",
     "googleapis": "^117.0.0",
     "react": "^18.2.0",
+    "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
     "reactfire": "^4.2.2",
     "xstate": "^4.37.1"
