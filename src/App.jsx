@@ -3,17 +3,12 @@ import { useEffect } from 'react';
 import { useRemoteConfigString } from 'reactfire';
 import MapComponent from './components/Map.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
+import config from './config';
 
 function App() {
   const queryLayersConfig = useRemoteConfigString('queryLayers');
-  const linksConfig = useRemoteConfigString('links');
 
   useEffect(() => {
-    if (linksConfig.status !== 'success') {
-      return;
-    }
-
-    const links = JSON.parse(linksConfig.data);
     setUtahHeaderSettings({
       // this prop's implementation has not been released yet
       // domLocationTarget: {
@@ -29,10 +24,10 @@ function App() {
             menuItems: [
               {
                 actionUrl: {
-                  url: links['2'].url,
+                  url: config.links.training.url,
                   openInNewTab: true,
                 },
-                title: links['2'].description,
+                title: config.links.training.description,
               },
               {
                 // TODO: add a modal for this
@@ -49,7 +44,7 @@ function App() {
         },
       ],
     });
-  }, [linksConfig]);
+  }, []);
 
   if (queryLayersConfig.status === 'loading') {
     console.log('loading remote config');
