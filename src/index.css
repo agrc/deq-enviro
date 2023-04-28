@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  position: absolute;
-  top: 78px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 .utah-design-system.main-menu__outer {
   display: none;
 }

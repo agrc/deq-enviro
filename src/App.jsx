@@ -14,7 +14,7 @@ function App() {
       // domLocationTarget: {
       //   element: headerRef.current,
       // },
-      title: 'Utah Environmental Interactive Map',
+      title: 'Environmental Interactive Map',
       titleURL: null,
       logo: '<img src="/deq_logo.png" alt="DEQ Logo" />',
       utahId: false,
@@ -50,11 +50,11 @@ function App() {
 
   return (
     <AnalyticsProvider sdk={getAnalytics(app)}>
-      <div className="flex h-full w-full">
-        <div className="flex-1 border-r border-gray-300">
+      <div className="flex h-full w-full flex-col md:flex-row">
+        <div className="flex-1 border-b border-gray-300 md:border-r">
           <MapComponent />
         </div>
-        <div className="w-80 overflow-y-auto">
+        <div className="overflow-y-auto md:w-80">
           <RemoteConfig>
             <SearchWizard />
           </RemoteConfig>
