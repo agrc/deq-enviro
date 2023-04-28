@@ -13,13 +13,6 @@ const preview = {
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <div className="utah-design-system">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default preview;

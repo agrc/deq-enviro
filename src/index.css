@@ -6,9 +6,14 @@
   display: none;
 }
 
+/* required for the header */
 .utah-design-system {
-  --primary-color: #0080b7;
-  --secondary-color: #add361;
+  --primary-color: theme('colors.primary');
+}
+
+/* overwrite calcite fonts */
+:root {
+  font-family: theme('fontFamily.sans');
 }
 
 .esri-view .esri-view-surface--inset-outline:focus::after {
