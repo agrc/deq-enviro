@@ -1,8 +1,14 @@
 import * as Accordion from '@radix-ui/react-accordion';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Icon from './Icon';
 
-export function AccordionRoot({ type, children }) {
-  return <Accordion.Root type={type}>{children}</Accordion.Root>;
+export function AccordionRoot({ type, children, ...props }) {
+  return (
+    <Accordion.Root {...props} type={type}>
+      {children}
+    </Accordion.Root>
+  );
 }
 
 AccordionRoot.propTypes = {
@@ -14,18 +20,23 @@ export function AccordionPanel({ title, children }) {
   return (
     <Accordion.Item value={title} className="mb-1 overflow-hidden rounded-md">
       <Accordion.Header className="rounded-sm">
-        <Accordion.Trigger className="group w-full justify-between rounded-b-none rounded-t-md border-[--primary-color] bg-[--primary-color] px-2 py-1 text-left text-lg leading-5 text-white active:transform-none active:shadow-none">
+        <Accordion.Trigger
+          className={clsx(
+            'group flex w-full items-center justify-between rounded-b-none rounded-t-md',
+            'bg-primary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
+          )}
+        >
           {title}
-          <span
-            className="utds-icon-before-circle-chevron-down flex content-center justify-center text-base text-white transition before:mr-0 before:content-['L'] group-data-[state=open]:rotate-180"
-            aria-hidden="true"
+          <Icon
+            name={Icon.Names.circleChevronDown}
+            label="chevron down"
+            className="text-white transition group-data-[state=open]:rotate-180"
+            size="sm"
           />
         </Accordion.Trigger>
       </Accordion.Header>
-      <Accordion.Content className="overflow-hidden data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down">
-        <div className="rounded-b-md border-b border-l border-r border-gray-300 p-2">
-          {children}
-        </div>
+      <Accordion.Content className="overflow-hidden rounded-b-md bg-gray-100 data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down">
+        <div className="px-5 py-4">{children}</div>
       </Accordion.Content>
     </Accordion.Item>
   );
