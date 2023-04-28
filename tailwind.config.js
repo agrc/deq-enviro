@@ -1,8 +1,20 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
-  important: true,
   theme: {
+    colors: {
+      primary: '#0080b7',
+      secondary: '#09b0da',
+      accent: '#add361',
+      gray: colors.gray,
+      white: colors.white,
+    },
+    fontFamily: {
+      sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],
+      utds: ['utah design system'],
+    },
     extend: {
       animation: {
         'slide-down': 'slideDown 300ms ease-out',
