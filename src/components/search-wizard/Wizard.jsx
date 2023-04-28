@@ -1,5 +1,4 @@
 import { useMachine } from '@xstate/react';
-import PropTypes from 'prop-types';
 import { useRemoteConfigString } from 'reactfire';
 import searchMachine from '../../searchMachine.js';
 import AdvancedFilter from './AdvancedFilter.jsx';
@@ -10,8 +9,6 @@ export default function SearchWizard() {
 
   const queryLayersConfig = useRemoteConfigString('queryLayers');
   if (queryLayersConfig.status === 'loading') {
-    console.log('loading remote config');
-
     return null;
   }
 
@@ -26,7 +23,3 @@ export default function SearchWizard() {
     </div>
   );
 }
-
-SearchWizard.propTypes = {
-  queryLayers: PropTypes.array.isRequired,
-};
