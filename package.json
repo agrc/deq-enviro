@@ -84,6 +84,7 @@
   "dependencies": {
     "@arcgis/core": "^4.26.5",
     "@google-cloud/secret-manager": "^4.2.2",
+    "@radix-ui/react-accessible-icon": "^1.0.2",
     "@radix-ui/react-accordion": "^1.1.1",
     "@ugrc/layer-selector": "^6.1.1",
     "@ugrc/utilities": "^2.2.1",
