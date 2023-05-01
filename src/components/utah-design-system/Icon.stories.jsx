@@ -25,7 +25,7 @@ export const Default = () => (
       />
     </div>
     <div className="flex bg-gray-200 leading-6">
-      large (not working at the moment)
+      large
       <Icon
         name={Icon.Names.circleChevronDown}
         label="chevron down"

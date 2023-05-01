@@ -4,116 +4,123 @@ import PropTypes from 'prop-types';
 
 const ICONS = {
   account: {
-    letter: 'j',
+    className: 'before:content-["j"]',
   },
   alert: {
-    letter: 'C',
+    className: 'before:content-["C"]',
   },
   arrowDown: {
-    letter: 'T',
+    className: 'before:content-["T"]',
   },
   arrowLeft: {
-    letter: 'U',
+    className: 'before:content-["U"]',
   },
   arrowRight: {
-    letter: 'S',
+    className: 'before:content-["S"]',
   },
   arrowUp: {
-    letter: 'R',
+    className: 'before:content-["R"]',
   },
   bookmark: {
-    letter: 'E',
+    className: 'before:content-["E"]',
   },
   checkmark: {
-    letter: 'G',
+    className: 'before:content-["G"]',
   },
   chevronDown: {
-    letter: 'P',
+    className: 'before:content-["P"]',
   },
   chevronLeft: {
-    letter: 'Q',
+    className: 'before:content-["Q"]',
   },
   chevronRight: {
-    letter: 'O',
+    className: 'before:content-["O"]',
   },
   chevronUp: {
-    letter: 'N',
+    className: 'before:content-["N"]',
   },
   circleChevronDown: {
-    letter: 'L',
+    className: 'before:content-["L"]',
   },
   circleChevronUp: {
-    letter: 'M',
+    className: 'before:content-["M"]',
   },
   close: {
-    letter: 'X',
+    className: 'before:content-["X"]',
   },
   copy: {
-    letter: 'g',
+    className: 'before:content-["g"]',
   },
   doc: {
-    letter: 'c',
+    className: 'before:content-["c"]',
   },
   docSquare: {
-    letter: 'd',
+    className: 'before:content-["d"]',
   },
   edit: {
-    letter: 'Y',
+    className: 'before:content-["Y"]',
   },
   editBox: {
-    letter: 'Z',
+    className: 'before:content-["Z"]',
   },
   error: {
-    letter: 'f',
+    className: 'before:content-["f"]',
   },
   externalLink: {
-    letter: 'A',
+    className: 'before:content-["A"]',
   },
   gear: {
-    letter: 'b',
+    className: 'before:content-["b"]',
   },
   hamburger: {
-    letter: 'i',
+    className: 'before:content-["i"]',
   },
   help: {
-    letter: 'D',
+    className: 'before:content-["D"]',
   },
   homeMenu: {
-    letter: 'h',
+    className: 'before:content-["h"]',
   },
   info: {
-    letter: 'I',
+    className: 'before:content-["I"]',
   },
   lock: {
-    letter: 'k',
+    className: 'before:content-["k"]',
   },
   minus: {
-    letter: 'W',
+    className: 'before:content-["W"]',
   },
   plus: {
-    letter: 'V',
+    className: 'before:content-["V"]',
   },
   search: {
-    letter: 'F',
+    className: 'before:content-["F"]',
   },
   star: {
-    letter: 'H',
+    className: 'before:content-["H"]',
   },
   unfoldLess: {
-    letter: 'J',
+    className: 'before:content-["J"]',
   },
   unfoldMore: {
-    letter: 'K',
+    className: 'before:content-["K"]',
   },
   verified: {
-    letter: 'a',
+    className: 'before:content-["a"]',
   },
   waffle: {
-    letter: 'B',
+    className: 'before:content-["B"]',
   },
   warning: {
-    letter: 'e',
+    className: 'before:content-["e"]',
   },
+};
+
+const SIZE_CLASS_NAMES = {
+  sm: 'before:text-sm',
+  base: 'before:text-base',
+  lg: 'before:text-lg',
+  xl: 'before:text-xl',
 };
 
 export default function Icon({ name, label, className, size }) {
@@ -121,12 +128,18 @@ export default function Icon({ name, label, className, size }) {
     throw new Error(`Icon name "${name}" is not valid`);
   }
 
+  if (!Object.keys(SIZE_CLASS_NAMES).includes(size)) {
+    throw new Error(`Icon size "${size}" is not valid`);
+  }
+
   return (
     <AccessibleIcon.Root label={label}>
       <span
         className={clsx(
           'flex items-center justify-center',
-          `before:font-utds before:content-["${ICONS[name].letter}"] before:text-${size} before:font-normal`,
+          ICONS[name].className,
+          SIZE_CLASS_NAMES[size],
+          `before:font-utds before:font-normal`,
           className
         )}
         aria-hidden="true"
@@ -142,7 +155,7 @@ Icon.propTypes = {
   /**
    * Size of the icon. Corresponds with the tailwind text sizes (base, sm, lg, xl)
    */
-  size: PropTypes.string,
+  size: PropTypes.oneOf(Object.keys(SIZE_CLASS_NAMES)),
 };
 
 Icon.defaultProps = {
