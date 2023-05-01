@@ -31,7 +31,6 @@ export function AccordionPanel({ title, children }) {
             name={Icon.Names.circleChevronDown}
             label="chevron down"
             className="text-white transition group-data-[state=open]:rotate-180"
-            size="sm"
           />
         </Accordion.Trigger>
       </Accordion.Header>
