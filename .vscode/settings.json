@@ -8,6 +8,7 @@
     "builtins",
     "ca",
     "chai",
+    "checkmark",
     "datepicker",
     "deqenviro",
     "deqnightly",
