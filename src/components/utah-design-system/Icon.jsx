@@ -117,10 +117,19 @@ const ICONS = {
 };
 
 const SIZE_CLASS_NAMES = {
+  xs: 'before:text-xs',
   sm: 'before:text-sm',
   base: 'before:text-base',
   lg: 'before:text-lg',
   xl: 'before:text-xl',
+  '2xl': 'before:text-2xl',
+  '3xl': 'before:text-3xl',
+  '4xl': 'before:text-4xl',
+  '5xl': 'before:text-5xl',
+  '6xl': 'before:text-6xl',
+  '7xl': 'before:text-7xl',
+  '8xl': 'before:text-8xl',
+  '9xl': 'before:text-9xl',
 };
 
 export default function Icon({ name, label, className, size, bold }) {
