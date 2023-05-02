@@ -123,7 +123,7 @@ const SIZE_CLASS_NAMES = {
   xl: 'before:text-xl',
 };
 
-export default function Icon({ name, label, className, size }) {
+export default function Icon({ name, label, className, size, bold }) {
   if (!Object.keys(ICONS).includes(name)) {
     throw new Error(`Icon name "${name}" is not valid`);
   }
@@ -139,7 +139,8 @@ export default function Icon({ name, label, className, size }) {
           'flex items-center justify-center',
           ICONS[name].className,
           SIZE_CLASS_NAMES[size],
-          `before:font-utds before:font-normal`,
+          'before:font-utds',
+          bold ? 'before:font-bold' : 'before:font-normal',
           className
         )}
         aria-hidden="true"
@@ -156,6 +157,7 @@ Icon.propTypes = {
    * Size of the icon. Corresponds with the tailwind text sizes (base, sm, lg, xl)
    */
   size: PropTypes.oneOf(Object.keys(SIZE_CLASS_NAMES)),
+  bold: PropTypes.bool,
 };
 
 Icon.defaultProps = {
