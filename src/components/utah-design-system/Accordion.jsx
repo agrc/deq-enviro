@@ -19,10 +19,10 @@ AccordionRoot.propTypes = {
 export function AccordionPanel({ title, children }) {
   return (
     <Accordion.Item value={title} className="mb-1 overflow-hidden rounded-md">
-      <Accordion.Header className="rounded-sm">
+      <Accordion.Header className="">
         <Accordion.Trigger
           className={clsx(
-            'group flex w-full items-center justify-between rounded-b-none rounded-t-md',
+            'group flex w-full items-center justify-between',
             'bg-primary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
           )}
         >
