@@ -1,10 +1,10 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
-import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
 import './index.css';
+import './utah-design-system-header.scss';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

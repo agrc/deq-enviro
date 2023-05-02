@@ -10,6 +10,7 @@ export default {
       accent: '#add361',
       gray: colors.gray,
       white: colors.white,
+      transparent: colors.transparent,
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],
