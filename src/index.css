@@ -19,6 +19,14 @@
   font-style: normal;
 }
 
+/* required for utah design system header */
+.utah-design-system {
+  --primary-color: theme('colors.primary');
+}
+.utah-design-system.main-menu__outer {
+  display: none;
+}
+
 /* overwrite calcite fonts */
 :root {
   font-family: theme('fontFamily.sans');
