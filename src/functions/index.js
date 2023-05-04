@@ -9,8 +9,8 @@ export const updateRemoteConfigFromSheets = functions.https.onRequest(
     try {
       res.send(await update());
     } catch (e) {
-      console.log('returning error', e);
-      res.status(500).send(e);
+      console.error('returning error', e);
+      res.status(500).send({ error: e.toString() });
     }
   }
 );

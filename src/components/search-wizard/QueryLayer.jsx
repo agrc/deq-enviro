@@ -46,7 +46,7 @@ export default function QueryLayer({
   // filter,
   // onFilterChange,
 }) {
-  const id = `query-layer-${config.index}`;
+  const id = `query-layer-${config[fieldNames.queryLayers.uniqueId]}`;
 
   return (
     <div className="my-2 flex items-center justify-between">
@@ -85,7 +85,7 @@ const configShape = Object.values(fieldNames.queryLayers).reduce(
     obj[value] = PropTypes.string.isRequired;
     return obj;
   },
-  { index: PropTypes.number.isRequired }
+  {}
 );
 QueryLayer.propTypes = {
   config: PropTypes.shape(configShape),

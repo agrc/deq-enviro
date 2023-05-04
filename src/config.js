@@ -29,6 +29,7 @@ export const fieldNames = {
     specialFilterDefaultToOn: 'Special Filter Default To On',
     specialFilters: 'Special Filters',
     typeField: 'TYPE',
+    uniqueId: 'Unique ID',
   },
   relatedTables: {
     additionalInformation: 'Additional Information',
