@@ -21,6 +21,7 @@ export default {
         'slide-down': 'slideDown 300ms ease-out',
         'slide-up': 'slideUp 300ms ease-out',
         flip: 'rotate-180 300ms ease-out',
+        'fade-in': 'fadeIn 200ms ease-in-out',
       },
       keyframes: {
         slideDown: {
@@ -37,6 +38,14 @@ export default {
           },
           to: {
             height: 0,
+          },
+        },
+        fadeIn: {
+          from: {
+            opacity: 0,
+          },
+          to: {
+            opacity: 1,
           },
         },
       },
