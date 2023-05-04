@@ -27,6 +27,9 @@
 .utah-design-system.main-menu__outer {
   display: none;
 }
+.utah-design-system.utds-official-website-popup__wrapper {
+  z-index: 1;
+}
 
 /* overwrite calcite fonts */
 :root {
