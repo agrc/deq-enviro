@@ -6,6 +6,7 @@ import SelectMapData from './SelectMapData.jsx';
 
 export default function SearchWizard() {
   const [state, send] = useMachine(searchMachine);
+  // todo - use logEvent from 'firebase/analytics' to log which layers are selected
 
   const queryLayersConfig = useRemoteConfigString('queryLayers');
   if (queryLayersConfig.status === 'loading') {
@@ -17,9 +18,26 @@ export default function SearchWizard() {
   return (
     <div className="p-2">
       {state.matches('queryLayers') ? (
-        <SelectMapData queryLayers={queryLayers} />
+        <SelectMapData
+          queryLayers={queryLayers}
+          machineState={state}
+          machineSend={send}
+        />
       ) : null}
       {state.matches('advanced') ? <AdvancedFilter /> : null}
+      Selected query layers:{' '}
+      {JSON.stringify(state.context.queryLayers.map((config) => config.index))}
     </div>
   );
 }
+
+// What will the params to the search function look like?
+// search({
+//   queryLayers: [
+//     {
+//       index: 0,
+//       filter: {} || null
+//     }
+//   ],
+//   advanced: {...}
+// })

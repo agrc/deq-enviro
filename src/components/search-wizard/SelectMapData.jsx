@@ -3,10 +3,14 @@ import { fieldNames } from '../../config';
 import {
   AccordionPanel,
   AccordionRoot,
-} from '../utah-design-system/Accordion.jsx';
+} from '../../utah-design-system/Accordion.jsx';
 import QueryLayer from './QueryLayer.jsx';
 
-export default function SelectMapData({ queryLayers }) {
+export default function SelectMapData({
+  queryLayers,
+  machineState,
+  machineSend,
+}) {
   const divisions = queryLayers.reduce((list, queryLayer) => {
     const division = queryLayer[fieldNames.queryLayers.divisionHeading];
     if (!list.includes(division)) {
@@ -27,8 +31,22 @@ export default function SelectMapData({ queryLayers }) {
                   (ql) =>
                     ql[fieldNames.queryLayers.divisionHeading] === division
                 )
-                .map((queryLayer, i) => {
-                  return <QueryLayer key={i} config={queryLayer} />;
+                .map((queryLayer) => {
+                  return (
+                    <QueryLayer
+                      key={queryLayer.index}
+                      config={queryLayer}
+                      selected={machineState.context.queryLayers.some(
+                        (config) => config.index === queryLayer.index
+                      )}
+                      onSelectedChange={(selected) =>
+                        machineSend({
+                          type: selected ? 'SELECT_LAYER' : 'UNSELECT_LAYER',
+                          index: queryLayer.index,
+                        })
+                      }
+                    />
+                  );
                 })}
             </AccordionPanel>
           );
@@ -40,4 +58,6 @@ export default function SelectMapData({ queryLayers }) {
 
 SelectMapData.propTypes = {
   queryLayers: PropTypes.array.isRequired,
+  machineState: PropTypes.object.isRequired,
+  machineSend: PropTypes.func.isRequired,
 };
