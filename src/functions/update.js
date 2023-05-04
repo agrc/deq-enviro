@@ -19,14 +19,17 @@ const sheets = google.sheets('v4');
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
-  return values.map((row) => {
-    return row.reduce((obj, value, index) => {
-      if (!skipFields.includes(keys[index])) {
-        obj[keys[index]] = value;
-      }
+  return values.map((row, rowIndex) => {
+    return row.reduce(
+      (obj, value, keyIndex) => {
+        if (!skipFields.includes(keys[keyIndex])) {
+          obj[keys[keyIndex]] = value;
+        }
 
-      return obj;
-    }, {});
+        return obj;
+      },
+      { index: rowIndex }
+    );
   });
 }
 
