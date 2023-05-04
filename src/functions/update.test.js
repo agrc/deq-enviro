@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arraysToObjects } from './update';
+import { arraysToObjects, checkForDuplicateIds } from './update';
 
 describe('arraysToObjects', () => {
   it('converts an array of arrays to an array of objects', () => {
@@ -26,5 +26,25 @@ describe('arraysToObjects', () => {
       { name: 'Mary', age: 25 },
     ];
     expect(arraysToObjects(arrays, ['skip'])).toEqual(objects);
+  });
+});
+
+describe('checkForDuplicateIds', () => {
+  it('throws an error if there are duplicate ids', () => {
+    const configs = [
+      { 'Unique ID': 'one' },
+      { 'Unique ID': 'two' },
+      { 'Unique ID': 'one' },
+    ];
+    expect(() => checkForDuplicateIds(configs)).toThrow();
+  });
+
+  it('does not throw an error if there are no duplicate ids', () => {
+    const configs = [
+      { 'Unique ID': 'one' },
+      { 'Unique ID': 'two' },
+      { 'Unique ID': 'three' },
+    ];
+    expect(() => checkForDuplicateIds(configs)).not.toThrow();
   });
 });

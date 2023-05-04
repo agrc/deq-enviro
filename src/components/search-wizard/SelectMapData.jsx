@@ -32,17 +32,19 @@ export default function SelectMapData({
                     ql[fieldNames.queryLayers.divisionHeading] === division
                 )
                 .map((queryLayer) => {
+                  const uniqueId = queryLayer[fieldNames.queryLayers.uniqueId];
+
                   return (
                     <QueryLayer
-                      key={queryLayer.index}
+                      key={uniqueId}
                       config={queryLayer}
                       selected={machineState.context.queryLayers.some(
-                        (config) => config.index === queryLayer.index
+                        (config) => config.id === uniqueId
                       )}
                       onSelectedChange={(selected) =>
                         machineSend({
                           type: selected ? 'SELECT_LAYER' : 'UNSELECT_LAYER',
-                          index: queryLayer.index,
+                          id: uniqueId,
                         })
                       }
                     />

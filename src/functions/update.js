@@ -1,6 +1,7 @@
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
+import { fieldNames } from '../config.js';
 import auth from '../utils/auth.js';
 
 const secretsClient = new SecretManagerServiceClient();
@@ -19,17 +20,14 @@ const sheets = google.sheets('v4');
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
-  return values.map((row, rowIndex) => {
-    return row.reduce(
-      (obj, value, keyIndex) => {
-        if (!skipFields.includes(keys[keyIndex])) {
-          obj[keys[keyIndex]] = value;
-        }
+  return values.map((row) => {
+    return row.reduce((obj, value, keyIndex) => {
+      if (!skipFields.includes(keys[keyIndex])) {
+        obj[keys[keyIndex]] = value;
+      }
 
-        return obj;
-      },
-      { index: rowIndex }
-    );
+      return obj;
+    }, {});
   });
 }
 
@@ -42,6 +40,28 @@ async function getConfigs(range, skipFields) {
   let configs = arraysToObjects(response.data.values, skipFields);
 
   return configs;
+}
+
+export function checkForDuplicateIds(configs) {
+  const ids = configs.map((config) => config[fieldNames.queryLayers.uniqueId]);
+  const uniqueIds = [];
+  const duplicates = [];
+
+  for (const id of ids) {
+    if (uniqueIds.includes(id)) {
+      duplicates.push(id);
+    }
+
+    uniqueIds.push(id);
+  }
+
+  if (duplicates.length) {
+    throw new Error(
+      `Duplicate values in the "Unique ID" column detected: ${JSON.stringify(
+        duplicates
+      )}`
+    );
+  }
 }
 
 async function updateRemoteConfigs(queryLayers, relatedTables) {
@@ -86,8 +106,10 @@ export default async function main() {
     'Contact Info',
     'ETL Type',
     'Source Data',
-    'Unique ID',
   ]);
+
+  console.log('checking for duplicate ids');
+  checkForDuplicateIds(queryLayers);
 
   const relatedTables = await getConfigs("'Related Tables'!A:H", [
     'Source Data',

@@ -10,7 +10,7 @@ export default createMachine(
     context: {
       /* I think that this means that I need Typescript. ;)
         {
-          index: 3,
+          id: 3,
           filter: '...' || null
         }
        */
@@ -86,14 +86,12 @@ export default createMachine(
     actions: {
       selectLayer: assign({
         queryLayers: (context, event) => {
-          return [...context.queryLayers, { index: event.index }];
+          return [...context.queryLayers, { id: event.id }];
         },
       }),
       unselectLayer: assign({
         queryLayers: (context, event) => {
-          return context.queryLayers.filter(
-            (config) => config.index !== event.index
-          );
+          return context.queryLayers.filter((config) => config.id !== event.id);
         },
       }),
     },

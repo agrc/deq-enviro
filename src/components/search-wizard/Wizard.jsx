@@ -25,8 +25,8 @@ export default function SearchWizard() {
         />
       ) : null}
       {state.matches('advanced') ? <AdvancedFilter /> : null}
-      Selected query layers:{' '}
-      {JSON.stringify(state.context.queryLayers.map((config) => config.index))}
+      Selected query layer ids:{' '}
+      {JSON.stringify(state.context.queryLayers.map((config) => config.id))}
     </div>
   );
 }
