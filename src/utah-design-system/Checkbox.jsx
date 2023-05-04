@@ -8,7 +8,7 @@ export default function Checkbox({
   label,
   checked,
   defaultChecked,
-  onCheckedChange,
+  onChange,
   disabled,
 }) {
   return (
@@ -24,10 +24,10 @@ export default function Checkbox({
           id={name || label}
           checked={checked}
           defaultChecked={defaultChecked}
-          onCheckedChange={onCheckedChange}
+          onCheckedChange={onChange}
           disabled={disabled}
           className={clsx(
-            'flex h-4 w-4 items-center justify-center rounded-[4px] border border-gray-500 bg-white',
+            'flex h-4 w-4 items-center justify-center rounded border border-gray-500 bg-white',
             'data-[state=checked]:bg-gray-500 data-[state=checked]:text-white',
             disabled &&
               '!border-gray-300 !bg-gray-50 data-[state=checked]:!bg-gray-300 data-[state=checked]:!text-white'
@@ -60,5 +60,5 @@ Checkbox.propTypes = {
    * The name attribute of the checkbox. If not provided, the label will be used.
    */
   name: PropTypes.string,
-  onCheckedChange: PropTypes.func,
+  onChange: PropTypes.func,
 };
