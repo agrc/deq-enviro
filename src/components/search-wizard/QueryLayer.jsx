@@ -80,9 +80,19 @@ export default function QueryLayer({
   );
 }
 
+// TODO: this should be some sort of check that is performed before we
+// create the query layer component
+const requiredConfigFields = [
+  fieldNames.queryLayers.uniqueId,
+  fieldNames.queryLayers.name,
+  fieldNames.queryLayers.metadataLink,
+  fieldNames.queryLayers.layerDescription,
+];
 const configShape = Object.values(fieldNames.queryLayers).reduce(
   (obj, value) => {
-    obj[value] = PropTypes.string.isRequired;
+    obj[value] = requiredConfigFields.includes(value)
+      ? PropTypes.string.isRequired
+      : PropTypes.string;
     return obj;
   },
   {}
