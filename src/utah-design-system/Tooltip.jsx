@@ -2,11 +2,11 @@ import * as RadixTooltip from '@radix-ui/react-tooltip';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-export default function Tooltip({ open, trigger, children }) {
+export default function Tooltip({ open, trigger, children, delayDuration }) {
   return (
     <RadixTooltip.Provider>
-      <RadixTooltip.Root open={open}>
-        <RadixTooltip.Trigger>{trigger}</RadixTooltip.Trigger>
+      <RadixTooltip.Root open={open} delayDuration={delayDuration}>
+        <RadixTooltip.Trigger asChild>{trigger}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
             sideOffset={5}
@@ -31,4 +31,5 @@ Tooltip.propTypes = {
    * The content of the tooltip
    */
   children: PropTypes.node.isRequired,
+  delayDuration: PropTypes.number,
 };
