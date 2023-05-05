@@ -23,7 +23,7 @@ export function arraysToObjects(arrays, skipFields = []) {
   return values.map((row) => {
     return row.reduce((obj, value, keyIndex) => {
       if (!skipFields.includes(keys[keyIndex])) {
-        obj[keys[keyIndex]] = value;
+        obj[keys[keyIndex]] = value || null;
       }
 
       return obj;
