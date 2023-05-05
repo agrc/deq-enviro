@@ -27,6 +27,19 @@ describe('arraysToObjects', () => {
     ];
     expect(arraysToObjects(arrays, ['skip'])).toEqual(objects);
   });
+
+  it('converts empty strings to null', () => {
+    const arrays = [
+      ['name', 'age'],
+      ['John', ''],
+      ['Mary', ''],
+    ];
+    const objects = [
+      { name: 'John', age: null },
+      { name: 'Mary', age: null },
+    ];
+    expect(arraysToObjects(arrays)).toEqual(objects);
+  });
 });
 
 describe('checkForDuplicateIds', () => {
