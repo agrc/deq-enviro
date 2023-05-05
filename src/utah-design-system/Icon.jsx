@@ -1,6 +1,7 @@
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 
 const ICONS = {
   account: {
@@ -132,7 +133,10 @@ const SIZE_CLASS_NAMES = {
   '9xl': 'before:text-9xl',
 };
 
-export default function Icon({ name, label, className, size, bold }) {
+const Icon = forwardRef(function Icon(
+  { name, label, className, size, bold, ...props },
+  forwardedRef
+) {
   if (!Object.keys(ICONS).includes(name)) {
     throw new Error(`Icon name "${name}" is not valid`);
   }
@@ -144,6 +148,13 @@ export default function Icon({ name, label, className, size, bold }) {
   return (
     <AccessibleIcon.Root label={label}>
       <span
+        /*
+          the next two lines are required if this component is
+          used within a Radix primitive with an `asChild` prop
+          ref: https://github.com/radix-ui/primitives/issues/953#issuecomment-959005835
+        */
+        {...props}
+        ref={forwardedRef}
         className={clsx(
           'flex items-center justify-center',
           ICONS[name].className,
@@ -152,11 +163,10 @@ export default function Icon({ name, label, className, size, bold }) {
           bold ? 'before:font-bold' : 'before:font-normal',
           className
         )}
-        aria-hidden="true"
       />
     </AccessibleIcon.Root>
   );
-}
+});
 
 Icon.propTypes = {
   name: PropTypes.oneOf(Object.keys(ICONS)).isRequired,
@@ -177,3 +187,5 @@ Icon.Names = Object.keys(ICONS).reduce((acc, key) => {
   acc[key] = key;
   return acc;
 }, {});
+
+export default Icon;
