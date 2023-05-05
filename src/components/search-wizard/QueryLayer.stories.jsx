@@ -7,7 +7,7 @@ export default {
 
 const config = {
   'Unique ID': '0',
-  Name: 'Public Water System Facilities',
+  'Layer Name': 'Public Water System Facilities',
   'SGID Feature Class Name': 'DirectFrom.Source.WSFacilities',
   Secure: 'Yes',
   'Geometry Type': 'point',

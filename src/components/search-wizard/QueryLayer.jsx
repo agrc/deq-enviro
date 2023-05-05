@@ -7,8 +7,8 @@ import Tooltip from '../../utah-design-system/Tooltip';
 /*
 Example config:
 {
-  "index": 0,
-  "Name": "Public Water System Facilities",
+  "Unique ID": 0,
+  "Layer Name": "Public Water System Facilities",
   "SGID Feature Class Name": "DirectFrom.Source.WSFacilities",
   "Secure": "Yes",
   "Geometry Type": "point",
@@ -56,7 +56,7 @@ export default function QueryLayer({
           <span>
             <Checkbox
               name={id}
-              label={config[fieldNames.queryLayers.name]}
+              label={config[fieldNames.queryLayers.layerName]}
               onChange={onSelectedChange}
               checked={selected}
             />
@@ -91,24 +91,8 @@ export default function QueryLayer({
   );
 }
 
-// TODO: this should be some sort of check that is performed before we
-// create the query layer component
-const requiredConfigFields = [
-  fieldNames.queryLayers.uniqueId,
-  fieldNames.queryLayers.name,
-  fieldNames.queryLayers.layerDescription,
-];
-const configShape = Object.values(fieldNames.queryLayers).reduce(
-  (obj, value) => {
-    obj[value] = requiredConfigFields.includes(value)
-      ? PropTypes.string.isRequired
-      : PropTypes.string;
-    return obj;
-  },
-  {}
-);
 QueryLayer.propTypes = {
-  config: PropTypes.shape(configShape),
+  config: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   onSelectedChange: PropTypes.func.isRequired,
   // filter: PropTypes.object,
