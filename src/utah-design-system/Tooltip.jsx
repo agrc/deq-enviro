@@ -1,12 +1,20 @@
 import * as RadixTooltip from '@radix-ui/react-tooltip';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { isValidElement } from 'react';
 
 export default function Tooltip({ open, trigger, children, delayDuration }) {
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root open={open} delayDuration={delayDuration}>
-        <RadixTooltip.Trigger asChild>{trigger}</RadixTooltip.Trigger>
+        {/*
+          Mark asChild true if the trigger is a component as opposed to a string.
+          This prevents the console error about rendering a button within a button if the component
+          contains a button.
+        */}
+        <RadixTooltip.Trigger asChild={isValidElement(trigger)}>
+          {trigger}
+        </RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
             sideOffset={5}
