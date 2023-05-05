@@ -100,7 +100,8 @@
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
     "reactfire": "^4.2.2",
-    "xstate": "^4.37.1"
+    "xstate": "^4.37.1",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.7",
