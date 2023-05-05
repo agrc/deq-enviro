@@ -6,7 +6,7 @@ export default {
 };
 
 const config = {
-  index: 0,
+  'Unique ID': '0',
   Name: 'Public Water System Facilities',
   'SGID Feature Class Name': 'DirectFrom.Source.WSFacilities',
   Secure: 'Yes',
@@ -44,6 +44,13 @@ const config = {
   'Feature Service': '',
   'Coded Values': '',
 };
+
+const noMetaLinkConfig = {
+  ...config,
+  Name: 'No Metadata Link',
+  'Metadata Link': null,
+};
+
 export const Default = () => (
   <div className="w-80">
     <QueryLayer
@@ -56,6 +63,13 @@ export const Default = () => (
     <QueryLayer
       config={config}
       selected={true}
+      onSelectedChange={console.log}
+      filter={null}
+      onFilterChange={console.log}
+    />
+    <QueryLayer
+      config={noMetaLinkConfig}
+      selected={false}
       onSelectedChange={console.log}
       filter={null}
       onFilterChange={console.log}
