@@ -50,32 +50,43 @@ export default function QueryLayer({
 
   return (
     <div className="my-2 flex items-center justify-between">
-      <Checkbox
-        name={id}
-        label={config[fieldNames.queryLayers.name]}
-        onChange={onSelectedChange}
-        checked={selected}
-      />
       <Tooltip
+        delayDuration={1000}
         trigger={
-          <a
-            href={config[fieldNames.queryLayers.metadataLink]}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Icon
-              name={Icon.Names.help}
-              className="text-gray-600"
-              label="more info"
-              size="xs"
+          <span>
+            <Checkbox
+              name={id}
+              label={config[fieldNames.queryLayers.name]}
+              onChange={onSelectedChange}
+              checked={selected}
             />
-          </a>
+          </span>
         }
       >
         <div className="max-w-md">
           {config[fieldNames.queryLayers.layerDescription]}
         </div>
       </Tooltip>
+      {config[fieldNames.queryLayers.metadataLink] ? (
+        <Tooltip
+          trigger={
+            <a
+              href={config[fieldNames.queryLayers.metadataLink]}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon
+                name={Icon.Names.externalLink}
+                className="text-gray-600"
+                label="more info"
+                size="xs"
+              />
+            </a>
+          }
+        >
+          More Info
+        </Tooltip>
+      ) : null}
     </div>
   );
 }
@@ -85,7 +96,6 @@ export default function QueryLayer({
 const requiredConfigFields = [
   fieldNames.queryLayers.uniqueId,
   fieldNames.queryLayers.name,
-  fieldNames.queryLayers.metadataLink,
   fieldNames.queryLayers.layerDescription,
 ];
 const configShape = Object.values(fieldNames.queryLayers).reduce(
