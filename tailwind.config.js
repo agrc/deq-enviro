@@ -5,9 +5,21 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     colors: {
-      primary: '#0080b7',
-      secondary: '#09b0da',
-      accent: '#add361',
+      primary: {
+        light: '#009DE0',
+        DEFAULT: '#0080B7',
+        dark: '#00597F',
+      },
+      secondary: {
+        light: '#16C9F5',
+        DEFAULT: '#09B0DA',
+        dark: '#0785A4',
+      },
+      accent: {
+        light: '#CEE5A1',
+        DEFAULT: '#ADD361',
+        dark: '#74992B',
+      },
       slate: colors.slate,
       white: colors.white,
       transparent: colors.transparent,
@@ -48,6 +60,9 @@ export default {
             opacity: 1,
           },
         },
+      },
+      boxShadow: {
+        inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.5)',
       },
     },
   },
