@@ -47,7 +47,7 @@ export default createMachine(
       searching: {
         invoke: {
           src: (context) => {
-            return Promise((resolve) => {
+            return new Promise((resolve) => {
               console.log('context', context);
               setTimeout(resolve, 1500);
             });

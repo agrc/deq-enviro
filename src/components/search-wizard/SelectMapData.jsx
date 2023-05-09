@@ -20,8 +20,8 @@ export default function SelectMapData({
   }, []);
 
   return (
-    <>
-      <h4>Select Map Data</h4>
+    <div className="flex-1 overflow-y-auto px-2">
+      <h3 className="px-2">Select Map Data</h3>
       <AccordionRoot type="multiple">
         {divisions.map((division) => {
           return (
@@ -54,7 +54,7 @@ export default function SelectMapData({
           );
         })}
       </AccordionRoot>
-    </>
+    </div>
   );
 }
 

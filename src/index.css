@@ -22,7 +22,7 @@
 
 /* required for utah design system header */
 .utah-design-system {
-  --primary-color: theme('colors.primary');
+  --primary-color: theme('colors.primary.DEFAULT');
 }
 .utah-design-system.main-menu__outer {
   display: none;
