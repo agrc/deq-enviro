@@ -2,6 +2,7 @@ import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import { createKeyLookup } from './utils';
 
 const ICONS = {
   account: {
@@ -183,9 +184,7 @@ Icon.defaultProps = {
   size: 'base',
 };
 
-Icon.Names = Object.keys(ICONS).reduce((acc, key) => {
-  acc[key] = key;
-  return acc;
-}, {});
+Icon.Names = createKeyLookup(ICONS);
+Icon.Sizes = createKeyLookup(SIZE_CLASS_NAMES);
 
 export default Icon;
