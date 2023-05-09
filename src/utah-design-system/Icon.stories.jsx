@@ -7,7 +7,7 @@ export default {
 
 export const Default = () => (
   <>
-    <div className="flex bg-gray-200 leading-6">
+    <div className="flex bg-slate-200 leading-6">
       medium
       <Icon
         name={Icon.Names.circleChevronDown}
@@ -15,7 +15,7 @@ export const Default = () => (
         className="ml-1"
       />
     </div>
-    <div className="flex bg-gray-200 leading-6">
+    <div className="flex bg-slate-200 leading-6">
       small
       <Icon
         name={Icon.Names.circleChevronDown}
@@ -24,7 +24,7 @@ export const Default = () => (
         size="sm"
       />
     </div>
-    <div className="flex bg-gray-200 leading-6">
+    <div className="flex bg-slate-200 leading-6">
       large
       <Icon
         name={Icon.Names.circleChevronDown}

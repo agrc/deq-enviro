@@ -77,7 +77,7 @@ export default function QueryLayer({
             >
               <Icon
                 name={Icon.Names.externalLink}
-                className="text-gray-600"
+                className="text-slate-600"
                 label="more info"
                 size="xs"
               />

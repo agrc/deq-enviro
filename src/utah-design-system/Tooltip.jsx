@@ -19,12 +19,12 @@ export default function Tooltip({ open, trigger, children, delayDuration }) {
           <RadixTooltip.Content
             sideOffset={5}
             className={clsx(
-              'rounded-md bg-gray-600 px-3 py-2 text-white shadow-md',
+              'rounded-md bg-slate-600 px-3 py-2 text-white shadow-md',
               'data-[state=delayed-open]:animate-fade-in'
             )}
           >
             {children}
-            <RadixTooltip.Arrow className="fill-gray-600" />
+            <RadixTooltip.Arrow className="fill-slate-600" />
           </RadixTooltip.Content>
         </RadixTooltip.Portal>
       </RadixTooltip.Root>

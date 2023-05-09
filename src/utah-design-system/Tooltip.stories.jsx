@@ -7,7 +7,7 @@ export default {
 };
 
 export const Default = () => (
-  <div className="flex h-40 w-60 flex-col items-center justify-between bg-gray-100">
+  <div className="flex h-40 w-60 flex-col items-center justify-between bg-slate-100">
     <Tooltip trigger={<span>trigger with span</span>}>
       trigger with span
     </Tooltip>

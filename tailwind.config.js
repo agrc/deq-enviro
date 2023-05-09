@@ -8,7 +8,7 @@ export default {
       primary: '#0080b7',
       secondary: '#09b0da',
       accent: '#add361',
-      gray: colors.gray,
+      slate: colors.slate,
       white: colors.white,
       transparent: colors.transparent,
     },
