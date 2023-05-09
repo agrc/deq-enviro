@@ -23,7 +23,7 @@ export function AccordionPanel({ title, children }) {
         <Accordion.Trigger
           className={clsx(
             'group flex w-full items-center justify-between',
-            'bg-primary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
+            'bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
           )}
         >
           {title}
@@ -34,7 +34,7 @@ export function AccordionPanel({ title, children }) {
           />
         </Accordion.Trigger>
       </Accordion.Header>
-      <Accordion.Content className="bg-slate-100 overflow-hidden rounded-b-md data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down">
+      <Accordion.Content className="overflow-hidden rounded-b-md bg-slate-100 data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down">
         <div className="px-5 py-4">{children}</div>
       </Accordion.Content>
     </Accordion.Item>

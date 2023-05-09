@@ -51,10 +51,10 @@ function App() {
   return (
     <AnalyticsProvider sdk={getAnalytics(app)}>
       <div className="flex h-full w-full flex-col md:flex-row">
-        <div className="border-slate-300 flex-1 border-b md:border-r">
+        <div className="flex-1 border-b border-slate-300 md:border-r">
           <MapComponent />
         </div>
-        <div className="overflow-y-auto md:w-80">
+        <div className="md:w-80">
           <RemoteConfig>
             <SearchWizard />
           </RemoteConfig>

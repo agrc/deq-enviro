@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRemoteConfigString } from 'reactfire';
 import { fieldNames, schemas } from '../../config.js';
 import searchMachine from '../../searchMachine.js';
+import Button from '../../utah-design-system/Button.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
 import SelectMapData from './SelectMapData.jsx';
 
@@ -39,7 +40,7 @@ export default function SearchWizard() {
   }
 
   return (
-    <div className="p-2">
+    <div className="flex h-full flex-col">
       {state.matches('queryLayers') ? (
         <SelectMapData
           queryLayers={queryLayers}
@@ -48,8 +49,27 @@ export default function SearchWizard() {
         />
       ) : null}
       {state.matches('advanced') ? <AdvancedFilter /> : null}
-      Selected query layer ids:{' '}
-      {JSON.stringify(state.context.queryLayers.map((config) => config.id))}
+      <div className="justify-self-end border-t border-t-slate-300 p-2">
+        <Button
+          appearance={Button.Appearances.solid}
+          color={Button.Colors.primary}
+          className="w-full"
+          size={Button.Sizes.xl}
+          // onClick={() => send('SEARCH')}
+          onClick={console.log}
+        >
+          Search
+        </Button>
+        <Button
+          color={Button.Colors.accent}
+          className="mt-2 w-full"
+          size={Button.Sizes.xl}
+          // onClick={() => send('SEARCH')}
+          onClick={console.log}
+        >
+          Clear
+        </Button>
+      </div>
     </div>
   );
 }
