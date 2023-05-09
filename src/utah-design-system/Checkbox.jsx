@@ -17,7 +17,7 @@ export default function Checkbox({
         className={clsx(
           'rounded-full p-1',
           !disabled &&
-            'group-hover:bg-gray-200 group-focus:bg-gray-200 group-active:bg-gray-200'
+            'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
         )}
       >
         <RadixCheckbox.Root
@@ -27,10 +27,10 @@ export default function Checkbox({
           onCheckedChange={onChange}
           disabled={disabled}
           className={clsx(
-            'flex h-4 w-4 items-center justify-center rounded border border-gray-500 bg-white',
-            'data-[state=checked]:bg-gray-500 data-[state=checked]:text-white',
+            'flex h-4 w-4 items-center justify-center rounded border border-slate-500 bg-white',
+            'data-[state=checked]:bg-slate-500 data-[state=checked]:text-white',
             disabled &&
-              '!border-gray-300 !bg-gray-50 data-[state=checked]:!bg-gray-300 data-[state=checked]:!text-white'
+              '!border-slate-300 !bg-slate-50 data-[state=checked]:!bg-slate-300 data-[state=checked]:!text-white'
           )}
         >
           <RadixCheckbox.Indicator>
@@ -42,7 +42,7 @@ export default function Checkbox({
         htmlFor={name || label}
         className={clsx(
           'ml-1 cursor-pointer leading-5',
-          disabled && '!text-gray-300'
+          disabled && '!text-slate-300'
         )}
       >
         {label}

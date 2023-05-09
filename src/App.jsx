@@ -51,7 +51,7 @@ function App() {
   return (
     <AnalyticsProvider sdk={getAnalytics(app)}>
       <div className="flex h-full w-full flex-col md:flex-row">
-        <div className="flex-1 border-b border-gray-300 md:border-r">
+        <div className="border-slate-300 flex-1 border-b md:border-r">
           <MapComponent />
         </div>
         <div className="overflow-y-auto md:w-80">
