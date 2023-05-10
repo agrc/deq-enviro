@@ -11,6 +11,7 @@
     "build": "vite build",
     "build:dev": "npm run build:dev:update-remote-config-defaults && npm run build",
     "build:dev:update-remote-config-defaults": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/src/functions/functions-key-dev.json\" && node src/build-scripts/updateRemoteConfigDefaults.js",
+    "build:storybook": "storybook build --output-dir ./dist/storybook",
     "build:update-remote-config-defaults": "node src/build-scripts/updateRemoteConfigDefaults.js",
     "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
     "dev": "cross-env NODE_ENV=development run-p dev:*",
@@ -24,8 +25,7 @@
     "start": "npm run dev",
     "test": "vitest --coverage",
     "coverage": "vitest run --coverage",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "storybook dev -p 6006"
   },
   "browserslist": {
     "production": [
@@ -104,13 +104,13 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.9",
-    "@storybook/addon-interactions": "^7.0.9",
-    "@storybook/addon-links": "^7.0.9",
+    "@storybook/addon-essentials": "^7.0.10",
+    "@storybook/addon-interactions": "^7.0.10",
+    "@storybook/addon-links": "^7.0.10",
     "@storybook/addon-styling": "^1.0.6",
-    "@storybook/blocks": "^7.0.9",
-    "@storybook/react": "^7.0.9",
-    "@storybook/react-vite": "^7.0.9",
+    "@storybook/blocks": "^7.0.10",
+    "@storybook/react": "^7.0.10",
+    "@storybook/react-vite": "^7.0.10",
     "@storybook/testing-library": "^0.1.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/react": "^18.2.6",
@@ -135,7 +135,7 @@
     "prettier-plugin-tailwindcss": "^0.2.8",
     "prop-types": "^15.8.1",
     "sass": "^1.62.1",
-    "storybook": "^7.0.9",
+    "storybook": "^7.0.10",
     "tailwindcss": "^3.3.2",
     "vite": "^4.3.5",
     "vitest": "^0.31.0"
