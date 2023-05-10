@@ -9,8 +9,10 @@
   "main": "./src/functions/index.js",
   "scripts": {
     "build": "vite build",
-    "build:dev": "npm run build:dev:update-remote-config-defaults && npm run build",
+    "build:dev": "npm run build:dev:update-remote-config-defaults && npm run build && npm run build:storybook",
     "build:dev:update-remote-config-defaults": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/src/functions/functions-key-dev.json\" && node src/build-scripts/updateRemoteConfigDefaults.js",
+    "build:prod": "npm run build:update-remote-config-defaults && npm run build",
+    "build:stage": "npm run build:update-remote-config-defaults && npm run build && npm run build:storybook",
     "build:storybook": "storybook build --output-dir ./dist/storybook",
     "build:update-remote-config-defaults": "node src/build-scripts/updateRemoteConfigDefaults.js",
     "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
