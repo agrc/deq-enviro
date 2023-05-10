@@ -52,7 +52,7 @@ jobs:
       - name: 🚀 Deploy
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
-          build-command: npm run build
+          build-command: npm run build:stage
           preview: yes
           project-id: ${{ secrets.PROJECT_ID }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
