@@ -23,6 +23,8 @@ export default {
       slate: colors.slate,
       white: colors.white,
       transparent: colors.transparent,
+      emerald: colors.emerald,
+      red: colors.red,
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],

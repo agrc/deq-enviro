@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import { fieldNames } from '../../config';
 import {
   AccordionPanel,
@@ -6,11 +7,7 @@ import {
 } from '../../utah-design-system/Accordion.jsx';
 import QueryLayer from './QueryLayer.jsx';
 
-export default function SelectMapData({
-  queryLayers,
-  machineState,
-  machineSend,
-}) {
+export default function SelectMapData({ queryLayers }) {
   const divisions = queryLayers.reduce((list, queryLayer) => {
     const division = queryLayer[fieldNames.queryLayers.divisionHeading];
     if (!list.includes(division)) {
@@ -18,6 +15,7 @@ export default function SelectMapData({
     }
     return list;
   }, []);
+  const [state, send] = useSearchMachine();
 
   return (
     <div className="flex-1 overflow-y-auto px-2">
@@ -38,13 +36,14 @@ export default function SelectMapData({
                     <QueryLayer
                       key={uniqueId}
                       config={queryLayer}
-                      selected={machineState.context.queryLayers.some(
-                        (config) => config.id === uniqueId
+                      selected={state.context.searchLayers.some(
+                        (config) =>
+                          config[fieldNames.queryLayers.uniqueId] === uniqueId
                       )}
                       onSelectedChange={(selected) =>
-                        machineSend({
+                        send({
                           type: selected ? 'SELECT_LAYER' : 'UNSELECT_LAYER',
-                          id: uniqueId,
+                          queryLayer,
                         })
                       }
                     />
@@ -60,6 +59,4 @@ export default function SelectMapData({
 
 SelectMapData.propTypes = {
   queryLayers: PropTypes.array.isRequired,
-  machineState: PropTypes.object.isRequired,
-  machineSend: PropTypes.func.isRequired,
 };

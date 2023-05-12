@@ -2,8 +2,10 @@ import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { getAnalytics } from 'firebase/analytics';
 import { useEffect } from 'react';
 import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
-import RemoteConfig from './RemoteConfig.jsx';
+import RemoteConfigProvider from './RemoteConfigProvider.jsx';
+import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
+import ResultsGrid from './components/ResultsGrid.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
 import config from './config';
 
@@ -50,16 +52,19 @@ function App() {
 
   return (
     <AnalyticsProvider sdk={getAnalytics(app)}>
-      <div className="flex h-full w-full flex-col md:flex-row">
-        <div className="flex-1 border-b border-slate-300 md:border-r">
-          <MapComponent />
+      <SearchMachineProvider>
+        <div className="flex h-full w-full flex-col md:flex-row">
+          <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
+            <MapComponent />
+            <ResultsGrid />
+          </div>
+          <div className="md:w-80">
+            <RemoteConfigProvider>
+              <SearchWizard />
+            </RemoteConfigProvider>
+          </div>
         </div>
-        <div className="md:w-80">
-          <RemoteConfig>
-            <SearchWizard />
-          </RemoteConfig>
-        </div>
-      </div>
+      </SearchMachineProvider>
     </AnalyticsProvider>
   );
 }
