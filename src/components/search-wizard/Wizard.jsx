@@ -1,14 +1,14 @@
-import { useMachine } from '@xstate/react';
 import { useEffect, useState } from 'react';
 import { useRemoteConfigString } from 'reactfire';
+import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import { fieldNames, schemas } from '../../config.js';
-import searchMachine from '../../searchMachine.js';
 import Button from '../../utah-design-system/Button.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
+import Progress from './Progress.jsx';
 import SelectMapData from './SelectMapData.jsx';
 
 export default function SearchWizard() {
-  const [state, send] = useMachine(searchMachine);
+  const [state, send] = useSearchMachine();
   const [queryLayers, setQueryLayers] = useState([]);
   // todo - use logEvent from 'firebase/analytics' to log which layers are selected
 
@@ -35,37 +35,48 @@ export default function SearchWizard() {
     }
   }, [queryLayersConfig]);
 
-  if (queryLayersConfig.status === 'loading') {
+  if (queryLayersConfig.status === 'loading' || !state.context.searchLayers) {
     return null;
   }
 
   return (
     <div className="flex h-full flex-col">
-      {state.matches('queryLayers') ? (
-        <SelectMapData
-          queryLayers={queryLayers}
-          machineState={state}
-          machineSend={send}
+      {state.matches('selectLayers') ? (
+        <SelectMapData queryLayers={queryLayers} />
+      ) : null}
+      {state.matches('searching') || state.matches('result') ? (
+        <Progress
+          searchLayers={state.context.searchLayers}
+          results={state.context.resultLayers}
         />
       ) : null}
       {state.matches('advanced') ? <AdvancedFilter /> : null}
+      {state.matches('error') ? (
+        <p>{JSON.stringify(state.context.error, null, 2)}</p>
+      ) : null}
       <div className="justify-self-end border-t border-t-slate-300 p-2">
         <Button
           appearance={Button.Appearances.solid}
           color={Button.Colors.primary}
           className="w-full"
           size={Button.Sizes.xl}
-          // onClick={() => send('SEARCH')}
-          onClick={console.log}
+          busy={state.matches('searching')}
+          disabled={state.context.searchLayers.length === 0}
+          onClick={() => send('SEARCH')}
         >
-          Search
+          Search{' '}
+          {state.context.searchLayers.length
+            ? `${state.context.searchLayers.length} Layer${
+                state.context.searchLayers.length > 1 ? 's' : ''
+              }`
+            : null}
         </Button>
         <Button
           color={Button.Colors.accent}
           className="mt-2 w-full"
           size={Button.Sizes.xl}
-          // onClick={() => send('SEARCH')}
-          onClick={console.log}
+          onClick={() => send('CLEAR')}
+          disabled={state.matches('searching')}
         >
           Clear
         </Button>
@@ -73,14 +84,3 @@ export default function SearchWizard() {
     </div>
   );
 }
-
-// What will the params to the search function look like?
-// search({
-//   queryLayers: [
-//     {
-//       index: 0,
-//       filter: {} || null
-//     }
-//   ],
-//   advanced: {...}
-// })

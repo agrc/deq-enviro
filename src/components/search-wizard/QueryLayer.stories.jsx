@@ -1,7 +1,7 @@
 import QueryLayer from './QueryLayer';
 
 export default {
-  title: 'SearchWizard/QueryLayer',
+  title: 'QueryLayer',
   component: QueryLayer,
 };
 
