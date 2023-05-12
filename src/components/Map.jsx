@@ -37,7 +37,7 @@ export default function MapComponent() {
     setSelectorOptions({
       view: view.current,
       quadWord: import.meta.env.VITE_DISCOVER_KEY,
-      baseLayers: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR'],
+      baseLayers: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR'],
     });
 
     return () => {
