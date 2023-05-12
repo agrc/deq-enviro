@@ -1,5 +1,6 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { getAnalytics } from 'firebase/analytics';
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { useEffect } from 'react';
 import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
 import RemoteConfigProvider from './RemoteConfigProvider.jsx';
@@ -49,6 +50,10 @@ function App() {
   }, []);
 
   const app = useFirebaseApp();
+
+  if (import.meta.env.DEV) {
+    connectFunctionsEmulator(getFunctions(), 'localhost', 5001);
+  }
 
   return (
     <AnalyticsProvider sdk={getAnalytics(app)}>
