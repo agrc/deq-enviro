@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
+import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
-import { fieldNames } from '../../config';
 import {
   AccordionPanel,
   AccordionRoot,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRemoteConfigString } from 'reactfire';
+import { fieldNames, schemas } from '../../../functions/common/config.js';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
-import { fieldNames, schemas } from '../../config.js';
 import Button from '../../utah-design-system/Button.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
 import Progress from './Progress.jsx';

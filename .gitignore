@@ -25,7 +25,7 @@ dist-ssr
 .env
 
 coverage/
-src/functions/functions-key-dev.json
+functions/functions-key-dev.json
 
 # esri assets
 public/assets/*

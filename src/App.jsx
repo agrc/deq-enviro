@@ -3,12 +3,12 @@ import { getAnalytics } from 'firebase/analytics';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { useEffect } from 'react';
 import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
+import config from '../functions/common/config';
 import RemoteConfigProvider from './RemoteConfigProvider.jsx';
 import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
 import ResultsGrid from './components/ResultsGrid.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
-import config from './config';
 
 function App() {
   useEffect(() => {

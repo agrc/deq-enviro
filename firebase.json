@@ -1,29 +1,16 @@
 {
-  "functions": {
-    "source": ".",
-    "codebase": "src",
-    "runtime": "nodejs18",
-    "ignore": [
-      ".emulator-data",
-      ".git",
-      ".github",
-      ".storybook",
-      ".vscode",
-      "coverage",
-      "dist",
-      "firebase-export-*",
-      "node_modules",
-      "public",
-      "*.config.js",
-      "*.rules",
-      "*.log",
-      "*.html",
-      "*.jsx",
-      ".eslintcache",
-      "_src",
-      "tests_old"
-    ]
-  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    }
+  ],
   "hosting": {
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

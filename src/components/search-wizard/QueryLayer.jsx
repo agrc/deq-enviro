@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { fieldNames } from '../../config';
+import { fieldNames } from '../../../functions/common/config';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Icon from '../../utah-design-system/Icon';
 import Tooltip from '../../utah-design-system/Tooltip';

@@ -113,7 +113,7 @@ Most updates are taken care of via the [config spreadsheet](https://docs.google.
 
 ### updateRemoteConfigFromSheets Function
 
-You will need to copy the `functions-key-dev.json` key file from the terraform project to the `src/functions` directory in order to have permissions to hit the staging config spreadsheet.
+You will need to copy the `functions-key-dev.json` key file from the terraform project to the `functions` directory in order to have permissions to hit the staging config spreadsheet.
 
 ## Config Spreadsheet Deploy Addon
 

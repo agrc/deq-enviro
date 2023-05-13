@@ -1,8 +1,8 @@
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
-import { fieldNames } from '../config.js';
-import auth from '../utils/auth.js';
+import auth from './common/auth.js';
+import { fieldNames } from './common/config.js';
 
 const secretsClient = new SecretManagerServiceClient();
 
@@ -15,8 +15,6 @@ export async function getSpreadsheetId() {
 
   return version.payload.data.toString();
 }
-
-const sheets = google.sheets('v4');
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
@@ -31,7 +29,8 @@ export function arraysToObjects(arrays, skipFields = []) {
   });
 }
 
-async function getConfigs(range, skipFields) {
+async function getConfigs(range, skipFields, authClient) {
+  const sheets = google.sheets({ version: 'v4', auth: authClient });
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: await getSpreadsheetId(),
     range,
@@ -96,24 +95,26 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
 }
 
 export default async function main() {
-  await auth([
+  const authClient = await auth([
     'https://www.googleapis.com/auth/spreadsheets.readonly',
     'https://www.googleapis.com/auth/firebase.remoteconfig',
   ]);
 
   console.log('fetching data from Google Sheets...');
-  const queryLayers = await getConfigs("'Query Layers'!A:AG", [
-    'Contact Info',
-    'ETL Type',
-    'Source Data',
-  ]);
+  const queryLayers = await getConfigs(
+    "'Query Layers'!A:AG",
+    ['Contact Info', 'ETL Type', 'Source Data'],
+    authClient
+  );
 
   console.log('checking for duplicate ids');
   checkForDuplicateIds(queryLayers);
 
-  const relatedTables = await getConfigs("'Related Tables'!A:H", [
-    'Source Data',
-  ]);
+  const relatedTables = await getConfigs(
+    "'Related Tables'!A:H",
+    ['Source Data'],
+    authClient
+  );
 
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
