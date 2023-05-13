@@ -3,7 +3,7 @@ import { getItem, setItem } from 'localforage';
 import PropTypes from 'prop-types';
 import { createContext, useContext } from 'react';
 import { assign, createMachine } from 'xstate';
-import { fieldNames } from './config';
+import { fieldNames } from '../functions/common/config';
 
 const CACHE_KEY = 'searchContext';
 function cacheSearchContext(cachedContext) {

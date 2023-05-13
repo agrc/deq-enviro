@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { fieldNames } from '../../config';
+import { fieldNames } from '../../../functions/common/config';
 import Icon from '../../utah-design-system/Icon';
 import Spinner from '../../utah-design-system/Spinner';
 import Tooltip from '../../utah-design-system/Tooltip';

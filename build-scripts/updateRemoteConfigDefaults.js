@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import admin from 'firebase-admin';
 import fs from 'fs';
-import auth from '../utils/auth.js';
+import auth from '../functions/common/auth.js';
 
 dotenv.config();
 

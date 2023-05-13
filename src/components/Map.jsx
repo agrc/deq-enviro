@@ -8,8 +8,8 @@ import MapView from '@arcgis/core/views/MapView';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
 import { useEffect, useRef, useState } from 'react';
+import { fieldNames } from '../../functions/common/config';
 import { useSearchMachine } from '../SearchMachineProvider';
-import { fieldNames } from '../config';
 import stateOfUtah from '../data/state-of-utah.json';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
