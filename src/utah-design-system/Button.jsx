@@ -84,7 +84,7 @@ function Button({
   return (
     <button
       className={clsx(
-        'flex w-fit cursor-pointer items-center justify-center rounded-full',
+        'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
         appearance === APPEARANCES.outlined && 'border-2',
         COLORS[color][appearance],
         SIZES[size],
