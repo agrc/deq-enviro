@@ -8,7 +8,7 @@ export default {
 export const Default = () => (
   <>
     <h3>Outlined</h3>
-    <p>
+    <p className="space-y-1">
       <Button>Default</Button>
       <Button color={Button.Colors.primary}>Primary</Button>
       <Button color={Button.Colors.secondary}>Secondary</Button>
@@ -16,7 +16,7 @@ export const Default = () => (
     </p>
 
     <h3>Solid</h3>
-    <p>
+    <p className="space-y-1">
       <Button appearance={Button.Appearances.solid}>Default</Button>
       <Button
         appearance={Button.Appearances.solid}
@@ -39,7 +39,7 @@ export const Default = () => (
     </p>
 
     <h3>Disabled</h3>
-    <p>
+    <p className="space-y-1">
       <Button disabled>Default</Button>
       <Button
         disabled
@@ -61,7 +61,7 @@ export const Default = () => (
     </p>
 
     <h3>Busy</h3>
-    <p>
+    <p className="space-y-1">
       <Button busy>Default</Button>
       <Button
         busy
@@ -73,7 +73,7 @@ export const Default = () => (
     </p>
 
     <h3>Sizes</h3>
-    <p>
+    <p className="space-y-1">
       <Button size={Button.Sizes.xs}>Extra Small</Button>
       <Button size={Button.Sizes.sm}>Small</Button>
       <Button size={Button.Sizes.base} appearance="solid" color="primary">
@@ -86,7 +86,7 @@ export const Default = () => (
     </p>
 
     <h3>Widths</h3>
-    <p>
+    <p className="space-y-1">
       <Button>Default</Button>
       <Button className="w-full">Full Width</Button>
     </p>
