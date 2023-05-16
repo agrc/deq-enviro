@@ -54,31 +54,42 @@ export default function SearchWizard() {
       {state.matches('error') ? (
         <p>{JSON.stringify(state.context.error, null, 2)}</p>
       ) : null}
-      <div className="justify-self-end border-t border-t-slate-300 p-2">
-        <Button
-          appearance={Button.Appearances.solid}
-          color={Button.Colors.primary}
-          className="w-full"
-          size={Button.Sizes.xl}
-          busy={state.matches('searching')}
-          disabled={state.context.searchLayers.length === 0}
-          onClick={() => send('SEARCH')}
-        >
-          Search{' '}
-          {state.context.searchLayers.length
-            ? `${state.context.searchLayers.length} Layer${
-                state.context.searchLayers.length > 1 ? 's' : ''
-              }`
-            : null}
-        </Button>
+      <div className="space-y-2 justify-self-end border-t border-t-slate-300 p-2">
+        {state.matches('result') ? (
+          <Button
+            color={Button.Colors.primary}
+            className="w-full"
+            size={Button.Sizes.xl}
+            onClick={() => send('QUERY_LAYERS')}
+          >
+            Back
+          </Button>
+        ) : (
+          <Button
+            appearance={Button.Appearances.solid}
+            color={Button.Colors.primary}
+            className="w-full"
+            size={Button.Sizes.xl}
+            busy={state.matches('searching')}
+            disabled={state.context.searchLayers.length === 0}
+            onClick={() => send('SEARCH')}
+          >
+            Search{' '}
+            {state.context.searchLayers.length
+              ? `${state.context.searchLayers.length} Layer${
+                  state.context.searchLayers.length > 1 ? 's' : ''
+                }`
+              : null}
+          </Button>
+        )}
         <Button
           color={Button.Colors.accent}
-          className="mt-2 w-full"
+          className="w-full"
           size={Button.Sizes.xl}
           onClick={() => send('CLEAR')}
           disabled={state.matches('searching')}
         >
-          Clear
+          {state.matches('result') ? 'Start New Search' : 'Clear'}
         </Button>
       </div>
     </div>
