@@ -14,11 +14,12 @@ export default function Progress({ searchLayers, results }) {
             (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId
           );
           const hasError = resultConfig?.error;
+          const layerName = config[fieldNames.queryLayers.layerName];
 
           return (
             <li key={uniqueId} className="mb-1 flex items-center justify-start">
               {!resultConfig ? (
-                <Spinner className="mr-1" />
+                <Spinner className="mr-1" ariaLabel={`searching ${layerName}`}/>
               ) : hasError ? (
                 <Tooltip
                   trigger={
@@ -41,7 +42,7 @@ export default function Progress({ searchLayers, results }) {
                 />
               )}
               <span className="leading-5">
-                {config[fieldNames.queryLayers.layerName]}
+                {layerName}
               </span>
               {resultConfig?.features ? (
                 <span className="ml-1 rounded-full bg-slate-200 px-2 py-0 text-sm">
