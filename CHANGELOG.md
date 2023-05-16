@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-7](https://github.com/agrc/deq-enviro/compare/v2.0.0-6...v2.0.0-7) (2023-05-16)
+
+
+### 🐛 Bug Fixes
+
+* **ci:** install function deps during deploy ([138474c](https://github.com/agrc/deq-enviro/commit/138474c9f7d2a25145e8e1ae7f3855641f0240dc))
+
 ## [2.0.0-6](https://github.com/agrc/deq-enviro/compare/v2.0.0-5...v2.0.0-6) (2023-05-16)
 
 
