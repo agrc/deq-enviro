@@ -7,6 +7,7 @@ import Tooltip from '../../utah-design-system/Tooltip';
 export default function Progress({ searchLayers, results }) {
   return (
     <div className="flex-1 p-2">
+      <h3>Search Results</h3>
       <ul>
         {searchLayers.map((config) => {
           const uniqueId = config[fieldNames.queryLayers.uniqueId];
@@ -47,7 +48,7 @@ export default function Progress({ searchLayers, results }) {
               )}
               <span className="leading-5">{layerName}</span>
               {resultConfig?.features ? (
-                <span className="ml-1 rounded-full bg-slate-200 px-2 py-0 text-sm">
+                <span className="ml-1 rounded-full bg-slate-100 px-2 py-0 text-sm">
                   {resultConfig.features.length.toLocaleString()}
                 </span>
               ) : null}
@@ -55,7 +56,8 @@ export default function Progress({ searchLayers, results }) {
           );
         })}
       </ul>
-      <p>Filter: State of Utah</p>
+      <h5>Filter</h5>
+      <span className="rounded-full bg-slate-200 px-2 py-1">State of Utah</span>
     </div>
   );
 }

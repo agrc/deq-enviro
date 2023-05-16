@@ -19,7 +19,7 @@ export default function SelectMapData({ queryLayers }) {
 
   return (
     <div className="flex-1 overflow-y-auto px-2">
-      <h3 className="px-2">Select Map Data</h3>
+      <h3 className="pt-2">Select Map Data</h3>
       <AccordionRoot type="multiple">
         {divisions.map((division) => {
           return (
