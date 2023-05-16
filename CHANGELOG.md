@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.0.0-6](https://github.com/agrc/deq-enviro/compare/v2.0.0-5...v2.0.0-6) (2023-05-16)
+
+
+### 🚀 Features
+
+* add search and clear buttons ([da431dd](https://github.com/agrc/deq-enviro/commit/da431dd28ad5552677c06156a8c77bf4bbdad858))
+* **button:** implement the beginnings of the utds button ([f2fb7f5](https://github.com/agrc/deq-enviro/commit/f2fb7f59ab13db531cd1554a3f041000a333497d))
+* deploy storybook static site in staging ([d8d964d](https://github.com/agrc/deq-enviro/commit/d8d964d94177a5aaab09f209fbdc38cd98f85f12))
+* implement basic search ([938db23](https://github.com/agrc/deq-enviro/commit/938db2358eef9800173bcb3aec40a88288fd2d40))
+* **spinner:** pull out spinner as separate component ([54a6932](https://github.com/agrc/deq-enviro/commit/54a6932a88c3390f9d96f7256b72f2f8d0f7807d))
+
+
+### 🎨 Design Improvements
+
+* **button:** give stories more space ([1ef0f10](https://github.com/agrc/deq-enviro/commit/1ef0f107396950895b55c40afd301f6a2ad3bf2a))
+
+
+### 🐛 Bug Fixes
+
+* allow storybook inline scripts in CSP ([4f62504](https://github.com/agrc/deq-enviro/commit/4f62504cf32c4f8f87323d1715ba5b7c8f0cd5e0))
+* **button:** prevent text selection ([b0724d2](https://github.com/agrc/deq-enviro/commit/b0724d2a00d03caad159339de94232507535b682))
+* **ci:** add functions project to dependabot ([d4da139](https://github.com/agrc/deq-enviro/commit/d4da1397fcf2f7aa656dee7ab5c9b006fa1bd2bc))
+* **ci:** don't update remote config defaults in actions ([d3e13ea](https://github.com/agrc/deq-enviro/commit/d3e13ea7a5ddfc841f60681ae5ed0f5d83319444))
+* **ci:** download functions project deps before tests ([da71d36](https://github.com/agrc/deq-enviro/commit/da71d3646f4b86c3216bbc64ff477de9fb9956b5))
+* default to lite base map ([dffc362](https://github.com/agrc/deq-enviro/commit/dffc3620a6e3a0338822f322afcb8bf957d27f9d))
+* **icon:** add support for use within a radix primitive using asChild ([113dcc9](https://github.com/agrc/deq-enviro/commit/113dcc9c934302ab6364b4f98dbe100373b5053d))
+* make feature service a required field for query layers ([cb21109](https://github.com/agrc/deq-enviro/commit/cb2110984610e695ee3abc01d887d87db33b3f23))
+* move functions into separate project ([523da1c](https://github.com/agrc/deq-enviro/commit/523da1ce342d173605c320277e33d6c5507a3e24))
+* **spinner:** add some accessibility stuff ([3ababbe](https://github.com/agrc/deq-enviro/commit/3ababbe73568c8e75164d3a69df451d543fc33c2))
+* **style:** gray -&gt; slate ([959e6f8](https://github.com/agrc/deq-enviro/commit/959e6f83c70f391e92c9f6a0b5cfdb3e427b8e16))
+* **tooltip:** allow for string or component triggers ([3752602](https://github.com/agrc/deq-enviro/commit/375260253d15c6a57ba8d2c1f82374fa5631fe17))
+
 ## [2.0.0-5](https://github.com/agrc/deq-enviro/compare/v2.0.0-4...v2.0.0-5) (2023-05-05)
 
 
