@@ -48,6 +48,13 @@ export default function MapComponent() {
 
   const searching = useRef(false);
   useEffect(() => {
+    if (state.matches('selectLayers')) {
+      map.current.removeAll();
+      view.current.goTo(stateOfUtahExtent);
+
+      return;
+    }
+
     if (!state.matches('searching')) {
       return;
     }
