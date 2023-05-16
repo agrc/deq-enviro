@@ -40,7 +40,7 @@ const fields = {
     },
     featureService: {
       name: 'Feature Service',
-      schema: string().url().nullable(),
+      schema: string().url().required(),
     },
     geometryType: {
       name: 'Geometry Type',
