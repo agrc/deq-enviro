@@ -1,7 +1,16 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { createKeyLookup } from './utils';
 
-export default function Spinner({ className, ariaLabel }) {
+const SIZES = {
+  xs: 'h-3 w-3',
+  sm: 'h-3.5 w-3.5',
+  base: 'h-4 w-4',
+  lg: 'h-[1.125rem] w-[1.125rem]',
+  xl: 'h-5 w-5',
+  custom: null,
+};
+export default function Spinner({ className, ariaLabel, size }) {
   return (
     <svg
       aria-live="polite"
@@ -9,7 +18,8 @@ export default function Spinner({ className, ariaLabel }) {
       aria-hidden="false"
       aria-valuetext={ariaLabel}
       className={clsx(
-        'h-5 w-5 flex-shrink-0 animate-spin motion-reduce:hidden',
+        SIZES[size],
+        'flex-shrink-0 animate-spin motion-reduce:hidden',
         className
       )}
       xmlns="http://www.w3.org/2000/svg"
@@ -36,4 +46,15 @@ export default function Spinner({ className, ariaLabel }) {
 Spinner.propTypes = {
   className: PropTypes.string,
   ariaLabel: PropTypes.string.isRequired,
+  /**
+   * Size of the spinner. Corresponds with the tailwind text sizes (base, sm, lg, xl).
+   * Use `custom` and pass your own height and width via `className` for custom sizes.
+   */
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+};
+
+Spinner.Sizes = createKeyLookup(SIZES);
+
+Spinner.defaultProps = {
+  size: 'base',
 };

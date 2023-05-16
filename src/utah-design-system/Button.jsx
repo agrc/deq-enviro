@@ -99,7 +99,7 @@ function Button({
       onClick={onClick}
     >
       {children}
-      {busy && <Spinner className="ml-1" ariaLabel="loading" />}
+      {busy && <Spinner className="ml-1" ariaLabel="loading" size={size} />}
     </button>
   );
 }
