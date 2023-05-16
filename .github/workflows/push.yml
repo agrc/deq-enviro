@@ -50,6 +50,10 @@ jobs:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
+          prebuild-command: |
+            cd functions
+            npm ci
+            cd ..
           build-command: npm run build:stage
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -82,6 +86,10 @@ jobs:
           service-now-username: ${{ secrets.SN_USERNAME }}
           service-now-password: ${{ secrets.SN_PASSWORD }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          prebuild-command: |
+            cd functions
+            npm ci
+            cd ..
           build-command: npm run build:prod
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}

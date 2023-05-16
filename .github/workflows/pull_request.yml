@@ -56,6 +56,10 @@ jobs:
       - name: 🚀 Deploy
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
+          prebuild-command: |
+            cd functions
+            npm ci
+            cd ..
           build-command: npm run build:stage
           preview: yes
           project-id: ${{ secrets.PROJECT_ID }}
