@@ -6,7 +6,7 @@ import Tooltip from '../../utah-design-system/Tooltip';
 
 export default function Progress({ searchLayers, results }) {
   return (
-    <div className="p-2">
+    <div className="flex-1 p-2">
       <ul>
         {searchLayers.map((config) => {
           const uniqueId = config[fieldNames.queryLayers.uniqueId];
