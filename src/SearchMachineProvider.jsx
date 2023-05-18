@@ -181,7 +181,8 @@ const machine = createMachine(
   }
 );
 
-const SearchMachineContext = createContext();
+// exported for mocking in Storybook
+export const SearchMachineContext = createContext();
 export function SearchMachineProvider({ children }) {
   const [state, send] = useMachine(machine);
 

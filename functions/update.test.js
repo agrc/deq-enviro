@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { arraysToObjects, checkForDuplicateIds } from './update';
+import { fieldKeys } from './common/config';
+import {
+  applyTransforms,
+  arraysToObjects,
+  checkForDuplicateIds,
+} from './update';
 
 describe('arraysToObjects', () => {
   it('converts an array of arrays to an array of objects', () => {
@@ -59,5 +64,41 @@ describe('checkForDuplicateIds', () => {
       { 'Unique ID': 'three' },
     ];
     expect(() => checkForDuplicateIds(configs)).not.toThrow();
+  });
+});
+
+describe('applyTransforms', () => {
+  it('applies transforms to configs', () => {
+    const configs = [
+      {
+        'Unique ID': 'one',
+        'Result Grid Fields': 'one',
+      },
+      {
+        'Unique ID': 'two',
+        'Result Grid Fields': 'four',
+      },
+    ];
+
+    const fieldConfigs = {
+      resultGridFields: {
+        transform: (value) => value.toUpperCase(),
+      },
+    };
+
+    const expected = [
+      {
+        'Unique ID': 'one',
+        'Result Grid Fields': 'ONE',
+      },
+      {
+        'Unique ID': 'two',
+        'Result Grid Fields': 'FOUR',
+      },
+    ];
+
+    expect(
+      applyTransforms(configs, fieldConfigs, fieldKeys.queryLayers)
+    ).toEqual(expected);
   });
 });

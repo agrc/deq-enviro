@@ -87,6 +87,7 @@
     "@radix-ui/react-accessible-icon": "^1.0.2",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.0.3",
+    "@radix-ui/react-collapsible": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.5",
     "@tanstack/react-table": "^8.9.1",
     "@ugrc/layer-selector": "^6.1.1",

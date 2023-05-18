@@ -2,7 +2,7 @@ import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
 import auth from './common/auth.js';
-import { fieldNames } from './common/config.js';
+import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
 
 const secretsClient = new SecretManagerServiceClient();
 
@@ -29,7 +29,27 @@ export function arraysToObjects(arrays, skipFields = []) {
   });
 }
 
-async function getConfigs(range, skipFields, authClient) {
+export function applyTransforms(configs, fieldConfigs, tableFieldNames) {
+  for (const config of configs) {
+    for (const fieldName in config) {
+      if (fieldConfigs[tableFieldNames[fieldName]]?.transform) {
+        config[fieldName] = fieldConfigs[tableFieldNames[fieldName]].transform(
+          config[fieldName]
+        );
+      }
+    }
+  }
+
+  return configs;
+}
+
+async function getConfigs(
+  range,
+  skipFields,
+  authClient,
+  tableFieldConfigs,
+  tableFieldNames
+) {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: await getSpreadsheetId(),
@@ -37,6 +57,8 @@ async function getConfigs(range, skipFields, authClient) {
   });
 
   let configs = arraysToObjects(response.data.values, skipFields);
+
+  configs = applyTransforms(configs, tableFieldConfigs, tableFieldNames);
 
   return configs;
 }
@@ -102,9 +124,11 @@ export default async function main() {
 
   console.log('fetching data from Google Sheets...');
   const queryLayers = await getConfigs(
-    "'Query Layers'!A:AG",
+    "'Query Layers'!A:AZ",
     ['Contact Info', 'ETL Type', 'Source Data'],
-    authClient
+    authClient,
+    fieldConfigs.queryLayers,
+    fieldKeys.queryLayers
   );
 
   console.log('checking for duplicate ids');
@@ -113,7 +137,9 @@ export default async function main() {
   const relatedTables = await getConfigs(
     "'Related Tables'!A:H",
     ['Source Data'],
-    authClient
+    authClient,
+    fieldConfigs.relatedTables,
+    fieldKeys.relatedTables
   );
 
   return await updateRemoteConfigs(
