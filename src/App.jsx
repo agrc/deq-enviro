@@ -7,7 +7,7 @@ import config from '../functions/common/config';
 import RemoteConfigProvider from './RemoteConfigProvider.jsx';
 import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
-import ResultsGrid from './components/ResultsGrid.jsx';
+import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
 
 function App() {
@@ -61,7 +61,7 @@ function App() {
         <div className="flex h-full w-full flex-col md:flex-row">
           <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
             <MapComponent />
-            <ResultsGrid />
+            <ResultsPanel />
           </div>
           <div className="md:w-80">
             <RemoteConfigProvider>

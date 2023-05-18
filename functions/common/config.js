@@ -1,6 +1,6 @@
-import { object, string } from 'yup';
+import { array, object, string } from 'yup';
 
-const fields = {
+export const fieldConfigs = {
   queryLayers: {
     additionalInformation: {
       name: 'Additional Information',
@@ -8,14 +8,6 @@ const fields = {
     },
     additionalSearches: {
       name: 'Additional Searches',
-      schema: string().nullable(),
-    },
-    addressField: {
-      name: 'ADDRESS',
-      schema: string().nullable(),
-    },
-    cityField: {
-      name: 'CITY',
       schema: string().nullable(),
     },
     codedValues: {
@@ -54,10 +46,6 @@ const fields = {
       name: 'Identify Attributes',
       schema: string().nullable(),
     },
-    idField: {
-      name: 'ID',
-      schema: string().nullable(),
-    },
     layerDescription: {
       name: 'Layer Description',
       schema: string().required(),
@@ -78,10 +66,6 @@ const fields = {
       name: 'Metadata Link',
       schema: string().url().nullable(),
     },
-    nameField: {
-      name: 'NAME',
-      schema: string().nullable(),
-    },
     oidField: {
       name: 'OID Field',
       schema: string().nullable(),
@@ -93,6 +77,11 @@ const fields = {
     relatedTables: {
       name: 'Related Tables',
       schema: string().nullable(),
+    },
+    resultGridFields: {
+      name: 'Result Grid Fields',
+      schema: array().of(string()).required(),
+      transform: (value) => value.split(',').map((v) => v.trim()),
     },
     sgidFeatureClassName: {
       name: 'SGID Feature Class Name',
@@ -108,10 +97,6 @@ const fields = {
     },
     specialFilters: {
       name: 'Special Filters',
-      schema: string().nullable(),
-    },
-    typeField: {
-      name: 'TYPE',
       schema: string().nullable(),
     },
     uniqueId: {
@@ -159,9 +144,22 @@ function getFieldNames(fieldConfigs) {
   }, {});
 }
 
+function getFieldKeys(fieldConfigs) {
+  return Object.keys(fieldConfigs).reduce((obj, key) => {
+    obj[fieldConfigs[key].name] = key;
+
+    return obj;
+  }, {});
+}
+
 export const fieldNames = {
-  queryLayers: getFieldNames(fields.queryLayers),
-  relatedTables: getFieldNames(fields.relatedTables),
+  queryLayers: getFieldNames(fieldConfigs.queryLayers),
+  relatedTables: getFieldNames(fieldConfigs.relatedTables),
+};
+
+export const fieldKeys = {
+  queryLayers: getFieldKeys(fieldConfigs.queryLayers),
+  relatedTables: getFieldKeys(fieldConfigs.relatedTables),
 };
 
 function getSchema(fieldConfigs) {
@@ -173,12 +171,14 @@ function getSchema(fieldConfigs) {
 }
 
 export const schemas = {
-  queryLayers: object(getSchema(fields.queryLayers)),
-  relatedTables: object(getSchema(fields.relatedTables)),
+  queryLayers: object(getSchema(fieldConfigs.queryLayers)),
+  relatedTables: object(getSchema(fieldConfigs.relatedTables)),
 };
 
 export default {
+  fieldKeys,
   fieldNames,
+  fieldConfigs,
   links: {
     training: {
       url: 'https://deq.utah.gov/general/training-videos-interactive-map',

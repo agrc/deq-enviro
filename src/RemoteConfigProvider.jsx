@@ -17,7 +17,9 @@ export default function RemoteConfigProvider({ children }) {
         fetchTimeoutMillis: 10000,
       };
 
-      await fetchAndActivate(remoteConfig);
+      if (!import.meta.env.DEV) {
+        await fetchAndActivate(remoteConfig);
+      }
       // use for testing loader...
       // await new Promise((resolve) => setTimeout(resolve, 3000));
 

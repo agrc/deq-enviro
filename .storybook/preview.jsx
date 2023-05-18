@@ -4,6 +4,13 @@ import '../src/index.css';
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
+  decorators: [
+    (Story) => (
+      <div className="text-slate-700">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {

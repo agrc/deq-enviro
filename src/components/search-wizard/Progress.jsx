@@ -46,12 +46,14 @@ export default function Progress({ searchLayers, results }) {
                   label="success"
                 />
               )}
-              <span className="leading-5">{layerName}</span>
-              {resultConfig?.features ? (
-                <span className="ml-1 rounded-full bg-slate-100 px-2 py-0 text-sm">
-                  {resultConfig.features.length.toLocaleString()}
-                </span>
-              ) : null}
+              <span className="leading-5">
+                {layerName}
+                {resultConfig?.features ? (
+                  <span className="ml-1 rounded-full bg-slate-100 px-2 py-0 text-sm">
+                    {resultConfig.features.length.toLocaleString()}
+                  </span>
+                ) : null}
+              </span>
             </li>
           );
         })}

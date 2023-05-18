@@ -63,6 +63,7 @@ export default function MapComponent() {
       try {
         const featureLayer = new FeatureLayer({
           url: layer[fieldNames.queryLayers.featureService],
+          outFields: layer[fieldNames.queryLayers.resultGridFields],
         });
         map.current.add(featureLayer);
 
