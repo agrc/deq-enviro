@@ -88,6 +88,7 @@
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.5",
+    "@tanstack/react-table": "^8.9.1",
     "@ugrc/layer-selector": "^6.1.1",
     "@ugrc/utilities": "^2.2.1",
     "@utahdts/utah-design-system-header": "^0.6.0",
@@ -99,6 +100,7 @@
     "react": "^18.2.0",
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
+    "react-virtual": "^2.10.4",
     "reactfire": "^4.2.2",
     "xstate": "^4.37.2",
     "yup": "^1.1.1"
@@ -139,5 +141,10 @@
     "tailwindcss": "^3.3.2",
     "vite": "^4.3.5",
     "vitest": "^0.31.0"
+  },
+  "overrides": {
+    "react-virtual": {
+      "react": "$react"
+    }
   }
 }
