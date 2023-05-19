@@ -8,45 +8,47 @@ export default function Checkbox({
   label,
   checked,
   defaultChecked,
-  onChange,
+  onCheckedChange,
   disabled,
 }) {
   return (
-    <div className="group flex items-center">
-      <div
-        className={clsx(
-          'rounded-full p-1',
-          !disabled &&
-            'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
-        )}
-      >
-        <RadixCheckbox.Root
-          id={name || label}
-          checked={checked}
-          defaultChecked={defaultChecked}
-          onCheckedChange={onChange}
-          disabled={disabled}
+    <div className="flex items-center">
+      <div className="group inline-flex items-center">
+        <div
           className={clsx(
-            'flex h-4 w-4 items-center justify-center rounded border border-slate-500 bg-white',
-            'data-[state=checked]:bg-slate-500 data-[state=checked]:text-white',
-            disabled &&
-              '!border-slate-300 !bg-slate-50 data-[state=checked]:!bg-slate-300 data-[state=checked]:!text-white'
+            'rounded-full p-1',
+            !disabled &&
+              'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
           )}
         >
-          <RadixCheckbox.Indicator>
-            <Icon bold name="checkmark" label={label} size="xs" />
-          </RadixCheckbox.Indicator>
-        </RadixCheckbox.Root>
+          <RadixCheckbox.Root
+            id={name || label}
+            checked={checked}
+            defaultChecked={defaultChecked}
+            onCheckedChange={onCheckedChange}
+            disabled={disabled}
+            className={clsx(
+              'flex h-4 w-4 items-center justify-center rounded border border-slate-500 bg-white',
+              'data-[state=checked]:bg-slate-500 data-[state=checked]:text-white',
+              disabled &&
+                '!border-slate-300 !bg-slate-50 data-[state=checked]:!bg-slate-300 data-[state=checked]:!text-white'
+            )}
+          >
+            <RadixCheckbox.Indicator>
+              <Icon bold name="checkmark" label={label} size="xs" />
+            </RadixCheckbox.Indicator>
+          </RadixCheckbox.Root>
+        </div>
+        <label
+          htmlFor={name || label}
+          className={clsx(
+            'ml-1 cursor-pointer leading-5',
+            disabled && '!text-slate-300'
+          )}
+        >
+          {label}
+        </label>
       </div>
-      <label
-        htmlFor={name || label}
-        className={clsx(
-          'ml-1 cursor-pointer leading-5',
-          disabled && '!text-slate-300'
-        )}
-      >
-        {label}
-      </label>
     </div>
   );
 }
@@ -60,5 +62,5 @@ Checkbox.propTypes = {
    * The name attribute of the checkbox. If not provided, the label will be used.
    */
   name: PropTypes.string,
-  onChange: PropTypes.func,
+  onCheckedChange: PropTypes.func,
 };
