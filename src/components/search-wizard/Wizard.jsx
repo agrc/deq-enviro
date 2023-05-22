@@ -1,9 +1,12 @@
+import { useMutation } from '@tanstack/react-query';
+import { httpsCallable } from 'firebase/functions';
 import { useEffect, useState } from 'react';
-import { useRemoteConfigString } from 'reactfire';
+import { useFunctions, useRemoteConfigString } from 'reactfire';
 import { fieldNames, schemas } from '../../../functions/common/config.js';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
+import Download from './Download.jsx';
 import Progress from './Progress.jsx';
 import SelectMapData from './SelectMapData.jsx';
 
@@ -22,7 +25,7 @@ export default function SearchWizard() {
             schemas.queryLayers.validateSync(config);
             return true;
           } catch (error) {
-            console.error(
+            console.warn(
               `Invalid Query Layer config for ${
                 config[fieldNames.queryLayers.layerName]
               }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`
@@ -34,6 +37,13 @@ export default function SearchWizard() {
       setQueryLayers(validatedQueryLayers);
     }
   }, [queryLayersConfig]);
+
+  const generateZip = httpsCallable(useFunctions(), 'generate');
+  const generateZipMutation = useMutation({
+    mutationFn: async (data) => {
+      return await generateZip(data);
+    },
+  });
 
   if (queryLayersConfig.status === 'loading' || !state.context.searchLayers) {
     return null;
@@ -54,17 +64,14 @@ export default function SearchWizard() {
       {state.matches('error') ? (
         <p>{JSON.stringify(state.context.error, null, 2)}</p>
       ) : null}
+      {state.matches('download') ? (
+        <Download
+          searchResultLayers={state.context.resultLayers}
+          mutation={generateZipMutation}
+        />
+      ) : null}
       <div className="space-y-2 justify-self-end border-t border-t-slate-300 p-2">
-        {state.matches('result') ? (
-          <Button
-            color={Button.Colors.primary}
-            className="w-full"
-            size={Button.Sizes.xl}
-            onClick={() => send('QUERY_LAYERS')}
-          >
-            Back
-          </Button>
-        ) : (
+        {state.matches('selectLayers') || state.matches('searching') ? (
           <Button
             appearance={Button.Appearances.solid}
             color={Button.Colors.primary}
@@ -81,7 +88,40 @@ export default function SearchWizard() {
                 }`
               : null}
           </Button>
-        )}
+        ) : null}
+        {state.matches('result') ? (
+          <>
+            <Button
+              color={Button.Colors.primary}
+              appearance={Button.Appearances.solid}
+              className="w-full"
+              size={Button.Sizes.xl}
+              onClick={() => send('DOWNLOAD')}
+            >
+              Download
+            </Button>
+            <Button
+              color={Button.Colors.primary}
+              className="w-full"
+              size={Button.Sizes.xl}
+              onClick={() => send('QUERY_LAYERS')}
+            >
+              Back
+            </Button>
+          </>
+        ) : null}
+        {state.matches('download') ? (
+          <>
+            <Button
+              color={Button.Colors.primary}
+              className="w-full"
+              size={Button.Sizes.xl}
+              onClick={() => send('BACK')}
+            >
+              Back
+            </Button>
+          </>
+        ) : null}
         <Button
           color={Button.Colors.accent}
           className="w-full"
@@ -89,7 +129,7 @@ export default function SearchWizard() {
           onClick={() => send('CLEAR')}
           disabled={state.matches('searching')}
         >
-          {state.matches('result') ? 'Start New Search' : 'Clear'}
+          {state.matches('selectLayers') ? 'Clear' : 'Start New Search'}
         </Button>
       </div>
     </div>

@@ -57,7 +57,7 @@ export default function QueryLayer({
             <Checkbox
               name={id}
               label={config[fieldNames.queryLayers.layerName]}
-              onChange={onSelectedChange}
+              onCheckedChange={onSelectedChange}
               checked={selected}
             />
           </span>
