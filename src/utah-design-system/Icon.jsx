@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { createKeyLookup } from './utils';
 
+// preview these at: https://designsystem.dev.utah.gov/resources/icons
 const ICONS = {
   account: {
     className: 'before:content-["j"]',

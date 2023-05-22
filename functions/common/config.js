@@ -175,15 +175,9 @@ export const schemas = {
   relatedTables: object(getSchema(fieldConfigs.relatedTables)),
 };
 
-export default {
-  fieldKeys,
-  fieldNames,
-  fieldConfigs,
-  links: {
-    training: {
-      url: 'https://deq.utah.gov/general/training-videos-interactive-map',
-      description: 'Training Videos',
-    },
-  },
-  schemas,
+export const downloadFormats = {
+  shapefile: 'shapefile',
+  geojson: 'geojson',
+  csv: 'csv',
+  filegdb: 'filegdb',
 };

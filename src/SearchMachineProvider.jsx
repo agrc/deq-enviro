@@ -134,6 +134,48 @@ const machine = createMachine(
           SEARCH: {
             target: 'searching',
           },
+          DOWNLOAD: {
+            target: 'download',
+          },
+        },
+      },
+      download: {
+        on: {
+          CLEAR: {
+            target: 'selectLayers',
+            actions: 'clear',
+          },
+          BACK: {
+            target: 'result',
+          },
+        },
+        initial: 'idle',
+        states: {
+          idle: {
+            on: {
+              GENERATE: {
+                target: 'busy',
+              },
+            },
+          },
+          busy: {
+            on: {
+              DONE: {
+                target: 'result',
+              },
+              ERROR: {
+                target: 'error',
+              },
+            },
+          },
+          result: {},
+          error: {
+            on: {
+              BACK: {
+                target: 'result',
+              },
+            },
+          },
         },
       },
       error: {

@@ -2,8 +2,11 @@ import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { getAnalytics } from 'firebase/analytics';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { useEffect } from 'react';
-import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
-import config from '../functions/common/config';
+import {
+  AnalyticsProvider,
+  FunctionsProvider,
+  useFirebaseApp,
+} from 'reactfire';
 import RemoteConfigProvider from './RemoteConfigProvider.jsx';
 import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
@@ -27,10 +30,10 @@ function App() {
             menuItems: [
               {
                 actionUrl: {
-                  url: config.links.training.url,
+                  url: 'https://deq.utah.gov/general/training-videos-interactive-map',
                   openInNewTab: true,
                 },
-                title: config.links.training.description,
+                title: 'Training Videos',
               },
               {
                 // TODO: add a modal for this
@@ -52,25 +55,28 @@ function App() {
   const app = useFirebaseApp();
 
   if (import.meta.env.DEV) {
+    console.log('connecting to functions emulator');
     connectFunctionsEmulator(getFunctions(), 'localhost', 5001);
   }
 
   return (
-    <AnalyticsProvider sdk={getAnalytics(app)}>
-      <SearchMachineProvider>
-        <div className="flex h-full w-full flex-col md:flex-row">
-          <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
-            <MapComponent />
-            <ResultsPanel />
+    <FunctionsProvider sdk={getFunctions()}>
+      <AnalyticsProvider sdk={getAnalytics(app)}>
+        <SearchMachineProvider>
+          <div className="flex h-full w-full flex-col md:flex-row">
+            <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
+              <MapComponent />
+              <ResultsPanel />
+            </div>
+            <div className="md:w-80">
+              <RemoteConfigProvider>
+                <SearchWizard />
+              </RemoteConfigProvider>
+            </div>
           </div>
-          <div className="md:w-80">
-            <RemoteConfigProvider>
-              <SearchWizard />
-            </RemoteConfigProvider>
-          </div>
-        </div>
-      </SearchMachineProvider>
-    </AnalyticsProvider>
+        </SearchMachineProvider>
+      </AnalyticsProvider>
+    </FunctionsProvider>
   );
 }
 
