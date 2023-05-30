@@ -4,7 +4,6 @@ import {
   readFileSync,
   readdirSync,
   rmSync,
-  rmdirSync,
   writeFileSync,
 } from 'fs';
 import gdal from 'gdal-async';
@@ -103,7 +102,7 @@ export default async function generateZip({ layers, format }) {
     );
   } finally {
     // delete temp files even if an error was thrown
-    rmdirSync(folder, { recursive: true });
+    rmSync(folder, { recursive: true });
   }
 
   return zipFile.publicUrl();
