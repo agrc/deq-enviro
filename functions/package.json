@@ -13,13 +13,12 @@
     "start": "npm run shell"
   },
   "dependencies": {
-    "@esri/arcgis-rest-feature-service": "^4.0.4",
-    "@esri/arcgis-rest-request": "^4.2.0",
     "@google-cloud/secret-manager": "^4.2.2",
     "firebase-admin": "^11.8.0",
     "firebase-functions": "^4.4.0",
     "gdal-async": "^3.6.4",
     "googleapis": "^118.0.0",
+    "got": "^12.6.0",
     "jszip": "^3.10.1",
     "yup": "^1.1.1"
   },
