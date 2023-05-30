@@ -1,4 +1,3 @@
-import { queryFeatures } from '@esri/arcgis-rest-feature-service';
 import { getStorage } from 'firebase-admin/storage';
 import {
   mkdirSync,
@@ -9,19 +8,25 @@ import {
   writeFileSync,
 } from 'fs';
 import gdal from 'gdal-async';
+import got from 'got';
 import JSZip from 'jszip';
 import { downloadFormats } from './common/config.js';
 
 async function downloadLayer(layer, folder) {
   console.log(`querying ${layer.name}...`);
   // execute query against feature service
-  const geojson = await queryFeatures({
-    url: layer.featureService,
-    objectIds: layer.objectIds,
-    f: 'geojson',
-    returnGeometry: true,
-    outFields: '*',
-  });
+  const geojson = await got
+    .post(`${layer.featureService}/query`, {
+      form: {
+        objectIds: layer.objectIds.join(','),
+        f: 'geojson',
+        returnGeometry: true,
+        outFields: '*',
+      },
+    })
+    .json();
+
+  // TODO: handle pagination using exceededTransferLimit response prop
 
   // write geojson to temp file
   const filePath = `${folder}/${layer.name
