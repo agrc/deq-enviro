@@ -176,8 +176,9 @@ export const schemas = {
 };
 
 export const downloadFormats = {
-  shapefile: 'shapefile',
-  geojson: 'geojson',
   csv: 'csv',
+  excel: 'excel',
   filegdb: 'filegdb',
+  geojson: 'geojson',
+  shapefile: 'shapefile',
 };

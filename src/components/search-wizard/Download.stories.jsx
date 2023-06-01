@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import queryLayerResult from '../../../tests/fixtures/queryLayerResult.json';
 import Download from './Download';
@@ -34,56 +35,44 @@ const noneFoundResult = {
   [fieldNames.queryLayers.uniqueId]: '5',
   features: [],
 };
+const queryLayerResult4 = {
+  ...queryLayerResult,
+  [fieldNames.queryLayers.uniqueId]: '6',
+  [fieldNames.queryLayers.layerName]: 'No export formats',
+  supportedExportFormats: undefined,
+};
 const results = [
   queryLayerResult,
   queryLayerResult2,
   queryLayerResult3,
+  queryLayerResult4,
   errorResult,
   noneFoundResult,
 ];
 
-export const Initial = () => {
-  const mutation = {
-    isLoading: false,
-    isError: false,
-    isSuccess: false,
-  };
+function Test({ searchResultLayers }) {
+  const [selectedLayers, setSelectedLayers] = useState(['2', '3', '4', '18']);
+  const [format, setFormat] = useState('csv');
 
-  return <Download searchResultLayers={results} mutation={mutation} />;
+  return (
+    <Download
+      searchResultLayers={searchResultLayers}
+      selectedLayers={selectedLayers}
+      setSelectedLayers={setSelectedLayers}
+      format={format}
+      setFormat={setFormat}
+    />
+  );
+}
+
+Test.propTypes = {
+  searchResultLayers: Download.propTypes.searchResultLayers,
+};
+
+export const Initial = () => {
+  return <Test searchResultLayers={results} />;
 };
 
 export const Busy = () => {
-  const mutation = {
-    isLoading: true,
-    isError: false,
-    isSuccess: false,
-  };
-
-  return <Download searchResultLayers={results} mutation={mutation} />;
-};
-
-export const Result = () => {
-  const mutation = {
-    isLoading: false,
-    isError: false,
-    isSuccess: true,
-    data: {
-      url: 'https://example.com',
-    },
-  };
-
-  return <Download searchResultLayers={results} mutation={mutation} />;
-};
-
-export const Error = () => {
-  const mutation = {
-    isLoading: false,
-    isError: true,
-    isSuccess: false,
-    error: {
-      message: 'There was an error generating the zip file',
-    },
-  };
-
-  return <Download searchResultLayers={results} mutation={mutation} />;
+  return <Test searchResultLayers={results} />;
 };

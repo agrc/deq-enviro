@@ -3,7 +3,7 @@ import { getItem, setItem } from 'localforage';
 import PropTypes from 'prop-types';
 import { createContext, useContext } from 'react';
 import { assign, createMachine } from 'xstate';
-import { fieldNames } from '../functions/common/config';
+import { downloadFormats, fieldNames } from '../functions/common/config';
 
 const CACHE_KEY = 'searchContext';
 function cacheSearchContext(cachedContext) {
@@ -28,12 +28,15 @@ const blankContext = {
   */
   resultLayers: null,
   resultExtent: null,
+  selectedDownloadLayers: [],
+  downloadResultLayers: [],
+  downloadFormat: downloadFormats.shapefile,
   error: null,
 };
 
 const machine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5SzAQwE4GMAWA6AjgK5joCeAMqqSbAMQCCAIgGr0ByAwgKKMDaADAF1EoAA4B7WAEsALlPEA7ESAAeiACwBOTbgCsAdgAcARnX8ATLsNHN-AGwAaEKUQBmI7mu6Avt6coMHAJiMkpqdDoAZS56ACUOAAkBYSQQCWk5RWU1BC0dAxMzS2tDW0dnDTtjXHM8w3V9dWNzY35NdV9-NCw8VAgAN1QFTEhaaLjE5OV02XklVJzC3FddTVdbYptjJxcEVzM9TpAAntw+weHRgEUAVS5YgE0AfXJ6B-vIqdSZzPnQHLyeiMpgsVhs9h2bnMhmW+h8fmO3SCJxwUgUUFoEEUYFwaP64gA1jiUXgSWioAg8eJMKhfskvmJJLMsgtEEsVmsNmDStsKggTIcESTcGT0bQSOhxOhcKIADa0gBmUoAtiKkaT1eTKQp8TS6UIGWkmb9sohjMZXDD9Jo7IZzJpzOZXHZXNDIXt1OpBV1Anh0HBCLKZHQOOQYrFDT85qaEMY7PwgYVQSUyu73NVNHCjsL-bBA8GGCx2Nw+EJpsbo6zY-HEyDNqUIXyrOZcPw2-xjLp65pjNn1bhc-m6Ld7s9Xu9Yp8y98Kyz-maawU69zU3zXdUGvCfacJVLaKHw5HZ39VGbjIZdLh1C07Q6nS63XzjNoavCEQpxBA4MoSeWMpX5wQABacpdhAvtfWCEgKCoGg-2ZE8cn2BM2ncOwuxXRtdldHRHS3RFIPOIYRggeCTSrW0dFQ-R0O7XlsKaCDTlFKAyIA08EEzL19HPfR+Gve9XUMNNzH4JigkHIN4Bnf85w468RJbO18OFXd0DYuScmaTNPGadRdAE50hPdUT9E8VwLMtJpNFWF19F8XwgA */
+    /** @xstate-layout N4IgpgJg5mDOIC5SzAQwE4GMAWA6AlgHb4Au+qANvgF5gDEEA9oWAYQG6MDWrKGObUuSq0ERTplRlmAbQAMAXXkLEoAA6NYQ5qpAAPRAE4AbIdwB2AEzHj5gKwBmcw8NyALAEYANCACeiSwcHXDlQuQ8guwAOQ0MPOTsAX0SfPiw8FAowTBIAGVRfMHRYOgBBABEANVKAOQBhAFFy5V0NLWlCXQMEeLlLXBcouzs3BztXY3Gffx6HfrCEhIjXUKjk1LR03EzsvIKikoBlBtKAJTqACRakEDbtTpvuiPNjXA9LOzko81i3UPfpogoh43LghoY-kEPsC5OZ1iA0gIdjl8oVinRjrkGnUACoAfVypQAmg1Ttd1Jp7l1EB4PIY7LhLIYHLCQW5PpYPOZAQhzAkwZYmbSolE3JY3MYHPDERkwFkUft0QBVGqY7H4wkksmKVqUjrUnoeUWMhxuNwxBySxw84xyMyWwxWcwvcxRSVSlIIzZIuW7VEHOh1LFncm3PX4HSPGmC17mqION3GGL0o08uzvXBxSau8LMs1rT0y3CoCDsVCETCQDEnc5XHU3O76qMIExmKw2exOFzubx+IEeXCfUKmqym1yC6XevAlssVqsARSVpKJBOJpMOocbEYeoG6rYs1lsjmcrk8PKN-SHcgcdMtZuGcMLU+2U6IUDopwahyVuRxm-Dka7jS4zBBCIxxF8UR9HY543gOhjxuBdKWK6HiTvwsoYW+dCkqcADy2oqA2AE7voNJ-FEFhDjEnKclEgTnqM5gWJMxhuAhzp2JYMToVsMrYXUeEALIAApYjiDT-u024Gs8rzvJ83y-P8ljnrCryISmTqeAkvE+lhhDvnUtSNLkUlUs2yzMeE0ShOB4wQjyLygmMEKcq4cyTJYel4OgcAAK4UCQgbBoRurSYBZEIMMciDiMfLGBEoyxFEPJOKCHyhGKwweFxZo+bgfmwIFwUVNU9RNOZTZAdFnxxW4CVJS4CGwfBsQIVyqHmBEHobBhhUBUFdCLsuq5ahu9YUhFpHdDF9WNaazWpX2CANbFfI3nYPxzFybqPn1WxFSV1ZnJcVUyc2c3DGtiWLSlPL0q8XzjIl4S3a6BVHUN5R4QA6jUuR4RU52RbNdXXQtyUtSt9j9EaXzmgmoyJW4BVMAA7oQFCMCWIU1iDM1GKYB4dse3ZnjDMQDPR8aShK9jGN5T79RjWM4xAdAAEKlHUADSBMGozDKOK4Jjxm6nhuDyUH9EmXxMlBpismjjCY9juM-f9gMVAAkjUADiAuXemjLWOMrr0fFDjSwOV7DsMQuiiravs9W+JqriTRjeuRs1c4DJyELIzsUahg2t8maB9YfzivEW3O2zuPHPiABiBFCaUf6TWG00Gs6LmWrmgcmFyMEreMA7sje5psaa6ao8zWys+rEDYZ+36-r7UXE1yRq2olEHDKpK0IcE4J19eSb0r1Xos6riet4ZOGnPhYXEbnzaCrF0-vA1MRbe8xjnkyrwi3adFWOE+2z0388twJwliQ0Eld90W+Zo4u+uvS3XWE5pqMncNxEECQWTdQTvfJexkKpmWzluUGARLDb0-uKb+B8-4rVpPEMECkbKCkcNxCB7NsLcz5q-RByCbyoP3r-I+mCPCJQGApLkVC3INwOgIIo6BGDoDxiGOBJEDT7nbEeLsp5ewzHeEgwcQs7SeGdE4YwBUuE8JOrWchLZiYiM7CeHsrVrK5TYnSeicwG6ekIIwCAcBdAynChZGqABaCRiAHFPQWO4sIhgmYcLwEQIQlAaBgDsdVKKLowRfCTHlH4cQpYrUCJXF4W07TOiQZ4bxN8fTyj2GieA697FRXeIHAU9FcrpnsI6MuMwoLMRQraFC0cVhKMbgIGc5ZKwQGCRdP2CE3j7wYQ1B2ppYKXjCJ8dM3ZVgFX4oZTpCCegHwsM4W63F2LfGtpgzwwRka2BvJMP4ERPqDRILMwmCBLSvFtLlYEppzTcTsHQmYzhQTw3omad08Qmk+NwM3dmJy85WEzPDLijhgS0liY8qmrknAQncOU6+RYfkljfH85sDU1JDCYeKW08jwKfIyXgFR6AUU1VeZmEuXi4iKOhpIuYsUbJGIQoEcUyRkhAA */
     id: 'search',
     initial: 'initialize',
     predictableActionArguments: true,
@@ -91,6 +94,9 @@ const machine = createMachine(
           resultLayers: [],
           resultExtent: null,
           error: null,
+          downloadResultLayers: [],
+          downloadFormat: downloadFormats.shapefile,
+          selectedDownloadLayers: [],
         }),
         on: {
           RESULT: {
@@ -120,6 +126,13 @@ const machine = createMachine(
         },
       },
       result: {
+        entry: assign({
+          // set relevant layers as selected by default for download
+          selectedDownloadLayers: (context) =>
+            context.resultLayers
+              .filter((result) => result.supportedExportFormats)
+              .map((result) => result[fieldNames.queryLayers.uniqueId]),
+        }),
         on: {
           CLEAR: {
             target: 'selectLayers',
@@ -140,6 +153,9 @@ const machine = createMachine(
         },
       },
       download: {
+        entry: assign({
+          downloadResultLayers: [],
+        }),
         on: {
           CLEAR: {
             target: 'selectLayers',
@@ -148,33 +164,52 @@ const machine = createMachine(
           BACK: {
             target: 'result',
           },
+          DOWNLOADING: {
+            target: 'downloading',
+          },
+          SET_SELECTED_LAYERS: {
+            actions: assign({
+              selectedDownloadLayers: (_, event) => event.selectedLayers,
+            }),
+          },
+          SET_FORMAT: {
+            actions: assign({
+              downloadFormat: (_, event) => event.format,
+            }),
+          },
         },
-        initial: 'idle',
-        states: {
-          idle: {
-            on: {
-              GENERATE: {
-                target: 'busy',
-              },
-            },
+      },
+      downloading: {
+        entry: assign({
+          error: null,
+        }),
+        on: {
+          RESULT: {
+            actions: assign({
+              downloadResultLayers: (context, event) => [
+                ...context.downloadResultLayers,
+                event.result,
+              ],
+            }),
           },
-          busy: {
-            on: {
-              DONE: {
-                target: 'result',
-              },
-              ERROR: {
-                target: 'error',
-              },
-            },
+          // generic error with download (not specific to a query layer)
+          ERROR: {
+            target: 'error',
+            actions: assign({
+              error: (_, event) => event.message,
+            }),
           },
-          result: {},
-          error: {
-            on: {
-              BACK: {
-                target: 'result',
-              },
-            },
+          COMPLETE: {
+            target: 'result',
+            actions: assign({
+              resultExtent: (_, event) => event.extent,
+            }),
+          },
+          CANCEL: {
+            target: 'download',
+          },
+          BACK: {
+            target: 'download',
           },
         },
       },

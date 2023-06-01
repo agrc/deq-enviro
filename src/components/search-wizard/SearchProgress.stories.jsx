@@ -1,8 +1,8 @@
-import Progress from './Progress';
+import SearchProgress from './SearchProgress';
 
 export default {
-  title: 'Progress',
-  component: Progress,
+  title: 'SearchProgress',
+  component: SearchProgress,
 };
 
 const queryLayers = [
@@ -37,6 +37,6 @@ const results = [
 
 export const Default = () => (
   <div className="w-80">
-    <Progress searchLayers={queryLayers} results={results} />
+    <SearchProgress searchLayers={queryLayers} results={results} />
   </div>
 );

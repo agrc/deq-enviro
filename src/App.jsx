@@ -1,12 +1,7 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { getAnalytics } from 'firebase/analytics';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { useEffect } from 'react';
-import {
-  AnalyticsProvider,
-  FunctionsProvider,
-  useFirebaseApp,
-} from 'reactfire';
+import { AnalyticsProvider, useFirebaseApp } from 'reactfire';
 import RemoteConfigProvider from './RemoteConfigProvider.jsx';
 import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
@@ -54,29 +49,22 @@ function App() {
 
   const app = useFirebaseApp();
 
-  if (import.meta.env.DEV) {
-    console.log('connecting to functions emulator');
-    connectFunctionsEmulator(getFunctions(), 'localhost', 5001);
-  }
-
   return (
-    <FunctionsProvider sdk={getFunctions()}>
-      <AnalyticsProvider sdk={getAnalytics(app)}>
-        <SearchMachineProvider>
-          <div className="flex h-full w-full flex-col md:flex-row">
-            <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
-              <MapComponent />
-              <ResultsPanel />
-            </div>
-            <div className="md:w-80">
-              <RemoteConfigProvider>
-                <SearchWizard />
-              </RemoteConfigProvider>
-            </div>
+    <AnalyticsProvider sdk={getAnalytics(app)}>
+      <SearchMachineProvider>
+        <div className="flex h-full w-full flex-col md:flex-row">
+          <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
+            <MapComponent />
+            <ResultsPanel />
           </div>
-        </SearchMachineProvider>
-      </AnalyticsProvider>
-    </FunctionsProvider>
+          <div className="md:w-80">
+            <RemoteConfigProvider>
+              <SearchWizard />
+            </RemoteConfigProvider>
+          </div>
+        </div>
+      </SearchMachineProvider>
+    </AnalyticsProvider>
   );
 }
 
