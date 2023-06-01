@@ -1,6 +1,5 @@
 import admin from 'firebase-admin';
-import { onCall, onRequest } from 'firebase-functions/v2/https';
-import generateZip from './generateZip.js';
+import { onRequest } from 'firebase-functions/v2/https';
 import update from './update.js';
 
 admin.initializeApp();
@@ -17,8 +16,4 @@ export const configs = onRequest(commonConfigs, async (_, response) => {
     console.error('returning error', e);
     response.status(500).send({ error: e.toString() });
   }
-});
-
-export const generate = onCall(commonConfigs, async (request) => {
-  return await generateZip(request.data);
 });

@@ -263,5 +263,6 @@
       "popupTemplate": null
     }
   ],
-  "count": 11
+  "count": 11,
+  "supportedExportFormats": "csv,shapefile,sqlite,geoPackage,filegdb,featureCollection,geojson,excel"
 }

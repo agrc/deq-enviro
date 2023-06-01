@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
-import Icon from '../../utah-design-system/Icon';
-import Spinner from '../../utah-design-system/Spinner';
-import Tooltip from '../../utah-design-system/Tooltip';
+import ResultStatusIcons from './ResultStatusIcons';
 
-export default function Progress({ searchLayers, results }) {
+export default function SearchProgress({ searchLayers, results }) {
   return (
     <div className="flex-1 p-2">
       <h3>Search Results</h3>
@@ -14,38 +12,14 @@ export default function Progress({ searchLayers, results }) {
           const resultConfig = results.find(
             (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId
           );
-          const hasError = resultConfig?.error;
           const layerName = config[fieldNames.queryLayers.layerName];
 
           return (
             <li key={uniqueId} className="mb-1 flex items-center justify-start">
-              {!resultConfig ? (
-                <Spinner
-                  className="mr-1"
-                  ariaLabel={`searching ${layerName}`}
-                  size={Spinner.Sizes.lg}
-                />
-              ) : hasError ? (
-                <Tooltip
-                  trigger={
-                    <Icon
-                      name={Icon.Names.error}
-                      className="mr-1 w-5 text-red-500"
-                      size="lg"
-                      label="error message"
-                    />
-                  }
-                >
-                  {resultConfig.error}
-                </Tooltip>
-              ) : (
-                <Icon
-                  name={Icon.Names.checkmark}
-                  className="mr-1 w-5 text-emerald-500"
-                  size="lg"
-                  label="success"
-                />
-              )}
+              <ResultStatusIcons
+                resultConfig={resultConfig}
+                layerName={layerName}
+              />
               <span className="leading-5">
                 {layerName}
                 {resultConfig?.features ? (
@@ -64,7 +38,7 @@ export default function Progress({ searchLayers, results }) {
   );
 }
 
-Progress.propTypes = {
+SearchProgress.propTypes = {
   searchLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

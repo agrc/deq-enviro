@@ -76,8 +76,22 @@ export default function MapComponent() {
         await whenOnce(() => layerView.updating === false);
         const { count, extent } = await layerView.queryExtent();
         const featureSet = await layerView.queryFeatures();
+
+        if (!featureLayer.sourceJSON.supportedExportFormats) {
+          console.warn(
+            'Layer does not support the createReplica endpoint',
+            layer
+          );
+        }
+
         send('RESULT', {
-          result: { ...layer, features: featureSet.features, count },
+          result: {
+            ...layer,
+            features: featureSet.features,
+            count,
+            supportedExportFormats:
+              featureLayer.sourceJSON.supportedExportFormats,
+          },
         });
 
         return extent;
