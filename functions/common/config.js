@@ -1,4 +1,4 @@
-import { array, object, string } from 'yup';
+import { array, string } from 'yup';
 
 export const fieldConfigs = {
   queryLayers: {
@@ -160,19 +160,6 @@ export const fieldNames = {
 export const fieldKeys = {
   queryLayers: getFieldKeys(fieldConfigs.queryLayers),
   relatedTables: getFieldKeys(fieldConfigs.relatedTables),
-};
-
-function getSchema(fieldConfigs) {
-  return Object.keys(fieldConfigs).reduce((obj, key) => {
-    obj[fieldConfigs[key].name] = fieldConfigs[key].schema;
-
-    return obj;
-  }, {});
-}
-
-export const schemas = {
-  queryLayers: object(getSchema(fieldConfigs.queryLayers)),
-  relatedTables: object(getSchema(fieldConfigs.relatedTables)),
 };
 
 export const downloadFormats = {
