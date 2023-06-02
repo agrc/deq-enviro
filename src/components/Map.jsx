@@ -77,9 +77,7 @@ export default function MapComponent() {
         const { count, extent } = await layerView.queryExtent();
         const featureSet = await layerView.queryFeatures();
 
-        const supportsExport = /extract/i.test(
-          featureLayer.sourceJSON.capabilities
-        );
+        const supportsExport = supportsExport(featureLayer.sourceJSON);
         if (!supportsExport) {
           console.warn('Layer does not support exporting', layer);
         }

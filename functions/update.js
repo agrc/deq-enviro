@@ -1,8 +1,10 @@
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
+import got from 'got';
 import auth from './common/auth.js';
 import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
+import { schemas, supportsExport } from './common/validation.js';
 
 const secretsClient = new SecretManagerServiceClient();
 
@@ -85,6 +87,33 @@ export function checkForDuplicateIds(configs) {
   }
 }
 
+async function validateQueryLayers(queryLayers) {
+  const validationErrors = [];
+
+  for (const queryLayer of JSON.parse(queryLayers)) {
+    const layerName = queryLayer[fieldNames.queryLayers.layerName];
+    try {
+      schemas.queryLayers.validateSync(queryLayer);
+    } catch (error) {
+      validationErrors.push(
+        `${layerName}: schema validation error: ${error.message}`
+      );
+    }
+    if (queryLayer[fieldNames.queryLayers.featureService]) {
+      const serviceURL = queryLayer[fieldNames.queryLayers.featureService];
+      const serviceJSON = await got(`${serviceURL}?f=json`).json();
+
+      if (!supportsExport(serviceJSON)) {
+        validationErrors.push(
+          `${layerName}: feature service does not support export/downloading!`
+        );
+      }
+    }
+  }
+
+  return validationErrors;
+}
+
 async function updateRemoteConfigs(queryLayers, relatedTables) {
   const remoteConfig = admin.remoteConfig();
 
@@ -102,18 +131,29 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);
 
+  const validationErrors = await validateQueryLayers(queryLayers);
+
   if (
     originalValues.queryLayers === queryLayers &&
     originalValues.relatedTables === relatedTables
   ) {
-    return 'No changes detected between the config spreadsheet and app configs.';
+    return {
+      success: true,
+      message:
+        'No changes detected between the config spreadsheet and app configs.',
+      validationErrors,
+    };
   }
 
   console.log('publishing updated template');
   const updatedTemplate = await remoteConfig.publishTemplate(template);
   console.log('ETag from server: ' + updatedTemplate.etag);
 
-  return 'App configs updated successfully!';
+  return {
+    success: true,
+    message: 'App configs updated successfully!',
+    validationErrors,
+  };
 }
 
 export default async function main() {
