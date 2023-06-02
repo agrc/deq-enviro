@@ -17,7 +17,9 @@ function App() {
       // },
       title: 'Environmental Interactive Map',
       titleURL: null,
-      logo: '<img src="/deq_logo.png" alt="DEQ Logo" />',
+      logo: {
+        imageUrl: '/deq_logo.png',
+      },
       utahId: false,
       actionItems: [
         {
