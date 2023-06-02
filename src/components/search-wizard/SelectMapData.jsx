@@ -21,13 +21,18 @@ export default function SelectMapData({ queryLayers }) {
     <div className="flex-1 overflow-y-auto px-2">
       <h3 className="pt-2">Select Map Data</h3>
       <AccordionRoot type="multiple">
-        {divisions.map((division) => {
+        {divisions.sort().map((division) => {
           return (
             <AccordionPanel key={division} title={division}>
               {queryLayers
                 .filter(
                   (ql) =>
                     ql[fieldNames.queryLayers.divisionHeading] === division
+                )
+                .sort((a, b) =>
+                  a[fieldNames.queryLayers.layerName].localeCompare(
+                    b[fieldNames.queryLayers.layerName]
+                  )
                 )
                 .map((queryLayer) => {
                   const uniqueId = queryLayer[fieldNames.queryLayers.uniqueId];
