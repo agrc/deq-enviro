@@ -40,8 +40,16 @@ export default function Download({
       value: downloadFormats.geojson,
     },
     {
+      label: 'GeoPackage',
+      value: downloadFormats.geoPackage,
+    },
+    {
       label: 'Shapefile',
       value: downloadFormats.shapefile,
+    },
+    {
+      label: 'SQLite (Mobile Geodatabase)',
+      value: downloadFormats.sqlite,
     },
   ];
 

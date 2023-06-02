@@ -180,5 +180,7 @@ export const downloadFormats = {
   excel: 'excel',
   filegdb: 'filegdb',
   geojson: 'geojson',
+  geoPackage: 'geoPackage',
   shapefile: 'shapefile',
+  sqlite: 'sqlite',
 };
