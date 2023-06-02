@@ -1,7 +1,7 @@
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { createKeyLookup } from './utils';
 
 // preview these at: https://designsystem.dev.utah.gov/resources/icons
@@ -157,7 +157,7 @@ const Icon = forwardRef(function Icon(
         */
         {...props}
         ref={forwardedRef}
-        className={clsx(
+        className={twMerge(
           'flex items-center justify-center',
           ICONS[name].className,
           SIZE_CLASS_NAMES[size],

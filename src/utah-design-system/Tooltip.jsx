@@ -1,7 +1,7 @@
 import * as RadixTooltip from '@radix-ui/react-tooltip';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
+import { twJoin } from 'tailwind-merge';
 
 export default function Tooltip({ open, trigger, children, delayDuration }) {
   return (
@@ -18,7 +18,7 @@ export default function Tooltip({ open, trigger, children, delayDuration }) {
         <RadixTooltip.Portal>
           <RadixTooltip.Content
             sideOffset={5}
-            className={clsx(
+            className={twJoin(
               'rounded-md bg-slate-600 px-3 py-2 text-white shadow-md',
               'data-[state=delayed-open]:animate-fade-in'
             )}

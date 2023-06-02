@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { twMerge } from 'tailwind-merge';
 import Spinner from './Spinner';
 import { createKeyLookup } from './utils';
 
@@ -83,7 +83,7 @@ function Button({
 
   return (
     <button
-      className={clsx(
+      className={twMerge(
         'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
         appearance === APPEARANCES.outlined && 'border-2',
         COLORS[color][appearance],

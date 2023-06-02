@@ -1,6 +1,6 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { twJoin } from 'tailwind-merge';
 import Icon from './Icon';
 
 export default function Checkbox({
@@ -15,7 +15,7 @@ export default function Checkbox({
     <div className="flex items-center">
       <div className="group inline-flex items-center">
         <div
-          className={clsx(
+          className={twJoin(
             'rounded-full p-1',
             !disabled &&
               'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
@@ -27,11 +27,11 @@ export default function Checkbox({
             defaultChecked={defaultChecked}
             onCheckedChange={onCheckedChange}
             disabled={disabled}
-            className={clsx(
-              'flex h-4 w-4 items-center justify-center rounded border border-slate-500 bg-white',
-              'data-[state=checked]:bg-slate-500 data-[state=checked]:text-white',
-              disabled &&
-                '!border-slate-300 !bg-slate-50 data-[state=checked]:!bg-slate-300 data-[state=checked]:!text-white'
+            className={twJoin(
+              'flex h-4 w-4 items-center justify-center rounded border',
+              disabled
+                ? 'border-slate-300 bg-slate-50 data-[state=checked]:bg-slate-300 data-[state=checked]:text-white'
+                : 'border-slate-500 bg-white data-[state=checked]:bg-slate-500 data-[state=checked]:text-white'
             )}
           >
             <RadixCheckbox.Indicator>
@@ -41,9 +41,9 @@ export default function Checkbox({
         </div>
         <label
           htmlFor={name || label}
-          className={clsx(
+          className={twJoin(
             'ml-1 cursor-pointer leading-5',
-            disabled && '!text-slate-300'
+            disabled && 'text-slate-300'
           )}
         >
           {label}
