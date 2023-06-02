@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { twMerge } from 'tailwind-merge';
 import { createKeyLookup } from './utils';
 
 const SIZES = {
@@ -17,7 +17,7 @@ export default function Spinner({ className, ariaLabel, size }) {
       role="progressbar"
       aria-hidden="false"
       aria-valuetext={ariaLabel}
-      className={clsx(
+      className={twMerge(
         SIZES[size],
         'flex-shrink-0 animate-spin motion-reduce:hidden',
         className

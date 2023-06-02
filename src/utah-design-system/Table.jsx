@@ -3,10 +3,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef } from 'react';
 import { useVirtual } from 'react-virtual';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
 // ref: https://tanstack.com/table/v8/docs/examples/react/virtualized-rows
@@ -39,7 +39,7 @@ const Table = forwardRef(function Table(
   return (
     <div
       ref={forwardedRef}
-      className={clsx(
+      className={twMerge(
         'relative flex flex-col border-b border-b-slate-300',
         className
       )}
@@ -49,7 +49,7 @@ const Table = forwardRef(function Table(
         <table className="h-full w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
           <thead
-            className={clsx(
+            className={twJoin(
               'sticky top-0 bg-white',
               'after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-b-slate-300 after:content-[""]'
             )}
@@ -81,7 +81,7 @@ const Table = forwardRef(function Table(
               return (
                 <tr
                   key={virtualRow.key}
-                  className={clsx(
+                  className={twJoin(
                     'border-y border-y-slate-300',
                     // using the even pseudo-class doesn't work since the virtualizer is always changing the rendered rows
                     virtualRow.index % 2 ? 'bg-white' : 'bg-slate-100'

@@ -1,6 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { twJoin } from 'tailwind-merge';
 import Icon from './Icon';
 
 export function AccordionRoot({ type, children, ...props }) {
@@ -21,7 +21,7 @@ export function AccordionPanel({ title, children }) {
     <Accordion.Item value={title} className="mb-1 overflow-hidden rounded-md">
       <Accordion.Header>
         <Accordion.Trigger
-          className={clsx(
+          className={twJoin(
             'group flex w-full items-center justify-between',
             'bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
           )}
