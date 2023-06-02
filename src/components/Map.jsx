@@ -9,6 +9,7 @@ import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
+import { supportsExport } from '../../functions/common/validation';
 import { useSearchMachine } from '../SearchMachineProvider';
 import stateOfUtah from '../data/state-of-utah.json';
 
@@ -77,8 +78,8 @@ export default function MapComponent() {
         const { count, extent } = await layerView.queryExtent();
         const featureSet = await layerView.queryFeatures();
 
-        const supportsExport = supportsExport(featureLayer.sourceJSON);
-        if (!supportsExport) {
+        const supportsExportValue = supportsExport(featureLayer.sourceJSON);
+        if (!supportsExportValue) {
           console.warn('Layer does not support exporting', layer);
         }
 
@@ -89,7 +90,7 @@ export default function MapComponent() {
             count,
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
-            supportsExport,
+            supportsExport: supportsExportValue,
           },
         });
 
