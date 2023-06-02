@@ -77,11 +77,11 @@ export default function MapComponent() {
         const { count, extent } = await layerView.queryExtent();
         const featureSet = await layerView.queryFeatures();
 
-        if (!featureLayer.sourceJSON.supportedExportFormats) {
-          console.warn(
-            'Layer does not support the createReplica endpoint',
-            layer
-          );
+        const supportsExport = /extract/i.test(
+          featureLayer.sourceJSON.capabilities
+        );
+        if (!supportsExport) {
+          console.warn('Layer does not support exporting', layer);
         }
 
         send('RESULT', {
@@ -91,6 +91,7 @@ export default function MapComponent() {
             count,
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
+            supportsExport,
           },
         });
 

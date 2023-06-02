@@ -56,16 +56,13 @@ export default function Download({
           <Checkbox
             key={uniqueId}
             checked={
-              searchLayer.supportedExportFormats &&
-              selectedLayers.includes(uniqueId)
+              searchLayer.supportsExport && selectedLayers.includes(uniqueId)
             }
             label={`${layerName}${
-              searchLayer.supportedExportFormats
-                ? ''
-                : ' (download not available)'
+              searchLayer.supportsExport ? '' : ' (download not available)'
             }`}
             onCheckedChange={getOnChangeHandler(uniqueId)}
-            disabled={!searchLayer.supportedExportFormats}
+            disabled={!searchLayer.supportsExport}
           ></Checkbox>
         );
       })}

@@ -130,7 +130,7 @@ const machine = createMachine(
           // set relevant layers as selected by default for download
           selectedDownloadLayers: (context) =>
             context.resultLayers
-              .filter((result) => result.supportedExportFormats)
+              .filter((result) => result.supportsExport)
               .map((result) => result[fieldNames.queryLayers.uniqueId]),
         }),
         on: {
