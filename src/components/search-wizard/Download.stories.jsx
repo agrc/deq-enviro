@@ -39,7 +39,7 @@ const queryLayerResult4 = {
   ...queryLayerResult,
   [fieldNames.queryLayers.uniqueId]: '6',
   [fieldNames.queryLayers.layerName]: 'No export formats',
-  supportedExportFormats: undefined,
+  supportsExport: false,
 };
 const results = [
   queryLayerResult,
