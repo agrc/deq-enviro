@@ -42,8 +42,8 @@ export default function Checkbox({
         <label
           htmlFor={name || label}
           className={twJoin(
-            'ml-1 cursor-pointer leading-5',
-            disabled && 'text-slate-300'
+            'pl-1 leading-5',
+            disabled ? 'cursor-not-allowed text-slate-300' : 'cursor-pointer'
           )}
         >
           {label}
