@@ -67,7 +67,7 @@ export default function Download({
               searchLayer.supportsExport && selectedLayers.includes(uniqueId)
             }
             label={`${layerName}${
-              searchLayer.supportsExport ? '' : ' (download not available)'
+              searchLayer.supportsExport ? '' : ' (download not supported)'
             }`}
             onCheckedChange={getOnChangeHandler(uniqueId)}
             disabled={!searchLayer.supportsExport}
