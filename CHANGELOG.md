@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.0.0-8](https://github.com/agrc/deq-enviro/compare/v2.0.0-7...v2.0.0-8) (2023-06-05)
+
+
+### 🎨 Design Improvements
+
+* give more distinction to the filter text ([6e126a2](https://github.com/agrc/deq-enviro/commit/6e126a28b2ed90f6f65a6d16aeb40a3238e1eea0))
+* keep buttons at the bottom ([e974269](https://github.com/agrc/deq-enviro/commit/e9742695a192f22d4420aefc8fd99132d1a0f007))
+
+
+### 🚀 Features
+
+* add geopackage and sqlite download formats ([5e0acb9](https://github.com/agrc/deq-enviro/commit/5e0acb91469c055fb594f6c494e03df4c2ef2182))
+* basic results grid with tables ([063712b](https://github.com/agrc/deq-enviro/commit/063712be49a46d4d23854732f3135a12e4b2feee))
+* implement download function ([1989718](https://github.com/agrc/deq-enviro/commit/1989718a4577f49c4346661b440231cfee9e3994))
+* **radio-group:** implement UTDS RadioGroup component ([561b316](https://github.com/agrc/deq-enviro/commit/561b3166ab3bd64b15f175b1c05f541fc7190ad2))
+* **table:** implement utds table ([7afb245](https://github.com/agrc/deq-enviro/commit/7afb2456723bcac8619d89b03f125314b94ede04))
+* **update:** add validation errors ([c6e79ce](https://github.com/agrc/deq-enviro/commit/c6e79cea4295be96cc8c5f990c213d19c850031e))
+
+
+### 🐛 Bug Fixes
+
+* **checkbox:** more clear change event name and show hover effects only when clickable ([1c3746b](https://github.com/agrc/deq-enviro/commit/1c3746bbbb356d0dcb9d3bc2ce06d1b8a3dc3a07))
+* clear map layers when wizard is cleared ([7a548b7](https://github.com/agrc/deq-enviro/commit/7a548b7544c963bbc3f304c657a561d897e78bee))
+* **functions:** clean up unused npm packages ([c59d432](https://github.com/agrc/deq-enviro/commit/c59d4322403032f1af5933cc4ba077c4e0f5e9cf))
+* **generate:** switch to got for retry functionality ([8bf367b](https://github.com/agrc/deq-enviro/commit/8bf367bfb9091165cbdf1dff9c6510d37ccb8443))
+* **generate:** use newer api ([65bcbae](https://github.com/agrc/deq-enviro/commit/65bcbae84ef8ba0b56688e007b75273a0e7b3876))
+* more accurately reflect if service supports exports ([50667e5](https://github.com/agrc/deq-enviro/commit/50667e59e73b06a104fb5e1744d064d0d2b0bf37))
+* more appropriate buttons and names for result state ([a57d328](https://github.com/agrc/deq-enviro/commit/a57d328944969c3220b0eede109258b00729d695))
+* more clear language ([6cb4621](https://github.com/agrc/deq-enviro/commit/6cb462149d75346e5260e9d4f8fbbdec43632764))
+* **radio & checkbox:** use better cursor for disabled state ([0fcd9be](https://github.com/agrc/deq-enviro/commit/0fcd9beba15f205647065deb0d280094e9916320))
+* renaming export bug ([63d5983](https://github.com/agrc/deq-enviro/commit/63d5983d04e0e8d6a7216a4dd36ded1d73ffbbbb))
+* sort divisions and layer names alphabetically ([0221929](https://github.com/agrc/deq-enviro/commit/022192940916658fe35b816155599e4dbb9bdff9))
+* **spinner:** add standard sizes that match text sizes ([0e35873](https://github.com/agrc/deq-enviro/commit/0e35873649f1135dfcdc2bd3d74d6d0b36161f1a))
+* switch to createReplica calls from client for downloads per layer ([e0a5acf](https://github.com/agrc/deq-enviro/commit/e0a5acf2f8f23b9684ea9df8e30a211ae9d576dc))
+* **utds:** clsx -&gt; tailwind-merge and remove all important qualifiers ([6fa3a1a](https://github.com/agrc/deq-enviro/commit/6fa3a1a540deba9e4149628a8155e90e33cf2617))
+
 ## [2.0.0-7](https://github.com/agrc/deq-enviro/compare/v2.0.0-6...v2.0.0-7) (2023-05-16)
 
 
