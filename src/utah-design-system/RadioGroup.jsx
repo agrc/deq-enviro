@@ -52,8 +52,10 @@ export default function RadioGroup({
             <label
               htmlFor={id}
               className={twJoin(
-                'ml-1 cursor-pointer leading-5',
-                item.disabled && 'text-slate-300'
+                'pl-1 leading-5',
+                item.disabled
+                  ? 'cursor-not-allowed text-slate-300'
+                  : 'cursor-pointer'
               )}
             >
               {item.label}
