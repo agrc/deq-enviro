@@ -1,0 +1,75 @@
+import * as RadixSelect from '@radix-ui/react-select';
+import PropTypes from 'prop-types';
+import { twJoin } from 'tailwind-merge';
+import Icon from './Icon';
+
+export default function Select({
+  disabled,
+  items,
+  onValueChange,
+  open,
+  placeholder,
+  value,
+}) {
+  return (
+    <RadixSelect.Root
+      open={open}
+      value={value}
+      onValueChange={onValueChange}
+      disabled={disabled}
+    >
+      <RadixSelect.Trigger
+        className={twJoin(
+          'group flex h-9 w-full items-center justify-between rounded-md border border-slate-400 px-2 py-1',
+          disabled && 'cursor-not-allowed text-slate-300',
+          'data-[placeholder]:text-slate-500'
+        )}
+      >
+        <RadixSelect.Value placeholder={placeholder} />
+        <RadixSelect.Icon>
+          <Icon
+            name={Icon.Names.chevronDown}
+            size="xs"
+            label="toggle dropdown"
+          />
+        </RadixSelect.Icon>
+      </RadixSelect.Trigger>
+
+      <RadixSelect.Content
+        position="popper"
+        sideOffset={2}
+        avoidCollisions={false}
+      >
+        <RadixSelect.Viewport className="box-border w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border border-slate-400 bg-white py-1">
+          {items.map((item) => (
+            <RadixSelect.Item
+              value={item.value}
+              key={item.value}
+              className="rounded-none px-2 py-1 hover:bg-primary hover:text-white focus-visible:outline-none"
+            >
+              <RadixSelect.ItemText>{item.label}</RadixSelect.ItemText>
+            </RadixSelect.Item>
+          ))}
+        </RadixSelect.Viewport>
+      </RadixSelect.Content>
+    </RadixSelect.Root>
+  );
+}
+
+Select.propTypes = {
+  disabled: PropTypes.bool,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    })
+  ).isRequired,
+  onValueChange: PropTypes.func,
+  /*
+    Mostly used for storybook
+  */
+  open: PropTypes.bool,
+  placeholder: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
