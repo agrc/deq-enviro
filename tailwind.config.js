@@ -25,6 +25,8 @@ export default {
       transparent: colors.transparent,
       emerald: colors.emerald,
       red: colors.red,
+      sky: colors.sky,
+      amber: colors.amber,
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],
