@@ -56,17 +56,15 @@ export default function Sherlock({
     const response = await provider.getFeature(searchValue, contextValue);
 
     const results = response.items;
+    const firstResult = results[0];
 
-    const graphics = results.map(
-      (selectedItem) =>
-        new Graphic({
-          geometry: selectedItem.geometry,
-          attributes: selectedItem.attributes,
-          symbol: symbols[selectedItem.geometry.type],
-        })
-    );
+    const graphic = new Graphic({
+      geometry: firstResult.geometry,
+      attributes: firstResult.attributes,
+      symbol: symbols[firstResult.geometry.type],
+    });
 
-    onSherlockMatch(graphics);
+    onSherlockMatch(graphic);
   };
 
   const [state, setState] = useState({
