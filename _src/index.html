@@ -3,6 +3,14 @@
 <head>
     <title>DEQ Interactive Map Viewer</title>
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NVRFHM3');</script>
+    <!-- End Google Tag Manager -->
+
     <!-- META TAGS -->
     <!-- required for plss vector tile layer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,6 +25,11 @@
     <link rel='stylesheet' href='app/resources/App.css'>
 </head>
 <body class='claro'>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVRFHM3"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div data-dojo-type='app/App'></div>
 
     <!-- JAVASCRIPT -->
@@ -39,16 +52,6 @@
         });
     </script>
     /build -->
-
-    <!-- GOOGLE ANALYTICS -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-86JW86154S"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-86JW86154S');
-    </script>
 
     <!--BEGIN QUALTRICS WEBSITE FEEDBACK SNIPPET-->
     <script type='text/javascript'>
