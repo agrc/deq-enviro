@@ -37,6 +37,10 @@ const results = [
 
 export const Default = () => (
   <div className="w-80">
-    <SearchProgress searchLayers={queryLayers} results={results} />
+    <SearchProgress
+      searchLayers={queryLayers}
+      results={results}
+      filterName="filter name"
+    />
   </div>
 );
