@@ -241,12 +241,12 @@ export default function Sherlock({
   };
 
   return (
-    <div className={twMerge('w-full', className)}>
+    <div className={twMerge('z-10 w-full', className)}>
       {label && <h4>{label}</h4>}
       <div className="flex items-center justify-between">
         <input
           autoComplete="off"
-          className="z-10 w-full rounded-l-md border-b border-l border-t border-slate-400 border-r-white"
+          className="w-full rounded-l-md border-b border-l border-t border-slate-400 border-r-white"
           placeholder={placeHolder}
           type="text"
           {...getInputProps()}
