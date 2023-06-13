@@ -3,7 +3,7 @@ import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
 import Statewide from './filters/Statewide';
-import WebApiSearch from './filters/WebAPISearch';
+import WebApiSearch from './filters/WebApiSearch';
 
 export default function AdvancedFilter() {
   const [state, send] = useSearchMachine();
