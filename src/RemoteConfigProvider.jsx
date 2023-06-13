@@ -30,14 +30,14 @@ export default function RemoteConfigProvider({ children }) {
   if (status === 'loading') {
     console.log('loading remote config');
 
-    return <BulletList className="p-2" />;
+    return <BulletList className="h-40 p-2" />;
   }
 
   console.log('remote config loaded');
 
   return (
     <RemoteConfigProviderRF sdk={remoteConfigInstance}>
-      {children}
+      <div className="w-80">{children}</div>
     </RemoteConfigProviderRF>
   );
 }

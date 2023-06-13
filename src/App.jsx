@@ -59,11 +59,9 @@ function App() {
             <MapComponent />
             <ResultsPanel />
           </div>
-          <div className="md:w-80">
-            <RemoteConfigProvider>
-              <SearchWizard />
-            </RemoteConfigProvider>
-          </div>
+          <RemoteConfigProvider>
+            <SearchWizard />
+          </RemoteConfigProvider>
         </div>
       </SearchMachineProvider>
     </AnalyticsProvider>
