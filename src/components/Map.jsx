@@ -1,5 +1,4 @@
 import Map from '@arcgis/core/Map';
-import esriConfig from '@arcgis/core/config';
 import { whenOnce } from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import { union } from '@arcgis/core/geometry/geometryEngine';
@@ -11,12 +10,24 @@ import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { supportsExport } from '../../functions/common/validation';
 import { useSearchMachine } from '../SearchMachineProvider';
+import appConfig from '../app-config';
 import stateOfUtah from '../data/state-of-utah.json';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
 
-esriConfig.assetsPath = '/assets';
+function useMapGraphic(mapView, graphic) {
+  useEffect(() => {
+    if (!mapView) return;
+
+    mapView.graphics.removeAll();
+
+    if (!graphic) return;
+
+    mapView.graphics.add(graphic);
+    mapView.goTo(graphic);
+  }, [graphic, mapView]);
+}
 
 export default function MapComponent() {
   const [state, send] = useSearchMachine();
@@ -24,6 +35,14 @@ export default function MapComponent() {
 
   const map = useRef(null);
   const view = useRef(null);
+  const filterGraphic = (state.matches('advanced') ||
+    state.matches('searching') ||
+    state.matches('result')) &&
+    state.context?.filter?.geometry && {
+      geometry: state.context?.filter?.geometry,
+      symbol: appConfig.symbols.filter,
+    };
+  useMapGraphic(view.current, filterGraphic);
 
   const mapDiv = useRef(null);
   useEffect(() => {
@@ -60,18 +79,19 @@ export default function MapComponent() {
       return;
     }
 
-    async function searchLayer(layer) {
+    async function searchLayer(layer, filter) {
       try {
         const featureLayer = new FeatureLayer({
           url: layer[fieldNames.queryLayers.featureService],
           outFields: layer[fieldNames.queryLayers.resultGridFields],
+          definitionExpression: filter?.where,
         });
         map.current.add(featureLayer);
 
         // does this really make sure that all features have been loaded?
         const layerView = await view.current.whenLayerView(featureLayer);
         layerView.filter = {
-          geometry: stateOfUtahPolygon,
+          geometry: filter.geometry,
         };
 
         await whenOnce(() => layerView.updating === false);

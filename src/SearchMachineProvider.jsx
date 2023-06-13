@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { createContext, useContext } from 'react';
 import { assign, createMachine } from 'xstate';
 import { downloadFormats, fieldNames } from '../functions/common/config';
+import stateOfUtahJson from './data/state-of-utah.json';
 
 const CACHE_KEY = 'searchContext';
 function cacheSearchContext(cachedContext) {
@@ -11,6 +12,11 @@ function cacheSearchContext(cachedContext) {
   setItem(CACHE_KEY, JSON.stringify(cachedContext));
 }
 
+const blankFilter = {
+  where: null,
+  geometry: stateOfUtahJson,
+  name: 'State of Utah',
+};
 const blankContext = {
   /* I think that this means that I need Typescript. ;)
     {
@@ -19,7 +25,13 @@ const blankContext = {
     }
   */
   searchLayers: [],
-  filter: null,
+  /*
+    {
+      geometry: {},
+      where: '...',
+    }
+  */
+  filter: blankFilter,
   /*
     {
       id: 3,
@@ -86,6 +98,11 @@ const machine = createMachine(
           },
           QUERY_LAYERS: {
             target: 'selectLayers',
+          },
+          SET_FILTER: {
+            actions: assign({
+              filter: (_, event) => event.filter,
+            }),
           },
         },
       },
@@ -230,7 +247,7 @@ const machine = createMachine(
     actions: {
       clear: assign(() => {
         console.log('clear action');
-        cacheSearchContext({ searchLayers: [], filter: null });
+        cacheSearchContext({ searchLayers: [], filter: blankFilter });
 
         return { ...blankContext };
       }),

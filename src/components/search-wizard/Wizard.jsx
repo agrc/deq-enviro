@@ -105,6 +105,7 @@ export default function SearchWizard() {
         <Progress
           searchLayers={state.context.searchLayers}
           results={state.context.resultLayers}
+          filterName={state.context.filter.name}
         />
       ) : null}
       {state.matches('advanced') ? <AdvancedFilter /> : null}
@@ -134,22 +135,48 @@ export default function SearchWizard() {
         />
       ) : null}
       <div className="space-y-2 justify-self-end border-t border-t-slate-300 p-2">
-        {state.matches('selectLayers') || state.matches('searching') ? (
+        {state.matches('selectLayers') ||
+        state.matches('searching') ||
+        state.matches('advanced') ? (
+          <>
+            <Button
+              appearance={Button.Appearances.solid}
+              color={Button.Colors.primary}
+              className="w-full"
+              size={Button.Sizes.xl}
+              busy={state.matches('searching')}
+              disabled={state.context.searchLayers.length === 0}
+              onClick={() => send('SEARCH')}
+            >
+              Search{' '}
+              {state.context.searchLayers.length
+                ? `${state.context.searchLayers.length} Layer${
+                    state.context.searchLayers.length > 1 ? 's' : ''
+                  }`
+                : null}
+            </Button>
+          </>
+        ) : null}
+        {state.matches('selectLayers') ? (
           <Button
-            appearance={Button.Appearances.solid}
+            appearance={Button.Appearances.outlined}
             color={Button.Colors.primary}
             className="w-full"
             size={Button.Sizes.xl}
-            busy={state.matches('searching')}
-            disabled={state.context.searchLayers.length === 0}
-            onClick={() => send('SEARCH')}
+            onClick={() => send('ADVANCED')}
           >
-            Search{' '}
-            {state.context.searchLayers.length
-              ? `${state.context.searchLayers.length} Layer${
-                  state.context.searchLayers.length > 1 ? 's' : ''
-                }`
-              : null}
+            Advanced Filter
+          </Button>
+        ) : null}
+        {state.matches('advanced') ? (
+          <Button
+            appearance={Button.Appearances.outlined}
+            color={Button.Colors.primary}
+            className="w-full"
+            size={Button.Sizes.xl}
+            onClick={() => send('QUERY_LAYERS')}
+          >
+            Select Layers
           </Button>
         ) : null}
         {state.matches('result') ? (

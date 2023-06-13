@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
 import ResultStatusIcons from './ResultStatusIcons';
 
-export default function SearchProgress({ searchLayers, results }) {
+export default function SearchProgress({ searchLayers, results, filterName }) {
   return (
     <div className="flex-1 p-2">
       <h3>Search Results</h3>
@@ -33,7 +33,7 @@ export default function SearchProgress({ searchLayers, results }) {
         })}
       </ul>
       <h5>Filter</h5>
-      <span className="rounded-full bg-slate-200 px-2 py-1">State of Utah</span>
+      <span className="rounded-full bg-slate-200 px-2 py-1">{filterName}</span>
     </div>
   );
 }
@@ -41,4 +41,5 @@ export default function SearchProgress({ searchLayers, results }) {
 SearchProgress.propTypes = {
   searchLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filterName: PropTypes.string.isRequired,
 };
