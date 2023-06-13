@@ -1,9 +1,10 @@
 import * as RadixSelect from '@radix-ui/react-select';
 import PropTypes from 'prop-types';
-import { twJoin } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 
 export default function Select({
+  className,
   disabled,
   items,
   onValueChange,
@@ -19,10 +20,11 @@ export default function Select({
       disabled={disabled}
     >
       <RadixSelect.Trigger
-        className={twJoin(
+        className={twMerge(
           'group flex h-9 w-full items-center justify-between rounded-md border border-slate-400 px-2 py-1',
           disabled && 'cursor-not-allowed text-slate-300',
-          'data-[placeholder]:text-slate-500'
+          'data-[placeholder]:text-slate-500',
+          className
         )}
       >
         <RadixSelect.Value placeholder={placeholder} />
@@ -57,6 +59,7 @@ export default function Select({
 }
 
 Select.propTypes = {
+  className: PropTypes.string,
   disabled: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({
