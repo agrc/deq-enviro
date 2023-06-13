@@ -2,6 +2,7 @@ import Graphic from '@arcgis/core/Graphic';
 import { executeQueryJSON } from '@arcgis/core/rest/query';
 import Query from '@arcgis/core/rest/support/Query';
 import { useCombobox } from 'downshift';
+import ky from 'ky';
 import { escapeRegExp, sortBy, uniqWith } from 'lodash-es';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -517,7 +518,7 @@ class WebApi {
       options.attributeStyle = this.defaultAttributeStyle;
     }
 
-    const response = await fetch(url + new URLSearchParams(options), {
+    const response = await ky(url + new URLSearchParams(options), {
       signal: this.signal,
     });
 
