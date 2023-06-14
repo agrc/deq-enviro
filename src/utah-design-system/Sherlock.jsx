@@ -202,7 +202,7 @@ export default function Sherlock({
         className={twMerge(
           commonClasses,
           highlightedIndex === index && 'bg-primary text-white',
-          'flex items-center justify-between rounded-none border-0 border-l border-r',
+          'flex items-center justify-between rounded-none border-0 border-x',
           'first:rounded-t-md first:border-t last:rounded-b-md last:border-b'
         )}
         {...getItemProps({
@@ -244,7 +244,7 @@ export default function Sherlock({
       <div className="flex items-center justify-between">
         <input
           autoComplete="off"
-          className="w-full rounded-l-md border-b border-l border-t border-slate-400 border-r-white"
+          className="w-full rounded-l-md border-y border-l border-slate-400 border-r-white"
           placeholder={placeHolder}
           type="text"
           {...getInputProps()}
