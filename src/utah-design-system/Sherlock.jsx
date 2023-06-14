@@ -240,26 +240,22 @@ export default function Sherlock({
 
   return (
     <div className={twMerge('z-10 w-full', className)}>
-      {label && <h4>{label}</h4>}
-      <div className="flex items-center justify-between">
+      {label && <strong>{label}</strong>}
+      <div className="relative -m-1 rounded-md p-1 hover:bg-slate-200">
+        <div className="absolute bottom-0 left-0 top-0 mx-1 flex w-8 items-center justify-center">
+          {state.loading ? (
+            <Spinner ariaLabel="searching" />
+          ) : (
+            <Icon name={Icon.Names.search} label="search" />
+          )}
+        </div>
         <input
           autoComplete="off"
-          className="w-full rounded-l-md border-y border-l border-slate-400 border-r-white"
+          className="w-full rounded-md border border-slate-400 py-1 pl-8 pr-2"
           placeholder={placeHolder}
           type="text"
           {...getInputProps()}
         />
-        <div className="flex w-10 items-center justify-center self-stretch rounded-r-md bg-slate-400 px-2 text-white">
-          {state.loading ? (
-            <Spinner ariaLabel="searching" />
-          ) : (
-            <Icon
-              name={Icon.Names.search}
-              label="search"
-              size={Icon.Sizes.xl}
-            />
-          )}
-        </div>
       </div>
       <ul
         className={twJoin(
