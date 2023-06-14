@@ -37,7 +37,7 @@ export default function RemoteConfigProvider({ children }) {
 
   return (
     <RemoteConfigProviderRF sdk={remoteConfigInstance}>
-      <div className="w-80">{children}</div>
+      <div className="md:w-80">{children}</div>
     </RemoteConfigProviderRF>
   );
 }
