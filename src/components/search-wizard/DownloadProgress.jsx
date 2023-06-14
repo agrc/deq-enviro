@@ -47,7 +47,7 @@ export default function DownloadProgress({ layers, results }) {
                   download={resultConfig.url.substring(
                     resultConfig.url.lastIndexOf('/') + 1
                   )}
-                  className="flex items-center justify-center rounded-md border-2 border-emerald-500 p-1 font-bold text-emerald-500"
+                  className="border-success-500 text-success-500 flex items-center justify-center rounded-md border-2 p-1 font-bold"
                 >
                   <Icon
                     className="mr-2"

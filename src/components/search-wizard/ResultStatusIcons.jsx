@@ -19,7 +19,7 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
       trigger={
         <Icon
           name={Icon.Names.error}
-          className="mr-1 w-5 text-red-500"
+          className="mr-1 w-5 text-error-500"
           size="lg"
           label="error message"
         />
@@ -30,7 +30,7 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
   ) : (
     <Icon
       name={Icon.Names.checkmark}
-      className="mr-1 w-5 text-emerald-500"
+      className="mr-1 w-5 text-success-500"
       size="lg"
       label="success"
     />
