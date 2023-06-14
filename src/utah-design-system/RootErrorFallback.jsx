@@ -5,7 +5,7 @@ import Button from './Button';
 export default function RootErrorFallback({ error }) {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="w-1/2 max-w-xl border border-slate-700 bg-red-50 p-6 transition">
+      <div className="w-1/2 max-w-xl border border-slate-700 bg-error-50 p-6 transition">
         <h3>Something went wrong</h3>
         <p className="mt-1">
           {error?.message ?? 'An unknown error occurred. Please try again.'}

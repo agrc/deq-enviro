@@ -166,7 +166,7 @@ export default function Sherlock({
       return (
         // primary
         <li
-          className={twJoin(commonClasses, 'bg-sky-200 text-center')}
+          className={twJoin(commonClasses, 'bg-info-200 text-center')}
           disabled
         >
           Type more than 2 letters.
@@ -177,7 +177,7 @@ export default function Sherlock({
     if (state.error) {
       return (
         <li
-          className={twJoin(commonClasses, 'bg-red-200 text-center')}
+          className={twJoin(commonClasses, 'bg-error-200 text-center')}
           disabled
         >
           Error! {state.error}
@@ -188,7 +188,7 @@ export default function Sherlock({
     if (!state.loading && !state.items.length) {
       return (
         <li
-          className={twJoin(commonClasses, 'bg-amber-200 text-center')}
+          className={twJoin(commonClasses, 'bg-warning-200 text-center')}
           disabled
         >
           No items found.
@@ -226,7 +226,7 @@ export default function Sherlock({
           key="too-many"
           className={twJoin(
             commonClasses,
-            'rounded-t-none border-t-0 bg-sky-200 text-center'
+            'rounded-t-none border-t-0 bg-info-200 text-center'
           )}
           disabled
         >

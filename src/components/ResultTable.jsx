@@ -25,7 +25,7 @@ export default function ResultTable({ queryLayerResult }) {
   const padding = 'px-2 py-1';
   if (queryLayerResult.error) {
     return (
-      <div className={clsx(padding, 'text-red-500')}>
+      <div className={clsx(padding, 'text-error-500')}>
         {`${layerName} | ${queryLayerResult.error}`}
       </div>
     );
