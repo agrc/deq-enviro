@@ -450,9 +450,6 @@ class WebApi {
   constructor(apiKey, signal) {
     this.baseUrl = 'https://api.mapserv.utah.gov/api/v1/';
 
-    // defaultAttributeStyle: String
-    this.defaultAttributeStyle = 'identical';
-
     // xhrProvider: dojo/request/* provider
     //      The current provider as determined by the search function
     this.xhrProvider = null;
@@ -493,11 +490,10 @@ class WebApi {
     //      2000 meters is the maximum buffer.
     // options.pageSize: Number (not implemented)
     // options.skip: Number (not implemented)
-    // options.attributeStyle: String (defaults to 'identical')
+    // options.attributeStyle: String
     //      Controls the casing of the attributes that are returned.
     //      Options:
     //
-    //      'identical': as is in data.
     //      'upper': upper cases all attribute names.
     //      'lower': lower cases all attribute names.
     //      'camel': camel cases all attribute names
@@ -512,9 +508,6 @@ class WebApi {
     }
 
     options.apiKey = this.apiKey;
-    if (!options.attributeStyle) {
-      options.attributeStyle = this.defaultAttributeStyle;
-    }
 
     const response = await ky(url + new URLSearchParams(options), {
       signal: this.signal,
