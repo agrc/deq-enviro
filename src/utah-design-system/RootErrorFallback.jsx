@@ -1,6 +1,6 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
 import PropTypes from 'prop-types';
-import Button from '../utah-design-system/Button';
+import Button from './Button';
 
 export default function RootErrorFallback({ error }) {
   return (

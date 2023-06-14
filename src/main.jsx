@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
-import RootErrorFallback from './components/RootErrorFallback.jsx';
 import './index.css';
+import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
 
 const queryClient = new QueryClient();
 
