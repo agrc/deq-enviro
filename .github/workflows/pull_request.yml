@@ -60,7 +60,7 @@ jobs:
             cd functions
             npm ci
             cd ..
-          build-command: npm run build:stage
+          build-command: export NODE_OPTIONS=--max_old_space_size=4096 && npm run build:stage
           preview: yes
           project-id: ${{ secrets.PROJECT_ID }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
