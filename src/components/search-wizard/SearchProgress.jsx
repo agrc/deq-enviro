@@ -33,7 +33,7 @@ export default function SearchProgress({ searchLayers, results, filterName }) {
         })}
       </ul>
       <h5>Filter</h5>
-      <span className="rounded-full bg-slate-200 px-2 py-1">{filterName}</span>
+      <div className="rounded-full bg-slate-200 px-2 py-1">{filterName}</div>
     </div>
   );
 }
