@@ -7,4 +7,8 @@ export default {
       color: [0, 0, 0, 0.15],
     },
   },
+  urls: {
+    masquerade:
+      'https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer',
+  },
 };
