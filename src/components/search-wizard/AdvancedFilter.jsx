@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
+import Shape from './filters/Shape';
 import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApiSearch from './filters/WebApiSearch';
@@ -45,13 +46,14 @@ export default function AdvancedFilter() {
       Component: StreetAddress,
     },
     name: {
-      label: 'Name',
+      label: 'Name (not yet implemented)',
     },
     id: {
-      label: 'ID',
+      label: 'ID (not yet implemented)',
     },
     shape: {
-      label: 'Custom Shape',
+      label: 'User-drawn Shape',
+      Component: Shape,
     },
     nhd: {
       label: 'NHD Stream Name',

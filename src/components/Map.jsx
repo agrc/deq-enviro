@@ -11,6 +11,7 @@ import { fieldNames } from '../../functions/common/config';
 import { supportsExport } from '../../functions/common/validation';
 import { useSearchMachine } from '../SearchMachineProvider';
 import appConfig from '../app-config';
+import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
@@ -44,6 +45,7 @@ function useMapGraphic(mapView, graphic) {
 export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
+  const { setMapView } = useMap();
 
   const map = useRef(null);
   const view = useRef(null);
@@ -65,6 +67,8 @@ export default function MapComponent() {
       map: map.current,
       extent: stateOfUtahExtent,
     });
+
+    setMapView(view.current);
 
     setSelectorOptions({
       view: view.current,
