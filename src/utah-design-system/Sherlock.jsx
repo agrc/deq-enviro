@@ -241,7 +241,7 @@ export default function Sherlock({
   return (
     <div className={twMerge('w-full', className)}>
       {label && <strong>{label}</strong>}
-      <div className="relative -m-1 rounded-md p-1 hover:bg-slate-200">
+      <div className="relative -mx-1 -mb-1 rounded-md p-1 hover:bg-slate-200">
         <div className="absolute bottom-0 left-0 top-0 mx-1 flex w-8 items-center justify-center">
           {state.loading ? (
             <Spinner ariaLabel="searching" />
