@@ -17,6 +17,7 @@ const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
 
 function useMapGraphic(mapView, graphic) {
+  const previousGraphic = useRef(null);
   useEffect(() => {
     if (!mapView) return;
 
@@ -25,7 +26,18 @@ function useMapGraphic(mapView, graphic) {
     if (!graphic) return;
 
     mapView.graphics.add(graphic);
-    mapView.goTo(graphic);
+
+    if (JSON.stringify(graphic.geometry) === previousGraphic.current) return;
+
+    previousGraphic.current = JSON.stringify(graphic.geometry);
+
+    console.log('goTo');
+    mapView.goTo(graphic).catch((error) => {
+      if (error.name !== 'AbortError') {
+        throw error;
+      }
+      console.error('goTo error', error);
+    });
   }, [graphic, mapView]);
 }
 
