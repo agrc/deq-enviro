@@ -3,6 +3,7 @@ import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
 import Statewide from './filters/Statewide';
+import StreetAddress from './filters/StreetAddress';
 import WebApiSearch from './filters/WebApiSearch';
 
 export default function AdvancedFilter() {
@@ -41,6 +42,7 @@ export default function AdvancedFilter() {
     },
     address: {
       label: 'Street Address',
+      Component: StreetAddress,
     },
     name: {
       label: 'Name',
