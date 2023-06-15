@@ -7,6 +7,7 @@ import { SearchMachineProvider } from './SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
+import MapProvider from './contexts/MapProvider.jsx';
 
 function App() {
   useEffect(() => {
@@ -55,13 +56,15 @@ function App() {
     <AnalyticsProvider sdk={getAnalytics(app)}>
       <SearchMachineProvider>
         <div className="flex h-full w-full flex-col md:flex-row">
-          <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
-            <MapComponent />
-            <ResultsPanel />
-          </div>
-          <RemoteConfigProvider>
-            <SearchWizard />
-          </RemoteConfigProvider>
+          <MapProvider>
+            <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
+              <MapComponent />
+              <ResultsPanel />
+            </div>
+            <RemoteConfigProvider>
+              <SearchWizard />
+            </RemoteConfigProvider>
+          </MapProvider>
         </div>
       </SearchMachineProvider>
     </AnalyticsProvider>
