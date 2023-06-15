@@ -37,23 +37,25 @@ export default function Select({
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
 
-      <RadixSelect.Content
-        position="popper"
-        sideOffset={2}
-        avoidCollisions={false}
-      >
-        <RadixSelect.Viewport className="box-border w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border border-slate-400 bg-white py-1">
-          {items.map((item) => (
-            <RadixSelect.Item
-              value={item.value}
-              key={item.value}
-              className="rounded-none px-2 py-1 hover:bg-primary hover:text-white focus-visible:outline-none"
-            >
-              <RadixSelect.ItemText>{item.label}</RadixSelect.ItemText>
-            </RadixSelect.Item>
-          ))}
-        </RadixSelect.Viewport>
-      </RadixSelect.Content>
+      <RadixSelect.Portal>
+        <RadixSelect.Content
+          position="popper"
+          sideOffset={2}
+          avoidCollisions={false}
+        >
+          <RadixSelect.Viewport className="box-border w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border border-slate-400 bg-white py-1">
+            {items.map((item) => (
+              <RadixSelect.Item
+                value={item.value}
+                key={item.value}
+                className="rounded-none px-2 py-1 hover:bg-primary hover:text-white focus-visible:outline-none"
+              >
+                <RadixSelect.ItemText>{item.label}</RadixSelect.ItemText>
+              </RadixSelect.Item>
+            ))}
+          </RadixSelect.Viewport>
+        </RadixSelect.Content>
+      </RadixSelect.Portal>
     </RadixSelect.Root>
   );
 }
