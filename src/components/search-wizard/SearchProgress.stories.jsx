@@ -40,7 +40,7 @@ export const Default = () => (
     <SearchProgress
       searchLayers={queryLayers}
       results={results}
-      filterName="filter name"
+      filterName="filter name that wraps and wraps and wraps longer"
     />
   </div>
 );
