@@ -59,7 +59,13 @@ export default function Shape({ send }) {
     };
   }, [mapView, send]);
 
-  return <p>Use the toolbar on the map to draw a shape.</p>;
+  return (
+    <>
+      <p>Use the toolbar on the map to draw a shape.</p>
+      <p>Click once to create a new vertex.</p>
+      <p>Double-click to finish the shape.</p>
+    </>
+  );
 }
 
 Shape.propTypes = {
