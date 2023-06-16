@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
+import NHDStream from './filters/NHDStream';
 import Shape from './filters/Shape';
 import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
-import WebApiSearch from './filters/WebApiSearch';
+import WebApi from './filters/WebApi';
 
 export default function AdvancedFilter() {
   const [state, send] = useSearchMachine();
@@ -16,7 +17,7 @@ export default function AdvancedFilter() {
     },
     county: {
       label: 'County',
-      Component: WebApiSearch,
+      Component: WebApi,
       props: {
         layer: 'boundaries.county_boundaries',
         searchField: 'name',
@@ -25,7 +26,7 @@ export default function AdvancedFilter() {
     },
     city: {
       label: 'City',
-      Component: WebApiSearch,
+      Component: WebApi,
       props: {
         layer: 'boundaries.municipal_boundaries',
         searchField: 'name',
@@ -34,7 +35,7 @@ export default function AdvancedFilter() {
     },
     zip: {
       label: 'Zip Code',
-      Component: WebApiSearch,
+      Component: WebApi,
       props: {
         layer: 'boundaries.zip_code_areas',
         searchField: 'zip5',
@@ -57,6 +58,7 @@ export default function AdvancedFilter() {
     },
     nhd: {
       label: 'NHD Stream Name',
+      Component: NHDStream,
     },
     coordinates: {
       label: 'Coordinates',

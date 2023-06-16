@@ -5,7 +5,7 @@ import { useCombobox } from 'downshift';
 import ky from 'ky';
 import { escapeRegExp, sortBy, uniqWith } from 'lodash-es';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 import Spinner from './Spinner';
@@ -56,15 +56,17 @@ export default function Sherlock({
     const response = await provider.getFeature(searchValue, contextValue);
 
     const results = response.items;
-    const firstResult = results[0];
 
-    const graphic = new Graphic({
-      geometry: firstResult.geometry,
-      attributes: firstResult.attributes,
-      symbol: symbols[firstResult.geometry.type],
-    });
+    const graphics = results.map(
+      (result) =>
+        new Graphic({
+          geometry: result.geometry,
+          attributes: result.attributes,
+          symbol: symbols[result.geometry.type],
+        })
+    );
 
-    onSherlockMatch(graphic);
+    onSherlockMatch(graphics);
   };
 
   const [state, setState] = useState({
@@ -151,6 +153,7 @@ export default function Sherlock({
     highlightedIndex,
     isOpen,
     inputValue,
+    setInputValue,
     getMenuProps,
   } = useCombobox({
     onSelectedItemChange: handleSelectedItemChange,
@@ -237,6 +240,10 @@ export default function Sherlock({
 
     return items;
   };
+
+  useEffect(() => {
+    setInputValue('');
+  }, [provider, setInputValue]);
 
   return (
     <div className={twMerge('w-full', className)}>
