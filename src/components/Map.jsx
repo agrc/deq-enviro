@@ -4,6 +4,8 @@ import Polygon from '@arcgis/core/geometry/Polygon';
 import { union } from '@arcgis/core/geometry/geometryEngine';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
+import Expand from '@arcgis/core/widgets/Expand';
+import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
 import { useEffect, useRef, useState } from 'react';
@@ -70,6 +72,21 @@ export default function MapComponent() {
 
     setMapView(view.current);
 
+    const expand = new Expand({
+      expandIcon: 'print',
+      view: view.current,
+      content: new Print({
+        view: view.current,
+        printServiceUrl:
+          'https://print.agrc.utah.gov/14/arcgis/rest/services/GPServer/export',
+        templateOptions: {
+          title: 'Printed from the Utah DEQ Interactive Map',
+        },
+      }),
+    });
+
+    view.current.ui.add(expand, 'top-left');
+
     setSelectorOptions({
       view: view.current,
       quadWord: import.meta.env.VITE_DISCOVER_KEY,
@@ -80,7 +97,7 @@ export default function MapComponent() {
       view.current.destroy();
       map.current.destroy();
     };
-  }, []);
+  }, [setMapView]);
 
   const searching = useRef(false);
   useEffect(() => {
