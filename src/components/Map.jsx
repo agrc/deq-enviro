@@ -3,8 +3,11 @@ import { whenOnce } from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import { union } from '@arcgis/core/geometry/geometryEngine';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Expand from '@arcgis/core/widgets/Expand';
+import LayerList from '@arcgis/core/widgets/LayerList';
+import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
@@ -72,25 +75,114 @@ export default function MapComponent() {
 
     setMapView(view.current);
 
-    const expand = new Expand({
-      expandIcon: 'print',
-      view: view.current,
-      content: new Print({
+    view.current.when(() => {
+      const layerList = new Expand({
+        expandIcon: 'layers',
         view: view.current,
-        printServiceUrl:
-          'https://print.agrc.utah.gov/14/arcgis/rest/services/GPServer/export',
-        templateOptions: {
-          title: 'Printed from the Utah DEQ Interactive Map',
-        },
-      }),
-    });
+        content: new LayerList({
+          view: view.current,
+        }),
+      });
 
-    view.current.ui.add(expand, 'top-left');
+      view.current.ui.add(layerList, 'top-left');
+
+      const print = new Expand({
+        expandIcon: 'print',
+        view: view.current,
+        content: new Print({
+          view: view.current,
+          printServiceUrl: appConfig.urls.print,
+          templateOptions: {
+            title: 'Printed from the Utah DEQ Interactive Map',
+          },
+        }),
+      });
+
+      view.current.ui.add(print, 'top-left');
+
+      const legend = new Expand({
+        expandIcon: 'legend',
+        view: view.current,
+        content: new Legend({ view: view.current }),
+      });
+
+      view.current.ui.add(legend, 'top-left');
+    });
 
     setSelectorOptions({
       view: view.current,
       quadWord: import.meta.env.VITE_DISCOVER_KEY,
       baseLayers: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR'],
+      overlays: [
+        {
+          Factory: FeatureLayer,
+          url: appConfig.urls.streams,
+          id: 'NHD Streams',
+          minScale: 144_500,
+          renderer: {
+            type: 'simple',
+            symbol: {
+              type: 'simple-line',
+              color: [0, 122, 194, 0.75],
+              width: 2,
+              style: 'short-dash-dot',
+            },
+          },
+        },
+        {
+          Factory: VectorTileLayer,
+          url: appConfig.urls.parcels,
+          id: 'Parcels',
+          minScale: 144_500,
+        },
+        {
+          Factory: VectorTileLayer,
+          url: appConfig.urls.utahPLSS,
+          id: 'Township/Range/Section',
+        },
+        {
+          Factory: FeatureLayer,
+          url: appConfig.urls.landOwnership,
+          id: 'Land Ownership',
+        },
+        {
+          Factory: FeatureLayer,
+          url: appConfig.urls.environmentalCovenants,
+          id: 'Environmental Covenants',
+        },
+        {
+          Factory: FeatureLayer,
+          url: appConfig.urls.HUC8,
+          id: 'Hydrologic Units (HUC8)',
+          legendEnabled: false,
+          labelingInfo: [
+            {
+              labelExpressionInfo: {
+                expression: '$feature.NAME',
+              },
+              symbol: {
+                type: 'text',
+                color: 'white',
+                haloColor: 'gray',
+                haloSize: 1,
+              },
+            },
+          ],
+          renderer: {
+            type: 'simple',
+            symbol: {
+              type: 'simple-fill',
+              color: [0, 122, 194, 0.3],
+              outline: {
+                color: [255, 255, 255, 0.65],
+                width: 2,
+                style: 'solid',
+              },
+              style: 'solid',
+            },
+          },
+        },
+      ],
     });
 
     return () => {
