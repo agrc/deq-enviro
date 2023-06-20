@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
+import Coordinates from './filters/Coordinates';
 import NHDStream from './filters/NHDStream';
 import Shape from './filters/Shape';
 import Statewide from './filters/Statewide';
@@ -62,6 +63,7 @@ export default function AdvancedFilter() {
     },
     coordinates: {
       label: 'Coordinates',
+      Component: Coordinates,
     },
   };
 
