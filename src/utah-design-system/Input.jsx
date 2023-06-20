@@ -43,7 +43,7 @@ export default function Input({
           )}
         >
           <input
-            className={twJoin(
+            className={twMerge(
               'w-full rounded-md border-slate-400 px-2 py-1',
               !inline && 'w-full',
               invalid && 'border-2 border-error-500',
@@ -59,6 +59,7 @@ export default function Input({
             disabled={disabled}
             value={value}
             onChange={(event) => onChange(event.target.value)}
+            required={required}
           />
         </div>
         {message && (
