@@ -13,6 +13,7 @@ export const Default = () => (
       layer="boundaries.county_boundaries"
       searchField="name"
       name="County"
+      onChange={console.log}
     />
 
     <h1>City</h1>
@@ -21,6 +22,7 @@ export const Default = () => (
       layer="boundaries.municipal_boundaries"
       searchField="name"
       name="City"
+      onChange={console.log}
     />
   </div>
 );
