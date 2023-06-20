@@ -24,26 +24,48 @@ const stateOfUtahExtent = stateOfUtahPolygon.extent;
 
 function useMapGraphic(mapView, graphic) {
   const previousGraphic = useRef(null);
+  const previousGoTo = useRef(null);
+
   useEffect(() => {
-    if (!mapView) return;
+    const giddyUp = async () => {
+      if (!mapView) return;
 
-    mapView.graphics.removeAll();
+      if (!graphic) {
+        if (previousGraphic.current) {
+          mapView.graphics.removeAll();
 
-    if (!graphic) return;
+          previousGraphic.current = null;
+        }
 
-    mapView.graphics.add(graphic);
-
-    if (JSON.stringify(graphic.geometry) === previousGraphic.current) return;
-
-    previousGraphic.current = JSON.stringify(graphic.geometry);
-
-    console.log('goTo');
-    mapView.goTo(graphic).catch((error) => {
-      if (error.name !== 'AbortError') {
-        throw error;
+        return;
       }
-      console.error('goTo error', error);
-    });
+
+      if (JSON.stringify(graphic.geometry) !== previousGraphic.current) {
+        mapView.graphics.removeAll();
+
+        mapView.graphics.add(graphic);
+
+        previousGraphic.current = JSON.stringify(graphic.geometry);
+
+        // this prevents the map from skipping a goTo and not zooming to the latest graphic
+        if (previousGoTo.current) {
+          await previousGoTo.current;
+        }
+
+        console.log('goTo');
+        previousGoTo.current = mapView
+          .goTo(graphic)
+          .catch((error) => {
+            if (error.name !== 'AbortError') {
+              throw error;
+            }
+            console.error('goTo error', error);
+          })
+          .then(() => (previousGoTo.current = null));
+      }
+    };
+
+    giddyUp();
   }, [graphic, mapView]);
 }
 
