@@ -16,7 +16,7 @@
     "build:update-remote-config-defaults": "node build-scripts/updateRemoteConfigDefaults.js",
     "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
     "dev": "cross-env NODE_ENV=development run-p dev:*",
-    "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions,storage",
+    "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions",
     "dev:vite": "vite",
     "format": "prettier --write .",
     "lint": "eslint ./ --ext .js,.jsx --ignore-path ./.eslintignore",
