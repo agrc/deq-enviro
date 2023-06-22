@@ -3,9 +3,9 @@ import { executeQueryJSON } from '@arcgis/core/rest/query';
 import Query from '@arcgis/core/rest/support/Query';
 import { useCombobox } from 'downshift';
 import ky from 'ky';
-import { escapeRegExp, sortBy, uniqWith } from 'lodash-es';
+import { debounce, escapeRegExp, sortBy, uniqWith } from 'lodash-es';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 import Spinner from './Spinner';
@@ -77,75 +77,78 @@ export default function Sherlock({
     hasMore: false,
   });
 
-  const handleInputValueChange = async ({ inputValue }) => {
-    if (inputValue.length <= 2) {
-      setState({
-        items: [],
-        error: false,
-        loading: false,
-        short: true,
-        hasMore: false,
-      });
-
-      return;
-    }
-    const { searchField, contextField } = provider;
-
-    setState({
-      items: [],
-      error: false,
-      loading: true,
-      short: false,
-      hasMore: false,
-    });
-
-    const response = await provider
-      .search(inputValue, maxResultsToDisplay)
-      .catch((e) => {
+  const handleInputValueChange = useCallback(
+    async ({ inputValue }) => {
+      if (inputValue.length <= 2) {
         setState({
           items: [],
-          error: e.message,
+          error: false,
           loading: false,
-          short: false,
+          short: true,
           hasMore: false,
         });
 
-        console.error(e);
+        return;
+      }
+      const { searchField, contextField } = provider;
+
+      setState({
+        items: [],
+        error: false,
+        loading: true,
+        short: false,
+        hasMore: false,
       });
 
-    const iteratee = [`attributes.${searchField}`];
-    let hasContext = false;
-    if (contextField) {
-      iteratee.push(`attributes.${contextField}`);
-      hasContext = true;
-    }
+      const response = await provider
+        .search(inputValue, maxResultsToDisplay)
+        .catch((e) => {
+          setState({
+            items: [],
+            error: e.message,
+            loading: false,
+            short: false,
+            hasMore: false,
+          });
 
-    let features = uniqWith(response.items, (a, b) => {
-      if (hasContext) {
-        return (
-          a.attributes[searchField] === b.attributes[searchField] &&
-          a.attributes[contextField] === b.attributes[contextField]
-        );
-      } else {
-        return a.attributes[searchField] === b.attributes[searchField];
+          console.error(e);
+        });
+
+      const iteratee = [`attributes.${searchField}`];
+      let hasContext = false;
+      if (contextField) {
+        iteratee.push(`attributes.${contextField}`);
+        hasContext = true;
       }
-    });
 
-    features = sortBy(features, iteratee);
-    let hasMore = false;
-    if (features.length > maxResultsToDisplay) {
-      features = features.slice(0, maxResultsToDisplay);
-      hasMore = true;
-    }
+      let features = uniqWith(response.items, (a, b) => {
+        if (hasContext) {
+          return (
+            a.attributes[searchField] === b.attributes[searchField] &&
+            a.attributes[contextField] === b.attributes[contextField]
+          );
+        } else {
+          return a.attributes[searchField] === b.attributes[searchField];
+        }
+      });
 
-    setState({
-      items: features,
-      loading: false,
-      error: false,
-      short: false,
-      hasMore: hasMore,
-    });
-  };
+      features = sortBy(features, iteratee);
+      let hasMore = false;
+      if (features.length > maxResultsToDisplay) {
+        features = features.slice(0, maxResultsToDisplay);
+        hasMore = true;
+      }
+
+      setState({
+        items: features,
+        loading: false,
+        error: false,
+        short: false,
+        hasMore: hasMore,
+      });
+    },
+    [maxResultsToDisplay, provider]
+  );
 
   const {
     getInputProps,
@@ -157,7 +160,14 @@ export default function Sherlock({
     getMenuProps,
   } = useCombobox({
     onSelectedItemChange: handleSelectedItemChange,
-    onInputValueChange: handleInputValueChange,
+    onInputValueChange: useMemo(
+      () =>
+        debounce(handleInputValueChange, 400, {
+          leading: false,
+          trailing: true,
+        }),
+      [handleInputValueChange]
+    ),
     items: state.items,
     itemToString: (item) => (item ? item.attributes[provider.searchField] : ''),
   });
