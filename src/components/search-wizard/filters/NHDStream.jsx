@@ -1,11 +1,28 @@
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Sherlock from '../../../utah-design-system/Sherlock';
 import Buffer from './Buffer';
-import WebApiSearch from './WebApiSearch';
+import NHDProvider from './NHDProvider';
 
 export default function NHDStream({ send }) {
   const [stream, setStream] = useState(null);
   const [bufferGeometry, setBufferGeometry] = useState(null);
+  const [sherlockConfig, setSherlockConfig] = useState(null);
+
+  useEffect(() => {
+    setSherlockConfig({
+      provider: new NHDProvider(),
+      placeHolder: 'start typing a stream name...',
+      onSherlockMatch: (features) => {
+        const feature = features[0];
+        setStream({
+          geometry: feature.geometry,
+          name: feature.attributes.gnis_name,
+        });
+      },
+      maxResultsToDisplay: 15,
+    });
+  }, [setSherlockConfig]);
 
   useEffect(() => {
     const filter =
@@ -23,20 +40,10 @@ export default function NHDStream({ send }) {
     });
   }, [stream, bufferGeometry, send]);
 
-  const onStreamChange = useCallback(
-    (geometry, name) => setStream({ geometry, name }),
-    []
-  );
-
   return (
     <>
       <Buffer onChange={setBufferGeometry} inputGeometry={stream?.geometry} />
-      <WebApiSearch
-        layer="water.streams_nhd"
-        searchField="gnis_name"
-        name="NHD Stream"
-        onChange={onStreamChange}
-      />
+      {sherlockConfig && <Sherlock {...sherlockConfig} />}
     </>
   );
 }
