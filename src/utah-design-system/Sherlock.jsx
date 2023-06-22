@@ -315,7 +315,7 @@ Highlighted.propTypes = {
   highlight: PropTypes.string,
 };
 
-class ProviderBase {
+export class ProviderBase {
   controller = new AbortController();
   signal = this.controller.signal;
 
