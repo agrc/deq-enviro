@@ -52,7 +52,6 @@ function useMapGraphic(mapView, graphic) {
           await previousGoTo.current;
         }
 
-        console.log('goTo');
         previousGoTo.current = mapView
           .goTo(graphic)
           .catch((error) => {

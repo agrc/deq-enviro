@@ -11,7 +11,6 @@ export default function WebApiFilter({
 }) {
   const onChange = useCallback(
     (geometry, name) => {
-      console.log('webapi set filter', geometry, name);
       send('SET_FILTER', {
         filter: {
           geometry,
