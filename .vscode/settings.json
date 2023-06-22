@@ -59,6 +59,7 @@
     "node modules signavio chai subset lib",
     "nodebuffer",
     "noninteractive",
+    "opensgid",
     "overscan",
     "packagejson",
     "permissionproxy",

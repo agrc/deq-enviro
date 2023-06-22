@@ -1,5 +1,9 @@
 import admin from 'firebase-admin';
-import { onRequest } from 'firebase-functions/v2/https';
+import { onCall, onRequest } from 'firebase-functions/v2/https';
+import {
+  getFeature as getFeatureSource,
+  search as searchSource,
+} from './search.js';
 import update from './update.js';
 
 admin.initializeApp();
@@ -16,4 +20,12 @@ export const configs = onRequest(commonConfigs, async (_, response) => {
     console.error('returning error', e);
     response.status(500).send({ error: e.toString() });
   }
+});
+
+export const search = onCall(commonConfigs, async ({ data }) => {
+  return await searchSource(data);
+});
+
+export const getFeature = onCall(commonConfigs, async ({ data }) => {
+  return await getFeatureSource(data.match, data.context);
 });
