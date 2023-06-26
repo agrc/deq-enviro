@@ -43,10 +43,18 @@ export default function Sherlock({
   provider,
   symbols = defaultSymbols,
 }) {
+  const getSearchValue = (item) =>
+    provider.idField
+      ? item.attributes[provider.idField]
+      : item.attributes[provider.searchField];
+
   const handleSelectedItemChange = async ({ selectedItem }) => {
-    const searchValue = provider.idField
-      ? selectedItem.attributes[provider.idField]
-      : selectedItem.attributes[provider.searchField];
+    setState({
+      ...state,
+      loading: true,
+    });
+
+    const searchValue = getSearchValue(selectedItem);
 
     let contextValue;
     if (provider.contextField) {
@@ -67,6 +75,11 @@ export default function Sherlock({
     );
 
     onSherlockMatch(graphics);
+
+    setState({
+      ...state,
+      loading: false,
+    });
   };
 
   const [state, setState] = useState({
@@ -78,7 +91,12 @@ export default function Sherlock({
   });
 
   const handleInputValueChange = useCallback(
-    async ({ inputValue }) => {
+    async ({ inputValue, selectedItem }) => {
+      const searchValue = selectedItem && getSearchValue(selectedItem);
+
+      // prevent an unnecessary search when an item is selected
+      if (inputValue === searchValue) return;
+
       if (inputValue.length <= 2) {
         setState({
           items: [],
