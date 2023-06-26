@@ -1,12 +1,20 @@
 import knex from 'knex';
-import { getSecret } from './utils.js';
 
-const db = knex({
-  client: 'pg',
-  connection: JSON.parse(await getSecret('OPENSGID_CONNECTION_PARAMS')),
-});
+let cachedDb;
+function getDb() {
+  if (!cachedDb) {
+    cachedDb = knex({
+      client: 'pg',
+      connection: JSON.parse(process.env.OPENSGID_CONNECTION_PARAMS),
+    });
+  }
+
+  return cachedDb;
+}
 
 export async function search(text) {
+  const db = getDb();
+
   const features = await db('water.streams_nhd as nhd')
     .join(
       'boundaries.county_boundaries as county',
@@ -23,6 +31,8 @@ export async function search(text) {
 }
 
 export async function getFeature(match, context) {
+  const db = getDb();
+
   const feature = await db('water.streams_nhd as nhd')
     .join(
       'boundaries.county_boundaries as county',

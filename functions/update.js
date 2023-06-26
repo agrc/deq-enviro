@@ -4,7 +4,6 @@ import got from 'got';
 import auth from './common/auth.js';
 import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
 import { schemas, supportsExport } from './common/validation.js';
-import { getSecret } from './utils.js';
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
@@ -42,7 +41,7 @@ async function getConfigs(
 ) {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: await getSecret('CONFIG_SPREADSHEET_ID'),
+    spreadsheetId: process.env.CONFIG_SPREADSHEET_ID,
     range,
   });
 
