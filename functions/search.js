@@ -1,14 +1,9 @@
 import knex from 'knex';
+import { getSecret } from './utils.js';
 
 const db = knex({
   client: 'pg',
-  connection: {
-    host: 'opensgid.agrc.utah.gov',
-    user: 'agrc',
-    password: 'agrc',
-    database: 'opensgid',
-    port: 5432,
-  },
+  connection: JSON.parse(await getSecret('OPENSGID_CONNECTION_PARAMS')),
 });
 
 export async function search(text) {
