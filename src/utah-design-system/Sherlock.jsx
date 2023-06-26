@@ -268,7 +268,7 @@ export default function Sherlock({
         </div>
         <input
           autoComplete="off"
-          className="w-full rounded-md border border-slate-400 py-1 pl-8 pr-2"
+          className="h-8 w-full rounded-md border border-slate-400 py-1 pl-8 pr-2"
           placeholder={placeHolder}
           type="text"
           {...getInputProps()}

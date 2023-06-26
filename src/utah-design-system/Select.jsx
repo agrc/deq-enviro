@@ -21,7 +21,7 @@ export default function Select({
     >
       <RadixSelect.Trigger
         className={twMerge(
-          'group flex h-9 w-full items-center justify-between rounded-md border border-slate-400 px-2 py-1',
+          'group flex h-8 w-full items-center justify-between rounded-md border border-slate-400 px-2 py-1',
           disabled && 'cursor-not-allowed text-slate-300',
           'data-[placeholder]:text-slate-500',
           className

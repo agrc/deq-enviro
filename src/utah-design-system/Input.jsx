@@ -44,7 +44,7 @@ export default function Input({
         >
           <input
             className={twMerge(
-              'w-full rounded-md border-slate-400 px-2 py-1',
+              'h-8 w-full rounded-md border-slate-400 px-2 py-1',
               !inline && 'w-full',
               invalid && 'border-2 border-error-500',
               disabled
