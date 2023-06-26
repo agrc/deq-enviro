@@ -1,3 +1,4 @@
+import { defineSecret } from 'firebase-functions/params';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import {
   getFeature as getFeatureSource,
@@ -19,10 +20,22 @@ export const configs = onRequest(commonConfigs, async (_, response) => {
   }
 });
 
-export const search = onCall(commonConfigs, async ({ data }) => {
-  return await searchSource(data);
-});
+export const search = onCall(
+  {
+    ...commonConfigs,
+    secrets: [defineSecret('OPENSGID_CONNECTION_PARAMS')],
+  },
+  async ({ data }) => {
+    return await searchSource(data);
+  }
+);
 
-export const getFeature = onCall(commonConfigs, async ({ data }) => {
-  return await getFeatureSource(data.match, data.context);
-});
+export const getFeature = onCall(
+  {
+    ...commonConfigs,
+    secrets: [defineSecret('CONFIG_SPREADSHEET_ID')],
+  },
+  async ({ data }) => {
+    return await getFeatureSource(data.match, data.context);
+  }
+);
