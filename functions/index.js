@@ -1,12 +1,9 @@
-import admin from 'firebase-admin';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import {
   getFeature as getFeatureSource,
   search as searchSource,
 } from './search.js';
 import update from './update.js';
-
-admin.initializeApp();
 
 const commonConfigs = {
   // longer timeout for local development to allow for debugging

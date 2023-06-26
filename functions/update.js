@@ -1,22 +1,10 @@
-import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import admin from 'firebase-admin';
 import { google } from 'googleapis';
 import got from 'got';
 import auth from './common/auth.js';
 import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
 import { schemas, supportsExport } from './common/validation.js';
-
-const secretsClient = new SecretManagerServiceClient();
-
-export async function getSpreadsheetId() {
-  const [version] = await secretsClient.accessSecretVersion({
-    name: `projects/${
-      admin.app().options.projectId
-    }/secrets/CONFIG_SPREADSHEET_ID/versions/latest`,
-  });
-
-  return version.payload.data.toString();
-}
+import { getSecret } from './utils.js';
 
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
@@ -54,7 +42,7 @@ async function getConfigs(
 ) {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: await getSpreadsheetId(),
+    spreadsheetId: await getSecret('CONFIG_SPREADSHEET_ID'),
     range,
   });
 
