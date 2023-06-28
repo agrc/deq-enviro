@@ -43,10 +43,13 @@ export default function Sherlock({
   provider,
   symbols = defaultSymbols,
 }) {
-  const getSearchValue = (item) =>
-    provider.idField
-      ? item.attributes[provider.idField]
-      : item.attributes[provider.searchField];
+  const getSearchValue = useCallback(
+    (item) =>
+      provider.idField
+        ? item.attributes[provider.idField]
+        : item.attributes[provider.searchField],
+    [provider.idField, provider.searchField]
+  );
 
   const handleSelectedItemChange = async ({ selectedItem }) => {
     setState({
