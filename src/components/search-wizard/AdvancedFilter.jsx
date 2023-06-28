@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { twJoin } from 'tailwind-merge';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
@@ -9,7 +11,8 @@ import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
 
-export default function AdvancedFilter() {
+// use visible param rather than unmount to preserve state
+export default function AdvancedFilter({ visible }) {
   const [state, send] = useSearchMachine();
   const filterTypes = {
     statewide: {
@@ -76,7 +79,9 @@ export default function AdvancedFilter() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-2">
+    <div
+      className={twJoin('flex-1 overflow-y-auto px-2', !visible && 'hidden')}
+    >
       <h3 className="pt-2">Selected Map Layers</h3>
       <ul>
         {state.context.searchLayers.map((config) => (
@@ -104,3 +109,7 @@ export default function AdvancedFilter() {
     </div>
   );
 }
+
+AdvancedFilter.propTypes = {
+  visible: PropTypes.bool.isRequired,
+};
