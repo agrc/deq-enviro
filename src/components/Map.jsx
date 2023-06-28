@@ -6,7 +6,6 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Expand from '@arcgis/core/widgets/Expand';
-import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
@@ -75,13 +74,10 @@ export default function MapComponent() {
 
   const map = useRef(null);
   const view = useRef(null);
-  const filterGraphic = (state.matches('advanced') ||
-    state.matches('searching') ||
-    state.matches('result')) &&
-    state.context?.filter?.geometry && {
-      geometry: state.context?.filter?.geometry,
-      symbol: appConfig.symbols.filter,
-    };
+  const filterGraphic = state.context?.filter?.geometry && {
+    geometry: state.context?.filter?.geometry,
+    symbol: appConfig.symbols.filter,
+  };
   useMapGraphic(view.current, filterGraphic);
 
   const mapDiv = useRef(null);
@@ -97,16 +93,6 @@ export default function MapComponent() {
     setMapView(view.current);
 
     view.current.when(() => {
-      const layerList = new Expand({
-        expandIcon: 'layers',
-        view: view.current,
-        content: new LayerList({
-          view: view.current,
-        }),
-      });
-
-      view.current.ui.add(layerList, 'top-left');
-
       const print = new Expand({
         expandIcon: 'print',
         view: view.current,
@@ -117,6 +103,7 @@ export default function MapComponent() {
             title: 'Printed from the Utah DEQ Interactive Map',
           },
         }),
+        label: 'Print',
       });
 
       view.current.ui.add(print, 'top-left');
@@ -125,6 +112,7 @@ export default function MapComponent() {
         expandIcon: 'legend',
         view: view.current,
         content: new Legend({ view: view.current }),
+        label: 'Legend',
       });
 
       view.current.ui.add(legend, 'top-left');
@@ -212,13 +200,19 @@ export default function MapComponent() {
     };
   }, [setMapView]);
 
+  const removeSearchLayers = () => {
+    if (searching.current) return;
+
+    const removeLayers = map.current.layers.filter((layer) =>
+      layer.id?.startsWith('search-layer')
+    );
+    map.current.layers.removeMany(removeLayers);
+  };
+
   const searching = useRef(false);
   useEffect(() => {
     if (state.matches('selectLayers')) {
-      map.current.removeAll();
-      view.current.goTo(stateOfUtahExtent);
-
-      return;
+      removeSearchLayers();
     }
 
     if (!state.matches('searching')) {
@@ -231,10 +225,10 @@ export default function MapComponent() {
           url: layer[fieldNames.queryLayers.featureService],
           outFields: layer[fieldNames.queryLayers.resultGridFields],
           definitionExpression: filter?.where,
+          id: `search-layer-${layer[fieldNames.queryLayers.uniqueId]}`,
         });
         map.current.add(featureLayer);
 
-        // does this really make sure that all features have been loaded?
         const layerView = await view.current.whenLayerView(featureLayer);
         layerView.filter = {
           geometry: filter.geometry,
@@ -274,10 +268,9 @@ export default function MapComponent() {
     }
 
     async function search() {
-      console.log('searching');
-      searching.current = true;
+      removeSearchLayers();
 
-      map.current.removeAll();
+      searching.current = true;
 
       const extents = await Promise.all(
         state.context.searchLayers.map((layer) =>
@@ -313,6 +306,15 @@ export default function MapComponent() {
       });
     }
   }, [send, state]);
+
+  useEffect(() => {
+    if (!searching.current && state.context.resultExtent === null) {
+      removeSearchLayers();
+      view.current.goTo(stateOfUtahExtent);
+
+      return;
+    }
+  }, [state.context.resultExtent]);
 
   useEffect(() => {
     if (state.context.resultExtent) {

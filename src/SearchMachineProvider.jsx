@@ -8,7 +8,6 @@ import stateOfUtahJson from './data/state-of-utah.json';
 
 const CACHE_KEY = 'searchContext';
 function cacheSearchContext(cachedContext) {
-  console.log('cacheSearchContext');
   setItem(CACHE_KEY, JSON.stringify(cachedContext));
 }
 
@@ -103,6 +102,10 @@ const machine = createMachine(
             actions: assign({
               filter: (_, event) => event.filter,
             }),
+          },
+          CLEAR: {
+            actions: 'clear',
+            target: 'selectLayers',
           },
         },
       },
@@ -246,7 +249,6 @@ const machine = createMachine(
   {
     actions: {
       clear: assign(() => {
-        console.log('clear action');
         cacheSearchContext({ searchLayers: [], filter: blankFilter });
 
         return { ...blankContext };

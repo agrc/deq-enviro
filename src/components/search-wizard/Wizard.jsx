@@ -108,7 +108,7 @@ export default function SearchWizard() {
           filterName={state.context.filter.name}
         />
       ) : null}
-      {state.matches('advanced') ? <AdvancedFilter /> : null}
+      <AdvancedFilter visible={state.matches('advanced')} />
       {state.matches('error') ? (
         <p>{JSON.stringify(state.context.error, null, 2)}</p>
       ) : null}
@@ -145,7 +145,10 @@ export default function SearchWizard() {
               className="w-full"
               size={Button.Sizes.xl}
               busy={state.matches('searching')}
-              disabled={state.context.searchLayers.length === 0}
+              disabled={
+                state.context.searchLayers.length === 0 ||
+                (!state.context.filter.geometry && !state.context.filter.where)
+              }
               onClick={() => send('SEARCH')}
             >
               Search{' '}
@@ -162,6 +165,7 @@ export default function SearchWizard() {
             appearance={Button.Appearances.outlined}
             color={Button.Colors.primary}
             className="w-full"
+            disabled={state.context.searchLayers.length === 0}
             size={Button.Sizes.xl}
             onClick={() => send('ADVANCED')}
           >
@@ -176,7 +180,7 @@ export default function SearchWizard() {
             size={Button.Sizes.xl}
             onClick={() => send('QUERY_LAYERS')}
           >
-            Select Layers
+            Back
           </Button>
         ) : null}
         {state.matches('result') ? (
@@ -247,7 +251,7 @@ export default function SearchWizard() {
           </Button>
         ) : null}
         <Button
-          color={Button.Colors.accent}
+          color={Button.Colors.none}
           className="w-full"
           size={Button.Sizes.xl}
           onClick={() => send('CLEAR')}
