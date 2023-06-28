@@ -24,8 +24,7 @@
     "preview": "vite preview",
     "save-firebase-state": "firebase emulators:start --import .emulator-data --export-on-exit --only functions",
     "start": "npm run dev",
-    "test": "vitest --coverage",
-    "coverage": "vitest run --coverage",
+    "test": "vitest",
     "storybook": "storybook dev -p 6006"
   },
   "browserslist": {
@@ -127,7 +126,6 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@vitejs/plugin-react": "^4.0.1",
-    "@vitest/coverage-c8": "^0.32.2",
     "autoprefixer": "^10.4.14",
     "cpy-cli": "^4.2.0",
     "cross-env": "^7.0.3",
