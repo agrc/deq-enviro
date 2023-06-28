@@ -1,4 +1,3 @@
-import { defineSecret } from 'firebase-functions/params';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import {
   getFeature as getFeatureSource,
@@ -11,19 +10,25 @@ const commonConfigs = {
   timeoutSeconds: process.env.FUNCTIONS_EMULATOR ? 60 * 60 : 60,
 };
 
-export const configs = onRequest(commonConfigs, async (_, response) => {
-  try {
-    response.send(await update());
-  } catch (e) {
-    console.error('returning error', e);
-    response.status(500).send({ error: e.toString() });
+export const configs = onRequest(
+  {
+    ...commonConfigs,
+    secrets: ['CONFIG_SPREADSHEET_ID'],
+  },
+  async (_, response) => {
+    try {
+      response.send(await update());
+    } catch (e) {
+      console.error('returning error', e);
+      response.status(500).send({ error: e.toString() });
+    }
   }
-});
+);
 
 export const search = onCall(
   {
     ...commonConfigs,
-    secrets: [defineSecret('OPENSGID_CONNECTION_PARAMS')],
+    secrets: ['OPENSGID_CONNECTION_PARAMS'],
   },
   async ({ data }) => {
     return await searchSource(data);
@@ -33,7 +38,7 @@ export const search = onCall(
 export const getFeature = onCall(
   {
     ...commonConfigs,
-    secrets: [defineSecret('CONFIG_SPREADSHEET_ID')],
+    secrets: ['OPENSGID_CONNECTION_PARAMS'],
   },
   async ({ data }) => {
     return await getFeatureSource(data.match, data.context);
