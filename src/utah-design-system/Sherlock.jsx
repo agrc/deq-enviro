@@ -165,7 +165,7 @@ export default function Sherlock({
         hasMore: hasMore,
       });
     },
-    [maxResultsToDisplay, provider]
+    [getSearchValue, maxResultsToDisplay, provider]
   );
 
   const {
