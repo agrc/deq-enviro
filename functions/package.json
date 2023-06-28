@@ -16,10 +16,10 @@
     "@google-cloud/secret-manager": "^4.2.2",
     "firebase-admin": "^11.9.0",
     "firebase-functions": "^4.4.1",
-    "googleapis": "^118.0.0",
+    "googleapis": "^120.0.0",
     "got": "^13.0.0",
     "knex": "^2.4.2",
-    "pg": "^8.11.0",
+    "pg": "^8.11.1",
     "yup": "^1.2.0"
   },
   "devDependencies": {
