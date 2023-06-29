@@ -79,7 +79,7 @@ export default function AdvancedFilter({ visible }) {
 
   return (
     <div className={!visible && 'hidden'}>
-      <h3 className="pt-2">Selected Map Layers</h3>
+      <h3>Selected Map Layers</h3>
       <ul>
         {state.context.searchLayers.map((config) => (
           <li

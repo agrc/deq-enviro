@@ -19,7 +19,7 @@ export default function SelectMapData({ queryLayers }) {
 
   return (
     <>
-      <h3 className="pt-2">Select Map Data</h3>
+      <h3>Select Map Data</h3>
       <AccordionRoot type="multiple">
         {divisions.sort().map((division) => {
           return (
