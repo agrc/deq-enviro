@@ -1,9 +1,4 @@
 import { onCall, onRequest } from 'firebase-functions/v2/https';
-import {
-  getFeature as getFeatureSource,
-  search as searchSource,
-} from './search.js';
-import update from './update.js';
 
 const commonConfigs = {
   // longer timeout for local development to allow for debugging
@@ -16,6 +11,7 @@ export const configs = onRequest(
     secrets: ['CONFIG_SPREADSHEET_ID'],
   },
   async (_, response) => {
+    const update = await import('./update.js');
     try {
       response.send(await update());
     } catch (e) {
@@ -31,6 +27,8 @@ export const search = onCall(
     secrets: ['OPENSGID_CONNECTION_PARAMS'],
   },
   async ({ data }) => {
+    const { search: searchSource } = await import('./search.js');
+
     return await searchSource(data);
   }
 );
@@ -41,6 +39,8 @@ export const getFeature = onCall(
     secrets: ['OPENSGID_CONNECTION_PARAMS'],
   },
   async ({ data }) => {
+    const { getFeature: getFeatureSource } = await import('./getFeature.js');
+
     return await getFeatureSource(data.match, data.context);
   }
 );
