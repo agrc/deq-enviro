@@ -5,6 +5,8 @@ import auth from './common/auth.js';
 import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
 import { schemas, supportsExport } from './common/validation.js';
 
+admin.initializeApp();
+
 export function arraysToObjects(arrays, skipFields = []) {
   const [keys, ...values] = arrays;
   return values.map((row) => {
