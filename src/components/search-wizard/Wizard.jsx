@@ -112,7 +112,11 @@ export default function SearchWizard() {
         <Suspense
           fallback={
             <div className="flex h-full items-center justify-center">
-              <Spinner className="h-10 w-10" size={Spinner.Sizes.custom} />
+              <Spinner
+                className="h-10 w-10"
+                size={Spinner.Sizes.custom}
+                ariaLabel="loading module"
+              />
             </div>
           }
         >
