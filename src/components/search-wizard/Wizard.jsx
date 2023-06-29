@@ -1,16 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import ky from 'ky';
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useRemoteConfigString } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import Button from '../../utah-design-system/Button.jsx';
-import AdvancedFilter from './AdvancedFilter.jsx';
-import Download from './Download.jsx';
-import DownloadProgress from './DownloadProgress.jsx';
-import Progress from './SearchProgress.jsx';
+import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
+
+const AdvancedFilter = lazy(() => import('./AdvancedFilter.jsx'));
+const Download = lazy(() => import('./Download.jsx'));
+const DownloadProgress = lazy(() => import('./DownloadProgress.jsx'));
+const Progress = lazy(() => import('./SearchProgress.jsx'));
 
 async function generateZip(layer, format, send) {
   const layerUrl = layer.featureService;
@@ -92,48 +94,71 @@ export default function SearchWizard() {
     },
   });
 
+  // this is to prevent the advanced filter code from loading until the user clicks on it
+  const [advancedFilterTouched, setAdvancedFilterTouched] = useState(false);
+  useEffect(() => {
+    if (!advancedFilterTouched && state.matches('advanced')) {
+      setAdvancedFilterTouched(true);
+    }
+  }, [advancedFilterTouched, state, state.value]);
+
   if (queryLayersConfig.status === 'loading' || !state.context.searchLayers) {
     return null;
   }
 
   return (
     <div className="flex h-full flex-col">
-      {state.matches('selectLayers') ? (
-        <SelectMapData queryLayers={queryLayers} />
-      ) : null}
-      {state.matches('searching') || state.matches('result') ? (
-        <Progress
-          searchLayers={state.context.searchLayers}
-          results={state.context.resultLayers}
-          filterName={state.context.filter.name}
-        />
-      ) : null}
-      <AdvancedFilter visible={state.matches('advanced')} />
-      {state.matches('error') ? (
-        <p>{JSON.stringify(state.context.error, null, 2)}</p>
-      ) : null}
-      {state.matches('download') ? (
-        <Download
-          searchResultLayers={state.context.resultLayers}
-          mutation={downloadMutation}
-          selectedLayers={state.context.selectedDownloadLayers}
-          setSelectedLayers={(newIds) =>
-            send('SET_SELECTED_LAYERS', { selectedLayers: newIds })
+      <div className="flex-1 overflow-y-auto p-2">
+        <Suspense
+          fallback={
+            <div className="flex h-full items-center justify-center">
+              <Spinner className="h-10 w-10" size={Spinner.Sizes.custom} />
+            </div>
           }
-          format={state.context.downloadFormat}
-          setFormat={(newFormat) => send('SET_FORMAT', { format: newFormat })}
-        />
-      ) : null}
-      {state.matches('downloading') ? (
-        <DownloadProgress
-          layers={queryLayers.filter((layer) =>
-            state.context.selectedDownloadLayers.includes(
-              layer[fieldNames.queryLayers.uniqueId]
-            )
+        >
+          {state.matches('selectLayers') ? (
+            <SelectMapData queryLayers={queryLayers} />
+          ) : null}
+          {state.matches('searching') || state.matches('result') ? (
+            <Progress
+              searchLayers={state.context.searchLayers}
+              results={state.context.resultLayers}
+              filterName={state.context.filter.name}
+            />
+          ) : null}
+          {advancedFilterTouched && (
+            <AdvancedFilter visible={state.matches('advanced')} />
           )}
-          results={state.context.downloadResultLayers}
-        />
-      ) : null}
+          {state.matches('error') ? (
+            <p>{JSON.stringify(state.context.error, null, 2)}</p>
+          ) : null}
+          {state.matches('download') ? (
+            <Download
+              searchResultLayers={state.context.resultLayers}
+              mutation={downloadMutation}
+              selectedLayers={state.context.selectedDownloadLayers}
+              setSelectedLayers={(newIds) =>
+                send('SET_SELECTED_LAYERS', { selectedLayers: newIds })
+              }
+              format={state.context.downloadFormat}
+              setFormat={(newFormat) =>
+                send('SET_FORMAT', { format: newFormat })
+              }
+            />
+          ) : null}
+          {state.matches('downloading') ? (
+            <DownloadProgress
+              layers={queryLayers.filter((layer) =>
+                state.context.selectedDownloadLayers.includes(
+                  layer[fieldNames.queryLayers.uniqueId]
+                )
+              )}
+              results={state.context.downloadResultLayers}
+            />
+          ) : null}
+        </Suspense>
+      </div>
+
       <div className="space-y-2 justify-self-end border-t border-t-slate-300 p-2">
         {state.matches('selectLayers') ||
         state.matches('searching') ||

@@ -54,7 +54,7 @@ export default function Download({
   ];
 
   return (
-    <div className="flex-1 p-2">
+    <>
       <h3>Select Data for Download</h3>
       {relevantResultLayers.map((searchLayer) => {
         const uniqueId = searchLayer[fieldNames.queryLayers.uniqueId];
@@ -81,7 +81,7 @@ export default function Download({
         value={format}
         onValueChange={setFormat}
       />
-    </div>
+    </>
   );
 }
 
