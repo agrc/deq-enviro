@@ -234,6 +234,7 @@ export default function SearchWizard() {
             appearance={Button.Appearances.solid}
             color={Button.Colors.primary}
             className="w-full"
+            disabled={state.context.selectedDownloadLayers.length === 0}
             size={Button.Sizes.xl}
             onClick={() =>
               downloadMutation.mutate(
