@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { twJoin } from 'tailwind-merge';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
@@ -79,9 +78,7 @@ export default function AdvancedFilter({ visible }) {
   };
 
   return (
-    <div
-      className={twJoin('flex-1 overflow-y-auto px-2', !visible && 'hidden')}
-    >
+    <div className={!visible && 'hidden'}>
       <h3 className="pt-2">Selected Map Layers</h3>
       <ul>
         {state.context.searchLayers.map((config) => (

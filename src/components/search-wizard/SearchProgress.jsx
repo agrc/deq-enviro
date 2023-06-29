@@ -4,7 +4,7 @@ import ResultStatusIcons from './ResultStatusIcons';
 
 export default function SearchProgress({ searchLayers, results, filterName }) {
   return (
-    <div className="flex-1 p-2">
+    <>
       <h3>Search Results</h3>
       <ul>
         {searchLayers.map((config) => {
@@ -34,7 +34,7 @@ export default function SearchProgress({ searchLayers, results, filterName }) {
       </ul>
       <h5>Filter</h5>
       <div className="rounded-full bg-slate-200 px-3 py-1">{filterName}</div>
-    </div>
+    </>
   );
 }
 

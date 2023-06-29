@@ -8,7 +8,7 @@ export default function DownloadProgress({ layers, results }) {
   const anchorTagRefs = useRef(new Map());
 
   return (
-    <div className="flex-1 p-2">
+    <>
       <h3>Download Results</h3>
       <ul>
         {layers.map((searchLayer) => {
@@ -47,7 +47,7 @@ export default function DownloadProgress({ layers, results }) {
                   download={resultConfig.url.substring(
                     resultConfig.url.lastIndexOf('/') + 1
                   )}
-                  className="border-success-500 text-success-500 flex items-center justify-center rounded-md border-2 p-1 font-bold"
+                  className="flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
                 >
                   <Icon
                     className="mr-2"
@@ -64,7 +64,7 @@ export default function DownloadProgress({ layers, results }) {
       <p className="mt-4">
         This can take up to several minutes for larger datasets.
       </p>
-    </div>
+    </>
   );
 }
 

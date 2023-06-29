@@ -18,7 +18,7 @@ export default function SelectMapData({ queryLayers }) {
   const [state, send] = useSearchMachine();
 
   return (
-    <div className="flex-1 overflow-y-auto px-2">
+    <>
       <h3 className="pt-2">Select Map Data</h3>
       <AccordionRoot type="multiple">
         {divisions.sort().map((division) => {
@@ -58,7 +58,7 @@ export default function SelectMapData({ queryLayers }) {
           );
         })}
       </AccordionRoot>
-    </div>
+    </>
   );
 }
 
