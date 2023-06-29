@@ -19,7 +19,7 @@ async function generateZip(layer, format, send) {
   const params = new URLSearchParams({
     layers: layerIndex,
     layerQueries: JSON.stringify({
-      0: { where: `OBJECTID IN (${layer.objectIds.join(',')})` },
+      [layerIndex]: { where: `OBJECTID IN (${layer.objectIds.join(',')})` },
     }),
     syncModel: 'none',
     dataFormat: format,
