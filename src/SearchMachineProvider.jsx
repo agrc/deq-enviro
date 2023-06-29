@@ -231,6 +231,10 @@ const machine = createMachine(
           BACK: {
             target: 'download',
           },
+          CLEAR: {
+            target: 'selectLayers',
+            actions: 'clear',
+          },
         },
       },
       error: {
