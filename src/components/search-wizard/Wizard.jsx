@@ -169,7 +169,7 @@ export default function SearchWizard() {
             size={Button.Sizes.xl}
             onClick={() => send('ADVANCED')}
           >
-            Advanced Filter
+            Open Advanced Filter
           </Button>
         ) : null}
         {state.matches('advanced') ? (
