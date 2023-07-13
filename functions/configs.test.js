@@ -4,7 +4,7 @@ import {
   applyTransforms,
   arraysToObjects,
   checkForDuplicateIds,
-} from './update';
+} from './configs';
 
 describe('arraysToObjects', () => {
   it('converts an array of arrays to an array of objects', () => {

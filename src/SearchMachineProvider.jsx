@@ -12,9 +12,9 @@ function cacheSearchContext(cachedContext) {
 }
 
 const blankFilter = {
-  where: null,
   geometry: stateOfUtahJson,
   name: 'State of Utah',
+  attribute: null,
 };
 const blankContext = {
   /* I think that this means that I need Typescript. ;)
@@ -27,7 +27,12 @@ const blankContext = {
   /*
     {
       geometry: {},
-      where: '...',
+      attribute: {
+        values: ['A Good Name'],
+        queryType: 'and' || 'or',
+        attributeType: 'name' || 'id',
+      },
+      name: 'A Good Name',
     }
   */
   filter: blankFilter,

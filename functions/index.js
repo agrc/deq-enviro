@@ -11,7 +11,7 @@ export const configs = onRequest(
     secrets: ['CONFIG_SPREADSHEET_ID'],
   },
   async (_, response) => {
-    const update = await import('./update.js');
+    const { main: update } = await import('./configs.js');
     try {
       response.send(await update());
     } catch (e) {
