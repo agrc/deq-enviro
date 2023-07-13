@@ -1,14 +1,28 @@
 import { useMachine } from '@xstate/react';
-import { getItem, setItem } from 'localforage';
+import localforage from 'localforage';
 import PropTypes from 'prop-types';
 import { createContext, useContext } from 'react';
 import { assign, createMachine } from 'xstate';
 import { downloadFormats, fieldNames } from '../functions/common/config';
 import stateOfUtahJson from './data/state-of-utah.json';
 
+localforage.config({
+  name: 'deq-enviro-search-cache',
+});
+
+const VERSION_KEY = 'searchContextVersion';
+const CURRENT_VERSION = 1; // change this anytime you change the schema of the cache (includes any layer config changes)
+localforage.getItem(VERSION_KEY).then((version) => {
+  if (version !== CURRENT_VERSION) {
+    console.warn('new search cache version found, clearing old cache');
+    localforage.clear();
+    localforage.setItem(VERSION_KEY, CURRENT_VERSION);
+  }
+});
+
 const CACHE_KEY = 'searchContext';
 function cacheSearchContext(cachedContext) {
-  setItem(CACHE_KEY, JSON.stringify(cachedContext));
+  localforage.setItem(CACHE_KEY, JSON.stringify(cachedContext));
 }
 
 const blankFilter = {
@@ -61,7 +75,9 @@ const machine = createMachine(
       initialize: {
         invoke: {
           src: async () => {
-            const cachedContext = JSON.parse(await getItem(CACHE_KEY));
+            const cachedContext = JSON.parse(
+              await localforage.getItem(CACHE_KEY)
+            );
 
             return cachedContext || {};
           },
