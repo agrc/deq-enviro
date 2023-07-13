@@ -17,6 +17,7 @@ import { useSearchMachine } from '../SearchMachineProvider';
 import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
+import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -224,7 +225,7 @@ export default function MapComponent() {
         const featureLayer = new FeatureLayer({
           url: layer[fieldNames.queryLayers.featureService],
           outFields: layer[fieldNames.queryLayers.resultGridFields],
-          definitionExpression: filter?.where,
+          definitionExpression: getWhere(filter.attribute, layer),
           id: `search-layer-${layer[fieldNames.queryLayers.uniqueId]}`,
         });
         map.current.add(featureLayer);

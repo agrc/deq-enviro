@@ -145,7 +145,7 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
   };
 }
 
-export default async function main() {
+export async function main() {
   const authClient = await auth([
     'https://www.googleapis.com/auth/spreadsheets.readonly',
     'https://www.googleapis.com/auth/firebase.remoteconfig',

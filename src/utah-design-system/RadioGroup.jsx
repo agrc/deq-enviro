@@ -1,18 +1,19 @@
 import * as RadixRadioGroup from '@radix-ui/react-radio-group';
 import PropTypes from 'prop-types';
-import { twJoin } from 'tailwind-merge';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 export default function RadioGroup({
   ariaLabel,
-  items,
+  className,
   defaultValue,
-  value,
+  items,
   onValueChange,
+  value,
 }) {
   return (
     <RadixRadioGroup.Root
       aria-label={ariaLabel}
-      className="flex flex-col items-start"
+      className={twMerge('flex flex-col items-start', className)}
       defaultValue={defaultValue}
       value={value}
       onValueChange={onValueChange}
@@ -69,13 +70,14 @@ export default function RadioGroup({
 
 RadioGroup.propTypes = {
   ariaLabel: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  defaultValue: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      label: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.node]),
     })
   ).isRequired,
-  defaultValue: PropTypes.string,
-  value: PropTypes.string,
   onValueChange: PropTypes.func,
+  value: PropTypes.string,
 };

@@ -1,8 +1,10 @@
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
+import Attribute from './filters/Attribute';
 import Coordinates from './filters/Coordinates';
 import NHDStream from './filters/NHDStream';
 import Shape from './filters/Shape';
@@ -50,10 +52,26 @@ export default function AdvancedFilter({ visible }) {
       Component: StreetAddress,
     },
     name: {
-      label: 'Name (not yet implemented)',
+      label: 'Name',
+      Component: Attribute,
+      props: {
+        attributeType: 'name',
+        selectedLayers: state.context.searchLayers.map((config) => ({
+          name: config[fieldNames.queryLayers.layerName],
+          field: config[fieldNames.queryLayers.nameField],
+        })),
+      },
     },
     id: {
-      label: 'ID (not yet implemented)',
+      label: 'ID',
+      Component: Attribute,
+      props: {
+        attributeType: 'id',
+        selectedLayers: state.context.searchLayers.map((config) => ({
+          name: config[fieldNames.queryLayers.layerName],
+          field: config[fieldNames.queryLayers.idField],
+        })),
+      },
     },
     shape: {
       label: 'User-drawn Shape',

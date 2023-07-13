@@ -46,6 +46,10 @@ export const fieldConfigs = {
       name: 'Identify Attributes',
       schema: string().nullable(),
     },
+    idField: {
+      name: 'ID Field',
+      schema: string().required(),
+    },
     layerDescription: {
       name: 'Layer Description',
       schema: string().required(),
@@ -65,6 +69,10 @@ export const fieldConfigs = {
     metadataLink: {
       name: 'Metadata Link',
       schema: string().url().nullable(),
+    },
+    nameField: {
+      name: 'Name Field',
+      schema: string().required(),
     },
     oidField: {
       name: 'OID Field',

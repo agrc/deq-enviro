@@ -176,7 +176,8 @@ export default function SearchWizard() {
               busy={state.matches('searching')}
               disabled={
                 state.context.searchLayers.length === 0 ||
-                (!state.context.filter.geometry && !state.context.filter.where)
+                (!state.context.filter.geometry &&
+                  !state.context.filter.attribute?.values?.length)
               }
               onClick={() => send('SEARCH')}
             >
