@@ -36,6 +36,30 @@ export const Default = () => {
         errorResult,
         queryLayerResult3,
         noneFoundResult,
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '6',
+        },
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '7',
+        },
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '8',
+        },
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '9',
+        },
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '10',
+        },
+        {
+          ...queryLayerResult2,
+          [fieldNames.queryLayers.uniqueId]: '11',
+        },
       ],
     },
     matches: () => true,

@@ -1,13 +1,15 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
 
-export default function ResultTable({ queryLayerResult }) {
-  const [open, setOpen] = useState(false);
+export default function ResultTable({
+  queryLayerResult,
+  onExpandChange,
+  expanded,
+}) {
   const columns = queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
     (field) => ({
       accessorKey: field,
@@ -42,10 +44,10 @@ export default function ResultTable({ queryLayerResult }) {
       key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
       className={clsx(
         'group flex flex-col bg-white',
-        open && 'absolute bottom-0 top-0 h-80'
+        expanded && 'absolute bottom-0 top-0'
       )}
-      open={open}
-      onOpenChange={setOpen}
+      open={expanded}
+      onOpenChange={onExpandChange}
     >
       <Collapsible.Trigger asChild>
         <button
@@ -53,12 +55,12 @@ export default function ResultTable({ queryLayerResult }) {
           className={clsx(
             padding,
             'group/trigger flex w-full items-center hover:bg-slate-100',
-            open && 'border-b border-slate-300'
+            expanded && 'border-b border-slate-300'
           )}
         >
           <Icon
             className="mr-2"
-            name={open ? Icon.Names.unfoldLess : Icon.Names.unfoldMore}
+            name={expanded ? Icon.Names.unfoldLess : Icon.Names.unfoldMore}
             size="xs"
             label="toggle results"
           />
@@ -72,7 +74,7 @@ export default function ResultTable({ queryLayerResult }) {
       <Collapsible.Content asChild>
         <Table
           caption={`${layerName} results`}
-          className="-mb-[1px] min-h-0 flex-1"
+          className="flex-1 border-b-0"
           columns={columns}
           data={queryLayerResult.features.map((feature) => feature.attributes)}
           initialState={{ columnVisibility: { OBJECTID: false } }}
@@ -87,4 +89,6 @@ ResultTable.propTypes = {
     error: PropTypes.string,
     features: PropTypes.array,
   }).isRequired,
+  onExpandChange: PropTypes.func.isRequired,
+  expanded: PropTypes.bool.isRequired,
 };
