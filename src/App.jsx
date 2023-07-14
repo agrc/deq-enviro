@@ -21,12 +21,6 @@ function App() {
       // domLocationTarget: {
       //   element: headerRef.current,
       // },
-      title: 'Environmental Interactive Map',
-      titleURL: null,
-      logo: {
-        imageUrl: '/deq_logo.png',
-      },
-      utahId: false,
       actionItems: [
         {
           actionPopupMenu: {
@@ -52,6 +46,13 @@ function App() {
           icon: '<span class="utds-icon-before-waffle" aria-hidden="true" />',
         },
       ],
+      footer: null,
+      logo: {
+        imageUrl: '/deq_logo.png',
+      },
+      title: 'Environmental Interactive Map',
+      titleURL: null,
+      utahId: false,
     });
   }, []);
 
