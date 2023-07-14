@@ -36,17 +36,17 @@ export default function Attribute({ send, attributeType, selectedLayers }) {
   const [inputValue, setInputValue] = useState('');
 
   const attributeConfig = attributeTypes[attributeType];
-
   useEffect(() => {
+    const values = inputValue
+      .split(' ')
+      .map((value) => value.trim())
+      .filter((value) => value);
     send('SET_FILTER', {
       filter: {
         geometry: null,
-        name: `${attributeConfig.label} Search`,
+        name: `${attributeConfig.label} search: ${values} (${queryType})`,
         attribute: {
-          values: inputValue
-            .split(' ')
-            .map((value) => value.trim())
-            .filter((value) => value),
+          values,
           queryType,
           attributeType,
         },
