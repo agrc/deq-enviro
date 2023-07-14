@@ -31,13 +31,17 @@ export default function WebApiFilter({
   }, [send, layer]);
 
   return (
-    <WebApiSearch
-      layer={layer}
-      searchField={searchField}
-      name={name}
-      contextField={contextField}
-      onChange={onChange}
-    />
+    <>
+      <WebApiSearch
+        layer={layer}
+        searchField={searchField}
+        name={name}
+        contextField={contextField}
+        onChange={onChange}
+      />
+      {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
+      <div className="h-40" />{' '}
+    </>
   );
 }
 

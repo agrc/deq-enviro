@@ -9,7 +9,9 @@ export default function Statewide({ send }) {
     });
   }, [send]);
 
-  return null;
+  // this div is a buffer to make sure that the user can scroll
+  // far enough to see the entire select filter type dropdown
+  return <div className="h-40" />;
 }
 
 Statewide.propTypes = {
