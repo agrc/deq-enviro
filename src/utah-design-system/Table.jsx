@@ -46,7 +46,7 @@ const Table = forwardRef(function Table(
     >
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div className="h-full overflow-y-auto" ref={parentRef} tabIndex={0}>
-        <table className="h-full w-full table-fixed border-collapse">
+        <table className="w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
           <thead
             className={twJoin(
