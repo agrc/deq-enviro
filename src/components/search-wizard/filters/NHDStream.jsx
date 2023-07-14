@@ -44,6 +44,8 @@ export default function NHDStream({ send }) {
     <>
       <Buffer onChange={setBufferGeometry} inputGeometry={stream?.geometry} />
       {sherlockConfig && <Sherlock {...sherlockConfig} />}
+      {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
+      <div className="h-28" />
     </>
   );
 }

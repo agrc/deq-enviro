@@ -64,6 +64,8 @@ export default function Shape({ send }) {
       <p>Use the toolbar on the map to draw a shape.</p>
       <p>Click once to create a new vertex.</p>
       <p>Double-click to finish the shape.</p>
+      {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
+      <div className="h-28" />
     </>
   );
 }

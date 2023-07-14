@@ -44,6 +44,8 @@ export default function StreetAddress({ send }) {
     <>
       <Buffer onChange={setBufferGeometry} inputGeometry={address?.geometry} />
       {sherlockConfig && <Sherlock {...sherlockConfig} className="mt-2" />}
+      {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
+      <div className="h-28" />
     </>
   );
 }
