@@ -85,8 +85,11 @@ export default function ResultTable({
           caption={`${layerName} results`}
           className="min-h-0 flex-1 border-b-0"
           columns={columns}
-          data={queryLayerResult.features.map((feature) => feature.attributes)}
-          initialState={{ columnVisibility: { OBJECTID: false } }}
+          data={rows}
+          initialState={{
+            columnVisibility: { OBJECTID: false },
+            sorting: [{ id: columns[0].accessorKey, desc: false }],
+          }}
         />
       </Collapsible.Content>
     </Collapsible.Root>
