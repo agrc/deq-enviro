@@ -64,6 +64,7 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_DISCOVER_KEY: ${{ secrets.VITE_DISCOVER_KEY }}
           VITE_WEB_API_KEY: ${{ secrets.VITE_WEB_API_KEY }}
+          NODE_OPTIONS: --max-old-space-size=7168
 
   deploy-prod:
     name: Deploy to production
