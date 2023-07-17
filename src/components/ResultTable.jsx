@@ -86,7 +86,10 @@ export default function ResultTable({
           className="min-h-0 flex-1 border-b-0"
           columns={columns}
           data={rows}
-          initialState={{ columnVisibility: { OBJECTID: false } }}
+          initialState={{
+            columnVisibility: { OBJECTID: false },
+            sorting: [{ id: columns[0].accessorKey, desc: false }],
+          }}
         />
       </Collapsible.Content>
     </Collapsible.Root>
