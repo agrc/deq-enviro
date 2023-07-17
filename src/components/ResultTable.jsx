@@ -17,9 +17,9 @@ export default function ResultTable({
         (field) => ({
           accessorKey: field,
           Header: field,
-        })
+        }),
       ),
-    [queryLayerResult]
+    [queryLayerResult],
   );
 
   columns.push({
@@ -31,7 +31,7 @@ export default function ResultTable({
 
   const rows = useMemo(
     () => queryLayerResult?.features?.map((feature) => feature.attributes),
-    [queryLayerResult.features]
+    [queryLayerResult.features],
   );
   const padding = 'px-2 py-1';
   if (queryLayerResult.error) {
@@ -53,7 +53,7 @@ export default function ResultTable({
       key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
       className={clsx(
         'group flex flex-col bg-white',
-        expanded && 'absolute bottom-0 top-0'
+        expanded && 'absolute bottom-0 top-0',
       )}
       open={expanded}
       onOpenChange={onExpandChange}
@@ -64,7 +64,7 @@ export default function ResultTable({
           className={clsx(
             padding,
             'group/trigger flex w-full items-center hover:bg-slate-100',
-            expanded && 'border-b border-slate-300'
+            expanded && 'border-b border-slate-300',
           )}
         >
           <Icon
@@ -85,11 +85,8 @@ export default function ResultTable({
           caption={`${layerName} results`}
           className="min-h-0 flex-1 border-b-0"
           columns={columns}
-          data={rows}
-          initialState={{
-            columnVisibility: { OBJECTID: false },
-            sorting: [{ id: columns[0].accessorKey, desc: false }],
-          }}
+          data={queryLayerResult.features.map((feature) => feature.attributes)}
+          initialState={{ columnVisibility: { OBJECTID: false } }}
         />
       </Collapsible.Content>
     </Collapsible.Root>
