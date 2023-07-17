@@ -42,7 +42,7 @@ Default.args = {
 export const Scrollable = Template.bind({});
 Scrollable.args = {
   columns,
-  data: queryLayerResult.features.map((feature) => feature.attributes),
+  data: new Array(1000).fill(queryLayerResult.features[0].attributes),
   initialState: {
     columnVisibility: {
       OBJECTID: false,
