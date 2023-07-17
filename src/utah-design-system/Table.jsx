@@ -88,6 +88,7 @@ const Table = forwardRef(function Table(
                               className="mr-1"
                               name={Icon.Names.chevronUp}
                               size={Icon.Sizes.xs}
+                              label="sorted ascending"
                             />
                           ),
                           desc: (
@@ -95,6 +96,7 @@ const Table = forwardRef(function Table(
                               className="mr-1"
                               name={Icon.Names.chevronDown}
                               size={Icon.Sizes.xs}
+                              label="sorted descending"
                             />
                           ),
                         }[header.column.getIsSorted()] ?? null}
