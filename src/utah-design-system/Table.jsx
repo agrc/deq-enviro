@@ -15,7 +15,8 @@ const Table = forwardRef(function Table(
   { columns, data, className, caption, ...props },
   forwardedRef
 ) {
-  const [sorting, setSorting] = useState([]);
+  // eslint-disable-next-line react/prop-types
+  const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
   const { getHeaderGroups, getRowModel } = useReactTable({
     columns,
     data,
