@@ -64,13 +64,40 @@ const Table = forwardRef(function Table(
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="p-2 text-left">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+                  <th key={header.id} className="relative p-2 text-left">
+                    {header.isPlaceholder ? null : (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                      <div
+                        className={twJoin(
+                          header.column.getCanSort() &&
+                            'flex cursor-pointer select-none items-center justify-between',
+                          header.column.getIsSorted() &&
+                            'before:content=[""] text-primary before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-primary',
+                        )}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
+                        {{
+                          asc: (
+                            <Icon
+                              className="mr-1"
+                              name={Icon.Names.chevronUp}
+                              size={Icon.Sizes.xs}
+                            />
+                          ),
+                          desc: (
+                            <Icon
+                              className="mr-1"
+                              name={Icon.Names.chevronDown}
+                              size={Icon.Sizes.xs}
+                            />
+                          ),
+                        }[header.column.getIsSorted()] ?? null}
+                      </div>
+                    )}
                   </th>
                 ))}
               </tr>
