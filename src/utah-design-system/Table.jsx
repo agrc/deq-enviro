@@ -1,24 +1,31 @@
 import {
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import PropTypes from 'prop-types';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { twJoin, twMerge } from 'tailwind-merge';
+import Icon from './Icon';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
-// ref: https://tanstack.com/table/v8/docs/examples/react/virtualized-rows
 const Table = forwardRef(function Table(
   { columns, data, className, caption, ...props },
   forwardedRef
 ) {
+  const [sorting, setSorting] = useState([]);
   const { getHeaderGroups, getRowModel } = useReactTable({
-    ...props,
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    ...props,
   });
 
   const parentRef = useRef();
@@ -59,12 +66,38 @@ const Table = forwardRef(function Table(
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="p-2 text-left">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+                    {header.isPlaceholder ? null : (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                      <div
+                        className={
+                          header.column.getCanSort()
+                            ? 'flex cursor-pointer select-none items-center'
+                            : ''
+                        }
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {{
+                          asc: (
+                            <Icon
+                              className="mr-1"
+                              name={Icon.Names.arrowUp}
+                              size={Icon.Sizes.xs}
+                            />
+                          ),
+                          desc: (
+                            <Icon
+                              className="mr-1"
+                              name={Icon.Names.arrowDown}
+                              size={Icon.Sizes.xs}
+                            />
+                          ),
+                        }[header.column.getIsSorted()] ?? null}
+                        {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
+                      </div>
+                    )}
                   </th>
                 ))}
               </tr>
