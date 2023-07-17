@@ -13,10 +13,8 @@ import Icon from './Icon';
 // note: I tried v3 beta of react-virtual but it didn't quite work
 const Table = forwardRef(function Table(
   { columns, data, className, caption, ...props },
-  forwardedRef
+  forwardedRef,
 ) {
-  // eslint-disable-next-line react/prop-types
-  const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
   const { getHeaderGroups, getRowModel } = useReactTable({
     columns,
     data,
@@ -50,7 +48,7 @@ const Table = forwardRef(function Table(
       ref={forwardedRef}
       className={twMerge(
         'relative flex flex-col border-b border-b-slate-300',
-        className
+        className,
       )}
     >
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
@@ -60,48 +58,19 @@ const Table = forwardRef(function Table(
           <thead
             className={twJoin(
               'sticky top-0 bg-white',
-              'after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-b-slate-300 after:content-[""]'
+              'after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-b-slate-300 after:content-[""]',
             )}
           >
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="relative p-2 text-left">
-                    {header.isPlaceholder ? null : (
-                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-                      <div
-                        className={twJoin(
-                          header.column.getCanSort() &&
-                            'flex cursor-pointer select-none items-center justify-between',
-                          header.column.getIsSorted() &&
-                            'before:content=[""] text-primary before:absolute before:-bottom-1 before:left-0 before:z-10 before:block before:h-2 before:w-full before:rounded-full before:bg-primary'
-                        )}
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        {flexRender(
+                  <th key={header.id} className="p-2 text-left">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
-                        {{
-                          asc: (
-                            <Icon
-                              className="mr-1"
-                              name={Icon.Names.chevronUp}
-                              size={Icon.Sizes.xs}
-                              label="sorted ascending"
-                            />
-                          ),
-                          desc: (
-                            <Icon
-                              className="mr-1"
-                              name={Icon.Names.chevronDown}
-                              size={Icon.Sizes.xs}
-                              label="sorted descending"
-                            />
-                          ),
-                        }[header.column.getIsSorted()] ?? null}
-                      </div>
-                    )}
                   </th>
                 ))}
               </tr>
@@ -122,7 +91,7 @@ const Table = forwardRef(function Table(
                   className={twJoin(
                     'border-y border-y-slate-300',
                     // using the even pseudo-class doesn't work since the virtualizer is always changing the rendered rows
-                    virtualRow.index % 2 ? 'bg-white' : 'bg-slate-100'
+                    virtualRow.index % 2 ? 'bg-white' : 'bg-slate-100',
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -133,7 +102,7 @@ const Table = forwardRef(function Table(
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </td>
                   ))}
