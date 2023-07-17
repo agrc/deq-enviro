@@ -1,5 +1,86 @@
 # Changelog
 
+## [2.0.0-9](https://github.com/agrc/deq-enviro/compare/v2.0.0-8...v2.0.0-9) (2023-07-17)
+
+
+### 📖 Documentation Improvements
+
+* add more drawing instructions ([6955956](https://github.com/agrc/deq-enviro/commit/695595620d99fc8475c713704c458d9471757c37))
+
+
+### 🎨 Design Improvements
+
+* fix mobile sidebar layout ([5f7dbaa](https://github.com/agrc/deq-enviro/commit/5f7dbaa47f98d6f1e2f6ab6cc04cfdf5073bab74))
+* give tag a bit more room ([006c5d9](https://github.com/agrc/deq-enviro/commit/006c5d900dc87d2cba1a7aaf13b0317103bc1406))
+* handle longer search filter name tags ([6bb8d1e](https://github.com/agrc/deq-enviro/commit/6bb8d1e432f75565c5340dfc83e659a1a8ca3ae0))
+* **sherlock:** prevent hover boundary from overlapping label ([444375a](https://github.com/agrc/deq-enviro/commit/444375abae696d08d52bbd782ea55227c494dfdc))
+* standardize spacing ([192e263](https://github.com/agrc/deq-enviro/commit/192e2632c57bf60520693ab5d2c870bde6f60643))
+
+
+### 🚀 Features
+
+* add error boundary ([023d718](https://github.com/agrc/deq-enviro/commit/023d7186f2a361d1efa342b03572e64feda2093e))
+* add print widget ([cee6df5](https://github.com/agrc/deq-enviro/commit/cee6df5041b1df24562757d48987d68317bc2a32))
+* add reference layers ([14c8dd8](https://github.com/agrc/deq-enviro/commit/14c8dd823c01aea481c1fb45f18d42136530d8db))
+* implement coordinates advanced filter ([57cf9f4](https://github.com/agrc/deq-enviro/commit/57cf9f4adbdde4b8aa682509b63e2053d3b0da3c))
+* implement name and id searches ([c512f57](https://github.com/agrc/deq-enviro/commit/c512f57731fbcfa0cfe9236aa8440c1f3fb76c00))
+* implement statewide, county, city, and zip for advanced filter ([2c5880e](https://github.com/agrc/deq-enviro/commit/2c5880e778809637776edb36422f43b8982b5df5))
+* implement stream advanced filter ([09cc407](https://github.com/agrc/deq-enviro/commit/09cc407589b4538664db83bf1d73f41193234481))
+* implement street address filter ([592c3ee](https://github.com/agrc/deq-enviro/commit/592c3ee1620f5fd83cc17098349c7dcb80108fb0))
+* implement user-drawn shape filter ([9e41bea](https://github.com/agrc/deq-enviro/commit/9e41bea472575bf5297cf9444f5f006af9ea4302))
+* **input:** implement utds input ([5a781b5](https://github.com/agrc/deq-enviro/commit/5a781b5f516d8bbeb7887a69e64834d690801dba))
+* **select:** implement basic select component ([7cbb4f9](https://github.com/agrc/deq-enviro/commit/7cbb4f969fe03185c6d180aa273ba56527d1afc0))
+* **sherlock:** implement utds version of sherlock ([ce9db6a](https://github.com/agrc/deq-enviro/commit/ce9db6a93f2fdccecfb620b38aafe4592e754086))
+
+
+### 🐛 Bug Fixes
+
+* add missing label ([a5cbac0](https://github.com/agrc/deq-enviro/commit/a5cbac0b0fe3300e7e3d7f08db9e4e7ef48f8541))
+* add new domain to csp ([a238a88](https://github.com/agrc/deq-enviro/commit/a238a883747f18929d389f60b91463a2b693328b))
+* add verb to advanced filter button ([6308b81](https://github.com/agrc/deq-enviro/commit/6308b81a03dec5cbda0c089bc2459aa06db37e48))
+* allow for requests to dev web api ([863d294](https://github.com/agrc/deq-enviro/commit/863d294c79a729e6f7d7e53d2444b690ab1fb96e))
+* better layout and scrolling for result tables ([4d241aa](https://github.com/agrc/deq-enviro/commit/4d241aa8224a3565b213ccbae7cdd42d9994aeb0))
+* better/more reliable flow for search wizard ([19e15d7](https://github.com/agrc/deq-enviro/commit/19e15d7b973edcd81c9bcffd841eaecc54f304e2))
+* **ci:** add missing env var ([f04cd8c](https://github.com/agrc/deq-enviro/commit/f04cd8c68011e0833b8e75288e5ca67767db671e))
+* **ci:** switch to separate web api key for previews ([9f84cfc](https://github.com/agrc/deq-enviro/commit/9f84cfc11be315f3071305293f91fb118045401e))
+* clear search cache if schema has changed ([1c6c69b](https://github.com/agrc/deq-enviro/commit/1c6c69bc8633885ee4b76c81ffda0daefd2a3cf6))
+* disable download button if no layers are selected ([c0033b0](https://github.com/agrc/deq-enviro/commit/c0033b0a149ca5b0785ae8b50c6e54292c1f10fb))
+* don't pass booleans to className prop ([9c144ab](https://github.com/agrc/deq-enviro/commit/9c144abee378ca81aff3efb4922859cf309f6e54))
+* don't try to download layers with no results ([3595bc7](https://github.com/agrc/deq-enviro/commit/3595bc754c46a29f1503ed0559f60859f8b51ea7))
+* fix downloads for feature services with non-0 layer indexes ([7b1954f](https://github.com/agrc/deq-enviro/commit/7b1954f3db6c4bd4e76fc7be2fe5440f5e6d2466))
+* **functions:** init app in config update function ([e43cf2b](https://github.com/agrc/deq-enviro/commit/e43cf2b68b9c78a084a9dfad96eb7023265c628b))
+* **functions:** lazy load to help with cold starts ([fb5a3a3](https://github.com/agrc/deq-enviro/commit/fb5a3a381096108948f0bc918e43696370e578e2))
+* **functions:** more proper secrets access 🎩 ([a8ccf78](https://github.com/agrc/deq-enviro/commit/a8ccf78e2ee1a6f65727c00757b06bb84bec13ca))
+* **functions:** move opensgid params to secret ([d94bdab](https://github.com/agrc/deq-enviro/commit/d94bdabfad75cdc1e53098eff34dc1687276c8c4))
+* **functions:** remove unnecessary imports and correct secrets ([d317d7b](https://github.com/agrc/deq-enviro/commit/d317d7be8903695e519fdee58f5e957a23281b61))
+* hide footer using config rather than css ([9fdf8b1](https://github.com/agrc/deq-enviro/commit/9fdf8b13085f9936aa3e3ea8b33f3219e5bc2524)), closes [#528](https://github.com/agrc/deq-enviro/issues/528)
+* import typo ([25fe8c0](https://github.com/agrc/deq-enviro/commit/25fe8c013cb78bbf5436973e2db5ed54f5c66027))
+* increase node heap size for building storybook ([25b9341](https://github.com/agrc/deq-enviro/commit/25b9341842508dfcda2696de0d5b9647c3e8f223))
+* **input:** pass required attribute and merge classNames ([454ea14](https://github.com/agrc/deq-enviro/commit/454ea140e450702819b659910800cb0d70330f07))
+* make sure that map zooms reliably ([54fe657](https://github.com/agrc/deq-enviro/commit/54fe65770d00dde2a5d38909e2249f3cadef971b))
+* make sure that the user can always see the bottom of the select filter type dropdown ([f0613d9](https://github.com/agrc/deq-enviro/commit/f0613d983a9ddd35e8542224d29260a465418cd5))
+* more descriptive name for attribute filters ([4704a1c](https://github.com/agrc/deq-enviro/commit/4704a1c867945e6c956df232f7588ae0ec4e5168))
+* more stable general layout ([1160bb4](https://github.com/agrc/deq-enviro/commit/1160bb48f489352725add6f74a65cef0d1830166))
+* **select:** allow for passing className ([b9d8fde](https://github.com/agrc/deq-enviro/commit/b9d8fde55f5869b241d46c3c7fcbd7e2de603a32))
+* **select:** move drop-down to body so that it always overlaps everything else ([a5ab57f](https://github.com/agrc/deq-enviro/commit/a5ab57fe9deb979b8c03018458f406566de2be27))
+* **sherlock:** better z-index application ([7d707e1](https://github.com/agrc/deq-enviro/commit/7d707e1421ed9bb9734e714f4600068afbf76b7a))
+* **sherlock:** bring into better utds compliance ([88ca491](https://github.com/agrc/deq-enviro/commit/88ca491dc346837c7f4c75a3b53e47ca9d93f3ac))
+* **sherlock:** clean up unnecessary utility class ([e47e982](https://github.com/agrc/deq-enviro/commit/e47e98210725679651c49886bb39acda86a078d1))
+* **sherlock:** debounce search function ([4891751](https://github.com/agrc/deq-enviro/commit/4891751e795d239444fbfe7130fbdb3cd27e4516))
+* **sherlock:** export provider base to allow for custom providers ([31d6812](https://github.com/agrc/deq-enviro/commit/31d68121d492996e354fce37c614c49204b87b03))
+* **sherlock:** linting error ([5144d45](https://github.com/agrc/deq-enviro/commit/5144d45fa91a19d0f5f1c15fbcfbd1d4af4dee0f))
+* **sherlock:** more linting ([df5b3a4](https://github.com/agrc/deq-enviro/commit/df5b3a452db61a3e2e43f7deeaf5d174a0096815))
+* **sherlock:** remove `identical` attribute style option ([28d682e](https://github.com/agrc/deq-enviro/commit/28d682e28c5147d8b4a7a339d45bfd7f608d9985))
+* **sherlock:** return a single graphic for now ([120c362](https://github.com/agrc/deq-enviro/commit/120c362f94faf0623cf9c3ce282948604532ef5f))
+* **sherlock:** show loading indicator when getting matched feature ([1bbc678](https://github.com/agrc/deq-enviro/commit/1bbc6784e4792e8b5489e447ec0e874314062d42))
+* **sherlock:** switch to ky for better error handling ([134975d](https://github.com/agrc/deq-enviro/commit/134975ddbef03b13eb8336e7baf49bba151b2fee))
+* solidify map zooming to advanced filter geometry ([4c578b0](https://github.com/agrc/deq-enviro/commit/4c578b0d0fa8ebcfc531d38673b2b07ba74c4f13))
+* **style:** use more generic color names ([7ddd82c](https://github.com/agrc/deq-enviro/commit/7ddd82cc2750487ff5e132ce4122f8c3ab583627))
+* switch to custom function for stream search ([d75b9a5](https://github.com/agrc/deq-enviro/commit/d75b9a58d833522c7a857dfb4db3c2fb9e10336e))
+* **table:** don't expand row(s) to fill height ([5c59824](https://github.com/agrc/deq-enviro/commit/5c598242d3564ce5e7f03c1638e3f8cc1d433227))
+* **utds:** standardize height between select, sherlock, and input ([41492e5](https://github.com/agrc/deq-enviro/commit/41492e5f01af270aca1246e8203c5c831873ce58))
+* wire up start over after download ([ed4f8c5](https://github.com/agrc/deq-enviro/commit/ed4f8c5eff2c2d6b4ab5b16dd70a3cff8951de51))
+
 ## [2.0.0-8](https://github.com/agrc/deq-enviro/compare/v2.0.0-7...v2.0.0-8) (2023-06-05)
 
 
