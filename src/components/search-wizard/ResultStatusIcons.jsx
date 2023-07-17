@@ -39,7 +39,7 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
 
 ResultStatusIcons.propTypes = {
   resultConfig: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.node,
   }),
   layerName: PropTypes.string.isRequired,
 };

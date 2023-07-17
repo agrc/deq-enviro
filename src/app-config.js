@@ -27,4 +27,5 @@ export default {
     streams:
       'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahStreamsNHD/FeatureServer/0',
   },
+  maxSearchCount: 50_000,
 };
