@@ -116,6 +116,9 @@ export default function MapComponent() {
       container: mapDiv.current,
       map: map.current,
       extent: stateOfUtahExtent,
+      constraints: {
+        maxZoom: 18,
+      },
     });
 
     setMapView(view.current);
