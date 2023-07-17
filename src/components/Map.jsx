@@ -10,6 +10,7 @@ import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { supportsExport } from '../../functions/common/validation';
@@ -17,6 +18,7 @@ import { useSearchMachine } from '../SearchMachineProvider';
 import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
+import Link from '../utah-design-system/Link';
 import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
@@ -67,6 +69,31 @@ function useMapGraphic(mapView, graphic) {
     giddyUp();
   }, [graphic, mapView]);
 }
+
+function TooManyMessage({ metadataLink }) {
+  return (
+    <span>
+      Your search returned more than the maximum number of records allowed for
+      this application ({appConfig.maxSearchCount.toLocaleString()}).{' '}
+      {metadataLink ? (
+        <>
+          You may either narrow your search or go to the{' '}
+          <Link href={metadataLink} external>
+            metadata page{' '}
+          </Link>{' '}
+          for this layer and find contact information where you may request the
+          entire dataset directly from the steward.
+        </>
+      ) : (
+        ' Please narrow your search.'
+      )}
+    </span>
+  );
+}
+
+TooManyMessage.propTypes = {
+  metadataLink: PropTypes.string,
+};
 
 export default function MapComponent() {
   const [state, send] = useSearchMachine();
@@ -222,12 +249,34 @@ export default function MapComponent() {
 
     async function searchLayer(layer, filter) {
       try {
+        const where = getWhere(filter.attribute, layer);
         const featureLayer = new FeatureLayer({
           url: layer[fieldNames.queryLayers.featureService],
           outFields: layer[fieldNames.queryLayers.resultGridFields],
-          definitionExpression: getWhere(filter.attribute, layer),
+          definitionExpression: where,
           id: `search-layer-${layer[fieldNames.queryLayers.uniqueId]}`,
         });
+
+        const featureCount = await featureLayer.queryFeatureCount({
+          where,
+          geometry: filter.geometry,
+        });
+
+        if (featureCount > appConfig.maxSearchCount) {
+          send('RESULT', {
+            result: {
+              ...layer,
+              error: (
+                <TooManyMessage
+                  metadataLink={layer[fieldNames.queryLayers.metadataLink]}
+                />
+              ),
+            },
+          });
+
+          return null;
+        }
+
         map.current.add(featureLayer);
 
         const layerView = await view.current.whenLayerView(featureLayer);

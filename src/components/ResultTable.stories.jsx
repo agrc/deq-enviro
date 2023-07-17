@@ -36,6 +36,16 @@ ExpandedSingleResult.args = {
   expanded: true,
 };
 
+export const ExpandedManyRows = Template.bind({});
+ExpandedManyRows.args = {
+  queryLayerResult: {
+    ...queryLayerResult,
+    features: new Array(20000).fill(queryLayerResult.features[0]),
+  },
+  onExpandChange: console.log,
+  expanded: true,
+};
+
 export const Error = Template.bind({});
 Error.args = {
   queryLayerResult: {

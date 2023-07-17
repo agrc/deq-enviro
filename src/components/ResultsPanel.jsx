@@ -27,7 +27,7 @@ export default function ResultsPanel() {
           </div>
         }
       >
-        {expandedTableIndex ? (
+        {expandedTableIndex !== null ? (
           <ResultTable
             key={
               state.context.resultLayers[expandedTableIndex][

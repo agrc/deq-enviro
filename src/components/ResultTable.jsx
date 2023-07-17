@@ -1,6 +1,7 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
@@ -10,11 +11,15 @@ export default function ResultTable({
   onExpandChange,
   expanded,
 }) {
-  const columns = queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
-    (field) => ({
-      accessorKey: field,
-      Header: field,
-    })
+  const columns = useMemo(
+    () =>
+      queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
+        (field) => ({
+          accessorKey: field,
+          Header: field,
+        })
+      ),
+    [queryLayerResult]
   );
 
   columns.push({
@@ -24,14 +29,18 @@ export default function ResultTable({
 
   const layerName = queryLayerResult[fieldNames.queryLayers.layerName];
 
+  const rows = useMemo(
+    () => queryLayerResult?.features?.map((feature) => feature.attributes),
+    [queryLayerResult.features]
+  );
   const padding = 'px-2 py-1';
   if (queryLayerResult.error) {
     return (
       <div className={clsx(padding, 'text-error-500')}>
-        {`${layerName} | ${queryLayerResult.error}`}
+        {layerName} | {queryLayerResult.error}
       </div>
     );
-  } else if (queryLayerResult.features?.length === 0) {
+  } else if (rows?.length === 0) {
     return (
       <div className={clsx(padding, 'text-slate-400')}>
         {`${layerName} | No results found`}
@@ -67,16 +76,16 @@ export default function ResultTable({
           <span className="group-hover/trigger:underline">{layerName}</span>
           <span className="ml-2">|</span>
           <span className="ml-2 rounded-full bg-slate-100 px-2 py-0 text-sm">
-            {queryLayerResult.features.length.toLocaleString()}
+            {rows.length.toLocaleString()}
           </span>
         </button>
       </Collapsible.Trigger>
       <Collapsible.Content asChild>
         <Table
           caption={`${layerName} results`}
-          className="flex-1 border-b-0"
+          className="min-h-0 flex-1 border-b-0"
           columns={columns}
-          data={queryLayerResult.features.map((feature) => feature.attributes)}
+          data={rows}
           initialState={{ columnVisibility: { OBJECTID: false } }}
         />
       </Collapsible.Content>
@@ -86,7 +95,7 @@ export default function ResultTable({
 
 ResultTable.propTypes = {
   queryLayerResult: PropTypes.shape({
-    error: PropTypes.string,
+    error: PropTypes.node,
     features: PropTypes.array,
   }).isRequired,
   onExpandChange: PropTypes.func.isRequired,
