@@ -50,3 +50,15 @@ Scrollable.args = {
   },
   className: 'h-80',
 };
+
+export const DefaultSort = Template.bind({});
+DefaultSort.args = {
+  columns,
+  data: queryLayerResult.features.map((feature) => feature.attributes),
+  initialState: {
+    columnVisibility: {
+      OBJECTID: false,
+    },
+    sorting: [{ id: 'DERRID', desc: false }],
+  },
+};
