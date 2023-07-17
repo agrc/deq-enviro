@@ -27,6 +27,7 @@ export default {
       error: colors.red,
       info: colors.sky,
       warning: colors.amber,
+      sky: colors.sky,
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],
