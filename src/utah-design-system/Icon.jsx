@@ -158,7 +158,7 @@ const Icon = forwardRef(function Icon(
         {...props}
         ref={forwardedRef}
         className={twMerge(
-          'flex items-center justify-center',
+          'inline-flex items-center justify-center',
           ICONS[name].className,
           SIZE_CLASS_NAMES[size],
           'before:font-utds',
