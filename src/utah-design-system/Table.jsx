@@ -29,6 +29,7 @@ const Table = forwardRef(function Table(
   });
   const { rows } = getRowModel();
 
+  // Ref: https://tanstack.com/table/v8/docs/examples/react/virtualized-rows
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
   const paddingBottom =
