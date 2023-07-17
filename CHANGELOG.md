@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.0.0-10](https://github.com/agrc/deq-enviro/compare/v2.0.0-9...v2.0.0-10) (2023-07-17)
+
+
+### 📖 Documentation Improvements
+
+* **table:** add example reference ([54ebc85](https://github.com/agrc/deq-enviro/commit/54ebc855cbf40a04f0e95f917b6bdb41f8ce340b))
+
+
+### 🚀 Features
+
+* add max record count warning ([afbce1b](https://github.com/agrc/deq-enviro/commit/afbce1b50fc027ef0a8b841373b052ec5bd329af))
+* **link:** implement link component for utah design system ([89d1a48](https://github.com/agrc/deq-enviro/commit/89d1a4837cb79ef5f88393f93f15f94a268059ca))
+* **table:** make columns sortable ([1401aec](https://github.com/agrc/deq-enviro/commit/1401aec08f7c25341774de4787d490783d50745d))
+* **table:** support default sorting ([996a44f](https://github.com/agrc/deq-enviro/commit/996a44fe9f172684db06d5c6df845aafc0937844))
+
+
+### 🐛 Bug Fixes
+
+* **icon:** switch to inline flex ([11a7081](https://github.com/agrc/deq-enviro/commit/11a7081c6b62df14e80c0f105083fe53dae514db))
+* prevent user from zooming in beyond base map tiles ([bf879e0](https://github.com/agrc/deq-enviro/commit/bf879e0a0a65293ea615f2a021f0e17687b69b64))
+* sort by the first field in grid by default ([ec9a0c4](https://github.com/agrc/deq-enviro/commit/ec9a0c48fd278b479d280b1c85530e9a73c88694))
+* **table:** add labels to sort icons ([0e025bc](https://github.com/agrc/deq-enviro/commit/0e025bc0b695f3eeff1e1f567c19eadc5d382160))
+* **table:** make sorted state more UDS-compliant ([ddd6149](https://github.com/agrc/deq-enviro/commit/ddd61497a769e77c70834de93cd4681c63824a92))
+
 ## [2.0.0-9](https://github.com/agrc/deq-enviro/compare/v2.0.0-8...v2.0.0-9) (2023-07-17)
 
 
