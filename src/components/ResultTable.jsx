@@ -16,7 +16,7 @@ export default function ResultTable({
       queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
         (field) => ({
           accessorKey: field,
-          Header: field,
+          header: field,
         }),
       ),
     [queryLayerResult],
