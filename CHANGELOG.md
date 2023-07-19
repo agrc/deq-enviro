@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.0-11](https://github.com/agrc/deq-enviro/compare/v2.0.0-10...v2.0.0-11) (2023-07-19)
+
+
+### 🚀 Features
+
+* add max record count warning ([a79fe1e](https://github.com/agrc/deq-enviro/commit/a79fe1e1709d1321b3bacf52c679746f06885374))
+* **table:** make columns sortable ([c12a3c1](https://github.com/agrc/deq-enviro/commit/c12a3c1f5ade54824b0e27f4d4ba284b628e6450))
+* **table:** support default sorting ([c4564cb](https://github.com/agrc/deq-enviro/commit/c4564cb294e22d82c45171850826c49e6940f6cd))
+
+
+### 🐛 Bug Fixes
+
+* sort by the first field in grid by default ([56b7077](https://github.com/agrc/deq-enviro/commit/56b70771107f168a4beda0ccb2713f274fcd1bb0))
+* **table:** add labels to sort icons ([81d4fb3](https://github.com/agrc/deq-enviro/commit/81d4fb35adb6ea9057de5275c66beed9a4533ff2))
+* **table:** make sorted state more UDS-compliant ([70ddd57](https://github.com/agrc/deq-enviro/commit/70ddd573837b00c4ec28ad4cc23e86b9703a4ce2))
+* update deprecated prop for react-table ([a5a0e3c](https://github.com/agrc/deq-enviro/commit/a5a0e3c55dc9bf2848331dd0e9f0a51a3cdc0565))
+
+
+### 🌲 Dependencies
+
+* bump deps 🌲 ([4155d32](https://github.com/agrc/deq-enviro/commit/4155d32671d78fa96e89cdec75f3b26769e44838))
+
 ## [2.0.0-10](https://github.com/agrc/deq-enviro/compare/v2.0.0-9...v2.0.0-10) (2023-07-17)
 
 
