@@ -18,7 +18,7 @@ export const configs = onRequest(
       console.error('returning error', e);
       response.status(500).send({ error: e.toString() });
     }
-  }
+  },
 );
 
 export const search = onCall(
@@ -30,7 +30,7 @@ export const search = onCall(
     const { search: searchSource } = await import('./search.js');
 
     return await searchSource(data);
-  }
+  },
 );
 
 export const getFeature = onCall(
@@ -39,8 +39,8 @@ export const getFeature = onCall(
     secrets: ['OPENSGID_CONNECTION_PARAMS'],
   },
   async ({ data }) => {
-    const { getFeature: getFeatureSource } = await import('./getFeature.js');
+    const { getFeature: getFeatureSource } = await import('./search.js');
 
     return await getFeatureSource(data.match, data.context);
-  }
+  },
 );
