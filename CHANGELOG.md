@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-12](https://github.com/agrc/deq-enviro/compare/v2.0.0-11...v2.0.0-12) (2023-07-20)
+
+
+### 🐛 Bug Fixes
+
+* **functions:** correct lazy import path ([5f5d8fc](https://github.com/agrc/deq-enviro/commit/5f5d8fc06f298a789df21ad7c4352afce4676e8a))
+
 ## [2.0.0-11](https://github.com/agrc/deq-enviro/compare/v2.0.0-10...v2.0.0-11) (2023-07-19)
 
 
