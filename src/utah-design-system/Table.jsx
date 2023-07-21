@@ -124,7 +124,7 @@ const Table = forwardRef(function Table(
                 <tr
                   key={virtualRow.key}
                   className={twJoin(
-                    'border-y border-y-slate-300',
+                    'border-y border-y-slate-300 group/row',
                     // using the even pseudo-class doesn't work since the virtualizer is always changing the rendered rows
                     virtualRow.index % 2 ? 'bg-white' : 'bg-slate-100',
                   )}
