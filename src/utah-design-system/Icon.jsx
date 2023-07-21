@@ -93,6 +93,12 @@ const ICONS = {
   minus: {
     className: 'before:content-["W"]',
   },
+  moreHorizontal: {
+    className: 'before:content-["m"]',
+  },
+  moreVertical: {
+    className: 'before:content-["l"]',
+  },
   plus: {
     className: 'before:content-["V"]',
   },
@@ -137,7 +143,7 @@ const SIZE_CLASS_NAMES = {
 
 const Icon = forwardRef(function Icon(
   { name, label, className, size, bold, ...props },
-  forwardedRef
+  forwardedRef,
 ) {
   if (!Object.keys(ICONS).includes(name)) {
     throw new Error(`Icon name "${name}" is not valid`);
@@ -163,7 +169,7 @@ const Icon = forwardRef(function Icon(
           SIZE_CLASS_NAMES[size],
           'before:font-utds',
           bold ? 'before:font-bold' : 'before:font-normal',
-          className
+          className,
         )}
       />
     </AccessibleIcon.Root>
