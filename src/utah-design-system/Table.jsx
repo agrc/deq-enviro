@@ -66,7 +66,11 @@ const Table = forwardRef(function Table(
             {getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="relative p-2 text-left">
+                  <th
+                    key={header.id}
+                    className="relative p-2 text-left"
+                    style={{ width: header.getSize() }}
+                  >
                     {header.isPlaceholder ? null : (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                       <div
@@ -130,6 +134,7 @@ const Table = forwardRef(function Table(
                       key={cell.id}
                       className="truncate p-2"
                       title={cell.getValue()}
+                      style={{ width: cell.column.getSize() }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

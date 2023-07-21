@@ -62,3 +62,21 @@ DefaultSort.args = {
     sorting: [{ id: 'DERRID', desc: false }],
   },
 };
+
+export const CustomColumnSizing = Template.bind({});
+CustomColumnSizing.args = {
+  columns: [
+    {
+      accessorKey: 'size of 80',
+      size: 80,
+    },
+    ...columns,
+  ],
+  data: queryLayerResult.features.map((feature) => feature.attributes),
+  initialState: {
+    columnVisibility: {
+      OBJECTID: false,
+    },
+    sorting: [{ id: 'DERRID', desc: false }],
+  },
+};
