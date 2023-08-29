@@ -42,10 +42,6 @@ export const fieldConfigs = {
       name: 'GRAMA Request',
       schema: string().url().nullable(),
     },
-    identifyAttributes: {
-      name: 'Identify Attributes',
-      schema: string().nullable(),
-    },
     idField: {
       name: 'ID Field',
       schema: string().required(),

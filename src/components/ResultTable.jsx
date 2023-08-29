@@ -124,9 +124,6 @@ export default function ResultTable({
             onBack={() => setIdentifyResults(null)}
             attributes={identifyResults.attributes}
             fields={identifyResults.fields}
-            fieldsInfo={
-              queryLayerResult[fieldNames.queryLayers.identifyAttributes]
-            }
           />
         ) : (
           <Table
