@@ -20,6 +20,8 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
 
+[Analytics Dashboard](https://lookerstudio.google.com/reporting/87fdea59-ccfa-4ff7-b9d1-9bceabc3db1f/page/ZaM7C)
+
 ## Query Layer Data Requirements
 
 In order for a dataset to be used as a query layer within the application, it must satisfy all of the following requirements:
