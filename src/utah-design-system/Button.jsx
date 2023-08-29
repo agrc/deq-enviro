@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
+import Icon from './Icon';
 import Spinner from './Spinner';
 import { createKeyLookup } from './utils';
 
@@ -67,6 +68,12 @@ const SIZES = {
   xl: 'text-xl px-10 py-3 h-12 min-h-[3rem]',
 };
 
+function getOneSizeSmaller(size) {
+  const lowerIndex = Object.keys(SIZES).indexOf(size) - 1;
+
+  return SIZES[lowerIndex >= 0 ? lowerIndex : 0];
+}
+
 function Button({
   appearance,
   busy,
@@ -74,6 +81,8 @@ function Button({
   className,
   color,
   disabled,
+  external,
+  href,
   onClick,
   size,
 }) {
@@ -81,20 +90,37 @@ function Button({
     disabled = true;
   }
 
-  return (
+  const calculatedClassName = twMerge(
+    'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
+    appearance === APPEARANCES.outlined && 'border-2',
+    COLORS[color][appearance],
+    SIZES[size],
+    'transition-all duration-200 ease-in-out',
+    'focus:outline-none focus:ring-2 focus:ring-opacity-50',
+    'hover:text-white',
+    !disabled && 'active:scale-95 active:shadow-inner',
+    'disabled:cursor-not-allowed disabled:opacity-50',
+    className,
+  );
+
+  return href ? (
+    <a
+      href={href}
+      className={calculatedClassName}
+      target={external ? '_blank' : '_self'}
+      rel={external ? 'noopener noreferrer' : ''}
+    >
+      {children}
+      <Icon
+        name={Icon.Names.arrowRight}
+        className="ml-1"
+        size={getOneSizeSmaller(size)}
+        label="link"
+      />
+    </a>
+  ) : (
     <button
-      className={twMerge(
-        'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
-        appearance === APPEARANCES.outlined && 'border-2',
-        COLORS[color][appearance],
-        SIZES[size],
-        'transition-all duration-200 ease-in-out',
-        'focus:outline-none focus:ring-2 focus:ring-opacity-50',
-        'hover:text-white',
-        !disabled && 'active:scale-95 active:shadow-inner',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        className
-      )}
+      className={calculatedClassName}
       disabled={disabled}
       onClick={onClick}
     >
@@ -111,6 +137,14 @@ Button.propTypes = {
   className: PropTypes.string,
   color: PropTypes.oneOf(Object.keys(COLORS)),
   disabled: PropTypes.bool,
+  /**
+   * If true, the button will open the link in a new tab. Only applicable if `href` is provided.
+   */
+  external: PropTypes.bool,
+  /**
+   * If provided, the button will be rendered as an anchor tag with the provided href.
+   */
+  href: PropTypes.string,
   onClick: PropTypes.func,
   /**
    * Size of the button. Corresponds with the tailwind text sizes (base, sm, lg, xl)
