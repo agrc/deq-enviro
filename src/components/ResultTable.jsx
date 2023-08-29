@@ -9,6 +9,7 @@ import Button from '../utah-design-system/Button';
 import { useState } from 'react';
 import Identify from './Identify';
 import ky from 'ky';
+import { getAlias } from '../utils';
 
 export default function ResultTable({
   queryLayerResult,
@@ -20,7 +21,7 @@ export default function ResultTable({
       queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
         (field) => ({
           accessorKey: field,
-          header: field,
+          header: getAlias(field, queryLayerResult.fields),
         }),
       ),
     [queryLayerResult],

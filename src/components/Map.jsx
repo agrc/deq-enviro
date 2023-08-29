@@ -235,7 +235,7 @@ export default function MapComponent() {
     if (searching.current) return;
 
     const removeLayers = map.current.layers.filter((layer) =>
-      layer.id?.startsWith('search-layer')
+      layer.id?.startsWith('search-layer'),
     );
     map.current.layers.removeMany(removeLayers);
   };
@@ -300,6 +300,7 @@ export default function MapComponent() {
           result: {
             ...layer,
             features: featureSet.features,
+            fields: featureSet.fields,
             count,
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
@@ -311,7 +312,7 @@ export default function MapComponent() {
       } catch (error) {
         console.error(
           `error with layer ${layer[fieldNames.queryLayers.uniqueId]}`,
-          error
+          error,
         );
 
         send('RESULT', { result: { ...layer, error: error.message } });
@@ -327,8 +328,8 @@ export default function MapComponent() {
 
       const extents = await Promise.all(
         state.context.searchLayers.map((layer) =>
-          searchLayer(layer, state.context.filter)
-        )
+          searchLayer(layer, state.context.filter),
+        ),
       );
 
       // join extents
