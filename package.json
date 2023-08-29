@@ -41,7 +41,12 @@
   },
   "prettier": {
     "semi": true,
-    "singleQuote": true
+    "singleQuote": true,
+    "plugins": [
+      "prettier-plugin-organize-imports",
+      "prettier-plugin-packagejson",
+      "prettier-plugin-tailwindcss"
+    ]
   },
   "eslintConfig": {
     "env": {
