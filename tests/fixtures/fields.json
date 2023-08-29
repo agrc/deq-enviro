@@ -1,0 +1,130 @@
+[
+  {
+    "name": "OBJECTID",
+    "type": "esriFieldTypeOID",
+    "alias": "OBJECTID"
+  },
+  {
+    "name": "ID",
+    "type": "esriFieldTypeString",
+    "alias": "ID",
+    "length": 12
+  },
+  {
+    "name": "P_DSLPM_D2",
+    "type": "esriFieldTypeDouble",
+    "alias": "P_D_DSLPM_2"
+  },
+  {
+    "name": "T_MINORPCT",
+    "type": "esriFieldTypeString",
+    "alias": "% people of color",
+    "length": 20
+  },
+  {
+    "name": "T_LWINCPCT",
+    "type": "esriFieldTypeString",
+    "alias": "% low income",
+    "length": 20
+  },
+  {
+    "name": "T_LESHSPCT",
+    "type": "esriFieldTypeString",
+    "alias": "% less than high school",
+    "length": 20
+  },
+  {
+    "name": "T_LNGISPCT",
+    "type": "esriFieldTypeString",
+    "alias": "% linguistic isolation",
+    "length": 20
+  },
+  {
+    "name": "T_UNDR5PCT",
+    "type": "esriFieldTypeString",
+    "alias": "% under age 5",
+    "length": 20
+  },
+  {
+    "name": "T_OVR64PCT",
+    "type": "esriFieldTypeString",
+    "alias": "% over age 64",
+    "length": 20
+  },
+  {
+    "name": "T_UNEMPPCT",
+    "type": "esriFieldTypeString",
+    "alias": "% unemployed",
+    "length": 20
+  },
+  {
+    "name": "T_VULEOPCT",
+    "type": "esriFieldTypeString",
+    "alias": "Demographic Index",
+    "length": 20
+  },
+  {
+    "name": "T_DSLPM",
+    "type": "esriFieldTypeString",
+    "alias": "Diesel PM",
+    "length": 70
+  },
+  {
+    "name": "T_DSLPM_D2",
+    "type": "esriFieldTypeString",
+    "alias": "Primary EJ Index: Diesel PM Level in Air (%ile)",
+    "length": 10
+  },
+  {
+    "name": "DESC_",
+    "type": "esriFieldTypeString",
+    "alias": "DESC",
+    "length": 255
+  },
+  {
+    "name": "Shape_Length",
+    "type": "esriFieldTypeDouble",
+    "alias": "Shape_Length"
+  },
+  {
+    "name": "Shape_Area",
+    "type": "esriFieldTypeDouble",
+    "alias": "Shape_Area"
+  },
+  {
+    "name": "NAME",
+    "type": "esriFieldTypeString",
+    "alias": "NAME",
+    "length": 255
+  },
+  {
+    "name": "ADDRESS",
+    "type": "esriFieldTypeString",
+    "alias": "ADDRESS",
+    "length": 255
+  },
+  {
+    "name": "CITY",
+    "type": "esriFieldTypeString",
+    "alias": "CITY",
+    "length": 255
+  },
+  {
+    "name": "TYPE",
+    "type": "esriFieldTypeString",
+    "alias": "TYPE",
+    "length": 255
+  },
+  {
+    "name": "ENVIROAPPLABEL",
+    "type": "esriFieldTypeString",
+    "alias": "ENVIROAPPLABEL",
+    "length": 255
+  },
+  {
+    "name": "ENVIROAPPSYMBOL",
+    "type": "esriFieldTypeString",
+    "alias": "ENVIROAPPSYMBOL",
+    "length": 255
+  }
+]

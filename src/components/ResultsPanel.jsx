@@ -2,6 +2,7 @@ import { Suspense, lazy, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { useSearchMachine } from '../SearchMachineProvider';
 import Spinner from '../utah-design-system/Spinner.jsx';
+import clsx from 'clsx';
 
 const ResultTable = lazy(() => import('./ResultTable.jsx'));
 
@@ -15,7 +16,12 @@ export default function ResultsPanel() {
   }
 
   return (
-    <div className="relative h-80 w-full overflow-y-auto border-t border-slate-300">
+    <div
+      className={clsx(
+        'relative h-80 w-full border-t border-slate-300',
+        !expandedTableIndex && 'overflow-y-auto',
+      )}
+    >
       <Suspense
         fallback={
           <div className="flex h-full w-full items-center justify-center">

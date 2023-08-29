@@ -5,6 +5,10 @@ import { useMemo } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
+import Button from '../utah-design-system/Button';
+import { useState } from 'react';
+import Identify from './Identify';
+import ky from 'ky';
 
 export default function ResultTable({
   queryLayerResult,
@@ -21,11 +25,44 @@ export default function ResultTable({
       ),
     [queryLayerResult],
   );
+  const [identifyResults, setIdentifyResults] = useState(null);
 
-  columns.push({
-    accessorKey: 'OBJECTID',
-    Header: 'OBJECTID',
-  });
+  const identify = async (oid) => {
+    const result = await ky
+      .get(`${queryLayerResult[fieldNames.queryLayers.featureService]}/query`, {
+        searchParams: {
+          f: 'json',
+          where: `OBJECTID = ${oid}`,
+          outFields: '*',
+          returnGeometry: false,
+        },
+      })
+      .json();
+
+    const attributes = result.features[0].attributes;
+
+    setIdentifyResults({
+      attributes,
+      fields: result.fields,
+    });
+  };
+
+  columns[0].cell = ({ getValue, row }) => (
+    <div className="flex items-center">
+      <Button
+        className="ml-0 mr-1 px-1.5 invisible group-hover/row:visible"
+        size="sm"
+        onClick={() => identify(row.original.OBJECTID)}
+      >
+        <Icon
+          name={Icon.Names.moreHorizontal}
+          size={Icon.Sizes.xs}
+          label="more information"
+        />
+      </Button>
+      {getValue()}
+    </div>
+  );
 
   const layerName = queryLayerResult[fieldNames.queryLayers.layerName];
 
@@ -52,7 +89,7 @@ export default function ResultTable({
     <Collapsible.Root
       key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
       className={clsx(
-        'group flex flex-col bg-white',
+        'group flex flex-col bg-white w-full',
         expanded && 'absolute bottom-0 top-0',
       )}
       open={expanded}
@@ -63,7 +100,7 @@ export default function ResultTable({
           type="button"
           className={clsx(
             padding,
-            'group/trigger flex w-full items-center hover:bg-slate-100',
+            'group/trigger flex w-full items-center hover:bg-slate-200',
             expanded && 'border-b border-slate-300',
           )}
         >
@@ -81,16 +118,26 @@ export default function ResultTable({
         </button>
       </Collapsible.Trigger>
       <Collapsible.Content asChild>
-        <Table
-          caption={`${layerName} results`}
-          className="min-h-0 flex-1 border-b-0"
-          columns={columns}
-          data={rows}
-          initialState={{
-            columnVisibility: { OBJECTID: false },
-            sorting: [{ id: columns[0].accessorKey, desc: false }],
-          }}
-        />
+        {identifyResults ? (
+          <Identify
+            onBack={() => setIdentifyResults(null)}
+            attributes={identifyResults.attributes}
+            fields={identifyResults.fields}
+            fieldsInfo={
+              queryLayerResult[fieldNames.queryLayers.identifyAttributes]
+            }
+          />
+        ) : (
+          <Table
+            caption={`${layerName} results`}
+            className="min-h-0 flex-1 border-b-0 text-sm"
+            columns={columns}
+            data={rows}
+            initialState={{
+              sorting: [{ id: columns[1].accessorKey, desc: false }],
+            }}
+          />
+        )}
       </Collapsible.Content>
     </Collapsible.Root>
   );
@@ -100,6 +147,7 @@ ResultTable.propTypes = {
   queryLayerResult: PropTypes.shape({
     error: PropTypes.node,
     features: PropTypes.array,
+    fields: PropTypes.array,
   }).isRequired,
   onExpandChange: PropTypes.func.isRequired,
   expanded: PropTypes.bool.isRequired,
