@@ -31,6 +31,10 @@ These are managed via the "Data" tab of the AGOL item. Any changes should immedi
 
 This is managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application. If there is no specific symbology defined, the app has some reasonable defaults that look better than the AGOL defaults.
 
+### Links (Identify Panel)
+
+The links in the "Links" tab in the identify panel are controlled via the corresponding columns in the config spreadsheet. If you want to append the feature's attributes to the URL, use the following syntax: `https://example.com?param1={field1}&param2={field2}`.
+
 ### Data Schema Changes
 
 Most updates are taken care of via the config spreadsheet.

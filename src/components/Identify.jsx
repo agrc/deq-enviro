@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import Button from '../utah-design-system/Button';
-import * as Tabs from '../utah-design-system/Tabs';
 import Icon from '../utah-design-system/Icon';
 import SimpleTable from '../utah-design-system/SimpleTable';
+import * as Tabs from '../utah-design-system/Tabs';
 import { getAlias } from '../utils';
 
 const buttonClasses = 'border-none px-2 my-1';
 
 const Identify = forwardRef(function Identify(
-  { attributes, fields, onBack },
+  { attributes, fields, onBack, links },
   forwardedRef,
 ) {
   const columns = [
@@ -28,9 +28,12 @@ const Identify = forwardRef(function Identify(
     value, // TODO: handle formatting dates?
   }));
 
+  const substituteAttributes = (url) =>
+    url.replace(/{([^}]+)}/g, (_, key) => attributes[key]);
+
   return (
     <Tabs.Root
-      className="flex-1 min-h-0 border-l-0 text-sm"
+      className="min-h-0 flex-1 border-l-0 text-sm"
       defaultValue="attributes"
       ref={forwardedRef}
       orientation="vertical"
@@ -55,14 +58,27 @@ const Identify = forwardRef(function Identify(
       <Tabs.Content value="attributes">
         <SimpleTable
           caption="Attributes"
-          className="h-full border-l border-l-slate-300 overflow-y-auto"
+          className="h-full overflow-y-auto border-l border-l-slate-300"
           columns={columns}
           data={data}
           hideHeaders
         />
       </Tabs.Content>
       <Tabs.Content value="related">Not yet implemented</Tabs.Content>
-      <Tabs.Content value="links">Not yet implemented</Tabs.Content>
+      <Tabs.Content value="links">
+        <div className="flex h-full flex-col justify-around">
+          {links.map(({ text, url }) => (
+            <Button
+              key={text}
+              href={substituteAttributes(url)}
+              size="lg"
+              external
+            >
+              {text}
+            </Button>
+          ))}
+        </div>
+      </Tabs.Content>
     </Tabs.Root>
   );
 });
@@ -71,6 +87,12 @@ Identify.propTypes = {
   attributes: PropTypes.object.isRequired,
   fields: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBack: PropTypes.func.isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Identify;

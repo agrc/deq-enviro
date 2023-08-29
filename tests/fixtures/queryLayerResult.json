@@ -263,6 +263,24 @@
       "popupTemplate": null
     }
   ],
+  "fields": [
+    {
+      "name": "SITEADDRES",
+      "alias": "Site Address"
+    },
+    {
+      "name": "SITECITY",
+      "alias": "Site City"
+    },
+    {
+      "name": "SITEDESC",
+      "alias": "Site Program Description"
+    },
+    {
+      "name": "SITENAME",
+      "alias": "Site Name"
+    }
+  ],
   "count": 11,
   "supportedExportFormats": "csv,shapefile,sqlite,geoPackage,filegdb,featureCollection,geojson,excel"
 }

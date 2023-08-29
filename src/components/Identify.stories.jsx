@@ -13,6 +13,24 @@ export const Default = () => (
       attributes={featureJson}
       fields={fieldsJson}
       onBack={console.log}
+      links={[
+        {
+          text: 'Document Search',
+          url: 'https://gis.utah.gov/documents/?OBJECTID={OBJECTID}&ID={ID}',
+        },
+        {
+          text: 'GRAMA Request',
+          url: 'https://gis.utah.gov/grama/',
+        },
+        {
+          text: 'Permit Information',
+          url: 'https://gis.utah.gov/permit/',
+        },
+        {
+          text: 'Additional Information',
+          url: 'https://gis.utah.gov/additional/',
+        },
+      ]}
     />
   </div>
 );

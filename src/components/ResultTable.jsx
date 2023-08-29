@@ -2,7 +2,7 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import { fieldNames } from '../../functions/common/config';
+import { fieldConfigs, fieldNames } from '../../functions/common/config';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
 import Button from '../utah-design-system/Button';
@@ -86,6 +86,28 @@ export default function ResultTable({
     );
   }
 
+  const linkProps = [
+    'documentSearch',
+    'gramaRequest',
+    'permitInformation',
+    'additionalInformation',
+  ];
+  const getLinks = () => {
+    const links = [];
+    linkProps.forEach((prop) => {
+      const text = fieldConfigs.queryLayers[prop].name;
+      const url = queryLayerResult[text];
+      if (url) {
+        links.push({
+          text,
+          url,
+        });
+      }
+    });
+
+    return links;
+  };
+
   return (
     <Collapsible.Root
       key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
@@ -124,6 +146,7 @@ export default function ResultTable({
             onBack={() => setIdentifyResults(null)}
             attributes={identifyResults.attributes}
             fields={identifyResults.fields}
+            links={getLinks()}
           />
         ) : (
           <Table
