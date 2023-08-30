@@ -4,7 +4,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import PropTypes from 'prop-types';
-import { twJoin, twMerge } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 
 function SimpleTable({
   caption,
@@ -24,8 +24,8 @@ function SimpleTable({
   const { rows } = getRowModel();
 
   return (
-    <div className={twMerge('', className)}>
-      <table className="w-full table-auto border-collapse">
+    <div className={className}>
+      <table className="w-full border-collapse">
         <caption className="sr-only">{caption}</caption>
         {hideHeaders ? null : (
           <thead
@@ -71,7 +71,7 @@ function SimpleTable({
               <tr
                 key={row.id}
                 className={twJoin(
-                  'border-y border-y-slate-300 group/row',
+                  'group/row border-y border-y-slate-300',
                   // using the even pseudo-class doesn't work since the virtualizer is always changing the rendered rows
                   row.index % 2 ? 'bg-white' : 'bg-slate-100',
                 )}
@@ -79,7 +79,7 @@ function SimpleTable({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="truncate p-2"
+                    className="whitespace-break-spaces p-2"
                     title={cell.getValue()}
                     style={{ width: cell.column.getSize() }}
                   >
