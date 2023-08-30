@@ -2,11 +2,32 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
+import Link from '../utah-design-system/Link';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
 import { getAlias } from '../utils';
 
 const buttonClasses = 'border-none px-2 my-1';
+
+const urlRegex = /^https?:\/\/\S*$/;
+function Cell({ value }) {
+  // if this is a link, return an anchor tag
+  console.log('value', value);
+  if (urlRegex.test(value)) {
+    return (
+      <Link external href={value}>
+        link
+      </Link>
+    );
+  }
+
+  // TODO: handle formatting dates?
+
+  return value;
+}
+Cell.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 const Identify = forwardRef(function Identify(
   { attributes, fields, onBack, links },
@@ -20,12 +41,13 @@ const Identify = forwardRef(function Identify(
     {
       accessorKey: 'value',
       size: 50,
+      cell: (cellProps) => <Cell value={cellProps.getValue()}></Cell>,
     },
   ];
 
   const data = Object.entries(attributes).map(([field, value]) => ({
     field: getAlias(field, fields),
-    value, // TODO: handle formatting dates?
+    value,
   }));
 
   const substituteAttributes = (url) =>
