@@ -1,15 +1,31 @@
-import { Suspense, lazy, useState } from 'react';
+import clsx from 'clsx';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { useSearchMachine } from '../SearchMachineProvider';
+import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
-import clsx from 'clsx';
 
 const ResultTable = lazy(() => import('./ResultTable.jsx'));
 
 export default function ResultsPanel() {
   const [state] = useSearchMachine();
-
   const [expandedTableIndex, setExpandedTableIndex] = useState(null);
+
+  const { selectedGraphicInfo } = useMap();
+
+  useEffect(() => {
+    if (selectedGraphicInfo) {
+      setExpandedTableIndex(
+        state.context.resultLayers.indexOf(
+          state.context.resultLayers.find(
+            (queryLayerResult) =>
+              queryLayerResult[fieldNames.queryLayers.uniqueId] ===
+              selectedGraphicInfo.layerId,
+          ),
+        ),
+      );
+    }
+  }, [selectedGraphicInfo, state.context.resultLayers]);
 
   if (!state.matches('result')) {
     return null;

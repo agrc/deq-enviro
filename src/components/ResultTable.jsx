@@ -1,21 +1,58 @@
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
+import ky from 'ky';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
+import useMap from '../contexts/useMap';
+import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
-import Button from '../utah-design-system/Button';
-import { useState } from 'react';
-import Identify from './Identify';
-import ky from 'ky';
 import { getAlias } from '../utils';
+import Identify from './Identify';
 
 export default function ResultTable({
   queryLayerResult,
   onExpandChange,
   expanded,
 }) {
+  const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
+
+  const identify = useCallback(
+    async (oid) => {
+      const result = await ky
+        .get(
+          `${queryLayerResult[fieldNames.queryLayers.featureService]}/query`,
+          {
+            searchParams: {
+              f: 'json',
+              where: `OBJECTID = ${oid}`,
+              outFields: '*',
+              returnGeometry: false,
+            },
+          },
+        )
+        .json();
+
+      const attributes = result.features[0].attributes;
+
+      setIdentifyResults({
+        attributes,
+        fields: result.fields,
+      });
+    },
+    [queryLayerResult],
+  );
+
+  useEffect(() => {
+    if (
+      selectedGraphicInfo?.layerId ===
+      queryLayerResult[fieldNames.queryLayers.uniqueId]
+    ) {
+      identify(selectedGraphicInfo.oid);
+    }
+  }, [selectedGraphicInfo, queryLayerResult, identify]);
+
   const columns = useMemo(
     () =>
       queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
@@ -28,32 +65,17 @@ export default function ResultTable({
   );
   const [identifyResults, setIdentifyResults] = useState(null);
 
-  const identify = async (oid) => {
-    const result = await ky
-      .get(`${queryLayerResult[fieldNames.queryLayers.featureService]}/query`, {
-        searchParams: {
-          f: 'json',
-          where: `OBJECTID = ${oid}`,
-          outFields: '*',
-          returnGeometry: false,
-        },
-      })
-      .json();
-
-    const attributes = result.features[0].attributes;
-
-    setIdentifyResults({
-      attributes,
-      fields: result.fields,
-    });
-  };
-
   columns[0].cell = ({ getValue, row }) => (
     <div className="flex items-center">
       <Button
-        className="ml-0 mr-1 px-1.5 invisible group-hover/row:visible"
+        className="invisible ml-0 mr-1 px-1.5 group-hover/row:visible"
         size="sm"
-        onClick={() => identify(row.original.OBJECTID)}
+        onClick={() => {
+          setSelectedGraphicInfo({
+            oid: row.original.OBJECTID,
+            layerId: queryLayerResult[fieldNames.queryLayers.uniqueId],
+          });
+        }}
       >
         <Icon
           name={Icon.Names.moreHorizontal}
@@ -112,7 +134,7 @@ export default function ResultTable({
     <Collapsible.Root
       key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
       className={clsx(
-        'group flex flex-col bg-white w-full',
+        'group flex w-full flex-col bg-white',
         expanded && 'absolute bottom-0 top-0',
       )}
       open={expanded}

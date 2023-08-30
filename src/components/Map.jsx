@@ -23,6 +23,7 @@ import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
+const searchLayerIdPrefix = 'search-layer';
 
 function useMapGraphic(mapView, graphic) {
   const previousGraphic = useRef(null);
@@ -98,7 +99,7 @@ TooManyMessage.propTypes = {
 export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
-  const { setMapView } = useMap();
+  const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
 
   const map = useRef(null);
   const view = useRef(null);
@@ -147,6 +148,26 @@ export default function MapComponent() {
       });
 
       view.current.ui.add(legend, 'top-left');
+
+      view.current.on('click', (event) => {
+        view.current.hitTest(event).then(({ results }) => {
+          // look for hit on search layer
+          const hit = results.find((result) =>
+            result.graphic.layer.id?.startsWith(searchLayerIdPrefix),
+          );
+
+          if (hit) {
+            const { layer, attributes } = hit.graphic;
+
+            setSelectedGraphicInfo({
+              layerId: layer.id.split(':')[1],
+              oid: attributes.OBJECTID,
+            });
+          } else {
+            setSelectedGraphicInfo(null);
+          }
+        });
+      });
     });
 
     setSelectorOptions({
@@ -229,7 +250,7 @@ export default function MapComponent() {
       view.current.destroy();
       map.current.destroy();
     };
-  }, [setMapView]);
+  }, [setMapView, setSelectedGraphicInfo]);
 
   const removeSearchLayers = () => {
     if (searching.current) return;
@@ -257,7 +278,9 @@ export default function MapComponent() {
           url: layer[fieldNames.queryLayers.featureService],
           outFields: layer[fieldNames.queryLayers.resultGridFields],
           definitionExpression: where,
-          id: `search-layer-${layer[fieldNames.queryLayers.uniqueId]}`,
+          id: `${searchLayerIdPrefix}:${
+            layer[fieldNames.queryLayers.uniqueId]
+          }`,
         });
 
         const featureCount = await featureLayer.queryFeatureCount({
@@ -376,6 +399,23 @@ export default function MapComponent() {
       view.current.goTo(state.context.resultExtent);
     }
   }, [state.context.resultExtent]);
+
+  useEffect(() => {
+    let handle;
+    if (selectedGraphicInfo?.oid && selectedGraphicInfo?.layerId) {
+      const layer = map.current.layers.find(
+        (layer) => layer.id.split(':')[1] === selectedGraphicInfo.layerId,
+      );
+
+      view.current.whenLayerView(layer).then((layerView) => {
+        handle = layerView.highlight(selectedGraphicInfo.oid);
+      });
+    }
+
+    return () => {
+      handle?.remove();
+    };
+  }, [selectedGraphicInfo, state.context.resultLayers]);
 
   return (
     <div className="w-full flex-1" ref={mapDiv}>
