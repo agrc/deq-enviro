@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.0.0-13](https://github.com/agrc/deq-enviro/compare/v2.0.0-12...v2.0.0-13) (2023-08-30)
+
+
+### 🚀 Features
+
+* **button:** add link buttons ([7bd908e](https://github.com/agrc/deq-enviro/commit/7bd908e0bfecc7750265fa059b7b8d5224af3708))
+* convert urls to links in feature identify attributes tab ([e506482](https://github.com/agrc/deq-enviro/commit/e506482d25c0b604b0a61fb47d99ec09335315b0))
+* **icon:** add additional more* icons ([cdfc0f4](https://github.com/agrc/deq-enviro/commit/cdfc0f4e1187224c71f5efb7eec400adc85f5d69))
+* implement feature identify with attributes only ([5a77d10](https://github.com/agrc/deq-enviro/commit/5a77d10645852e96fd1144f0f3b4436e8995bff1))
+* implement links in identify panel ([2cef5b6](https://github.com/agrc/deq-enviro/commit/2cef5b64a5f95e5aaa1ddea53316129272705e98))
+* implement map feature selection ([7706b1b](https://github.com/agrc/deq-enviro/commit/7706b1b6d4b1f59a908ce6a1e52fb4a0be3fea6b))
+* implement zoom to feature in identify pane ([da7097a](https://github.com/agrc/deq-enviro/commit/da7097ab37fa28a17edeac3486d812ba9afa0aa9))
+* **simple-table:** implement simple table component ([26fd030](https://github.com/agrc/deq-enviro/commit/26fd030ef3917d14d1f72d5f189d9e76270bf46d))
+* **simple-table:** wrap longer content ([97bf6ec](https://github.com/agrc/deq-enviro/commit/97bf6ec13851c8b36258bf2b57af6e8bc00893a5))
+* **table:** add support for custom column widths ([eefbef7](https://github.com/agrc/deq-enviro/commit/eefbef763726d7788b6333cb6868f3fee387335a))
+* **table:** add support for row hover css pseudo-classes ([7ead7aa](https://github.com/agrc/deq-enviro/commit/7ead7aa2420b08f6683ec098df852b434685fea8))
+* **tabs:** implement tabs component ([5ddcaef](https://github.com/agrc/deq-enviro/commit/5ddcaef0e1e37e2633fbd13b44503f74b72773a6))
+* use field aliases in result tables headers ([95d38c3](https://github.com/agrc/deq-enviro/commit/95d38c3b716904a9eeba77dbba6d5caca5c62616))
+
+
+### 🐛 Bug Fixes
+
+* prevent identify attributes table from overflowing it's parent ([5ff5040](https://github.com/agrc/deq-enviro/commit/5ff50404974bbc77a12f3cd969c333db0ddd4ad9))
+
+
+### 📖 Documentation Improvements
+
+* add link to analytics dashboard ([259f365](https://github.com/agrc/deq-enviro/commit/259f365125e2f8a51a2e9081185b5207a7ccf0a9))
+* cull old info and start adding v2 stuff ([03984a5](https://github.com/agrc/deq-enviro/commit/03984a5cf281987f8d6bbd65fca2c68c5f7e2e85))
+
 ## [2.0.0-12](https://github.com/agrc/deq-enviro/compare/v2.0.0-11...v2.0.0-12) (2023-07-20)
 
 
