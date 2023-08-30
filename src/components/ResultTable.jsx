@@ -1,3 +1,4 @@
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import ky from 'ky';
@@ -28,7 +29,7 @@ export default function ResultTable({
               f: 'json',
               where: `OBJECTID = ${oid}`,
               outFields: '*',
-              returnGeometry: false,
+              returnGeometry: true,
             },
           },
         )
@@ -39,6 +40,11 @@ export default function ResultTable({
       setIdentifyResults({
         attributes,
         fields: result.fields,
+        geometry: fromJSON({
+          ...result.features[0].geometry,
+          type: result.geometryType,
+          spatialReference: result.spatialReference,
+        }),
       });
     },
     [queryLayerResult],
@@ -169,6 +175,7 @@ export default function ResultTable({
             attributes={identifyResults.attributes}
             fields={identifyResults.fields}
             links={getLinks()}
+            geometry={identifyResults.geometry}
           />
         ) : (
           <Table

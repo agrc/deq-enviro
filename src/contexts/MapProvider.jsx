@@ -6,6 +6,14 @@ export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);
 
+  const zoom = (geometry) => {
+    if (!mapView) {
+      console.warn('attempting to zoom before the mapView is set');
+    } else {
+      mapView.goTo(geometry);
+    }
+  };
+
   return (
     <MapContext.Provider
       value={{
@@ -13,6 +21,7 @@ export default function MapProvider({ children }) {
         setMapView,
         selectedGraphicInfo,
         setSelectedGraphicInfo,
+        zoom,
       }}
     >
       {children}

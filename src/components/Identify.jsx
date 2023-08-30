@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
 import Link from '../utah-design-system/Link';
@@ -12,7 +13,6 @@ const buttonClasses = 'border-none px-2 my-1';
 const urlRegex = /^https?:\/\/\S*$/;
 function Cell({ value }) {
   // if this is a link, return an anchor tag
-  console.log('value', value);
   if (urlRegex.test(value)) {
     return (
       <Link external href={value}>
@@ -30,9 +30,11 @@ Cell.propTypes = {
 };
 
 const Identify = forwardRef(function Identify(
-  { attributes, fields, onBack, links },
+  { attributes, fields, geometry, links, onBack },
   forwardedRef,
 ) {
+  const { zoom } = useMap();
+
   const columns = [
     {
       accessorKey: 'field',
@@ -64,7 +66,7 @@ const Identify = forwardRef(function Identify(
         <Tabs.Trigger value="attributes">Attributes</Tabs.Trigger>
         <Tabs.Trigger value="related">Related Records</Tabs.Trigger>
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
-        <Button className={buttonClasses} onClick={() => {}} disabled>
+        <Button className={buttonClasses} onClick={() => zoom(geometry)}>
           <Icon
             name={Icon.Names.search}
             className="mr-2"
@@ -108,13 +110,14 @@ const Identify = forwardRef(function Identify(
 Identify.propTypes = {
   attributes: PropTypes.object.isRequired,
   fields: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onBack: PropTypes.func.isRequired,
+  geometry: PropTypes.object.isRequired,
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default Identify;
