@@ -38,7 +38,7 @@ const Identify = forwardRef(function Identify(
       ref={forwardedRef}
       orientation="vertical"
     >
-      <Tabs.List className="data-[orientation=vertical]:border-l-0">
+      <Tabs.List className="min-w-[175px] data-[orientation=vertical]:border-l-0">
         <Tabs.Trigger value="attributes">Attributes</Tabs.Trigger>
         <Tabs.Trigger value="related">Related Records</Tabs.Trigger>
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
