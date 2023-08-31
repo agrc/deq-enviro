@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-14](https://github.com/agrc/deq-enviro/compare/v2.0.0-13...v2.0.0-14) (2023-08-31)
+
+
+### 🐛 Bug Fixes
+
+* **functions:** handle validation for {FieldName} syntax in link configs ([dd9fb30](https://github.com/agrc/deq-enviro/commit/dd9fb302e87287bd27bd5f2f10bdb1828ced80bd))
+
 ## [2.0.0-13](https://github.com/agrc/deq-enviro/compare/v2.0.0-12...v2.0.0-13) (2023-08-30)
 
 
