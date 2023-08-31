@@ -25,7 +25,7 @@ export function applyTransforms(configs, fieldConfigs, tableFieldNames) {
     for (const fieldName in config) {
       if (fieldConfigs[tableFieldNames[fieldName]]?.transform) {
         config[fieldName] = fieldConfigs[tableFieldNames[fieldName]].transform(
-          config[fieldName]
+          config[fieldName],
         );
       }
     }
@@ -39,7 +39,7 @@ async function getConfigs(
   skipFields,
   authClient,
   tableFieldConfigs,
-  tableFieldNames
+  tableFieldNames,
 ) {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   const response = await sheets.spreadsheets.values.get({
@@ -70,8 +70,8 @@ export function checkForDuplicateIds(configs) {
   if (duplicates.length) {
     throw new Error(
       `Duplicate values in the "Unique ID" column detected: ${JSON.stringify(
-        duplicates
-      )}`
+        duplicates,
+      )}`,
     );
   }
 }
@@ -85,16 +85,24 @@ async function validateQueryLayers(queryLayers) {
       schemas.queryLayers.validateSync(queryLayer);
     } catch (error) {
       validationErrors.push(
-        `${layerName}: schema validation error: ${error.message}`
+        `${layerName}: schema validation error: ${error.message}`,
       );
     }
     if (queryLayer[fieldNames.queryLayers.featureService]) {
       const serviceURL = queryLayer[fieldNames.queryLayers.featureService];
-      const serviceJSON = await got(`${serviceURL}?f=json`).json();
+      let serviceJSON;
+      try {
+        serviceJSON = await got(`${serviceURL}?f=json`).json();
+      } catch (error) {
+        validationErrors.push(
+          `${layerName}: could not fetch feature service JSON: ${error.message}`,
+        );
+        continue;
+      }
 
       if (!supportsExport(serviceJSON)) {
         validationErrors.push(
-          `${layerName}: feature service does not support export/downloading!`
+          `${layerName}: feature service does not support export/downloading!`,
         );
       }
     }
@@ -157,7 +165,7 @@ export async function main() {
     ['Contact Info', 'ETL Type', 'Source Data'],
     authClient,
     fieldConfigs.queryLayers,
-    fieldKeys.queryLayers
+    fieldKeys.queryLayers,
   );
 
   console.log('checking for duplicate ids');
@@ -168,11 +176,11 @@ export async function main() {
     ['Source Data'],
     authClient,
     fieldConfigs.relatedTables,
-    fieldKeys.relatedTables
+    fieldKeys.relatedTables,
   );
 
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
-    JSON.stringify(relatedTables)
+    JSON.stringify(relatedTables),
   );
 }

@@ -1,10 +1,14 @@
 import { array, string } from 'yup';
 
+// use a different regex that yup to allow for the {FieldName} syntax
+const urlRegex = /https?:\/\//i;
+const invalidUrl = '"${value}" must be a valid URL ("{" and "}" are allowed)';
+
 export const fieldConfigs = {
   queryLayers: {
     additionalInformation: {
       name: 'Additional Information',
-      schema: string().url().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     additionalSearches: {
       name: 'Additional Searches',
@@ -28,7 +32,7 @@ export const fieldConfigs = {
     },
     documentSearch: {
       name: 'Document Search',
-      schema: string().url().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     featureService: {
       name: 'Feature Service',
@@ -40,7 +44,7 @@ export const fieldConfigs = {
     },
     gramaRequest: {
       name: 'GRAMA Request',
-      schema: string().url().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     idField: {
       name: 'ID Field',
@@ -64,7 +68,7 @@ export const fieldConfigs = {
     },
     metadataLink: {
       name: 'Metadata Link',
-      schema: string().url().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     nameField: {
       name: 'Name Field',
@@ -76,7 +80,7 @@ export const fieldConfigs = {
     },
     permitInformation: {
       name: 'Permit Information',
-      schema: string().url().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     relatedTables: {
       name: 'Related Tables',
