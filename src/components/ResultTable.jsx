@@ -184,7 +184,7 @@ export default function ResultTable({
             columns={columns}
             data={rows}
             initialState={{
-              sorting: [{ id: columns[1].accessorKey, desc: false }],
+              sorting: [{ id: columns[0].accessorKey, desc: false }],
             }}
           />
         )}
