@@ -6,6 +6,46 @@ export default {
       outline: { style: 'dash' },
       color: [0, 0, 0, 0.15],
     },
+    point: {
+      type: 'simple',
+      symbol: {
+        type: 'simple-marker',
+        style: 'circle',
+        color: null, // to be filled in later
+        size: 8,
+        outline: {
+          color: [0, 0, 0, 255],
+          width: 1,
+        },
+      },
+    },
+    polygon: {
+      type: 'simple',
+      symbol: {
+        type: 'simple-fill',
+        style: 'solid',
+        color: null, // to be filled in later
+        outline: {
+          color: [0, 0, 0, 255],
+          width: 0.4,
+        },
+      },
+    },
+    defaultColors: [
+      [31, 120, 180],
+      [51, 160, 44],
+      [227, 26, 28],
+      [255, 127, 0],
+      [106, 61, 154],
+      [253, 191, 111],
+      [251, 154, 153],
+      [178, 223, 138],
+      [166, 206, 227],
+      [202, 178, 214],
+      [255, 255, 153],
+      [177, 89, 40],
+    ],
+    defaultOpacity: 0.65,
   },
   urls: {
     masquerade:

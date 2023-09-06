@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getAlias } from './utils';
+import { getAlias, hasDefaultSymbology } from './utils';
 
 describe('getAlias', () => {
   it('returns the alias if the field exists', () => {
@@ -19,5 +19,44 @@ describe('getAlias', () => {
     const expected = 'field1';
 
     expect(result).toEqual(expected);
+  });
+});
+
+describe('hasDefaultSymbology', () => {
+  it('returns true if the layer is a point layer with default simple symbology', () => {
+    const layer = {
+      geometryType: 'point',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          size: 4,
+        },
+      },
+    };
+
+    expect(hasDefaultSymbology(layer)).toEqual(true);
+
+    layer.renderer.type = 'unique-value';
+
+    expect(hasDefaultSymbology(layer)).toEqual(false);
+  });
+  it('checks polygon layers', () => {
+    const layer = {
+      geometryType: 'polygon',
+      renderer: {
+        type: 'simple',
+        symbol: {
+          outline: {
+            width: 0.7,
+          },
+        },
+      },
+    };
+
+    expect(hasDefaultSymbology(layer)).toEqual(true);
+
+    layer.renderer.symbol.outline.width = 0.8;
+
+    expect(hasDefaultSymbology(layer)).toEqual(false);
   });
 });

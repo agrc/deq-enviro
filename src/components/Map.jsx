@@ -21,6 +21,7 @@ import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
+import { getDefaultRenderer, hasDefaultSymbology } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
@@ -325,6 +326,16 @@ export default function MapComponent() {
           });
 
           return null;
+        }
+
+        if (hasDefaultSymbology(featureLayer)) {
+          // assign a default symbol
+          console.log('assigning default symbol');
+          featureLayer.renderer = getDefaultRenderer(featureLayer.geometryType);
+
+          if (featureLayer.geometryType === 'polygon') {
+            featureLayer.opacity = appConfig.symbols.defaultOpacity;
+          }
         }
 
         map.current.add(featureLayer);
