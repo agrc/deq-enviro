@@ -4,12 +4,14 @@ import Polygon from '@arcgis/core/geometry/Polygon';
 import { union } from '@arcgis/core/geometry/geometryEngine';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
+import { fromPortalItem } from '@arcgis/core/layers/support/fromPortalItem';
 import MapView from '@arcgis/core/views/MapView';
 import Expand from '@arcgis/core/widgets/Expand';
 import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
+import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
@@ -274,14 +276,36 @@ export default function MapComponent() {
     async function searchLayer(layer, filter) {
       try {
         const where = getWhere(filter.attribute, layer);
-        const featureLayer = new FeatureLayer({
-          url: layer[fieldNames.queryLayers.featureService],
-          outFields: layer[fieldNames.queryLayers.resultGridFields],
-          definitionExpression: where,
-          id: `${searchLayerIdPrefix}:${
-            layer[fieldNames.queryLayers.uniqueId]
-          }`,
-        });
+        const featureServiceUrl = layer[fieldNames.queryLayers.featureService];
+
+        const featureServiceJson = await ky(
+          `${featureServiceUrl}?f=json`,
+        ).json();
+        let featureLayer;
+        if (featureServiceJson.serviceItemId) {
+          // this could be a feature layer or group layer
+          const layer = await fromPortalItem({
+            portalItem: {
+              id: featureServiceJson.serviceItemId,
+            },
+          });
+
+          featureLayer =
+            layer.type === 'group'
+              ? layer.findLayerById(featureServiceJson.id)
+              : layer;
+        } else {
+          featureLayer = new FeatureLayer({
+            url: layer[fieldNames.queryLayers.featureService],
+          });
+        }
+
+        featureLayer.outFields = layer[fieldNames.queryLayers.resultGridFields];
+        featureLayer.definitionExpression = where;
+        featureLayer.id = `${searchLayerIdPrefix}:${
+          layer[fieldNames.queryLayers.uniqueId]
+        }`;
+        featureLayer.popupEnabled = false;
 
         const featureCount = await featureLayer.queryFeatureCount({
           where,
