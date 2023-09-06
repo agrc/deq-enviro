@@ -338,7 +338,10 @@ export default function MapComponent() {
           }
         }
 
-        map.current.add(featureLayer);
+        map.current.add(
+          featureLayer,
+          featureLayer.geometryType === 'polygon' ? 0 : null,
+        );
 
         const layerView = await view.current.whenLayerView(featureLayer);
         layerView.filter = {
