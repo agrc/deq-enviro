@@ -20,6 +20,10 @@ describe('getAlias', () => {
 
     expect(result).toEqual(expected);
   });
+
+  it('returns the field name if there are no fields defined', () => {
+    expect(getAlias('field1', undefined)).toEqual('field1');
+  });
 });
 
 describe('hasDefaultSymbology', () => {

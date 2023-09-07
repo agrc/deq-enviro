@@ -1,6 +1,8 @@
 import appConfig from './app-config';
 
 export function getAlias(fieldName, fields) {
+  if (!fields) return fieldName;
+
   const field = fields.find((field) => field.name === fieldName);
 
   return field?.alias ?? fieldName;

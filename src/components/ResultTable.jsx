@@ -12,6 +12,8 @@ import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
 import { getAlias } from '../utils';
 import Identify from './Identify';
+import Legend from './Legend';
+
 const padding = 'px-2 py-1';
 
 function Error({ layerName, errorMessage }) {
@@ -178,6 +180,7 @@ export default function ResultTable({
               size="xs"
               label="toggle results"
             />
+            <Legend featureLayer={queryLayerResult.featureLayer} />
             <span className="ml-2 flex h-full items-center justify-center group-hover/trigger:underline">
               {layerName}
             </span>
@@ -217,6 +220,7 @@ ResultTable.propTypes = {
     error: PropTypes.node,
     features: PropTypes.array,
     fields: PropTypes.array,
+    featureLayer: PropTypes.object,
   }).isRequired,
   onExpandChange: PropTypes.func.isRequired,
   expanded: PropTypes.bool.isRequired,

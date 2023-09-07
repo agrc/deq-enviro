@@ -1,4 +1,5 @@
 import queryLayerResult from '../../tests/fixtures/queryLayerResult.json';
+import MapProvider from '../contexts/MapProvider';
 import ResultTable from './ResultTable';
 
 export default {
@@ -8,7 +9,9 @@ export default {
 
 const Template = (args) => (
   <div className="relative h-80 w-full overflow-y-auto border-t border-slate-300">
-    <ResultTable {...args} />
+    <MapProvider value={{}}>
+      <ResultTable {...args} />
+    </MapProvider>
   </div>
 );
 

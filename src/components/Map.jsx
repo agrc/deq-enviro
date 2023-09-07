@@ -330,7 +330,6 @@ export default function MapComponent() {
 
         if (hasDefaultSymbology(featureLayer)) {
           // assign a default symbol
-          console.log('assigning default symbol');
           featureLayer.renderer = getDefaultRenderer(featureLayer.geometryType);
 
           if (featureLayer.geometryType === 'polygon') {
@@ -366,6 +365,7 @@ export default function MapComponent() {
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
             supportsExport: supportsExportValue,
+            featureLayer,
           },
         });
 

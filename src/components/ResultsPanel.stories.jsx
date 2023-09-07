@@ -1,6 +1,7 @@
 import { fieldNames } from '../../functions/common/config';
 import queryLayerResult from '../../tests/fixtures/queryLayerResult.json';
 import { SearchMachineContext } from '../SearchMachineProvider';
+import MapProvider from '../contexts/MapProvider';
 import ResultsPanel from './ResultsPanel';
 
 export default {
@@ -67,9 +68,11 @@ export const Default = () => {
 
   return (
     <div className="border border-slate-300">
-      <SearchMachineContext.Provider value={[state]}>
-        <ResultsPanel />
-      </SearchMachineContext.Provider>
+      <MapProvider value={{}}>
+        <SearchMachineContext.Provider value={[state]}>
+          <ResultsPanel />
+        </SearchMachineContext.Provider>
+      </MapProvider>
     </div>
   );
 };
