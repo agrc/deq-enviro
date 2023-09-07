@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0-15](https://github.com/agrc/deq-enviro/compare/v2.0.0-14...v2.0.0-15) (2023-09-07)
+
+
+### 🚀 Features
+
+* add error boundary to search result layer ([d462983](https://github.com/agrc/deq-enviro/commit/d462983ff14b08f6a21a55014bcb6f92c6406c1d))
+* add legends to result tables ([3b3db1c](https://github.com/agrc/deq-enviro/commit/3b3db1c635f38a8a216b2a38dd01f04844039b23)), closes [#556](https://github.com/agrc/deq-enviro/issues/556)
+* use nice looking default symbols ([a9c4edd](https://github.com/agrc/deq-enviro/commit/a9c4edd1b0f10c2e04cd9076fa2029cc0ff3c39a))
+* use symbology from AGOL item, if available ([b387f52](https://github.com/agrc/deq-enviro/commit/b387f52ec2f6878b20c2a2a3634a1fc736acb90d))
+
+
+### 🐛 Bug Fixes
+
+* always add points on top of polygon layers ([11a2536](https://github.com/agrc/deq-enviro/commit/11a2536475c4cf388f73e84462c7519c88e859f5)), closes [#546](https://github.com/agrc/deq-enviro/issues/546)
+* fix result table default sorting regression ([b9518e5](https://github.com/agrc/deq-enviro/commit/b9518e5d95855694d998520574bae501ddf32d6c))
+
 ## [2.0.0-14](https://github.com/agrc/deq-enviro/compare/v2.0.0-13...v2.0.0-14) (2023-08-31)
 
 
