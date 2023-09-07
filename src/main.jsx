@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
+import './console-tools.js';
 import './index.css';
 import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
 
@@ -30,5 +31,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </FirebaseAppProvider>
       </QueryClientProvider>
     </React.StrictMode>
-  </ErrorBoundary>
+  </ErrorBoundary>,
 );
