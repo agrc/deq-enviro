@@ -2,9 +2,9 @@ export default {
   symbols: {
     filter: {
       type: 'simple-fill',
-      style: 'diagonal-cross',
-      outline: { style: 'dash' },
-      color: [0, 0, 0, 0.15],
+      style: 'hollow',
+      outline: { style: 'dash', width: 1.5 },
+      color: null,
     },
     point: {
       type: 'simple',

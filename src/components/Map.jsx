@@ -3,6 +3,7 @@ import { whenOnce } from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import { union } from '@arcgis/core/geometry/geometryEngine';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import { fromPortalItem } from '@arcgis/core/layers/support/fromPortalItem';
 import MapView from '@arcgis/core/views/MapView';
@@ -31,14 +32,20 @@ const searchLayerIdPrefix = 'search-layer';
 function useMapGraphic(mapView, graphic) {
   const previousGraphic = useRef(null);
   const previousGoTo = useRef(null);
+  const graphicsLayer = useRef(null);
 
   useEffect(() => {
     const giddyUp = async () => {
       if (!mapView) return;
 
+      if (!graphicsLayer.current) {
+        graphicsLayer.current = new GraphicsLayer();
+        mapView.map.add(graphicsLayer.current);
+      }
+
       if (!graphic) {
         if (previousGraphic.current) {
-          mapView.graphics.removeAll();
+          graphicsLayer.current.removeAll();
 
           previousGraphic.current = null;
         }
@@ -47,9 +54,9 @@ function useMapGraphic(mapView, graphic) {
       }
 
       if (JSON.stringify(graphic.geometry) !== previousGraphic.current) {
-        mapView.graphics.removeAll();
+        graphicsLayer.current.removeAll();
 
-        mapView.graphics.add(graphic);
+        graphicsLayer.current.add(graphic);
 
         previousGraphic.current = JSON.stringify(graphic.geometry);
 
@@ -351,7 +358,7 @@ export default function MapComponent() {
 
         map.current.add(
           featureLayer,
-          featureLayer.geometryType === 'polygon' ? 0 : null,
+          featureLayer.geometryType === 'polygon' ? 1 : null,
         );
 
         const layerView = await view.current.whenLayerView(featureLayer);
