@@ -1,3 +1,4 @@
+import { fromJSON } from '@arcgis/core/geometry';
 import { useMachine } from '@xstate/react';
 import localforage from 'localforage';
 import PropTypes from 'prop-types';
@@ -76,8 +77,13 @@ const machine = createMachine(
         invoke: {
           src: async () => {
             const cachedContext = JSON.parse(
-              await localforage.getItem(CACHE_KEY)
+              await localforage.getItem(CACHE_KEY),
             );
+            if (cachedContext?.filter?.geometry) {
+              cachedContext.filter.geometry = fromJSON(
+                cachedContext.filter.geometry,
+              );
+            }
 
             return cachedContext || {};
           },
@@ -172,7 +178,7 @@ const machine = createMachine(
           selectedDownloadLayers: (context) =>
             context.resultLayers
               .filter(
-                (result) => result.supportsExport && result.features.length > 0
+                (result) => result.supportsExport && result.features.length > 0,
               )
               .map((result) => result[fieldNames.queryLayers.uniqueId]),
         }),
@@ -293,7 +299,7 @@ const machine = createMachine(
           const newData = context.searchLayers.filter(
             (config) =>
               config[fieldNames.queryLayers.uniqueId] !==
-              event.queryLayer[fieldNames.queryLayers.uniqueId]
+              event.queryLayer[fieldNames.queryLayers.uniqueId],
           );
           cacheSearchContext({ searchLayers: newData, filter: context.filter });
 
@@ -301,7 +307,7 @@ const machine = createMachine(
         },
       }),
     },
-  }
+  },
 );
 
 // exported for mocking in Storybook
@@ -328,7 +334,7 @@ export function useSearchMachine() {
 
   if (context === undefined) {
     throw new Error(
-      'useSearchMachine must be used within a SearchMachineProvider'
+      'useSearchMachine must be used within a SearchMachineProvider',
     );
   }
 
