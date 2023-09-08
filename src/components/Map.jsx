@@ -337,6 +337,18 @@ export default function MapComponent() {
           }
         }
 
+        // this essentially applies a geometry filter to the layer before it's added to the map
+        // this is done to prevent the map from requesting ALL of the features from the layer
+        const ids = await featureLayer.queryObjectIds({
+          where,
+          geometry: filter.geometry,
+        });
+        if (ids?.length) {
+          featureLayer.definitionExpression = `${
+            featureLayer.objectIdField
+          } IN (${ids.join(',')})`;
+        }
+
         map.current.add(
           featureLayer,
           featureLayer.geometryType === 'polygon' ? 0 : null,
@@ -348,6 +360,8 @@ export default function MapComponent() {
         };
 
         await whenOnce(() => layerView.updating === false);
+
+        // client side queries
         const { count, extent } = await layerView.queryExtent();
         const featureSet = await layerView.queryFeatures();
 
