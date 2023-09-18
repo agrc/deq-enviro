@@ -10,14 +10,14 @@ export default function Link({ className, href, external, children }) {
       rel={external ? 'noopener noreferrer' : ''}
       className={twMerge(
         'inline-flex cursor-pointer items-center text-sky-600 hover:bg-slate-100 hover:text-sky-800',
-        className
+        className,
       )}
     >
       <span className="underline">{children}</span>
       {external ? (
         <Icon
           className="ml-1"
-          name={Icon.Names.externalLink}
+          name="externalLink"
           label="more info"
           size="xs"
         />

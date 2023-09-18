@@ -2,7 +2,6 @@ import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import ky from 'ky';
-import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
@@ -16,6 +15,13 @@ import Legend from './Legend';
 
 const padding = 'px-2 py-1';
 
+/**
+ * Error
+ *
+ * @param {Object} props
+ * @param {string} props.layerName
+ * @param {string | Object} [props.errorMessage]
+ */
 function Error({ layerName, errorMessage }) {
   return (
     <div className={clsx(padding, 'text-error-500')}>
@@ -24,11 +30,14 @@ function Error({ layerName, errorMessage }) {
   );
 }
 
-Error.propTypes = {
-  layerName: PropTypes.string.isRequired,
-  errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-};
-
+/**
+ * ResultTable
+ *
+ * @param {Object} props
+ * @param {import('../SearchMachineProvider').QueryLayerResult} props.queryLayerResult
+ * @param {(open: boolean) => void} props.onExpandChange
+ * @param {boolean} props.expanded
+ */
 export default function ResultTable({
   queryLayerResult,
   onExpandChange,
@@ -38,6 +47,7 @@ export default function ResultTable({
 
   const identify = useCallback(
     async (oid) => {
+      /** @type {import('@arcgis/core/rest/support/FeatureSet').default} */
       const result = await ky
         .get(
           `${queryLayerResult[fieldNames.queryLayers.featureService]}/query`,
@@ -100,11 +110,7 @@ export default function ResultTable({
           });
         }}
       >
-        <Icon
-          name={Icon.Names.moreHorizontal}
-          size={Icon.Sizes.xs}
-          label="more information"
-        />
+        <Icon name="moreHorizontal" size="xs" label="more information" />
       </Button>
       {getValue()}
     </div>
@@ -176,7 +182,7 @@ export default function ResultTable({
           >
             <Icon
               className="mr-2"
-              name={expanded ? Icon.Names.unfoldLess : Icon.Names.unfoldMore}
+              name={expanded ? 'unfoldLess' : 'unfoldMore'}
               size="xs"
               label="toggle results"
             />
@@ -204,6 +210,7 @@ export default function ResultTable({
               className="min-h-0 flex-1 border-b-0 text-sm"
               columns={columns}
               data={rows}
+              // @ts-ignore
               initialState={{
                 sorting: [{ id: columns[0].accessorKey, desc: false }],
               }}
@@ -214,14 +221,3 @@ export default function ResultTable({
     </ErrorBoundary>
   );
 }
-
-ResultTable.propTypes = {
-  queryLayerResult: PropTypes.shape({
-    error: PropTypes.node,
-    features: PropTypes.array,
-    fields: PropTypes.array,
-    featureLayer: PropTypes.object,
-  }).isRequired,
-  onExpandChange: PropTypes.func.isRequired,
-  expanded: PropTypes.bool.isRequired,
-};

@@ -1,4 +1,4 @@
-import { fromJSON } from '@arcgis/core/geometry';
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import { useMachine } from '@xstate/react';
 import localforage from 'localforage';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ localforage.config({
 });
 
 const VERSION_KEY = 'searchContextVersion';
+// TODO: this should be stored in the remote configs and incremented each time the config spreadsheet is deployed
 const CURRENT_VERSION = 1; // change this anytime you change the schema of the cache (includes any layer config changes)
 localforage.getItem(VERSION_KEY).then((version) => {
   if (version !== CURRENT_VERSION) {
@@ -26,30 +27,58 @@ function cacheSearchContext(cachedContext) {
   localforage.setItem(CACHE_KEY, JSON.stringify(cachedContext));
 }
 
+/**
+ * @typedef {Object} Attribute
+ * @property {string[]} values
+ * @property {'and' | 'or'} queryType
+ * @property {'name' | 'id'} attributeType
+ */
+
+/**
+ * @typedef {Object} Filter
+ * @property {Object} geometry
+ * @property {string} name
+ * @property {Attribute | null} attribute
+ */
+
+/** @type {Filter} */
 const blankFilter = {
   geometry: stateOfUtahJson,
   name: 'State of Utah',
   attribute: null,
 };
+
+/**
+ * @typedef {Object} Context
+ * @property {import('../functions/common/config').QueryLayerConfig[]} searchLayers
+ * @property {Filter} filter
+ * @property {QueryLayerResult[]} resultLayers
+ * @property {Object} resultExtent
+ * @property {string[]} selectedDownloadLayers
+ * @property {Object[]} downloadResultLayers
+ * @property {string} downloadFormat
+ * @property {string | null} error
+ */
+
+/**
+ * @typedef {Object & import('../functions/common/config').QueryLayerConfig} QueryLayerResult
+ * @property {JSX.Element} [error]
+ * @property {import('@arcgis/core/Graphic')[]} [features]
+ * @property {Object} [fields]
+ * @property {number} [count]
+ * @property {string[]} [supportedExportFormats]
+ * @property {boolean} [supportsExport]
+ * @property {import('@arcgis/core/layers/FeatureLayer')} [featureLayer]
+ */
+
+/**
+ * @typedef {Object} FilterEvent
+ * @property {Filter} filter
+ */
+
+/** @type {Context} */
 const blankContext = {
-  /* I think that this means that I need Typescript. ;)
-    {
-      ...queryLayerConfig,
-      filter: '...' || null // not yet implemented
-    }
-  */
   searchLayers: [],
-  /*
-    {
-      geometry: {},
-      attribute: {
-        values: ['A Good Name'],
-        queryType: 'and' || 'or',
-        attributeType: 'name' || 'id',
-      },
-      name: 'A Good Name',
-    }
-  */
   filter: blankFilter,
   /*
     {
@@ -127,7 +156,8 @@ const machine = createMachine(
           },
           SET_FILTER: {
             actions: assign({
-              filter: (_, event) => event.filter,
+              // @ts-ignore
+              filter: (_, { /** @type {Filter} */ filter }) => filter,
             }),
           },
           CLEAR: {
@@ -148,23 +178,26 @@ const machine = createMachine(
         on: {
           RESULT: {
             actions: assign({
-              resultLayers: (context, event) => [
-                ...context.resultLayers,
-                event.result,
-              ],
+              resultLayers: (
+                context,
+                // @ts-ignore
+                { /** @param QueryLayerResult */ result },
+              ) => [...context.resultLayers, result],
             }),
           },
           // generic error with search (not specific to a query layer)
           ERROR: {
             target: 'error',
             actions: assign({
-              error: (_, event) => event.message,
+              // @ts-ignore
+              error: (_, { message }) => message,
             }),
           },
           COMPLETE: {
             target: 'result',
             actions: assign({
-              resultExtent: (_, event) => event.extent,
+              // @ts-ignore
+              resultExtent: (_, { extent }) => extent,
             }),
           },
           CANCEL: {
@@ -218,12 +251,14 @@ const machine = createMachine(
           },
           SET_SELECTED_LAYERS: {
             actions: assign({
-              selectedDownloadLayers: (_, event) => event.selectedLayers,
+              // @ts-ignore
+              selectedDownloadLayers: (_, { selectedLayers }) => selectedLayers,
             }),
           },
           SET_FORMAT: {
             actions: assign({
-              downloadFormat: (_, event) => event.format,
+              // @ts-ignore
+              downloadFormat: (_, { format }) => format,
             }),
           },
         },
@@ -235,9 +270,10 @@ const machine = createMachine(
         on: {
           RESULT: {
             actions: assign({
-              downloadResultLayers: (context, event) => [
+              // @ts-ignore
+              downloadResultLayers: (context, { result }) => [
                 ...context.downloadResultLayers,
-                event.result,
+                result,
               ],
             }),
           },
@@ -245,13 +281,15 @@ const machine = createMachine(
           ERROR: {
             target: 'error',
             actions: assign({
-              error: (_, event) => event.message,
+              // @ts-ignore
+              error: (_, { message }) => message,
             }),
           },
           COMPLETE: {
             target: 'result',
             actions: assign({
-              resultExtent: (_, event) => event.extent,
+              // @ts-ignore
+              resultExtent: (_, { extent }) => extent,
             }),
           },
           CANCEL: {
@@ -287,19 +325,21 @@ const machine = createMachine(
         return { ...blankContext };
       }),
       selectLayer: assign({
-        searchLayers: (context, event) => {
-          const newData = [...context.searchLayers, event.queryLayer];
+        // @ts-ignore
+        searchLayers: (context, { queryLayer }) => {
+          const newData = [...context.searchLayers, queryLayer];
           cacheSearchContext({ searchLayers: newData, filter: context.filter });
 
           return newData;
         },
       }),
       unselectLayer: assign({
-        searchLayers: (context, event) => {
+        // @ts-ignore
+        searchLayers: (context, { queryLayer }) => {
           const newData = context.searchLayers.filter(
             (config) =>
               config[fieldNames.queryLayers.uniqueId] !==
-              event.queryLayer[fieldNames.queryLayers.uniqueId],
+              queryLayer[fieldNames.queryLayers.uniqueId],
           );
           cacheSearchContext({ searchLayers: newData, filter: context.filter });
 
@@ -311,7 +351,7 @@ const machine = createMachine(
 );
 
 // exported for mocking in Storybook
-export const SearchMachineContext = createContext();
+export const SearchMachineContext = createContext(null);
 export function SearchMachineProvider({ children }) {
   const [state, send] = useMachine(machine);
 

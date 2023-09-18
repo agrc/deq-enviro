@@ -1,8 +1,19 @@
 import * as RadixSelect from '@radix-ui/react-select';
-import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 
+/**
+ * Select
+ *
+ * @param {Object} props
+ * @param {import('tailwind-merge').ClassNameValue} [props.className]
+ * @param {boolean} [props.disabled]
+ * @param {{ label: string; value: string }[]} props.items
+ * @param {(value: string) => void} [props.onValueChange]
+ * @param {boolean} [props.open]
+ * @param {string} [props.placeholder]
+ * @param {string} [props.value]
+ */
 export default function Select({
   className,
   disabled,
@@ -24,16 +35,12 @@ export default function Select({
           'group flex h-8 w-full items-center justify-between rounded-md border border-slate-400 px-2 py-1',
           disabled && 'cursor-not-allowed text-slate-300',
           'data-[placeholder]:text-slate-500',
-          className
+          className,
         )}
       >
         <RadixSelect.Value placeholder={placeholder} />
         <RadixSelect.Icon>
-          <Icon
-            name={Icon.Names.chevronDown}
-            size="xs"
-            label="toggle dropdown"
-          />
+          <Icon name="chevronDown" size="xs" label="toggle dropdown" />
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
 
@@ -59,22 +66,3 @@ export default function Select({
     </RadixSelect.Root>
   );
 }
-
-Select.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
-    })
-  ).isRequired,
-  onValueChange: PropTypes.func,
-  /*
-    Mostly used for storybook
-  */
-  open: PropTypes.bool,
-  placeholder: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};

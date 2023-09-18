@@ -40,7 +40,7 @@ export const Default = () => (
         <span>Custom Size (10)</span>
         <Spinner
           ariaLabel="Loading..."
-          size={Spinner.Sizes.custom}
+          size="custom"
           className="ml-1 h-10 w-10"
         />
       </div>

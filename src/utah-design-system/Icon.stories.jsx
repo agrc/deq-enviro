@@ -9,16 +9,12 @@ export const Default = () => (
   <>
     <div className="flex bg-slate-200 leading-6">
       medium
-      <Icon
-        name={Icon.Names.circleChevronDown}
-        label="chevron down"
-        className="ml-1"
-      />
+      <Icon name="circleChevronDown" label="chevron down" className="ml-1" />
     </div>
     <div className="flex bg-slate-200 leading-6">
       small
       <Icon
-        name={Icon.Names.circleChevronDown}
+        name="circleChevronDown"
         label="chevron down"
         className="ml-1"
         size="sm"
@@ -27,7 +23,7 @@ export const Default = () => (
     <div className="flex bg-slate-200 leading-6">
       large
       <Icon
-        name={Icon.Names.circleChevronDown}
+        name="circleChevronDown"
         label="chevron down"
         className="ml-1"
         size="xl"

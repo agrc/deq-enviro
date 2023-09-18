@@ -13,6 +13,7 @@ export default class NHDProvider extends ProviderBase {
     this.getFeatureFunction = httpsCallable(functions, 'getFeature');
   }
 
+  // @ts-ignore
   async search(searchString) {
     const results = await this.searchFunction(searchString);
 
@@ -22,6 +23,7 @@ export default class NHDProvider extends ProviderBase {
   async getFeature(match, context) {
     const results = await this.getFeatureFunction({ match, context });
 
+    // @ts-ignore
     return { items: [results.data.feature] };
   }
 }

@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import { createContext, useState } from 'react';
 
-export const MapContext = createContext();
+export const MapContext = createContext(null);
+
+/**
+ * @param {Object} props
+ * @param {JSX.Element} props.children
+ * @returns {JSX.Element}
+ */
 export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);

@@ -282,5 +282,22 @@
     }
   ],
   "count": 11,
-  "supportedExportFormats": "csv,shapefile,sqlite,geoPackage,filegdb,featureCollection,geojson,excel"
+  "supportedExportFormats": "csv,shapefile,sqlite,geoPackage,filegdb,featureCollection,geojson,excel",
+  "featureLayer": {
+    "renderer": {
+      "type": "simple",
+      "symbol": {
+        "type": "simple-marker",
+        "color": [227, 26, 28, 255],
+        "size": 8,
+        "style": "circle",
+        "outline": {
+          "type": "simple-line",
+          "color": [0, 0, 0, 255],
+          "width": 1,
+          "style": "solid"
+        }
+      }
+    }
+  }
 }

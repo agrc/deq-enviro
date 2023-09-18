@@ -1,3 +1,4 @@
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import featureJson from '../../tests/fixtures/feature.json';
 import fieldsJson from '../../tests/fixtures/fields.json';
 import MapProvider from '../contexts/MapProvider';
@@ -10,9 +11,10 @@ export default {
 
 export const Default = () => (
   <div className="h-72 w-full overflow-x-hidden border border-slate-300">
-    <MapProvider value={{}}>
+    <MapProvider>
       <Identify
-        attributes={featureJson}
+        attributes={featureJson.attributes}
+        geometry={fromJSON(featureJson.geometry)}
         fields={fieldsJson}
         onBack={console.log}
         links={[

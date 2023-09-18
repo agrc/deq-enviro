@@ -28,6 +28,7 @@ async function generateZip(layer, format, send) {
     f: 'json',
   });
 
+  /** @type {{ error?: { message: string }; responseUrl?: string }} */
   let response;
   try {
     response = await ky
@@ -75,21 +76,22 @@ export default function SearchWizard() {
             console.warn(
               `Invalid Query Layer config for ${
                 config[fieldNames.queryLayers.layerName]
-              }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`
+              }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`,
             );
             return false;
           }
-        }
+        },
       );
       setQueryLayers(validatedQueryLayers);
     }
   }, [queryLayersConfig]);
 
   const downloadMutation = useMutation({
+    // @ts-ignore
     mutationFn: async ({ layers, format }) => {
       send('DOWNLOADING');
       return await Promise.all(
-        layers.map((layer) => generateZip(layer, format, send))
+        layers.map((layer) => generateZip(layer, format, send)),
       );
     },
   });
@@ -114,7 +116,7 @@ export default function SearchWizard() {
             <div className="flex h-full items-center justify-center">
               <Spinner
                 className="h-10 w-10"
-                size={Spinner.Sizes.custom}
+                size="custom"
                 ariaLabel="loading module"
               />
             </div>
@@ -139,6 +141,7 @@ export default function SearchWizard() {
           {state.matches('download') ? (
             <Download
               searchResultLayers={state.context.resultLayers}
+              // @ts-ignore
               mutation={downloadMutation}
               selectedLayers={state.context.selectedDownloadLayers}
               setSelectedLayers={(newIds) =>
@@ -154,8 +157,8 @@ export default function SearchWizard() {
             <DownloadProgress
               layers={queryLayers.filter((layer) =>
                 state.context.selectedDownloadLayers.includes(
-                  layer[fieldNames.queryLayers.uniqueId]
-                )
+                  layer[fieldNames.queryLayers.uniqueId],
+                ),
               )}
               results={state.context.downloadResultLayers}
             />
@@ -169,10 +172,10 @@ export default function SearchWizard() {
         state.matches('advanced') ? (
           <>
             <Button
-              appearance={Button.Appearances.solid}
-              color={Button.Colors.primary}
+              appearance="solid"
+              color="primary"
               className="w-full"
-              size={Button.Sizes.xl}
+              size="xl"
               busy={state.matches('searching')}
               disabled={
                 state.context.searchLayers.length === 0 ||
@@ -192,11 +195,11 @@ export default function SearchWizard() {
         ) : null}
         {state.matches('selectLayers') ? (
           <Button
-            appearance={Button.Appearances.outlined}
-            color={Button.Colors.primary}
+            appearance="outlined"
+            color="primary"
             className="w-full"
             disabled={state.context.searchLayers.length === 0}
-            size={Button.Sizes.xl}
+            size="xl"
             onClick={() => send('ADVANCED')}
           >
             Open Advanced Filter
@@ -204,10 +207,10 @@ export default function SearchWizard() {
         ) : null}
         {state.matches('advanced') ? (
           <Button
-            appearance={Button.Appearances.outlined}
-            color={Button.Colors.primary}
+            appearance="outlined"
+            color="primary"
             className="w-full"
-            size={Button.Sizes.xl}
+            size="xl"
             onClick={() => send('QUERY_LAYERS')}
           >
             Back
@@ -216,18 +219,18 @@ export default function SearchWizard() {
         {state.matches('result') ? (
           <>
             <Button
-              color={Button.Colors.primary}
-              appearance={Button.Appearances.solid}
+              color="primary"
+              appearance="solid"
               className="w-full"
-              size={Button.Sizes.xl}
+              size="xl"
               onClick={() => send('DOWNLOAD')}
             >
               Download
             </Button>
             <Button
-              color={Button.Colors.primary}
+              color="primary"
               className="w-full"
-              size={Button.Sizes.xl}
+              size="xl"
               onClick={() => send('QUERY_LAYERS')}
             >
               Back
@@ -236,19 +239,20 @@ export default function SearchWizard() {
         ) : null}
         {state.matches('download') ? (
           <Button
-            appearance={Button.Appearances.solid}
-            color={Button.Colors.primary}
+            appearance="solid"
+            color="primary"
             className="w-full"
             disabled={state.context.selectedDownloadLayers.length === 0}
-            size={Button.Sizes.xl}
+            size="xl"
             onClick={() =>
               downloadMutation.mutate(
+                // @ts-ignore
                 {
                   layers: state.context.resultLayers
                     .filter((result) =>
                       state.context.selectedDownloadLayers.includes(
-                        result[fieldNames.queryLayers.uniqueId]
-                      )
+                        result[fieldNames.queryLayers.uniqueId],
+                      ),
                     )
                     .map((result) => ({
                       uniqueId: result[fieldNames.queryLayers.uniqueId],
@@ -256,14 +260,14 @@ export default function SearchWizard() {
                         result[fieldNames.queryLayers.featureService],
                       name: result[fieldNames.queryLayers.layerName],
                       objectIds: result.features.map(
-                        (feature) => feature.attributes.OBJECTID
+                        (feature) => feature.attributes.OBJECTID,
                       ),
                     })),
                   format: state.context.downloadFormat,
                 },
                 {
                   onError: console.error,
-                }
+                },
               )
             }
             busy={downloadMutation.isLoading}
@@ -273,18 +277,18 @@ export default function SearchWizard() {
         ) : null}
         {state.matches('download') || state.matches('downloading') ? (
           <Button
-            color={Button.Colors.primary}
+            color="primary"
             className="w-full"
-            size={Button.Sizes.xl}
+            size="xl"
             onClick={() => send('BACK')}
           >
             Back
           </Button>
         ) : null}
         <Button
-          color={Button.Colors.none}
+          color="none"
           className="w-full"
-          size={Button.Sizes.xl}
+          size="xl"
           onClick={() => send('CLEAR')}
           disabled={state.matches('searching')}
         >

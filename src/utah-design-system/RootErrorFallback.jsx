@@ -13,16 +13,13 @@ export default function RootErrorFallback({ error }) {
         <Collapsible.Root>
           <div className="mt-4 flex w-full items-center justify-between space-x-4">
             <Collapsible.Trigger asChild>
-              <Button
-                appearance={Button.Appearances.outlined}
-                color={Button.Colors.none}
-              >
+              <Button appearance="outlined" color="none">
                 Show technical details 🤓
               </Button>
             </Collapsible.Trigger>
             <Button
-              appearance={Button.Appearances.solid}
-              color={Button.Colors.none}
+              appearance="solid"
+              color="none"
               onClick={() => window.location.reload()}
             >
               Reload

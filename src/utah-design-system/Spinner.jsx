@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
-import { createKeyLookup } from './utils';
 
 const SIZES = {
   xs: 'h-3 w-3',
@@ -10,7 +8,17 @@ const SIZES = {
   xl: 'h-5 w-5',
   custom: null,
 };
-export default function Spinner({ className, ariaLabel, size }) {
+
+/**
+ * @param {Object} props
+ * @param {import('tailwind-merge').ClassNameValue} [props.className]
+ * @param {string} props.ariaLabel
+ * @param {keyof typeof SIZES} [props.size] Size of the spinner. Corresponds
+ *   with the tailwind text sizes (base, sm, lg, xl). Use `custom` and pass your
+ *   own height and width via `className` for custom sizes.
+ * @returns {JSX.Element}
+ */
+export default function Spinner({ className, ariaLabel, size = 'base' }) {
   return (
     <svg
       aria-live="polite"
@@ -20,7 +28,7 @@ export default function Spinner({ className, ariaLabel, size }) {
       className={twMerge(
         SIZES[size],
         'flex-shrink-0 animate-spin motion-reduce:hidden',
-        className
+        className,
       )}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -42,19 +50,3 @@ export default function Spinner({ className, ariaLabel, size }) {
     </svg>
   );
 }
-
-Spinner.propTypes = {
-  className: PropTypes.string,
-  ariaLabel: PropTypes.string.isRequired,
-  /**
-   * Size of the spinner. Corresponds with the tailwind text sizes (base, sm, lg, xl).
-   * Use `custom` and pass your own height and width via `className` for custom sizes.
-   */
-  size: PropTypes.oneOf(Object.keys(SIZES)),
-};
-
-Spinner.Sizes = createKeyLookup(SIZES);
-
-Spinner.defaultProps = {
-  size: 'base',
-};

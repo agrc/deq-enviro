@@ -5,13 +5,16 @@ console.log(
 `,
 );
 
+// @ts-ignore
 window.enviro = {
   selectAllLayers: () => {
     document
       .querySelectorAll('[data-state=closed]>button')
+      // @ts-ignore
       .forEach((button) => button.click());
     document
       .querySelectorAll('button[role=checkbox]')
+      // @ts-ignore
       .forEach((button) => button.click());
   },
 };

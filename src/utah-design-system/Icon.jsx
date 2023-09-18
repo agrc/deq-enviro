@@ -1,8 +1,6 @@
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { createKeyLookup } from './utils';
 
 // preview these at: https://designsystem.dev.utah.gov/resources/icons
 const ICONS = {
@@ -141,8 +139,24 @@ const SIZE_CLASS_NAMES = {
   '9xl': 'before:text-9xl',
 };
 
-const Icon = forwardRef(function Icon(
-  { name, label, className, size, bold, ...props },
+/**
+ * @typedef {Object} IconProps
+ * @property {keyof typeof ICONS} name
+ * @property {string} label
+ * @property {import('tailwind-merge').ClassNameValue} [className]
+ * @property {keyof typeof SIZE_CLASS_NAMES} [size]
+ * @property {boolean} [bold]
+ */
+
+/**
+ * InnerIcon
+ *
+ * @param {IconProps & import('react').HTMLAttributes<HTMLSpanElement>} props
+ * @param {import('react').Ref<any>} forwardedRef
+ * @returns {JSX.Element}
+ */
+function InnerIcon(
+  { name, label, className, size = 'base', bold, ...props },
   forwardedRef,
 ) {
   if (!Object.keys(ICONS).includes(name)) {
@@ -174,24 +188,8 @@ const Icon = forwardRef(function Icon(
       />
     </AccessibleIcon.Root>
   );
-});
+}
 
-Icon.propTypes = {
-  name: PropTypes.oneOf(Object.keys(ICONS)).isRequired,
-  label: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  /**
-   * Size of the icon. Corresponds with the tailwind text sizes (base, sm, lg, xl)
-   */
-  size: PropTypes.oneOf(Object.keys(SIZE_CLASS_NAMES)),
-  bold: PropTypes.bool,
-};
-
-Icon.defaultProps = {
-  size: 'base',
-};
-
-Icon.Names = createKeyLookup(ICONS);
-Icon.Sizes = createKeyLookup(SIZE_CLASS_NAMES);
+const Icon = forwardRef(InnerIcon);
 
 export default Icon;

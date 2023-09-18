@@ -117,5 +117,6 @@
     "xylayer"
   ],
   "editor.formatOnSave": true,
-  "testing.automaticallyOpenPeekView": "never"
+  "testing.automaticallyOpenPeekView": "never",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

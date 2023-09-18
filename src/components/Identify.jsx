@@ -29,7 +29,17 @@ Cell.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-const Identify = forwardRef(function Identify(
+/**
+ * @param {Object} props
+ * @param {Record<string, string | number | boolean>} props.attributes
+ * @param {Object} props.fields
+ * @param {import('@arcgis/core/geometry/Geometry').default} props.geometry
+ * @param {{ text: string; url: string }[]} props.links
+ * @param {() => void} props.onBack
+ * @param {import('react').Ref<any>} forwardedRef
+ * @returns {JSX.Element}
+ */
+function Identify(
   { attributes, fields, geometry, links, onBack },
   forwardedRef,
 ) {
@@ -67,15 +77,11 @@ const Identify = forwardRef(function Identify(
         <Tabs.Trigger value="related">Related Records</Tabs.Trigger>
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
         <Button className={buttonClasses} onClick={() => zoom(geometry)}>
-          <Icon
-            name={Icon.Names.search}
-            className="mr-2"
-            label="zoom to feature"
-          />{' '}
-          Zoom to feature
+          <Icon name="search" className="mr-2" label="zoom to feature" /> Zoom
+          to feature
         </Button>
         <Button className={buttonClasses} onClick={onBack}>
-          <Icon name={Icon.Names.arrowLeft} className="mr-2" label="back" />
+          <Icon name="arrowLeft" className="mr-2" label="back" />
           Back to results
         </Button>
       </Tabs.List>
@@ -105,19 +111,7 @@ const Identify = forwardRef(function Identify(
       </Tabs.Content>
     </Tabs.Root>
   );
-});
+}
 
-Identify.propTypes = {
-  attributes: PropTypes.object.isRequired,
-  fields: PropTypes.arrayOf(PropTypes.object).isRequired,
-  geometry: PropTypes.object.isRequired,
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  onBack: PropTypes.func.isRequired,
-};
-
-export default Identify;
+const ForwardedIdentify = forwardRef(Identify);
+export default ForwardedIdentify;

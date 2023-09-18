@@ -68,7 +68,7 @@ export const Default = () => {
 
   return (
     <div className="border border-slate-300">
-      <MapProvider value={{}}>
+      <MapProvider>
         <SearchMachineContext.Provider value={[state]}>
           <ResultsPanel />
         </SearchMachineContext.Provider>

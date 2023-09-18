@@ -281,27 +281,37 @@ export default function MapComponent() {
       return;
     }
 
+    /**
+     * @param {import('../../functions/common/config').QueryLayerConfig} layer
+     * @param {import('../SearchMachineProvider').Filter} filter
+     * @returns Promise
+     */
     async function searchLayer(layer, filter) {
       try {
         const where = getWhere(filter.attribute, layer);
         const featureServiceUrl = layer[fieldNames.queryLayers.featureService];
 
+        /**
+         * @type {Object} featureServiceJson
+         * @property {string} serviceItemId
+         * @property {string} id
+         */
         const featureServiceJson = await ky(
           `${featureServiceUrl}?f=json`,
         ).json();
         let featureLayer;
         if (featureServiceJson.serviceItemId) {
           // this could be a feature layer or group layer
-          const layer = await fromPortalItem({
+          const mapLayer = await fromPortalItem({
             portalItem: {
               id: featureServiceJson.serviceItemId,
             },
           });
 
           featureLayer =
-            layer.type === 'group'
-              ? layer.findLayerById(featureServiceJson.id)
-              : layer;
+            mapLayer.type === 'group'
+              ? mapLayer.findLayerById(featureServiceJson.id)
+              : mapLayer;
         } else {
           featureLayer = new FeatureLayer({
             url: layer[fieldNames.queryLayers.featureService],

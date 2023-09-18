@@ -124,7 +124,7 @@ export default function Coordinates({ send }) {
           spatialReference: {
             wkid: coordinateType === 'utm' ? 26912 : 4326,
           },
-        })
+        }),
       );
     } else {
       setInputGeometry(null);
@@ -135,7 +135,6 @@ export default function Coordinates({ send }) {
     <div>
       <strong>Coordinate System</strong>
       <Select
-        ariaLabel="Coordinate Type"
         items={Object.keys(coordinateTypes).map((key) => ({
           value: key,
           label: coordinateTypes[key].label,

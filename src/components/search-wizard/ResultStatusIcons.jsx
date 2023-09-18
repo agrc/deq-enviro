@@ -11,14 +11,14 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
       <Spinner
         className="mr-1"
         ariaLabel={`searching ${layerName}`}
-        size={Spinner.Sizes.lg}
+        size="lg"
       />
     </span>
   ) : hasError ? (
     <Tooltip
       trigger={
         <Icon
-          name={Icon.Names.error}
+          name="error"
           className="mr-1 w-5 text-error-500"
           size="lg"
           label="error message"
@@ -29,7 +29,7 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
     </Tooltip>
   ) : (
     <Icon
-      name={Icon.Names.checkmark}
+      name="checkmark"
       className="mr-1 w-5 text-success-500"
       size="lg"
       label="success"

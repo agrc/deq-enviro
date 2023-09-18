@@ -12,8 +12,6 @@ export const Default = () => (
       trigger with span
     </Tooltip>
     <Tooltip trigger="plain string trigger">plain string trigger</Tooltip>
-    <Tooltip trigger={<Icon name={Icon.Names.help} label="help" />}>
-      Icon
-    </Tooltip>
+    <Tooltip trigger={<Icon name="help" label="help" />}>Icon</Tooltip>
   </div>
 );

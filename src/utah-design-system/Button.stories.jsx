@@ -10,30 +10,21 @@ export const Default = () => (
     <h3>Outlined</h3>
     <p className="space-y-1">
       <Button>Default</Button>
-      <Button color={Button.Colors.primary}>Primary</Button>
-      <Button color={Button.Colors.secondary}>Secondary</Button>
-      <Button color={Button.Colors.accent}>Accent</Button>
+      <Button color="primary">Primary</Button>
+      <Button color="secondary">Secondary</Button>
+      <Button color="accent">Accent</Button>
     </p>
 
     <h3>Solid</h3>
     <p className="space-y-1">
-      <Button appearance={Button.Appearances.solid}>Default</Button>
-      <Button
-        appearance={Button.Appearances.solid}
-        color={Button.Colors.primary}
-      >
+      <Button appearance="solid">Default</Button>
+      <Button appearance="solid" color="primary">
         Primary
       </Button>
-      <Button
-        appearance={Button.Appearances.solid}
-        color={Button.Colors.secondary}
-      >
+      <Button appearance="solid" color="secondary">
         Secondary
       </Button>
-      <Button
-        appearance={Button.Appearances.solid}
-        color={Button.Colors.accent}
-      >
+      <Button appearance="solid" color="accent">
         Accent
       </Button>
     </p>
@@ -41,21 +32,13 @@ export const Default = () => (
     <h3>Disabled</h3>
     <p className="space-y-1">
       <Button disabled>Default</Button>
-      <Button
-        disabled
-        appearance={Button.Appearances.solid}
-        color={Button.Colors.primary}
-      >
+      <Button disabled appearance="solid" color="primary">
         Primary
       </Button>
-      <Button disabled color={Button.Colors.secondary}>
+      <Button disabled color="secondary">
         Secondary
       </Button>
-      <Button
-        disabled
-        appearance={Button.Appearances.solid}
-        color={Button.Colors.accent}
-      >
+      <Button disabled appearance="solid" color="accent">
         Accent
       </Button>
     </p>
@@ -63,24 +46,20 @@ export const Default = () => (
     <h3>Busy</h3>
     <p className="space-y-1">
       <Button busy>Default</Button>
-      <Button
-        busy
-        color={Button.Colors.secondary}
-        appearance={Button.Appearances.solid}
-      >
+      <Button busy color="secondary" appearance="solid">
         Secondary
       </Button>
     </p>
 
     <h3>Sizes</h3>
     <p className="space-y-1">
-      <Button size={Button.Sizes.xs}>Extra Small</Button>
-      <Button size={Button.Sizes.sm}>Small</Button>
-      <Button size={Button.Sizes.base} appearance="solid" color="primary">
+      <Button size="xs">Extra Small</Button>
+      <Button size="sm">Small</Button>
+      <Button size="base" appearance="solid" color="primary">
         Medium
       </Button>
-      <Button size={Button.Sizes.lg}>Large</Button>
-      <Button size={Button.Sizes.xl} appearance={Button.Appearances.solid}>
+      <Button size="lg">Large</Button>
+      <Button size="xl" appearance="solid">
         Extra Large
       </Button>
     </p>

@@ -14,7 +14,7 @@ export default function DownloadProgress({ layers, results }) {
         {layers.map((searchLayer) => {
           const uniqueId = searchLayer[fieldNames.queryLayers.uniqueId];
           const resultConfig = results.find(
-            (result) => result.uniqueId === uniqueId
+            (result) => result.uniqueId === uniqueId,
           );
           const layerName = searchLayer[fieldNames.queryLayers.layerName];
 
@@ -45,15 +45,11 @@ export default function DownloadProgress({ layers, results }) {
                   }}
                   href={resultConfig.url}
                   download={resultConfig.url.substring(
-                    resultConfig.url.lastIndexOf('/') + 1
+                    resultConfig.url.lastIndexOf('/') + 1,
                   )}
                   className="flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
                 >
-                  <Icon
-                    className="mr-2"
-                    name={Icon.Names.arrowDown}
-                    label="download"
-                  />{' '}
+                  <Icon className="mr-2" name="arrowDown" label="download" />{' '}
                   download
                 </a>
               ) : null}

@@ -23,12 +23,12 @@ export function AccordionPanel({ title, children }) {
         <Accordion.Trigger
           className={twJoin(
             'group flex w-full items-center justify-between',
-            'bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
+            'bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white',
           )}
         >
           {title}
           <Icon
-            name={Icon.Names.circleChevronDown}
+            name="circleChevronDown"
             label="chevron down"
             className="text-white transition group-data-[state=open]:rotate-180"
           />

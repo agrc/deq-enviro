@@ -80,6 +80,7 @@ function SimpleTable({
                   <td
                     key={cell.id}
                     className="whitespace-break-spaces p-2"
+                    // @ts-ignore
                     title={cell.getValue()}
                     style={{ width: cell.column.getSize() }}
                   >
@@ -102,18 +103,18 @@ SimpleTable.propTypes = {
   className: PropTypes.string,
 
   /**
-   * Corresponds to the same prop in react table (https://tanstack.com/table/v8/docs/api/core/table#columns)
+   * Corresponds to the same prop in react table
+   * (https://tanstack.com/table/v8/docs/api/core/table#columns)
    */
   columns: PropTypes.array.isRequired,
 
   /**
-   * Corresponds to the same prop in react table (https://tanstack.com/table/v8/docs/api/core/table#data)
+   * Corresponds to the same prop in react table
+   * (https://tanstack.com/table/v8/docs/api/core/table#data)
    */
   data: PropTypes.array.isRequired,
 
   hideHeaders: PropTypes.bool,
 
-  /**
-   * All other props are passed to the useReactTable hook
-   */
+  /** All other props are passed to the useReactTable hook */
 };

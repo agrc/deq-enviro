@@ -4,7 +4,6 @@ import Query from '@arcgis/core/rest/support/Query';
 import { useCombobox } from 'downshift';
 import ky from 'ky';
 import { debounce, escapeRegExp, sortBy, uniqWith } from 'lodash-es';
-import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './Icon';
@@ -34,6 +33,19 @@ const defaultSymbols = {
   },
 };
 
+/**
+ * Sherlock
+ *
+ * @param {Object} props
+ * @param {import('tailwind-merge').ClassNameValue} [props.className]
+ * @param {string} [props.label]
+ * @param {number} props.maxResultsToDisplay
+ * @param {(graphics: Graphic[]) => void} [props.onSherlockMatch]
+ * @param {string} [props.placeHolder]
+ * @param {ProviderBase} props.provider
+ * @param {Object} [props.symbols]
+ * @returns {JSX.Element}
+ */
 export default function Sherlock({
   className,
   label,
@@ -48,9 +60,13 @@ export default function Sherlock({
       provider.idField
         ? item.attributes[provider.idField]
         : item.attributes[provider.searchField],
-    [provider.idField, provider.searchField]
+    [provider.idField, provider.searchField],
   );
 
+  /**
+   * @param {Object} props
+   * @param {Object} [props.selectedItem]
+   */
   const handleSelectedItemChange = async ({ selectedItem }) => {
     setState({
       ...state,
@@ -74,7 +90,7 @@ export default function Sherlock({
           geometry: result.geometry,
           attributes: result.attributes,
           symbol: symbols[result.geometry.type],
-        })
+        }),
     );
 
     onSherlockMatch(graphics);
@@ -135,6 +151,8 @@ export default function Sherlock({
           console.error(e);
         });
 
+      if (!response) return;
+
       const iteratee = [`attributes.${searchField}`];
       let hasContext = false;
       if (contextField) {
@@ -168,7 +186,7 @@ export default function Sherlock({
         hasMore: hasMore,
       });
     },
-    [getSearchValue, maxResultsToDisplay, provider]
+    [getSearchValue, maxResultsToDisplay, provider],
   );
 
   const {
@@ -187,7 +205,7 @@ export default function Sherlock({
           leading: false,
           trailing: true,
         }),
-      [handleInputValueChange]
+      [handleInputValueChange],
     ),
     items: state.items,
     itemToString: (item) => (item ? item.attributes[provider.searchField] : ''),
@@ -199,10 +217,7 @@ export default function Sherlock({
     if (state.short) {
       return (
         // primary
-        <li
-          className={twJoin(commonClasses, 'bg-info-200 text-center')}
-          disabled
-        >
+        <li className={twJoin(commonClasses, 'bg-info-200 text-center')}>
           Type more than 2 letters.
         </li>
       );
@@ -210,10 +225,7 @@ export default function Sherlock({
 
     if (state.error) {
       return (
-        <li
-          className={twJoin(commonClasses, 'bg-error-200 text-center')}
-          disabled
-        >
+        <li className={twJoin(commonClasses, 'bg-error-200 text-center')}>
           Error! {state.error}
         </li>
       );
@@ -221,10 +233,7 @@ export default function Sherlock({
 
     if (!state.loading && !state.items.length) {
       return (
-        <li
-          className={twJoin(commonClasses, 'bg-warning-200 text-center')}
-          disabled
-        >
+        <li className={twJoin(commonClasses, 'bg-warning-200 text-center')}>
           No items found.
         </li>
       );
@@ -237,7 +246,7 @@ export default function Sherlock({
           commonClasses,
           highlightedIndex === index && 'bg-primary text-white',
           'flex items-center justify-between rounded-none border-0 border-x',
-          'first:rounded-t-md first:border-t last:rounded-b-md last:border-b'
+          'first:rounded-t-md first:border-t last:rounded-b-md last:border-b',
         )}
         {...getItemProps({
           item,
@@ -260,12 +269,11 @@ export default function Sherlock({
           key="too-many"
           className={twJoin(
             commonClasses,
-            'rounded-t-none border-t-0 bg-info-200 text-center'
+            'rounded-t-none border-t-0 bg-info-200 text-center',
           )}
-          disabled
         >
           More than {maxResultsToDisplay} items found.
-        </li>
+        </li>,
       );
     }
 
@@ -284,7 +292,7 @@ export default function Sherlock({
           {state.loading ? (
             <Spinner ariaLabel="searching" />
           ) : (
-            <Icon name={Icon.Names.search} label="search" />
+            <Icon name="search" label="search" />
           )}
         </div>
         <input
@@ -298,7 +306,7 @@ export default function Sherlock({
       <ul
         className={twJoin(
           'mt-1 w-full rounded-md bg-white',
-          !isOpen && 'hidden'
+          !isOpen && 'hidden',
         )}
         {...getMenuProps()}
       >
@@ -308,16 +316,12 @@ export default function Sherlock({
   );
 }
 
-Sherlock.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string,
-  maxResultsToDisplay: PropTypes.number.isRequired,
-  onSherlockMatch: PropTypes.func,
-  placeHolder: PropTypes.string,
-  provider: PropTypes.object.isRequired,
-  symbols: PropTypes.object,
-};
-
+/**
+ * @param {Object} props
+ * @param {string} [props.text]
+ * @param {string} [props.highlight]
+ * @returns {JSX.Element}
+ */
 const Highlighted = ({ text = '', highlight = '' }) => {
   if (!highlight.trim()) {
     return <div>{text}</div>;
@@ -335,21 +339,30 @@ const Highlighted = ({ text = '', highlight = '' }) => {
             <mark key={i}>{part}</mark>
           ) : (
             <span key={i}>{part}</span>
-          )
+          ),
         )}
     </div>
   );
 };
 
-Highlighted.propTypes = {
-  text: PropTypes.string,
-  highlight: PropTypes.string,
-};
-
 export class ProviderBase {
+  /** @type {AbortController} */
   controller = new AbortController();
+  /** @type {AbortSignal} */
   signal = this.controller.signal;
+  /** @type {string} */
+  idField;
+  /** @type {string} */
+  searchField;
+  /** @type {string} */
+  contextField;
 
+  /**
+   * @param {string[]} outFields
+   * @param {string} searchField
+   * @param {string} contextField
+   * @returns {string[]}
+   */
   getOutFields(outFields, searchField, contextField) {
     outFields = outFields || [];
 
@@ -370,10 +383,19 @@ export class ProviderBase {
     return outFields;
   }
 
+  /**
+   * @param {string} text
+   * @returns {string}
+   */
   getSearchClause(text) {
     return `UPPER(${this.searchField}) LIKE UPPER('%${text}%')`;
   }
 
+  /**
+   * @param {string} searchValue
+   * @param {string} contextValue
+   * @returns {string}
+   */
   getFeatureClause(searchValue, contextValue) {
     let statement = `${this.searchField}='${searchValue}'`;
 
@@ -388,11 +410,32 @@ export class ProviderBase {
     return statement;
   }
 
+  /**
+   * @param {string} searchString
+   * @param {number} [maxResultsToDisplay]
+   * @returns {Promise<{ items: Graphic[] }>}
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async search(searchString, maxResultsToDisplay) {
+    throw new Error('this should be implemented by the subclass');
+  }
+
+  /**
+   * @param {string} searchValue
+   * @param {string} contextValue
+   * @returns {Promise<{ items: Graphic[] }>}
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getFeature(searchValue, contextValue) {
+    throw new Error('this should be implemented by the subclass');
+  }
+
   cancelPendingRequests() {
     this.controller.abort();
   }
 }
 
+/** @extends ProviderBase */
 export class MapServiceProvider extends ProviderBase {
   constructor(serviceUrl, searchField, options = {}) {
     super();
@@ -406,14 +449,15 @@ export class MapServiceProvider extends ProviderBase {
 
   async setUpQueryTask(options) {
     const defaultWkid = 3857;
-    this.query = new Query();
-    this.query.outFields = this.getOutFields(
-      options.outFields,
-      this.searchField,
-      options.contextField
-    );
-    this.query.returnGeometry = false;
-    this.query.outSpatialReference = { wkid: options.wkid || defaultWkid };
+    this.query = new Query({
+      outFields: this.getOutFields(
+        options.outFields,
+        this.searchField,
+        options.contextField,
+      ),
+      returnGeometry: false,
+      outSpatialReference: { wkid: options.wkid || defaultWkid },
+    });
   }
 
   async search(searchString) {
@@ -423,6 +467,11 @@ export class MapServiceProvider extends ProviderBase {
     return { items: featureSet.features };
   }
 
+  /**
+   * @param {string} searchValue
+   * @param {string} contextValue
+   * @returns {Promise<{ items: Graphic[] }>}
+   */
   async getFeature(searchValue, contextValue) {
     this.query.where = this.getFeatureClause(searchValue, contextValue);
     this.query.returnGeometry = true;
@@ -432,6 +481,7 @@ export class MapServiceProvider extends ProviderBase {
   }
 }
 
+/** @extends ProviderBase */
 export class WebApiProvider extends ProviderBase {
   constructor(apiKey, searchLayer, searchField, options) {
     super();
@@ -447,7 +497,7 @@ export class WebApiProvider extends ProviderBase {
       this.outFields = this.getOutFields(
         options.outFields,
         this.searchField,
-        this.contextField
+        this.contextField,
       );
     } else {
       this.wkid = defaultWkid;
@@ -456,7 +506,7 @@ export class WebApiProvider extends ProviderBase {
     this.outFields = this.getOutFields(
       null,
       this.searchField,
-      this.contextField
+      this.contextField,
     );
     this.webApi = new WebApi(apiKey, this.signal);
   }
@@ -468,6 +518,11 @@ export class WebApiProvider extends ProviderBase {
     });
   }
 
+  /**
+   * @param {string} searchValue
+   * @param {string} contextValue
+   * @returns {Promise<{ items: Graphic[] }>}
+   */
   async getFeature(searchValue, contextValue) {
     return await this.webApi.search(
       this.searchLayer,
@@ -475,7 +530,7 @@ export class WebApiProvider extends ProviderBase {
       {
         predicate: this.getFeatureClause(searchValue, contextValue),
         spatialReference: this.wkid,
-      }
+      },
     );
   }
 }
@@ -497,6 +552,12 @@ class WebApi {
     this.signal = signal;
   }
 
+  /**
+   * @param {string} featureClass
+   * @param {string[]} returnValues
+   * @param {Record<string, string>} options
+   * @returns {Promise<{ ok: boolean; items: Graphic[]; message?: string }>}
+   */
   async search(featureClass, returnValues, options) {
     // summary:
     //      search service wrapper (http://api.mapserv.utah.gov/#search)
@@ -534,7 +595,7 @@ class WebApi {
     //
     // returns: Promise
     var url = `${this.baseUrl}search/${featureClass}/${encodeURIComponent(
-      returnValues.join(',')
+      returnValues.join(','),
     )}?`;
 
     if (!options) {
@@ -550,16 +611,19 @@ class WebApi {
     if (!response.ok) {
       return {
         ok: false,
-        message: response.message || response.statusText,
+        message: response.statusText,
+        items: [],
       };
     }
 
+    /** @type {Object} */
     const result = await response.json();
 
     if (result.status !== 200) {
       return {
         ok: false,
         message: result.message,
+        items: [],
       };
     }
 
@@ -570,6 +634,7 @@ class WebApi {
   }
 }
 
+/** @extends ProviderBase */
 export class LocatorSuggestProvider extends ProviderBase {
   searchField = 'text';
   idField = 'magicKey';

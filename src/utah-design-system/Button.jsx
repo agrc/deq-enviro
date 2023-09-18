@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 import Spinner from './Spinner';
-import { createKeyLookup } from './utils';
 
 const COLORS = {
   none: {
@@ -68,23 +66,44 @@ const SIZES = {
   xl: 'text-xl px-10 py-3 h-12 min-h-[3rem]',
 };
 
+/**
+ * @param {keyof typeof SIZES} size
+ * @returns {keyof typeof SIZES}
+ */
 function getOneSizeSmaller(size) {
   const lowerIndex = Object.keys(SIZES).indexOf(size) - 1;
 
   return SIZES[lowerIndex >= 0 ? lowerIndex : 0];
 }
 
+/**
+ * @param {Object} props
+ * @param {keyof typeof APPEARANCES} [props.appearance]
+ * @param {boolean} [props.busy]
+ * @param {JSX.Element} props.children
+ * @param {import('tailwind-merge').ClassNameValue} [props.className]
+ * @param {keyof typeof COLORS} [props.color]
+ * @param {boolean} [props.disabled]
+ * @param {boolean} [props.external] If true, the button will open the link in a
+ *   new tab. Only applicable if `href` is provided.
+ * @param {string} [props.href] If provided, the button will be rendered as an
+ *   anchor tag with the provided href.
+ * @param {() => void} [props.onClick]
+ * @param {keyof typeof SIZES} [props.size] Size of the button. Corresponds with
+ *   the tailwind text sizes (base, sm, lg, xl)
+ * @returns {JSX.Element}
+ */
 function Button({
-  appearance,
-  busy,
+  appearance = 'outlined',
+  busy = false,
   children,
   className,
-  color,
-  disabled,
+  color = 'none',
+  disabled = false,
   external,
   href,
   onClick,
-  size,
+  size = 'base',
 }) {
   if (busy) {
     disabled = true;
@@ -112,7 +131,7 @@ function Button({
     >
       {children}
       <Icon
-        name={Icon.Names.arrowRight}
+        name="arrowRight"
         className="ml-1"
         size={getOneSizeSmaller(size)}
         label="link"
@@ -129,39 +148,5 @@ function Button({
     </button>
   );
 }
-
-Button.propTypes = {
-  appearance: PropTypes.oneOf(Object.keys(APPEARANCES)),
-  busy: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  color: PropTypes.oneOf(Object.keys(COLORS)),
-  disabled: PropTypes.bool,
-  /**
-   * If true, the button will open the link in a new tab. Only applicable if `href` is provided.
-   */
-  external: PropTypes.bool,
-  /**
-   * If provided, the button will be rendered as an anchor tag with the provided href.
-   */
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-  /**
-   * Size of the button. Corresponds with the tailwind text sizes (base, sm, lg, xl)
-   */
-  size: PropTypes.oneOf(Object.keys(SIZES)),
-};
-
-Button.defaultProps = {
-  appearance: 'outlined',
-  busy: false,
-  color: 'none',
-  disabled: false,
-  size: 'base',
-};
-
-Button.Colors = createKeyLookup(COLORS);
-Button.Appearances = createKeyLookup(APPEARANCES);
-Button.Sizes = createKeyLookup(SIZES);
 
 export default Button;

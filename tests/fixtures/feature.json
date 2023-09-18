@@ -1,24 +1,21 @@
 {
-  "OBJECTID": 624,
-  "ID": "490351119031",
-  "P_PTSDF_D2": 13,
-  "T_MINORPCT": "2.2 facilities/km distance (89%ile) something really really really longer than everything else",
-  "T_LWINCPCT": "17% (34%ile)",
-  "T_LESHSPCT": "7% (58%ile)",
-  "T_LNGISPCT": "1% (65%ile)",
-  "T_UNDR5PCT": "12% (84%ile)",
-  "T_OVR64PCT": "8% (41%ile)",
-  "T_UNEMPPCT": "2% (41%ile)",
-  "T_VULEOPCT": "21% (52%ile)",
-  "T_PTSDF": "2.2 facilities/km distance (89%ile) something really really really longer than everything else",
-  "T_PTSDF_D2": "13%ile",
-  "DESC_": "Primary EJ Index: TSDF Sites (%ile)",
-  "Shape_Length": 5044.778303618781,
-  "Shape_Area": 1223626.627589625,
-  "NAME": "490351119031",
-  "ADDRESS": "13%ile",
-  "CITY": "n/a",
-  "TYPE": "Primary EJ Index: TSDF Sites (%ile)",
-  "ENVIROAPPLABEL": "n/a",
-  "ENVIROAPPSYMBOL": "13"
+  "aggregateGeometries": null,
+  "geometry": {
+    "spatialReference": {
+      "latestWkid": 3857,
+      "wkid": 102100
+    },
+    "x": -12468894.2205,
+    "y": 5085010.153800003
+  },
+  "symbol": null,
+  "attributes": {
+    "DERRID": "14",
+    "OBJECTID": 11,
+    "SITEADDRES": "Between 950 and 1000 South and 200 and 400 East",
+    "SITECITY": "BRIGHAM CITY",
+    "SITEDESC": "Brownfields Grants",
+    "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant"
+  },
+  "popupTemplate": null
 }

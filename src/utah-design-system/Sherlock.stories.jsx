@@ -24,8 +24,10 @@ const CITY_FIELD = 'City';
 
 const FeatureService = ({ url, searchField, contextField }) => {
   const mapDiv = useRef();
+  /** @type {{ current: MapView }} */
   const mapView = useRef();
   const [sherlockMatches, setSherlockMatches] = useState();
+  /** @type {[Object, Function]} */
   const [config, setConfig] = useState();
 
   useEffect(() => {
@@ -64,9 +66,10 @@ const FeatureService = ({ url, searchField, contextField }) => {
 
         reactiveUtils.once(
           () => mapView.current.extent,
+          // @ts-ignore
           () => {
             mapView.current.graphics.removeAll();
-          }
+          },
         );
       }
     };
@@ -107,6 +110,7 @@ export const addressPoints = () => (
 export const LocatorSuggestion = () => {
   const url =
     'https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer';
+  /** @type {[import('@arcgis/core/Graphic')[], Function]} */
   const [matches, setMatches] = useState();
 
   return (

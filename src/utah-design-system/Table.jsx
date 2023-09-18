@@ -4,14 +4,28 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
-const Table = forwardRef(function Table(
+
+/**
+ * @typedef {Object} TableProps
+ * @property {string} caption
+ * @property {import('tailwind-merge').ClassNameValue} [className]
+ * @property {import('@tanstack/react-table').Column[]} columns
+ * @property {import('@tanstack/react-table').Row[]} data
+ */
+
+/**
+ * InnerTable
+ *
+ * @param {TableProps & import('@tanstack/react-table').Table} props
+ * @param {import('react').Ref<any>} forwardedRef
+ */
+function InnerTable(
   { columns, data, className, caption, ...props },
   forwardedRef,
 ) {
@@ -20,7 +34,9 @@ const Table = forwardRef(function Table(
   const { getHeaderGroups, getRowModel } = useReactTable({
     columns,
     data,
+    // @ts-ignore
     getCoreRowModel: getCoreRowModel(),
+    // @ts-ignore
     getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
@@ -90,16 +106,16 @@ const Table = forwardRef(function Table(
                           asc: (
                             <Icon
                               className="mr-1"
-                              name={Icon.Names.chevronUp}
-                              size={Icon.Sizes.xs}
+                              name="chevronUp"
+                              size="xs"
                               label="sorted ascending"
                             />
                           ),
                           desc: (
                             <Icon
                               className="mr-1"
-                              name={Icon.Names.chevronDown}
-                              size={Icon.Sizes.xs}
+                              name="chevronDown"
+                              size="xs"
                               label="sorted descending"
                             />
                           ),
@@ -124,7 +140,7 @@ const Table = forwardRef(function Table(
                 <tr
                   key={virtualRow.key}
                   className={twJoin(
-                    'border-y border-y-slate-300 group/row',
+                    'group/row border-y border-y-slate-300',
                     // using the even pseudo-class doesn't work since the virtualizer is always changing the rendered rows
                     virtualRow.index % 2 ? 'bg-white' : 'bg-slate-100',
                   )}
@@ -133,6 +149,7 @@ const Table = forwardRef(function Table(
                     <td
                       key={cell.id}
                       className="truncate p-2"
+                      // @ts-ignore
                       title={cell.getValue()}
                       style={{ width: cell.column.getSize() }}
                     >
@@ -155,22 +172,8 @@ const Table = forwardRef(function Table(
       </div>
     </div>
   );
-});
+}
+
+const Table = forwardRef(InnerTable);
 
 export default Table;
-
-Table.propTypes = {
-  caption: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  /**
-   * Corresponds to the same prop in react table (https://tanstack.com/table/v8/docs/api/core/table#columns)
-   */
-  columns: PropTypes.array.isRequired,
-  /**
-   * Corresponds to the same prop in react table (https://tanstack.com/table/v8/docs/api/core/table#data)
-   */
-  data: PropTypes.array.isRequired,
-  /**
-   * All other props are passed to the useReactTable hook
-   */
-};

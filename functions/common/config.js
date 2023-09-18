@@ -1,5 +1,39 @@
 import { array, string } from 'yup';
 
+// https://github.com/jsdoc/jsdoc/issues/1468
+/**
+ * @typedef {{
+ *   'Unique ID': string;
+ *   'Layer Name': string;
+ *   'Geometry Type': string;
+ *   'Division Heading': string;
+ *   'Layer Description': string;
+ *   'Metadata Link': string;
+ *   'Special Filters': string;
+ *   'Special Filter Default To On': string;
+ *   'Additional Searches': string;
+ *   'OID Field': string;
+ *   ID: string;
+ *   NAME: string;
+ *   ADDRESS: string;
+ *   CITY: string;
+ *   TYPE: string;
+ *   'Custom Symbology Field': string;
+ *   'Legend Title': string;
+ *   'Map Label Field': string;
+ *   'Sort Field': string;
+ *   'Identify Attributes': string;
+ *   'Related Tables': string;
+ *   'Document Search': string;
+ *   'GRAMA Request': string;
+ *   'Permit Information': string;
+ *   'Additional Information': string;
+ *   Comments: string;
+ *   'Feature Service': string;
+ *   'Coded Values': string;
+ * }} QueryLayerConfig
+ */
+
 // use a different regex that yup to allow for the {FieldName} syntax
 const urlRegex = /https?:\/\//i;
 const invalidUrl = '"${value}" must be a valid URL ("{" and "}" are allowed)';
@@ -144,6 +178,10 @@ export const fieldConfigs = {
   },
 };
 
+/**
+ * @param {Record<string, Object>} fieldConfigs
+ * @returns {Record<string, string>}
+ */
 function getFieldNames(fieldConfigs) {
   return Object.keys(fieldConfigs).reduce((obj, key) => {
     obj[key] = fieldConfigs[key].name;
@@ -152,6 +190,10 @@ function getFieldNames(fieldConfigs) {
   }, {});
 }
 
+/**
+ * @param {Record<string, object>} fieldConfigs
+ * @returns {Record<string, string>}
+ */
 function getFieldKeys(fieldConfigs) {
   return Object.keys(fieldConfigs).reduce((obj, key) => {
     obj[fieldConfigs[key].name] = key;

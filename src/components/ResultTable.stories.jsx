@@ -9,7 +9,7 @@ export default {
 
 const Template = (args) => (
   <div className="relative h-80 w-full overflow-y-auto border-t border-slate-300">
-    <MapProvider value={{}}>
+    <MapProvider>
       <ResultTable {...args} />
     </MapProvider>
   </div>

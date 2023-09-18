@@ -57,22 +57,22 @@ export const Default = () => (
       config={config}
       selected={false}
       onSelectedChange={console.log}
-      filter={null}
-      onFilterChange={console.log}
+      // filter={null}
+      // onFilterChange={console.log}
     />
     <QueryLayer
       config={config}
       selected={true}
       onSelectedChange={console.log}
-      filter={null}
-      onFilterChange={console.log}
+      // filter={null}
+      // onFilterChange={console.log}
     />
     <QueryLayer
       config={noMetaLinkConfig}
       selected={false}
       onSelectedChange={console.log}
-      filter={null}
-      onFilterChange={console.log}
+      // filter={null}
+      // onFilterChange={console.log}
     />
   </div>
 );
