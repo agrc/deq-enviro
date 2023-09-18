@@ -18,7 +18,7 @@ export async function search(text) {
   const features = await db('water.streams_nhd as nhd')
     .join(
       'boundaries.county_boundaries as county',
-      db.raw('ST_INTERSECTS(nhd.shape, county.shape)')
+      db.raw('ST_INTERSECTS(nhd.shape, county.shape)'),
     )
     .distinct('nhd.gnis_name', 'county.name as county_name')
     .whereILike('nhd.gnis_name', `${text}%`);
@@ -36,12 +36,12 @@ export async function getFeature(match, context) {
   const feature = await db('water.streams_nhd as nhd')
     .join(
       'boundaries.county_boundaries as county',
-      db.raw('ST_Intersects(nhd.shape, county.shape)')
+      db.raw('ST_Intersects(nhd.shape, county.shape)'),
     )
     .first(
       'nhd.gnis_name',
       'county.name as county_name',
-      db.raw('ST_AsGeoJSON(ST_Union(nhd.shape)) as shape')
+      db.raw('ST_AsGeoJSON(ST_Union(nhd.shape)) as shape'),
     )
     .groupBy('nhd.gnis_name', 'county.name')
     .where({

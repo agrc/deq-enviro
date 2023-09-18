@@ -6,7 +6,7 @@ function onOpen() {
   ui.createMenu('Deployment')
     .addItem(
       'Deploy Configs to Staging App (enviro.dev.utah.gov)',
-      'callUpdateFunction'
+      'callUpdateFunction',
     )
     .addToUi();
 }
@@ -25,14 +25,14 @@ function callUpdateFunction() {
 
   var title = 'Deploy Successful';
   var htmlOutput = HtmlService.createHtmlOutput(
-    '<div style="font-family: sans-serif">'
+    '<div style="font-family: sans-serif">',
   );
   if (responseJson.success) {
     htmlOutput.append(`<h4>${responseJson.message}</h4>`);
   } else {
     title = 'Deploy Unsuccessful';
     htmlOutput.append(
-      `<h4>There was an error with the deployment:</h4><pre>${responseJson.error}</pre>`
+      `<h4>There was an error with the deployment:</h4><pre>${responseJson.error}</pre>`,
     );
   }
 

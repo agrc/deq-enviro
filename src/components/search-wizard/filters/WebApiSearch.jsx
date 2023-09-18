@@ -21,7 +21,7 @@ export default function WebApiSearch({
       'agrc-dev',
       layer,
       searchField,
-      { contextField }
+      { contextField },
     );
 
     // for testing the new cloud native web api
@@ -39,7 +39,7 @@ export default function WebApiSearch({
     if (features?.length) {
       onChange(
         union(features.map((feature) => feature.geometry)),
-        `${name}: ${features[0].attributes[searchField]}`
+        `${name}: ${features[0].attributes[searchField]}`,
       );
     } else {
       onChange(null, null);

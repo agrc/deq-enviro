@@ -18,7 +18,7 @@ export default function WebApiFilter({
         },
       });
     },
-    [send]
+    [send],
   );
 
   useEffect(() => {

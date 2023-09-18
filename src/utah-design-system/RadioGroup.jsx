@@ -27,7 +27,7 @@ export default function RadioGroup({
               className={twJoin(
                 'rounded-full p-1',
                 !item.disabled &&
-                  'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
+                  'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200',
               )}
             >
               <RadixRadioGroup.Item
@@ -35,7 +35,7 @@ export default function RadioGroup({
                   'flex h-4 w-4 items-center justify-center rounded-full border ',
                   item.disabled
                     ? 'border-slate-300 bg-slate-50 data-[state=checked]:bg-slate-300 data-[state=checked]:text-white'
-                    : 'border-slate-500 bg-white'
+                    : 'border-slate-500 bg-white',
                 )}
                 value={item.value}
                 id={id}
@@ -45,7 +45,7 @@ export default function RadioGroup({
                   className={twJoin(
                     'after:block after:h-4 after:w-4',
                     'after:rounded-full after:content-[""]',
-                    'after:border-4 after:border-slate-500'
+                    'after:border-4 after:border-slate-500',
                   )}
                 />
               </RadixRadioGroup.Item>
@@ -56,7 +56,7 @@ export default function RadioGroup({
                 'pl-1 leading-5',
                 item.disabled
                   ? 'cursor-not-allowed text-slate-300'
-                  : 'cursor-pointer'
+                  : 'cursor-pointer',
               )}
             >
               {item.label}
@@ -76,7 +76,7 @@ RadioGroup.propTypes = {
     PropTypes.shape({
       value: PropTypes.string.isRequired,
       label: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.node]),
-    })
+    }),
   ).isRequired,
   onValueChange: PropTypes.func,
   value: PropTypes.string,

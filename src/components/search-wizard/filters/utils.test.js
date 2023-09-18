@@ -8,10 +8,10 @@ describe('validate', () => {
   });
   it('returns an error message if the value is outside the range', () => {
     expect(validate('15', 0, 10)).toMatchInlineSnapshot(
-      '"Value must be between 0 and 10."'
+      '"Value must be between 0 and 10."',
     );
     expect(validate('-1', 0, 10)).toMatchInlineSnapshot(
-      '"Value must be between 0 and 10."'
+      '"Value must be between 0 and 10."',
     );
   });
   it('returns null if the value is empty', () => {
@@ -33,8 +33,8 @@ describe('getWhere', () => {
         },
         {
           [fieldNames.queryLayers.nameField]: 'NAME',
-        }
-      )
+        },
+      ),
     ).toMatchInlineSnapshot('"upper(NAME) LIKE upper(\'%foo%\')"');
   });
   it('returns a where clause for the all query type', () => {
@@ -47,10 +47,10 @@ describe('getWhere', () => {
         },
         {
           [fieldNames.queryLayers.nameField]: 'NAME',
-        }
-      )
+        },
+      ),
     ).toMatchInlineSnapshot(
-      "\"upper(NAME) LIKE upper('%foo%') AND upper(NAME) LIKE upper('%bar%')\""
+      "\"upper(NAME) LIKE upper('%foo%') AND upper(NAME) LIKE upper('%bar%')\"",
     );
   });
   it('returns a where clause for the any query type', () => {
@@ -63,10 +63,10 @@ describe('getWhere', () => {
         },
         {
           [fieldNames.queryLayers.nameField]: 'NAME',
-        }
-      )
+        },
+      ),
     ).toMatchInlineSnapshot(
-      "\"upper(NAME) LIKE upper('%foo%') OR upper(NAME) LIKE upper('%bar%')\""
+      "\"upper(NAME) LIKE upper('%foo%') OR upper(NAME) LIKE upper('%bar%')\"",
     );
   });
 });

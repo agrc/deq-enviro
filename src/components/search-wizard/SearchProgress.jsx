@@ -10,7 +10,7 @@ export default function SearchProgress({ searchLayers, results, filterName }) {
         {searchLayers.map((config) => {
           const uniqueId = config[fieldNames.queryLayers.uniqueId];
           const resultConfig = results.find(
-            (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId
+            (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId,
           );
           const layerName = config[fieldNames.queryLayers.layerName];
 

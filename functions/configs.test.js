@@ -98,7 +98,7 @@ describe('applyTransforms', () => {
     ];
 
     expect(
-      applyTransforms(configs, fieldConfigs, fieldKeys.queryLayers)
+      applyTransforms(configs, fieldConfigs, fieldKeys.queryLayers),
     ).toEqual(expected);
   });
 });

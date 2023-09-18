@@ -11,7 +11,7 @@ export default function Download({
   setFormat,
 }) {
   const relevantResultLayers = searchResultLayers.filter(
-    (result) => !result.error && result.features.length > 0
+    (result) => !result.error && result.features.length > 0,
   );
 
   const getOnChangeHandler = (uniqueId) => (checked) => {

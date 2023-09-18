@@ -24,7 +24,7 @@ export default function RemoteConfigProvider({ children }) {
       // await new Promise((resolve) => setTimeout(resolve, 3000));
 
       return remoteConfig;
-    }
+    },
   );
 
   if (status === 'loading') {

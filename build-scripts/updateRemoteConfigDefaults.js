@@ -27,7 +27,7 @@ async function main() {
   console.log('writing new values to defaults file');
   fs.writeFileSync(
     './src/remote_config_defaults.json',
-    JSON.stringify(newValues, null, 2)
+    JSON.stringify(newValues, null, 2),
   );
 }
 

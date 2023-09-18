@@ -23,7 +23,7 @@ export const Default = () => (
       provider={
         new LocatorSuggestProvider(
           'https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer',
-          3857
+          3857,
         )
       }
     />

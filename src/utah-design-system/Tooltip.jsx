@@ -20,7 +20,7 @@ export default function Tooltip({ open, trigger, children, delayDuration }) {
             sideOffset={5}
             className={twJoin(
               'rounded-md bg-slate-600 px-3 py-2 text-white shadow-md',
-              'data-[state=delayed-open]:animate-fade-in'
+              'data-[state=delayed-open]:animate-fade-in',
             )}
           >
             {children}
@@ -35,9 +35,7 @@ export default function Tooltip({ open, trigger, children, delayDuration }) {
 Tooltip.propTypes = {
   open: PropTypes.bool,
   trigger: PropTypes.node.isRequired,
-  /**
-   * The content of the tooltip
-   */
+  /** The content of the tooltip */
   children: PropTypes.node.isRequired,
   delayDuration: PropTypes.number,
 };

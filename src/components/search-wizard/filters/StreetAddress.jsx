@@ -30,7 +30,7 @@ export default function StreetAddress({ send }) {
   useEffect(() => {
     const provider = new LocatorSuggestProvider(
       appConfig.urls.masquerade,
-      3857
+      3857,
     );
     setSherlockConfig({
       placeHolder: 'search by street address...',

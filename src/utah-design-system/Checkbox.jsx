@@ -18,7 +18,7 @@ export default function Checkbox({
           className={twJoin(
             'rounded-full p-1',
             !disabled &&
-              'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200'
+              'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200',
           )}
         >
           <RadixCheckbox.Root
@@ -31,7 +31,7 @@ export default function Checkbox({
               'flex h-4 w-4 items-center justify-center rounded border',
               disabled
                 ? 'border-slate-300 bg-slate-50 data-[state=checked]:bg-slate-300 data-[state=checked]:text-white'
-                : 'border-slate-500 bg-white data-[state=checked]:bg-slate-500 data-[state=checked]:text-white'
+                : 'border-slate-500 bg-white data-[state=checked]:bg-slate-500 data-[state=checked]:text-white',
             )}
           >
             <RadixCheckbox.Indicator>
@@ -43,7 +43,7 @@ export default function Checkbox({
           htmlFor={name || label}
           className={twJoin(
             'pl-1 leading-5',
-            disabled ? 'cursor-not-allowed text-slate-300' : 'cursor-pointer'
+            disabled ? 'cursor-not-allowed text-slate-300' : 'cursor-pointer',
           )}
         >
           {label}
@@ -59,7 +59,8 @@ Checkbox.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   /**
-   * The name attribute of the checkbox. If not provided, the label will be used.
+   * The name attribute of the checkbox. If not provided, the label will be
+   * used.
    */
   name: PropTypes.string,
   onCheckedChange: PropTypes.func,

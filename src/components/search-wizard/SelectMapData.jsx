@@ -27,12 +27,12 @@ export default function SelectMapData({ queryLayers }) {
               {queryLayers
                 .filter(
                   (ql) =>
-                    ql[fieldNames.queryLayers.divisionHeading] === division
+                    ql[fieldNames.queryLayers.divisionHeading] === division,
                 )
                 .sort((a, b) =>
                   a[fieldNames.queryLayers.layerName].localeCompare(
-                    b[fieldNames.queryLayers.layerName]
-                  )
+                    b[fieldNames.queryLayers.layerName],
+                  ),
                 )
                 .map((queryLayer) => {
                   const uniqueId = queryLayer[fieldNames.queryLayers.uniqueId];
@@ -43,7 +43,7 @@ export default function SelectMapData({ queryLayers }) {
                       config={queryLayer}
                       selected={state.context.searchLayers.some(
                         (config) =>
-                          config[fieldNames.queryLayers.uniqueId] === uniqueId
+                          config[fieldNames.queryLayers.uniqueId] === uniqueId,
                       )}
                       onSelectedChange={(selected) =>
                         send({
