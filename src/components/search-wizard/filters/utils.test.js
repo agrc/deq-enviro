@@ -20,8 +20,57 @@ describe('validate', () => {
 });
 
 describe('getWhere', () => {
+  const fields = [
+    {
+      name: 'NAME',
+      type: 'esriFieldTypeString',
+    },
+    {
+      name: 'ID',
+      type: 'esriFieldTypeInteger',
+    },
+  ];
+  const layerConfig = {
+    'Unique ID': '',
+    'Layer Name': '',
+    'Geometry Type': '',
+    'Division Heading': '',
+    'Layer Description': '',
+    'Metadata Link': '',
+    'Special Filters': '',
+    'Special Filter Default To On': '',
+    'Additional Searches': '',
+    'OID Field': '',
+    ID: '',
+    NAME: '',
+    ADDRESS: '',
+    CITY: '',
+    TYPE: '',
+    'Custom Symbology Field': '',
+    'Legend Title': '',
+    'Map Label Field': '',
+    'Sort Field': '',
+    'Identify Attributes': '',
+    'Related Tables': '',
+    'Document Search': '',
+    'GRAMA Request': '',
+    'Permit Information': '',
+    'Additional Information': '',
+    Comments: '',
+    'Feature Service': '',
+    'Coded Values': '',
+  };
   it('returns null if attributeFilterConfig is empty', () => {
-    expect(getWhere(null, {})).toBeNull();
+    expect(
+      getWhere(
+        null,
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.nameField]: 'NAME',
+        },
+        fields,
+      ),
+    ).toBeNull();
   });
   it('returns a where clause for a single value', () => {
     expect(
@@ -32,8 +81,10 @@ describe('getWhere', () => {
           attributeType: 'name',
         },
         {
+          ...layerConfig,
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
+        fields,
       ),
     ).toMatchInlineSnapshot('"upper(NAME) LIKE upper(\'%foo%\')"');
   });
@@ -46,8 +97,10 @@ describe('getWhere', () => {
           attributeType: 'name',
         },
         {
+          ...layerConfig,
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
+        fields,
       ),
     ).toMatchInlineSnapshot(
       "\"upper(NAME) LIKE upper('%foo%') AND upper(NAME) LIKE upper('%bar%')\"",
@@ -62,11 +115,68 @@ describe('getWhere', () => {
           attributeType: 'name',
         },
         {
+          ...layerConfig,
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
+        fields,
       ),
     ).toMatchInlineSnapshot(
       "\"upper(NAME) LIKE upper('%foo%') OR upper(NAME) LIKE upper('%bar%')\"",
+    );
+  });
+  it('handles numeric field types', () => {
+    expect(
+      getWhere(
+        {
+          values: [1, 2],
+          queryType: 'any',
+          attributeType: 'id',
+        },
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.idField]: 'ID',
+        },
+        fields,
+      ),
+    ).toMatchInlineSnapshot('"ID in (1, 2)"');
+  });
+  it('throws an error if the field is not found', () => {
+    expect(() =>
+      getWhere(
+        {
+          values: ['foo'],
+          queryType: 'all',
+          attributeType: 'name',
+        },
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.nameField]: 'NAME',
+        },
+        [],
+      ),
+    ).toThrowErrorMatchingInlineSnapshot('"Field NAME not found in fields."');
+  });
+  it('throws if the field type is not supported', () => {
+    expect(() =>
+      getWhere(
+        {
+          values: ['foo'],
+          queryType: 'all',
+          attributeType: 'name',
+        },
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.nameField]: 'NAME',
+        },
+        [
+          {
+            name: 'NAME',
+            type: 'esriFieldTypeBlob',
+          },
+        ],
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      '"Field type esriFieldTypeBlob is not supported."',
     );
   });
 });

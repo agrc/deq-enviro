@@ -29,8 +29,8 @@ function cacheSearchContext(cachedContext) {
 
 /**
  * @typedef {Object} Attribute
- * @property {string[]} values
- * @property {'and' | 'or'} queryType
+ * @property {string[] | number[]} values
+ * @property {'all' | 'any'} queryType
  * @property {'name' | 'id'} attributeType
  */
 

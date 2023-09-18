@@ -31,6 +31,13 @@ const queryTypes = [
   },
 ];
 
+/**
+ * @param {Object} props
+ * @param {Function} props.send
+ * @param {string} props.attributeType
+ * @param {{ name: string; field: string }[]} props.selectedLayers
+ * @returns {JSX.Element}
+ */
 export default function Attribute({ send, attributeType, selectedLayers }) {
   const [queryType, setQueryType] = useState('all');
   const [inputValue, setInputValue] = useState('');
@@ -68,7 +75,11 @@ export default function Attribute({ send, attributeType, selectedLayers }) {
         </div>
       ))}
 
-      <Input label="Search Terms" onChange={setInputValue} value={inputValue} />
+      <Input
+        label="Search Terms (space-separated)"
+        onChange={setInputValue}
+        value={inputValue}
+      />
 
       <RadioGroup
         className="mt-2"
@@ -80,9 +91,3 @@ export default function Attribute({ send, attributeType, selectedLayers }) {
     </>
   );
 }
-
-Attribute.propTypes = {
-  send: PropTypes.func.isRequired,
-  attributeType: PropTypes.oneOf(Object.keys(attributeTypes)).isRequired,
-  selectedLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
-};

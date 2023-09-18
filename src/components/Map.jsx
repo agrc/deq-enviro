@@ -288,7 +288,6 @@ export default function MapComponent() {
      */
     async function searchLayer(layer, filter) {
       try {
-        const where = getWhere(filter.attribute, layer);
         const featureServiceUrl = layer[fieldNames.queryLayers.featureService];
 
         /**
@@ -318,6 +317,11 @@ export default function MapComponent() {
           });
         }
 
+        const where = getWhere(
+          filter.attribute,
+          layer,
+          featureServiceJson.fields,
+        );
         featureLayer.outFields = layer[fieldNames.queryLayers.resultGridFields];
         featureLayer.definitionExpression = where;
         featureLayer.id = `${searchLayerIdPrefix}:${
