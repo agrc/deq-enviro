@@ -2,7 +2,7 @@ export default {
   symbols: {
     filter: {
       type: 'simple-fill',
-      style: 'hollow',
+      style: 'none',
       outline: { style: 'dash', width: 1.5 },
       color: null,
     },
