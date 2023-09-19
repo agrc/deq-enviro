@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Input from '../../../utah-design-system/Input';
 import RadioGroup from '../../../utah-design-system/RadioGroup';
