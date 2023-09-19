@@ -329,12 +329,13 @@ export default function MapComponent() {
         }`;
         featureLayer.popupEnabled = false;
 
-        const featureCount = await featureLayer.queryFeatureCount({
+        // getting the extent from the layer view didn't work for some reason
+        const { count, extent } = await featureLayer.queryExtent({
           where,
           geometry: filter.geometry,
         });
 
-        if (featureCount > appConfig.maxSearchCount) {
+        if (count > appConfig.maxSearchCount) {
           send('RESULT', {
             result: {
               ...layer,
@@ -375,16 +376,9 @@ export default function MapComponent() {
           featureLayer.geometryType === 'polygon' ? 1 : null,
         );
 
-        const layerView = await view.current.whenLayerView(featureLayer);
-        layerView.filter = {
-          geometry: filter.geometry,
-        };
-
-        await whenOnce(() => layerView.updating === false);
-
-        // client side queries
-        const { count, extent } = await layerView.queryExtent();
-        const featureSet = await layerView.queryFeatures();
+        // I could't get a client-side query on the layer view to work
+        // since the map extent could be anything
+        const featureSet = await featureLayer.queryFeatures();
 
         const supportsExportValue = supportsExport(featureLayer.sourceJSON);
         if (!supportsExportValue) {
