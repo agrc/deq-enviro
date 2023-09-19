@@ -80,7 +80,7 @@ function getOneSizeSmaller(size) {
  * @param {Object} props
  * @param {keyof typeof APPEARANCES} [props.appearance]
  * @param {boolean} [props.busy]
- * @param {JSX.Element} props.children
+ * @param {import('react').ReactNode} props.children
  * @param {import('tailwind-merge').ClassNameValue} [props.className]
  * @param {keyof typeof COLORS} [props.color]
  * @param {boolean} [props.disabled]

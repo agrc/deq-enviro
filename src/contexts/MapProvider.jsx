@@ -5,7 +5,7 @@ export const MapContext = createContext(null);
 
 /**
  * @param {Object} props
- * @param {JSX.Element} props.children
+ * @param {import('react').ReactNode} props.children
  * @returns {JSX.Element}
  */
 export default function MapProvider({ children }) {
