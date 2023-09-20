@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.0-16](https://github.com/agrc/deq-enviro/compare/v2.0.0-15...v2.0.0-16) (2023-09-20)
+
+
+### 🐛 Bug Fixes
+
+* cache search geometry after change ([f8cd01f](https://github.com/agrc/deq-enviro/commit/f8cd01f08e5f651ec0f730713907a9b2d604d078))
+* fix bug preventing search geometry from being cached between sessions ([55b61dd](https://github.com/agrc/deq-enviro/commit/55b61dd8ed00d4af9c5c59ca5968be3e228b7950))
+* fix incorrect symbol style token ([d9a6ce4](https://github.com/agrc/deq-enviro/commit/d9a6ce4d5a612dcb4f0e2f8834035ee37f9602be))
+* handle searching by id/name in numeric fields ([5bea12d](https://github.com/agrc/deq-enviro/commit/5bea12dfe53c09d2cad8c5cb0eebb570098fb3a9))
+* make search graphic less intrusive ([0eb1162](https://github.com/agrc/deq-enviro/commit/0eb1162fe1d1830f0388cde1227d6bdba2b93180))
+* make searching more accurate and performant ([bb0a992](https://github.com/agrc/deq-enviro/commit/bb0a992498bb4cc9ab8c9869cdd4f235ef9b23f3))
+* page through results if there are more than the max result count ([1118567](https://github.com/agrc/deq-enviro/commit/11185679a18e4b0e6b8986020bb2e20d336ecbc9))
+* remove client-side queries ([8830303](https://github.com/agrc/deq-enviro/commit/88303030c54ff3f234f7347cf29e8f24c4e9b103))
+* zoom to points in identify pane ([8dd80d5](https://github.com/agrc/deq-enviro/commit/8dd80d51c3e3e5b3f6d937e8960821214e8b0456))
+
 ## [2.0.0-15](https://github.com/agrc/deq-enviro/compare/v2.0.0-14...v2.0.0-15) (2023-09-07)
 
 
