@@ -155,10 +155,7 @@ const machine = createMachine(
             target: 'selectLayers',
           },
           SET_FILTER: {
-            actions: assign({
-              // @ts-ignore
-              filter: (_, { /** @type {Filter} */ filter }) => filter,
-            }),
+            actions: 'setFilter',
           },
           CLEAR: {
             actions: 'clear',
@@ -344,6 +341,14 @@ const machine = createMachine(
           cacheSearchContext({ searchLayers: newData, filter: context.filter });
 
           return newData;
+        },
+      }),
+      setFilter: assign({
+        // @ts-ignore
+        filter: (context, { /** @type {Filter} */ filter }) => {
+          cacheSearchContext({ searchLayers: context.searchLayers, filter });
+
+          return filter;
         },
       }),
     },
