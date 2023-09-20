@@ -1,7 +1,5 @@
 import Map from '@arcgis/core/Map';
-import { whenOnce } from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
-import { union } from '@arcgis/core/geometry/geometryEngine';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
@@ -22,7 +20,11 @@ import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
-import { getDefaultRenderer, hasDefaultSymbology } from '../utils';
+import {
+  getDefaultRenderer,
+  hasDefaultSymbology,
+  queryFeatures,
+} from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
@@ -298,6 +300,8 @@ export default function MapComponent() {
         const featureServiceJson = await ky(
           `${featureServiceUrl}?f=json`,
         ).json();
+
+        /** @type {import('@arcgis/core/layers/FeatureLayer').default} */
         let featureLayer;
         if (featureServiceJson.serviceItemId) {
           // this could be a feature layer or group layer
@@ -368,32 +372,32 @@ export default function MapComponent() {
           ? `${featureLayer.objectIdField} IN (${ids.join(',')})`
           : '1=0';
 
-        map.current.add(
-          featureLayer,
-          featureLayer.geometryType === 'polygon' ? 1 : null,
-        );
-
         // I could't get a client-side query on the layer view to work
         // since the map extent could be anything
-        const featureSet = await featureLayer.queryFeatures({
-          where: featureLayer.definitionExpression,
-          outFields: [
-            ...layer[fieldNames.queryLayers.resultGridFields],
-            featureServiceJson.objectIdField,
-          ],
-          returnGeometry: false,
-        });
+        const query = featureLayer.createQuery();
+        query.where = featureLayer.definitionExpression;
+        query.outFields = [
+          ...layer[fieldNames.queryLayers.resultGridFields],
+          featureServiceJson.objectIdField,
+        ];
+        query.returnGeometry = false;
+        const features = await queryFeatures(featureLayer, query);
 
         const supportsExportValue = supportsExport(featureLayer.sourceJSON);
         if (!supportsExportValue) {
           console.warn('Layer does not support exporting', layer);
         }
 
+        map.current.add(
+          featureLayer,
+          featureLayer.geometryType === 'polygon' ? 1 : null,
+        );
+
         send('RESULT', {
           result: {
             ...layer,
-            features: featureSet.features,
-            fields: featureSet.fields,
+            features,
+            fields: featureServiceJson.fields,
             count,
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
@@ -427,13 +431,15 @@ export default function MapComponent() {
       );
 
       // join extents
-      const extent = extents.reduce((totalExtent, extent) => {
-        if (!totalExtent) {
-          return extent;
-        }
+      const extent = extents
+        .filter((extent) => extent)
+        .reduce((totalExtent, extent) => {
+          if (!totalExtent) {
+            return extent;
+          }
 
-        return union([totalExtent, extent]);
-      }, null);
+          return totalExtent.union(extent);
+        }, null);
 
       send('COMPLETE', { extent });
 

@@ -29,3 +29,33 @@ export function getDefaultRenderer(geometryType) {
 
   return renderer;
 }
+
+/**
+ * Query all features from a feature layer paging through results if necessary
+ *
+ * @param {import('@arcgis/core/layers/FeatureLayer').default} featureLayer
+ * @param {import('@arcgis/core/rest/support/Query').default} query
+ * @returns {Promise<import('@arcgis/core/Graphic').default[]>}
+ */
+export async function queryFeatures(featureLayer, query) {
+  const features = [];
+  let start = 0;
+  let finished = false;
+  query.maxRecordCountFactor = 4;
+  query.num =
+    featureLayer.capabilities.query.maxRecordCount + query.maxRecordCountFactor;
+  while (!finished) {
+    query.start = start;
+    const featureSet = await featureLayer.queryFeatures(query);
+
+    features.push(...featureSet.features);
+
+    if (featureSet.exceededTransferLimit) {
+      start += featureLayer.capabilities.query.maxRecordCount;
+    } else {
+      finished = true;
+    }
+  }
+
+  return features;
+}
