@@ -322,8 +322,7 @@ export default function MapComponent() {
           layer,
           featureServiceJson.fields,
         );
-        featureLayer.outFields = layer[fieldNames.queryLayers.resultGridFields];
-        featureLayer.definitionExpression = where;
+        featureLayer.outFields = [featureServiceJson.objectIdField];
         featureLayer.id = `${searchLayerIdPrefix}:${
           layer[fieldNames.queryLayers.uniqueId]
         }`;
@@ -365,11 +364,9 @@ export default function MapComponent() {
           where,
           geometry: filter.geometry,
         });
-        if (ids?.length) {
-          featureLayer.definitionExpression = `${
-            featureLayer.objectIdField
-          } IN (${ids.join(',')})`;
-        }
+        featureLayer.definitionExpression = ids?.length
+          ? `${featureLayer.objectIdField} IN (${ids.join(',')})`
+          : '1=0';
 
         map.current.add(
           featureLayer,
@@ -378,7 +375,14 @@ export default function MapComponent() {
 
         // I could't get a client-side query on the layer view to work
         // since the map extent could be anything
-        const featureSet = await featureLayer.queryFeatures();
+        const featureSet = await featureLayer.queryFeatures({
+          where: featureLayer.definitionExpression,
+          outFields: [
+            ...layer[fieldNames.queryLayers.resultGridFields],
+            featureServiceJson.objectIdField,
+          ],
+          returnGeometry: false,
+        });
 
         const supportsExportValue = supportsExport(featureLayer.sourceJSON);
         if (!supportsExportValue) {
