@@ -57,6 +57,7 @@ export default function ResultTable({
               where: `OBJECTID = ${oid}`,
               outFields: '*',
               returnGeometry: true,
+              outSR: 3857,
             },
           },
         )

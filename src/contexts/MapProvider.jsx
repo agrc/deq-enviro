@@ -16,7 +16,14 @@ export default function MapProvider({ children }) {
     if (!mapView) {
       console.warn('attempting to zoom before the mapView is set');
     } else {
-      mapView.goTo(geometry);
+      if (geometry.type === 'esriGeometryPoint') {
+        mapView.goTo({
+          center: [geometry.longitude, geometry.latitude],
+          zoom: 12,
+        });
+      } else {
+        mapView.goTo(geometry);
+      }
     }
   };
 
