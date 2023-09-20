@@ -1,7 +1,6 @@
 import { SimpleFillSymbol, SimpleMarkerSymbol } from '@arcgis/core/symbols';
 import { renderPreviewHTML } from '@arcgis/core/symbols/support/symbolUtils';
 import omit from 'lodash/omit';
-import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import appConfig from '../app-config';
 import Tooltip from '../utah-design-system/Tooltip';
@@ -12,11 +11,19 @@ const classes = {
   polygon: SimpleFillSymbol,
 };
 
+/**
+ * @param {Object} props
+ * @param {import('@arcgis/core/symbols/Symbol').default} props.symbol
+ * @param {number} props.opacity
+ * @returns {JSX.Element}
+ */
 function Swatch({ symbol, opacity }) {
   const divRef = useRef(null);
 
   useEffect(() => {
     renderPreviewHTML(symbol, { opacity }).then((node) => {
+      if (!divRef.current) return;
+
       divRef.current.innerHTML = '';
       divRef.current.append(node);
     });
@@ -26,11 +33,14 @@ function Swatch({ symbol, opacity }) {
     <div className="flex w-6 items-center justify-center" ref={divRef}></div>
   );
 }
-Swatch.propTypes = {
-  symbol: PropTypes.object.isRequired,
-  opacity: PropTypes.number.isRequired,
-};
 
+/**
+ * @param {Object} props
+ * @param {import('@arcgis/core/symbols/Symbol').default} props.symbol
+ * @param {number} props.opacity
+ * @param {string} props.label
+ * @returns {JSX.Element}
+ */
 function SwatchWithLabel({ symbol, opacity, label }) {
   return (
     <div className="flex items-center space-x-2" key={label}>
@@ -39,12 +49,15 @@ function SwatchWithLabel({ symbol, opacity, label }) {
     </div>
   );
 }
-SwatchWithLabel.propTypes = {
-  symbol: PropTypes.object.isRequired,
-  opacity: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-};
 
+/**
+ * @param {Object} props
+ * @param {import('@arcgis/core/renderers/support/UniqueValueGroup').default[]} props.groups
+ * @param {number} props.opacity
+ * @param {string} props.field
+ * @param {import('@arcgis/core/layers/support/Field').default[]} props.fields
+ * @returns {JSX.Element}
+ */
 function UniqueValue({ groups, opacity, field, fields }) {
   return (
     <>
@@ -64,13 +77,14 @@ function UniqueValue({ groups, opacity, field, fields }) {
     </>
   );
 }
-UniqueValue.propTypes = {
-  groups: PropTypes.array.isRequired,
-  opacity: PropTypes.number.isRequired,
-  field: PropTypes.string.isRequired,
-  fields: PropTypes.array.isRequired,
-};
 
+/**
+ * @param {Object} props
+ * @param {import('@arcgis/core/renderers/support/ClassBreakInfo').default[]} props.infos
+ * @param {number} props.opacity
+ * @param {string} props.field
+ * @param {import('@arcgis/core/layers/support/Field').default[]} props.fields
+ */
 function ClassBreaks({ infos, opacity, field, fields }) {
   return (
     <div className="space-y-1">
@@ -86,20 +100,22 @@ function ClassBreaks({ infos, opacity, field, fields }) {
     </div>
   );
 }
-ClassBreaks.propTypes = {
-  infos: PropTypes.array.isRequired,
-  opacity: PropTypes.number.isRequired,
-  field: PropTypes.string.isRequired,
-  fields: PropTypes.array.isRequired,
-};
 
+/**
+ * @param {Object} props
+ * @param {import('@arcgis/core/layers/FeatureLayer').default} props.featureLayer
+ * @returns {JSX.Element}
+ */
 export default function Legend({ featureLayer }) {
   const { renderer, opacity, geometryType, fields } = featureLayer;
   const isSimple = renderer.type === 'simple';
 
   let mainSymbol;
   if (isSimple) {
-    mainSymbol = renderer.symbol;
+    mainSymbol =
+      /** @type {import('@arcgis/core/renderers/SimpleRenderer').default} */ (
+        renderer
+      ).symbol;
   } else {
     const symbolConfig = omit(appConfig.symbols[geometryType].symbol, ['type']);
     symbolConfig.color = 'white';
@@ -112,25 +128,35 @@ export default function Legend({ featureLayer }) {
 
   const getPopupContents = () => {
     switch (renderer.type) {
-      case 'unique-value':
+      case 'unique-value': {
+        const uniqueValueRenderer =
+          /** @type {import('@arcgis/core/renderers/UniqueValueRenderer').default} */ (
+            renderer
+          );
         return (
           <UniqueValue
-            groups={renderer.uniqueValueGroups}
+            groups={uniqueValueRenderer.uniqueValueGroups}
             opacity={opacity}
-            field={renderer.field}
+            field={uniqueValueRenderer.field}
             fields={fields}
           />
         );
+      }
 
-      case 'class-breaks':
+      case 'class-breaks': {
+        const classBreaksRenderer =
+          /** @type {import('@arcgis/core/renderers/ClassBreaksRenderer').default} */ (
+            renderer
+          );
         return (
           <ClassBreaks
-            infos={renderer.classBreakInfos}
+            infos={classBreaksRenderer.classBreakInfos}
             opacity={opacity}
-            field={renderer.field}
+            field={classBreaksRenderer.field}
             fields={fields}
           />
         );
+      }
 
       default:
         throw new Error(`Unknown renderer type: ${renderer.type}`);
@@ -143,7 +169,3 @@ export default function Legend({ featureLayer }) {
     <Tooltip trigger={<span>{swatch}</span>}>{getPopupContents()}</Tooltip>
   );
 }
-
-Legend.propTypes = {
-  featureLayer: PropTypes.object.isRequired,
-};

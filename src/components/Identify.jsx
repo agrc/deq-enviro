@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
@@ -11,9 +10,15 @@ import { getAlias } from '../utils';
 const buttonClasses = 'border-none px-2 my-1';
 
 const urlRegex = /^https?:\/\/\S*$/;
+
+/**
+ * @param {Object} props
+ * @param {?(string | number)} props.value
+ * @returns {?(JSX.Element | string | number)}
+ */
 function Cell({ value }) {
   // if this is a link, return an anchor tag
-  if (urlRegex.test(value)) {
+  if (typeof value === 'string' && urlRegex.test(value)) {
     return (
       <Link external href={value}>
         link
@@ -25,9 +30,6 @@ function Cell({ value }) {
 
   return value;
 }
-Cell.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-};
 
 /**
  * @param {Object} props
