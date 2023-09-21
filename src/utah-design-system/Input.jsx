@@ -13,8 +13,10 @@ import { twJoin, twMerge } from 'tailwind-merge';
  * @param {string} [props.message]
  * @param {number} [props.min]
  * @param {function} [props.onChange]
+ * @param {import('react').ReactNode} [props.prefix]
  * @param {boolean} [props.required]
  * @param {number} [props.step]
+ * @param {import('react').ReactNode} [props.suffix]
  * @param {| 'date'
  *   | 'datetime-local'
  *   | 'email'
@@ -42,8 +44,10 @@ export default function Input({
   message,
   min,
   onChange,
+  prefix,
   required,
   step,
+  suffix,
   type = 'text',
   value,
 }) {
@@ -67,10 +71,20 @@ export default function Input({
       <div className="flex flex-1 flex-col">
         <div
           className={twJoin(
-            '-m-1 rounded-md p-1',
+            '-m-1 flex items-center rounded-md p-1',
             !disabled && 'hover:bg-slate-200',
           )}
         >
+          {prefix ? (
+            <div
+              className={twMerge(
+                'flex h-8 items-center justify-center rounded-s-md border border-solid border-slate-400 bg-slate-100 p-2',
+                invalid && 'border-2 border-error-500 bg-error-100',
+              )}
+            >
+              {prefix}
+            </div>
+          ) : null}
           <input
             className={twMerge(
               'h-8 w-full rounded-md border-slate-400 px-2 py-1',
@@ -79,6 +93,8 @@ export default function Input({
               disabled
                 ? 'cursor-not-allowed border-slate-300 bg-slate-100'
                 : 'bg-white',
+              prefix ? 'rounded-s-none border-s-0' : null,
+              suffix ? 'rounded-e-none border-e-0' : null,
             )}
             type={type}
             min={min}
@@ -90,6 +106,16 @@ export default function Input({
             onChange={(event) => onChange(event.target.value)}
             required={required}
           />
+          {suffix ? (
+            <div
+              className={twMerge(
+                'flex h-8 items-center justify-center rounded-e-md border border-solid border-slate-400 bg-slate-100 p-2',
+                invalid && 'border-2 border-error-500 bg-error-100',
+              )}
+            >
+              {suffix}
+            </div>
+          ) : null}
         </div>
         {message && (
           <span className={twJoin('text-sm', invalid && 'text-error-500')}>

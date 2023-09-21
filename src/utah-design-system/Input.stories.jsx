@@ -42,6 +42,22 @@ export const Default = () => {
         type="number"
       />
       <Input label="Date" type="date" />
+      <Input label="prefix" prefix="$" value="test" />
+      <Input
+        label="invalid prefix"
+        prefix="$"
+        value="test"
+        invalid
+        message="this is invalid"
+      />
+      <Input label="suffix" suffix={<span>test</span>} value="test" />
+      <Input
+        label="invalid suffix"
+        suffix={<span>test</span>}
+        value="test"
+        invalid
+        message="this is invalid"
+      />
     </div>
   );
 };
