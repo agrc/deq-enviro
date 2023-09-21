@@ -43,10 +43,7 @@ export default function ResultsPanel() {
         initialHeight={originalHeight}
       />
       <div
-        className={clsx(
-          'relative w-full border-t border-slate-300',
-          !expandedTableIndex && 'overflow-y-auto',
-        )}
+        className="relative w-full border-t border-slate-300"
         style={{
           height: `${height}px`,
         }}
