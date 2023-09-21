@@ -130,7 +130,7 @@ export default function MapComponent() {
       map: map.current,
       extent: stateOfUtahExtent,
       constraints: {
-        maxZoom: 18,
+        maxZoom: 17,
       },
     });
 
