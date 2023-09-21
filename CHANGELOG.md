@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0-17](https://github.com/agrc/deq-enviro/compare/v2.0.0-16...v2.0.0-17) (2023-09-21)
+
+
+### 🚀 Features
+
+* **input:** implement prefix and suffix props ([7514c88](https://github.com/agrc/deq-enviro/commit/7514c88263ebcdf9ffe6a615df1f2fe211a5f37b))
+
+
+### 🐛 Bug Fixes
+
+* fix incorrect calculation for longitude in degrees, minutes, seconds ([021dcf7](https://github.com/agrc/deq-enviro/commit/021dcf7e2cb5b0cadbdea8f1ec6532bc43d554b5))
+* make sure that map can't zoom in too far ([c02c301](https://github.com/agrc/deq-enviro/commit/c02c3013625b47f0a196049f3029d462ce724e32))
+
 ## [2.0.0-16](https://github.com/agrc/deq-enviro/compare/v2.0.0-15...v2.0.0-16) (2023-09-20)
 
 
