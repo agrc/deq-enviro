@@ -34,7 +34,7 @@ export default function ResultsPanel() {
   return (
     <div
       className={clsx(
-        'relative h-80 w-full border-t border-slate-300',
+        'relative h-64 w-full border-t border-slate-300',
         !expandedTableIndex && 'overflow-y-auto',
       )}
     >

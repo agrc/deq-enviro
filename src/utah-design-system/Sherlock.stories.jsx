@@ -122,7 +122,7 @@ export const LocatorSuggestion = () => {
         placeHolder="search by address..."
         provider={new LocatorSuggestProvider(url, 3857)}
       />
-      <pre className="max-h-80 overflow-auto">
+      <pre className="max-h-64 overflow-auto">
         {JSON.stringify(matches, null, '  ')}
       </pre>
 

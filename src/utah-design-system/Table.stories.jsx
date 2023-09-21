@@ -48,7 +48,7 @@ Scrollable.args = {
       OBJECTID: false,
     },
   },
-  className: 'h-80',
+  className: 'h-64',
 };
 
 export const DefaultSort = Template.bind({});
