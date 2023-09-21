@@ -70,7 +70,7 @@ function App() {
         <SearchMachineProvider>
           <div className="flex h-full w-full flex-col md:flex-row">
             <MapProvider>
-              <div className="flex flex-1 flex-col border-b border-slate-300 md:border-r">
+              <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
                 <MapComponent />
                 <ResultsPanel />
               </div>
