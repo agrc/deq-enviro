@@ -1,10 +1,16 @@
 import { Point } from '@arcgis/core/geometry';
-import PropTypes from 'prop-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from '../../../utah-design-system/Select';
 import Buffer from './Buffer';
 import RangeValidationInput from './RangeValidationInput';
+import { useImmerReducer } from 'use-immer';
+import { set } from 'lodash';
 
+/**
+ * @param {Object} props
+ * @param {function} props.send
+ * @returns {JSX.Element}
+ */
 export default function Coordinates({ send }) {
   const coordinateTypes = {
     utm: {
@@ -21,26 +27,22 @@ export default function Coordinates({ send }) {
   const [coordinateType, setCoordinateType] = useState('utm');
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
-  const point = useMemo(() => {
-    return {
-      x,
-      y,
-    };
-  }, [x, y]);
   const [bufferGeometry, setBufferGeometry] = useState(null);
 
-  useEffect(() => {
+  const onCoordinateTypeChange = (newValue) => {
     setX(null);
     setY(null);
     setBufferGeometry(null);
-  }, [coordinateType]);
+
+    setCoordinateType(newValue);
+  };
 
   useEffect(() => {
     const filter =
-      bufferGeometry && point
+      bufferGeometry && x && y
         ? {
             geometry: bufferGeometry,
-            name: `Coordinates: ${point.x}, ${point.y}`,
+            name: `Coordinates: ${x}, ${y}`,
           }
         : {
             geometry: null,
@@ -49,18 +51,18 @@ export default function Coordinates({ send }) {
     send('SET_FILTER', {
       filter,
     });
-  }, [bufferGeometry, point, send]);
+  }, [bufferGeometry, send, x, y]);
 
-  const onDegreeMinutesChange = useCallback((point) => {
-    setX(point?.x);
-    setY(point?.y);
-  }, []);
+  const onDegreeMinutesChange = (newPoint) => {
+    setX(newPoint?.x);
+    setY(newPoint?.y);
+  };
 
   const getInputs = (type) => {
     switch (type) {
       case 'utm':
         return (
-          <>
+          <div key="utm">
             <RangeValidationInput
               className="mt-2"
               label="Easting"
@@ -68,7 +70,9 @@ export default function Coordinates({ send }) {
               min={200_000}
               onChange={setX}
               required
+              suffix="m"
               type="number"
+              value={x}
             />
             <RangeValidationInput
               className="mt-2"
@@ -77,22 +81,27 @@ export default function Coordinates({ send }) {
               min={4_060_000}
               onChange={setY}
               required
+              suffix="m"
               type="number"
+              value={y}
             />
-          </>
+          </div>
         );
 
       case 'decimalDegrees':
         return (
-          <>
+          <div key="dd">
             <RangeValidationInput
               className="mt-2"
               label="Longitude"
-              min={-114.25}
-              max={-108.7}
-              onChange={setX}
+              max={114.25}
+              min={108.7}
+              onChange={(newValue) => setX(-newValue)}
+              prefix="-"
               required
+              suffix="°"
               type="number"
+              value={-x}
             />
             <RangeValidationInput
               className="mt-2"
@@ -101,9 +110,11 @@ export default function Coordinates({ send }) {
               max={42.18}
               onChange={setY}
               required
+              suffix="°"
               type="number"
+              value={y}
             />
-          </>
+          </div>
         );
 
       case 'degreesMinutesSeconds':
@@ -116,11 +127,11 @@ export default function Coordinates({ send }) {
 
   const [inputGeometry, setInputGeometry] = useState(null);
   useEffect(() => {
-    if (point && point.x && point.y) {
+    if (x && y) {
       setInputGeometry(
         new Point({
-          x: point.x,
-          y: point.y,
+          x,
+          y,
           spatialReference: {
             wkid: coordinateType === 'utm' ? 26912 : 4326,
           },
@@ -129,7 +140,7 @@ export default function Coordinates({ send }) {
     } else {
       setInputGeometry(null);
     }
-  }, [coordinateType, point]);
+  }, [coordinateType, x, y]);
 
   return (
     <div>
@@ -139,7 +150,7 @@ export default function Coordinates({ send }) {
           value: key,
           label: coordinateTypes[key].label,
         }))}
-        onValueChange={setCoordinateType}
+        onValueChange={onCoordinateTypeChange}
         value={coordinateType}
       />
       {getInputs(coordinateType)}
@@ -152,41 +163,46 @@ export default function Coordinates({ send }) {
   );
 }
 
-Coordinates.propTypes = {
-  send: PropTypes.func.isRequired,
-};
+function reducer(draft, action) {
+  set(draft, action.meta, action.value);
+  if (draft.longitude.degrees && draft.latitude.degrees) {
+    let x = -Number(draft.longitude.degrees);
+    if (draft.longitude.minutes) x -= Number(draft.longitude.minutes) / 60;
+    if (draft.longitude.seconds) x -= Number(draft.longitude.seconds) / 3600;
 
+    let y = Number(draft.latitude.degrees);
+    if (draft.latitude.minutes) y += Number(draft.latitude.minutes) / 60;
+    if (draft.latitude.seconds) y += Number(draft.latitude.seconds) / 3600;
+
+    draft.point = { x, y };
+  } else {
+    draft.point = null;
+  }
+}
+
+/**
+ * @param {Object} props
+ * @param {function} props.onChange
+ * @returns {JSX.Element}
+ */
 function DegreesMinutesSeconds({ onChange }) {
-  const [longitudeDegrees, setLongitudeDegrees] = useState(null);
-  const [longitudeMinutes, setLongitudeMinutes] = useState(null);
-  const [longitudeSeconds, setLongitudeSeconds] = useState(null);
-  const [latitudeDegrees, setLatitudeDegrees] = useState(null);
-  const [latitudeMinutes, setLatitudeMinutes] = useState(null);
-  const [latitudeSeconds, setLatitudeSeconds] = useState(null);
+  const [state, dispatch] = useImmerReducer(reducer, {
+    point: null,
+    longitude: {
+      degrees: null,
+      minutes: null,
+      seconds: null,
+    },
+    latitude: {
+      degrees: null,
+      minutes: null,
+      seconds: null,
+    },
+  });
 
   useEffect(() => {
-    if (longitudeDegrees && latitudeDegrees) {
-      let x = Number(longitudeDegrees);
-      if (longitudeMinutes) x -= Number(longitudeMinutes) / 60;
-      if (longitudeSeconds) x -= Number(longitudeSeconds) / 3600;
-
-      let y = Number(latitudeDegrees);
-      if (latitudeMinutes) y += Number(latitudeMinutes) / 60;
-      if (latitudeSeconds) y += Number(latitudeSeconds) / 3600;
-
-      onChange({ x, y });
-    } else {
-      onChange(null);
-    }
-  }, [
-    onChange,
-    longitudeDegrees,
-    latitudeDegrees,
-    longitudeMinutes,
-    longitudeSeconds,
-    latitudeMinutes,
-    latitudeSeconds,
-  ]);
+    onChange(state.point);
+  }, [onChange, state.point]);
 
   return (
     <>
@@ -194,30 +210,40 @@ function DegreesMinutesSeconds({ onChange }) {
       <RangeValidationInput
         className="mt-2"
         label="Degrees"
-        min={-114.25}
-        max={-108.7}
-        onChange={setLongitudeDegrees}
+        min={108.7}
+        max={114.25}
+        onChange={(newValue) =>
+          dispatch({ meta: 'longitude.degrees', value: newValue })
+        }
+        prefix="-"
         required
+        suffix="°"
         type="number"
-        value={longitudeDegrees}
+        value={state.longitude.degrees}
       />
       <RangeValidationInput
         className="mt-2"
         label="Minutes (optional)"
         min={0}
         max={60}
-        onChange={setLongitudeMinutes}
+        onChange={(newValue) =>
+          dispatch({ meta: 'longitude.minutes', value: newValue })
+        }
+        suffix="'"
         type="number"
-        value={longitudeMinutes}
+        value={state.longitude.minutes}
       />
       <RangeValidationInput
         className="mt-2"
         label="Seconds (optional)"
         min={0}
         max={60}
-        onChange={setLongitudeSeconds}
+        onChange={(newValue) =>
+          dispatch({ meta: 'longitude.seconds', value: newValue })
+        }
+        suffix='"'
         type="number"
-        value={setLongitudeSeconds}
+        value={state.longitude.seconds}
       />
 
       <h4 className="mt-2">Latitude</h4>
@@ -226,33 +252,38 @@ function DegreesMinutesSeconds({ onChange }) {
         label="Degrees"
         min={36.7}
         max={42.18}
-        onChange={setLatitudeDegrees}
+        onChange={(newValue) =>
+          dispatch({ meta: 'latitude.degrees', value: newValue })
+        }
         required
+        suffix="°"
         type="number"
-        value={latitudeDegrees}
+        value={state.latitude.degrees}
       />
       <RangeValidationInput
         className="mt-2"
         label="Minutes (optional)"
         min={0}
         max={60}
-        onChange={setLatitudeMinutes}
+        onChange={(newValue) =>
+          dispatch({ meta: 'latitude.minutes', value: newValue })
+        }
         type="number"
-        value={latitudeMinutes}
+        suffix="'"
+        value={state.latitude.minutes}
       />
       <RangeValidationInput
         className="mt-2"
         label="Seconds (optional)"
         min={0}
         max={60}
-        onChange={setLatitudeSeconds}
+        onChange={(newValue) =>
+          dispatch({ meta: 'latitude.seconds', value: newValue })
+        }
+        suffix='"'
         type="number"
-        value={latitudeSeconds}
+        value={state.latitude.seconds}
       />
     </>
   );
 }
-
-DegreesMinutesSeconds.propTypes = {
-  onChange: PropTypes.func.isRequired,
-};
