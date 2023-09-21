@@ -167,8 +167,8 @@ function DegreesMinutesSeconds({ onChange }) {
   useEffect(() => {
     if (longitudeDegrees && latitudeDegrees) {
       let x = Number(longitudeDegrees);
-      if (longitudeMinutes) x += Number(longitudeMinutes) / 60;
-      if (longitudeSeconds) x += Number(longitudeSeconds) / 3600;
+      if (longitudeMinutes) x -= Number(longitudeMinutes) / 60;
+      if (longitudeSeconds) x -= Number(longitudeSeconds) / 3600;
 
       let y = Number(latitudeDegrees);
       if (latitudeMinutes) y += Number(latitudeMinutes) / 60;
