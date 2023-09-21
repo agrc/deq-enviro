@@ -40,6 +40,10 @@ body {
   font-family: theme('fontFamily.sans');
 }
 
+.esri-print__export-button.esri-button {
+  background-color: theme('colors.primary.DEFAULT');
+}
+
 .esri-view .esri-view-surface--inset-outline:focus::after {
   @apply outline-none;
 }
