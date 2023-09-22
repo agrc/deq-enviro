@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-19](https://github.com/agrc/deq-enviro/compare/v2.0.0-18...v2.0.0-19) (2023-09-22)
+
+
+### 🐛 Bug Fixes
+
+* prevent very large zoom extent for searches with some combinations of layers ([8a838aa](https://github.com/agrc/deq-enviro/commit/8a838aa465627843219c13d04d5d6a595bfb347b))
+
 ## [2.0.0-18](https://github.com/agrc/deq-enviro/compare/v2.0.0-17...v2.0.0-18) (2023-09-22)
 
 
