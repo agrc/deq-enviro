@@ -332,11 +332,11 @@ export default function MapComponent() {
         }`;
         featureLayer.popupEnabled = false;
 
-        // getting the extent from the layer view didn't work for some reason
-        const { count, extent } = await featureLayer.queryExtent({
-          where,
-          geometry: filter.geometry,
-        });
+        const extentQuery = featureLayer.createQuery();
+        extentQuery.where = where;
+        extentQuery.geometry = filter.geometry;
+
+        const { count, extent } = await featureLayer.queryExtent(extentQuery);
 
         if (count > appConfig.maxSearchCount) {
           send('RESULT', {
