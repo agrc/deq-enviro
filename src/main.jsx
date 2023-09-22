@@ -12,6 +12,8 @@ import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
 
 const queryClient = new QueryClient();
 
+console.log(`Enviro app version: ${import.meta.env.PACKAGE_VERSION}`);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary FallbackComponent={RootErrorFallback}>
     <React.StrictMode>
