@@ -4,10 +4,7 @@
     "checkJs": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "DOM"
-    ],
+    "lib": ["esnext", "DOM"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
@@ -16,17 +13,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "types": [
-      "node",
-      "vite/client"
-    ]
+    "types": ["node", "vite/client"]
   },
-  "exclude": [
-    "node_modules/**/*",
-    "functions/node_modules/**/*",
-  ],
-  "include": [
-    "functions/**/*",
-    "src/**/*"
-  ]
+  "exclude": ["node_modules/**/*", "functions/node_modules/**/*"],
+  "include": ["functions/**/*", "src/**/*"]
 }

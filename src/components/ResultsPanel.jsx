@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { useSearchMachine } from '../SearchMachineProvider';
