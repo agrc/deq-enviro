@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
@@ -11,6 +11,7 @@ import Shape from './filters/Shape';
 import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
+import stateOfUtahJson from '../../data/state-of-utah.json';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {
@@ -88,6 +89,17 @@ export default function AdvancedFilter({ visible }) {
   };
 
   const [filterType, setFilterType] = useState('statewide');
+
+  // reset filterType when searchLayers and filter clear
+  useEffect(() => {
+    if (
+      state.context.searchLayers.length === 0 &&
+      state.context.filter.geometry === stateOfUtahJson &&
+      filterType !== 'statewide'
+    ) {
+      setFilterType('statewide');
+    }
+  }, [filterType, state.context.filter.geometry, state.context.searchLayers]);
 
   const getFilterComponent = (filterType) => {
     const { Component, props } = filterTypes[filterType];
