@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0-18](https://github.com/agrc/deq-enviro/compare/v2.0.0-17...v2.0.0-18) (2023-09-22)
+
+
+### 🚀 Features
+
+* **dialog:** implement Dialog component ([4f1021e](https://github.com/agrc/deq-enviro/commit/4f1021ed2906531cb637523fba318b41704439c6))
+* implement disclaimer popup ([42585ff](https://github.com/agrc/deq-enviro/commit/42585ff3e96a0d088b6dd0d3fc9e4c06cf476279)), closes [#558](https://github.com/agrc/deq-enviro/issues/558)
+* make results panel resizable ([817bfc1](https://github.com/agrc/deq-enviro/commit/817bfc1c1faff1912c4b9c2ac1adfd50d3c8a27f)), closes [#551](https://github.com/agrc/deq-enviro/issues/551)
+
+
+### 🐛 Bug Fixes
+
+* fix bug preventing the advanced filter to be properly reset ([e486ac0](https://github.com/agrc/deq-enviro/commit/e486ac0a10cd3f2f44f0afb6f441924d24dcccae)), closes [#553](https://github.com/agrc/deq-enviro/issues/553)
+* fix print widget export button background color ([0003193](https://github.com/agrc/deq-enviro/commit/000319381e4ad8677ec5522b4318d94745b476c8)), closes [#559](https://github.com/agrc/deq-enviro/issues/559)
+* prevent results panel from scrolling past the bottom of the table ([f38b3c2](https://github.com/agrc/deq-enviro/commit/f38b3c2cfe84e0c8fb0a042b9746c7ffa99382a2)), closes [#570](https://github.com/agrc/deq-enviro/issues/570)
+* shorten results grid default height ([c665559](https://github.com/agrc/deq-enviro/commit/c665559a91ff9f8ae44f938e214a921698d8d8cb)), closes [#552](https://github.com/agrc/deq-enviro/issues/552)
+
 ## [2.0.0-17](https://github.com/agrc/deq-enviro/compare/v2.0.0-16...v2.0.0-17) (2023-09-21)
 
 
