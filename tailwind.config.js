@@ -39,6 +39,8 @@ export default {
         'slide-up': 'slideUp 300ms ease-out',
         flip: 'rotate-180 300ms ease-out',
         'fade-in': 'fadeIn 200ms ease-in-out',
+        'fade-out': 'fadeOut 200ms ease-in-out',
+        'pop-in': 'popIn 200ms ease-in-out',
       },
       keyframes: {
         slideDown: {
@@ -63,6 +65,24 @@ export default {
           },
           to: {
             opacity: 1,
+          },
+        },
+        fadeOut: {
+          from: {
+            opacity: 1,
+          },
+          to: {
+            opacity: 0,
+          },
+        },
+        popIn: {
+          from: {
+            opacity: 0,
+            transform: 'translate(-50%, -48%) scale(0.96)',
+          },
+          to: {
+            opacity: 1,
+            transform: 'translate(-50%, -50%) scale(1)',
           },
         },
       },

@@ -1,6 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 import Spinner from './Spinner';
+import { forwardRef, useRef } from 'react';
 
 const COLORS = {
   none: {
@@ -91,23 +92,31 @@ function getOneSizeSmaller(size) {
  * @param {() => void} [props.onClick]
  * @param {keyof typeof SIZES} [props.size] Size of the button. Corresponds with
  *   the tailwind text sizes (base, sm, lg, xl)
+ * @param {import('react').Ref<any>} forwardedRef
  * @returns {JSX.Element}
  */
-function Button({
-  appearance = 'outlined',
-  busy = false,
-  children,
-  className,
-  color = 'none',
-  disabled = false,
-  external,
-  href,
-  onClick,
-  size = 'base',
-}) {
+function Button(
+  {
+    appearance = 'outlined',
+    busy = false,
+    children,
+    className,
+    color = 'none',
+    disabled = false,
+    external,
+    href,
+    onClick,
+    size = 'base',
+  },
+  forwardedRef,
+) {
   if (busy) {
     disabled = true;
   }
+
+  const internalRef = useRef();
+
+  const ref = forwardedRef || internalRef;
 
   const calculatedClassName = twMerge(
     'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
@@ -128,6 +137,7 @@ function Button({
       className={calculatedClassName}
       target={external ? '_blank' : '_self'}
       rel={external ? 'noopener noreferrer' : ''}
+      ref={ref}
     >
       {children}
       <Icon
@@ -142,6 +152,7 @@ function Button({
       className={calculatedClassName}
       disabled={disabled}
       onClick={onClick}
+      ref={ref}
     >
       {children}
       {busy && <Spinner className="ml-1" ariaLabel="loading" size={size} />}
@@ -149,4 +160,5 @@ function Button({
   );
 }
 
-export default Button;
+const ForwardedButton = forwardRef(Button);
+export default ForwardedButton;
