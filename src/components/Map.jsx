@@ -378,7 +378,7 @@ export default function MapComponent() {
         query.where = featureLayer.definitionExpression;
         query.outFields = [
           ...layer[fieldNames.queryLayers.resultGridFields],
-          featureServiceJson.objectIdField,
+          featureServiceJson.objectIdField || 'OBJECTID',
         ];
         query.returnGeometry = false;
         const features = await queryFeatures(featureLayer, query);
