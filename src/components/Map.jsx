@@ -362,9 +362,7 @@ export default function MapComponent() {
           // assign a default symbol
           featureLayer.renderer = getDefaultRenderer(featureLayer.geometryType);
 
-          if (featureLayer.geometryType === 'polygon') {
-            featureLayer.opacity = appConfig.symbols.defaultOpacity;
-          }
+          featureLayer.opacity = appConfig.symbols.defaultOpacity;
         }
 
         // this essentially applies a geometry filter to the layer before it's added to the map
