@@ -4,6 +4,8 @@ import {
   applyTransforms,
   arraysToObjects,
   checkForDuplicateIds,
+  validateFields,
+  getFieldsFromUrl,
 } from './configs';
 
 describe('arraysToObjects', () => {
@@ -100,5 +102,79 @@ describe('applyTransforms', () => {
     expect(
       applyTransforms(configs, fieldConfigs, fieldKeys.queryLayers),
     ).toEqual(expected);
+  });
+});
+
+describe('validateFields', () => {
+  const queryLayer = {
+    'Unique ID': 'one',
+    'Result Grid Fields': ['one', 'two', 'three'],
+    'ID Field': 'one',
+    'Layer Name': 'Test Layer',
+  };
+  it('returns an error message if there is a missing field', () => {
+    const fieldValidation = 'Result Grid Fields';
+    const serviceFieldNames = ['one'];
+
+    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer))
+      .toMatchInlineSnapshot(`
+        [
+          "Test Layer: field \\"two\\" in \\"Result Grid Fields\\" is not a valid field name.",
+          "Test Layer: field \\"three\\" in \\"Result Grid Fields\\" is not a valid field name.",
+        ]
+      `);
+  });
+  it('returns true if field is valid', () => {
+    const fieldValidation = 'ID Field';
+    const serviceFieldNames = ['one'];
+
+    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
+      true,
+    );
+  });
+  it('handles a getter function', () => {
+    const fieldValidation = {
+      configProp: 'Result Grid Fields',
+      getFieldNames: (value) => value,
+    };
+    const serviceFieldNames = ['one', 'two', 'three'];
+
+    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
+      true,
+    );
+  });
+  it('returns true if config value is empty', () => {
+    const fieldValidation = 'Empty';
+    const serviceFieldNames = ['one'];
+
+    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
+      true,
+    );
+
+    const fieldValidation2 = {
+      configProp: 'Empty',
+      getFieldNames: () => undefined,
+    };
+
+    expect(
+      validateFields(fieldValidation2, serviceFieldNames, queryLayer),
+    ).toBe(true);
+  });
+});
+
+describe('getFieldsFromUrl', () => {
+  it('returns an array of field names', () => {
+    const urls = 'https://test.com?test={one}&hello={two}&blah={three}';
+    const expected = ['one', 'two', 'three'];
+
+    expect(getFieldsFromUrl(urls)).toEqual(expected);
+  });
+  it('returns an empty array for undefined', () => {
+    expect(getFieldsFromUrl()).toEqual([]);
+  });
+  it('returns an empty array if there are no template strings', () => {
+    const urls = 'https://test.com';
+
+    expect(getFieldsFromUrl(urls)).toEqual([]);
   });
 });

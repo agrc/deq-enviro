@@ -76,11 +76,28 @@ export function checkForDuplicateIds(configs) {
   }
 }
 
+/**
+ * @param {string} [url]
+ * @returns {string[]}
+ */
+export function getFieldsFromUrl(url) {
+  if (!url) return [];
+
+  const regex = /{([^}]+)}/g;
+  const matches = url.match(regex);
+
+  if (!matches) return [];
+
+  return matches.map((match) => match.replace(/[{}]/g, ''));
+}
+
 async function validateQueryLayers(queryLayers) {
   const validationErrors = [];
 
   for (const queryLayer of JSON.parse(queryLayers)) {
     const layerName = queryLayer[fieldNames.queryLayers.layerName];
+    console.log(`validating: ${layerName}`);
+
     try {
       schemas.queryLayers.validateSync(queryLayer);
     } catch (error) {
@@ -105,10 +122,102 @@ async function validateQueryLayers(queryLayers) {
           `${layerName}: feature service does not support export/downloading!`,
         );
       }
+
+      /**
+       * @type {(
+       *   | {
+       *       configProp: string;
+       *       getFieldNames: (value: string) => string[];
+       *     }
+       *   | string
+       * )[]} >
+       */
+      const fieldValidations = [
+        fieldNames.queryLayers.resultGridFields,
+        fieldNames.queryLayers.oidField,
+        fieldNames.queryLayers.idField,
+        fieldNames.queryLayers.nameField,
+        {
+          configProp: fieldNames.queryLayers.documentSearch,
+          getFieldNames: getFieldsFromUrl,
+        },
+        {
+          configProp: fieldNames.queryLayers.gramaRequest,
+          getFieldNames: getFieldsFromUrl,
+        },
+        {
+          configProp: fieldNames.queryLayers.permitInformation,
+          getFieldNames: getFieldsFromUrl,
+        },
+        {
+          configProp: fieldNames.queryLayers.additionalInformation,
+          getFieldNames: getFieldsFromUrl,
+        },
+        /* TODO: validate all field names in the following fields:
+         * Special Filters (special filter syntax)
+         * Perhaps the Identify Attributes field if we bring it back...
+         */
+      ];
+
+      const serviceFieldNames = serviceJSON.fields.map((field) => field.name);
+      for (const fieldValidation of fieldValidations) {
+        const results = validateFields(
+          fieldValidation,
+          serviceFieldNames,
+          queryLayer,
+        );
+        if (typeof results === 'object' && results.length) {
+          validationErrors.push(...results);
+        }
+      }
     }
   }
 
   return validationErrors;
+}
+
+/**
+ * @param {any} fieldValidation
+ * @param {any} serviceFieldNames
+ * @param {any} queryLayer
+ * @returns {string[] | boolean}
+ */
+export function validateFields(fieldValidation, serviceFieldNames, queryLayer) {
+  let configProp;
+  let validationFieldNames;
+  let configValue;
+  const validationErrors = [];
+  if (typeof fieldValidation === 'string') {
+    configProp = fieldValidation;
+    configValue = queryLayer[configProp];
+    if (typeof configValue === 'string') {
+      validationFieldNames = [configValue];
+    } else {
+      // must be array
+      validationFieldNames = configValue?.length ? configValue : [];
+    }
+  } else {
+    configProp = fieldValidation.configProp;
+    configValue = queryLayer[configProp];
+    validationFieldNames = configValue?.length
+      ? fieldValidation.getFieldNames(queryLayer[configProp])
+      : [];
+  }
+  for (const validationFieldName of validationFieldNames) {
+    if (!serviceFieldNames.includes(validationFieldName)) {
+      validationErrors.push(
+        `${
+          queryLayer[fieldNames.queryLayers.layerName]
+        }: field "${validationFieldName}" in "${configProp}" is not a valid field name.`,
+      );
+    }
+  }
+
+  if (validationErrors.length) {
+    return validationErrors;
+  } else {
+    return true;
+  }
 }
 
 async function updateRemoteConfigs(queryLayers, relatedTables) {
