@@ -1,4 +1,5 @@
 import appConfig from './app-config';
+import { fieldNames } from '../functions/common/config';
 
 export function getAlias(fieldName, fields) {
   if (!fields) return fieldName;
@@ -58,4 +59,12 @@ export async function queryFeatures(featureLayer, query) {
   }
 
   return features;
+}
+
+/**
+ * @param {string} id
+ * @param {import('../functions/common/config').QueryLayerConfig[]} layers
+ */
+export function getLayerByUniqueId(id, layers) {
+  return layers.find((layer) => layer[fieldNames.queryLayers.uniqueId] === id);
 }

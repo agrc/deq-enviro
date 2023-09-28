@@ -24,8 +24,10 @@ import {
   getDefaultRenderer,
   hasDefaultSymbology,
   queryFeatures,
+  getLayerByUniqueId,
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
+import { useRemoteConfigString } from 'reactfire';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -120,6 +122,9 @@ export default function MapComponent() {
     symbol: appConfig.symbols.filter,
   };
   useMapGraphic(view.current, filterGraphic);
+
+  const { data: queryLayersJSON } = useRemoteConfigString('queryLayers');
+  const queryLayers = JSON.parse(queryLayersJSON || '[]');
 
   const mapDiv = useRef(null);
   useEffect(() => {
@@ -425,8 +430,11 @@ export default function MapComponent() {
       searching.current = true;
 
       const extents = await Promise.all(
-        state.context.searchLayers.map((layer) =>
-          searchLayer(layer, state.context.filter),
+        state.context.searchLayerIds.map((uniqueId) =>
+          searchLayer(
+            getLayerByUniqueId(uniqueId, queryLayers),
+            state.context.filter,
+          ),
         ),
       );
 
@@ -459,7 +467,7 @@ export default function MapComponent() {
         searching.current = false;
       });
     }
-  }, [send, state]);
+  }, [queryLayers, send, state]);
 
   useEffect(() => {
     if (!searching.current && state.context.resultExtent === null) {

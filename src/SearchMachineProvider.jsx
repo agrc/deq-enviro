@@ -12,8 +12,7 @@ localforage.config({
 });
 
 const VERSION_KEY = 'searchContextVersion';
-// TODO: this should be stored in the remote configs and incremented each time the config spreadsheet is deployed
-const CURRENT_VERSION = 1; // change this anytime you change the schema of the cache (includes any layer config changes)
+const CURRENT_VERSION = 2; // change this anytime you change the schema of the cache
 localforage.getItem(VERSION_KEY).then((version) => {
   if (version !== CURRENT_VERSION) {
     console.warn('new search cache version found, clearing old cache');
@@ -50,7 +49,7 @@ const blankFilter = {
 
 /**
  * @typedef {Object} Context
- * @property {import('../functions/common/config').QueryLayerConfig[]} searchLayers
+ * @property {string[]} searchLayerIds
  * @property {Filter} filter
  * @property {QueryLayerResult[]} resultLayers
  * @property {Object} resultExtent
@@ -78,7 +77,7 @@ const blankFilter = {
 
 /** @type {Context} */
 const blankContext = {
-  searchLayers: [],
+  searchLayerIds: [],
   filter: blankFilter,
   /*
     {
@@ -317,28 +316,32 @@ const machine = createMachine(
   {
     actions: {
       clear: assign(() => {
-        cacheSearchContext({ searchLayers: [], filter: blankFilter });
+        cacheSearchContext({ searchLayerIds: [], filter: blankFilter });
 
         return { ...blankContext };
       }),
       selectLayer: assign({
         // @ts-ignore
-        searchLayers: (context, { queryLayer }) => {
-          const newData = [...context.searchLayers, queryLayer];
-          cacheSearchContext({ searchLayers: newData, filter: context.filter });
+        searchLayerIds: (context, { uniqueId }) => {
+          const newData = [...context.searchLayerIds, uniqueId];
+          cacheSearchContext({
+            searchLayerIds: newData,
+            filter: context.filter,
+          });
 
           return newData;
         },
       }),
       unselectLayer: assign({
         // @ts-ignore
-        searchLayers: (context, { queryLayer }) => {
-          const newData = context.searchLayers.filter(
-            (config) =>
-              config[fieldNames.queryLayers.uniqueId] !==
-              queryLayer[fieldNames.queryLayers.uniqueId],
+        searchLayerIds: (context, { uniqueId }) => {
+          const newData = context.searchLayerIds.filter(
+            (existingId) => existingId !== uniqueId,
           );
-          cacheSearchContext({ searchLayers: newData, filter: context.filter });
+          cacheSearchContext({
+            searchLayerIds: newData,
+            filter: context.filter,
+          });
 
           return newData;
         },
@@ -346,7 +349,10 @@ const machine = createMachine(
       setFilter: assign({
         // @ts-ignore
         filter: (context, { /** @type {Filter} */ filter }) => {
-          cacheSearchContext({ searchLayers: context.searchLayers, filter });
+          cacheSearchContext({
+            searchLayerIds: context.searchLayerIds,
+            filter,
+          });
 
           return filter;
         },
@@ -373,6 +379,12 @@ SearchMachineProvider.propTypes = {
 
 // This file doesn't work well fast refresh with the state machine anyways so there's
 // no reason to move the hook to a different file.
+/**
+ * @returns {[
+ *   import('xstate').StateFrom<typeof machine>,
+ *   import('xstate').InterpreterFrom<typeof machine>['send'],
+ * ]}
+ */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useSearchMachine() {
   const context = useContext(SearchMachineContext);

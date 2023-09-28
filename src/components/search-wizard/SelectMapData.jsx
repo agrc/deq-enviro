@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import {
@@ -7,6 +6,11 @@ import {
 } from '../../utah-design-system/Accordion.jsx';
 import QueryLayer from './QueryLayer.jsx';
 
+/**
+ * @param {object} props
+ * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
+ * @returns {JSX.Element}
+ */
 export default function SelectMapData({ queryLayers }) {
   const divisions = queryLayers.reduce((list, queryLayer) => {
     const division = queryLayer[fieldNames.queryLayers.divisionHeading];
@@ -41,14 +45,13 @@ export default function SelectMapData({ queryLayers }) {
                     <QueryLayer
                       key={uniqueId}
                       config={queryLayer}
-                      selected={state.context.searchLayers.some(
-                        (config) =>
-                          config[fieldNames.queryLayers.uniqueId] === uniqueId,
+                      selected={state.context.searchLayerIds.some(
+                        (selectedUniqueId) => selectedUniqueId === uniqueId,
                       )}
                       onSelectedChange={(selected) =>
                         send({
                           type: selected ? 'SELECT_LAYER' : 'UNSELECT_LAYER',
-                          queryLayer,
+                          uniqueId: queryLayer[fieldNames.queryLayers.uniqueId],
                         })
                       }
                     />
@@ -61,7 +64,3 @@ export default function SelectMapData({ queryLayers }) {
     </>
   );
 }
-
-SelectMapData.propTypes = {
-  queryLayers: PropTypes.array.isRequired,
-};

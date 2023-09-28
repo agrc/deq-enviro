@@ -38,7 +38,9 @@ const results = [
 export const Default = () => (
   <div className="w-80">
     <SearchProgress
-      searchLayers={queryLayers}
+      searchLayerIds={['0', '3', '4', '5']}
+      // @ts-ignore
+      queryLayers={queryLayers}
       results={results}
       filterName="filter name that wraps and wraps and wraps longer"
     />

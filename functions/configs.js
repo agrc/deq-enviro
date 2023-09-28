@@ -122,12 +122,18 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
     queryLayers: template.parameters.queryLayers.defaultValue.value,
     // @ts-ignore
     relatedTables: template.parameters.relatedTables.defaultValue.value,
+    // @ts-ignore
+    version: template.parameters.version.defaultValue.value,
   };
 
   // @ts-ignore
   template.parameters.queryLayers.defaultValue.value = queryLayers;
   // @ts-ignore
   template.parameters.relatedTables.defaultValue.value = relatedTables;
+  // @ts-ignore
+  template.parameters.version.defaultValue.value = (
+    parseInt(originalValues.version) + 1
+  ).toString();
 
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);

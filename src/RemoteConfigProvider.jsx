@@ -1,5 +1,4 @@
 import { fetchAndActivate, getRemoteConfig } from 'firebase/remote-config';
-import PropTypes from 'prop-types';
 import { BulletList } from 'react-content-loader';
 import {
   RemoteConfigProvider as RemoteConfigProviderRF,
@@ -7,6 +6,11 @@ import {
 } from 'reactfire';
 import defaultConfig from './remote_config_defaults.json';
 
+/**
+ * @param {object} props
+ * @param {React.ReactNode} props.children
+ * @returns {JSX.Element}
+ */
 export default function RemoteConfigProvider({ children }) {
   const { status, data: remoteConfigInstance } = useInitRemoteConfig(
     async (firebaseApp) => {
@@ -21,7 +25,7 @@ export default function RemoteConfigProvider({ children }) {
         await fetchAndActivate(remoteConfig);
       }
       // use for testing loader...
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
 
       return remoteConfig;
     },
@@ -30,18 +34,14 @@ export default function RemoteConfigProvider({ children }) {
   if (status === 'loading') {
     console.log('loading remote config');
 
-    return <BulletList className="h-40 p-2" />;
+    return <BulletList className="h-80 w-full p-2" />;
   }
 
   console.log('remote config loaded');
 
   return (
     <RemoteConfigProviderRF sdk={remoteConfigInstance}>
-      <div className="md:w-80">{children}</div>
+      {children}
     </RemoteConfigProviderRF>
   );
 }
-
-RemoteConfigProvider.propTypes = {
-  children: PropTypes.node,
-};

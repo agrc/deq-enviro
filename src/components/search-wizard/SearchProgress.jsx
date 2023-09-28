@@ -1,14 +1,27 @@
-import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
+import { getLayerByUniqueId } from '../../utils';
 import ResultStatusIcons from './ResultStatusIcons';
 
-export default function SearchProgress({ searchLayers, results, filterName }) {
+/**
+ * @param {object} props
+ * @param {string[]} props.searchLayerIds
+ * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
+ * @param {object[]} props.results
+ * @param {string} props.filterName
+ * @returns {JSX.Element}
+ */
+export default function SearchProgress({
+  searchLayerIds,
+  queryLayers,
+  results,
+  filterName,
+}) {
   return (
     <>
       <h3>Search Results</h3>
       <ul>
-        {searchLayers.map((config) => {
-          const uniqueId = config[fieldNames.queryLayers.uniqueId];
+        {searchLayerIds.map((uniqueId) => {
+          const config = getLayerByUniqueId(uniqueId, queryLayers);
           const resultConfig = results.find(
             (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId,
           );
@@ -37,9 +50,3 @@ export default function SearchProgress({ searchLayers, results, filterName }) {
     </>
   );
 }
-
-SearchProgress.propTypes = {
-  searchLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filterName: PropTypes.string.isRequired,
-};

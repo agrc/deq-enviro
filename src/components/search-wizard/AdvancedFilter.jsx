@@ -12,10 +12,16 @@ import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
 import stateOfUtahJson from '../../data/state-of-utah.json';
+import { useRemoteConfigString } from 'reactfire';
+import { getLayerByUniqueId } from '../../utils';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {
   const [state, send] = useSearchMachine();
+
+  const { data: queryLayersJSON } = useRemoteConfigString('queryLayers');
+  const queryLayers = JSON.parse(queryLayersJSON || '[]');
+
   const filterTypes = {
     statewide: {
       label: 'Statewide',
@@ -57,10 +63,14 @@ export default function AdvancedFilter({ visible }) {
       Component: Attribute,
       props: {
         attributeType: 'name',
-        selectedLayers: state.context.searchLayers.map((config) => ({
-          name: config[fieldNames.queryLayers.layerName],
-          field: config[fieldNames.queryLayers.nameField],
-        })),
+        selectedLayers: state.context.searchLayerIds.map((uniqueId) => {
+          const config = getLayerByUniqueId(uniqueId, queryLayers);
+
+          return {
+            name: config[fieldNames.queryLayers.layerName],
+            field: config[fieldNames.queryLayers.nameField],
+          };
+        }),
       },
     },
     id: {
@@ -68,10 +78,14 @@ export default function AdvancedFilter({ visible }) {
       Component: Attribute,
       props: {
         attributeType: 'id',
-        selectedLayers: state.context.searchLayers.map((config) => ({
-          name: config[fieldNames.queryLayers.layerName],
-          field: config[fieldNames.queryLayers.idField],
-        })),
+        selectedLayers: state.context.searchLayerIds.map((uniqueId) => {
+          const config = getLayerByUniqueId(uniqueId, queryLayers);
+
+          return {
+            name: config[fieldNames.queryLayers.layerName],
+            field: config[fieldNames.queryLayers.idField],
+          };
+        }),
       },
     },
     shape: {
@@ -90,16 +104,16 @@ export default function AdvancedFilter({ visible }) {
 
   const [filterType, setFilterType] = useState('statewide');
 
-  // reset filterType when searchLayers and filter clear
+  // reset filterType when searchLayerIds and filter clear
   useEffect(() => {
     if (
-      state.context.searchLayers.length === 0 &&
+      state.context.searchLayerIds.length === 0 &&
       state.context.filter.geometry === stateOfUtahJson &&
       filterType !== 'statewide'
     ) {
       setFilterType('statewide');
     }
-  }, [filterType, state.context.filter.geometry, state.context.searchLayers]);
+  }, [filterType, state.context.filter.geometry, state.context.searchLayerIds]);
 
   const getFilterComponent = (filterType) => {
     const { Component, props } = filterTypes[filterType];
@@ -111,13 +125,14 @@ export default function AdvancedFilter({ visible }) {
     <div className={clsx(!visible && 'hidden')}>
       <h3>Selected Map Layers</h3>
       <ul>
-        {state.context.searchLayers.map((config) => (
-          <li
-            key={config[fieldNames.queryLayers.uniqueId]}
-            className="mb-1 flex items-center justify-start"
-          >
+        {state.context.searchLayerIds.map((uniqueId) => (
+          <li key={uniqueId} className="mb-1 flex items-center justify-start">
             <span className="leading-5">
-              {config[fieldNames.queryLayers.layerName]}
+              {
+                getLayerByUniqueId(uniqueId, queryLayers)[
+                  fieldNames.queryLayers.layerName
+                ]
+              }
             </span>
           </li>
         ))}
