@@ -44,7 +44,7 @@ export async function queryFeatures(featureLayer, query) {
   let finished = false;
   query.maxRecordCountFactor = 4;
   query.num =
-    featureLayer.capabilities.query.maxRecordCount + query.maxRecordCountFactor;
+    featureLayer.capabilities.query.maxRecordCount * query.maxRecordCountFactor;
   while (!finished) {
     query.start = start;
     const featureSet = await featureLayer.queryFeatures(query);
