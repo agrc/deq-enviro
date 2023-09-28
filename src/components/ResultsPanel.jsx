@@ -37,6 +37,7 @@ export default function ResultsPanel() {
   return (
     <>
       <PanelResizer
+        dragValue={originalHeight - height}
         show={state.matches('result')}
         onResize={(dragValue) => setHeight(originalHeight - dragValue)}
         initialHeight={originalHeight}

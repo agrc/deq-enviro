@@ -4,12 +4,18 @@ import Draggable from 'react-draggable';
 
 /**
  * @param {object} props
+ * @param {number} props.dragValue
  * @param {function} props.onResize
  * @param {boolean} props.show
  * @param {number} props.initialHeight
  * @returns {JSX.Element}
  */
-export default function PanelResizer({ onResize, show, initialHeight }) {
+export default function PanelResizer({
+  dragValue,
+  onResize,
+  show,
+  initialHeight,
+}) {
   const ref = useRef(null);
   const [cursor, setCursor] = useState('grab');
   const [isHovering, setIsHovering] = useState(false);
@@ -22,6 +28,9 @@ export default function PanelResizer({ onResize, show, initialHeight }) {
 
   return (
     <Draggable
+      // we are controlling this component so that we make sure that it
+      // appears at the correct height after it has been remounted
+      position={{ x: 0, y: dragValue }}
       axis="y"
       onStart={() => setCursor('grabbing')}
       onStop={() => setCursor('grab')}
