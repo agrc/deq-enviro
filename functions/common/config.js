@@ -35,6 +35,10 @@ import { array, string } from 'yup';
 const urlRegex = /https?:\/\//i;
 const invalidUrl = '"${value}" must be a valid URL ("{" and "}" are allowed)';
 
+function commaSeparatedStringToArray(value) {
+  return value.split(',').map((v) => v.trim());
+}
+
 export const fieldConfigs = {
   queryLayers: {
     additionalInformation: {
@@ -120,7 +124,7 @@ export const fieldConfigs = {
     resultGridFields: {
       name: 'Result Grid Fields',
       schema: array().of(string()).required(),
-      transform: (value) => value.split(',').map((v) => v.trim()),
+      transform: commaSeparatedStringToArray,
     },
     sgidFeatureClassName: {
       name: 'SGID Feature Class Name',
@@ -146,19 +150,16 @@ export const fieldConfigs = {
   relatedTables: {
     additionalInformation: {
       name: 'Additional Information',
-      schema: string().nullable(),
-    },
-    additionalInformationLinkFields: {
-      name: 'Additional Information Link Fields',
-      schema: string().nullable(),
+      schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
     },
     featureService: {
       name: 'Feature Service',
-      schema: string().nullable(),
+      schema: string().url().required(),
     },
-    fields: {
-      name: 'Fields',
-      schema: string().nullable(),
+    gridFields: {
+      name: 'Grid Fields',
+      schema: array().of(string()).required(),
+      transform: commaSeparatedStringToArray,
     },
     oidField: {
       name: 'OID Field',
@@ -168,8 +169,8 @@ export const fieldConfigs = {
       name: 'SGID Table Name',
       schema: string().nullable(),
     },
-    tabName: {
-      name: 'Tab Name',
+    tableName: {
+      name: 'Table Name',
       schema: string().nullable(),
     },
   },

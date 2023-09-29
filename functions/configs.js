@@ -91,84 +91,93 @@ export function getFieldsFromUrl(url) {
   return matches.map((match) => match.replace(/[{}]/g, ''));
 }
 
-async function validateQueryLayers(queryLayers) {
+/**
+ * @typedef {| {
+ *       configProp: string;
+ *       getFieldNames: (value: string) => string[];
+ *     }
+ *   | string} FieldValidation
+ */
+
+/** @type {FieldValidation[]} > */
+const queryLayerFieldValidations = [
+  fieldNames.queryLayers.resultGridFields,
+  fieldNames.queryLayers.oidField,
+  fieldNames.queryLayers.idField,
+  fieldNames.queryLayers.nameField,
+  {
+    configProp: fieldNames.queryLayers.documentSearch,
+    getFieldNames: getFieldsFromUrl,
+  },
+  {
+    configProp: fieldNames.queryLayers.gramaRequest,
+    getFieldNames: getFieldsFromUrl,
+  },
+  {
+    configProp: fieldNames.queryLayers.permitInformation,
+    getFieldNames: getFieldsFromUrl,
+  },
+  {
+    configProp: fieldNames.queryLayers.additionalInformation,
+    getFieldNames: getFieldsFromUrl,
+  },
+  /* TODO: validate all field names in the following fields:
+   * Special Filters (special filter syntax)
+   * Perhaps the Identify Attributes field if we bring it back...
+   */
+];
+
+const relatedTableFieldValidations = [
+  fieldNames.relatedTables.oidField,
+  fieldNames.relatedTables.gridFields,
+  {
+    configProp: fieldNames.relatedTables.additionalInformation,
+    getFieldNames: getFieldsFromUrl,
+  },
+];
+
+async function validateConfigs(configs, schema, nameField, fieldValidations) {
   const validationErrors = [];
 
-  for (const queryLayer of JSON.parse(queryLayers)) {
-    const layerName = queryLayer[fieldNames.queryLayers.layerName];
-    console.log(`validating: ${layerName}`);
+  for (const config of JSON.parse(configs)) {
+    const configName = config[nameField];
+    console.log(`validating: ${configName}`);
 
     try {
-      schemas.queryLayers.validateSync(queryLayer);
+      schema.validateSync(config);
     } catch (error) {
       validationErrors.push(
-        `${layerName}: schema validation error: ${error.message}`,
+        `${configName}: schema validation error: ${error.message}`,
       );
     }
-    if (queryLayer[fieldNames.queryLayers.featureService]) {
-      const serviceURL = queryLayer[fieldNames.queryLayers.featureService];
-      let serviceJSON;
-      try {
-        serviceJSON = await got(`${serviceURL}?f=json`).json();
-      } catch (error) {
-        validationErrors.push(
-          `${layerName}: could not fetch feature service JSON: ${error.message}`,
-        );
-        continue;
-      }
 
-      if (!supportsExport(serviceJSON)) {
-        validationErrors.push(
-          `${layerName}: feature service does not support export/downloading!`,
-        );
-      }
+    const serviceURL = config['Feature Service'];
+    let serviceJSON;
+    try {
+      serviceJSON = await got(`${serviceURL}?f=json`).json();
+    } catch (error) {
+      validationErrors.push(
+        `${configName}: could not fetch feature service JSON: ${error.message}`,
+      );
+      continue;
+    }
 
-      /**
-       * @type {(
-       *   | {
-       *       configProp: string;
-       *       getFieldNames: (value: string) => string[];
-       *     }
-       *   | string
-       * )[]} >
-       */
-      const fieldValidations = [
-        fieldNames.queryLayers.resultGridFields,
-        fieldNames.queryLayers.oidField,
-        fieldNames.queryLayers.idField,
-        fieldNames.queryLayers.nameField,
-        {
-          configProp: fieldNames.queryLayers.documentSearch,
-          getFieldNames: getFieldsFromUrl,
-        },
-        {
-          configProp: fieldNames.queryLayers.gramaRequest,
-          getFieldNames: getFieldsFromUrl,
-        },
-        {
-          configProp: fieldNames.queryLayers.permitInformation,
-          getFieldNames: getFieldsFromUrl,
-        },
-        {
-          configProp: fieldNames.queryLayers.additionalInformation,
-          getFieldNames: getFieldsFromUrl,
-        },
-        /* TODO: validate all field names in the following fields:
-         * Special Filters (special filter syntax)
-         * Perhaps the Identify Attributes field if we bring it back...
-         */
-      ];
+    if (!supportsExport(serviceJSON)) {
+      validationErrors.push(
+        `Query Layer - ${configName}: feature service does not support export/downloading!`,
+      );
+    }
 
-      const serviceFieldNames = serviceJSON.fields.map((field) => field.name);
-      for (const fieldValidation of fieldValidations) {
-        const results = validateFields(
-          fieldValidation,
-          serviceFieldNames,
-          queryLayer,
-        );
-        if (typeof results === 'object' && results.length) {
-          validationErrors.push(...results);
-        }
+    const serviceFieldNames = serviceJSON.fields.map((field) => field.name);
+    for (const fieldValidation of fieldValidations) {
+      const results = validateFields(
+        fieldValidation,
+        serviceFieldNames,
+        config,
+        configName,
+      );
+      if (typeof results === 'object' && results.length) {
+        validationErrors.push(...results);
       }
     }
   }
@@ -177,19 +186,25 @@ async function validateQueryLayers(queryLayers) {
 }
 
 /**
- * @param {any} fieldValidation
- * @param {any} serviceFieldNames
- * @param {any} queryLayer
+ * @param {FieldValidation} fieldValidation
+ * @param {string[]} serviceFieldNames
+ * @param {Object} config
+ * @param {string} configName
  * @returns {string[] | boolean}
  */
-export function validateFields(fieldValidation, serviceFieldNames, queryLayer) {
+export function validateFields(
+  fieldValidation,
+  serviceFieldNames,
+  config,
+  configName,
+) {
   let configProp;
   let validationFieldNames;
   let configValue;
   const validationErrors = [];
   if (typeof fieldValidation === 'string') {
     configProp = fieldValidation;
-    configValue = queryLayer[configProp];
+    configValue = config[configProp];
     if (typeof configValue === 'string') {
       validationFieldNames = [configValue];
     } else {
@@ -198,17 +213,15 @@ export function validateFields(fieldValidation, serviceFieldNames, queryLayer) {
     }
   } else {
     configProp = fieldValidation.configProp;
-    configValue = queryLayer[configProp];
+    configValue = config[configProp];
     validationFieldNames = configValue?.length
-      ? fieldValidation.getFieldNames(queryLayer[configProp])
+      ? fieldValidation.getFieldNames(config[configProp])
       : [];
   }
   for (const validationFieldName of validationFieldNames) {
     if (!serviceFieldNames.includes(validationFieldName)) {
       validationErrors.push(
-        `${
-          queryLayer[fieldNames.queryLayers.layerName]
-        }: field "${validationFieldName}" in "${configProp}" is not a valid field name.`,
+        `${configName}: field "${validationFieldName}" in "${configProp}" is not a valid field name.`,
       );
     }
   }
@@ -247,7 +260,19 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);
 
-  const validationErrors = await validateQueryLayers(queryLayers);
+  const queryLayerValidationErrors = await validateConfigs(
+    queryLayers,
+    schemas.queryLayers,
+    fieldNames.queryLayers.layerName,
+    queryLayerFieldValidations,
+  );
+
+  const relatedTableValidationErrors = await validateConfigs(
+    relatedTables,
+    schemas.relatedTables,
+    fieldNames.relatedTables.tableName,
+    relatedTableFieldValidations,
+  );
 
   if (
     originalValues.queryLayers === queryLayers &&
@@ -257,7 +282,8 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
       success: true,
       message:
         'No changes detected between the config spreadsheet and app configs.',
-      validationErrors,
+      queryLayerValidationErrors,
+      relatedTableValidationErrors,
     };
   }
 
@@ -268,7 +294,8 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
   return {
     success: true,
     message: 'App configs updated successfully!',
-    validationErrors,
+    queryLayerValidationErrors,
+    relatedTableValidationErrors,
   };
 }
 

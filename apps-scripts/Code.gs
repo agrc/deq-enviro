@@ -36,12 +36,20 @@ function callUpdateFunction() {
     );
   }
 
-  if (responseJson.validationErrors.length > 0) {
-    htmlOutput.append('<h4>Validation Errors</h4>');
-    for (var message of responseJson.validationErrors) {
-      htmlOutput.append(`<p>${message}</p>`);
+  if (responseJson.queryLayerValidationErrors.length > 0) {
+    htmlOutput.append('<h4>Query Layer Validation Errors</h4>');
+    for (var qlMessage of responseJson.queryLayerValidationErrors) {
+      htmlOutput.append(`<p>${qlMessage}</p>`);
     }
   }
+
+  if (responseJson.relatedTableValidationErrors.length > 0) {
+    htmlOutput.append('<h4>Related Table Validation Errors</h4>');
+    for (var rtMessage of responseJson.relatedTableValidationErrors) {
+      htmlOutput.append(`<p>${rtMessage}</p>`);
+    }
+  }
+
   htmlOutput.append('</div>');
 
   ui.showModalDialog(htmlOutput, title);

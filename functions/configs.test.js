@@ -106,18 +106,20 @@ describe('applyTransforms', () => {
 });
 
 describe('validateFields', () => {
-  const queryLayer = {
+  const config = {
     'Unique ID': 'one',
     'Result Grid Fields': ['one', 'two', 'three'],
     'ID Field': 'one',
     'Layer Name': 'Test Layer',
   };
+  const tableName = 'Test Layer';
   it('returns an error message if there is a missing field', () => {
     const fieldValidation = 'Result Grid Fields';
     const serviceFieldNames = ['one'];
 
-    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer))
-      .toMatchInlineSnapshot(`
+    expect(
+      validateFields(fieldValidation, serviceFieldNames, config, tableName),
+    ).toMatchInlineSnapshot(`
         [
           "Test Layer: field \\"two\\" in \\"Result Grid Fields\\" is not a valid field name.",
           "Test Layer: field \\"three\\" in \\"Result Grid Fields\\" is not a valid field name.",
@@ -128,9 +130,9 @@ describe('validateFields', () => {
     const fieldValidation = 'ID Field';
     const serviceFieldNames = ['one'];
 
-    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
-      true,
-    );
+    expect(
+      validateFields(fieldValidation, serviceFieldNames, config, tableName),
+    ).toBe(true);
   });
   it('handles a getter function', () => {
     const fieldValidation = {
@@ -139,17 +141,17 @@ describe('validateFields', () => {
     };
     const serviceFieldNames = ['one', 'two', 'three'];
 
-    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
-      true,
-    );
+    expect(
+      validateFields(fieldValidation, serviceFieldNames, config, tableName),
+    ).toBe(true);
   });
   it('returns true if config value is empty', () => {
     const fieldValidation = 'Empty';
     const serviceFieldNames = ['one'];
 
-    expect(validateFields(fieldValidation, serviceFieldNames, queryLayer)).toBe(
-      true,
-    );
+    expect(
+      validateFields(fieldValidation, serviceFieldNames, config, tableName),
+    ).toBe(true);
 
     const fieldValidation2 = {
       configProp: 'Empty',
@@ -157,7 +159,7 @@ describe('validateFields', () => {
     };
 
     expect(
-      validateFields(fieldValidation2, serviceFieldNames, queryLayer),
+      validateFields(fieldValidation2, serviceFieldNames, config, tableName),
     ).toBe(true);
   });
 });
