@@ -13,7 +13,7 @@
     "grunt-cache-breaker": "^2.0.1",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-compress": "^2.0.0",
-    "grunt-contrib-connect": "^3.0.0",
+    "grunt-contrib-connect": "^4.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-imagemin": "^4.0.0",
     "grunt-contrib-uglify": "^5.2.2",
@@ -26,7 +26,7 @@
     "intern": "^4.8.7",
     "load-grunt-tasks": "5.1.0",
     "signavio-chai-subset": "^1.1.2",
-    "sinon": "^15.2.0",
+    "sinon": "^16.1.0",
     "sinon-chai": "^3.7.0",
     "uglify-js": "^3.17.4"
   },
