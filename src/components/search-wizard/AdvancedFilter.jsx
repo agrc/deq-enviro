@@ -12,15 +12,14 @@ import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
 import stateOfUtahJson from '../../data/state-of-utah.json';
-import { useRemoteConfigString } from 'reactfire';
-import { getLayerByUniqueId } from '../../utils';
+import { getConfigByTableName } from '../../utils';
+import { useRemoteConfigValues } from '../../RemoteConfigProvider';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {
   const [state, send] = useSearchMachine();
 
-  const { data: queryLayersJSON } = useRemoteConfigString('queryLayers');
-  const queryLayers = JSON.parse(queryLayersJSON || '[]');
+  const { queryLayers } = useRemoteConfigValues();
 
   const filterTypes = {
     statewide: {
@@ -63,8 +62,8 @@ export default function AdvancedFilter({ visible }) {
       Component: Attribute,
       props: {
         attributeType: 'name',
-        selectedLayers: state.context.searchLayerIds.map((uniqueId) => {
-          const config = getLayerByUniqueId(uniqueId, queryLayers);
+        selectedLayers: state.context.searchLayerTableNames.map((name) => {
+          const config = getConfigByTableName(name, queryLayers);
 
           return {
             name: config[fieldNames.queryLayers.layerName],
@@ -78,8 +77,8 @@ export default function AdvancedFilter({ visible }) {
       Component: Attribute,
       props: {
         attributeType: 'id',
-        selectedLayers: state.context.searchLayerIds.map((uniqueId) => {
-          const config = getLayerByUniqueId(uniqueId, queryLayers);
+        selectedLayers: state.context.searchLayerTableNames.map((name) => {
+          const config = getConfigByTableName(name, queryLayers);
 
           return {
             name: config[fieldNames.queryLayers.layerName],
@@ -104,16 +103,20 @@ export default function AdvancedFilter({ visible }) {
 
   const [filterType, setFilterType] = useState('statewide');
 
-  // reset filterType when searchLayerIds and filter clear
+  // reset filterType when searchLayerTableNames and filter clear
   useEffect(() => {
     if (
-      state.context.searchLayerIds.length === 0 &&
+      state.context.searchLayerTableNames.length === 0 &&
       state.context.filter.geometry === stateOfUtahJson &&
       filterType !== 'statewide'
     ) {
       setFilterType('statewide');
     }
-  }, [filterType, state.context.filter.geometry, state.context.searchLayerIds]);
+  }, [
+    filterType,
+    state.context.filter.geometry,
+    state.context.searchLayerTableNames,
+  ]);
 
   const getFilterComponent = (filterType) => {
     const { Component, props } = filterTypes[filterType];
@@ -125,11 +128,11 @@ export default function AdvancedFilter({ visible }) {
     <div className={clsx(!visible && 'hidden')}>
       <h3>Selected Map Layers</h3>
       <ul>
-        {state.context.searchLayerIds.map((uniqueId) => (
-          <li key={uniqueId} className="mb-1 flex items-center justify-start">
+        {state.context.searchLayerTableNames.map((name) => (
+          <li key={name} className="mb-1 flex items-center justify-start">
             <span className="leading-5">
               {
-                getLayerByUniqueId(uniqueId, queryLayers)[
+                getConfigByTableName(name, queryLayers)[
                   fieldNames.queryLayers.layerName
                 ]
               }

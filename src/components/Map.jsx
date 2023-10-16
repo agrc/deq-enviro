@@ -24,10 +24,10 @@ import {
   getDefaultRenderer,
   hasDefaultSymbology,
   queryFeatures,
-  getLayerByUniqueId,
+  getConfigByTableName,
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
-import { useRemoteConfigString } from 'reactfire';
+import { useRemoteConfigValues } from '../RemoteConfigProvider';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -123,8 +123,7 @@ export default function MapComponent() {
   };
   useMapGraphic(view.current, filterGraphic);
 
-  const { data: queryLayersJSON } = useRemoteConfigString('queryLayers');
-  const queryLayers = JSON.parse(queryLayersJSON || '[]');
+  const { queryLayers } = useRemoteConfigValues();
 
   const mapDiv = useRef(null);
   useEffect(() => {
@@ -333,7 +332,7 @@ export default function MapComponent() {
         );
         featureLayer.outFields = [featureServiceJson.objectIdField];
         featureLayer.id = `${searchLayerIdPrefix}:${
-          layer[fieldNames.queryLayers.uniqueId]
+          layer[fieldNames.queryLayers.tableName]
         }`;
         featureLayer.popupEnabled = false;
 
@@ -412,7 +411,7 @@ export default function MapComponent() {
         return extent;
       } catch (error) {
         console.error(
-          `error with layer ${layer[fieldNames.queryLayers.uniqueId]}`,
+          `error with layer ${layer[fieldNames.queryLayers.tableName]}`,
           error,
         );
 
@@ -428,9 +427,9 @@ export default function MapComponent() {
       searching.current = true;
 
       const extents = await Promise.all(
-        state.context.searchLayerIds.map((uniqueId) =>
+        state.context.searchLayerTableNames.map((tableName) =>
           searchLayer(
-            getLayerByUniqueId(uniqueId, queryLayers),
+            getConfigByTableName(tableName, queryLayers),
             state.context.filter,
           ),
         ),

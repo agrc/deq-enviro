@@ -1,17 +1,17 @@
 import { fieldNames } from '../../../functions/common/config';
-import { getLayerByUniqueId } from '../../utils';
+import { getConfigByTableName } from '../../utils';
 import ResultStatusIcons from './ResultStatusIcons';
 
 /**
  * @param {object} props
- * @param {string[]} props.searchLayerIds
+ * @param {string[]} props.searchLayerTableNames
  * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
  * @param {object[]} props.results
  * @param {string} props.filterName
  * @returns {JSX.Element}
  */
 export default function SearchProgress({
-  searchLayerIds,
+  searchLayerTableNames,
   queryLayers,
   results,
   filterName,
@@ -20,15 +20,18 @@ export default function SearchProgress({
     <>
       <h3>Search Results</h3>
       <ul>
-        {searchLayerIds.map((uniqueId) => {
-          const config = getLayerByUniqueId(uniqueId, queryLayers);
+        {searchLayerTableNames.map((tableName) => {
+          const config = getConfigByTableName(tableName, queryLayers);
           const resultConfig = results.find(
-            (result) => result[fieldNames.queryLayers.uniqueId] === uniqueId,
+            (result) => result[fieldNames.queryLayers.tableName] === tableName,
           );
           const layerName = config[fieldNames.queryLayers.layerName];
 
           return (
-            <li key={uniqueId} className="mb-1 flex items-center justify-start">
+            <li
+              key={tableName}
+              className="mb-1 flex items-center justify-start"
+            >
               <ResultStatusIcons
                 resultConfig={resultConfig}
                 layerName={layerName}

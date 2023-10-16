@@ -6,6 +6,7 @@ import Link from '../utah-design-system/Link';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
 import { getAlias } from '../utils';
+import RelatedRecords from './RelatedRecords';
 
 const buttonClasses = 'border-none px-2 my-1';
 
@@ -38,11 +39,12 @@ function Cell({ value }) {
  * @param {import('@arcgis/core/geometry/Geometry').default} props.geometry
  * @param {{ text: string; url: string }[]} props.links
  * @param {() => void} props.onBack
+ * @param {import('../../functions/common/config').RelationshipClassConfig[]} props.relationshipClasses
  * @param {import('react').Ref<any>} forwardedRef
  * @returns {JSX.Element}
  */
 function Identify(
-  { attributes, fields, geometry, links, onBack },
+  { attributes, fields, geometry, links, onBack, relationshipClasses },
   forwardedRef,
 ) {
   const { zoom } = useMap();
@@ -67,6 +69,8 @@ function Identify(
   const substituteAttributes = (url) =>
     url.replace(/{([^}]+)}/g, (_, key) => attributes[key]);
 
+  const hasRelationships = relationshipClasses.length > 0;
+
   return (
     <Tabs.Root
       className="min-h-0 flex-1 border-l-0 text-sm"
@@ -76,7 +80,9 @@ function Identify(
     >
       <Tabs.List className="min-w-[175px] data-[orientation=vertical]:border-l-0">
         <Tabs.Trigger value="attributes">Attributes</Tabs.Trigger>
-        <Tabs.Trigger value="related">Related Records</Tabs.Trigger>
+        {hasRelationships ? (
+          <Tabs.Trigger value="related">Related Records</Tabs.Trigger>
+        ) : null}
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
         <Button className={buttonClasses} onClick={() => zoom(geometry)}>
           <Icon name="search" className="mr-2" label="zoom to feature" /> Zoom
@@ -96,7 +102,14 @@ function Identify(
           hideHeaders
         />
       </Tabs.Content>
-      <Tabs.Content value="related">Not yet implemented</Tabs.Content>
+      {hasRelationships ? (
+        <Tabs.Content className="min-w-0" value="related">
+          <RelatedRecords
+            relationshipClasses={relationshipClasses}
+            attributes={attributes}
+          />
+        </Tabs.Content>
+      ) : null}
       <Tabs.Content value="links">
         <div className="flex h-full flex-col justify-around">
           {links.map(({ text, url }) => (

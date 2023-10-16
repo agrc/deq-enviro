@@ -7,30 +7,30 @@ export default {
 
 const queryLayers = [
   {
-    'Unique ID': '0',
+    'Table Name': 'TableName',
     'Layer Name': 'Public Water System Facilities',
   },
   {
-    'Unique ID': '3',
+    'Table Name': 'AnotherTable',
     'Layer Name': 'Public Water Error',
   },
   {
-    'Unique ID': '4',
+    'Table Name': 'TableNext',
     'Layer Name': 'Public Water Still Searching',
   },
   {
-    'Unique ID': '5',
+    'Table Name': 'HelloTable',
     'Layer Name': 'Public Water Still Searching With a Longer Name',
   },
 ];
 
 const results = [
   {
-    'Unique ID': '0',
+    'Table Name': 'TableName',
     features: new Array(1134),
   },
   {
-    'Unique ID': '3',
+    'Table Name': 'AnotherTable',
     error: 'there was an error',
   },
 ];
@@ -38,7 +38,12 @@ const results = [
 export const Default = () => (
   <div className="w-80">
     <SearchProgress
-      searchLayerIds={['0', '3', '4', '5']}
+      searchLayerTableNames={[
+        'TableName',
+        'AnotherTable',
+        'TableNext',
+        'HelloTable',
+      ]}
       // @ts-ignore
       queryLayers={queryLayers}
       results={results}

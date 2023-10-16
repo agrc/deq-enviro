@@ -50,6 +50,13 @@ function callUpdateFunction() {
     }
   }
 
+  if (responseJson.relationshipClassValidationErrors.length > 0) {
+    htmlOutput.append('<h4>Related Table Validation Errors</h4>');
+    for (var rtMessage of responseJson.relationshipClassValidationErrors) {
+      htmlOutput.append(`<p>${rtMessage}</p>`);
+    }
+  }
+
   htmlOutput.append('</div>');
 
   ui.showModalDialog(htmlOutput, title);

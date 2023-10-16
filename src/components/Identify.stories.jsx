@@ -35,6 +35,7 @@ export const Default = () => (
             url: 'https://gis.utah.gov/additional/',
           },
         ]}
+        relationshipClasses={[]}
       />
     </MapProvider>
   </div>

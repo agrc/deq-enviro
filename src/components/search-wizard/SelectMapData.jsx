@@ -39,19 +39,21 @@ export default function SelectMapData({ queryLayers }) {
                   ),
                 )
                 .map((queryLayer) => {
-                  const uniqueId = queryLayer[fieldNames.queryLayers.uniqueId];
+                  const tableName =
+                    queryLayer[fieldNames.queryLayers.tableName];
 
                   return (
                     <QueryLayer
-                      key={uniqueId}
+                      key={tableName}
                       config={queryLayer}
-                      selected={state.context.searchLayerIds.some(
-                        (selectedUniqueId) => selectedUniqueId === uniqueId,
+                      selected={state.context.searchLayerTableNames.some(
+                        (selectedTableName) => selectedTableName === tableName,
                       )}
                       onSelectedChange={(selected) =>
                         send({
                           type: selected ? 'SELECT_LAYER' : 'UNSELECT_LAYER',
-                          uniqueId: queryLayer[fieldNames.queryLayers.uniqueId],
+                          tableName:
+                            queryLayer[fieldNames.queryLayers.tableName],
                         })
                       }
                     />

@@ -62,9 +62,11 @@ export async function queryFeatures(featureLayer, query) {
 }
 
 /**
- * @param {string} id
+ * @param {string} name
  * @param {import('../functions/common/config').QueryLayerConfig[]} layers
  */
-export function getLayerByUniqueId(id, layers) {
-  return layers.find((layer) => layer[fieldNames.queryLayers.uniqueId] === id);
+export function getConfigByTableName(name, layers) {
+  return layers.find(
+    (layer) => layer[fieldNames.queryLayers.tableName] === name,
+  );
 }

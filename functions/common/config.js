@@ -3,7 +3,7 @@ import { array, string } from 'yup';
 // https://github.com/jsdoc/jsdoc/issues/1468
 /**
  * @typedef {{
- *   'Unique ID': string;
+ *   'Table Name': string;
  *   'Layer Name': string;
  *   'Geometry Type': string;
  *   'Division Heading': string;
@@ -29,6 +29,15 @@ import { array, string } from 'yup';
  *   'Feature Service': string;
  *   'Coded Values': string;
  * }} QueryLayerConfig
+ */
+
+/**
+ * @typedef {{
+ *   'Parent Dataset Name': string;
+ *   'Primary Key': string;
+ *   'Related Table Name': string;
+ *   'Foreign Key': string;
+ * }} RelationshipClassConfig
  */
 
 // use a different regex that yup to allow for the {FieldName} syntax
@@ -142,9 +151,9 @@ export const fieldConfigs = {
       name: 'Special Filters',
       schema: string().nullable(),
     },
-    uniqueId: {
-      name: 'Unique ID',
-      schema: string().required(),
+    tableName: {
+      name: 'Table Name',
+      schema: string().nullable(),
     },
   },
   relatedTables: {
@@ -171,7 +180,29 @@ export const fieldConfigs = {
     },
     tableName: {
       name: 'Table Name',
+      schema: string().required(),
+    },
+    tabName: {
+      name: 'Tab Name',
       schema: string().nullable(),
+    },
+  },
+  relationshipClasses: {
+    parentDatasetName: {
+      name: 'Parent Dataset Name',
+      schema: string().required(),
+    },
+    primaryKey: {
+      name: 'Primary Key',
+      schema: string().required(),
+    },
+    relatedTableName: {
+      name: 'Related Table Name',
+      schema: string().required(),
+    },
+    foreignKey: {
+      name: 'Foreign Key',
+      schema: string().required(),
     },
   },
 };
@@ -203,11 +234,13 @@ function getFieldKeys(fieldConfigs) {
 export const fieldNames = {
   queryLayers: getFieldNames(fieldConfigs.queryLayers),
   relatedTables: getFieldNames(fieldConfigs.relatedTables),
+  relationshipClasses: getFieldNames(fieldConfigs.relationshipClasses),
 };
 
 export const fieldKeys = {
   queryLayers: getFieldKeys(fieldConfigs.queryLayers),
   relatedTables: getFieldKeys(fieldConfigs.relatedTables),
+  relationshipClasses: getFieldKeys(fieldConfigs.relationshipClasses),
 };
 
 export const downloadFormats = {

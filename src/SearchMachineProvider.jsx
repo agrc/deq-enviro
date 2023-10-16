@@ -2,23 +2,14 @@ import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import { useMachine } from '@xstate/react';
 import localforage from 'localforage';
 import PropTypes from 'prop-types';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { assign, createMachine } from 'xstate';
 import { downloadFormats, fieldNames } from '../functions/common/config';
 import stateOfUtahJson from './data/state-of-utah.json';
+import { useRemoteConfigValues } from './RemoteConfigProvider';
 
 localforage.config({
   name: 'deq-enviro-search-cache',
-});
-
-const VERSION_KEY = 'searchContextVersion';
-const CURRENT_VERSION = 2; // change this anytime you change the schema of the cache
-localforage.getItem(VERSION_KEY).then((version) => {
-  if (version !== CURRENT_VERSION) {
-    console.warn('new search cache version found, clearing old cache');
-    localforage.clear();
-    localforage.setItem(VERSION_KEY, CURRENT_VERSION);
-  }
 });
 
 const CACHE_KEY = 'searchContext';
@@ -49,7 +40,7 @@ const blankFilter = {
 
 /**
  * @typedef {Object} Context
- * @property {string[]} searchLayerIds
+ * @property {string[]} searchLayerTableNames
  * @property {Filter} filter
  * @property {QueryLayerResult[]} resultLayers
  * @property {Object} resultExtent
@@ -77,7 +68,7 @@ const blankFilter = {
 
 /** @type {Context} */
 const blankContext = {
-  searchLayerIds: [],
+  searchLayerTableNames: [],
   filter: blankFilter,
   /*
     {
@@ -209,7 +200,7 @@ const machine = createMachine(
               .filter(
                 (result) => result.supportsExport && result.features.length > 0,
               )
-              .map((result) => result[fieldNames.queryLayers.uniqueId]),
+              .map((result) => result[fieldNames.queryLayers.tableName]),
         }),
         on: {
           CLEAR: {
@@ -316,16 +307,16 @@ const machine = createMachine(
   {
     actions: {
       clear: assign(() => {
-        cacheSearchContext({ searchLayerIds: [], filter: blankFilter });
+        cacheSearchContext({ searchLayerTableNames: [], filter: blankFilter });
 
         return { ...blankContext };
       }),
       selectLayer: assign({
         // @ts-ignore
-        searchLayerIds: (context, { uniqueId }) => {
-          const newData = [...context.searchLayerIds, uniqueId];
+        searchLayerTableNames: (context, { tableName }) => {
+          const newData = [...context.searchLayerTableNames, tableName];
           cacheSearchContext({
-            searchLayerIds: newData,
+            searchLayerTableNames: newData,
             filter: context.filter,
           });
 
@@ -334,12 +325,12 @@ const machine = createMachine(
       }),
       unselectLayer: assign({
         // @ts-ignore
-        searchLayerIds: (context, { uniqueId }) => {
-          const newData = context.searchLayerIds.filter(
-            (existingId) => existingId !== uniqueId,
+        searchLayerTableNames: (context, { tableName }) => {
+          const newData = context.searchLayerTableNames.filter(
+            (existingId) => existingId !== tableName,
           );
           cacheSearchContext({
-            searchLayerIds: newData,
+            searchLayerTableNames: newData,
             filter: context.filter,
           });
 
@@ -350,7 +341,7 @@ const machine = createMachine(
         // @ts-ignore
         filter: (context, { /** @type {Filter} */ filter }) => {
           cacheSearchContext({
-            searchLayerIds: context.searchLayerIds,
+            searchLayerTableNames: context.searchLayerTableNames,
             filter,
           });
 
@@ -365,6 +356,20 @@ const machine = createMachine(
 export const SearchMachineContext = createContext(null);
 export function SearchMachineProvider({ children }) {
   const [state, send] = useMachine(machine);
+
+  // this get's incremented each time the config spreadsheet is deployed
+  const { version } = useRemoteConfigValues();
+
+  useEffect(() => {
+    const VERSION_KEY = 'searchContextVersion';
+    localforage.getItem(VERSION_KEY).then((cacheVersion) => {
+      if (cacheVersion !== version) {
+        console.warn('new search cache version found, clearing old cache');
+        localforage.clear();
+        localforage.setItem(VERSION_KEY, version);
+      }
+    });
+  }, [version]);
 
   return (
     <SearchMachineContext.Provider value={[state, send]}>

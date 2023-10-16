@@ -12,6 +12,7 @@ import Table from '../utah-design-system/Table';
 import { getAlias } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
+import { useRemoteConfigValues } from '../RemoteConfigProvider';
 
 const padding = 'px-2 py-1';
 
@@ -45,6 +46,9 @@ export default function ResultTable({
 }) {
   const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
 
+  const { relationshipClasses: allRelationshipClasses } =
+    useRemoteConfigValues();
+
   const identify = useCallback(
     async (oid) => {
       /** @type {import('@arcgis/core/rest/support/FeatureSet').default} */
@@ -64,6 +68,11 @@ export default function ResultTable({
         .json();
 
       const attributes = result.features[0].attributes;
+      const relationshipClasses = allRelationshipClasses.filter(
+        (config) =>
+          config[fieldNames.relationshipClasses.parentDatasetName] ===
+          queryLayerResult[fieldNames.queryLayers.tableName],
+      );
 
       setIdentifyResults({
         attributes,
@@ -73,15 +82,16 @@ export default function ResultTable({
           type: result.geometryType,
           spatialReference: result.spatialReference,
         }),
+        relationshipClasses,
       });
     },
-    [queryLayerResult],
+    [allRelationshipClasses, queryLayerResult],
   );
 
   useEffect(() => {
     if (
       selectedGraphicInfo?.layerId ===
-      queryLayerResult[fieldNames.queryLayers.uniqueId]
+      queryLayerResult[fieldNames.queryLayers.tableName]
     ) {
       identify(selectedGraphicInfo.oid);
     }
@@ -107,7 +117,7 @@ export default function ResultTable({
         onClick={() => {
           setSelectedGraphicInfo({
             oid: row.original.OBJECTID,
-            layerId: queryLayerResult[fieldNames.queryLayers.uniqueId],
+            layerId: queryLayerResult[fieldNames.queryLayers.tableName],
           });
         }}
       >
@@ -164,7 +174,7 @@ export default function ResultTable({
       )}
     >
       <Collapsible.Root
-        key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
+        key={queryLayerResult[fieldNames.queryLayers.tableName]}
         className={clsx(
           'group flex w-full flex-col bg-white',
           expanded && 'absolute bottom-0 top-0',
@@ -204,6 +214,7 @@ export default function ResultTable({
               fields={identifyResults.fields}
               links={getLinks()}
               geometry={identifyResults.geometry}
+              relationshipClasses={identifyResults.relationshipClasses}
             />
           ) : (
             <Table

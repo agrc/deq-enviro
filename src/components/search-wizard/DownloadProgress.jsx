@@ -12,14 +12,14 @@ export default function DownloadProgress({ layers, results }) {
       <h3>Download Results</h3>
       <ul>
         {layers.map((searchLayer) => {
-          const uniqueId = searchLayer[fieldNames.queryLayers.uniqueId];
+          const tableName = searchLayer[fieldNames.queryLayers.tableName];
           const resultConfig = results.find(
-            (result) => result.uniqueId === uniqueId,
+            (result) => result.tableName === tableName,
           );
           const layerName = searchLayer[fieldNames.queryLayers.layerName];
 
           return (
-            <li key={uniqueId} className="mb-1">
+            <li key={tableName} className="mb-1">
               <div className="flex items-center justify-start">
                 <ResultStatusIcons
                   resultConfig={resultConfig}
@@ -38,9 +38,9 @@ export default function DownloadProgress({ layers, results }) {
                 <a
                   ref={(node) => {
                     if (node) {
-                      anchorTagRefs.current.set(uniqueId, node);
+                      anchorTagRefs.current.set(tableName, node);
                     } else {
-                      anchorTagRefs.current.delete(uniqueId);
+                      anchorTagRefs.current.delete(tableName);
                     }
                   }}
                   href={resultConfig.url}

@@ -22,6 +22,9 @@ async function main() {
   const newValues = {
     queryLayers: template.parameters.queryLayers.defaultValue.value,
     relatedTables: template.parameters.relatedTables.defaultValue.value,
+    relationshipClasses:
+      template.parameters.relationshipClasses.defaultValue.value,
+    version: template.parameters.version.defaultValue.value,
   };
 
   console.log('writing new values to defaults file');

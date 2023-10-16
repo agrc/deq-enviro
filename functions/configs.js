@@ -54,22 +54,24 @@ async function getConfigs(
   return configs;
 }
 
-export function checkForDuplicateIds(configs) {
-  const ids = configs.map((config) => config[fieldNames.queryLayers.uniqueId]);
-  const uniqueIds = [];
+export function checkForDuplicateTableNames(configs) {
+  const names = configs.map(
+    (config) => config[fieldNames.queryLayers.tableName],
+  );
+  const uniqueNames = [];
   const duplicates = [];
 
-  for (const id of ids) {
-    if (uniqueIds.includes(id)) {
-      duplicates.push(id);
+  for (const name of names) {
+    if (uniqueNames.includes(name)) {
+      duplicates.push(name);
     }
 
-    uniqueIds.push(id);
+    uniqueNames.push(name);
   }
 
   if (duplicates.length) {
     throw new Error(
-      `Duplicate values in the "Unique ID" column detected: ${JSON.stringify(
+      `Duplicate values in the "Table Name" column detected: ${JSON.stringify(
         duplicates,
       )}`,
     );
@@ -136,7 +138,12 @@ const relatedTableFieldValidations = [
   },
 ];
 
-async function validateConfigs(configs, schema, nameField, fieldValidations) {
+async function validateTableConfigs(
+  configs,
+  schema,
+  nameField,
+  fieldValidations,
+) {
   const validationErrors = [];
 
   for (const config of JSON.parse(configs)) {
@@ -179,6 +186,88 @@ async function validateConfigs(configs, schema, nameField, fieldValidations) {
       if (typeof results === 'object' && results.length) {
         validationErrors.push(...results);
       }
+    }
+  }
+
+  return validationErrors;
+}
+
+/**
+ * @param {Object[]} relationshipClasses
+ * @param {Object[]} queryLayers
+ * @param {Object[]} relatedTables
+ * @returns {Promise<string[] | boolean>}
+ */
+async function validateRelationshipClasses(
+  relationshipClasses,
+  queryLayers,
+  relatedTables,
+) {
+  const validationErrors = [];
+
+  const possibleChildNames = relatedTables.map(
+    (config) => config[fieldNames.relatedTables.tableName],
+  );
+  const possibleParentName = [
+    ...queryLayers.map((config) => config[fieldNames.queryLayers.tableName]),
+    // parent name can be a child name
+    ...possibleChildNames,
+  ];
+  const allConfigs = [...queryLayers, ...relatedTables];
+
+  for (const config of relationshipClasses) {
+    const parent = config[fieldNames.relationshipClasses.parentDatasetName];
+    const child = config[fieldNames.relationshipClasses.relatedTableName];
+    const name = `${parent} -> ${child}`;
+
+    if (!possibleParentName.includes(parent)) {
+      validationErrors.push(
+        `${name}: parent dataset name is not a valid query layer name.`,
+      );
+
+      continue;
+    }
+
+    if (!possibleChildNames.includes(child)) {
+      validationErrors.push(
+        `${name}: related table name is not a valid related table name.`,
+      );
+
+      continue;
+    }
+
+    const parentConfig = allConfigs.find(
+      (config) => config[fieldNames.queryLayers.tableName] === parent,
+    );
+    const parentServiceJson = await got(
+      `${parentConfig[fieldNames.queryLayers.featureService]}?f=json`,
+    ).json();
+
+    const results = validateFields(
+      fieldNames.relationshipClasses.primaryKey,
+      parentServiceJson.fields.map((field) => field.name),
+      parentConfig,
+      name,
+    );
+    if (typeof results === 'object' && results.length) {
+      validationErrors.push(...results);
+    }
+
+    const childConfig = relatedTables.find(
+      (config) => config[fieldNames.relatedTables.tableName] === child,
+    );
+    const childServiceJson = await got(
+      `${childConfig[fieldNames.relatedTables.featureService]}?f=json`,
+    ).json();
+
+    const childResults = validateFields(
+      fieldNames.relationshipClasses.foreignKey,
+      childServiceJson.fields.map((field) => field.name),
+      childConfig,
+      name,
+    );
+    if (typeof childResults === 'object' && childResults.length) {
+      validationErrors.push(...childResults);
     }
   }
 
@@ -233,7 +322,11 @@ export function validateFields(
   }
 }
 
-async function updateRemoteConfigs(queryLayers, relatedTables) {
+async function updateRemoteConfigs(
+  queryLayers,
+  relatedTables,
+  relationshipClasses,
+) {
   const remoteConfig = admin.remoteConfig();
 
   console.log('fetching template');
@@ -246,6 +339,9 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
     relatedTables: template.parameters.relatedTables.defaultValue.value,
     // @ts-ignore
     version: template.parameters.version.defaultValue.value,
+    relationshipClasses:
+      // @ts-ignore
+      template.parameters.relationshipClasses.defaultValue.value,
   };
 
   // @ts-ignore
@@ -256,27 +352,37 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
   template.parameters.version.defaultValue.value = (
     parseInt(originalValues.version) + 1
   ).toString();
+  // @ts-ignore
+  template.parameters.relationshipClasses.defaultValue.value =
+    relationshipClasses;
 
   console.log('validating new template');
   await remoteConfig.validateTemplate(template);
 
-  const queryLayerValidationErrors = await validateConfigs(
+  const queryLayerValidationErrors = await validateTableConfigs(
     queryLayers,
     schemas.queryLayers,
     fieldNames.queryLayers.layerName,
     queryLayerFieldValidations,
   );
 
-  const relatedTableValidationErrors = await validateConfigs(
+  const relatedTableValidationErrors = await validateTableConfigs(
     relatedTables,
     schemas.relatedTables,
-    fieldNames.relatedTables.tableName,
+    fieldNames.relatedTables.tabName,
     relatedTableFieldValidations,
+  );
+
+  const relationshipClassValidationErrors = await validateRelationshipClasses(
+    JSON.parse(relationshipClasses),
+    JSON.parse(queryLayers),
+    JSON.parse(relatedTables),
   );
 
   if (
     originalValues.queryLayers === queryLayers &&
-    originalValues.relatedTables === relatedTables
+    originalValues.relatedTables === relatedTables &&
+    originalValues.relationshipClasses === relationshipClasses
   ) {
     return {
       success: true,
@@ -284,6 +390,7 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
         'No changes detected between the config spreadsheet and app configs.',
       queryLayerValidationErrors,
       relatedTableValidationErrors,
+      relationshipClassValidationErrors,
     };
   }
 
@@ -296,6 +403,7 @@ async function updateRemoteConfigs(queryLayers, relatedTables) {
     message: 'App configs updated successfully!',
     queryLayerValidationErrors,
     relatedTableValidationErrors,
+    relationshipClassValidationErrors,
   };
 }
 
@@ -314,8 +422,8 @@ export async function main() {
     fieldKeys.queryLayers,
   );
 
-  console.log('checking for duplicate ids');
-  checkForDuplicateIds(queryLayers);
+  console.log('checking for duplicate table names');
+  checkForDuplicateTableNames(queryLayers);
 
   const relatedTables = await getConfigs(
     "'Related Tables'!A:H",
@@ -325,8 +433,20 @@ export async function main() {
     fieldKeys.relatedTables,
   );
 
+  console.log('checking for duplicate table names');
+  checkForDuplicateTableNames(relatedTables);
+
+  const relationshipClasses = await getConfigs(
+    "'Relationship Classes'!A:E",
+    ['Relationship Name'],
+    authClient,
+    fieldConfigs.relationshipClasses,
+    fieldKeys.relationshipClasses,
+  );
+
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
     JSON.stringify(relatedTables),
+    JSON.stringify(relationshipClasses),
   );
 }

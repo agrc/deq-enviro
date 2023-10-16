@@ -16,17 +16,17 @@ export default {
 
 const queryLayerResult2 = {
   ...queryLayerResult,
-  [fieldNames.queryLayers.uniqueId]: '2',
+  [fieldNames.queryLayers.tableName]: 'TableName',
   [fieldNames.queryLayers.layerName]: 'A longer name than most',
 };
 const queryLayerResult3 = {
   ...queryLayerResult,
-  [fieldNames.queryLayers.uniqueId]: '3',
+  [fieldNames.queryLayers.tableName]: 'DifferentTable',
   [fieldNames.queryLayers.layerName]: 'Different Name',
 };
 const queryLayerResult4 = {
   ...queryLayerResult,
-  [fieldNames.queryLayers.uniqueId]: '4',
+  [fieldNames.queryLayers.tableName]: 'AnotherTable',
   [fieldNames.queryLayers.layerName]:
     'Different Name Wrap a wrappity wrap wrap',
 };
@@ -41,15 +41,15 @@ const layers = [
 export const Default = () => {
   const results = [
     {
-      uniqueId: '18',
+      tableName: 'SomeOtherTable',
       error: 'There was an error!',
     },
     {
-      uniqueId: '3',
+      tableName: 'DifferentTable',
       url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/SITEREM/FeatureServer/replicafilescache/SITEREM_-1519884480040818284.zip',
     },
     {
-      uniqueId: '4',
+      tableName: 'AnotherTable',
       url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/SITEREM/FeatureServer/replicafilescache/SITEREM_-1519884480040818284.zip',
     },
   ];

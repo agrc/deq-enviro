@@ -1,6 +1,6 @@
 {
   "Layer Name": "Brownfields Other",
-  "Unique ID": "18",
+  "Table Name": "Brownfields",
   "SGID Feature Class Name": "SGID.ENVIRONMENT.BFNONTARGETED",
   "Secure": "No",
   "Geometry Type": "point",

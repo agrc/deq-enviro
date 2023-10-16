@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import ky from 'ky';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { useRemoteConfigString } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
 import { useSearchMachine } from '../../SearchMachineProvider.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
+import { useRemoteConfigValues } from '../../RemoteConfigProvider.jsx';
 
 const AdvancedFilter = lazy(() => import('./AdvancedFilter.jsx'));
 const Download = lazy(() => import('./Download.jsx'));
@@ -44,14 +44,14 @@ async function generateZip(layer, format, send) {
   if (response.error) {
     send('RESULT', {
       result: {
-        uniqueId: layer.uniqueId,
+        tableName: layer.tableName,
         error: response.error.message,
       },
     });
   } else {
     send('RESULT', {
       result: {
-        uniqueId: layer.uniqueId,
+        tableName: layer.tableName,
         url: response.responseUrl,
       },
     });
@@ -63,27 +63,23 @@ export default function SearchWizard() {
   const [queryLayers, setQueryLayers] = useState([]);
   // todo - use logEvent from 'firebase/analytics' to log which layers are selected
 
-  const queryLayersConfig = useRemoteConfigString('queryLayers');
+  const { queryLayers: queryLayersConfig } = useRemoteConfigValues();
   useEffect(() => {
-    if (queryLayersConfig.status === 'success') {
-      console.log('validating query layer configs');
-      const validatedQueryLayers = JSON.parse(queryLayersConfig.data).filter(
-        (config) => {
-          try {
-            schemas.queryLayers.validateSync(config);
-            return true;
-          } catch (error) {
-            console.warn(
-              `Invalid Query Layer config for ${
-                config[fieldNames.queryLayers.layerName]
-              }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`,
-            );
-            return false;
-          }
-        },
-      );
-      setQueryLayers(validatedQueryLayers);
-    }
+    console.log('validating query layer configs');
+    const validatedQueryLayers = queryLayersConfig.filter((config) => {
+      try {
+        schemas.queryLayers.validateSync(config);
+        return true;
+      } catch (error) {
+        console.warn(
+          `Invalid Query Layer config for ${
+            config[fieldNames.queryLayers.layerName]
+          }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`,
+        );
+        return false;
+      }
+    });
+    setQueryLayers(validatedQueryLayers);
   }, [queryLayersConfig]);
 
   const downloadMutation = useMutation({
@@ -104,7 +100,10 @@ export default function SearchWizard() {
     }
   }, [advancedFilterTouched, state, state.value]);
 
-  if (queryLayersConfig.status === 'loading' || !state.context.searchLayerIds) {
+  if (
+    queryLayersConfig.status === 'loading' ||
+    !state.context.searchLayerTableNames
+  ) {
     return null;
   }
 
@@ -128,7 +127,7 @@ export default function SearchWizard() {
             ) : null}
             {state.matches('searching') || state.matches('result') ? (
               <Progress
-                searchLayerIds={state.context.searchLayerIds}
+                searchLayerTableNames={state.context.searchLayerTableNames}
                 queryLayers={queryLayers}
                 results={state.context.resultLayers}
                 filterName={state.context.filter.name}
@@ -159,7 +158,7 @@ export default function SearchWizard() {
               <DownloadProgress
                 layers={queryLayers.filter((layer) =>
                   state.context.selectedDownloadLayers.includes(
-                    layer[fieldNames.queryLayers.uniqueId],
+                    layer[fieldNames.queryLayers.tableName],
                   ),
                 )}
                 results={state.context.downloadResultLayers}
@@ -180,16 +179,16 @@ export default function SearchWizard() {
                 size="xl"
                 busy={state.matches('searching')}
                 disabled={
-                  state.context.searchLayerIds.length === 0 ||
+                  state.context.searchLayerTableNames.length === 0 ||
                   (!state.context.filter.geometry &&
                     !state.context.filter.attribute?.values?.length)
                 }
                 onClick={() => send('SEARCH')}
               >
                 Search{' '}
-                {state.context.searchLayerIds.length
-                  ? `${state.context.searchLayerIds.length} Layer${
-                      state.context.searchLayerIds.length > 1 ? 's' : ''
+                {state.context.searchLayerTableNames.length
+                  ? `${state.context.searchLayerTableNames.length} Layer${
+                      state.context.searchLayerTableNames.length > 1 ? 's' : ''
                     }`
                   : null}
               </Button>
@@ -200,7 +199,7 @@ export default function SearchWizard() {
               appearance="outlined"
               color="primary"
               className="w-full"
-              disabled={state.context.searchLayerIds.length === 0}
+              disabled={state.context.searchLayerTableNames.length === 0}
               size="xl"
               onClick={() => send('ADVANCED')}
             >
@@ -253,11 +252,11 @@ export default function SearchWizard() {
                     layers: state.context.resultLayers
                       .filter((result) =>
                         state.context.selectedDownloadLayers.includes(
-                          result[fieldNames.queryLayers.uniqueId],
+                          result[fieldNames.queryLayers.tableName],
                         ),
                       )
                       .map((result) => ({
-                        uniqueId: result[fieldNames.queryLayers.uniqueId],
+                        tableName: result[fieldNames.queryLayers.tableName],
                         featureService:
                           result[fieldNames.queryLayers.featureService],
                         name: result[fieldNames.queryLayers.layerName],

@@ -3,7 +3,7 @@ import { fieldKeys } from './common/config';
 import {
   applyTransforms,
   arraysToObjects,
-  checkForDuplicateIds,
+  checkForDuplicateTableNames,
   validateFields,
   getFieldsFromUrl,
 } from './configs';
@@ -49,23 +49,23 @@ describe('arraysToObjects', () => {
   });
 });
 
-describe('checkForDuplicateIds', () => {
+describe('checkForDuplicateNames', () => {
   it('throws an error if there are duplicate ids', () => {
     const configs = [
-      { 'Unique ID': 'one' },
-      { 'Unique ID': 'two' },
-      { 'Unique ID': 'one' },
+      { 'Table Name': 'one' },
+      { 'Table Name': 'two' },
+      { 'Table Name': 'one' },
     ];
-    expect(() => checkForDuplicateIds(configs)).toThrow();
+    expect(() => checkForDuplicateTableNames(configs)).toThrow();
   });
 
   it('does not throw an error if there are no duplicate ids', () => {
     const configs = [
-      { 'Unique ID': 'one' },
-      { 'Unique ID': 'two' },
-      { 'Unique ID': 'three' },
+      { 'Table Name': 'one' },
+      { 'Table Name': 'two' },
+      { 'Table Name': 'three' },
     ];
-    expect(() => checkForDuplicateIds(configs)).not.toThrow();
+    expect(() => checkForDuplicateTableNames(configs)).not.toThrow();
   });
 });
 
@@ -73,11 +73,11 @@ describe('applyTransforms', () => {
   it('applies transforms to configs', () => {
     const configs = [
       {
-        'Unique ID': 'one',
+        'Table Name': 'one',
         'Result Grid Fields': 'one',
       },
       {
-        'Unique ID': 'two',
+        'Table Name': 'two',
         'Result Grid Fields': 'four',
       },
     ];
@@ -90,11 +90,11 @@ describe('applyTransforms', () => {
 
     const expected = [
       {
-        'Unique ID': 'one',
+        'Table Name': 'one',
         'Result Grid Fields': 'ONE',
       },
       {
-        'Unique ID': 'two',
+        'Table Name': 'two',
         'Result Grid Fields': 'FOUR',
       },
     ];
@@ -107,7 +107,7 @@ describe('applyTransforms', () => {
 
 describe('validateFields', () => {
   const config = {
-    'Unique ID': 'one',
+    'Table Name': 'one',
     'Result Grid Fields': ['one', 'two', 'three'],
     'ID Field': 'one',
     'Layer Name': 'Test Layer',

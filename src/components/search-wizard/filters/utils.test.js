@@ -31,7 +31,7 @@ describe('getWhere', () => {
     },
   ];
   const layerConfig = {
-    'Unique ID': '',
+    'Table Name': '',
     'Layer Name': '',
     'Geometry Type': '',
     'Division Heading': '',

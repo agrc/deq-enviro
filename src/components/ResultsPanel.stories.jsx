@@ -12,21 +12,21 @@ export default {
 export const Default = () => {
   const queryLayerResult2 = {
     ...queryLayerResult,
-    [fieldNames.queryLayers.uniqueId]: '2',
+    [fieldNames.queryLayers.tableName]: 'TableName',
     [fieldNames.queryLayers.layerName]: 'A longer name than most',
   };
   const queryLayerResult3 = {
     ...queryLayerResult,
-    [fieldNames.queryLayers.uniqueId]: '3',
+    [fieldNames.queryLayers.tableName]: 'ATable',
   };
   const errorResult = {
     ...queryLayerResult,
-    [fieldNames.queryLayers.uniqueId]: '4',
+    [fieldNames.queryLayers.tableName]: 'SomeTable',
     error: 'There was an error',
   };
   const noneFoundResult = {
     ...queryLayerResult,
-    [fieldNames.queryLayers.uniqueId]: '5',
+    [fieldNames.queryLayers.tableName]: 'HelloTable',
     features: [],
   };
   const state = {
@@ -39,27 +39,27 @@ export const Default = () => {
         noneFoundResult,
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '6',
+          [fieldNames.queryLayers.tableName]: 'TableName',
         },
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '7',
+          [fieldNames.queryLayers.tableName]: 'AnotherTable',
         },
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '8',
+          [fieldNames.queryLayers.tableName]: 'SomeTable',
         },
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '9',
+          [fieldNames.queryLayers.tableName]: 'TheTable',
         },
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '10',
+          [fieldNames.queryLayers.tableName]: 'NewTable',
         },
         {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.uniqueId]: '11',
+          [fieldNames.queryLayers.tableName]: 'OldTable',
         },
       ],
     },

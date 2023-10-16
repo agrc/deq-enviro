@@ -6,7 +6,7 @@ export default {
 };
 
 const config = {
-  'Unique ID': '0',
+  'Table Name': 'Facilities',
   'Layer Name': 'Public Water System Facilities',
   'SGID Feature Class Name': 'DirectFrom.Source.WSFacilities',
   Secure: 'Yes',

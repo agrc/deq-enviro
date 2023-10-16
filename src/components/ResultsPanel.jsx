@@ -19,7 +19,7 @@ export default function ResultsPanel() {
         state.context.resultLayers.indexOf(
           state.context.resultLayers.find(
             (queryLayerResult) =>
-              queryLayerResult[fieldNames.queryLayers.uniqueId] ===
+              queryLayerResult[fieldNames.queryLayers.tableName] ===
               selectedGraphicInfo.layerId,
           ),
         ),
@@ -63,7 +63,7 @@ export default function ResultsPanel() {
             <ResultTable
               key={
                 state.context.resultLayers[expandedTableIndex][
-                  fieldNames.queryLayers.uniqueId
+                  fieldNames.queryLayers.tableName
                 ]
               }
               queryLayerResult={state.context.resultLayers[expandedTableIndex]}
@@ -73,7 +73,7 @@ export default function ResultsPanel() {
           ) : (
             state.context.resultLayers.map((queryLayerResult, i) => (
               <ResultTable
-                key={queryLayerResult[fieldNames.queryLayers.uniqueId]}
+                key={queryLayerResult[fieldNames.queryLayers.tableName]}
                 queryLayerResult={queryLayerResult}
                 expanded={false}
                 onExpandChange={() => setExpandedTableIndex(i)}

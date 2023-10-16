@@ -14,11 +14,11 @@ export default function Download({
     (result) => !result.error && result.features.length > 0,
   );
 
-  const getOnChangeHandler = (uniqueId) => (checked) => {
+  const getOnChangeHandler = (tableName) => (checked) => {
     if (checked) {
-      setSelectedLayers([...selectedLayers, uniqueId]);
+      setSelectedLayers([...selectedLayers, tableName]);
     } else {
-      setSelectedLayers(selectedLayers.filter((layer) => layer !== uniqueId));
+      setSelectedLayers(selectedLayers.filter((layer) => layer !== tableName));
     }
   };
 
@@ -57,19 +57,19 @@ export default function Download({
     <>
       <h3>Select Data for Download</h3>
       {relevantResultLayers.map((searchLayer) => {
-        const uniqueId = searchLayer[fieldNames.queryLayers.uniqueId];
+        const tableName = searchLayer[fieldNames.queryLayers.tableName];
         const layerName = searchLayer[fieldNames.queryLayers.layerName];
 
         return (
           <Checkbox
-            key={uniqueId}
+            key={tableName}
             checked={
-              searchLayer.supportsExport && selectedLayers.includes(uniqueId)
+              searchLayer.supportsExport && selectedLayers.includes(tableName)
             }
             label={`${layerName}${
               searchLayer.supportsExport ? '' : ' (download not supported)'
             }`}
-            onCheckedChange={getOnChangeHandler(uniqueId)}
+            onCheckedChange={getOnChangeHandler(tableName)}
             disabled={!searchLayer.supportsExport}
           ></Checkbox>
         );

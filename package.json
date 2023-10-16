@@ -102,7 +102,7 @@
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",
-    "@tanstack/react-query": "^4.29.25",
+    "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-table": "^8.9.3",
     "@ugrc/layer-selector": "^6.1.2",
     "@utahdts/utah-design-system-header": "^1.0.1",

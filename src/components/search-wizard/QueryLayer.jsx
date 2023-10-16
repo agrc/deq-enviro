@@ -18,7 +18,7 @@ export default function QueryLayer({
   // filter,
   // onFilterChange,
 }) {
-  const id = `query-layer-${config[fieldNames.queryLayers.uniqueId]}`;
+  const id = `query-layer-${config[fieldNames.queryLayers.tableName]}`;
 
   return (
     <div className="my-2 flex items-center justify-between">
