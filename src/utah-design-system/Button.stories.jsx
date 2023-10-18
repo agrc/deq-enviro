@@ -68,6 +68,9 @@ export const Default = () => (
     <p className="space-y-1">
       <Button>Default</Button>
       <Button className="w-full">Full Width</Button>
+      <div className="w-56">
+        <Button>A really, really long name that wraps</Button>
+      </div>
     </p>
 
     <h3>Link Buttons</h3>
