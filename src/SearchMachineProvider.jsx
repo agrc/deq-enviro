@@ -367,9 +367,11 @@ export function SearchMachineProvider({ children }) {
         console.warn('new search cache version found, clearing old cache');
         localforage.clear();
         localforage.setItem(VERSION_KEY, version);
+
+        send('CLEAR');
       }
     });
-  }, [version]);
+  }, [send, version]);
 
   return (
     <SearchMachineContext.Provider value={[state, send]}>
