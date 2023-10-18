@@ -219,6 +219,7 @@ async function validateRelationshipClasses(
     const parent = config[fieldNames.relationshipClasses.parentDatasetName];
     const child = config[fieldNames.relationshipClasses.relatedTableName];
     const name = `${parent} -> ${child}`;
+    console.log(`validating: ${name}`);
 
     if (!possibleParentName.includes(parent)) {
       validationErrors.push(
@@ -246,7 +247,7 @@ async function validateRelationshipClasses(
     const results = validateFields(
       fieldNames.relationshipClasses.primaryKey,
       parentServiceJson.fields.map((field) => field.name),
-      parentConfig,
+      config,
       name,
     );
     if (typeof results === 'object' && results.length) {
@@ -263,7 +264,7 @@ async function validateRelationshipClasses(
     const childResults = validateFields(
       fieldNames.relationshipClasses.foreignKey,
       childServiceJson.fields.map((field) => field.name),
-      childConfig,
+      config,
       name,
     );
     if (typeof childResults === 'object' && childResults.length) {
