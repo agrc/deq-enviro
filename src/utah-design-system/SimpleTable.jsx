@@ -3,9 +3,18 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import PropTypes from 'prop-types';
 import { twJoin } from 'tailwind-merge';
 
+/**
+ * @typedef {Object} SimpleTableProps
+ * @param {string} props.caption
+ * @param {string} [props.className]
+ * @param {import('@tanstack/react-table').Column[]} props.columns
+ * @param {import('@tanstack/react-table').Row[]} props.data
+ * @param {boolean} [props.hideHeaders]
+ */
+
+/** @param {SimpleTableProps & import('@tanstack/react-table').TableOptions} props */
 function SimpleTable({
   caption,
   className,
@@ -97,24 +106,3 @@ function SimpleTable({
 }
 
 export default SimpleTable;
-
-SimpleTable.propTypes = {
-  caption: PropTypes.string.isRequired,
-  className: PropTypes.string,
-
-  /**
-   * Corresponds to the same prop in react table
-   * (https://tanstack.com/table/v8/docs/api/core/table#columns)
-   */
-  columns: PropTypes.array.isRequired,
-
-  /**
-   * Corresponds to the same prop in react table
-   * (https://tanstack.com/table/v8/docs/api/core/table#data)
-   */
-  data: PropTypes.array.isRequired,
-
-  hideHeaders: PropTypes.bool,
-
-  /** All other props are passed to the useReactTable hook */
-};
