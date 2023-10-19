@@ -434,7 +434,7 @@ export async function main() {
   checkForDuplicateTableNames(queryLayers);
 
   const relatedTables = await getConfigs(
-    "'Related Tables'!A:H",
+    "'Related Tables'!A:I",
     ['Source Data'],
     authClient,
     fieldConfigs.relatedTables,

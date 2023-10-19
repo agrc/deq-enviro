@@ -35,6 +35,7 @@ import { array, string } from 'yup';
 /**
  * @typedef {{
  *   'Additional Information': string;
+ *   'Additional Information Link Fields': string[];
  *   'Feature Service': string;
  *   'Grid Fields': (string | { name: string; alias: string })[];
  *   'OID Field': string;
@@ -191,6 +192,11 @@ export const fieldConfigs = {
     additionalInformation: {
       name: 'Additional Information',
       schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
+    },
+    additionalInformationLinkFields: {
+      name: 'Additional Information Link Fields',
+      scheme: array().nullable(),
+      transform: transformFields,
     },
     featureService: {
       name: 'Feature Service',

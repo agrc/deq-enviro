@@ -14,11 +14,12 @@ const urlRegex = /^https?:\/\/\S*$/;
 
 /**
  * @param {Object} props
- * @param {?(string | number)} props.value
+ * @param {() => ?(string | number)} props.getValue
  * @returns {?(JSX.Element | string | number)}
  */
-function Cell({ value }) {
+export function LinkDetectingCell({ getValue }) {
   // if this is a link, return an anchor tag
+  const value = getValue();
   if (typeof value === 'string' && urlRegex.test(value)) {
     return (
       <Link external href={value}>
@@ -57,7 +58,7 @@ function Identify(
     {
       accessorKey: 'value',
       size: 50,
-      cell: (cellProps) => <Cell value={cellProps.getValue()}></Cell>,
+      cell: LinkDetectingCell,
     },
   ];
 

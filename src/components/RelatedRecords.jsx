@@ -8,6 +8,7 @@ import { getAlias, getConfigByTableName } from '../utils';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import { useCallback, useEffect, useState } from 'react';
 import Tag from './Tag';
+import { LinkDetectingCell } from './Identify';
 
 /**
  * @param {Object} props
@@ -116,16 +117,40 @@ function TabContent({
       searchParams: params,
     }).json();
 
+    const columns = childConfig[fieldNames.relatedTables.gridFields].map(
+      (value) => ({
+        header: value.alias || getAlias(value, featureServiceJson.fields),
+        accessorKey: value.name || value,
+        cell: LinkDetectingCell,
+      }),
+    );
+    const rows = relatedRecords.features.map((feature) => feature.attributes);
+    const additionalInfoUrl =
+      childConfig[fieldNames.relatedTables.additionalInformation]?.trim();
+
+    if (additionalInfoUrl) {
+      const additionalInfoFields =
+        childConfig[fieldNames.relatedTables.additionalInformationLinkFields];
+
+      for (const row of rows) {
+        row.additionalInfoLink = `${additionalInfoUrl}&${additionalInfoFields
+          .map((field) => `${field}=${row[field]}`)
+          .join('&')}`;
+      }
+
+      // columns
+      columns.splice(2, 0, {
+        header: 'Additional Information',
+        accessorKey: 'additionalInfoLink',
+        cell: LinkDetectingCell,
+      });
+    }
+
     return {
       childTableName,
       tabName: childConfig[fieldNames.relatedTables.tabName],
-      rows: relatedRecords.features.map((feature) => feature.attributes),
-      columns: childConfig[fieldNames.relatedTables.gridFields].map(
-        (value) => ({
-          header: value.alias || getAlias(value, featureServiceJson.fields),
-          accessorKey: value.name || value,
-        }),
-      ),
+      rows,
+      columns,
     };
   }
 
