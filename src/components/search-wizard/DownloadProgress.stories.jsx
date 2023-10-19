@@ -47,6 +47,7 @@ export const Default = () => {
     {
       tableName: 'DifferentTable',
       url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/SITEREM/FeatureServer/replicafilescache/SITEREM_-1519884480040818284.zip',
+      features: [{}, {}],
     },
     {
       tableName: 'AnotherTable',

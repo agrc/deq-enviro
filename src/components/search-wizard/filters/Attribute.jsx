@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Input from '../../../utah-design-system/Input';
 import RadioGroup from '../../../utah-design-system/RadioGroup';
+import Tag from '../../Tag';
 
 const attributeTypes = {
   id: {
@@ -68,9 +69,7 @@ export default function Attribute({ send, attributeType, selectedLayers }) {
         <div key={name} className="leading-5">
           {name}
           <br></br>
-          <span className="rounded-full bg-slate-100 px-2 py-0 text-sm">
-            {field}
-          </span>
+          <Tag>{field}</Tag>
         </div>
       ))}
 

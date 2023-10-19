@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
+import Tag from '../Tag';
 
 export default function DownloadProgress({ layers, results }) {
   const anchorTagRefs = useRef(new Map());
@@ -28,9 +29,7 @@ export default function DownloadProgress({ layers, results }) {
                 <span className="leading-5">
                   {layerName}
                   {resultConfig?.features ? (
-                    <span className="ml-1 rounded-full bg-slate-100 px-2 py-0 text-sm">
-                      {resultConfig.features.length.toLocaleString()}
-                    </span>
+                    <Tag>{resultConfig.features.length.toLocaleString()}</Tag>
                   ) : null}
                 </span>
               </div>

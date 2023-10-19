@@ -13,6 +13,7 @@ import { getAlias } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
 import { useRemoteConfigValues } from '../RemoteConfigProvider';
+import Tag from './Tag';
 
 const padding = 'px-2 py-1';
 
@@ -201,9 +202,9 @@ export default function ResultTable({
             <span className="ml-2 flex h-full items-center justify-center group-hover/trigger:underline">
               {layerName}
             </span>
-            <span className="ml-1 flex h-full items-center justify-center rounded-full bg-slate-100 px-2 py-0 text-sm">
+            <Tag className="flex h-full items-center justify-center">
               {rows.length.toLocaleString()}
-            </span>
+            </Tag>
           </button>
         </Collapsible.Trigger>
         <Collapsible.Content asChild>
