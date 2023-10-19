@@ -6,6 +6,8 @@ import Spinner from '../utah-design-system/Spinner';
 import ky from 'ky';
 import { getConfigByTableName } from '../utils';
 import SimpleTable from '../utah-design-system/SimpleTable';
+import { useCallback, useEffect, useState } from 'react';
+import Tag from './Tag';
 
 /**
  * @param {Object} props
@@ -15,6 +17,11 @@ import SimpleTable from '../utah-design-system/SimpleTable';
  */
 export default function RelatedRecords({ relationshipClasses, attributes }) {
   const { relatedTables } = useRemoteConfigValues();
+  const [counts, setCounts] = useState({});
+
+  const updateCount = useCallback((childTableName, count) => {
+    setCounts((counts) => ({ ...counts, [childTableName]: count }));
+  }, []);
 
   return (
     <Tabs.Root
@@ -38,6 +45,9 @@ export default function RelatedRecords({ relationshipClasses, attributes }) {
           return (
             <Tabs.Trigger key={childTableName} value={childTableName}>
               {childConfig[fieldNames.relatedTables.tabName]}
+              {counts[childTableName] !== undefined ? (
+                <Tag>{counts[childTableName]}</Tag>
+              ) : null}
             </Tabs.Trigger>
           );
         })}
@@ -51,13 +61,18 @@ export default function RelatedRecords({ relationshipClasses, attributes }) {
           }
           relationshipClassConfig={relationshipClassConfig}
           parentAttributes={attributes}
+          updateCount={updateCount}
         />
       ))}
     </Tabs.Root>
   );
 }
 
-function TabContent({ relationshipClassConfig, parentAttributes }) {
+function TabContent({
+  relationshipClassConfig,
+  parentAttributes,
+  updateCount,
+}) {
   const { relatedTables } = useRemoteConfigValues();
   const childTableName =
     relationshipClassConfig[fieldNames.relationshipClasses.relatedTableName];
@@ -77,11 +92,16 @@ function TabContent({ relationshipClassConfig, parentAttributes }) {
      * @property {Object[]} fields
      */
     const featureServiceJson = await ky(`${featureServiceUrl}?f=json`).json();
-    const fieldType = featureServiceJson.fields.find(
+    const field = featureServiceJson.fields.find(
       (field) => field.name === foreignKeyField,
-    ).type;
+    );
 
-    const wrapper = fieldType === 'esriFieldTypeString' ? `'` : '';
+    if (!field)
+      throw new Error(
+        `Foreign key field: "${foreignKeyField}" not found in child table: "${childTableName}"!`,
+      );
+
+    const wrapper = field.type === 'esriFieldTypeString' ? `'` : '';
     const where = `${foreignKeyField} = ${wrapper}${parentAttributes[primaryKeyField]}${wrapper}`;
 
     const params = {
@@ -116,19 +136,51 @@ function TabContent({ relationshipClassConfig, parentAttributes }) {
     queryFn: getData,
   });
 
+  const Wrapper = ({ children }) => (
+    <Tabs.Content value={childTableName}>{children}</Tabs.Content>
+  );
+
+  useEffect(() => {
+    if (query.data) {
+      updateCount(childTableName, query.data.rows.length);
+    }
+  }, [childTableName, query.data, updateCount]);
+
   if (query.status === 'loading') {
-    return <Spinner ariaLabel="loading indicator" />;
+    return (
+      <Wrapper>
+        <div className="flex h-full w-full items-center justify-center">
+          <Spinner
+            ariaLabel="loading indicator"
+            size="custom"
+            className="h-10 w-10"
+          />
+        </div>
+      </Wrapper>
+    );
   }
 
   if (query.status === 'error') {
-    return <div>error getting related data</div>;
+    return (
+      <Wrapper>
+        <div className="px-2 text-error-500">
+          <p>There was an error getting the related data:</p>
+          <p>
+            {
+              // @ts-ignore
+              query.error?.message
+            }
+          </p>
+        </div>
+      </Wrapper>
+    );
   }
 
   return (
-    <Tabs.Content value={childTableName}>
+    <Wrapper>
       {query.data.rows.length > 0 ? (
         <SimpleTable
-          className="h-full w-full overflow-x-auto"
+          className="h-full min-h-0 w-full overflow-auto"
           data={query.data.rows}
           columns={query.data.columns}
           caption={`${childTableName} records`}
@@ -136,6 +188,6 @@ function TabContent({ relationshipClassConfig, parentAttributes }) {
       ) : (
         <div className="px-2">No related records found.</div>
       )}
-    </Tabs.Content>
+    </Wrapper>
   );
 }
