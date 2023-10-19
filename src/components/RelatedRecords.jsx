@@ -4,7 +4,7 @@ import * as Tabs from '../utah-design-system/Tabs';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../utah-design-system/Spinner';
 import ky from 'ky';
-import { getConfigByTableName } from '../utils';
+import { getAlias, getConfigByTableName } from '../utils';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import { useCallback, useEffect, useState } from 'react';
 import Tag from './Tag';
@@ -116,18 +116,16 @@ function TabContent({
       searchParams: params,
     }).json();
 
-    const oidField = featureServiceJson.objectIdField || 'OBJECTID';
-
     return {
       childTableName,
       tabName: childConfig[fieldNames.relatedTables.tabName],
       rows: relatedRecords.features.map((feature) => feature.attributes),
-      columns: featureServiceJson.fields
-        .filter((field) => field.name !== oidField)
-        .map((field) => ({
-          Header: field.alias,
-          accessorKey: field.name,
-        })),
+      columns: childConfig[fieldNames.relatedTables.gridFields].map(
+        (value) => ({
+          header: value.alias || getAlias(value, featureServiceJson.fields),
+          accessorKey: value.name || value,
+        }),
+      ),
     };
   }
 

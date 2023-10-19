@@ -20,6 +20,7 @@ import { array, string } from 'yup';
  *   'Map Label Field': string;
  *   'Sort Field': string;
  *   'Identify Attributes': string;
+ *   'Result Grid Fields': (string | { name: string; alias: string })[];
  *   'Related Tables': string;
  *   'Document Search': string;
  *   'GRAMA Request': string;
@@ -29,6 +30,18 @@ import { array, string } from 'yup';
  *   'Feature Service': string;
  *   'Coded Values': string;
  * }} QueryLayerConfig
+ */
+
+/**
+ * @typedef {{
+ *   'Additional Information': string;
+ *   'Feature Service': string;
+ *   'Grid Fields': (string | { name: string; alias: string })[];
+ *   'OID Field': string;
+ *   'SGID Table Name': string;
+ *   'Table Name': string;
+ *   'Tab Name': string;
+ * }} RelatedTableConfig
  */
 
 /**
@@ -44,8 +57,21 @@ import { array, string } from 'yup';
 const urlRegex = /https?:\/\//i;
 const invalidUrl = '"${value}" must be a valid URL ("{" and "}" are allowed)';
 
-function commaSeparatedStringToArray(value) {
-  return value.split(',').map((v) => v.trim());
+export function transformFields(value) {
+  const entries = value.split(',').map((v) => v.trim());
+
+  return entries.map((entry) => {
+    const match = entry.match(/^(.*)\(([^()]*(?:\([^()]*\)[^()]*)*)\)$/);
+
+    if (match) {
+      return {
+        name: match[1].trim(),
+        alias: match[2].trim(),
+      };
+    }
+
+    return entry;
+  });
 }
 
 export const fieldConfigs = {
@@ -132,8 +158,8 @@ export const fieldConfigs = {
     },
     resultGridFields: {
       name: 'Result Grid Fields',
-      schema: array().of(string()).required(),
-      transform: commaSeparatedStringToArray,
+      schema: array().required(),
+      transform: transformFields,
     },
     sgidFeatureClassName: {
       name: 'SGID Feature Class Name',
@@ -167,8 +193,8 @@ export const fieldConfigs = {
     },
     gridFields: {
       name: 'Grid Fields',
-      schema: array().of(string()).required(),
-      transform: commaSeparatedStringToArray,
+      schema: array().required(),
+      transform: transformFields,
     },
     oidField: {
       name: 'OID Field',

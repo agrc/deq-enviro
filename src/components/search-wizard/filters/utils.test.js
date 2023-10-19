@@ -52,6 +52,7 @@ describe('getWhere', () => {
     'Sort Field': '',
     'Identify Attributes': '',
     'Related Tables': '',
+    'Result Grid Fields': [],
     'Document Search': '',
     'GRAMA Request': '',
     'Permit Information': '',

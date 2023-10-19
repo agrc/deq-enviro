@@ -184,91 +184,69 @@ const data = [
 ];
 const columns = [
   {
-    Header: 'FACILITYID',
     accessorKey: 'FACILITYID',
   },
   {
-    Header: 'TANKID',
     accessorKey: 'TANKID',
   },
   {
-    Header: 'ALTTANKID',
     accessorKey: 'ALTTANKID',
   },
   {
-    Header: 'FEDERALREG',
     accessorKey: 'FEDERALREG',
   },
   {
-    Header: 'ABOVETANK',
     accessorKey: 'ABOVETANK',
   },
   {
-    Header: 'REGAST',
     accessorKey: 'REGAST',
   },
   {
-    Header: 'TANKEMERGE',
     accessorKey: 'TANKEMERGE',
   },
   {
-    Header: 'TANKSTATUS',
     accessorKey: 'TANKSTATUS',
   },
   {
-    Header: 'TANKCAPACI',
     accessorKey: 'TANKCAPACI',
   },
   {
-    Header: 'SUBSTANCED',
     accessorKey: 'SUBSTANCED',
   },
   {
-    Header: 'SUBSTANCET',
     accessorKey: 'SUBSTANCET',
   },
   {
-    Header: 'TANKMATDES',
     accessorKey: 'TANKMATDES',
   },
   {
-    Header: 'TANKMODSDE',
     accessorKey: 'TANKMODSDE',
   },
   {
-    Header: 'PIPEMATDES',
     accessorKey: 'PIPEMATDES',
   },
   {
-    Header: 'PIPEMODDES',
     accessorKey: 'PIPEMODDES',
   },
   {
-    Header: 'DATEINSTAL',
     accessorKey: 'DATEINSTAL',
   },
   {
-    Header: 'DATECLOSE',
     accessorKey: 'DATECLOSE',
   },
   {
-    Header: 'CLOSURESTA',
     accessorKey: 'CLOSURESTA',
   },
   {
-    Header: 'INCOMPLIAN',
     accessorKey: 'INCOMPLIAN',
   },
   {
-    Header: 'PST_FUND',
     accessorKey: 'PST_FUND',
   },
   {
-    Header: 'OTHERTYPE',
     accessorKey: 'OTHERTYPE',
   },
   {
-    Header: 'FORKLIFT_HASH',
     accessorKey: 'FORKLIFT_HASH',
   },
 ];

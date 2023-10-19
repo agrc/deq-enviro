@@ -118,6 +118,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
+      // @ts-ignore
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toMatchInlineSnapshot(`
         [
@@ -131,6 +132,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
+      // @ts-ignore
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
   });
@@ -142,6 +144,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one', 'two', 'three'];
 
     expect(
+      // @ts-ignore
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
   });
@@ -150,6 +153,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
+      // @ts-ignore
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
 
@@ -159,6 +163,7 @@ describe('validateFields', () => {
     };
 
     expect(
+      // @ts-ignore
       validateFields(fieldValidation2, serviceFieldNames, config, tableName),
     ).toBe(true);
   });

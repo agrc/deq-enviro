@@ -32,6 +32,7 @@ const config = {
   'Identify Attributes':
     'SYSFACID (System-Facility ID), SYSNUMBER (System Number), SYSNAME (System Name), FACID (Facility Identifier), FACNAME (Facility Name), FACTYPEDESC (Facility Type Description), FACTYPECODE (Facility Type Code), FACACTIVITY (Facility Activity Status), SYSTYPE (System Type), SYSACTIVITY (System Activity Status), SYSPOPULATION (System Population), SYSPOPWHSALE (System Wholesale Population), SYSPHONE (System Phone), SYSPHONEEXT (System Phone Extension), SYSADDRESS1 (System Address1), SYSADDRESS2 (System Address2), SYSCITY (System City), SYSSTATE (System State), SYSZIP (System ZIP Code)\\n',
   'Related Tables': 'None',
+  'Result Grid Fields': [],
   'Document Search':
     'http://168.178.6.56/TabsPage.aspx?AI_PageConfigID=100001&DivName=DDW',
   'GRAMA Request':

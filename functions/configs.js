@@ -278,7 +278,9 @@ async function validateRelationshipClasses(
 /**
  * @param {FieldValidation} fieldValidation
  * @param {string[]} serviceFieldNames
- * @param {Object} config
+ * @param {import('./common/config.js').QueryLayerConfig &
+ *   import('./common/config.js').RelatedTableConfig &
+ *   import('./common/config.js').RelationshipClassConfig} config
  * @param {string} configName
  * @returns {string[] | boolean}
  */
@@ -299,7 +301,11 @@ export function validateFields(
       validationFieldNames = [configValue];
     } else {
       // must be array
-      validationFieldNames = configValue?.length ? configValue : [];
+      validationFieldNames = configValue?.length
+        ? configValue.map((value) =>
+            typeof value === 'string' ? value : value.name,
+          )
+        : [];
     }
   } else {
     configProp = fieldValidation.configProp;

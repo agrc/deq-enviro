@@ -379,7 +379,9 @@ export default function MapComponent() {
         const query = featureLayer.createQuery();
         query.where = featureLayer.definitionExpression;
         query.outFields = [
-          ...layer[fieldNames.queryLayers.resultGridFields],
+          ...layer[fieldNames.queryLayers.resultGridFields].map((value) =>
+            typeof value === 'string' ? value : value.name,
+          ),
           featureServiceJson.objectIdField || 'OBJECTID',
         ];
         query.returnGeometry = false;

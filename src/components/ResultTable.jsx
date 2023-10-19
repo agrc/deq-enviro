@@ -100,10 +100,11 @@ export default function ResultTable({
 
   const columns = useMemo(
     () =>
+      // field could be a string or object
       queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
-        (field) => ({
-          accessorKey: field,
-          header: getAlias(field, queryLayerResult.fields),
+        (value) => ({
+          accessorKey: value.name || value,
+          header: value.alias || getAlias(value, queryLayerResult.fields),
         }),
       ),
     [queryLayerResult],
