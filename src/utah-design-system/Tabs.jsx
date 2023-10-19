@@ -74,7 +74,7 @@ export function Trigger({ className, children, ...props }) {
       )}
       {...props}
     >
-      <h5 className="inline-block rounded-full px-2 group-hover/tab:bg-slate-200">
+      <h5 className="inline-flex items-center justify-center rounded-full px-2 group-hover/tab:bg-slate-200">
         {children}
       </h5>
     </RadixTabs.Trigger>
@@ -92,6 +92,9 @@ export function Trigger({ className, children, ...props }) {
  */
 export function Content({ className, ...props }) {
   return (
-    <RadixTabs.Content className={twMerge('flex-1', className)} {...props} />
+    <RadixTabs.Content
+      className={twMerge('min-h-0 flex-1', className)}
+      {...props}
+    />
   );
 }
