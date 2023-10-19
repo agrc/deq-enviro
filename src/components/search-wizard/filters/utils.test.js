@@ -60,6 +60,7 @@ describe('getWhere', () => {
     Comments: '',
     'Feature Service': '',
     'Coded Values': '',
+    'Identify Fields': [],
   };
   it('returns null if attributeFilterConfig is empty', () => {
     expect(

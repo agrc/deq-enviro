@@ -271,7 +271,7 @@ export default function SearchWizard() {
                   },
                 )
               }
-              busy={downloadMutation.isLoading}
+              busy={downloadMutation.isPending}
             >
               Generate Downloads
             </Button>
