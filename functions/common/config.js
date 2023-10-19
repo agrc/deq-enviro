@@ -19,7 +19,7 @@ import { array, string } from 'yup';
  *   'Legend Title': string;
  *   'Map Label Field': string;
  *   'Sort Field': string;
- *   'Identify Attributes': string;
+ *   'Identify Fields': (string | { name: string; alias: string })[];
  *   'Result Grid Fields': (string | { name: string; alias: string })[];
  *   'Related Tables': string;
  *   'Document Search': string;
@@ -115,6 +115,11 @@ export const fieldConfigs = {
     gramaRequest: {
       name: 'GRAMA Request',
       schema: string().matches(urlRegex, { message: invalidUrl }).nullable(),
+    },
+    identifyFields: {
+      name: 'Identify Fields',
+      schema: array().required(),
+      transform: transformFields,
     },
     idField: {
       name: 'ID Field',

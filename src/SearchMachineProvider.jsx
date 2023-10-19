@@ -51,14 +51,15 @@ const blankFilter = {
  */
 
 /**
- * @typedef {Object & import('../functions/common/config').QueryLayerConfig} QueryLayerResult
- * @property {JSX.Element} [error]
- * @property {import('@arcgis/core/Graphic')[]} [features]
- * @property {Object} [fields]
- * @property {number} [count]
- * @property {string[]} [supportedExportFormats]
- * @property {boolean} [supportsExport]
- * @property {import('@arcgis/core/layers/FeatureLayer')} [featureLayer]
+ * @typedef {import('../functions/common/config').QueryLayerConfig & {
+ *   error: JSX.Element;
+ *   features: import('@arcgis/core/Graphic').default[];
+ *   fields: object[];
+ *   count: number;
+ *   supportedExportFormats: string[];
+ *   supportsExport: boolean;
+ *   featureLayer: import('@arcgis/core/layers/FeatureLayer').default;
+ * }} QueryLayerResult
  */
 
 /**

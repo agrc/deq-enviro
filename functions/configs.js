@@ -104,6 +104,7 @@ export function getFieldsFromUrl(url) {
 /** @type {FieldValidation[]} > */
 const queryLayerFieldValidations = [
   fieldNames.queryLayers.resultGridFields,
+  fieldNames.queryLayers.identifyFields,
   fieldNames.queryLayers.oidField,
   fieldNames.queryLayers.idField,
   fieldNames.queryLayers.nameField,
@@ -171,7 +172,7 @@ async function validateTableConfigs(
 
     if (!supportsExport(serviceJSON)) {
       validationErrors.push(
-        `Query Layer - ${configName}: feature service does not support export/downloading!`,
+        `${configName}: feature service does not support export/downloading!`,
       );
     }
 
@@ -193,9 +194,9 @@ async function validateTableConfigs(
 }
 
 /**
- * @param {Object[]} relationshipClasses
- * @param {Object[]} queryLayers
- * @param {Object[]} relatedTables
+ * @param {import('./common/config.js').RelationshipClassConfig[]} relationshipClasses
+ * @param {import('./common/config.js').QueryLayerConfig[]} queryLayers
+ * @param {import('./common/config.js').RelatedTableConfig[]} relatedTables
  * @returns {Promise<string[] | boolean>}
  */
 async function validateRelationshipClasses(
@@ -278,9 +279,9 @@ async function validateRelationshipClasses(
 /**
  * @param {FieldValidation} fieldValidation
  * @param {string[]} serviceFieldNames
- * @param {import('./common/config.js').QueryLayerConfig &
- *   import('./common/config.js').RelatedTableConfig &
- *   import('./common/config.js').RelationshipClassConfig} config
+ * @param {| import('./common/config.js').QueryLayerConfig
+ *   | import('./common/config.js').RelatedTableConfig
+ *   | import('./common/config.js').RelationshipClassConfig} config
  * @param {string} configName
  * @returns {string[] | boolean}
  */

@@ -52,6 +52,9 @@ export default function ResultTable({
 
   const identify = useCallback(
     async (oid) => {
+      const configIdentifyFields =
+        queryLayerResult[fieldNames.queryLayers.identifyFields];
+
       /** @type {import('@arcgis/core/rest/support/FeatureSet').default} */
       const result = await ky
         .get(
@@ -60,7 +63,10 @@ export default function ResultTable({
             searchParams: {
               f: 'json',
               where: `OBJECTID = ${oid}`,
-              outFields: '*',
+              outFields:
+                configIdentifyFields.length > 0
+                  ? configIdentifyFields.map((field) => field.name).join(',')
+                  : '*',
               returnGeometry: true,
               outSR: 3857,
             },
@@ -74,10 +80,12 @@ export default function ResultTable({
           config[fieldNames.relationshipClasses.parentDatasetName] ===
           queryLayerResult[fieldNames.queryLayers.tableName],
       );
+      const fields =
+        configIdentifyFields.length > 0 ? configIdentifyFields : result.fields;
 
       setIdentifyResults({
         attributes,
-        fields: result.fields,
+        fields,
         geometry: fromJSON({
           ...result.features[0].geometry,
           type: result.geometryType,
