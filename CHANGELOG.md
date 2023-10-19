@@ -1,5 +1,43 @@
 # Changelog
 
+## [2.0.0-20](https://github.com/agrc/deq-enviro/compare/v2.0.0-19...v2.0.0-20) (2023-10-19)
+
+
+### 🚀 Features
+
+* add additional information links to related tables ([a468adf](https://github.com/agrc/deq-enviro/commit/a468adf60daede0b12542be74942d6b2f645defa))
+* add config support for identify field aliases ([6948c41](https://github.com/agrc/deq-enviro/commit/6948c4120ad543a48c2f40c17d704bc4c462f1e5))
+* add counts to related table tabs ([d2cdf08](https://github.com/agrc/deq-enviro/commit/d2cdf088be043c299f10d3167fa4d58ae6b675cc))
+* add field name validation to config deploy function ([425718b](https://github.com/agrc/deq-enviro/commit/425718b2c4272d186f96ebdddc81914f2d762f7f))
+* add related tables config validation ([46105b3](https://github.com/agrc/deq-enviro/commit/46105b3bcbf9d0ef89cded2b8cbede8a9278e4a4))
+* add support for field aliases via config spreadsheet in related table grid fields ([d31fe36](https://github.com/agrc/deq-enviro/commit/d31fe3696320791a02238a5e27c41855b63a912d))
+* basic related records implementation ([cfca8ee](https://github.com/agrc/deq-enviro/commit/cfca8ee1c0550b1ddb7f8acaf38b3e21ed8c6de9))
+
+
+### 🐛 Bug Fixes
+
+* account for missing objectIdField service json prop ([c5f4878](https://github.com/agrc/deq-enviro/commit/c5f48783290a545a8fdf5be86b119d477f56b6eb))
+* apply default opacity to point result layers ([7ccdb93](https://github.com/agrc/deq-enviro/commit/7ccdb93139c73c23d2ba39014ac81e2b95df647b)), closes [#574](https://github.com/agrc/deq-enviro/issues/574)
+* better calculation for the number of features requested at a time ([e1ce804](https://github.com/agrc/deq-enviro/commit/e1ce80435ea231b8c910339af755ab319af3048c))
+* cache unique layer ids rather than entire config ([9b7ecc1](https://github.com/agrc/deq-enviro/commit/9b7ecc1233529428aa9234562c147a695795f77b))
+* clear current search if search cache is cleared ([35624a7](https://github.com/agrc/deq-enviro/commit/35624a7432fcb693feefbe1840ee8ebdd341f76b))
+* fix bug causing results panel resize handle to become disconnected from the top of the panel ([ab53741](https://github.com/agrc/deq-enviro/commit/ab537414a3966b40e8cfb6f212a4e794d7739fce))
+* fix storybook/vite issues ([046027f](https://github.com/agrc/deq-enviro/commit/046027f412ecd530562b7504515d181b45cc7a3f))
+* **functions:** fix relationship class field name validation ([b357963](https://github.com/agrc/deq-enviro/commit/b357963428b6c14c0ccfa4c3d9f0ca355c1dcaec))
+* linting errors ([f4c8ed4](https://github.com/agrc/deq-enviro/commit/f4c8ed465109479e4c38905170964238c5d2af2c))
+* simplify firebase config and update measurement id ([fa3b91a](https://github.com/agrc/deq-enviro/commit/fa3b91a656e7c8ef99d82787c087664d4a786949))
+* **tabs:** layout improvements ([00b8045](https://github.com/agrc/deq-enviro/commit/00b80458825b23d9617b3f9e018e2e9e1d1b44c0))
+
+
+### 🌲 Dependencies
+
+* bump deps ([c04fc6a](https://github.com/agrc/deq-enviro/commit/c04fc6ae513c9fa35a828eddef4b1478324c7b9d))
+
+
+### 📖 Documentation Improvements
+
+* **simple-table:** add storybook stories ([a1678ec](https://github.com/agrc/deq-enviro/commit/a1678ec109dc3f626426dd24012368d2e93b8dde))
+
 ## [2.0.0-19](https://github.com/agrc/deq-enviro/compare/v2.0.0-18...v2.0.0-19) (2023-09-22)
 
 
