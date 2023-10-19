@@ -63,10 +63,7 @@ export default function ResultTable({
             searchParams: {
               f: 'json',
               where: `OBJECTID = ${oid}`,
-              outFields:
-                configIdentifyFields.length > 0
-                  ? configIdentifyFields.map((field) => field.name).join(',')
-                  : '*',
+              outFields: '*', // don't restrict this since we don't know what the primary key field might be
               returnGeometry: true,
               outSR: 3857,
             },

@@ -94,7 +94,7 @@ export function getFieldsFromUrl(url) {
 }
 
 /**
- * @typedef {| {
+ * @typedef {{
  *       configProp: string;
  *       getFieldNames: (value: string) => string[];
  *     }
@@ -279,7 +279,7 @@ async function validateRelationshipClasses(
 /**
  * @param {FieldValidation} fieldValidation
  * @param {string[]} serviceFieldNames
- * @param {| import('./common/config.js').QueryLayerConfig
+ * @param {import('./common/config.js').QueryLayerConfig
  *   | import('./common/config.js').RelatedTableConfig
  *   | import('./common/config.js').RelationshipClassConfig} config
  * @param {string} configName

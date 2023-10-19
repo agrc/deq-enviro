@@ -10,3 +10,4 @@ CHANGELOG.md
 /_src
 /tests_old
 /scripts
+/src/remote_config_defaults.json

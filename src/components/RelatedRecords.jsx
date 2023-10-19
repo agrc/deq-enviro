@@ -144,7 +144,7 @@ function TabContent({
     }
   }, [childTableName, query.data, updateCount]);
 
-  if (query.status === 'loading') {
+  if (query.isPending) {
     return (
       <Wrapper>
         <div className="flex h-full w-full items-center justify-center">
@@ -158,7 +158,7 @@ function TabContent({
     );
   }
 
-  if (query.status === 'error') {
+  if (query.isError) {
     return (
       <Wrapper>
         <div className="px-2 text-error-500">

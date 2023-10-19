@@ -17,7 +17,7 @@ import { twJoin, twMerge } from 'tailwind-merge';
  * @param {boolean} [props.required]
  * @param {number} [props.step]
  * @param {import('react').ReactNode} [props.suffix]
- * @param {| 'date'
+ * @param {'date'
  *   | 'datetime-local'
  *   | 'email'
  *   | 'hidden'
