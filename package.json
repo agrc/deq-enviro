@@ -26,7 +26,7 @@
     "intern": "^4.8.7",
     "load-grunt-tasks": "5.1.0",
     "signavio-chai-subset": "^1.1.2",
-    "sinon": "^16.1.0",
+    "sinon": "^17.0.0",
     "sinon-chai": "^3.7.0",
     "uglify-js": "^3.17.4"
   },
