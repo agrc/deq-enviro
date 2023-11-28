@@ -55,6 +55,7 @@ function App() {
         imageUrl: '/deq_logo.png',
       },
       mainMenu: null,
+      skipLinkUrl: '#select-map-data',
       title: 'Environmental Interactive Map',
       titleURL: null,
       utahId: false,
