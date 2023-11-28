@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-21](https://github.com/agrc/deq-enviro/compare/v2.0.0-20...v2.0.0-21) (2023-11-28)
+
+
+### 🐛 Bug Fixes
+
+* add skip link to remove warning from UDS header ([7b4d3b2](https://github.com/agrc/deq-enviro/commit/7b4d3b2f11b958361407f68fc963b6f8f9c62552))
+* bump deps 🌲 and nodejs version for functions ([aca57fb](https://github.com/agrc/deq-enviro/commit/aca57fbcd4ed10e8c99cb0106e732b905c2b0672))
+
 ## [2.0.0-20](https://github.com/agrc/deq-enviro/compare/v2.0.0-19...v2.0.0-20) (2023-10-19)
 
 
