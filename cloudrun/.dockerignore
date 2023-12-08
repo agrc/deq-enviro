@@ -1,0 +1,4 @@
+.dockerignore
+**/__pycache__/
+**/*.egg-info
+*.ipynb

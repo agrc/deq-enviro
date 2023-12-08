@@ -44,7 +44,7 @@ jobs:
     if: github.ref_name == 'dev' && needs.release-please.outputs.release_created
 
     steps:
-      - name: 🚀 Deploy
+      - name: 🚀 Deploy Firebase
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
@@ -66,6 +66,22 @@ jobs:
           VITE_WEB_API_KEY: ${{ secrets.VITE_WEB_API_KEY }}
           NODE_OPTIONS: --max-old-space-size=7168
 
+      - name: 🚀 Deploy Cloud Run
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
+        with:
+          docker-context: ./cloudrun
+          docker-file: ./cloudrun/Dockerfile
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          service: api
+          flags: |
+            --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+            --max-instances=10
+            --min-instances=0
+            --allow-unauthenticated
+            --memory=1G
+
   deploy-prod:
     name: Deploy to production
     runs-on: ubuntu-latest
@@ -76,7 +92,7 @@ jobs:
     if: github.ref_name == 'main' && needs.release-please.outputs.release_created
 
     steps:
-      - name: 🚀 Deploy
+      - name: 🚀 Deploy Firebase
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
@@ -102,3 +118,19 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_DISCOVER_KEY: ${{ secrets.VITE_DISCOVER_KEY }}
           VITE_WEB_API_KEY: ${{ secrets.VITE_WEB_API_KEY }}
+
+      - name: 🚀 Deploy Cloud Run
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
+        with:
+          docker-context: ./cloudrun
+          docker-file: ./cloudrun/Dockerfile
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          service: api
+          flags: |
+            --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+            --max-instances=10
+            --min-instances=0
+            --allow-unauthenticated
+            --memory=1G

@@ -1,0 +1,35 @@
+{
+  "build": {
+    "dockerfile": "../cloudrun/Dockerfile",
+    "target": "dev"
+  },
+  "containerEnv": {
+    "STORAGE_EMULATOR_HOST": "http://host.docker.internal:9199",
+    "GOOGLE_APPLICATION_CREDENTIALS": "/gcp/config/application_default_credentials.json",
+    "CLOUDSDK_CONFIG": "/gcp/config/application_default_credentials.json"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5000
+  ],
+  "mounts": [
+    {
+      "source": "${localEnv:HOME}/.config/gcloud",
+      "target": "/gcp/config,readonly",
+      "type": "bind"
+    }
+  ],
+  "postCreateCommand": "cd cloudrun && ./dev.sh",
+  "runArgs": [
+    "--network=host" // allows the container to access the host's network
+  ]
+}
