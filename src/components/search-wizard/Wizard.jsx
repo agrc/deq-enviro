@@ -98,9 +98,9 @@ export default function SearchWizard() {
     mutationFn: async ({ layers, format }) => {
       send('DOWNLOADING');
 
-      /** @type {{ success: boolean; error?: string; url?: string }} */
+      /** @type {{ success: boolean; error?: string; id?: string }} */
       const result = await ky
-        .post(import.meta.env.VITE_DOWNLOAD_URL, {
+        .post(`${import.meta.env.VITE_DOWNLOAD_URL}/generate`, {
           json: {
             layers,
             format,
@@ -110,7 +110,11 @@ export default function SearchWizard() {
         .json();
 
       if (result.success) {
-        send('COMPLETE', { url: result.url });
+        send('COMPLETE', {
+          url: `${import.meta.env.VITE_DOWNLOAD_URL}/download/${
+            result.id
+          }/data.gdb.zip`, // this helps the browser name the file correctly
+        });
       } else {
         send('ERROR', { error: new Error(result.error) });
       }

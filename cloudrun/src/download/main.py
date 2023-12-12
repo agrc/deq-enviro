@@ -3,7 +3,7 @@ Download server.
 """
 from flask import Flask, request
 from .download import download, cleanup
-from .upload import upload
+from . import bucket
 from dotenv import load_dotenv
 
 from flask_cors import CORS
@@ -17,8 +17,8 @@ FlaskJSON(app)
 CORS(app)
 
 
-@app.post("/")
-def main():
+@app.post("/generate")
+def generate():
     """
     Main entry point for the server.
     """
@@ -28,8 +28,18 @@ def main():
     try:
         output_path = download(layers, format)
 
-        url = upload(output_path)
+        id = bucket.upload(output_path)
     finally:
         cleanup()
 
-    return {"url": url, "success": True}
+    return {"id": id, "success": True}
+
+
+@app.get("/download/<id>/data.gdb.zip")
+def get_file(id):
+    """
+    Download a file.
+    """
+    stream = bucket.download(id)
+
+    return stream, 200, {"Content-Type": "application/zip"}
