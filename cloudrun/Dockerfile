@@ -11,6 +11,8 @@ RUN apt install -y git
 
 FROM base as prod
 
+COPY . .
+
 RUN pip install arcgis==2.* --no-deps
 RUN pip install .
 RUN pip install gunicorn
