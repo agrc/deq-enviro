@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-26](https://github.com/agrc/deq-enviro/compare/v2.0.0-25...v2.0.0-26) (2023-12-12)
+
+
+### 🐛 Bug Fixes
+
+* add cloud run service to content security policy ([977b207](https://github.com/agrc/deq-enviro/commit/977b207b6a09c736c4cd8634fdb241e11954cd7b))
+
 ## [2.0.0-25](https://github.com/agrc/deq-enviro/compare/v2.0.0-24...v2.0.0-25) (2023-12-12)
 
 
