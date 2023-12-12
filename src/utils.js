@@ -70,3 +70,15 @@ export function getConfigByTableName(name, layers) {
     (layer) => layer[fieldNames.queryLayers.tableName] === name,
   );
 }
+
+/**
+ * @param {string} tableName
+ * @param {import('../functions/common/config').RelationshipClassConfig[]} allRelationships
+ * @returns {import('../functions/common/config').RelationshipClassConfig[]}
+ */
+export function getRelationships(tableName, allRelationships) {
+  return allRelationships.filter(
+    (config) =>
+      config[fieldNames.relationshipClasses.parentDatasetName] === tableName,
+  );
+}

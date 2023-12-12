@@ -9,7 +9,7 @@ import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
-import { getAlias } from '../utils';
+import { getAlias, getRelationships } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
 import { useRemoteConfigValues } from '../RemoteConfigProvider';
@@ -72,10 +72,9 @@ export default function ResultTable({
         .json();
 
       const attributes = result.features[0].attributes;
-      const relationshipClasses = allRelationshipClasses.filter(
-        (config) =>
-          config[fieldNames.relationshipClasses.parentDatasetName] ===
-          queryLayerResult[fieldNames.queryLayers.tableName],
+      const relationshipClasses = getRelationships(
+        queryLayerResult[fieldNames.queryLayers.tableName],
+        allRelationshipClasses,
       );
       const fields =
         configIdentifyFields.length > 0 ? configIdentifyFields : result.fields;

@@ -7,13 +7,14 @@ export default {
   component: DownloadProgress,
   decorators: [
     (Story) => (
-      <div className="w-80">
+      <div className="w-80 border">
         <Story />
       </div>
     ),
   ],
 };
 
+/** @type {import('../../../functions/common/config').QueryLayerConfig} */
 const queryLayerResult2 = {
   ...queryLayerResult,
   [fieldNames.queryLayers.tableName]: 'TableName',
@@ -38,22 +39,20 @@ const layers = [
   queryLayerResult4,
 ];
 
-export const Default = () => {
-  const results = [
-    {
-      tableName: 'SomeOtherTable',
-      error: 'There was an error!',
-    },
-    {
-      tableName: 'DifferentTable',
-      url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/SITEREM/FeatureServer/replicafilescache/SITEREM_-1519884480040818284.zip',
-      features: [{}, {}],
-    },
-    {
-      tableName: 'AnotherTable',
-      url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/SITEREM/FeatureServer/replicafilescache/SITEREM_-1519884480040818284.zip',
-    },
-  ];
+export const Pending = () => {
+  return <DownloadProgress layers={layers} url={null} />;
+};
 
-  return <DownloadProgress layers={layers} results={results} />;
+export const Success = () => {
+  return <DownloadProgress layers={layers} url="https://google.com" />;
+};
+
+export const ErrorMessage = () => {
+  return (
+    <DownloadProgress
+      layers={layers}
+      url={null}
+      error={new Error('test error message')}
+    />
+  );
 };

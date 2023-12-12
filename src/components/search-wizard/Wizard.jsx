@@ -8,65 +8,53 @@ import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
 import { useRemoteConfigValues } from '../../RemoteConfigProvider.jsx';
+import { getConfigByTableName, getRelationships } from '../../utils.js';
+
+/**
+ * @typedef {{
+ *   tableName: string;
+ *   url: string;
+ *   primary: string;
+ *   foreign: string;
+ *   name: string;
+ * }} DownloadRelationship
+ */
+
+/**
+ * @typedef {{
+ *   tableName: string;
+ *   url: string;
+ *   objectIds: number[];
+ *   relationships: DownloadRelationship[];
+ * }} DownloadLayer
+ */
 
 const AdvancedFilter = lazy(() => import('./AdvancedFilter.jsx'));
 const Download = lazy(() => import('./Download.jsx'));
 const DownloadProgress = lazy(() => import('./DownloadProgress.jsx'));
 const Progress = lazy(() => import('./SearchProgress.jsx'));
 
-async function generateZip(layer, format, send) {
-  const layerUrl = layer.featureService;
-  const parentUrl = layerUrl.substring(0, layerUrl.lastIndexOf('/'));
-  const layerIndex = layerUrl.substring(layerUrl.lastIndexOf('/') + 1);
-  const params = new URLSearchParams({
-    layers: layerIndex,
-    layerQueries: JSON.stringify({
-      [layerIndex]: { where: `OBJECTID IN (${layer.objectIds.join(',')})` },
-    }),
-    syncModel: 'none',
-    dataFormat: format,
-    f: 'json',
-  });
-
-  /** @type {{ error?: { message: string }; responseUrl?: string }} */
-  let response;
-  try {
-    response = await ky
-      .post(`${parentUrl}/createReplica`, {
-        body: params,
-        timeout: 120 * 60 * 1000,
-      })
-      .json();
-  } catch (error) {
-    response = { error };
-  }
-
-  if (response.error) {
-    send('RESULT', {
-      result: {
-        tableName: layer.tableName,
-        error: response.error.message,
-      },
-    });
-  } else {
-    send('RESULT', {
-      result: {
-        tableName: layer.tableName,
-        url: response.responseUrl,
-      },
-    });
-  }
-}
-
 export default function SearchWizard() {
   const [state, send] = useSearchMachine();
-  const [queryLayers, setQueryLayers] = useState([]);
+  const [datasetConfigs, setDatasetConfigs] = useState({
+    queryLayers: [],
+    relatedTables: [],
+  });
   // todo - use logEvent from 'firebase/analytics' to log which layers are selected
 
-  const { queryLayers: queryLayersConfig } = useRemoteConfigValues();
+  const { relationshipClasses: allRelationshipClasses } =
+    useRemoteConfigValues();
+
+  const { queryLayers: queryLayerConfigs, relatedTables: relatedTableConfigs } =
+    useRemoteConfigValues();
   useEffect(() => {
-    console.log('validating query layer configs');
-    const validatedQueryLayers = queryLayersConfig.filter((config) => {
+    if (!queryLayerConfigs || !relatedTableConfigs) {
+      return;
+    }
+
+    console.log('validating dataset configs');
+
+    const validatedQueryLayers = queryLayerConfigs.filter((config) => {
       try {
         schemas.queryLayers.validateSync(config);
         return true;
@@ -79,16 +67,53 @@ export default function SearchWizard() {
         return false;
       }
     });
-    setQueryLayers(validatedQueryLayers);
-  }, [queryLayersConfig]);
+
+    const validatedRelatedTables = relatedTableConfigs.filter((config) => {
+      try {
+        schemas.relatedTables.validateSync(config);
+        return true;
+      } catch (error) {
+        console.warn(
+          `Invalid Related Table config for ${
+            config[fieldNames.relatedTable.tableName]
+          }: \n${error.message} \n${JSON.stringify(config, null, 2)})}`,
+        );
+        return false;
+      }
+    });
+
+    setDatasetConfigs({
+      queryLayers: validatedQueryLayers,
+      relatedTables: validatedRelatedTables,
+    });
+  }, [queryLayerConfigs, relatedTableConfigs]);
 
   const downloadMutation = useMutation({
-    // @ts-ignore
+    /**
+     * @param {{
+     *   layers: DownloadLayer[];
+     *   format: string;
+     * }} params
+     */
     mutationFn: async ({ layers, format }) => {
       send('DOWNLOADING');
-      return await Promise.all(
-        layers.map((layer) => generateZip(layer, format, send)),
-      );
+
+      /** @type {{ success: boolean; error?: string; url?: string }} */
+      const result = await ky
+        .post(import.meta.env.VITE_DOWNLOAD_URL, {
+          json: {
+            layers,
+            format,
+          },
+          timeout: 1000 * 60 * 5,
+        })
+        .json();
+
+      if (result.success) {
+        send('COMPLETE', { url: result.url });
+      } else {
+        send('ERROR', { error: new Error(result.error) });
+      }
     },
   });
 
@@ -101,7 +126,7 @@ export default function SearchWizard() {
   }, [advancedFilterTouched, state, state.value]);
 
   if (
-    queryLayersConfig.status === 'loading' ||
+    queryLayerConfigs.status === 'loading' ||
     !state.context.searchLayerTableNames
   ) {
     return null;
@@ -123,12 +148,12 @@ export default function SearchWizard() {
             }
           >
             {state.matches('selectLayers') ? (
-              <SelectMapData queryLayers={queryLayers} />
+              <SelectMapData queryLayers={datasetConfigs.queryLayers} />
             ) : null}
             {state.matches('searching') || state.matches('result') ? (
               <Progress
                 searchLayerTableNames={state.context.searchLayerTableNames}
-                queryLayers={queryLayers}
+                queryLayers={datasetConfigs.queryLayers}
                 results={state.context.resultLayers}
                 filterName={state.context.filter.name}
               />
@@ -142,8 +167,6 @@ export default function SearchWizard() {
             {state.matches('download') ? (
               <Download
                 searchResultLayers={state.context.resultLayers}
-                // @ts-ignore
-                mutation={downloadMutation}
                 selectedLayers={state.context.selectedDownloadLayers}
                 setSelectedLayers={(newIds) =>
                   send('SET_SELECTED_LAYERS', { selectedLayers: newIds })
@@ -156,12 +179,13 @@ export default function SearchWizard() {
             ) : null}
             {state.matches('downloading') ? (
               <DownloadProgress
-                layers={queryLayers.filter((layer) =>
+                layers={datasetConfigs.queryLayers.filter((layer) =>
                   state.context.selectedDownloadLayers.includes(
                     layer[fieldNames.queryLayers.tableName],
                   ),
                 )}
-                results={state.context.downloadResultLayers}
+                error={downloadMutation.error}
+                url={state.context.downloadResultUrl}
               />
             ) : null}
           </Suspense>
@@ -247,7 +271,6 @@ export default function SearchWizard() {
               size="xl"
               onClick={() =>
                 downloadMutation.mutate(
-                  // @ts-ignore
                   {
                     layers: state.context.resultLayers
                       .filter((result) =>
@@ -257,12 +280,42 @@ export default function SearchWizard() {
                       )
                       .map((result) => ({
                         tableName: result[fieldNames.queryLayers.tableName],
-                        featureService:
-                          result[fieldNames.queryLayers.featureService],
-                        name: result[fieldNames.queryLayers.layerName],
+                        url: result[fieldNames.queryLayers.featureService],
                         objectIds: result.features.map(
                           (feature) => feature.attributes.OBJECTID,
                         ),
+                        relationships: getRelationships(
+                          result[fieldNames.queryLayers.tableName],
+                          allRelationshipClasses,
+                        ).map((relationship) => ({
+                          tableName:
+                            relationship[
+                              fieldNames.relationshipClasses.relatedTableName
+                            ],
+                          url: getConfigByTableName(
+                            relationship[
+                              fieldNames.relationshipClasses.relatedTableName
+                            ],
+                            datasetConfigs.relatedTables,
+                          )[fieldNames.queryLayers.featureService],
+                          primary:
+                            relationship[
+                              fieldNames.relationshipClasses.primaryKey
+                            ],
+                          foreign:
+                            relationship[
+                              fieldNames.relationshipClasses.foreignKey
+                            ],
+                          name: `${
+                            relationship[
+                              fieldNames.relationshipClasses.parentDatasetName
+                            ]
+                          }_TO_${
+                            relationship[
+                              fieldNames.relationshipClasses.relatedTableName
+                            ]
+                          }`,
+                        })),
                       })),
                     format: state.context.downloadFormat,
                   },
@@ -273,7 +326,7 @@ export default function SearchWizard() {
               }
               busy={downloadMutation.isPending}
             >
-              Generate Downloads
+              Generate Zip File
             </Button>
           ) : null}
           {state.matches('download') || state.matches('downloading') ? (

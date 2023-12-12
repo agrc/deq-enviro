@@ -45,7 +45,7 @@ const blankFilter = {
  * @property {QueryLayerResult[]} resultLayers
  * @property {Object} resultExtent
  * @property {string[]} selectedDownloadLayers
- * @property {Object[]} downloadResultLayers
+ * @property {string} downloadResultUrl
  * @property {string} downloadFormat
  * @property {string | null} error
  */
@@ -80,7 +80,7 @@ const blankContext = {
   resultLayers: null,
   resultExtent: null,
   selectedDownloadLayers: [],
-  downloadResultLayers: [],
+  downloadResultUrl: null,
   downloadFormat: downloadFormats.shapefile,
   error: null,
 };
@@ -159,7 +159,7 @@ const machine = createMachine(
           resultLayers: [],
           resultExtent: null,
           error: null,
-          downloadResultLayers: [],
+          downloadResultUrl: null,
           downloadFormat: downloadFormats.shapefile,
           selectedDownloadLayers: [],
         }),
@@ -224,7 +224,7 @@ const machine = createMachine(
       },
       download: {
         entry: assign({
-          downloadResultLayers: [],
+          downloadResultUrl: null,
         }),
         on: {
           CLEAR: {
@@ -256,16 +256,12 @@ const machine = createMachine(
           error: null,
         }),
         on: {
-          RESULT: {
+          COMPLETE: {
             actions: assign({
               // @ts-ignore
-              downloadResultLayers: (context, { result }) => [
-                ...context.downloadResultLayers,
-                result,
-              ],
+              downloadResultUrl: (_, { url }) => url,
             }),
           },
-          // generic error with download (not specific to a query layer)
           ERROR: {
             target: 'error',
             actions: assign({
@@ -273,22 +269,11 @@ const machine = createMachine(
               error: (_, { message }) => message,
             }),
           },
-          COMPLETE: {
-            target: 'result',
-            actions: assign({
-              // @ts-ignore
-              resultExtent: (_, { extent }) => extent,
-            }),
-          },
           CANCEL: {
             target: 'download',
           },
           BACK: {
             target: 'download',
-          },
-          CLEAR: {
-            target: 'selectLayers',
-            actions: 'clear',
           },
         },
       },

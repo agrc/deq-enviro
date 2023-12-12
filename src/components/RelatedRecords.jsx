@@ -84,9 +84,8 @@ function TabContent({
     relationshipClassConfig[fieldNames.relationshipClasses.foreignKey];
 
   async function getData() {
-    const featureServiceUrl = `${
-      childConfig[fieldNames.relatedTables.featureService]
-    }`;
+    const featureServiceUrl =
+      childConfig[fieldNames.relatedTables.featureService];
 
     /**
      * @type {Object} FeatureServiceJson
