@@ -77,6 +77,7 @@ jobs:
             --min-instances=0
             --allow-unauthenticated
             --memory=4G
+            --concurrency=1
 
   deploy-prod:
     name: Deploy to production
@@ -126,3 +127,4 @@ jobs:
             --min-instances=0
             --allow-unauthenticated
             --memory=4G
+            --concurrency=1
