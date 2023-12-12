@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-25](https://github.com/agrc/deq-enviro/compare/v2.0.0-24...v2.0.0-25) (2023-12-12)
+
+
+### 🐛 Bug Fixes
+
+* better text for download button ([22e7723](https://github.com/agrc/deq-enviro/commit/22e77231f28793adc88b329db4e2ef241d99961d))
+
 ## [2.0.0-24](https://github.com/agrc/deq-enviro/compare/v2.0.0-23...v2.0.0-24) (2023-12-12)
 
 
