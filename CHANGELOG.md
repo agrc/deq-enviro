@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-29](https://github.com/agrc/deq-enviro/compare/v2.0.0-28...v2.0.0-29) (2023-12-12)
+
+
+### 🐛 Bug Fixes
+
+* **download:** increase memory limit ([b5646de](https://github.com/agrc/deq-enviro/commit/b5646debd390b1066ae4b0f779019fc268100e94))
+* **download:** only allow one request per instance ([f324f4a](https://github.com/agrc/deq-enviro/commit/f324f4a089920850bb9695b58a6f2a2671c0da43))
+
 ## [2.0.0-28](https://github.com/agrc/deq-enviro/compare/v2.0.0-27...v2.0.0-28) (2023-12-12)
 
 
