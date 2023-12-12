@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0-22](https://github.com/agrc/deq-enviro/compare/v2.0.0-21...v2.0.0-22) (2023-12-12)
+
+
+### 🚀 Features
+
+* **download:** basic bootstrap of cloud run service and dev environment ([ea8bc4a](https://github.com/agrc/deq-enviro/commit/ea8bc4a8d54b9aced5e2f1b11945d13644e4078a))
+* wire up front end to download service ([9ccdd94](https://github.com/agrc/deq-enviro/commit/9ccdd94168f0cc2be80194fd89354c62980eaf8c))
+
+
+### 🐛 Bug Fixes
+
+* use cloudrun as proxy for downloading zip file from bucket ([f223799](https://github.com/agrc/deq-enviro/commit/f223799c01f6fa3eb8a058e1539ef94aee5d08f7))
+
 ## [2.0.0-21](https://github.com/agrc/deq-enviro/compare/v2.0.0-20...v2.0.0-21) (2023-11-28)
 
 
