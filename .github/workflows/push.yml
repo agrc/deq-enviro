@@ -76,7 +76,7 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=1G
+            --memory=4G
 
   deploy-prod:
     name: Deploy to production
@@ -125,4 +125,4 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=1G
+            --memory=4G
