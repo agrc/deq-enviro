@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-24](https://github.com/agrc/deq-enviro/compare/v2.0.0-23...v2.0.0-24) (2023-12-12)
+
+
+### 🐛 Bug Fixes
+
+* add download URL environment variable and corresponding secret ([51ae17e](https://github.com/agrc/deq-enviro/commit/51ae17ed1a1eaf5ae0c421acd4f70dfaec21aa0b))
+* fix environment variable and secret names ([e5c6353](https://github.com/agrc/deq-enviro/commit/e5c635371f73e00554f07e1737d2eab37104e1e6))
+
 ## [2.0.0-23](https://github.com/agrc/deq-enviro/compare/v2.0.0-22...v2.0.0-23) (2023-12-12)
 
 
