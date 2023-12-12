@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-23](https://github.com/agrc/deq-enviro/compare/v2.0.0-22...v2.0.0-23) (2023-12-12)
+
+
+### 🐛 Bug Fixes
+
+* **download:** copy source files in prod container ([dbc81d4](https://github.com/agrc/deq-enviro/commit/dbc81d4bc497aa3540eb95c11cc89b5aa31c61e9))
+
 ## [2.0.0-22](https://github.com/agrc/deq-enviro/compare/v2.0.0-21...v2.0.0-22) (2023-12-12)
 
 
