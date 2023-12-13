@@ -17,4 +17,4 @@ RUN pip install arcgis==2.* --no-deps
 RUN pip install .
 RUN pip install gunicorn
 
-CMD exec gunicorn --bind :$PORT download.main:app
+CMD exec gunicorn --bind :$PORT --timeout 0 download.main:app
