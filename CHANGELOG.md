@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-30](https://github.com/agrc/deq-enviro/compare/v2.0.0-29...v2.0.0-30) (2023-12-13)
+
+
+### 🐛 Bug Fixes
+
+* remove gunicorn timeout ([79debb2](https://github.com/agrc/deq-enviro/commit/79debb2acdf0bef0119bc347a91e576b9fd4d0c4))
+
 ## [2.0.0-29](https://github.com/agrc/deq-enviro/compare/v2.0.0-28...v2.0.0-29) (2023-12-12)
 
 
