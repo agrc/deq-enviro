@@ -202,7 +202,7 @@ def drinking_water_join(crate, app_feature_class):
 
     logger.info('exporting data')
     joined_df.spatial.project(3857, transformation_name='NAD_1983_To_WGS_1984_5')
-    joined_df.spatial.to_featureclass(app_feature_class, overwrite=True)
+    joined_df.spatial.to_featureclass(app_feature_class, overwrite=True, sanitize_columns=False)
 
 
 def table_to_points(crate, app_feature_class, source_name, sgid_name):
