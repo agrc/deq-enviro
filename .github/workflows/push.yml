@@ -15,6 +15,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  MEMORY: 4G
+
 jobs:
   release-please:
     name: Create release
@@ -76,7 +79,7 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=4G
+            --memory=$MEMORY
             --concurrency=1
 
   deploy-prod:
@@ -126,5 +129,5 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=4G
+            --memory=$MEMORY
             --concurrency=1
