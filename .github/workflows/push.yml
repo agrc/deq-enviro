@@ -79,7 +79,7 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=$MEMORY
+            --memory=${{ env.MEMORY }}
             --concurrency=1
 
   deploy-prod:
@@ -129,5 +129,5 @@ jobs:
             --max-instances=10
             --min-instances=0
             --allow-unauthenticated
-            --memory=$MEMORY
+            --memory=${{ env.MEMORY }}
             --concurrency=1
