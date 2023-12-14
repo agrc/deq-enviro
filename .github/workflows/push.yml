@@ -17,6 +17,7 @@ concurrency:
 
 env:
   MEMORY: 4G
+  TIMEOUT: 20m
 
 jobs:
   release-please:
@@ -80,6 +81,7 @@ jobs:
             --min-instances=0
             --allow-unauthenticated
             --memory=${{ env.MEMORY }}
+            --timeout=${{ env.TIMEOUT }}
             --concurrency=1
 
   deploy-prod:
@@ -130,4 +132,5 @@ jobs:
             --min-instances=0
             --allow-unauthenticated
             --memory=${{ env.MEMORY }}
+            --timeout=${{ env.TIMEOUT }}
             --concurrency=1
