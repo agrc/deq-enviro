@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-31](https://github.com/agrc/deq-enviro/compare/v2.0.0-30...v2.0.0-31) (2023-12-14)
+
+
+### 🐛 Bug Fixes
+
+* fix env var syntax ([6cc338a](https://github.com/agrc/deq-enviro/commit/6cc338a3ba466d1fcaea4e05f28c09ac4c2f72ba))
+
 ## [2.0.0-30](https://github.com/agrc/deq-enviro/compare/v2.0.0-29...v2.0.0-30) (2023-12-13)
 
 
