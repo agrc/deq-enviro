@@ -30,7 +30,7 @@ export default function DownloadProgress({ layers, url, error }) {
       {url ? (
         <a
           href={url}
-          download="data.gdb.zip"
+          download="data.zip"
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
         >
           <Icon className="mr-2" name="arrowDown" label="download" /> Download

@@ -113,7 +113,7 @@ export default function SearchWizard() {
         send('COMPLETE', {
           url: `${import.meta.env.VITE_DOWNLOAD_URL}/download/${
             result.id
-          }/data.gdb.zip`, // this helps the browser name the file correctly
+          }/data.zip`, // this helps the browser name the file correctly
         });
       } else {
         send('ERROR', { error: new Error(result.error) });

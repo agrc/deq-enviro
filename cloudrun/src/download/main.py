@@ -2,7 +2,7 @@
 Download server.
 """
 from flask import Flask, request
-from .download import download, cleanup
+from .agol import download, cleanup
 from . import bucket
 from dotenv import load_dotenv
 
@@ -10,6 +10,16 @@ from flask_cors import CORS
 from flask_json import FlaskJSON
 
 load_dotenv()
+
+formats = [
+    "csv",
+    "excel",
+    "filegdb",
+    "geojson",
+    "geoPackage",
+    "shapefile",
+    "sqlite",
+]
 
 # pylint: disable=C0103
 app = Flask(__name__)
@@ -25,6 +35,9 @@ def generate():
     layers = request.json["layers"]
     format = request.json["format"]
 
+    if format not in formats:
+        return {"success": False, "error": f"invalid format value: {format}"}, 400
+
     try:
         output_path = download(layers, format)
 
@@ -35,7 +48,7 @@ def generate():
     return {"id": id, "success": True}
 
 
-@app.get("/download/<id>/data.gdb.zip")
+@app.get("/download/<id>/data.zip")
 def get_file(id):
     """
     Download a file.

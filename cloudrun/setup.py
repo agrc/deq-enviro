@@ -39,6 +39,7 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
+        "google-cloud-logging==3.*",
         "google-cloud-storage==2.*",
         "flask-cors==4.*",
         "flask-json==0.4",
