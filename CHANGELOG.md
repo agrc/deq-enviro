@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-33](https://github.com/agrc/deq-enviro/compare/v2.0.0-32...v2.0.0-33) (2023-12-15)
+
+
+### 🐛 Bug Fixes
+
+* **download:** handle empty relationships ([83ea0f9](https://github.com/agrc/deq-enviro/commit/83ea0f90a8603008015ea2024b009ef21565638d))
+* remove unused formats ([671d006](https://github.com/agrc/deq-enviro/commit/671d00674efd200141069d226f981562d9a2b4f5))
+
 ## [2.0.0-32](https://github.com/agrc/deq-enviro/compare/v2.0.0-31...v2.0.0-32) (2023-12-15)
 
 
