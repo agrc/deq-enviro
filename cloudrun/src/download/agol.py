@@ -70,7 +70,7 @@ def download(layers, format):
 
         write_to_output(tableName, feature_set, format)
 
-        if "relationships" in layer:
+        if "relationships" in layer and len(layer["relationships"]) > 0:
             primary_key = layer["relationships"][0]["primary"]
             primary_keys = feature_set.sdf.reset_index()[primary_key].tolist()
 
