@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-32](https://github.com/agrc/deq-enviro/compare/v2.0.0-31...v2.0.0-32) (2023-12-15)
+
+
+### 🚀 Features
+
+* **download:** add geojson support and native cloud logging ([bef73cb](https://github.com/agrc/deq-enviro/commit/bef73cb0c08d64bf7e368b39964ff5c1d8a0eb90))
+* **download:** implement csv, excel, and shapefile formats ([fa4c03e](https://github.com/agrc/deq-enviro/commit/fa4c03e6ed10ffd6f636752412b44b98ecc45804))
+
 ## [2.0.0-31](https://github.com/agrc/deq-enviro/compare/v2.0.0-30...v2.0.0-31) (2023-12-14)
 
 
