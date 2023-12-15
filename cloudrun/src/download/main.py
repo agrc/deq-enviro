@@ -16,9 +16,7 @@ formats = [
     "excel",
     "filegdb",
     "geojson",
-    "geoPackage",
     "shapefile",
-    "sqlite",
 ]
 
 # pylint: disable=C0103

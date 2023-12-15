@@ -44,6 +44,8 @@ setup(
         "flask-cors==4.*",
         "flask-json==0.4",
         "flask==3.*",
+        "openpyxl==3.*",  # required for writing excel files with pandas
+        "pyshp==2.*",  # required for writing shapefiles with arcgis
         "python-dotenv==1.*",
         "simplejson==3.*",
         # arcgis deps
