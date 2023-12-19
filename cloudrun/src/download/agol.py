@@ -42,7 +42,7 @@ def write_to_output(tableName, feature_set, format):
         write_to_fgdb(tableName, fgdb_path, feature_set)
     elif format == "geojson":
         with open(output_folder / f"{tableName}.geojson", "w") as file:
-            file.write(feature_set.to_json)
+            file.write(feature_set.to_geojson)
     elif format == "shapefile":
         sdf = feature_set.sdf
         for field in sdf.columns:
