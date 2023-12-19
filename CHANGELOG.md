@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.0-34](https://github.com/agrc/deq-enviro/compare/v2.0.0-33...v2.0.0-34) (2023-12-19)
+
+
+### 🐛 Bug Fixes
+
+* **download:** implement workaround for shapefile export bug in arcgis ([fe5169c](https://github.com/agrc/deq-enviro/commit/fe5169cd51c2b70507f83fd65d5f9b258ae0636f))
+* **download:** use correct geojson export ([d0ff5ad](https://github.com/agrc/deq-enviro/commit/d0ff5ad836851d7223a38047db6fbc856f72549b))
+* **download:** use correct logging in bucket module ([8853cd3](https://github.com/agrc/deq-enviro/commit/8853cd38f8b017cd12ea1d7b350674af20ed7527))
+
 ## [2.0.0-33](https://github.com/agrc/deq-enviro/compare/v2.0.0-32...v2.0.0-33) (2023-12-15)
 
 
