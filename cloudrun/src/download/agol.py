@@ -44,7 +44,18 @@ def write_to_output(tableName, feature_set, format):
         with open(output_folder / f"{tableName}.geojson", "w") as file:
             file.write(feature_set.to_json)
     elif format == "shapefile":
-        feature_set.sdf.spatial.to_featureclass(output_folder / f"{tableName}.shp")
+        sdf = feature_set.sdf
+        for field in sdf.columns:
+            #: reset field values for non-string fields who's values are all null
+            #: this prevents problems when converting to shapefile
+            #: ref: https://github.com/Esri/arcgis-python-api/issues/1732
+            if sdf[field].isnull().all() and sdf[field].dtype != "string":
+                logger.info(f"resetting field type as string for field: {field}")
+                sdf[field] = sdf[field].astype("string")
+
+        sdf.spatial.to_featureclass(
+            output_folder / f"{tableName}.shp", sanitize_columns=False
+        )
     else:
         raise ValueError(f"unsupported format: {format}")
 
