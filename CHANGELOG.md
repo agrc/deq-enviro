@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-35](https://github.com/agrc/deq-enviro/compare/v2.0.0-34...v2.0.0-35) (2023-12-21)
+
+
+### 🐛 Bug Fixes
+
+* switch download request to be async with firestore push updates ([1018019](https://github.com/agrc/deq-enviro/commit/1018019c19170bcd387540408d1ae297dd0b155f)), closes [#599](https://github.com/agrc/deq-enviro/issues/599)
+
 ## [2.0.0-34](https://github.com/agrc/deq-enviro/compare/v2.0.0-33...v2.0.0-34) (2023-12-19)
 
 
