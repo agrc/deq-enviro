@@ -5,7 +5,7 @@ import {
 } from 'firebase/remote-config';
 import { BulletList } from 'react-content-loader';
 import { useInitRemoteConfig } from 'reactfire';
-import defaultConfig from './remote_config_defaults.json';
+import defaultConfig from '../remote_config_defaults.json';
 import { createContext, useContext, useState } from 'react';
 
 // exported for use in storybook preview.jsx

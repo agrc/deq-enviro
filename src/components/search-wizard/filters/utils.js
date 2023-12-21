@@ -21,7 +21,7 @@ export function validate(value, min, max) {
 }
 
 /**
- * @param {import('../../../SearchMachineProvider').Attribute} attributeFilterConfig
+ * @param {import('../../../contexts/SearchMachineProvider').Attribute} attributeFilterConfig
  * @param {import('../../../../functions/common/config').QueryLayerConfig} layerConfig
  * @param {{ name: string; type: string }[]} fields
  * @returns {string}

@@ -1,13 +1,16 @@
 """
 Download server.
 """
-from flask import Flask, request
-from .agol import download, cleanup
-from . import bucket
-from dotenv import load_dotenv
+import threading
+import traceback
 
+from dotenv import load_dotenv
+from flask import Flask, request
 from flask_cors import CORS
 from flask_json import FlaskJSON
+
+from . import bucket, database, log
+from .agol import cleanup, download
 
 load_dotenv()
 
@@ -25,6 +28,23 @@ FlaskJSON(app)
 CORS(app)
 
 
+def dowork(id, layers, format):
+    log.logger.info(f"Starting job {id}")
+    try:
+        output_path = download(id, layers, format)
+        bucket.upload(id, output_path)
+
+        database.update_job_status(id, "complete")
+    except Exception as e:
+        # Print stack trace to log
+        log.logger.error(traceback.format_exc())
+        database.update_job_status(id, "failed", str(e))
+    finally:
+        cleanup()
+
+    log.logger.info(f"Job {id} complete")
+
+
 @app.post("/generate")
 def generate():
     """
@@ -37,13 +57,16 @@ def generate():
         return {"success": False, "error": f"invalid format value: {format}"}, 400
 
     try:
-        output_path = download(layers, format)
+        id = database.create_job([layer["tableName"] for layer in layers], format)
 
-        id = bucket.upload(output_path)
-    finally:
-        cleanup()
+        # do the work in a separate thread so we can return the id right away
+        thread = threading.Thread(target=dowork, args=(id, layers, format))
+        thread.start()
 
-    return {"id": id, "success": True}
+        return {"id": id, "success": True}
+    except Exception as e:
+        log.logger.error(e)
+        return {"success": False, "error": str(e)}, 500
 
 
 @app.get("/download/<id>/data.zip")

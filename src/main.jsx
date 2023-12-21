@@ -9,6 +9,7 @@ import App from './App.jsx';
 import './console-tools.js';
 import './index.css';
 import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
+import FirebaseProvider from './contexts/FirebaseProvider.jsx';
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <FirebaseAppProvider
           firebaseConfig={JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG)}
         >
-          <App />
+          <FirebaseProvider>
+            <App />
+          </FirebaseProvider>
         </FirebaseAppProvider>
       </QueryClientProvider>
     </React.StrictMode>

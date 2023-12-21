@@ -68,6 +68,7 @@ function Test({ searchResultLayers }) {
       setSelectedLayers={setSelectedLayers}
       format={format}
       setFormat={setFormat}
+      error={null}
     />
   );
 }

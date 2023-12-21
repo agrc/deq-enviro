@@ -4,8 +4,8 @@ import localforage from 'localforage';
 import PropTypes from 'prop-types';
 import { createContext, useContext, useEffect } from 'react';
 import { assign, createMachine } from 'xstate';
-import { downloadFormats, fieldNames } from '../functions/common/config';
-import stateOfUtahJson from './data/state-of-utah.json';
+import { downloadFormats, fieldNames } from '../../functions/common/config';
+import stateOfUtahJson from '../data/state-of-utah.json';
 import { useRemoteConfigValues } from './RemoteConfigProvider';
 
 localforage.config({
@@ -45,13 +45,13 @@ const blankFilter = {
  * @property {QueryLayerResult[]} resultLayers
  * @property {Object} resultExtent
  * @property {string[]} selectedDownloadLayers
- * @property {string} downloadResultUrl
+ * @property {string} downloadResultId
  * @property {string} downloadFormat
  * @property {string | null} error
  */
 
 /**
- * @typedef {import('../functions/common/config').QueryLayerConfig & {
+ * @typedef {import('../../functions/common/config').QueryLayerConfig & {
  *   error: JSX.Element;
  *   features: import('@arcgis/core/Graphic').default[];
  *   fields: object[];
@@ -80,7 +80,7 @@ const blankContext = {
   resultLayers: null,
   resultExtent: null,
   selectedDownloadLayers: [],
-  downloadResultUrl: null,
+  downloadResultId: null,
   downloadFormat: downloadFormats.shapefile,
   error: null,
 };
@@ -159,7 +159,7 @@ const machine = createMachine(
           resultLayers: [],
           resultExtent: null,
           error: null,
-          downloadResultUrl: null,
+          downloadResultId: null,
           downloadFormat: downloadFormats.shapefile,
           selectedDownloadLayers: [],
         }),
@@ -224,9 +224,15 @@ const machine = createMachine(
       },
       download: {
         entry: assign({
-          downloadResultUrl: null,
+          downloadResultId: null,
         }),
         on: {
+          ERROR: {
+            actions: assign({
+              // @ts-ignore
+              error: (_, { message }) => message,
+            }),
+          },
           CLEAR: {
             target: 'selectLayers',
             actions: 'clear',
@@ -236,6 +242,10 @@ const machine = createMachine(
           },
           DOWNLOADING: {
             target: 'downloading',
+            actions: assign({
+              // @ts-ignore
+              downloadResultId: (_, { id }) => id,
+            }),
           },
           SET_SELECTED_LAYERS: {
             actions: assign({
@@ -256,12 +266,6 @@ const machine = createMachine(
           error: null,
         }),
         on: {
-          COMPLETE: {
-            actions: assign({
-              // @ts-ignore
-              downloadResultUrl: (_, { url }) => url,
-            }),
-          },
           ERROR: {
             target: 'error',
             actions: assign({
@@ -269,6 +273,7 @@ const machine = createMachine(
               error: (_, { message }) => message,
             }),
           },
+          // TODO: add a button for this
           CANCEL: {
             target: 'download',
           },

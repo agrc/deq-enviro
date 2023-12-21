@@ -3,11 +3,11 @@ import ky from 'ky';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
-import { useSearchMachine } from '../../SearchMachineProvider.jsx';
+import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
-import { useRemoteConfigValues } from '../../RemoteConfigProvider.jsx';
+import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import { getConfigByTableName, getRelationships } from '../../utils.js';
 
 /**
@@ -96,27 +96,33 @@ export default function SearchWizard() {
      * }} params
      */
     mutationFn: async ({ layers, format }) => {
-      send('DOWNLOADING');
+      send('ERROR', { message: null });
 
       /** @type {{ success: boolean; error?: string; id?: string }} */
-      const result = await ky
-        .post(`${import.meta.env.VITE_DOWNLOAD_URL}/generate`, {
-          json: {
-            layers,
-            format,
-          },
-          timeout: 1000 * 60 * 5,
-        })
-        .json();
+      let result;
+      try {
+        result = await ky
+          .post(`${import.meta.env.VITE_DOWNLOAD_URL}/generate`, {
+            json: {
+              layers,
+              format,
+            },
+            timeout: 1000 * 30, // 30 seconds
+          })
+          .json();
+      } catch (error) {
+        console.error(error);
+        send('ERROR', { message: error.message });
+
+        return;
+      }
 
       if (result.success) {
-        send('COMPLETE', {
-          url: `${import.meta.env.VITE_DOWNLOAD_URL}/download/${
-            result.id
-          }/data.zip`, // this helps the browser name the file correctly
+        send('DOWNLOADING', {
+          id: result.id,
         });
       } else {
-        send('ERROR', { error: new Error(result.error) });
+        send('ERROR', { message: result.error });
       }
     },
   });
@@ -179,6 +185,7 @@ export default function SearchWizard() {
                 setFormat={(newFormat) =>
                   send('SET_FORMAT', { format: newFormat })
                 }
+                error={state.context.error}
               />
             ) : null}
             {state.matches('downloading') ? (
@@ -189,7 +196,7 @@ export default function SearchWizard() {
                   ),
                 )}
                 error={downloadMutation.error}
-                url={state.context.downloadResultUrl}
+                id={state.context.downloadResultId}
               />
             ) : null}
           </Suspense>

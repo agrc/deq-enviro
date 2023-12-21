@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { supportsExport } from '../../functions/common/validation';
-import { useSearchMachine } from '../SearchMachineProvider';
+import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
@@ -27,7 +27,7 @@ import {
   getConfigByTableName,
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
-import { useRemoteConfigValues } from '../RemoteConfigProvider';
+import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -289,7 +289,7 @@ export default function MapComponent() {
 
     /**
      * @param {import('../../functions/common/config').QueryLayerConfig} layer
-     * @param {import('../SearchMachineProvider').Filter} filter
+     * @param {import('../contexts/SearchMachineProvider').Filter} filter
      * @returns Promise
      */
     async function searchLayer(layer, filter) {

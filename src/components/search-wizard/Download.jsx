@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { downloadFormats, fieldNames } from '../../../functions/common/config';
 import Checkbox from '../../utah-design-system/Checkbox';
 import RadioGroup from '../../utah-design-system/RadioGroup';
+import Icon from '../../utah-design-system/Icon';
 
 export default function Download({
   searchResultLayers,
@@ -9,6 +10,7 @@ export default function Download({
   setSelectedLayers,
   format,
   setFormat,
+  error,
 }) {
   const relevantResultLayers = searchResultLayers.filter(
     (result) => !result.error && result.features.length > 0,
@@ -73,6 +75,18 @@ export default function Download({
         value={format}
         onValueChange={setFormat}
       />
+
+      {error ? (
+        <p className="mt-4 flex align-middle text-error-500">
+          <Icon
+            name="error"
+            className="mr-1"
+            label="error message"
+            size="3xl"
+          />
+          There was an error downloading the data: {error}
+        </p>
+      ) : null}
     </>
   );
 }

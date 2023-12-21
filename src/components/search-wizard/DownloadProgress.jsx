@@ -1,15 +1,50 @@
+import { doc } from 'firebase/firestore';
+import { BulletList } from 'react-content-loader';
+import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config';
 import Icon from '../../utah-design-system/Icon';
-import Spinner from '../../utah-design-system/Spinner';
+import ResultStatusIcons from './ResultStatusIcons';
 
 /**
  * @param {Object} props
  * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.layers
- * @param {string} props.url
+ * @param {string} props.id
  * @param {Error} [props.error]
  * @returns {JSX.Element}
  */
-export default function DownloadProgress({ layers, url, error }) {
+export default function DownloadProgress({ layers, id, error }) {
+  const firestore = useFirestore();
+
+  const ref = doc(firestore, 'jobs', id);
+
+  const { status: documentStatus, data } = useFirestoreDocData(ref);
+
+  if (documentStatus === 'loading') {
+    return <BulletList className="h-80 w-full p-2" />;
+  }
+
+  const { status: jobStatus, layers: jobLayers, error: jobError } = data;
+  const url = `${import.meta.env.VITE_DOWNLOAD_URL}/download/${id}/data.zip`; // this helps the browser name the file correctly
+
+  return (
+    <DownloadProgressInner
+      layers={layers}
+      jobLayers={jobLayers}
+      url={jobStatus === 'complete' ? url : null}
+      error={error || jobError}
+    />
+  );
+}
+
+/**
+ * @param {Object} props
+ * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.layers
+ * @param {Object} props.jobLayers
+ * @param {string} props.error
+ * @param {string} [props.url]
+ * @returns {JSX.Element}
+ */
+export function DownloadProgressInner({ layers, jobLayers, error, url }) {
   return (
     <>
       <h3>Download Results</h3>
@@ -17,12 +52,19 @@ export default function DownloadProgress({ layers, url, error }) {
         {layers.map((searchLayer) => {
           const tableName = searchLayer[fieldNames.queryLayers.tableName];
           const layerName = searchLayer[fieldNames.queryLayers.layerName];
+          const jobLayer = jobLayers[tableName];
+          const finished = jobLayer?.processed || jobLayer?.error;
 
           return (
-            <li key={tableName} className="mb-1">
-              <div className="flex items-center justify-start">
-                <span className="leading-5">{layerName}</span>
-              </div>
+            <li
+              key={tableName}
+              className="mb-1 flex items-center justify-start"
+            >
+              <ResultStatusIcons
+                resultConfig={finished ? jobLayer : null}
+                layerName={layerName}
+              />
+              <span className="leading-5">{layerName}</span>
             </li>
           );
         })}
@@ -34,7 +76,7 @@ export default function DownloadProgress({ layers, url, error }) {
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
         >
           <Icon className="mr-2" name="arrowDown" label="download" /> Download
-          .zip File
+          ZIP File
         </a>
       ) : error ? (
         <p className="mt-4 flex align-middle text-error-500">
@@ -44,20 +86,13 @@ export default function DownloadProgress({ layers, url, error }) {
             label="error message"
             size="3xl"
           />
-          There was an error downloading the data: {error.message}
+          There was an error downloading the data: {error}
         </p>
       ) : (
         <>
           <p className="mt-4">
             This can take up to several minutes for larger datasets.
           </p>
-          <div className="flex items-center justify-center">
-            <Spinner
-              ariaLabel="downloading activity indicator"
-              size="custom"
-              className="h-14 w-14"
-            />
-          </div>
         </>
       )}
     </>

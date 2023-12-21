@@ -12,7 +12,7 @@ import Table from '../utah-design-system/Table';
 import { getAlias, getRelationships } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
-import { useRemoteConfigValues } from '../RemoteConfigProvider';
+import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import Tag from './Tag';
 
 const padding = 'px-2 py-1';
@@ -36,7 +36,7 @@ function Error({ layerName, errorMessage }) {
  * ResultTable
  *
  * @param {Object} props
- * @param {import('../SearchMachineProvider').QueryLayerResult} props.queryLayerResult
+ * @param {import('../contexts/SearchMachineProvider').QueryLayerResult} props.queryLayerResult
  * @param {(open: boolean) => void} props.onExpandChange
  * @param {boolean} props.expanded
  */

@@ -123,6 +123,10 @@
     }
   },
   "storage": {
-    "rules": "storage.rules"
+    "rules": "firebase.rules"
+  },
+  "firestore": {
+    "rules": "firebase.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

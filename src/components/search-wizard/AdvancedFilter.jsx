@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { fieldNames } from '../../../functions/common/config';
-import { useSearchMachine } from '../../SearchMachineProvider';
+import { useSearchMachine } from '../../contexts/SearchMachineProvider';
 import Select from '../../utah-design-system/Select';
 import Attribute from './filters/Attribute';
 import Coordinates from './filters/Coordinates';
@@ -13,7 +13,7 @@ import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
 import stateOfUtahJson from '../../data/state-of-utah.json';
 import { getConfigByTableName } from '../../utils';
-import { useRemoteConfigValues } from '../../RemoteConfigProvider';
+import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {

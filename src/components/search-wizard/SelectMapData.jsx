@@ -1,5 +1,5 @@
 import { fieldNames } from '../../../functions/common/config';
-import { useSearchMachine } from '../../SearchMachineProvider.jsx';
+import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
 import {
   AccordionPanel,
   AccordionRoot,
@@ -24,7 +24,7 @@ export default function SelectMapData({ queryLayers }) {
   return (
     <>
       {/* the id below is used in the utah design system header config in App.jsx */}
-      <h3 id='select-map-data'>Select Map Data</h3>
+      <h3 id="select-map-data">Select Map Data</h3>
       <AccordionRoot type="multiple">
         {divisions.sort().map((division) => {
           return (

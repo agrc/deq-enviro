@@ -1,10 +1,10 @@
 import { fieldNames } from '../../../functions/common/config';
 import queryLayerResult from '../../../tests/fixtures/queryLayerResult.json';
-import DownloadProgress from './DownloadProgress';
+import { DownloadProgressInner } from './DownloadProgress';
 
 export default {
   title: 'DownloadProgress',
-  component: DownloadProgress,
+  component: DownloadProgressInner,
   decorators: [
     (Story) => (
       <div className="w-80 border">
@@ -40,19 +40,112 @@ const layers = [
 ];
 
 export const Pending = () => {
-  return <DownloadProgress layers={layers} url={null} />;
+  return (
+    <DownloadProgressInner
+      layers={layers}
+      jobLayers={{
+        Brownfields: {
+          processed: false,
+          error: null,
+        },
+        TableName: {
+          processed: true,
+          error: null,
+        },
+        DifferentTable: {
+          processed: true,
+          error: null,
+        },
+        AnotherTable: {
+          processed: false,
+          error: null,
+        },
+      }}
+      error={null}
+      url={null}
+    />
+  );
 };
 
 export const Success = () => {
-  return <DownloadProgress layers={layers} url="https://google.com" />;
+  return (
+    <DownloadProgressInner
+      layers={layers}
+      jobLayers={{
+        Brownfields: {
+          processed: true,
+          error: null,
+        },
+        TableName: {
+          processed: true,
+          error: null,
+        },
+        DifferentTable: {
+          processed: true,
+          error: null,
+        },
+        AnotherTable: {
+          processed: true,
+          error: null,
+        },
+      }}
+      error={null}
+      url="https://example.com/data.zip"
+    />
+  );
 };
 
+export const SuccessWithLayerErrors = () => {
+  return (
+    <DownloadProgressInner
+      layers={layers}
+      jobLayers={{
+        Brownfields: {
+          processed: true,
+          error: null,
+        },
+        TableName: {
+          processed: true,
+          error: null,
+        },
+        DifferentTable: {
+          processed: false,
+          error: 'Layer-specific error message',
+        },
+        AnotherTable: {
+          processed: true,
+          error: null,
+        },
+      }}
+      error={null}
+      url="https://example.com/data.zip"
+    />
+  );
+};
 export const ErrorMessage = () => {
   return (
-    <DownloadProgress
+    <DownloadProgressInner
       layers={layers}
+      jobLayers={{
+        Brownfields: {
+          processed: false,
+          error: 'Layer-specific error message',
+        },
+        TableName: {
+          processed: true,
+          error: null,
+        },
+        DifferentTable: {
+          processed: true,
+          error: null,
+        },
+        AnotherTable: {
+          processed: false,
+          error: null,
+        },
+      }}
+      error="general job error"
       url={null}
-      error={new Error('test error message')}
     />
   );
 };

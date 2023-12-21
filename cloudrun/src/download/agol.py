@@ -11,6 +11,7 @@ from arcgis.features import (
 from osgeo import gdal, ogr
 
 from .log import logger
+from .database import update_job_layer
 
 #: throw exceptions on errors rather than returning None
 gdal.UseExceptions()
@@ -60,7 +61,7 @@ def write_to_output(tableName, feature_set, format):
         raise ValueError(f"unsupported format: {format}")
 
 
-def download(layers, format):
+def download(id, layers, format):
     cleanup()
 
     return_geometry = format in formats_with_shape
@@ -72,16 +73,31 @@ def download(layers, format):
         tableName = layer["tableName"]
         logger.info(f"query layer: {tableName}")
 
-        feature_set = get_agol_data(layer["url"], layer["objectIds"], return_geometry)
+        success = False
+        try:
+            feature_set = get_agol_data(
+                layer["url"], layer["objectIds"], return_geometry
+            )
 
-        if len(feature_set.features) == 0:
-            logger.info("no features found, skipping creation")
+            if len(feature_set.features) == 0:
+                logger.info("no features found, skipping creation")
 
-            continue
+                update_job_layer(id, tableName, True)
 
-        write_to_output(tableName, feature_set, format)
+                continue
 
-        if "relationships" in layer and len(layer["relationships"]) > 0:
+            write_to_output(tableName, feature_set, format)
+
+            update_job_layer(id, tableName, True)
+
+            success = True
+        except Exception as e:
+            logger.info(f"error processing layer: {tableName}")
+            logger.error(e)
+
+            update_job_layer(id, tableName, False, str(e))
+
+        if success and "relationships" in layer and len(layer["relationships"]) > 0:
             primary_key = layer["relationships"][0]["primary"]
             primary_keys = feature_set.sdf.reset_index()[primary_key].tolist()
 

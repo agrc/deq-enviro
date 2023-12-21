@@ -1,5 +1,5 @@
 import { fieldNames } from '../../functions/common/config';
-import { useRemoteConfigValues } from '../RemoteConfigProvider';
+import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import * as Tabs from '../utah-design-system/Tabs';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../utah-design-system/Spinner';

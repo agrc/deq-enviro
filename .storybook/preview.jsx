@@ -1,7 +1,7 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
 import '@utahdts/utah-design-system-header/css';
 import '../src/index.css';
-import { RemoteConfigContext } from '../src/RemoteConfigProvider';
+import { RemoteConfigContext } from '../src/contexts/RemoteConfigProvider';
 import remoteConfigDefaultJson from '../src/remote_config_defaults.json';
 
 /** @type {import('@storybook/react').Preview} */

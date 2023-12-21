@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
-import { useSearchMachine } from '../SearchMachineProvider';
+import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
 import PanelResizer from './PanelResizer';

@@ -7,8 +7,8 @@ import {
   FunctionsProvider,
   useFirebaseApp,
 } from 'reactfire';
-import RemoteConfigProvider from './RemoteConfigProvider.jsx';
-import { SearchMachineProvider } from './SearchMachineProvider.jsx';
+import RemoteConfigProvider from './contexts/RemoteConfigProvider.jsx';
+import { SearchMachineProvider } from './contexts/SearchMachineProvider.jsx';
 import MapComponent from './components/Map.jsx';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
