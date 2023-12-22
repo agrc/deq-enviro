@@ -88,9 +88,6 @@ def download(id, layers, format):
 
             write_to_output(tableName, feature_set, format)
 
-            update_job_layer(id, tableName, True)
-
-            success = True
         except Exception as e:
             logger.info(f"error processing layer: {tableName}")
             logger.error(e)
@@ -135,6 +132,10 @@ def download(id, layers, format):
                     output_dataset = gdal.OpenEx(str(fgdb_path), gdal.GA_Update)
                     if not output_dataset.AddRelationship(relationship):
                         logger.info("failed to add relationship")
+
+        update_job_layer(id, tableName, True)
+
+        success = True
 
     return output_folder
 

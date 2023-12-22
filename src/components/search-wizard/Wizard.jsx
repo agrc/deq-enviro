@@ -102,7 +102,7 @@ export default function SearchWizard() {
       let result;
       try {
         result = await ky
-          .post(`${import.meta.env.VITE_DOWNLOAD_URL}/generate`, {
+          .post(`${import.meta.env.VITE_DOWNLOAD_URL}/create_job`, {
             json: {
               layers,
               format,

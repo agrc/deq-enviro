@@ -65,6 +65,7 @@ setup(
     extras_require={
         "dev": [
             "black==23.*",
+            "cloudevents==1.*",
             "pytest-cov==4.*",
             "pytest-instafail==0.5.*",
             "pytest-mock==3.*",

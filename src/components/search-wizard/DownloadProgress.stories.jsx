@@ -43,7 +43,7 @@ export const Pending = () => {
   return (
     <DownloadProgressInner
       layers={layers}
-      jobLayers={{
+      layerResults={{
         Brownfields: {
           processed: false,
           error: null,
@@ -71,7 +71,7 @@ export const Success = () => {
   return (
     <DownloadProgressInner
       layers={layers}
-      jobLayers={{
+      layerResults={{
         Brownfields: {
           processed: true,
           error: null,
@@ -99,7 +99,7 @@ export const SuccessWithLayerErrors = () => {
   return (
     <DownloadProgressInner
       layers={layers}
-      jobLayers={{
+      layerResults={{
         Brownfields: {
           processed: true,
           error: null,
@@ -126,7 +126,7 @@ export const ErrorMessage = () => {
   return (
     <DownloadProgressInner
       layers={layers}
-      jobLayers={{
+      layerResults={{
         Brownfields: {
           processed: false,
           error: 'Layer-specific error message',

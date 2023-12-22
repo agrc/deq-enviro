@@ -15,21 +15,21 @@ import ResultStatusIcons from './ResultStatusIcons';
 export default function DownloadProgress({ layers, id, error }) {
   const firestore = useFirestore();
 
-  const ref = doc(firestore, 'jobs', id);
+  const ref = doc(firestore, 'jobs', `${id}-results`);
 
   const { status: documentStatus, data } = useFirestoreDocData(ref);
 
-  if (documentStatus === 'loading') {
+  if (documentStatus === 'loading' || data === undefined) {
     return <BulletList className="h-80 w-full p-2" />;
   }
 
-  const { status: jobStatus, layers: jobLayers, error: jobError } = data;
+  const { status: jobStatus, layerResults, error: jobError } = data;
   const url = `${import.meta.env.VITE_DOWNLOAD_URL}/download/${id}/data.zip`; // this helps the browser name the file correctly
 
   return (
     <DownloadProgressInner
       layers={layers}
-      jobLayers={jobLayers}
+      layerResults={layerResults}
       url={jobStatus === 'complete' ? url : null}
       error={error || jobError}
     />
@@ -39,12 +39,12 @@ export default function DownloadProgress({ layers, id, error }) {
 /**
  * @param {Object} props
  * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.layers
- * @param {Object} props.jobLayers
+ * @param {Object} props.layerResults
  * @param {string} props.error
  * @param {string} [props.url]
  * @returns {JSX.Element}
  */
-export function DownloadProgressInner({ layers, jobLayers, error, url }) {
+export function DownloadProgressInner({ layers, layerResults, error, url }) {
   return (
     <>
       <h3>Download Results</h3>
@@ -52,7 +52,7 @@ export function DownloadProgressInner({ layers, jobLayers, error, url }) {
         {layers.map((searchLayer) => {
           const tableName = searchLayer[fieldNames.queryLayers.tableName];
           const layerName = searchLayer[fieldNames.queryLayers.layerName];
-          const jobLayer = jobLayers[tableName];
+          const jobLayer = layerResults[tableName];
           const finished = jobLayer?.processed || jobLayer?.error;
 
           return (

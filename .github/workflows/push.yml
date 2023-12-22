@@ -18,6 +18,14 @@ concurrency:
 env:
   MEMORY: 4G
   TIMEOUT: 20m
+  TRIGGER_PARAMS: |
+    --location=us-central1 \
+    --destination-run-service=download \
+    --destination-run-region=us-central1 \
+    --destination-run-path="/process_job" \
+    --event-filters="database=(default)" \
+    --event-filters-path-pattern="document=**/*-input" \
+    --event-filters="type=google.cloud.firestore.document.v1.created"
 
 jobs:
   release-please:
@@ -84,6 +92,16 @@ jobs:
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
 
+      - name: Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download ${{ env.TRIGGER_PARAMS }} \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+          else
+            gcloud eventarc triggers update download ${{ env.TRIGGER_PARAMS }} \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+          fi
+
   deploy-prod:
     name: Deploy to production
     runs-on: ubuntu-latest
@@ -134,3 +152,13 @@ jobs:
             --memory=${{ env.MEMORY }}
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
+
+      - name: Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download ${{ env.TRIGGER_PARAMS }} \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+          else
+            gcloud eventarc triggers update download ${{ env.TRIGGER_PARAMS }} \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+          fi
