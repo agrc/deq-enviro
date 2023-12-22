@@ -98,10 +98,10 @@ jobs:
         run: |
           if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
             gcloud eventarc triggers create download ${{ env.TRIGGER_PARAMS }} \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com
           else
             gcloud eventarc triggers update download ${{ env.TRIGGER_PARAMS }} \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com
           fi
 
   deploy-prod:
@@ -161,8 +161,8 @@ jobs:
         run: |
           if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
             gcloud eventarc triggers create download ${{ env.TRIGGER_PARAMS }} \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com
           else
             gcloud eventarc triggers update download ${{ env.TRIGGER_PARAMS }} \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com
           fi
