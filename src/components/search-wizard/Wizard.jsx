@@ -100,6 +100,8 @@ export default function SearchWizard() {
 
       /** @type {{ success: boolean; error?: string; id?: string }} */
       let result;
+      // the dev server can be very slow...
+      const timeoutSeconds = import.meta.env.DEV ? 120 : 30;
       try {
         result = await ky
           .post(`${import.meta.env.VITE_DOWNLOAD_URL}/create_job`, {
@@ -107,7 +109,7 @@ export default function SearchWizard() {
               layers,
               format,
             },
-            timeout: 1000 * 30, // 30 seconds
+            timeout: 1000 * timeoutSeconds,
           })
           .json();
       } catch (error) {
