@@ -5,7 +5,7 @@ import threading
 import traceback
 from os import environ
 
-from cloudevents import from_http
+from cloudevents.http import from_http
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
