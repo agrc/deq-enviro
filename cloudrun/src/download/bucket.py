@@ -1,12 +1,16 @@
 """
 A module for uploading the downloaded data to a cloud storage bucket.
 """
-from google.cloud import storage
 import shutil
+from os import getenv
+
+from google.cloud import storage
+
 from .log import logger
 
 storage_client = storage.Client()
-bucket = storage_client.bucket("ut-dts-agrc-deq-enviro-dev.appspot.com")
+
+bucket = storage_client.bucket(getenv("BUCKET"))
 
 
 def upload(id, path):

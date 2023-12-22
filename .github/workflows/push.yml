@@ -91,6 +91,8 @@ jobs:
             --memory=${{ env.MEMORY }}
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
 
       - name: Create/Update Eventarc Trigger
         run: |
@@ -152,6 +154,8 @@ jobs:
             --memory=${{ env.MEMORY }}
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
 
       - name: Create/Update Eventarc Trigger
         run: |

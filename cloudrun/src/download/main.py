@@ -11,10 +11,11 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_json import FlaskJSON
 
-from . import bucket, database, log
-from .agol import cleanup, download
+load_dotenv()  # this needs to be called before importing any other local modules
 
-load_dotenv()
+from . import bucket, database, log  # noqa: E402
+from .agol import cleanup, download  # noqa: E402
+
 
 formats = [
     "csv",
