@@ -14,14 +14,20 @@ if environ.get("FLASK_DEBUG") == "1":
 client = firestore.Client(project)
 
 """
-Job document structure:
+Job input document structure:
 {
   "id": "string",
   "created": "timestamp",
+  "format": "csv|excel|filegdb|geojson|shapefile",
+  "layers": [LayerConfig],
+}
+
+Job results document structure:
+{
+  "id": "string",
   "updated": "timestamp",
   "status": "processing|complete|failed",
-  "format": "csv|excel|filegdb|geojson|shapefile",
-  "layers": {
+  "layerResults": {
     "tableName": {
       "processed": "boolean",
       "error": "string"
@@ -30,7 +36,21 @@ Job document structure:
   "error": "string",
 }
 """
+results_doc = "{}-results"
+input_doc = "{}-input"
 
+
+def get_job(id):
+    """
+    Gets a input document from firestore.
+    """
+    doc_ref = client.collection("jobs").document(input_doc.format(id))
+    snapshot = doc_ref.get()
+
+    if not snapshot.exists:
+        raise Exception(f"Job {id} not found")
+
+    return snapshot.to_dict()
 
 def create_job(layers, format):
     """
@@ -38,15 +58,27 @@ def create_job(layers, format):
     """
     id = uuid4().hex
 
-    doc_ref = client.collection("jobs").document(id)
-    doc_ref.set(
+    input_ref = client.collection("jobs").document(input_doc.format(id))
+    input_ref.set(
         {
             "id": id,
             "created": firestore.SERVER_TIMESTAMP,
+            "format": format,
+            "layers": layers,
+        }
+    )
+
+    results_ref = client.collection("jobs").document(results_doc.format(id))
+    results_ref.set(
+        {
+            "id": id,
             "updated": firestore.SERVER_TIMESTAMP,
             "status": "processing",
-            "format": format,
-            "layers": {layer: {"error": None, "processed": False} for layer in layers},
+            "error": None,
+            "layerResults": {
+                layer["tableName"]: {"error": None, "processed": False}
+                for layer in layers
+            },
         }
     )
 
@@ -57,13 +89,13 @@ def update_job_status(id, status, error=None):
     """
     Updates a job document in firestore.
     """
-    doc_ref = client.collection("jobs").document(id)
+    doc_ref = client.collection("jobs").document(results_doc.format(id))
     doc_ref.update(
         {
             "updated": firestore.SERVER_TIMESTAMP,
             "status": status,
             "error": error,
-        }
+        },
     )
 
 
@@ -71,11 +103,11 @@ def update_job_layer(id, layer, processed, error=None):
     """
     Updates a job document in firestore.
     """
-    doc_ref = client.collection("jobs").document(id)
+    doc_ref = client.collection("jobs").document(results_doc.format(id))
     doc_ref.update(
         {
             "updated": firestore.SERVER_TIMESTAMP,
-            f"layers.{layer}.processed": processed,
-            f"layers.{layer}.error": error,
-        }
+            f"layerResults.{layer}.processed": processed,
+            f"layerResults.{layer}.error": error,
+        },
     )

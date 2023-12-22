@@ -3,16 +3,19 @@ Download server.
 """
 import threading
 import traceback
+from os import environ
 
+from cloudevents.http import from_http
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 from flask_json import FlaskJSON
+from google.events.cloud import firestore
 
-from . import bucket, database, log
-from .agol import cleanup, download
+load_dotenv()  # this needs to be called before importing any other local modules
 
-load_dotenv()
+from . import bucket, database, log  # noqa: E402
+from .agol import cleanup, download  # noqa: E402
 
 formats = [
     "csv",
@@ -26,6 +29,25 @@ formats = [
 app = Flask(__name__)
 FlaskJSON(app)
 CORS(app)
+
+
+@app.post("/process_job")
+def process_job():
+    """
+    Kicked off by eventarc event triggered when a new document is added to firestore
+    """
+    event = from_http(request.headers, request.get_data())
+    document = firestore.DocumentEventData()
+    document._pb.ParseFromString(event.get_data())
+    data = document.value.fields
+
+    id = data["id"].string_value
+
+    #: trying to get the layers field from the event protobuf data was a huge pain
+    #: so we'll just get it from firestore
+    job = database.get_job(id)
+
+    return dowork(id, job["layers"], job["format"])
 
 
 def dowork(id, layers, format):
@@ -44,11 +66,14 @@ def dowork(id, layers, format):
 
     log.logger.info(f"Job {id} complete")
 
+    return {"success": True}
 
-@app.post("/generate")
-def generate():
+
+@app.post("/create_job")
+def create_job():
     """
-    Main entry point for the server.
+    Validates inputs and creates a new firestore document which, in turn, kicks off
+    the process endpoint via EventArc.
     """
     layers = request.json["layers"]
     format = request.json["format"]
@@ -57,15 +82,17 @@ def generate():
         return {"success": False, "error": f"invalid format value: {format}"}, 400
 
     try:
-        id = database.create_job([layer["tableName"] for layer in layers], format)
+        id = database.create_job(layers, format)
 
-        # do the work in a separate thread so we can return the id right away
-        thread = threading.Thread(target=dowork, args=(id, layers, format))
-        thread.start()
+        if environ.get("FLASK_DEBUG") == "1":
+            #: because we don't have an eventarc local emulator
+            thread = threading.Thread(target=dowork, args=(id, layers, format))
+            thread.start()
 
         return {"id": id, "success": True}
     except Exception as e:
-        log.logger.error(e)
+        log.logger.error(traceback.format_exc())
+
         return {"success": False, "error": str(e)}, 500
 
 

@@ -18,6 +18,15 @@ concurrency:
 env:
   MEMORY: 4G
   TIMEOUT: 20m
+  TRIGGER_PARAMS: |
+    --location=nam5 \
+    --destination-run-service=download \
+    --destination-run-region=us-central1 \
+    --destination-run-path="/process_job" \
+    --event-data-content-type="application/protobuf" \
+    --event-filters="database=(default)" \
+    --event-filters-path-pattern="document=**/*-input" \
+    --event-filters="type=google.cloud.firestore.document.v1.created"
 
 jobs:
   release-please:
@@ -66,7 +75,7 @@ jobs:
           VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
           NODE_OPTIONS: --max-old-space-size=7168
 
-      - name: 🚀 Deploy Cloud Run
+      - name: 🏃 Deploy Cloud Run
         uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           docker-context: ./cloudrun
@@ -83,6 +92,20 @@ jobs:
             --memory=${{ env.MEMORY }}
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
+
+      - name: ⚡ Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          else
+            gcloud eventarc triggers update download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          fi
 
   deploy-prod:
     name: Deploy to production
@@ -117,7 +140,7 @@ jobs:
           VITE_WEB_API_KEY: ${{ secrets.WEB_API_KEY }}
           VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
 
-      - name: 🚀 Deploy Cloud Run
+      - name: 🏃 Deploy Cloud Run
         uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           docker-context: ./cloudrun
@@ -134,3 +157,16 @@ jobs:
             --memory=${{ env.MEMORY }}
             --timeout=${{ env.TIMEOUT }}
             --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
+
+      - name: ⚡ Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          else
+            gcloud eventarc triggers update download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
