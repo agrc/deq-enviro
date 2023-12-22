@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-43](https://github.com/agrc/deq-enviro/compare/v2.0.0-42...v2.0.0-43) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* emojis ([623e556](https://github.com/agrc/deq-enviro/commit/623e5566670154d94750f322f2c39f704be74176))
+
 ## [2.0.0-42](https://github.com/agrc/deq-enviro/compare/v2.0.0-41...v2.0.0-42) (2023-12-22)
 
 
