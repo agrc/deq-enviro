@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-41](https://github.com/agrc/deq-enviro/compare/v2.0.0-40...v2.0.0-41) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* **download:** move cloudevents to base requires ([542a109](https://github.com/agrc/deq-enviro/commit/542a10985582e28b185e049ee1d2690a31dd038c))
+
 ## [2.0.0-40](https://github.com/agrc/deq-enviro/compare/v2.0.0-39...v2.0.0-40) (2023-12-22)
 
 
