@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-39](https://github.com/agrc/deq-enviro/compare/v2.0.0-38...v2.0.0-39) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* database region ([fa13dbe](https://github.com/agrc/deq-enviro/commit/fa13dbeb123abeb56ea5f526f233ba779f99c4eb))
+
 ## [2.0.0-38](https://github.com/agrc/deq-enviro/compare/v2.0.0-37...v2.0.0-38) (2023-12-22)
 
 
