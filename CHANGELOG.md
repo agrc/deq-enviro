@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-40](https://github.com/agrc/deq-enviro/compare/v2.0.0-39...v2.0.0-40) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* another try on yaml syntax ([e320ed7](https://github.com/agrc/deq-enviro/commit/e320ed7b468d18c7726a67a6ca5d0a8912bc818d))
+
 ## [2.0.0-39](https://github.com/agrc/deq-enviro/compare/v2.0.0-38...v2.0.0-39) (2023-12-22)
 
 
