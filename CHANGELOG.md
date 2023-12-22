@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-42](https://github.com/agrc/deq-enviro/compare/v2.0.0-41...v2.0.0-42) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* add log ([d912779](https://github.com/agrc/deq-enviro/commit/d9127796fd97617d335e17078bc2564db893b489))
+
 ## [2.0.0-41](https://github.com/agrc/deq-enviro/compare/v2.0.0-40...v2.0.0-41) (2023-12-22)
 
 
