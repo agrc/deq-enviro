@@ -5,7 +5,7 @@ import threading
 import traceback
 from os import environ
 
-from cloudevents.http import from_http
+from cloudevents import from_http
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
@@ -31,12 +31,13 @@ FlaskJSON(app)
 CORS(app)
 
 
-@app.post("/process_job")
+@app.post("/process_job", methods=["POST"])
 def process_job():
     """
     Kicked off by eventarc event triggered when a new document is added to firestore
     """
     event = from_http(request.headers, request.get_data())
+    log.logger.info(f"Received event: {event}")
     data = event["value"]["fields"]
 
     id = data["id"]
