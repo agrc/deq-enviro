@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.0-36](https://github.com/agrc/deq-enviro/compare/v2.0.0-35...v2.0.0-36) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* **download:** point at the correct bucket for each env ([2b1e78a](https://github.com/agrc/deq-enviro/commit/2b1e78a88317e1f930f0dd37da70f9108ef9a1f9))
+* **download:** switch from request- to event-driven download processing ([e650589](https://github.com/agrc/deq-enviro/commit/e650589a62190b5ff18c6fcb2667cb4f7573c99d))
+* increase download request timeout in development ([4f1e3bc](https://github.com/agrc/deq-enviro/commit/4f1e3bc3eb05dc977d7ac7e7e9cfac46508d5b41))
+
 ## [2.0.0-35](https://github.com/agrc/deq-enviro/compare/v2.0.0-34...v2.0.0-35) (2023-12-21)
 
 
