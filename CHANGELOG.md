@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-38](https://github.com/agrc/deq-enviro/compare/v2.0.0-37...v2.0.0-38) (2023-12-22)
+
+
+### 🐛 Bug Fixes
+
+* add content type to eventarc ([87457b3](https://github.com/agrc/deq-enviro/commit/87457b3c612a45259dba5e885214fc6c963a0043))
+
 ## [2.0.0-37](https://github.com/agrc/deq-enviro/compare/v2.0.0-36...v2.0.0-37) (2023-12-22)
 
 
