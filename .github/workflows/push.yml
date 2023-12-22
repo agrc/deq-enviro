@@ -23,6 +23,7 @@ env:
     --destination-run-service=download \
     --destination-run-region=us-central1 \
     --destination-run-path="/process_job" \
+    --event-data-content-type="application/protobuf" \
     --event-filters="database=(default)" \
     --event-filters-path-pattern="document=**/*-input" \
     --event-filters="type=google.cloud.firestore.document.v1.created"
