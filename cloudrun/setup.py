@@ -39,6 +39,7 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
+        "cloudevents==1.*",
         "google-cloud-logging==3.*",
         "google-cloud-storage==2.*",
         "google-cloud-firestore==2.*",
@@ -65,7 +66,6 @@ setup(
     extras_require={
         "dev": [
             "black==23.*",
-            "cloudevents==1.*",
             "pytest-cov==4.*",
             "pytest-instafail==0.5.*",
             "pytest-mock==3.*",
