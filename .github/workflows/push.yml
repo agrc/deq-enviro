@@ -75,7 +75,7 @@ jobs:
           VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
           NODE_OPTIONS: --max-old-space-size=7168
 
-      - name: 🚀 Deploy Cloud Run
+      - name: 🏃 Deploy Cloud Run
         uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           docker-context: ./cloudrun
@@ -95,7 +95,7 @@ jobs:
           env-vars: |
             BUCKET=${{ secrets.PROJECT_ID }}-downloads
 
-      - name: Create/Update Eventarc Trigger
+      - name: ⚡ Create/Update Eventarc Trigger
         run: |
           if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
             gcloud eventarc triggers create download \
@@ -140,7 +140,7 @@ jobs:
           VITE_WEB_API_KEY: ${{ secrets.WEB_API_KEY }}
           VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
 
-      - name: 🚀 Deploy Cloud Run
+      - name: 🏃 Deploy Cloud Run
         uses: agrc/cloud-run-docker-deploy-composite-action@v2
         with:
           docker-context: ./cloudrun
@@ -160,7 +160,7 @@ jobs:
           env-vars: |
             BUCKET=${{ secrets.PROJECT_ID }}-downloads
 
-      - name: Create/Update Eventarc Trigger
+      - name: ⚡ Create/Update Eventarc Trigger
         run: |
           if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
             gcloud eventarc triggers create download \
