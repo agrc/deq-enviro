@@ -19,7 +19,7 @@ env:
   MEMORY: 4G
   TIMEOUT: 20m
   TRIGGER_PARAMS: |
-    --location=us-central1 \
+    --location=nam5 \
     --destination-run-service=download \
     --destination-run-region=us-central1 \
     --destination-run-path="/process_job" \
