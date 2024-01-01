@@ -4,6 +4,7 @@ Download server.
 import threading
 import traceback
 from os import environ
+import json
 
 from cloudevents.http import from_http
 from dotenv import load_dotenv
@@ -42,7 +43,7 @@ def process_job():
     log.logger.info(f"dir(event): {dir(event)}")
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.data: {event.data}")
-    data = event["value"]["fields"]
+    data = json.dumps(event.get_data(), ignore_unknown_fields=True)
 
     id = data["id"]
     layers = data["layers"]
