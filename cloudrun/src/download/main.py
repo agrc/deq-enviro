@@ -40,6 +40,7 @@ def process_job():
     #: TODO: check what the this event object looks like
     # 43 is throwing a keyerror on "value"
     log.logger.info(f"dir(event): {dir(event)}")
+    log.logger.info(f"event.keys(): {event.keys()}")
     data = event["value"]["fields"]
 
     id = data["id"]
