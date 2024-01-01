@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-47](https://github.com/agrc/deq-enviro/compare/v2.0.0-46...v2.0.0-47) (2024-01-01)
+
+
+### 🐛 Bug Fixes
+
+* add json parsing to data ([9b870b8](https://github.com/agrc/deq-enviro/commit/9b870b860c105901b0087e4338e8c37f7c43838b))
+* more logs ([d17195e](https://github.com/agrc/deq-enviro/commit/d17195e365cb959875b3fa4989981f798f687da7))
+
 ## [2.0.0-46](https://github.com/agrc/deq-enviro/compare/v2.0.0-45...v2.0.0-46) (2024-01-01)
 
 
