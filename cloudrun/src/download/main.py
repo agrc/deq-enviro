@@ -38,9 +38,10 @@ def process_job():
     """
     event = from_http(request.headers, request.get_data())
     #: TODO: check what the this event object looks like
-    # 43 is throwing a keyerror on "value"
+    # 44 is throwing a keyerror on "value"
     log.logger.info(f"dir(event): {dir(event)}")
     log.logger.info(f"event.keys(): {event.keys()}")
+    log.logger.info(f"dir(event['data']): {dir(event['data'])}")
     data = event["value"]["fields"]
 
     id = data["id"]
