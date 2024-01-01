@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-44](https://github.com/agrc/deq-enviro/compare/v2.0.0-43...v2.0.0-44) (2024-01-01)
+
+
+### 🐛 Bug Fixes
+
+* **download:** remote invalid argument ([b0c2f0a](https://github.com/agrc/deq-enviro/commit/b0c2f0ae6acdd39d0668e0f7b1ee5ccd170429b3))
+
 ## [2.0.0-43](https://github.com/agrc/deq-enviro/compare/v2.0.0-42...v2.0.0-43) (2023-12-22)
 
 
