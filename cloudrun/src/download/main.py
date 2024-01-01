@@ -31,7 +31,7 @@ FlaskJSON(app)
 CORS(app)
 
 
-@app.post("/process_job", methods=["POST"])
+@app.post("/process_job")
 def process_job():
     """
     Kicked off by eventarc event triggered when a new document is added to firestore
