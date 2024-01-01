@@ -37,7 +37,9 @@ def process_job():
     Kicked off by eventarc event triggered when a new document is added to firestore
     """
     event = from_http(request.headers, request.get_data())
-    log.logger.info(f"Received event: {event}")
+    #: TODO: check what the this event object looks like
+    # 43 is throwing a keyerror on "value"
+    log.logger.info(f"dir(event): {dir(event)}")
     data = event["value"]["fields"]
 
     id = data["id"]
