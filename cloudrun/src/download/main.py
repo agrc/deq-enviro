@@ -40,7 +40,7 @@ def process_job():
     event = from_http(request.headers, request.get_data())
     #: TODO: check what the this event object looks like
     # 44 is throwing a keyerror on "value"
-    log.logger.info(f"request.get_json(): {request.get_json()}")
+    log.logger.info(f"request.get_data(): {request.get_data()}")
     log.logger.info(f"dir(event): {dir(event)}")
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
