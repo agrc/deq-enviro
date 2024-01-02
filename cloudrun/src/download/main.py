@@ -46,11 +46,10 @@ def process_job():
     data = document.value.fields
     log.logger.info(f"dir(document.value.fields): {dir(document.value.fields)}")
 
-    id = data["id"]
-    layers = data["layers"]
-    format = data["format"]
-    log.logger.info(f"dir(data['layers']): {dir(data['layers'])}")
-    log.logger.info(f"data['layers'].value: {data['layers'].value}")
+    id = data["id"].string_value
+    layers = data["layers"].array_value
+    format = data["format"].string_value
+    log.logger.info(f"layers: {layers}")
 
     return dowork(id, layers, format)
 
