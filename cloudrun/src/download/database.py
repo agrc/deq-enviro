@@ -40,7 +40,7 @@ results_doc = "{}-results"
 input_doc = "{}-input"
 
 
-def get_input(id):
+def get_job(id):
     """
     Gets a input document from firestore.
     """
