@@ -45,8 +45,12 @@ def get_job(id):
     Gets a input document from firestore.
     """
     doc_ref = client.collection("jobs").document(input_doc.format(id))
+    snapshot = doc_ref.get()
 
-    return doc_ref.get()
+    if not snapshot.exists:
+        raise Exception(f"Job {id} not found")
+
+    return snapshot.to_dict()
 
 def create_job(layers, format):
     """
