@@ -40,7 +40,6 @@ def process_job():
     event = from_http(request.headers, request.get_data())
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
-    #: todo, figure out how to parse the event data, it's binary protobuf
     document = firestore.DocumentEventData()
     document._pb.ParseFromString(event.get_data())
     log.logger.info(f"dir(document): {dir(document)}")
@@ -50,6 +49,8 @@ def process_job():
     id = data["id"]
     layers = data["layers"]
     format = data["format"]
+    log.logger.info(f"dir(data['layers']): {dir(data['layers'])}")
+    log.logger.info(f"data['layers'].value: {data['layers'].value}")
 
     return dowork(id, layers, format)
 
