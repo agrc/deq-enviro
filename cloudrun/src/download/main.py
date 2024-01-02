@@ -48,11 +48,11 @@ def process_job():
     log.logger.info(f"dir(document.value.fields): {dir(document.value.fields)}")
 
     id = data["id"].string_value
-    layers = data["layers"].array_value.values
-    format = data["format"].string_value
-    log.logger.info(f"dir(layers): {dir(layers)}")
 
-    return dowork(id, layers, format)
+    job = database.get_job(id)
+    log.logger.info(f"job: {job}")
+
+    return dowork(id, job['layers'], job['format'])
 
 
 def dowork(id, layers, format):

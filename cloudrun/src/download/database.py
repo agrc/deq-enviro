@@ -37,7 +37,16 @@ Job results document structure:
 }
 """
 results_doc = "{}-results"
+input_doc = "{}-input"
 
+
+def get_input(id):
+    """
+    Gets a input document from firestore.
+    """
+    doc_ref = client.collection("jobs").document(input_doc.format(id))
+
+    return doc_ref.get()
 
 def create_job(layers, format):
     """
@@ -45,7 +54,7 @@ def create_job(layers, format):
     """
     id = uuid4().hex
 
-    input_ref = client.collection("jobs").document(f"{id}-input")
+    input_ref = client.collection("jobs").document(input_doc.format(id))
     input_ref.set(
         {
             "id": id,
