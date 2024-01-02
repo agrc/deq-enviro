@@ -37,6 +37,7 @@ def process_job():
     """
     Kicked off by eventarc event triggered when a new document is added to firestore
     """
+    log.logger.info(f"request.get_data(): {request.get_data()}")
     event = from_http(request.headers, request.get_data())
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
@@ -47,7 +48,7 @@ def process_job():
     log.logger.info(f"dir(document.value.fields): {dir(document.value.fields)}")
 
     id = data["id"].string_value
-    layers = data["layers"].array_value
+    layers = data["layers"].array_value.values
     format = data["format"].string_value
     log.logger.info(f"dir(layers): {dir(layers)}")
 
