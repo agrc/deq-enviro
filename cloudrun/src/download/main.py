@@ -49,7 +49,7 @@ def process_job():
     id = data["id"].string_value
     layers = data["layers"].array_value
     format = data["format"].string_value
-    log.logger.info(f"layers: {layers}")
+    log.logger.info(f"dir(layers): {dir(layers)}")
 
     return dowork(id, layers, format)
 
