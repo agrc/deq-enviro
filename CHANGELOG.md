@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.0-56](https://github.com/agrc/deq-enviro/compare/v2.0.0-55...v2.0.0-56) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* just get the doc from firestore ([d006a59](https://github.com/agrc/deq-enviro/commit/d006a59bb616d1a828cf5924dc8aa17df036fe83))
+* layers members ([81aa6ea](https://github.com/agrc/deq-enviro/commit/81aa6ea4fda0613fef933d72eb8cb90eed5fd07d))
+* try json ([f25100b](https://github.com/agrc/deq-enviro/commit/f25100bfa68894a265be01b125b53a8f274a9836))
+
 ## [2.0.0-55](https://github.com/agrc/deq-enviro/compare/v2.0.0-54...v2.0.0-55) (2024-01-02)
 
 
