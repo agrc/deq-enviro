@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-50](https://github.com/agrc/deq-enviro/compare/v2.0.0-49...v2.0.0-50) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* try new library ([6378ddd](https://github.com/agrc/deq-enviro/commit/6378ddd0fd2832ba12af75226fa74b8eee1a61aa))
+
 ## [2.0.0-49](https://github.com/agrc/deq-enviro/compare/v2.0.0-48...v2.0.0-49) (2024-01-02)
 
 
