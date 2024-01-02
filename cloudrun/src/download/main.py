@@ -45,6 +45,7 @@ def process_job():
     document._pb.ParseFromString(event.get_data())
     log.logger.info(f"dir(document): {dir(document)}")
     data = document.value
+    log.logger.info(f"dir(document.value.fields): {dir(document.value.fields)}")
 
     id = data["id"]
     layers = data["layers"]
