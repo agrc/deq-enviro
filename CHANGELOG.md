@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0-48](https://github.com/agrc/deq-enviro/compare/v2.0.0-47...v2.0.0-48) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* add more logs ([1d1b36a](https://github.com/agrc/deq-enviro/commit/1d1b36ab92a7355fc828da29996eeabf8f0529e6))
+* remove invalid arg ([fe88f2a](https://github.com/agrc/deq-enviro/commit/fe88f2a3e05f3d944c09aaa64fa00bd0922fc4e8))
+
 ## [2.0.0-47](https://github.com/agrc/deq-enviro/compare/v2.0.0-46...v2.0.0-47) (2024-01-01)
 
 
