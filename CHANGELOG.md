@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-60](https://github.com/agrc/deq-enviro/compare/v2.0.0-35...v2.0.0-60) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* **download:** switch from request- to event-driven download processing ([59f011f](https://github.com/agrc/deq-enviro/commit/59f011fd9d11bd963ca0e2e9714739efef848565))
+
 ## [2.0.0-35](https://github.com/agrc/deq-enviro/compare/v2.0.0-34...v2.0.0-35) (2023-12-21)
 
 
