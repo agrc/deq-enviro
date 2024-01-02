@@ -45,7 +45,7 @@ def process_job():
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
     log.logger.info(f"event.data: {event.data}")
-    data = json.dumps(event.get_data(), ignore_unknown_fields=True)
+    data = json.dumps(event.get_data())
 
     id = data["id"]
     layers = data["layers"]
