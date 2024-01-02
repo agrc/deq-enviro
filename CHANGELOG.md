@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-49](https://github.com/agrc/deq-enviro/compare/v2.0.0-48...v2.0.0-49) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* request is not json ([dbfcf3b](https://github.com/agrc/deq-enviro/commit/dbfcf3bdff6d9134ff3710e273172fdc43080e62))
+
 ## [2.0.0-48](https://github.com/agrc/deq-enviro/compare/v2.0.0-47...v2.0.0-48) (2024-01-02)
 
 
