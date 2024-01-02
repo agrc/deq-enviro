@@ -42,7 +42,7 @@ def process_job():
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
     #: todo, figure out how to parse the event data, it's binary protobuf
     document = firestore.DocumentEventData()
-    document.ParseFromString(event.get_data())
+    document._pb.ParseFromString(event.get_data())
     log.logger.info(f"dir(document): {dir(document)}")
     data = document.value
 
