@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-59](https://github.com/agrc/deq-enviro/compare/v2.0.0-58...v2.0.0-59) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* get data ([5c534b2](https://github.com/agrc/deq-enviro/commit/5c534b2b38bf9f1c64bf54991fc95406dfae6f1a))
+
 ## [2.0.0-58](https://github.com/agrc/deq-enviro/compare/v2.0.0-57...v2.0.0-58) (2024-01-02)
 
 
