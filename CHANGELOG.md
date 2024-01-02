@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-57](https://github.com/agrc/deq-enviro/compare/v2.0.0-56...v2.0.0-57) (2024-01-02)
+
+
+### 🐛 Bug Fixes
+
+* switch back to protobuf ([1d0008e](https://github.com/agrc/deq-enviro/commit/1d0008e5dd590185db3f1acc965476c88186af05))
+
 ## [2.0.0-56](https://github.com/agrc/deq-enviro/compare/v2.0.0-55...v2.0.0-56) (2024-01-02)
 
 
