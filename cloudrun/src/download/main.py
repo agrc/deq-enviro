@@ -4,13 +4,13 @@ Download server.
 import threading
 import traceback
 from os import environ
-import json
 
 from cloudevents.http import from_http
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 from flask_json import FlaskJSON
+from google.events.cloud import firestore
 
 load_dotenv()  # this needs to be called before importing any other local modules
 
@@ -38,14 +38,12 @@ def process_job():
     Kicked off by eventarc event triggered when a new document is added to firestore
     """
     event = from_http(request.headers, request.get_data())
-    #: TODO: check what the this event object looks like
-    # 44 is throwing a keyerror on "value"
-    log.logger.info(f"request.get_data(): {request.get_data()}")
-    log.logger.info(f"dir(event): {dir(event)}")
     log.logger.info(f"event.get_data(): {event.get_data()}")
     log.logger.info(f"event.get_attributes(): {event.get_attributes()}")
-    log.logger.info(f"event.data: {event.data}")
-    data = json.dumps(event.get_data())
+    #: todo, figure out how to parse the event data, it's binary protobuf
+    document = firestore.DocumentEventData(event.get_data())
+    log.logger.info(f"dir(document): {dir(document)}")
+    data = document.value
 
     id = data["id"]
     layers = data["layers"]
