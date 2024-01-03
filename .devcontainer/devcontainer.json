@@ -1,7 +1,7 @@
 {
   "build": {
     "dockerfile": "../cloudrun/Dockerfile",
-    "target": "dev"
+    "target": "remote_dev"
   },
   "containerEnv": {
     "GOOGLE_APPLICATION_CREDENTIALS": "/gcp/config/application_default_credentials.json",
@@ -18,9 +18,7 @@
       ]
     }
   },
-  "forwardPorts": [
-    5000
-  ],
+  "forwardPorts": [5000],
   "mounts": [
     {
       "source": "${localEnv:HOME}/.config/gcloud",

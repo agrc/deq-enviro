@@ -4,25 +4,29 @@
       "tableName": "BFTARGETED",
       "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/BFTARGETED/FeatureServer/0",
       "objectIds": [11, 18],
-      "relationships": [{
-        "tableName": "DEQMAP_CERCLABRANCHACTMAJ",
-        "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRANCHACTMAJ/FeatureServer/0",
-        "primary": "ST_KEY",
-        "foreign": "ACLINK_KEY",
-        "name": "DEQMAP_BFTARGETED_TO_CERCLABRANCHACTMAJ"
-      }, {
-        "tableName": "DEQMAP_CERCLABRANCHIC",
-        "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRANCHIC/FeatureServer/0",
-        "primary": "ST_KEY",
-        "foreign": "ICALINKKEY",
-        "name": "DEQMAP_BFTARGETED_TO_CERCLABRANCHIC"
-      }, {
-        "tableName": "DEQMAP_CERCLABRREMED",
-        "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRREMED/FeatureServer/0",
-        "primary": "ST_KEY",
-        "foreign": "REMLINKKEY",
-        "name": "DEQMAP_BFTARGETED_TO_CERCLABRREMED"
-      }]
+      "relationships": [
+        {
+          "tableName": "DEQMAP_CERCLABRANCHACTMAJ",
+          "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRANCHACTMAJ/FeatureServer/0",
+          "primary": "ST_KEY",
+          "foreign": "ACLINK_KEY",
+          "name": "DEQMAP_BFTARGETED_TO_CERCLABRANCHACTMAJ"
+        },
+        {
+          "tableName": "DEQMAP_CERCLABRANCHIC",
+          "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRANCHIC/FeatureServer/0",
+          "primary": "ST_KEY",
+          "foreign": "ICALINKKEY",
+          "name": "DEQMAP_BFTARGETED_TO_CERCLABRANCHIC"
+        },
+        {
+          "tableName": "DEQMAP_CERCLABRREMED",
+          "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/DEQMAP_CERCLABRREMED/FeatureServer/0",
+          "primary": "ST_KEY",
+          "foreign": "REMLINKKEY",
+          "name": "DEQMAP_BFTARGETED_TO_CERCLABRREMED"
+        }
+      ]
     },
     {
       "tableName": "OilGasWells",
@@ -113,13 +117,15 @@
         6350, 6367, 6377, 6388, 6396, 6399, 6407, 6412, 6414, 6450, 6461, 6463,
         6464, 6468, 6470, 6479, 6487, 6488, 6489
       ],
-      "relationships": [{
-        "tableName": "CompliancePST",
-        "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/CompliancePST/FeatureServer/0",
-        "primary": "FacilityID",
-        "foreign": "FacilityID",
-        "name": "FacilityPST_TO_CompliancePST"
-      }]
+      "relationships": [
+        {
+          "tableName": "CompliancePST",
+          "url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/CompliancePST/FeatureServer/0",
+          "primary": "FacilityID",
+          "foreign": "FacilityID",
+          "name": "FacilityPST_TO_CompliancePST"
+        }
+      ]
     }
   ],
   "format": "filegdb"
