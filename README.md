@@ -64,6 +64,10 @@ Most updates are taken care of via the config spreadsheet.
 
 You will need to copy the `functions-key-dev.json` key file from the terraform project to the `functions` directory in order to have permissions to hit the staging config spreadsheet.
 
+### Cloud Run
+
+The download service is hosted in Cloud Run since it requires a custom Docker container. The are npm scripts for building and running the container for local development. If you are working on the download service itself, you can run the "Dev Containers: Reopen in Container" command in VSCode. This will give you the ability to use the python environment defined in the Dockerfile with VSCode extensions. It also has a launch config allowing you to debug the service. Don't forget to run `npm run dev:firebase` to start the emulator since the download service depends on it.
+
 ## Config Spreadsheet Deploy Addon
 
 This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory.
