@@ -11,7 +11,8 @@ export default function WebApiFilter({
 }) {
   const onChange = useCallback(
     (geometry, name) => {
-      send('SET_FILTER', {
+      send({
+        type: 'SET_FILTER',
         filter: {
           geometry,
           name,
@@ -22,7 +23,8 @@ export default function WebApiFilter({
   );
 
   useEffect(() => {
-    send('SET_FILTER', {
+    send({
+      type: 'SET_FILTER',
       filter: {
         geometry: null,
         name: null,

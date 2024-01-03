@@ -343,7 +343,8 @@ export default function MapComponent() {
         const { count, extent } = await featureLayer.queryExtent(extentQuery);
 
         if (count > appConfig.maxSearchCount) {
-          send('RESULT', {
+          send({
+            type: 'RESULT',
             result: {
               ...layer,
               error: (
@@ -397,7 +398,8 @@ export default function MapComponent() {
           featureLayer.geometryType === 'polygon' ? 1 : null,
         );
 
-        send('RESULT', {
+        send({
+          type: 'RESULT',
           result: {
             ...layer,
             features,
@@ -417,7 +419,7 @@ export default function MapComponent() {
           error,
         );
 
-        send('RESULT', { result: { ...layer, error: error.message } });
+        send({ type: 'RESULT', result: { ...layer, error: error.message } });
 
         return null;
       }
@@ -448,7 +450,7 @@ export default function MapComponent() {
           return totalExtent.union(extent);
         }, null);
 
-      send('COMPLETE', { extent });
+      send({ type: 'COMPLETE', extent });
 
       searching.current = false;
     }
@@ -461,7 +463,7 @@ export default function MapComponent() {
     if (!searching.current) {
       search().catch((error) => {
         console.error('error searching', error);
-        send('ERROR', { message: error.message });
+        send({ type: 'ERROR', message: error.message });
 
         searching.current = false;
       });

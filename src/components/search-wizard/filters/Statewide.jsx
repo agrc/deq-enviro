@@ -4,7 +4,8 @@ import stateOfUtahJson from '../../../data/state-of-utah.json';
 
 export default function Statewide({ send }) {
   useEffect(() => {
-    send('SET_FILTER', {
+    send({
+      type: 'SET_FILTER',
       filter: { geometry: stateOfUtahJson, name: 'State of Utah' },
     });
   }, [send]);

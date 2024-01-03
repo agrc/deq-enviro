@@ -35,9 +35,7 @@ export default function NHDStream({ send }) {
             geometry: null,
             name: null,
           };
-    send('SET_FILTER', {
-      filter,
-    });
+    send({ type: 'SET_FILTER', filter });
   }, [stream, bufferGeometry, send]);
 
   return (

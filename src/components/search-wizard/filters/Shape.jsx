@@ -29,7 +29,8 @@ export default function Shape({ send }) {
 
     sketch.on('create', (event) => {
       if (event.state === 'complete') {
-        send('SET_FILTER', {
+        send({
+          type: 'SET_FILTER',
           filter: {
             geometry: event.graphic.geometry,
             name: 'User-drawn Shape',
@@ -40,7 +41,8 @@ export default function Shape({ send }) {
 
     mapView.ui.add(sketch, 'top-right');
 
-    send('SET_FILTER', {
+    send({
+      type: 'SET_FILTER',
       filter: {
         geometry: null,
         name: 'Shape',

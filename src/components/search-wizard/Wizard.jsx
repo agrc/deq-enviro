@@ -96,7 +96,7 @@ export default function SearchWizard() {
      * }} params
      */
     mutationFn: async ({ layers, format }) => {
-      send('ERROR', { message: null });
+      send({ type: 'ERROR', message: null });
 
       /** @type {{ success: boolean; error?: string; id?: string }} */
       let result;
@@ -114,17 +114,15 @@ export default function SearchWizard() {
           .json();
       } catch (error) {
         console.error(error);
-        send('ERROR', { message: error.message });
+        send({ type: 'ERROR', message: error.message });
 
         return;
       }
 
       if (result.success) {
-        send('DOWNLOADING', {
-          id: result.id,
-        });
+        send({ type: 'DOWNLOADING', id: result.id });
       } else {
-        send('ERROR', { message: result.error });
+        send({ type: 'ERROR', message: result.error });
       }
     },
   });
@@ -181,11 +179,11 @@ export default function SearchWizard() {
                 searchResultLayers={state.context.resultLayers}
                 selectedLayers={state.context.selectedDownloadLayers}
                 setSelectedLayers={(newIds) =>
-                  send('SET_SELECTED_LAYERS', { selectedLayers: newIds })
+                  send({ type: 'SET_SELECTED_LAYERS', selectedLayers: newIds })
                 }
                 format={state.context.downloadFormat}
                 setFormat={(newFormat) =>
-                  send('SET_FORMAT', { format: newFormat })
+                  send({ type: 'SET_FORMAT', format: newFormat })
                 }
                 error={state.context.error}
               />
@@ -220,7 +218,7 @@ export default function SearchWizard() {
                   (!state.context.filter.geometry &&
                     !state.context.filter.attribute?.values?.length)
                 }
-                onClick={() => send('SEARCH')}
+                onClick={() => send({ type: 'SEARCH' })}
               >
                 Search{' '}
                 {state.context.searchLayerTableNames.length
@@ -238,7 +236,7 @@ export default function SearchWizard() {
               className="w-full"
               disabled={state.context.searchLayerTableNames.length === 0}
               size="xl"
-              onClick={() => send('ADVANCED')}
+              onClick={() => send({ type: 'ADVANCED' })}
             >
               Open Advanced Filter
             </Button>
@@ -249,7 +247,7 @@ export default function SearchWizard() {
               color="primary"
               className="w-full"
               size="xl"
-              onClick={() => send('QUERY_LAYERS')}
+              onClick={() => send({ type: 'QUERY_LAYERS' })}
             >
               Back
             </Button>
@@ -261,7 +259,7 @@ export default function SearchWizard() {
                 appearance="solid"
                 className="w-full"
                 size="xl"
-                onClick={() => send('DOWNLOAD')}
+                onClick={() => send({ type: 'DOWNLOAD' })}
               >
                 Download
               </Button>
@@ -269,7 +267,7 @@ export default function SearchWizard() {
                 color="primary"
                 className="w-full"
                 size="xl"
-                onClick={() => send('QUERY_LAYERS')}
+                onClick={() => send({ type: 'QUERY_LAYERS' })}
               >
                 Back
               </Button>
@@ -347,7 +345,7 @@ export default function SearchWizard() {
               color="primary"
               className="w-full"
               size="xl"
-              onClick={() => send('BACK')}
+              onClick={() => send({ type: 'BACK' })}
             >
               Back
             </Button>
@@ -356,7 +354,7 @@ export default function SearchWizard() {
             color="none"
             className="w-full"
             size="xl"
-            onClick={() => send('CLEAR')}
+            onClick={() => send({ type: 'CLEAR' })}
             disabled={state.matches('searching')}
           >
             {state.matches('selectLayers') ? 'Clear' : 'Start New Search'}

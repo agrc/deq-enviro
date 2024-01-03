@@ -22,9 +22,7 @@ export default function StreetAddress({ send }) {
             geometry: null,
             name: null,
           };
-    send('SET_FILTER', {
-      filter,
-    });
+    send({ type: 'SET_FILTER', filter });
   }, [address, bufferGeometry, send]);
 
   useEffect(() => {

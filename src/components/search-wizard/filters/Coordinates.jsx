@@ -48,9 +48,7 @@ export default function Coordinates({ send }) {
             geometry: null,
             name: null,
           };
-    send('SET_FILTER', {
-      filter,
-    });
+    send({ type: 'SET_FILTER', filter });
   }, [bufferGeometry, send, x, y]);
 
   const onDegreeMinutesChange = (newPoint) => {

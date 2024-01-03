@@ -48,7 +48,8 @@ export default function Attribute({ send, attributeType, selectedLayers }) {
       .split(' ')
       .map((value) => value.trim())
       .filter((value) => value);
-    send('SET_FILTER', {
+    send({
+      type: 'SET_FILTER',
       filter: {
         geometry: null,
         name: `${attributeConfig.label} search: ${values} (${queryType})`,
