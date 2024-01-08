@@ -25,7 +25,7 @@ In order for a dataset to be used as a query layer within the application, it mu
 
 ### Field Aliases
 
-These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application.
+These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application. As a backup, the config spreadsheet supports defining aliases for fields with the following syntax: `FieldName (Field Alias)`. If an alias is defined in the config spreadsheet, it will take precedence over the AGOL alias.
 
 ### Symbology
 
