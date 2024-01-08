@@ -14,7 +14,6 @@ import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
-import { supportsExport } from '../../functions/common/validation';
 import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import appConfig from '../app-config';
 import useMap from '../contexts/useMap';
@@ -388,11 +387,6 @@ export default function MapComponent() {
         query.returnGeometry = false;
         const features = await queryFeatures(featureLayer, query);
 
-        const supportsExportValue = supportsExport(featureLayer.sourceJSON);
-        if (!supportsExportValue) {
-          console.warn('Layer does not support exporting', layer);
-        }
-
         map.current.add(
           featureLayer,
           featureLayer.geometryType === 'polygon' ? 1 : null,
@@ -407,7 +401,6 @@ export default function MapComponent() {
             count,
             supportedExportFormats:
               featureLayer.sourceJSON.supportedExportFormats,
-            supportsExport: supportsExportValue,
             featureLayer,
           },
         });

@@ -57,7 +57,6 @@ const blankFilter = {
  *   fields: object[];
  *   count: number;
  *   supportedExportFormats: string[];
- *   supportsExport: boolean;
  *   featureLayer: import('@arcgis/core/layers/FeatureLayer').default;
  * }} QueryLayerResult
  */
@@ -195,9 +194,7 @@ const machine = createMachine(
           // set relevant layers as selected by default for download
           selectedDownloadLayers: ({ context }) =>
             context.resultLayers
-              .filter(
-                (result) => result.supportsExport && result.features.length > 0,
-              )
+              .filter((result) => result.features.length > 0)
               .map((result) => result[fieldNames.queryLayers.tableName]),
         }),
         on: {

@@ -57,14 +57,9 @@ export default function Download({
         return (
           <Checkbox
             key={tableName}
-            checked={
-              searchLayer.supportsExport && selectedLayers.includes(tableName)
-            }
-            label={`${layerName}${
-              searchLayer.supportsExport ? '' : ' (download not supported)'
-            }`}
+            checked={selectedLayers.includes(tableName)}
+            label={layerName}
             onCheckedChange={getOnChangeHandler(tableName)}
-            disabled={!searchLayer.supportsExport}
           ></Checkbox>
         );
       })}

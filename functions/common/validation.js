@@ -13,7 +13,3 @@ export const schemas = {
   queryLayers: object(getSchema(fieldConfigs.queryLayers)),
   relatedTables: object(getSchema(fieldConfigs.relatedTables)),
 };
-
-export function supportsExport(serviceJSON) {
-  return /extract/i.test(serviceJSON.capabilities);
-}

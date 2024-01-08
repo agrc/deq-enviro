@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 import got from 'got';
 import auth from './common/auth.js';
 import { fieldConfigs, fieldKeys, fieldNames } from './common/config.js';
-import { schemas, supportsExport } from './common/validation.js';
+import { schemas } from './common/validation.js';
 
 admin.initializeApp();
 
@@ -168,12 +168,6 @@ async function validateTableConfigs(
         `${configName}: could not fetch feature service JSON: ${error.message}`,
       );
       continue;
-    }
-
-    if (!supportsExport(serviceJSON)) {
-      validationErrors.push(
-        `${configName}: feature service does not support export/downloading!`,
-      );
     }
 
     const serviceFieldNames = serviceJSON.fields.map((field) => field.name);
