@@ -14,6 +14,8 @@ import Identify from './Identify';
 import Legend from './Legend';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import Tag from './Tag';
+import { logEvent } from 'firebase/analytics';
+import { useAnalytics } from 'reactfire';
 
 const padding = 'px-2 py-1';
 
@@ -50,8 +52,16 @@ export default function ResultTable({
   const { relationshipClasses: allRelationshipClasses } =
     useRemoteConfigValues();
 
+  const analytics = useAnalytics();
+
   const identify = useCallback(
     async (oid) => {
+      logEvent(analytics, 'identify_feature', {
+        layer_name: queryLayerResult[fieldNames.queryLayers.layerName],
+        table_name: queryLayerResult[fieldNames.queryLayers.tableName],
+        oid,
+      });
+
       const configIdentifyFields =
         queryLayerResult[fieldNames.queryLayers.identifyFields];
 
@@ -90,7 +100,7 @@ export default function ResultTable({
         relationshipClasses,
       });
     },
-    [allRelationshipClasses, queryLayerResult],
+    [allRelationshipClasses, analytics, queryLayerResult],
   );
 
   useEffect(() => {
@@ -196,6 +206,13 @@ export default function ResultTable({
               'group/trigger flex w-full items-center hover:bg-slate-200',
               expanded && 'border-b border-slate-300',
             )}
+            onClick={() =>
+              !expanded &&
+              logEvent(analytics, 'expand_results_table', {
+                layer_name: layerName,
+                table_name: queryLayerResult[fieldNames.queryLayers.tableName],
+              })
+            }
           >
             <Icon
               className="mr-2"

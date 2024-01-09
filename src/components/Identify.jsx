@@ -7,6 +7,8 @@ import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
 import { getAlias } from '../utils';
 import RelatedRecords from './RelatedRecords';
+import { logEvent } from 'firebase/analytics';
+import { useAnalytics } from 'reactfire';
 
 const buttonClasses = 'border-none px-2 my-1';
 
@@ -49,6 +51,7 @@ function Identify(
   forwardedRef,
 ) {
   const { zoom } = useMap();
+  const analytics = useAnalytics();
 
   const columns = [
     {
@@ -119,6 +122,7 @@ function Identify(
               href={substituteAttributes(url)}
               size="lg"
               external
+              onClick={() => logEvent(analytics, 'link_click', { url })}
             >
               {text}
             </Button>

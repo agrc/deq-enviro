@@ -9,6 +9,8 @@ import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import { getConfigByTableName, getRelationships } from '../../utils.js';
+import { logEvent } from 'firebase/analytics';
+import { useAnalytics } from 'reactfire';
 
 /**
  * @typedef {{
@@ -40,7 +42,7 @@ export default function SearchWizard() {
     queryLayers: [],
     relatedTables: [],
   });
-  // todo - use logEvent from 'firebase/analytics' to log which layers are selected
+  const analytics = useAnalytics();
 
   const { relationshipClasses: allRelationshipClasses } =
     useRemoteConfigValues();
@@ -96,6 +98,18 @@ export default function SearchWizard() {
      * }} params
      */
     mutationFn: async ({ layers, format }) => {
+      logEvent(analytics, 'generate_download', {
+        layers: layers.map((layer) => layer.tableName),
+        format,
+      });
+
+      layers.forEach((layer) => {
+        logEvent(analytics, 'generate_download_layer', {
+          layer: layer.tableName,
+          format,
+        });
+      });
+
       send({ type: 'ERROR', message: null });
 
       /** @type {{ success: boolean; error?: string; id?: string }} */

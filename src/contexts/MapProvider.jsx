@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { createContext, useState } from 'react';
+import { logEvent } from 'firebase/analytics';
+import { useAnalytics } from 'reactfire';
 
 export const MapContext = createContext(null);
 
@@ -11,8 +13,11 @@ export const MapContext = createContext(null);
 export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);
+  const analytics = useAnalytics();
 
   const zoom = (geometry) => {
+    logEvent(analytics, 'zoom_to_feature');
+
     if (!mapView) {
       console.warn('attempting to zoom before the mapView is set');
     } else {

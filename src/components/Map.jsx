@@ -27,6 +27,8 @@ import {
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
+import { useAnalytics } from 'reactfire';
+import { logEvent } from 'firebase/analytics';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -113,6 +115,7 @@ export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
+  const analytics = useAnalytics();
 
   const map = useRef(null);
   const view = useRef(null);
@@ -172,6 +175,10 @@ export default function MapComponent() {
           );
 
           if (hit) {
+            logEvent(analytics, 'map_click_feature', {
+              table_name: hit.graphic.layer.id.split(':')[1],
+            });
+
             const { layer, attributes } = hit.graphic;
 
             setSelectedGraphicInfo({
@@ -265,7 +272,7 @@ export default function MapComponent() {
       view.current.destroy();
       map.current.destroy();
     };
-  }, [setMapView, setSelectedGraphicInfo]);
+  }, [analytics, setMapView, setSelectedGraphicInfo]);
 
   const removeSearchLayers = () => {
     if (searching.current) return;
@@ -292,6 +299,12 @@ export default function MapComponent() {
      * @returns Promise
      */
     async function searchLayer(layer, filter) {
+      logEvent(analytics, 'search_layer', {
+        table_name: layer[fieldNames.queryLayers.tableName],
+        layer_name: layer[fieldNames.queryLayers.layerName],
+        filter: filter.name,
+      });
+
       try {
         const featureServiceUrl = layer[fieldNames.queryLayers.featureService];
 
@@ -461,7 +474,7 @@ export default function MapComponent() {
         searching.current = false;
       });
     }
-  }, [queryLayers, send, state]);
+  }, [analytics, queryLayers, send, state]);
 
   useEffect(() => {
     if (!searching.current && state.context.resultExtent === null) {

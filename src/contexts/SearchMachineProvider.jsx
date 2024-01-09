@@ -7,6 +7,7 @@ import { assign, createMachine, fromPromise } from 'xstate';
 import { downloadFormats, fieldNames } from '../../functions/common/config';
 import stateOfUtahJson from '../data/state-of-utah.json';
 import { useRemoteConfigValues } from './RemoteConfigProvider';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 localforage.config({
   name: 'deq-enviro-search-cache',
@@ -153,14 +154,22 @@ const machine = createMachine(
         },
       },
       searching: {
-        entry: assign({
-          resultLayers: [],
-          resultExtent: null,
-          error: null,
-          downloadResultId: null,
-          downloadFormat: downloadFormats.filegdb,
-          selectedDownloadLayers: [],
-        }),
+        entry: [
+          assign({
+            resultLayers: [],
+            resultExtent: null,
+            error: null,
+            downloadResultId: null,
+            downloadFormat: downloadFormats.filegdb,
+            selectedDownloadLayers: [],
+          }),
+          ({ context }) => {
+            logEvent(getAnalytics(), 'search', {
+              searchLayerTableNames: context.searchLayerTableNames,
+              filter: context.filter.name,
+            });
+          },
+        ],
         on: {
           RESULT: {
             actions: assign({
