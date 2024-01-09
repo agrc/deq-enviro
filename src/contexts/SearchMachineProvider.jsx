@@ -109,8 +109,7 @@ const machine = createMachine(
             actions: assign(({ context, event }) => {
               return {
                 ...context,
-                // @ts-ignore
-                ...event.data,
+                ...event.output,
               };
             }),
             target: 'selectLayers',
