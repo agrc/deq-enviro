@@ -202,7 +202,7 @@ const machine = createMachine(
           // set relevant layers as selected by default for download
           selectedDownloadLayers: ({ context }) =>
             context.resultLayers
-              .filter((result) => result.features.length > 0)
+              .filter((result) => result.features?.length > 0)
               .map((result) => result[fieldNames.queryLayers.tableName]),
         }),
         on: {
