@@ -158,7 +158,7 @@ const machine = createMachine(
           resultExtent: null,
           error: null,
           downloadResultId: null,
-          downloadFormat: downloadFormats.shapefile,
+          downloadFormat: downloadFormats.filegdb,
           selectedDownloadLayers: [],
         }),
         on: {
