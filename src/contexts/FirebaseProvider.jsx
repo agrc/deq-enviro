@@ -1,8 +1,12 @@
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import {
-  initializeFirestore,
-  connectFirestoreEmulator,
-} from 'firebase/firestore';
-import { FirestoreProvider, useInitFirestore } from 'reactfire';
+  FunctionsProvider,
+  AnalyticsProvider,
+  FirestoreProvider,
+  useFirebaseApp,
+} from 'reactfire';
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { getAnalytics } from 'firebase/analytics';
 
 /**
  * @param {Object} props
@@ -10,24 +14,22 @@ import { FirestoreProvider, useInitFirestore } from 'reactfire';
  * @returns {React.ReactElement}
  */
 export default function FirebaseProvider({ children }) {
-  const { status, data: firestoreInstance } = useInitFirestore(
-    async (firebaseApp) => {
-      const db = initializeFirestore(firebaseApp, {});
-
-      return db;
-    },
-  );
-
-  // firestore init isn't complete yet
-  if (status === 'loading') {
-    return null;
-  }
+  const app = useFirebaseApp();
 
   if (import.meta.env.DEV) {
-    connectFirestoreEmulator(firestoreInstance, 'localhost', 8080);
+    console.log('connecting to emulators');
+
+    connectFirestoreEmulator(getFirestore(), 'localhost', 8080);
+    connectFunctionsEmulator(getFunctions(), 'localhost', 5001);
   }
 
   return (
-    <FirestoreProvider sdk={firestoreInstance}>{children}</FirestoreProvider>
+    <FunctionsProvider sdk={getFunctions(app)}>
+      <AnalyticsProvider sdk={getAnalytics(app)}>
+        <FirestoreProvider sdk={getFirestore(app)}>
+          {children}
+        </FirestoreProvider>
+      </AnalyticsProvider>
+    </FunctionsProvider>
   );
 }
