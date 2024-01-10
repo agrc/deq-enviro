@@ -138,6 +138,7 @@ function Button(
       target={external ? '_blank' : '_self'}
       rel={external ? 'noopener noreferrer' : ''}
       ref={ref}
+      onClick={onClick}
     >
       {children}
       <Icon
