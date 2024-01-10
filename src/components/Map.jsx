@@ -143,20 +143,23 @@ export default function MapComponent() {
     setMapView(view.current);
 
     view.current.when(() => {
-      const print = new Expand({
+      const print = new Print({
+        view: view.current,
+        printServiceUrl: appConfig.urls.print,
+        templateOptions: {
+          title: 'Printed from the Utah DEQ Interactive Map',
+        },
+      });
+      print.on('submit', () => logEvent(analytics, 'print_map'));
+
+      const printExpand = new Expand({
         expandIcon: 'print',
         view: view.current,
-        content: new Print({
-          view: view.current,
-          printServiceUrl: appConfig.urls.print,
-          templateOptions: {
-            title: 'Printed from the Utah DEQ Interactive Map',
-          },
-        }),
+        content: print,
         label: 'Print',
       });
 
-      view.current.ui.add(print, 'top-left');
+      view.current.ui.add(printExpand, 'top-left');
 
       const legend = new Expand({
         expandIcon: 'legend',
@@ -164,6 +167,11 @@ export default function MapComponent() {
         content: new Legend({ view: view.current }),
         label: 'Legend',
       });
+
+      legend.watch(
+        'expanded',
+        (expanded) => expanded && logEvent(analytics, 'view_legend'),
+      );
 
       view.current.ui.add(legend, 'top-left');
 
