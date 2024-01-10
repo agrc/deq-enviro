@@ -7,7 +7,10 @@ import ResultStatusIcons from './ResultStatusIcons';
  * @param {object} props
  * @param {string[]} props.searchLayerTableNames
  * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
- * @param {object[]} props.results
+ * @param {Record<
+ *   string,
+ *   import('../../contexts/SearchMachineProvider').QueryLayerResult
+ * >} props.results
  * @param {string} props.filterName
  * @returns {JSX.Element}
  */
@@ -23,9 +26,7 @@ export default function SearchProgress({
       <ul>
         {searchLayerTableNames.map((tableName) => {
           const config = getConfigByTableName(tableName, queryLayers);
-          const resultConfig = results.find(
-            (result) => result[fieldNames.queryLayers.tableName] === tableName,
-          );
+          const resultConfig = results && results[tableName];
           const layerName = config[fieldNames.queryLayers.layerName];
 
           return (
@@ -38,9 +39,16 @@ export default function SearchProgress({
                 layerName={layerName}
               />
               <span className="leading-5">
-                {layerName}
-                {resultConfig?.features ? (
-                  <Tag>{resultConfig.features.length.toLocaleString()}</Tag>
+                <div>
+                  {layerName}
+                  {resultConfig?.features ? (
+                    <Tag>{resultConfig.features.length.toLocaleString()}</Tag>
+                  ) : null}
+                </div>
+                {resultConfig?.error ? (
+                  <div className="text-sm text-error-500">
+                    {resultConfig.error}
+                  </div>
                 ) : null}
               </span>
             </li>

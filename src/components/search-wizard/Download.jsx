@@ -1,9 +1,20 @@
-import PropTypes from 'prop-types';
 import { downloadFormats, fieldNames } from '../../../functions/common/config';
 import Checkbox from '../../utah-design-system/Checkbox';
 import RadioGroup from '../../utah-design-system/RadioGroup';
 import Icon from '../../utah-design-system/Icon';
 
+/**
+ * @param {Object} props
+ * @param {Record<
+ *   string,
+ *   import('../../contexts/SearchMachineProvider').QueryLayerResult
+ * >} props.searchResultLayers
+ * @param {string[]} props.selectedLayers
+ * @param {function} props.setSelectedLayers
+ * @param {string} props.format
+ * @param {(value: string) => void} props.setFormat
+ * @param {string} [props.error]
+ */
 export default function Download({
   searchResultLayers,
   selectedLayers,
@@ -12,9 +23,9 @@ export default function Download({
   setFormat,
   error,
 }) {
-  const relevantResultLayers = searchResultLayers.filter(
-    (result) => !result.error && result.features.length > 0,
-  );
+  const relevantResultLayers = Object.keys(searchResultLayers)
+    .map((tableName) => searchResultLayers[tableName])
+    .filter((result) => !result.error && result.features.length > 0);
 
   const getOnChangeHandler = (tableName) => (checked) => {
     if (checked) {
@@ -85,11 +96,3 @@ export default function Download({
     </>
   );
 }
-
-Download.propTypes = {
-  searchResultLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setSelectedLayers: PropTypes.func.isRequired,
-  format: PropTypes.string.isRequired,
-  setFormat: PropTypes.func.isRequired,
-};

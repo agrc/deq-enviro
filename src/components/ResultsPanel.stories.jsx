@@ -31,37 +31,37 @@ export const Default = () => {
   };
   const state = {
     context: {
-      resultLayers: [
-        queryLayerResult,
-        queryLayerResult2,
-        errorResult,
-        queryLayerResult3,
-        noneFoundResult,
-        {
+      resultLayers: {
+        Brownfields: queryLayerResult,
+        TableName: queryLayerResult2,
+        SomeTable: errorResult,
+        ATable: queryLayerResult3,
+        HelloTable: noneFoundResult,
+        TableName2: {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.tableName]: 'TableName',
+          [fieldNames.queryLayers.tableName]: 'TableName2',
         },
-        {
+        AnotherTable: {
           ...queryLayerResult2,
           [fieldNames.queryLayers.tableName]: 'AnotherTable',
         },
-        {
+        SomeTable2: {
           ...queryLayerResult2,
-          [fieldNames.queryLayers.tableName]: 'SomeTable',
+          [fieldNames.queryLayers.tableName]: 'SomeTable2',
         },
-        {
+        TheTable: {
           ...queryLayerResult2,
           [fieldNames.queryLayers.tableName]: 'TheTable',
         },
-        {
+        NewTable: {
           ...queryLayerResult2,
           [fieldNames.queryLayers.tableName]: 'NewTable',
         },
-        {
+        OldTable: {
           ...queryLayerResult2,
           [fieldNames.queryLayers.tableName]: 'OldTable',
         },
-      ],
+      },
     },
     matches: () => true,
   };

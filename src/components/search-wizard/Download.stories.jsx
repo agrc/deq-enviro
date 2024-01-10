@@ -40,14 +40,14 @@ const queryLayerResult4 = {
   [fieldNames.queryLayers.tableName]: 'FromTable',
   [fieldNames.queryLayers.layerName]: 'No export formats',
 };
-const results = [
-  queryLayerResult,
-  queryLayerResult2,
-  queryLayerResult3,
-  queryLayerResult4,
-  errorResult,
-  noneFoundResult,
-];
+const results = {
+  Brownfields: queryLayerResult,
+  TableName: queryLayerResult2,
+  TableNameAgain: queryLayerResult3,
+  SomeTable: queryLayerResult4,
+  BlahTable: errorResult,
+  FromTable: noneFoundResult,
+};
 
 function Test({ searchResultLayers }) {
   const [selectedLayers, setSelectedLayers] = useState([
@@ -69,10 +69,6 @@ function Test({ searchResultLayers }) {
     />
   );
 }
-
-Test.propTypes = {
-  searchResultLayers: Download.propTypes.searchResultLayers,
-};
 
 export const Initial = () => {
   return <Test searchResultLayers={results} />;

@@ -24,16 +24,16 @@ const queryLayers = [
   },
 ];
 
-const results = [
-  {
+const results = {
+  TableName: {
     'Table Name': 'TableName',
     features: new Array(1134),
   },
-  {
+  AnotherTable: {
     'Table Name': 'AnotherTable',
     error: 'there was an error',
   },
-];
+};
 
 export const Default = () => (
   <div className="w-80">
@@ -46,6 +46,7 @@ export const Default = () => (
       ]}
       // @ts-ignore
       queryLayers={queryLayers}
+      // @ts-ignore
       results={results}
       filterName="filter name that wraps and wraps and wraps longer"
     />

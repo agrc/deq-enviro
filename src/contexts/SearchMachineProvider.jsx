@@ -43,7 +43,7 @@ const blankFilter = {
  * @typedef {Object} Context
  * @property {string[]} searchLayerTableNames
  * @property {Filter} filter
- * @property {QueryLayerResult[]} resultLayers
+ * @property {Record<string, QueryLayerResult>} resultLayers
  * @property {Object} resultExtent
  * @property {string[]} selectedDownloadLayers
  * @property {string} downloadResultId
@@ -156,7 +156,7 @@ const machine = createMachine(
       searching: {
         entry: [
           assign({
-            resultLayers: [],
+            resultLayers: null,
             resultExtent: null,
             error: null,
             downloadResultId: null,
@@ -176,7 +176,10 @@ const machine = createMachine(
               resultLayers: ({
                 context,
                 event: { /** @param QueryLayerResult */ result },
-              }) => [...context.resultLayers, result],
+              }) => ({
+                ...context.resultLayers,
+                [result[fieldNames.queryLayers.tableName]]: result,
+              }),
             }),
           },
           // generic error with search (not specific to a query layer)
@@ -201,9 +204,11 @@ const machine = createMachine(
         entry: assign({
           // set relevant layers as selected by default for download
           selectedDownloadLayers: ({ context }) =>
-            context.resultLayers
-              .filter((result) => result.features?.length > 0)
-              .map((result) => result[fieldNames.queryLayers.tableName]),
+            Object.keys(context.resultLayers).filter((tableName) => {
+              const result = context.resultLayers[tableName];
+
+              return result.features?.length > 0;
+            }),
         }),
         on: {
           CLEAR: {

@@ -297,51 +297,55 @@ export default function SearchWizard() {
               onClick={() =>
                 downloadMutation.mutate(
                   {
-                    layers: state.context.resultLayers
-                      .filter((result) =>
+                    layers: Object.keys(state.context.resultLayers)
+                      .filter((tableName) =>
                         state.context.selectedDownloadLayers.includes(
-                          result[fieldNames.queryLayers.tableName],
+                          tableName,
                         ),
                       )
-                      .map((result) => ({
-                        tableName: result[fieldNames.queryLayers.tableName],
-                        url: result[fieldNames.queryLayers.featureService],
-                        objectIds: result.features.map(
-                          (feature) => feature.attributes.OBJECTID,
-                        ),
-                        relationships: getRelationships(
-                          result[fieldNames.queryLayers.tableName],
-                          allRelationshipClasses,
-                        ).map((relationship) => ({
-                          tableName:
-                            relationship[
-                              fieldNames.relationshipClasses.relatedTableName
-                            ],
-                          url: getConfigByTableName(
-                            relationship[
-                              fieldNames.relationshipClasses.relatedTableName
-                            ],
-                            datasetConfigs.relatedTables,
-                          )[fieldNames.queryLayers.featureService],
-                          primary:
-                            relationship[
-                              fieldNames.relationshipClasses.primaryKey
-                            ],
-                          foreign:
-                            relationship[
-                              fieldNames.relationshipClasses.foreignKey
-                            ],
-                          name: `${
-                            relationship[
-                              fieldNames.relationshipClasses.parentDatasetName
-                            ]
-                          }_TO_${
-                            relationship[
-                              fieldNames.relationshipClasses.relatedTableName
-                            ]
-                          }`,
-                        })),
-                      })),
+                      .map((tableName) => {
+                        const result = state.context.resultLayers[tableName];
+
+                        return {
+                          tableName: result[fieldNames.queryLayers.tableName],
+                          url: result[fieldNames.queryLayers.featureService],
+                          objectIds: result.features.map(
+                            (feature) => feature.attributes.OBJECTID,
+                          ),
+                          relationships: getRelationships(
+                            result[fieldNames.queryLayers.tableName],
+                            allRelationshipClasses,
+                          ).map((relationship) => ({
+                            tableName:
+                              relationship[
+                                fieldNames.relationshipClasses.relatedTableName
+                              ],
+                            url: getConfigByTableName(
+                              relationship[
+                                fieldNames.relationshipClasses.relatedTableName
+                              ],
+                              datasetConfigs.relatedTables,
+                            )[fieldNames.queryLayers.featureService],
+                            primary:
+                              relationship[
+                                fieldNames.relationshipClasses.primaryKey
+                              ],
+                            foreign:
+                              relationship[
+                                fieldNames.relationshipClasses.foreignKey
+                              ],
+                            name: `${
+                              relationship[
+                                fieldNames.relationshipClasses.parentDatasetName
+                              ]
+                            }_TO_${
+                              relationship[
+                                fieldNames.relationshipClasses.relatedTableName
+                              ]
+                            }`,
+                          })),
+                        };
+                      }),
                     format: state.context.downloadFormat,
                   },
                   {

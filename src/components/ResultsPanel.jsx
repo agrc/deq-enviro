@@ -1,5 +1,4 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { fieldNames } from '../../functions/common/config';
 import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
@@ -9,23 +8,19 @@ const ResultTable = lazy(() => import('./ResultTable.jsx'));
 
 export default function ResultsPanel() {
   const [state] = useSearchMachine();
-  const [expandedTableIndex, setExpandedTableIndex] = useState(null);
+  const [expandedTableName, setExpandedTableName] = useState(null);
 
   const { selectedGraphicInfo } = useMap();
 
   useEffect(() => {
     if (selectedGraphicInfo) {
-      setExpandedTableIndex(
-        state.context.resultLayers.indexOf(
-          state.context.resultLayers.find(
-            (queryLayerResult) =>
-              queryLayerResult[fieldNames.queryLayers.tableName] ===
-              selectedGraphicInfo.layerId,
-          ),
-        ),
-      );
+      setExpandedTableName(selectedGraphicInfo.layerId);
     }
-  }, [selectedGraphicInfo, state.context.resultLayers]);
+  }, [
+    selectedGraphicInfo,
+    state.context.resultLayers,
+    state.context.searchLayerTableNames,
+  ]);
 
   const originalHeight = 256;
   const [height, setHeight] = useState(originalHeight);
@@ -59,26 +54,26 @@ export default function ResultsPanel() {
             </div>
           }
         >
-          {expandedTableIndex !== null ? (
+          {expandedTableName !== null ? (
             <ResultTable
-              key={
-                state.context.resultLayers[expandedTableIndex][
-                  fieldNames.queryLayers.tableName
-                ]
-              }
-              queryLayerResult={state.context.resultLayers[expandedTableIndex]}
+              key={expandedTableName}
+              queryLayerResult={state.context.resultLayers[expandedTableName]}
               expanded
-              onExpandChange={() => setExpandedTableIndex(null)}
+              onExpandChange={() => setExpandedTableName(null)}
             />
           ) : (
-            state.context.resultLayers.map((queryLayerResult, i) => (
-              <ResultTable
-                key={queryLayerResult[fieldNames.queryLayers.tableName]}
-                queryLayerResult={queryLayerResult}
-                expanded={false}
-                onExpandChange={() => setExpandedTableIndex(i)}
-              />
-            ))
+            state.context.searchLayerTableNames.map((tableName) => {
+              const queryLayerResult = state.context.resultLayers[tableName];
+
+              return (
+                <ResultTable
+                  key={tableName}
+                  queryLayerResult={queryLayerResult}
+                  expanded={false}
+                  onExpandChange={() => setExpandedTableName(tableName)}
+                />
+              );
+            })
           )}
         </Suspense>
       </div>
