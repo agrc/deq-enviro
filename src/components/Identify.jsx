@@ -121,7 +121,7 @@ function Identify(
               href={substituteAttributes(url)}
               size="lg"
               external
-              onClick={() => logEvent('link_click', { url })}
+              onClick={() => logEvent('link_click', { url, text })}
             >
               {text}
             </Button>
