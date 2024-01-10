@@ -14,8 +14,7 @@ import Identify from './Identify';
 import Legend from './Legend';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import Tag from './Tag';
-import { logEvent } from 'firebase/analytics';
-import { useAnalytics } from 'reactfire';
+import { useFirebase } from '../contexts/useFirebase';
 
 const padding = 'px-2 py-1';
 
@@ -52,11 +51,11 @@ export default function ResultTable({
   const { relationshipClasses: allRelationshipClasses } =
     useRemoteConfigValues();
 
-  const analytics = useAnalytics();
+  const { logEvent } = useFirebase();
 
   const identify = useCallback(
     async (oid) => {
-      logEvent(analytics, 'identify_feature', {
+      logEvent('identify_feature', {
         layer_name: queryLayerResult[fieldNames.queryLayers.layerName],
         table_name: queryLayerResult[fieldNames.queryLayers.tableName],
         oid,
@@ -100,7 +99,7 @@ export default function ResultTable({
         relationshipClasses,
       });
     },
-    [allRelationshipClasses, analytics, queryLayerResult],
+    [allRelationshipClasses, logEvent, queryLayerResult],
   );
 
   useEffect(() => {
@@ -208,7 +207,7 @@ export default function ResultTable({
             )}
             onClick={() =>
               !expanded &&
-              logEvent(analytics, 'expand_results_table', {
+              logEvent('expand_results_table', {
                 layer_name: layerName,
                 table_name: queryLayerResult[fieldNames.queryLayers.tableName],
               })

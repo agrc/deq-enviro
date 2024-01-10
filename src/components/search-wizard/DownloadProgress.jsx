@@ -1,10 +1,10 @@
 import { doc } from 'firebase/firestore';
 import { BulletList } from 'react-content-loader';
-import { useAnalytics, useFirestore, useFirestoreDocData } from 'reactfire';
+import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config';
 import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
-import { logEvent } from 'firebase/analytics';
+import { useFirebase } from '../../contexts/useFirebase';
 
 /**
  * @param {Object} props
@@ -46,7 +46,7 @@ export default function DownloadProgress({ layers, id, error }) {
  * @returns {JSX.Element}
  */
 export function DownloadProgressInner({ layers, layerResults, error, url }) {
-  const analytics = useAnalytics();
+  const { logEvent } = useFirebase();
 
   return (
     <>
@@ -77,7 +77,7 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
           href={url}
           download="data.zip"
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
-          onClick={() => logEvent(analytics, 'download_zip_file', { url })}
+          onClick={() => logEvent('download_zip_file', { url })}
         >
           <Icon className="mr-2" name="arrowDown" label="download" /> Download
           ZIP File

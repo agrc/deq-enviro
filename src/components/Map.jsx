@@ -27,8 +27,7 @@ import {
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
-import { useAnalytics } from 'reactfire';
-import { logEvent } from 'firebase/analytics';
+import { useFirebase } from '../contexts/useFirebase';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -115,7 +114,7 @@ export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
-  const analytics = useAnalytics();
+  const { logEvent } = useFirebase();
 
   const map = useRef(null);
   const view = useRef(null);
@@ -150,7 +149,7 @@ export default function MapComponent() {
           title: 'Printed from the Utah DEQ Interactive Map',
         },
       });
-      print.on('submit', () => logEvent(analytics, 'print_map'));
+      print.on('submit', () => logEvent('print_map'));
 
       const printExpand = new Expand({
         expandIcon: 'print',
@@ -170,7 +169,7 @@ export default function MapComponent() {
 
       legend.watch(
         'expanded',
-        (expanded) => expanded && logEvent(analytics, 'view_legend'),
+        (expanded) => expanded && logEvent('view_legend'),
       );
 
       view.current.ui.add(legend, 'top-left');
@@ -183,7 +182,7 @@ export default function MapComponent() {
           );
 
           if (hit) {
-            logEvent(analytics, 'map_click_feature', {
+            logEvent('map_click_feature', {
               table_name: hit.graphic.layer.id.split(':')[1],
             });
 
@@ -280,7 +279,7 @@ export default function MapComponent() {
       view.current.destroy();
       map.current.destroy();
     };
-  }, [analytics, setMapView, setSelectedGraphicInfo]);
+  }, [logEvent, setMapView, setSelectedGraphicInfo]);
 
   const removeSearchLayers = () => {
     if (searching.current) return;
@@ -307,7 +306,7 @@ export default function MapComponent() {
      * @returns Promise
      */
     async function searchLayer(layer, filter) {
-      logEvent(analytics, 'search_layer', {
+      logEvent('search_layer', {
         table_name: layer[fieldNames.queryLayers.tableName],
         layer_name: layer[fieldNames.queryLayers.layerName],
         filter: filter.name,
@@ -482,7 +481,7 @@ export default function MapComponent() {
         searching.current = false;
       });
     }
-  }, [analytics, queryLayers, send, state]);
+  }, [logEvent, queryLayers, send, state]);
 
   useEffect(() => {
     if (!searching.current && state.context.resultExtent === null) {

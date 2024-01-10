@@ -3,6 +3,11 @@ import '@utahdts/utah-design-system-header/css';
 import '../src/index.css';
 import { RemoteConfigContext } from '../src/contexts/RemoteConfigProvider';
 import remoteConfigDefaultJson from '../src/remote_config_defaults.json';
+import { InternalFirebaseContext } from '../src/contexts/FirebaseProvider';
+
+function logEvent(eventName, eventParams) {
+  console.log(`logEvent: ${eventName}`, eventParams);
+}
 
 /** @type {import('@storybook/react').Preview} */
 const preview = {
@@ -16,9 +21,11 @@ const preview = {
           };
         }, {})}
       >
-        <div className="text-slate-700">
-          <Story />
-        </div>
+        <InternalFirebaseContext.Provider value={{ logEvent }}>
+          <div className="text-slate-700">
+            <Story />
+          </div>
+        </InternalFirebaseContext.Provider>
       </RemoteConfigContext.Provider>
     ),
   ],
