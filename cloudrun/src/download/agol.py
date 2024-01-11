@@ -73,7 +73,6 @@ def download(id, layers, format):
         tableName = layer["tableName"]
         logger.info(f"query layer: {tableName}")
 
-        success = False
         try:
             feature_set = get_agol_data(
                 layer["url"], layer["objectIds"], return_geometry
@@ -94,7 +93,9 @@ def download(id, layers, format):
 
             update_job_layer(id, tableName, False, str(e))
 
-        if success and "relationships" in layer and len(layer["relationships"]) > 0:
+            continue
+
+        if "relationships" in layer and len(layer["relationships"]) > 0:
             primary_key = layer["relationships"][0]["primary"]
             primary_keys = feature_set.sdf.reset_index()[primary_key].tolist()
 
@@ -134,8 +135,6 @@ def download(id, layers, format):
                         logger.info("failed to add relationship")
 
         update_job_layer(id, tableName, True)
-
-        success = True
 
     return output_folder
 
