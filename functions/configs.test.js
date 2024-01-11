@@ -121,11 +121,11 @@ describe('validateFields', () => {
       // @ts-ignore
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toMatchInlineSnapshot(`
-        [
-          "Test Layer: field \\"two\\" in \\"Result Grid Fields\\" is not a valid field name.",
-          "Test Layer: field \\"three\\" in \\"Result Grid Fields\\" is not a valid field name.",
-        ]
-      `);
+      [
+        "Test Layer: field "two" in "Result Grid Fields" is not a valid field name.",
+        "Test Layer: field "three" in "Result Grid Fields" is not a valid field name.",
+      ]
+    `);
   });
   it('returns true if field is valid', () => {
     const fieldValidation = 'ID Field';

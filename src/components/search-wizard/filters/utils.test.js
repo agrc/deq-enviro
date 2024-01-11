@@ -156,7 +156,7 @@ describe('getWhere', () => {
         },
         [],
       ),
-    ).toThrowErrorMatchingInlineSnapshot('"Field NAME not found in fields."');
+    ).toThrowErrorMatchingInlineSnapshot(`[Error: Field NAME not found in fields.]`);
   });
   it('throws if the field type is not supported', () => {
     expect(() =>
@@ -178,7 +178,7 @@ describe('getWhere', () => {
         ],
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      '"Field type esriFieldTypeBlob is not supported."',
+      `[Error: Field type esriFieldTypeBlob is not supported.]`,
     );
   });
 });
