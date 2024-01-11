@@ -28,6 +28,7 @@ import {
 import { getWhere } from './search-wizard/filters/utils';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import { useFirebase } from '../contexts/useFirebase';
+import Spinner from '../utah-design-system/Spinner';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -115,6 +116,7 @@ export default function MapComponent() {
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
   const { logEvent } = useFirebase();
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const map = useRef(null);
   const view = useRef(null);
@@ -196,6 +198,10 @@ export default function MapComponent() {
             setSelectedGraphicInfo(null);
           }
         });
+      });
+
+      view.current.watch('updating', (updating) => {
+        setShowSpinner(updating);
       });
     });
 
@@ -517,9 +523,16 @@ export default function MapComponent() {
   }, [selectedGraphicInfo, state.context.resultLayers]);
 
   return (
-    <div className="w-full flex-1" ref={mapDiv}>
+    <div className="relative w-full flex-1" ref={mapDiv}>
       {selectorOptions ? (
         <LayerSelector {...selectorOptions}></LayerSelector>
+      ) : null}
+      {showSpinner ? (
+        <Spinner
+          ariaLabel="map busy indicator"
+          size="xl"
+          className="absolute bottom-5 right-1"
+        />
       ) : null}
     </div>
   );
