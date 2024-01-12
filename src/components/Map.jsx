@@ -42,48 +42,54 @@ function useMapGraphic(mapView, graphic) {
 
   useEffect(() => {
     const giddyUp = async () => {
-      if (!mapView) return;
-
-      if (!graphicsLayer.current) {
-        graphicsLayer.current = new GraphicsLayer();
-        mapView.map.add(graphicsLayer.current);
-      }
-
-      if (!graphic) {
-        if (previousGraphic.current) {
-          graphicsLayer.current.removeAll();
-
-          previousGraphic.current = null;
-        }
-
-        return;
-      }
-
-      if (JSON.stringify(graphic.geometry) !== previousGraphic.current) {
-        graphicsLayer.current.removeAll();
-
-        graphicsLayer.current.add(graphic);
-
-        previousGraphic.current = JSON.stringify(graphic.geometry);
-
-        // this prevents the map from skipping a goTo and not zooming to the latest graphic
-        if (previousGoTo.current) {
+      // this prevents the map from skipping a goTo and not zooming to the latest graphic
+      if (previousGoTo.current) {
+        try {
           await previousGoTo.current;
+        } catch (error) {
+          console.error('previous goTo error', error);
         }
-
-        previousGoTo.current = mapView
-          .goTo(graphic)
-          .catch((error) => {
-            if (error.name !== 'AbortError') {
-              throw error;
-            }
-            console.error('goTo error', error);
-          })
-          .then(() => (previousGoTo.current = null));
       }
+
+      previousGoTo.current = mapView
+        .goTo(graphic)
+        .catch((error) => {
+          if (error.name !== 'AbortError') {
+            throw error;
+          }
+          console.error('goTo error', error);
+        })
+        .then(() => (previousGoTo.current = null));
     };
 
-    giddyUp();
+    if (!mapView) return;
+
+    if (!graphicsLayer.current) {
+      graphicsLayer.current = new GraphicsLayer();
+      mapView.map.add(graphicsLayer.current);
+    }
+
+    if (!graphic?.geometry) {
+      if (previousGraphic.current) {
+        graphicsLayer.current.removeAll();
+
+        previousGraphic.current = null;
+      }
+
+      return;
+    }
+
+    if (
+      JSON.stringify(graphic?.geometry?.toJSON()) !== previousGraphic.current
+    ) {
+      graphicsLayer.current.removeAll();
+
+      graphicsLayer.current.add(graphic);
+
+      previousGraphic.current = JSON.stringify(graphic.geometry.toJSON());
+
+      giddyUp();
+    }
   }, [graphic, mapView]);
 }
 
