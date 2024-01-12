@@ -1,11 +1,10 @@
-import { Suspense, createRef, lazy, useEffect, useState } from 'react';
+import { Suspense, createRef, useEffect, useState } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
 import PanelResizer from './PanelResizer';
 import clsx from 'clsx';
-
-const ResultTable = lazy(() => import('./ResultTable.jsx'));
+import ResultTable from './ResultTable.jsx';
 
 export default function ResultsPanel() {
   const [state] = useSearchMachine();
