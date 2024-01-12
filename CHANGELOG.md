@@ -1,5 +1,46 @@
 # Changelog
 
+## [2.0.0-61](https://github.com/agrc/deq-enviro/compare/v2.0.0-60...v2.0.0-61) (2024-01-12)
+
+
+### 🚀 Features
+
+* add custom analytics events ([1afa532](https://github.com/agrc/deq-enviro/commit/1afa532513d5a081f85c96b1281fd5cc7ec30e4c)), closes [#630](https://github.com/agrc/deq-enviro/issues/630)
+* show updating activity indicator on map ([269997f](https://github.com/agrc/deq-enviro/commit/269997fed5dd753c9b9d6d291ca40a0d9f1a2f62)), closes [#633](https://github.com/agrc/deq-enviro/issues/633)
+
+
+### 🐛 Bug Fixes
+
+* allow for scrolling in results pane when no tables are expanded ([67afdbd](https://github.com/agrc/deq-enviro/commit/67afdbd8b67dd4beb534dfee675738ca900cddbe))
+* **button:** add onClick to anchor buttons ([55b2d4b](https://github.com/agrc/deq-enviro/commit/55b2d4b6a08c7c387bc22a19ec6412fe56389935))
+* ditch dynamic imports ([54ae30c](https://github.com/agrc/deq-enviro/commit/54ae30c42d9f6fa56dfc8b91e9872f6141e142e9))
+* **download:** fix bug preventing related tables from showing up in the download ([2709b5d](https://github.com/agrc/deq-enviro/commit/2709b5dcf283fc7c01a80adeae248a00419f9258))
+* enable start new search button after download ([5dbb9d0](https://github.com/agrc/deq-enviro/commit/5dbb9d098f3ca5d82fc8ccc69797cb1e4b4b0868)), closes [#632](https://github.com/agrc/deq-enviro/issues/632)
+* fix bug preventing search from completing when a layer had an error ([dc8d0c4](https://github.com/agrc/deq-enviro/commit/dc8d0c44fccf2f9e6c0547c49cecfaa854c7a428))
+* fix regression bug after upgrading xstate ([b06f7aa](https://github.com/agrc/deq-enviro/commit/b06f7aaf0b0f02f4c81f2f6869dbcdfae619274d))
+* layer order in results grid and download should match the search results ([fb0250a](https://github.com/agrc/deq-enviro/commit/fb0250a2d053f7469964a59e9e4e08e8c4093f38))
+* move analytics import to provider to allow for mocking in storybook ([b5d66a9](https://github.com/agrc/deq-enviro/commit/b5d66a9f19bd3e54971de49c99f37252414afa5a))
+* point to AGOL print task ([2d5f790](https://github.com/agrc/deq-enviro/commit/2d5f7901abb3c371e8223ce75eee77a5c4224d2f))
+* prevent showing result table before search is complete ([6062b2c](https://github.com/agrc/deq-enviro/commit/6062b2c563934305a957a92636fa4d6cd426e7b9))
+* reduce max returned records to prevent timeouts ([fa860c1](https://github.com/agrc/deq-enviro/commit/fa860c140f06ba5e4d127ae98d3f397809f098c7))
+* remove check for export endpoint on feature services ([970fa85](https://github.com/agrc/deq-enviro/commit/970fa85aadd0041f05d938bf676667a97763365f))
+* **sherlock:** line -&gt; polyline symbol name ([d5fbdff](https://github.com/agrc/deq-enviro/commit/d5fbdffbfb02edeed565b993fd57707e8b2ce1a8))
+* update snapshots ([4043a42](https://github.com/agrc/deq-enviro/commit/4043a42331e75ec513366d12a2247197032cfde2))
+
+
+### 🌲 Dependencies
+
+* add dependabot config for cloudrun/python ([6506fdb](https://github.com/agrc/deq-enviro/commit/6506fdb058e7770219239565ef8b7240c60efcf7))
+* bump deps 🌲 ([d2be3cf](https://github.com/agrc/deq-enviro/commit/d2be3cf803ff6e14058973d8a4df71a894680d5d))
+* bump deps 🌲 ([4b0a532](https://github.com/agrc/deq-enviro/commit/4b0a5329334033d5460700e2578e592227e06708))
+* bump utah design system to remove annoying console warning ([fbf31b4](https://github.com/agrc/deq-enviro/commit/fbf31b4689a4b282620da8afba829661be43f321))
+
+
+### 📖 Documentation Improvements
+
+* add note about field alias config option ([a629e66](https://github.com/agrc/deq-enviro/commit/a629e667c594e21fafc08342733ba937591a45e6))
+* add notes about cloudrun local dev ([43039ae](https://github.com/agrc/deq-enviro/commit/43039aef0d8b41015a64af647c959cbd5078e417))
+
 ## [2.0.0-60](https://github.com/agrc/deq-enviro/compare/v2.0.0-35...v2.0.0-60) (2024-01-02)
 
 
