@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import ky from 'ky';
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
 import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
@@ -10,6 +10,10 @@ import SelectMapData from './SelectMapData.jsx';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import { getConfigByTableName, getRelationships } from '../../utils.js';
 import { useFirebase } from '../../contexts/useFirebase.jsx';
+import AdvancedFilter from './AdvancedFilter.jsx';
+import Download from './Download.jsx';
+import DownloadProgress from './DownloadProgress.jsx';
+import Progress from './SearchProgress.jsx';
 
 /**
  * @typedef {{
@@ -29,11 +33,6 @@ import { useFirebase } from '../../contexts/useFirebase.jsx';
  *   relationships: DownloadRelationship[];
  * }} DownloadLayer
  */
-
-const AdvancedFilter = lazy(() => import('./AdvancedFilter.jsx'));
-const Download = lazy(() => import('./Download.jsx'));
-const DownloadProgress = lazy(() => import('./DownloadProgress.jsx'));
-const Progress = lazy(() => import('./SearchProgress.jsx'));
 
 export default function SearchWizard() {
   const [state, send] = useSearchMachine();
