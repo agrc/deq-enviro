@@ -81,14 +81,14 @@ export default function ResultsPanel() {
             state.context.searchLayerTableNames.map((tableName) => {
               const queryLayerResult = state.context.resultLayers[tableName];
 
-              return (
+              return queryLayerResult ? (
                 <ResultTable
                   key={tableName}
                   queryLayerResult={queryLayerResult}
                   expanded={false}
                   setExpandedTableName={setExpandedTableName}
                 />
-              );
+              ) : null;
             })
           )}
         </Suspense>
