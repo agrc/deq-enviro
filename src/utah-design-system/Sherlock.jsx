@@ -19,7 +19,7 @@ const defaultSymbols = {
       width: 2.5,
     },
   },
-  line: {
+  polyline: {
     type: 'simple-line',
     style: 'solid',
     color: [255, 255, 0],
