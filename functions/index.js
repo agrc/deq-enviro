@@ -1,4 +1,10 @@
 import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
+
+const configSpreadsheetIdSecret = defineSecret('CONFIG_SPREADSHEET_ID');
+const openSgidConnectionParamsSecret = defineSecret(
+  'OPENSGID_CONNECTION_PARAMS',
+);
 
 const commonConfigs = {
   // longer timeout for local development to allow for debugging
@@ -8,7 +14,7 @@ const commonConfigs = {
 export const configs = onRequest(
   {
     ...commonConfigs,
-    secrets: ['CONFIG_SPREADSHEET_ID'],
+    secrets: [configSpreadsheetIdSecret],
   },
   async (_, response) => {
     const { main: update } = await import('./configs.js');
@@ -24,7 +30,7 @@ export const configs = onRequest(
 export const search = onCall(
   {
     ...commonConfigs,
-    secrets: ['OPENSGID_CONNECTION_PARAMS'],
+    secrets: [openSgidConnectionParamsSecret],
   },
   async ({ data }) => {
     const { search: searchSource } = await import('./search.js');
@@ -36,7 +42,7 @@ export const search = onCall(
 export const getFeature = onCall(
   {
     ...commonConfigs,
-    secrets: ['OPENSGID_CONNECTION_PARAMS'],
+    secrets: [openSgidConnectionParamsSecret],
   },
   async ({ data }) => {
     const { getFeature: getFeatureSource } = await import('./search.js');
