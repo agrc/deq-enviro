@@ -2,7 +2,7 @@ import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import ky from 'ky';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
 import useMap from '../contexts/useMap';
@@ -38,14 +38,10 @@ function Error({ layerName, errorMessage }) {
  *
  * @param {Object} props
  * @param {import('../contexts/SearchMachineProvider').QueryLayerResult} props.queryLayerResult
- * @param {(open: boolean) => void} props.onExpandChange
+ * @param {(open: boolean) => void} props.setExpandedTableName
  * @param {boolean} props.expanded
  */
-export default function ResultTable({
-  queryLayerResult,
-  onExpandChange,
-  expanded,
-}) {
+function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
   const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
 
   const { relationshipClasses: allRelationshipClasses } =
@@ -182,6 +178,12 @@ export default function ResultTable({
     return links;
   };
 
+  const onOpenChange = () => {
+    setExpandedTableName(
+      expanded ? null : queryLayerResult[fieldNames.queryLayers.tableName],
+    );
+  };
+
   return (
     <ErrorBoundary
       fallbackRender={({ error }) => (
@@ -195,7 +197,7 @@ export default function ResultTable({
           expanded && 'absolute bottom-0 top-0',
         )}
         open={expanded}
-        onOpenChange={onExpandChange}
+        onOpenChange={onOpenChange}
       >
         <Collapsible.Trigger asChild>
           <button
@@ -255,3 +257,7 @@ export default function ResultTable({
     </ErrorBoundary>
   );
 }
+
+// this helps when resizing the results panel with many tables
+const MemoizedResultTable = memo(ResultTable);
+export default MemoizedResultTable;

@@ -1,8 +1,9 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, createRef, lazy, useEffect, useState } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
 import PanelResizer from './PanelResizer';
+import clsx from 'clsx';
 
 const ResultTable = lazy(() => import('./ResultTable.jsx'));
 
@@ -25,6 +26,16 @@ export default function ResultsPanel() {
   const originalHeight = 256;
   const [height, setHeight] = useState(originalHeight);
 
+  const containerRef = createRef();
+
+  const hasExpandedTable = expandedTableName !== null;
+
+  useEffect(() => {
+    if (containerRef.current && hasExpandedTable) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [containerRef, hasExpandedTable]);
+
   if (!state.matches('result')) {
     return null;
   }
@@ -32,16 +43,21 @@ export default function ResultsPanel() {
   return (
     <>
       <PanelResizer
-        dragValue={originalHeight - height}
         show={state.matches('result')}
-        onResize={(dragValue) => setHeight(originalHeight - dragValue)}
+        onResize={(dragValue) => {
+          setHeight(originalHeight - dragValue);
+        }}
         initialHeight={originalHeight}
       />
       <div
-        className="relative w-full border-t border-slate-300"
+        className={clsx(
+          !hasExpandedTable && 'overflow-y-auto',
+          'relative w-full border-t border-slate-300',
+        )}
         style={{
           height: `${height}px`,
         }}
+        ref={containerRef}
       >
         <Suspense
           fallback={
@@ -54,12 +70,12 @@ export default function ResultsPanel() {
             </div>
           }
         >
-          {expandedTableName !== null ? (
+          {hasExpandedTable ? (
             <ResultTable
               key={expandedTableName}
               queryLayerResult={state.context.resultLayers[expandedTableName]}
               expanded
-              onExpandChange={() => setExpandedTableName(null)}
+              setExpandedTableName={setExpandedTableName}
             />
           ) : (
             state.context.searchLayerTableNames.map((tableName) => {
@@ -70,7 +86,7 @@ export default function ResultsPanel() {
                   key={tableName}
                   queryLayerResult={queryLayerResult}
                   expanded={false}
-                  onExpandChange={() => setExpandedTableName(tableName)}
+                  setExpandedTableName={setExpandedTableName}
                 />
               );
             })

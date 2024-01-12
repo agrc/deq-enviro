@@ -80,12 +80,15 @@ export const Default = () => {
   };
 
   return (
-    <div className="border border-slate-300">
-      <MapProvider>
-        <SearchMachineContext.Provider value={[state]}>
-          <ResultsPanel />
-        </SearchMachineContext.Provider>
-      </MapProvider>
+    <div className="absolute h-3/4 w-full">
+      <div className="relative h-full w-full">
+        <div className="h-1/2 w-full"></div>
+        <MapProvider>
+          <SearchMachineContext.Provider value={[state]}>
+            <ResultsPanel />
+          </SearchMachineContext.Provider>
+        </MapProvider>
+      </div>
     </div>
   );
 };
