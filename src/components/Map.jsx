@@ -29,6 +29,7 @@ import { getWhere } from './search-wizard/filters/utils';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import { useFirebase } from '../contexts/useFirebase';
 import Spinner from '../utah-design-system/Spinner';
+import Graphic from '@arcgis/core/Graphic';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -124,7 +125,7 @@ export default function MapComponent() {
     geometry: state.context?.filter?.geometry,
     symbol: appConfig.symbols.filter,
   };
-  useMapGraphic(view.current, filterGraphic);
+  useMapGraphic(view.current, new Graphic(filterGraphic));
 
   const { queryLayers } = useRemoteConfigValues();
 
