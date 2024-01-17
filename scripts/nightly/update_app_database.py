@@ -200,6 +200,9 @@ def drinking_water_join(crate, app_feature_class):
     logger.info('joining')
     joined_df = ratings_df.join(culinary_water_df, on='PWSID', how='inner')
 
+    #: to_featureclass was throwing errors before this change
+    joined_df['RATINGDATE'] = joined_df['RATINGDATE'].astype(str)
+
     logger.info('exporting data')
     joined_df.spatial.project(3857, transformation_name='NAD_1983_To_WGS_1984_5')
     joined_df.spatial.to_featureclass(app_feature_class, overwrite=True, sanitize_columns=False)
