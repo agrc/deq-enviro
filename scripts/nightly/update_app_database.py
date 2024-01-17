@@ -274,12 +274,12 @@ def table_to_points(crate, app_feature_class, source_name, sgid_name):
     if not arcpy.Exists(app_feature_class):
         arcpy.management.Copy(temp_app_feature_class, app_feature_class)
     else:
-        arcpy.management.TruncateTable(app_feature_class)
+        arcpy.management.DeleteRows(app_feature_class)
         arcpy.management.Append(temp_app_feature_class, app_feature_class, 'NO_TEST')
 
 
 def etl(dest, destFields, source, sourceFields):
-    arcpy.management.TruncateTable(dest)
+    arcpy.management.DeleteRows(dest)
 
     where = '{} IS NOT NULL AND {} IS NOT NULL'.format(sourceFields[0], sourceFields[1])
     with arcpy.da.InsertCursor(dest, destFields) as icursor, \

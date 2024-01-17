@@ -87,7 +87,7 @@ class DEQNightly0UpdatePallet(Pallet):
                     crate.result = (Crate.CREATED, None)
                 else:
                     self.log.info('manually updating %s', destination)
-                    arcpy.TruncateTable_management(destination)
+                    arcpy.DeleteRows_management(destination)
                     arcpy.Append_management(source, destination, 'TEST')
                     crate.result = (Crate.UPDATED, None)
             except Exception as ex:
