@@ -12,7 +12,7 @@ export default function Checkbox({
   disabled,
 }) {
   return (
-    <div className="flex items-center">
+    <div className="my-1 flex items-center">
       <div className="group inline-flex items-center">
         <div
           className={twJoin(
@@ -42,7 +42,7 @@ export default function Checkbox({
         <label
           htmlFor={name || label}
           className={twJoin(
-            'pl-1 leading-5',
+            'pl-1 leading-4',
             disabled ? 'cursor-not-allowed text-slate-300' : 'cursor-pointer',
           )}
         >

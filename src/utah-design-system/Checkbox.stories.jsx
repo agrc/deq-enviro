@@ -13,6 +13,7 @@ export const Default = () => (
     <Checkbox label="disabled and checked" checked disabled />
     <div className="w-52 bg-slate-50">
       <Checkbox label="a very long name that wraps and wraps" />
+      <Checkbox label="a very long name that wraps and wraps" />
     </div>
   </>
 );
