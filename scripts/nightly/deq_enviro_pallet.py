@@ -73,6 +73,8 @@ class DEQNightly0UpdatePallet(Pallet):
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_dataset(crate.destination)
 
+        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
             if self.test_layer and self.test_layer.split('.')[-1] != destination_name:
@@ -175,6 +177,8 @@ class DEQNightly2NonSGIDPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
+        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+
 
 class DEQNightlyRelatedTablesPallet(Pallet):
     def __init__(self, test_layer=None):
@@ -199,6 +203,9 @@ class DEQNightlyRelatedTablesPallet(Pallet):
             self.success = (False, '\n\n'.join(errors))
 
         self.add_crates(crate_infos)
+
+    def process(self):
+        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
 
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)

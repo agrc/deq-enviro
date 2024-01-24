@@ -111,7 +111,10 @@ def create_relationship_classes(staging, test_layer):
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName]
         rcPath = path.join(staging, settings.fgd, rcName)
-        if test_layer is not None and config[fieldnames.parentDatasetName] != test_layer.split('.')[-1]:
+        if (test_layer is not None and
+            config[fieldnames.parentDatasetName] != test_layer.split('.')[-1] and
+            config[fieldnames.relatedTableName] != test_layer.split('.')[-1]
+        ):
             continue
 
         if not arcpy.Exists(rcPath):
