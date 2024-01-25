@@ -61,8 +61,18 @@ class DEQNightly0UpdatePallet(Pallet):
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
+    def prepare_packaging(self):
+        """
+        Delete all relationship classes before any edits are made.
+        They are recreated in process.
+        Otherwise, when parent features are deleted by the forklift update
+        process, the foreign key values in the child records are set to null and
+        forklift has no idea since the value of FORKLIFT_HASH is unchanged.
+        """
+        update_fgdb.delete_relationship_classes(self.staging_rack)
+
     def requires_processing(self):
-        #: make sure that update_problem_layers is called every time
+        #: make sure that update_problem_layers, and relationship classes are recreated is called every time
         return True
 
     def process(self):
@@ -73,7 +83,7 @@ class DEQNightly0UpdatePallet(Pallet):
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_dataset(crate.destination)
 
-        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+        update_fgdb.create_relationship_classes(self.staging_rack)
 
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
@@ -137,7 +147,7 @@ class DEQNightly1TempTablesPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
-        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+        update_fgdb.create_relationship_classes(self.staging_rack)
 
     def ship(self):
         for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates']):
@@ -177,8 +187,7 @@ class DEQNightly2NonSGIDPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
-        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
-
+        update_fgdb.create_relationship_classes(self.staging_rack)
 
 class DEQNightlyRelatedTablesPallet(Pallet):
     def __init__(self, test_layer=None):
@@ -205,7 +214,7 @@ class DEQNightlyRelatedTablesPallet(Pallet):
         self.add_crates(crate_infos)
 
     def process(self):
-        update_fgdb.create_relationship_classes(self.staging_rack, self.test_layer)
+        update_fgdb.create_relationship_classes(self.staging_rack)
 
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)

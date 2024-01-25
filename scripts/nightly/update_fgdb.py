@@ -106,21 +106,27 @@ def post_process_dataset(dataset):
                     ucur.deleteRow()
 
 
-def create_relationship_classes(staging, test_layer):
+def delete_relationship_classes(staging):
+    logger.info('deleting relationship classes')
+    for config in spreadsheet.get_relationship_classes():
+        rcName = config[fieldnames.relationshipName]
+        rcPath = path.join(staging, settings.fgd, rcName)
+
+        if arcpy.Exists(rcPath):
+            logger.debug(f'deleting {rcName}')
+            arcpy.Delete_management(rcPath)
+
+
+def create_relationship_classes(staging):
     for config in spreadsheet.get_relationship_classes():
         # create relationship class if missing
         rcName = config[fieldnames.relationshipName]
         rcPath = path.join(staging, settings.fgd, rcName)
-        if (test_layer is not None and
-            config[fieldnames.parentDatasetName] != test_layer.split('.')[-1] and
-            config[fieldnames.relatedTableName] != test_layer.split('.')[-1]
-        ):
-            continue
 
         origin = path.join(staging, settings.fgd, config[fieldnames.parentDatasetName])
         destination = path.join(staging, settings.fgd, config[fieldnames.relatedTableName])
         if not arcpy.Exists(rcPath) and arcpy.Exists(origin) and arcpy.Exists(destination):
-            logger.info('Creating %s', rcPath)
+            logger.info(f'Creating {rcName}')
             arcpy.CreateRelationshipClass_management(origin,
                                                      destination,
                                                      rcPath,
