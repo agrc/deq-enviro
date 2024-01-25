@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0-62](https://github.com/agrc/deq-enviro/compare/v2.0.0-61...v2.0.0-62) (2024-01-25)
+
+
+### 🚀 Features
+
+* parse special filter configs ([b949d7f](https://github.com/agrc/deq-enviro/commit/b949d7f319ef75e90464e13e3cd9a23d51241ce5))
+
+
+### 🐛 Bug Fixes
+
+* **checkbox:** give wrapped labels more vertical separation ([aec8fd9](https://github.com/agrc/deq-enviro/commit/aec8fd9e34d0969d3651246457bd2d554e90026c))
+
 ## [2.0.0-61](https://github.com/agrc/deq-enviro/compare/v2.0.0-60...v2.0.0-61) (2024-01-12)
 
 
