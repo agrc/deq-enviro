@@ -7,8 +7,8 @@
   "Division Heading": "Environmental Response & Remediation",
   "Layer Description": "Brownfields are real property where the expansion, redevelopment, or reuse may be complicated by the presence or potential presence of contamination. This can impede economic development.",
   "Metadata Link": "https://deq.utah.gov/environmental-response-and-remediation/cercla-comprehensive-environmental-response-compensation-and-liability-act/brownfields-program",
-  "Special Filters": "n/a",
-  "Special Filter Default To On": "N",
+  "Special Filters": [],
+  "Special Filter Default To On": false,
   "Additional Searches": "n/a",
   "OID Field": "ST_KEY",
   "Result Grid Fields": [

@@ -5,26 +5,22 @@ export default {
   component: QueryLayer,
 };
 
+/** @type {import('../../../functions/common/config').QueryLayerConfig} */
 const config = {
   'Table Name': 'Facilities',
   'Layer Name': 'Public Water System Facilities',
-  'SGID Feature Class Name': 'DirectFrom.Source.WSFacilities',
-  Secure: 'Yes',
   'Geometry Type': 'point',
   'Division Heading': 'Drinking Water',
   'Layer Description':
     'Wells, springs and surface-water intakes used by public water systems.',
   'Metadata Link':
     'https://71dvtvplh8.execute-api.us-west-2.amazonaws.com/PROD/deq-interactive-maps-docs?doc-id=PublicWaterSystemFacs_Metadata.pdf',
-  'Special Filters': 'n/a',
-  'Special Filter Default To On': 'N',
+  'Special Filters': [],
+  'Special Filter Default To On': false,
   'Additional Searches': 'n/a',
   'OID Field': '',
   ID: 'SYSFACID',
   NAME: 'FACNAME',
-  ADDRESS: 'SYSNUMBER',
-  CITY: 'SYSNAME',
-  TYPE: 'FACTYPEDESC',
   'Custom Symbology Field': 'n/a',
   'Legend Title': 'n/a',
   'Map Label Field': 'SYSFACID',

@@ -24,6 +24,7 @@ export function applyTransforms(configs, fieldConfigs, tableFieldNames) {
   for (const config of configs) {
     for (const fieldName in config) {
       if (fieldConfigs[tableFieldNames[fieldName]]?.transform) {
+        console.log(`transforming ${fieldName} for ${config['Table Name']}`);
         config[fieldName] = fieldConfigs[tableFieldNames[fieldName]].transform(
           config[fieldName],
         );
@@ -93,10 +94,35 @@ export function getFieldsFromUrl(url) {
   return matches.map((match) => match.replace(/[{}]/g, ''));
 }
 
+/** @typedef {import('./common/config.js').FieldFilterConfig} FieldFilterConfig */
+/** @typedef {import('./common/config.js').DateFilterConfig} DateFilterConfig */
+
+/**
+ * @param {(
+ *   | FieldFilterConfig
+ *   | import('./common/config.js').CheckboxRadioQueriesFilterConfig
+ *   | DateFilterConfig
+ * )[]} filters
+ * @returns {string[]}
+ */
+export function getFieldsFromSpecialFilters(filters) {
+  return filters.reduce((fields, filterConfig) => {
+    if (['field', 'date'].includes(filterConfig.type)) {
+      return [
+        ...fields,
+        /** @type {FieldFilterConfig | DateFilterConfig} */ (filterConfig)
+          .field,
+      ];
+    }
+
+    return fields;
+  }, []);
+}
+
 /**
  * @typedef {{
  *       configProp: string;
- *       getFieldNames: (value: string) => string[];
+ *       getFieldNames: (value: string | object) => string[];
  *     }
  *   | string} FieldValidation
  */
@@ -124,10 +150,14 @@ const queryLayerFieldValidations = [
     configProp: fieldNames.queryLayers.additionalInformation,
     getFieldNames: getFieldsFromUrl,
   },
-  /* TODO: validate all field names in the following fields:
-   * Special Filters (special filter syntax)
-   * Perhaps the Identify Attributes field if we bring it back...
-   */
+  {
+    configProp: fieldNames.queryLayers.specialFilters,
+    getFieldNames: getFieldsFromSpecialFilters,
+  },
+  {
+    configProp: fieldNames.queryLayers.IdentifyFields,
+    getFieldNames: (values) => values.map((value) => value.name),
+  },
 ];
 
 const relatedTableFieldValidations = [
@@ -166,6 +196,13 @@ async function validateTableConfigs(
     } catch (error) {
       validationErrors.push(
         `${configName}: could not fetch feature service JSON: ${error.message}`,
+      );
+      continue;
+    }
+
+    if (serviceJSON.error) {
+      validationErrors.push(
+        `${configName}: could not fetch feature service JSON: ${serviceJSON.error.message}`,
       );
       continue;
     }

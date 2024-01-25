@@ -6,6 +6,7 @@ import {
   checkForDuplicateTableNames,
   validateFields,
   getFieldsFromUrl,
+  getFieldsFromSpecialFilters,
 } from './configs';
 
 describe('arraysToObjects', () => {
@@ -183,5 +184,43 @@ describe('getFieldsFromUrl', () => {
     const urls = 'https://test.com';
 
     expect(getFieldsFromUrl(urls)).toEqual([]);
+  });
+});
+
+describe('getFieldsFromSpecialFilters', () => {
+  it('handles all of the different filter config types', () => {
+    /**
+     * @type {(
+     *   | import('./configs').FieldFilterConfig
+     *   | import('./common/config').CheckboxRadioQueriesFilterConfig
+     *   | import('./configs').DateFilterConfig
+     * )[]}
+     */
+    const configs = [
+      {
+        type: 'field',
+        field: 'FieldField',
+        fieldType: 'text',
+        label: 'Field Field',
+        options: [],
+      },
+      {
+        type: 'radio',
+        options: [],
+      },
+      {
+        type: 'checkbox',
+        options: [],
+      },
+      {
+        type: 'date',
+        field: 'DateField',
+        label: 'Date Field',
+      },
+    ];
+
+    const expected = ['FieldField', 'DateField'];
+
+    expect(getFieldsFromSpecialFilters(configs)).toEqual(expected);
   });
 });

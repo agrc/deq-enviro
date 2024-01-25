@@ -30,6 +30,8 @@ describe('getWhere', () => {
       type: 'esriFieldTypeInteger',
     },
   ];
+
+  /** @type {import('../../../../functions/common/config').QueryLayerConfig} */
   const layerConfig = {
     'Table Name': '',
     'Layer Name': '',
@@ -37,20 +39,16 @@ describe('getWhere', () => {
     'Division Heading': '',
     'Layer Description': '',
     'Metadata Link': '',
-    'Special Filters': '',
-    'Special Filter Default To On': '',
+    'Special Filters': [],
+    'Special Filter Default To On': false,
     'Additional Searches': '',
     'OID Field': '',
     ID: '',
     NAME: '',
-    ADDRESS: '',
-    CITY: '',
-    TYPE: '',
     'Custom Symbology Field': '',
     'Legend Title': '',
     'Map Label Field': '',
     'Sort Field': '',
-    'Identify Attributes': '',
     'Related Tables': '',
     'Result Grid Fields': [],
     'Document Search': '',

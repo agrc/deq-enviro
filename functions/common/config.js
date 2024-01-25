@@ -1,6 +1,33 @@
-import { array, string } from 'yup';
+import { array, string, bool } from 'yup';
 
-// https://github.com/jsdoc/jsdoc/issues/1468
+/** @typedef {'text' | 'number'} FieldType */
+/** @typedef {{ value: string; alias: string }} Option */
+
+/**
+ * @typedef {{
+ *   type: 'field';
+ *   field: string;
+ *   fieldType: FieldType;
+ *   label: string;
+ *   options: Option[];
+ * }} FieldFilterConfig
+ */
+
+/**
+ * @typedef {{
+ *   type: 'checkbox' | 'radio';
+ *   options: Option[];
+ * }} CheckboxRadioQueriesFilterConfig
+ */
+
+/**
+ * @typedef {{
+ *   type: 'date';
+ *   field: string;
+ *   label: string;
+ * }} DateFilterConfig
+ */
+
 /**
  * @typedef {{
  *   'Table Name': string;
@@ -9,8 +36,12 @@ import { array, string } from 'yup';
  *   'Division Heading': string;
  *   'Layer Description': string;
  *   'Metadata Link': string;
- *   'Special Filters': string;
- *   'Special Filter Default To On': string;
+ *   'Special Filters': (
+ *     | FieldFilterConfig
+ *     | CheckboxRadioQueriesFilterConfig
+ *     | DateFilterConfig
+ *   )[];
+ *   'Special Filter Default To On': boolean;
  *   'Additional Searches': string;
  *   'OID Field': string;
  *   ID: string;
@@ -59,7 +90,7 @@ const urlRegex = /https?:\/\//i;
 const invalidUrl = '"${value}" must be a valid URL ("{" and "}" are allowed)';
 
 export function transformFields(value) {
-  const entries = value.split(',').map((v) => v.trim());
+  const entries = value.split(',').map(trim);
 
   return entries.map((entry) => {
     const match = entry.match(/^(.*)\(([^()]*(?:\([^()]*\)[^()]*)*)\)$/);
@@ -72,6 +103,111 @@ export function transformFields(value) {
     }
 
     return entry;
+  });
+}
+
+export function transformYesNoToBoolean(value) {
+  if (value === 'Y') {
+    return true;
+  }
+
+  return false;
+}
+
+function getValueAndAlias(value) {
+  const parts = /(^.+?)\s\((.+)\)$/.exec(value);
+
+  if (!parts) {
+    throw new Error(`Invalid field value: ${value}`);
+  }
+
+  return {
+    value: parts[1],
+    alias: parts[2],
+  };
+}
+
+function trim(value) {
+  return value.trim();
+}
+
+const filterTypes = ['field', 'checkbox', 'radio', 'date', 'query'];
+/**
+ * @param {string} value
+ * @returns {(
+ *   | FieldFilterConfig
+ *   | CheckboxRadioQueriesFilterConfig
+ *   | DateFilterConfig
+ * )[]}
+ */
+export function transformSpecialFilters(value) {
+  if (!value || value.length === 0) {
+    return [];
+  }
+
+  const filterConfigs = value.split(';').map(trim);
+
+  /**
+   * @param {string} config
+   * @returns {FieldFilterConfig
+   *   | CheckboxRadioQueriesFilterConfig
+   *   | DateFilterConfig}
+   */
+  return filterConfigs.map((config) => {
+    const parts = /(^.+?):\s(.+$)/.exec(config);
+    const type = parts[1];
+    const optionsConfig = parts[2];
+
+    if (!filterTypes.includes(type)) {
+      throw new Error(`Invalid filter type: ${type}`);
+    }
+
+    switch (type) {
+      case 'field': {
+        const fieldParts = optionsConfig
+          .split(',')
+          .map(trim)
+          .map(getValueAndAlias);
+        let fieldConfig = fieldParts.shift();
+
+        const [fieldName, fieldType] = fieldConfig.value.split('|');
+
+        if (!['text', 'number'].includes(fieldType)) {
+          throw new Error(`Invalid field type: ${fieldType}`);
+        }
+
+        return {
+          type,
+          field: fieldName,
+          fieldType: /** @type {FieldType} */ (fieldType),
+          label: fieldConfig.alias,
+          options: fieldParts,
+        };
+      }
+      case 'checkbox':
+      case 'radio': {
+        const options = optionsConfig
+          .split(',')
+          .map(trim)
+          .map(getValueAndAlias);
+
+        return {
+          type,
+          options,
+        };
+      }
+      case 'date': {
+        const { value, alias } = getValueAndAlias(optionsConfig);
+
+        return {
+          type,
+          field: value,
+          label: alias,
+        };
+      }
+      default:
+        break;
+    }
   });
 }
 
@@ -177,11 +313,13 @@ export const fieldConfigs = {
     },
     specialFilterDefaultToOn: {
       name: 'Special Filter Default To On',
-      schema: string().nullable(),
+      schema: bool(),
+      transform: transformYesNoToBoolean,
     },
     specialFilters: {
       name: 'Special Filters',
-      schema: string().nullable(),
+      schema: array(),
+      transform: transformSpecialFilters,
     },
     tableName: {
       name: 'Table Name',
