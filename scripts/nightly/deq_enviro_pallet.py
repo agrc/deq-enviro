@@ -29,11 +29,19 @@ ARCGIS_SERVICES = [
 ]
 
 
-class DEQNightly0UpdatePallet(Pallet):
+class DEQNightly0DeleteRelationshipClassesPallet(Pallet):
+    def __init__(self, test_layer=None):
+        super(DEQNightly0DeleteRelationshipClassesPallet, self).__init__()
+
+    def prepare_packaging(self):
+        update_fgdb.delete_relationship_classes(self.staging_rack)
+
+
+class DEQNightly1UpdatePallet(Pallet):
     #: this is for all non-etl data updates to the app database
     #: the corresponding SGID data is updated in the ship method
     def __init__(self, test_layer=None):
-        super(DEQNightly0UpdatePallet, self).__init__()
+        super(DEQNightly1UpdatePallet, self).__init__()
 
         self.problem_layer_infos = []
 
@@ -61,16 +69,6 @@ class DEQNightly0UpdatePallet(Pallet):
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
-    def prepare_packaging(self):
-        """
-        Delete all relationship classes before any edits are made.
-        They are recreated in process.
-        Otherwise, when parent features are deleted by the forklift update
-        process, the foreign key values in the child records are set to null and
-        forklift has no idea since the value of FORKLIFT_HASH is unchanged.
-        """
-        update_fgdb.delete_relationship_classes(self.staging_rack)
-
     def requires_processing(self):
         #: make sure that update_problem_layers, and relationship classes are recreated is called every time
         return True
@@ -82,8 +80,6 @@ class DEQNightly0UpdatePallet(Pallet):
             if crate.was_updated():
                 self.log.info('post processing crate: %s', crate.destination_name)
                 update_fgdb.post_process_dataset(crate.destination)
-
-        update_fgdb.create_relationship_classes(self.staging_rack)
 
     def update_problem_layers(self):
         for source_name, source_workspace, destination_workspace, destination_name in self.problem_layer_infos:
@@ -115,13 +111,13 @@ class DEQNightly0UpdatePallet(Pallet):
         build_json.run()
 
 
-class DEQNightly1TempTablesPallet(Pallet):
+class DEQNightly2TempTablesPallet(Pallet):
     #: this is for source tables -> point feature classes
     #: it first copies the tables to a temp gdb
     #: then it etl's them directly into the app database
     #: the corresponding SGID data is updated in the ship method
     def __init__(self, test_layer=None):
-        super(DEQNightly1TempTablesPallet, self).__init__()
+        super(DEQNightly2TempTablesPallet, self).__init__()
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.deqquerylayers_temp = path.join(self.staging_rack, settings.fgd.replace('.gdb', '_temp.gdb'))
@@ -147,8 +143,6 @@ class DEQNightly1TempTablesPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
-        update_fgdb.create_relationship_classes(self.staging_rack)
-
     def ship(self):
         for spreadsheet_config, crate in get_spreadsheet_configs_for_crates(self.slip['crates']):
             sgid_name = spreadsheet_config[settings.fieldnames.sgidName]
@@ -161,11 +155,11 @@ class DEQNightly1TempTablesPallet(Pallet):
                 update_sgid.update_sgid_data(source, destination, owner_connection)
 
 
-class DEQNightly2NonSGIDPallet(Pallet):
+class DEQNightly3NonSGIDPallet(Pallet):
     #: this is for data that is not updated in SGID except for tables that need to be ETL'ed, those are
     #: taken care of in DEQNightly1TempTablesPallet
     def __init__(self, test_layer=None):
-        super(DEQNightly2NonSGIDPallet, self).__init__()
+        super(DEQNightly3NonSGIDPallet, self).__init__()
 
         self.deqquerylayers = path.join(self.staging_rack, settings.fgd)
         self.copy_data = [self.deqquerylayers]
@@ -187,11 +181,10 @@ class DEQNightly2NonSGIDPallet(Pallet):
         for crate in [crate for crate in self.get_crates() if crate.was_updated()]:
             update_fgdb.post_process_dataset(path.join(self.deqquerylayers, crate.destination_name))
 
-        update_fgdb.create_relationship_classes(self.staging_rack)
 
-class DEQNightlyRelatedTablesPallet(Pallet):
+class DEQNightly4RelatedTablesPallet(Pallet):
     def __init__(self, test_layer=None):
-        super(DEQNightlyRelatedTablesPallet, self).__init__()
+        super(DEQNightly4RelatedTablesPallet, self).__init__()
 
         self.test_layer = test_layer
 
@@ -213,9 +206,6 @@ class DEQNightlyRelatedTablesPallet(Pallet):
 
         self.add_crates(crate_infos)
 
-    def process(self):
-        update_fgdb.create_relationship_classes(self.staging_rack)
-
     def validate_crate(self, crate):
         return update_fgdb.validate_crate(crate)
 
@@ -223,9 +213,9 @@ class DEQNightlyRelatedTablesPallet(Pallet):
         update_sgid.update_sgid_for_crates(self.slip['crates'])
 
 
-class DEQNightlyReferenceDataPallet(Pallet):
+class DEQNightly5ReferenceDataPallet(Pallet):
     def __init__(self, test_layer=None):
-        super(DEQNightlyReferenceDataPallet, self).__init__()
+        super(DEQNightly5ReferenceDataPallet, self).__init__()
 
         self.test_layer = test_layer
 
@@ -256,7 +246,7 @@ class DEQNightlyReferenceDataPallet(Pallet):
         self.add_crate(('ICBUFFERZONES', self.sgid, self.environment))
 
     def requires_processing(self):
-        return not arcpy.Exists(self.search_streams) or super(DEQNightlyReferenceDataPallet, self).requires_processing()
+        return not arcpy.Exists(self.search_streams) or super(DEQNightly5ReferenceDataPallet, self).requires_processing()
 
     def process(self):
         for crate in self.get_crates():
@@ -314,3 +304,20 @@ class DEQNightlyReferenceDataPallet(Pallet):
                         arcpy.Delete_management(delete_layer)
 
                     break
+
+
+class DEQNightly6CreateRelationshipClassesPallet(Pallet):
+    def __init__(self, test_layer=None):
+        super(DEQNightly6CreateRelationshipClassesPallet, self).__init__()
+
+    def requires_processing(self):
+        return True
+
+    def process(self):
+        """
+        Create relationship classes after edits are made.
+        Otherwise, when parent features are deleted by the forklift update
+        process, the foreign key values in the child records are set to null and
+        forklift has no idea since the value of FORKLIFT_HASH is unchanged.
+        """
+        update_fgdb.create_relationship_classes(self.staging_rack)
