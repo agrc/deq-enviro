@@ -17,7 +17,7 @@ const config = {
     'https://71dvtvplh8.execute-api.us-west-2.amazonaws.com/PROD/deq-interactive-maps-docs?doc-id=PublicWaterSystemFacs_Metadata.pdf',
   'Special Filters': [],
   'Special Filter Default To On': false,
-  'Additional Searches': 'n/a',
+  'Additional Searches': [],
   'OID Field': '',
   ID: 'SYSFACID',
   NAME: 'FACNAME',

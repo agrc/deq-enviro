@@ -41,7 +41,7 @@ describe('getWhere', () => {
     'Metadata Link': '',
     'Special Filters': [],
     'Special Filter Default To On': false,
-    'Additional Searches': '',
+    'Additional Searches': [],
     'OID Field': '',
     ID: '',
     NAME: '',
