@@ -95,7 +95,7 @@ function getOneSizeSmaller(size) {
  * @param {import('react').Ref<any>} forwardedRef
  * @returns {JSX.Element}
  */
-function Button(
+function InnerButton(
   {
     appearance = 'outlined',
     busy = false,
@@ -161,5 +161,5 @@ function Button(
   );
 }
 
-const ForwardedButton = forwardRef(Button);
-export default ForwardedButton;
+const Button = forwardRef(InnerButton);
+export default Button;
