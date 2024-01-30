@@ -1,3 +1,4 @@
+import { useFirebase } from '../../contexts/useFirebase';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Input from '../../utah-design-system/Input';
 import RadioGroup from '../../utah-design-system/RadioGroup';
@@ -17,12 +18,14 @@ import RadioGroup from '../../utah-design-system/RadioGroup';
  * @returns {JSX.Element}
  */
 export default function SpecialFilter({ config, value, onChange }) {
+  const { logEvent } = useFirebase();
   /**
    * @param {boolean} checked
    * @param {string} optionValue
    * @returns {void}
    */
   const onCheckedChange = (checked, optionValue) => {
+    logEvent('layer-specific-filter', { ...config });
     if (!value) {
       const newValue = { type: config.type, values: [optionValue] };
 
@@ -45,6 +48,7 @@ export default function SpecialFilter({ config, value, onChange }) {
 
   const getOnDateChange =
     (/** @type {number} */ index) => (/** @type {string} */ newValue) => {
+      logEvent('layer-specific-filter', { ...config });
       let newValues;
       if (!value?.values) {
         newValues = [null, null];
