@@ -88,7 +88,7 @@ export function getRelationships(tableName, allRelationships) {
  * @returns {string | null}
  */
 export function getDefQueryFromLayerFilterValues(layerFilterValues) {
-  if (layerFilterValues.length === 0) return null;
+  if (!layerFilterValues || layerFilterValues.length === 0) return null;
 
   return layerFilterValues
     .map((layerFilter) => {

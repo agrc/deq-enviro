@@ -69,7 +69,7 @@ describe('hasDefaultSymbology', () => {
   });
 });
 
-describe('getDefQueryFromLayerFilter', () => {
+describe('getDefQueryFromLayerFilterValues', () => {
   it('returns a query string', () => {
     /** @type {import('./contexts/SearchMachineProvider').LayerFilterValue[]} */
     const values = [
@@ -109,5 +109,6 @@ describe('getDefQueryFromLayerFilter', () => {
 
   it('returns null if there are no values', () => {
     expect(getDefQueryFromLayerFilterValues([])).toEqual(null);
+    expect(getDefQueryFromLayerFilterValues(undefined)).toEqual(null);
   });
 });
