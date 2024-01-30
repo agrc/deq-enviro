@@ -138,7 +138,7 @@ export default function AdvancedFilter({ visible }) {
 
   const { logEvent } = useFirebase();
   useEffect(() => {
-    logEvent('filter_type_selected', filterType);
+    logEvent('filter-type-selected', filterType);
   }, [filterType, logEvent]);
 
   // reset filterType when searchLayerTableNames and filter clear

@@ -15,7 +15,7 @@ export default function MapProvider({ children }) {
   const { logEvent } = useFirebase();
 
   const zoom = (geometry) => {
-    logEvent('zoom_to_feature');
+    logEvent('zoom-to-feature');
 
     if (!mapView) {
       console.warn('attempting to zoom before the mapView is set');

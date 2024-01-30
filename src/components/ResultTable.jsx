@@ -51,7 +51,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
 
   const identify = useCallback(
     async (oid) => {
-      logEvent('identify_feature', {
+      logEvent('identify-feature', {
         layer_name: queryLayerResult[fieldNames.queryLayers.layerName],
         table_name: queryLayerResult[fieldNames.queryLayers.tableName],
         oid,
@@ -209,7 +209,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
             )}
             onClick={() =>
               !expanded &&
-              logEvent('expand_results_table', {
+              logEvent('expand-results-table', {
                 layer_name: layerName,
                 table_name: queryLayerResult[fieldNames.queryLayers.tableName],
               })

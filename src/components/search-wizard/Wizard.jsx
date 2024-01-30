@@ -96,13 +96,13 @@ export default function SearchWizard() {
      * }} params
      */
     mutationFn: async ({ layers, format }) => {
-      logEvent('generate_download', {
+      logEvent('generate-download', {
         layers: layers.map((layer) => layer.tableName),
         format,
       });
 
       layers.forEach((layer) => {
-        logEvent('generate_download_layer', {
+        logEvent('generate-download-layer', {
           layer: layer.tableName,
           format,
         });

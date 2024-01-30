@@ -77,7 +77,7 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
           href={url}
           download="data.zip"
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
-          onClick={() => logEvent('download_zip_file', { url })}
+          onClick={() => logEvent('download-zip-file', { url })}
         >
           <Icon className="mr-2" name="arrowDown" label="download" /> Download
           ZIP File

@@ -159,7 +159,7 @@ export default function MapComponent() {
           title: 'Printed from the Utah DEQ Interactive Map',
         },
       });
-      print.on('submit', () => logEvent('print_map'));
+      print.on('submit', () => logEvent('print-map'));
 
       const printExpand = new Expand({
         expandIcon: 'print',
@@ -179,7 +179,7 @@ export default function MapComponent() {
 
       legend.watch(
         'expanded',
-        (expanded) => expanded && logEvent('view_legend'),
+        (expanded) => expanded && logEvent('view-legend'),
       );
 
       view.current.ui.add(legend, 'top-left');
@@ -192,7 +192,7 @@ export default function MapComponent() {
           );
 
           if (hit) {
-            logEvent('map_click_feature', {
+            logEvent('map-click-feature', {
               table_name: hit.graphic.layer.id.split(':')[1],
             });
 
@@ -321,7 +321,7 @@ export default function MapComponent() {
      * @returns Promise
      */
     async function searchLayer(layer, filter, specialFilterQuery) {
-      logEvent('search_layer', {
+      logEvent('search-layer', {
         table_name: layer[fieldNames.queryLayers.tableName],
         layer_name: layer[fieldNames.queryLayers.layerName],
         filter: filter.name,
