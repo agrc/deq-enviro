@@ -110,32 +110,44 @@ export default function QueryLayer({
             </div>
             <div className="flex max-h-96 max-w-96 flex-col">
               <div className="flex-1 overflow-y-auto">
-                {specialFilters.map((filterConfig, index) => {
-                  const filterValueIndex = getFilterValueIndex(
-                    filterConfig,
-                    filterValues,
-                  );
-                  return (
-                    <Fragment key={index}>
-                      {index > 0 && <hr />}
-                      <SpecialFilter
-                        key={filterConfig.name}
-                        config={filterConfig}
-                        value={
-                          filterValues ? filterValues[filterValueIndex] : null
-                        }
-                        onChange={(newValue) => {
-                          if (filterValueIndex === -1) {
-                            onFiltersChange([newValue]);
-                          } else {
-                            filterValues.splice(filterValueIndex, 1, newValue);
-                            onFiltersChange(filterValues);
+                {specialFilters.map(
+                  (
+                    /**
+                     * @type {import('../../../functions/common/config').FieldFilterConfig
+                     *   | import('../../../functions/common/config').CheckboxRadioQueriesFilterConfig
+                     *   | import('../../../functions/common/config').DateFilterConfig}
+                     */ filterConfig,
+                    /** @type {number} */ index,
+                  ) => {
+                    const filterValueIndex = getFilterValueIndex(
+                      filterConfig,
+                      filterValues,
+                    );
+                    return (
+                      <Fragment key={index}>
+                        {index > 0 && <hr />}
+                        <SpecialFilter
+                          config={filterConfig}
+                          value={
+                            filterValues ? filterValues[filterValueIndex] : null
                           }
-                        }}
-                      />
-                    </Fragment>
-                  );
-                })}
+                          onChange={(newValue) => {
+                            if (filterValueIndex === -1) {
+                              onFiltersChange([newValue]);
+                            } else {
+                              filterValues.splice(
+                                filterValueIndex,
+                                1,
+                                newValue,
+                              );
+                              onFiltersChange(filterValues);
+                            }
+                          }}
+                        />
+                      </Fragment>
+                    );
+                  },
+                )}
               </div>
               <Button className="w-full" onClick={() => onFiltersChange([])}>
                 Clear Filters

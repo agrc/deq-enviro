@@ -118,3 +118,27 @@ export function getDefQueryFromLayerFilterValues(layerFilterValues) {
     })
     .join(' AND ');
 }
+
+/** @typedef {import('./contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue */
+/**
+ * @param {import('../functions/common/config').QueryLayerConfig[]} queryLayers
+ * @returns {Record<string, LayerFilterValue[]>}
+ */
+export function getDefaultLayerFilterValues(queryLayers) {
+  /** @type {Record<string, LayerFilterValue[]>} */
+  const defaultLayerFilterValues = {};
+
+  queryLayers.forEach((queryLayer) => {
+    if (queryLayer[fieldNames.queryLayers.specialFilterDefaultToOn]) {
+      const config = queryLayer[fieldNames.queryLayers.specialFilters][0];
+      defaultLayerFilterValues[queryLayer[fieldNames.queryLayers.tableName]] = [
+        {
+          type: config.type,
+          values: [config.options[0].value],
+        },
+      ];
+    }
+  });
+
+  return defaultLayerFilterValues;
+}

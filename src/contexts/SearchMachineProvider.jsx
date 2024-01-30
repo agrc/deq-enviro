@@ -8,6 +8,7 @@ import { downloadFormats, fieldNames } from '../../functions/common/config';
 import stateOfUtahJson from '../data/state-of-utah.json';
 import { useRemoteConfigValues } from './RemoteConfigProvider';
 import { getAnalytics, logEvent } from 'firebase/analytics';
+import { getDefaultLayerFilterValues } from '../utils';
 
 localforage.config({
   name: 'deq-enviro-search-cache',
@@ -147,6 +148,14 @@ const machine = createMachine(
           },
           CLEAR: {
             actions: 'clear',
+          },
+          APPLY_DEFAULTS: {
+            actions: assign(({ context, event: { defaults } }) => {
+              return {
+                ...context,
+                ...defaults,
+              };
+            }),
           },
         },
       },
@@ -321,14 +330,15 @@ const machine = createMachine(
   },
   {
     actions: {
-      clear: assign(() => {
+      clear: assign(({ event: { defaults } }) => {
         cacheSearchContext({
           searchLayerTableNames: [],
           filter: blankFilter,
           layerFilterValues: {},
+          ...defaults,
         });
 
-        return { ...blankContext };
+        return { ...blankContext, ...defaults };
       }),
       selectLayer: assign({
         searchLayerTableNames: ({ context, event: { tableName } }) => {
@@ -392,20 +402,29 @@ export function SearchMachineProvider({ children }) {
   const [state, send] = useMachine(machine);
 
   // this get's incremented each time the config spreadsheet is deployed
-  const { version } = useRemoteConfigValues();
+  const { version, queryLayers } = useRemoteConfigValues();
 
   useEffect(() => {
     const VERSION_KEY = 'searchContextVersion';
     localforage.getItem(VERSION_KEY).then((cacheVersion) => {
+      const defaultLayerFilterValues = getDefaultLayerFilterValues(queryLayers);
       if (cacheVersion !== version) {
         console.warn('new search cache version found, clearing old cache');
         localforage.clear();
         localforage.setItem(VERSION_KEY, version);
 
-        send({ type: 'CLEAR' });
+        send({
+          type: 'CLEAR',
+          defaults: { layerFilterValues: defaultLayerFilterValues },
+        });
+      } else {
+        send({
+          type: 'APPLY_DEFAULTS',
+          defaults: { layerFilterValues: defaultLayerFilterValues },
+        });
       }
     });
-  }, [send, version]);
+  }, [queryLayers, send, version]);
 
   return (
     <SearchMachineContext.Provider value={[state, send]}>

@@ -3,7 +3,9 @@ import {
   getDefQueryFromLayerFilterValues,
   getAlias,
   hasDefaultSymbology,
+  getDefaultLayerFilterValues,
 } from './utils';
+import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
 
 describe('getAlias', () => {
   it('returns the alias if the field exists', () => {
@@ -110,5 +112,56 @@ describe('getDefQueryFromLayerFilterValues', () => {
   it('returns null if there are no values', () => {
     expect(getDefQueryFromLayerFilterValues([])).toEqual(null);
     expect(getDefQueryFromLayerFilterValues(undefined)).toEqual(null);
+  });
+});
+
+describe('getDefaultLayerFilterValues', () => {
+  it('returns the default values', () => {
+    /** @type {import('../functions/common/config').QueryLayerConfig[]} */
+    const queryLayers = [
+      {
+        ...queryLayerJson,
+        'Table Name': 'Table Name',
+        'Special Filters': [
+          {
+            type: 'checkbox',
+            options: [
+              {
+                value: 'Option 1',
+                alias: 'Option One',
+              },
+              { value: 'Option 2', alias: 'Option Two' },
+            ],
+          },
+        ],
+        'Special Filter Default To On': false,
+      },
+      {
+        ...queryLayerJson,
+        'Table Name': 'Table Name Two',
+        'Special Filters': [
+          {
+            type: 'checkbox',
+            options: [
+              {
+                value: 'Option 3',
+                alias: 'Option One',
+              },
+              { value: 'Option 4', alias: 'Option Two' },
+            ],
+          },
+        ],
+        'Special Filter Default To On': true,
+      },
+    ];
+
+    expect(getDefaultLayerFilterValues(queryLayers)).toEqual({
+      'Table Name Two': [
+        {
+          type: 'checkbox',
+          values: ['Option 3'],
+        },
+      ],
+    });
   });
 });
