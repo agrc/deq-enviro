@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0-63](https://github.com/agrc/deq-enviro/compare/v2.0.0-62...v2.0.0-63) (2024-01-30)
+
+
+### 🚀 Features
+
+* implement layer filters ([0148ee3](https://github.com/agrc/deq-enviro/commit/0148ee384fba3b538aa96597b542d412a97b1216)), closes [#555](https://github.com/agrc/deq-enviro/issues/555)
+* **popup:** implement Popup component ([43da064](https://github.com/agrc/deq-enviro/commit/43da0642a76794e0518b3df5c30bfce2da8be9d3))
+
+
+### 🐛 Bug Fixes
+
+* add analytics to layer-specific filters ([bee3c22](https://github.com/agrc/deq-enviro/commit/bee3c223b1028ecc3ce930a46f3c3ffcac8cf399))
+* add hover title to data filter icon ([9f90ef2](https://github.com/agrc/deq-enviro/commit/9f90ef23a7580e5f30208a6aea0592c310ff0359))
+* **button:** standardize forwarded component name ([62c9e27](https://github.com/agrc/deq-enviro/commit/62c9e27d5719695569d51d35ed3c41376f7f31d4))
+* **input:** add string as a min/max param type ([c46fe68](https://github.com/agrc/deq-enviro/commit/c46fe683d612ddf1ab8eb79a562a15b21338609e))
+* linting ([98987e1](https://github.com/agrc/deq-enviro/commit/98987e15e755755e1b58c13495b5dca46166f7ce))
+
 ## [2.0.0-62](https://github.com/agrc/deq-enviro/compare/v2.0.0-61...v2.0.0-62) (2024-01-25)
 
 
