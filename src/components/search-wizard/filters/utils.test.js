@@ -60,7 +60,8 @@ describe('getWhere', () => {
     'Coded Values': '',
     'Identify Fields': [],
   };
-  it('returns null if attributeFilterConfig is empty', () => {
+
+  it('returns null if attributeFilterConfig and specialFilter is empty', () => {
     expect(
       getWhere(
         null,
@@ -69,9 +70,11 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
         fields,
+        null,
       ),
     ).toBeNull();
   });
+
   it('returns a where clause for a single value', () => {
     expect(
       getWhere(
@@ -85,9 +88,11 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
         fields,
+        null,
       ),
     ).toMatchInlineSnapshot('"upper(NAME) LIKE upper(\'%foo%\')"');
   });
+
   it('returns a where clause for the all query type', () => {
     expect(
       getWhere(
@@ -101,11 +106,13 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
         fields,
+        null,
       ),
     ).toMatchInlineSnapshot(
       "\"upper(NAME) LIKE upper('%foo%') AND upper(NAME) LIKE upper('%bar%')\"",
     );
   });
+
   it('returns a where clause for the any query type', () => {
     expect(
       getWhere(
@@ -119,11 +126,13 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
         fields,
+        null,
       ),
     ).toMatchInlineSnapshot(
       "\"upper(NAME) LIKE upper('%foo%') OR upper(NAME) LIKE upper('%bar%')\"",
     );
   });
+
   it('handles numeric field types', () => {
     expect(
       getWhere(
@@ -137,9 +146,43 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.idField]: 'ID',
         },
         fields,
+        null,
       ),
     ).toMatchInlineSnapshot('"ID in (1, 2)"');
   });
+
+  it('adds the specialFilterQuery if it exists', () => {
+    expect(
+      getWhere(
+        {
+          values: [1, 2],
+          queryType: 'any',
+          attributeType: 'id',
+        },
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.idField]: 'ID',
+        },
+        fields,
+        'FieldName = 1',
+      ),
+    ).toMatchInlineSnapshot('"ID in (1, 2) AND (FieldName = 1)"');
+  });
+
+  it('returns specialFilterQuery only if no attribute query', () => {
+    expect(
+      getWhere(
+        null,
+        {
+          ...layerConfig,
+          [fieldNames.queryLayers.idField]: 'ID',
+        },
+        fields,
+        'FieldName = 1',
+      ),
+    ).toMatchInlineSnapshot('"FieldName = 1"');
+  });
+
   it('throws an error if the field is not found', () => {
     expect(() =>
       getWhere(
@@ -153,9 +196,13 @@ describe('getWhere', () => {
           [fieldNames.queryLayers.nameField]: 'NAME',
         },
         [],
+        null,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`[Error: Field NAME not found in fields.]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Field NAME not found in fields.]`,
+    );
   });
+
   it('throws if the field type is not supported', () => {
     expect(() =>
       getWhere(
@@ -174,6 +221,7 @@ describe('getWhere', () => {
             type: 'esriFieldTypeBlob',
           },
         ],
+        null,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `[Error: Field type esriFieldTypeBlob is not supported.]`,

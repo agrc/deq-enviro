@@ -14,8 +14,16 @@ localforage.config({
 });
 
 const CACHE_KEY = 'searchContext';
+/**
+ * @param {{
+ *   searchLayerTableNames: string[];
+ *   filter: Filter;
+ *   layerFilterValues: Record<string, LayerFilterValue[]>;
+ * }} cachedContext
+ * @returns {void}
+ */
 function cacheSearchContext(cachedContext) {
-  localforage.setItem(CACHE_KEY, JSON.stringify(cachedContext));
+  localforage.setItem(CACHE_KEY, cachedContext);
 }
 
 /**
@@ -23,6 +31,14 @@ function cacheSearchContext(cachedContext) {
  * @property {string[] | number[]} values
  * @property {'all' | 'any'} queryType
  * @property {'name' | 'id'} attributeType
+ */
+
+/**
+ * @typedef {Object} LayerFilterValue
+ * @property {'field' | 'checkbox' | 'radio' | 'date'} type
+ * @property {string} [field]
+ * @property {'text' | 'number'} [fieldType]
+ * @property {string[]} values
  */
 
 /**
@@ -43,6 +59,7 @@ const blankFilter = {
  * @typedef {Object} Context
  * @property {string[]} searchLayerTableNames
  * @property {Filter} filter
+ * @property {Record<string, LayerFilterValue[]>} layerFilterValues
  * @property {Record<string, QueryLayerResult>} resultLayers
  * @property {Object} resultExtent
  * @property {string[]} selectedDownloadLayers
@@ -71,12 +88,7 @@ const blankFilter = {
 const blankContext = {
   searchLayerTableNames: [],
   filter: blankFilter,
-  /*
-    {
-      id: 3,
-      count: 123,
-    }
-  */
+  layerFilterValues: {},
   resultLayers: null,
   resultExtent: null,
   selectedDownloadLayers: [],
@@ -95,9 +107,7 @@ const machine = createMachine(
       initialize: {
         invoke: {
           src: fromPromise(async () => {
-            const cachedContext = JSON.parse(
-              await localforage.getItem(CACHE_KEY),
-            );
+            const cachedContext = await localforage.getItem(CACHE_KEY);
             if (cachedContext?.filter?.geometry) {
               cachedContext.filter.geometry = fromJSON(
                 cachedContext.filter.geometry,
@@ -130,6 +140,9 @@ const machine = createMachine(
           },
           UNSELECT_LAYER: {
             actions: 'unselectLayer',
+          },
+          UPDATE_LAYER_FILTER_VALUES: {
+            actions: 'updateLayerFilterValues',
           },
           CLEAR: {
             actions: 'clear',
@@ -308,7 +321,11 @@ const machine = createMachine(
   {
     actions: {
       clear: assign(() => {
-        cacheSearchContext({ searchLayerTableNames: [], filter: blankFilter });
+        cacheSearchContext({
+          searchLayerTableNames: [],
+          filter: blankFilter,
+          layerFilterValues: {},
+        });
 
         return { ...blankContext };
       }),
@@ -318,6 +335,7 @@ const machine = createMachine(
           cacheSearchContext({
             searchLayerTableNames: newData,
             filter: context.filter,
+            layerFilterValues: context.layerFilterValues,
           });
 
           return newData;
@@ -331,6 +349,7 @@ const machine = createMachine(
           cacheSearchContext({
             searchLayerTableNames: newData,
             filter: context.filter,
+            layerFilterValues: context.layerFilterValues,
           });
 
           return newData;
@@ -341,9 +360,25 @@ const machine = createMachine(
           cacheSearchContext({
             searchLayerTableNames: context.searchLayerTableNames,
             filter,
+            layerFilterValues: context.layerFilterValues,
           });
 
           return filter;
+        },
+      }),
+      updateLayerFilterValues: assign({
+        layerFilterValues: ({ context, event: { tableName, newValues } }) => {
+          const newFilterValues = {
+            ...context.layerFilterValues,
+            [tableName]: newValues,
+          };
+          cacheSearchContext({
+            searchLayerTableNames: context.searchLayerTableNames,
+            filter: context.filter,
+            layerFilterValues: newFilterValues,
+          });
+
+          return newFilterValues;
         },
       }),
     },

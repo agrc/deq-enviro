@@ -30,6 +30,7 @@ import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import { useFirebase } from '../contexts/useFirebase';
 import Spinner from '../utah-design-system/Spinner';
 import Graphic from '@arcgis/core/Graphic';
+import { getDefQueryFromLayerFilterValues } from '../utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -316,9 +317,10 @@ export default function MapComponent() {
     /**
      * @param {import('../../functions/common/config').QueryLayerConfig} layer
      * @param {import('../contexts/SearchMachineProvider').Filter} filter
+     * @param {string} specialFilterQuery
      * @returns Promise
      */
-    async function searchLayer(layer, filter) {
+    async function searchLayer(layer, filter, specialFilterQuery) {
       logEvent('search_layer', {
         table_name: layer[fieldNames.queryLayers.tableName],
         layer_name: layer[fieldNames.queryLayers.layerName],
@@ -361,7 +363,15 @@ export default function MapComponent() {
           filter.attribute,
           layer,
           featureServiceJson.fields,
+          specialFilterQuery,
         );
+
+        if (where) {
+          console.log(
+            `using where clause: "${where}" for ${layer[fieldNames.queryLayers.tableName]}`,
+          );
+        }
+
         featureLayer.outFields = [featureServiceJson.objectIdField];
         featureLayer.id = `${searchLayerIdPrefix}:${
           layer[fieldNames.queryLayers.tableName]
@@ -461,6 +471,9 @@ export default function MapComponent() {
           searchLayer(
             getConfigByTableName(tableName, queryLayers),
             state.context.filter,
+            getDefQueryFromLayerFilterValues(
+              state.context.layerFilterValues[tableName],
+            ),
           ),
         ),
       );

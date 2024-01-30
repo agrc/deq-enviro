@@ -57,6 +57,14 @@ export default function SelectMapData({ queryLayers }) {
                             queryLayer[fieldNames.queryLayers.tableName],
                         })
                       }
+                      filterValues={state.context.layerFilterValues[tableName]}
+                      onFiltersChange={(newValues) => {
+                        send({
+                          type: 'UPDATE_LAYER_FILTER_VALUES',
+                          tableName,
+                          newValues,
+                        });
+                      }}
                     />
                   );
                 })}

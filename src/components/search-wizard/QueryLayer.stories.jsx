@@ -61,10 +61,32 @@ const config = {
   'Coded Values': '',
 };
 
+/** @type {import('../../../functions/common/config').QueryLayerConfig} */
 const noMetaLinkConfig = {
   ...config,
-  Name: 'No Metadata Link',
+  'Layer Name': 'No Metadata Link',
   'Metadata Link': null,
+};
+
+/** @type {import('../../../functions/common/config').QueryLayerConfig} */
+const filterConfig = {
+  ...config,
+  'Layer Name': 'Filter',
+  'Special Filters': [
+    {
+      type: 'checkbox',
+      options: [
+        {
+          value: "ASSESSMENT = '1: Supports all designated uses'",
+          alias: '1: Supports all designated uses',
+        },
+        {
+          value: "ASSESSMENT = '2: Supports all assessed uses'",
+          alias: '2: Supports all assessed uses',
+        },
+      ],
+    },
+  ],
 };
 
 export const Default = () => (
@@ -73,22 +95,41 @@ export const Default = () => (
       config={config}
       selected={false}
       onSelectedChange={console.log}
-      // filter={null}
-      // onFilterChange={console.log}
+      filterValues={undefined}
+      onFiltersChange={console.log}
     />
     <QueryLayer
       config={config}
       selected={true}
       onSelectedChange={console.log}
-      // filter={null}
-      // onFilterChange={console.log}
+      filterValues={undefined}
+      onFiltersChange={console.log}
     />
     <QueryLayer
       config={noMetaLinkConfig}
       selected={false}
       onSelectedChange={console.log}
-      // filter={null}
-      // onFilterChange={console.log}
+      filterValues={undefined}
+      onFiltersChange={console.log}
+    />
+    <QueryLayer
+      config={filterConfig}
+      selected={false}
+      onSelectedChange={console.log}
+      filterValues={undefined}
+      onFiltersChange={console.log}
+    />
+    <QueryLayer
+      config={filterConfig}
+      selected={false}
+      onSelectedChange={console.log}
+      filterValues={[
+        {
+          type: 'checkbox',
+          values: ["ASSESSMENT = '1: Supports all designated uses'"],
+        },
+      ]}
+      onFiltersChange={console.log}
     />
   </div>
 );

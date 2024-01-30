@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { getAlias, hasDefaultSymbology } from './utils';
+import {
+  getDefQueryFromLayerFilterValues,
+  getAlias,
+  hasDefaultSymbology,
+} from './utils';
 
 describe('getAlias', () => {
   it('returns the alias if the field exists', () => {
@@ -62,5 +66,48 @@ describe('hasDefaultSymbology', () => {
     layer.renderer.symbol.outline.width = 0.8;
 
     expect(hasDefaultSymbology(layer)).toEqual(false);
+  });
+});
+
+describe('getDefQueryFromLayerFilter', () => {
+  it('returns a query string', () => {
+    /** @type {import('./contexts/SearchMachineProvider').LayerFilterValue[]} */
+    const values = [
+      {
+        type: 'field',
+        field: 'FieldName',
+        fieldType: 'text',
+        values: ['Value1', 'Value2'],
+      },
+      {
+        type: 'field',
+        field: 'FieldName',
+        fieldType: 'number',
+        values: ['1', '2'],
+      },
+      {
+        type: 'checkbox',
+        values: ["Field = 'Value1'", "Field = 'Value2'"],
+      },
+      {
+        type: 'radio',
+        values: ["Field = 'Value1'"],
+      },
+      {
+        type: 'date',
+        field: 'FieldName',
+        values: ['2020-01-01', '2020-01-02'],
+      },
+    ];
+
+    const result = getDefQueryFromLayerFilterValues(values);
+
+    expect(result).toEqual(
+      "FieldName IN ('Value1','Value2') AND FieldName IN (1,2) AND ((Field = 'Value1') OR (Field = 'Value2')) AND Field = 'Value1' AND FieldName >= '2020-01-01' AND FieldName <= '2020-01-02'",
+    );
+  });
+
+  it('returns null if there are no values', () => {
+    expect(getDefQueryFromLayerFilterValues([])).toEqual(null);
   });
 });

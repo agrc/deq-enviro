@@ -24,37 +24,54 @@ export function validate(value, min, max) {
  * @param {import('../../../contexts/SearchMachineProvider').Attribute} attributeFilterConfig
  * @param {import('../../../../functions/common/config').QueryLayerConfig} layerConfig
  * @param {{ name: string; type: string }[]} fields
- * @returns {string}
+ * @param {string | null} specialFilterQuery
+ * @returns {string | null}
  */
-export function getWhere(attributeFilterConfig, layerConfig, fields) {
-  if (!attributeFilterConfig) return null;
+export function getWhere(
+  attributeFilterConfig,
+  layerConfig,
+  fields,
+  specialFilterQuery,
+) {
+  let attributeQuery;
+  if (attributeFilterConfig) {
+    const { values, queryType, attributeType } = attributeFilterConfig;
+    const fieldProp =
+      attributeType === 'name'
+        ? fieldNames.queryLayers.nameField
+        : fieldNames.queryLayers.idField;
+    const field = layerConfig[fieldProp];
+    const fieldInfo = fields.find((f) => f.name === field);
+    if (!fieldInfo) throw new Error(`Field ${field} not found in fields.`);
+    const fieldType = fieldInfo.type;
+    if (fieldType === 'esriFieldTypeString') {
+      const joiner = queryType === 'all' ? ' AND ' : ' OR ';
 
-  const { values, queryType, attributeType } = attributeFilterConfig;
-  const fieldProp =
-    attributeType === 'name'
-      ? fieldNames.queryLayers.nameField
-      : fieldNames.queryLayers.idField;
-  const field = layerConfig[fieldProp];
-  const fieldInfo = fields.find((f) => f.name === field);
-  if (!fieldInfo) throw new Error(`Field ${field} not found in fields.`);
-  const fieldType = fieldInfo.type;
-  if (fieldType === 'esriFieldTypeString') {
-    const joiner = queryType === 'all' ? ' AND ' : ' OR ';
-
-    return values
-      .map((value) => `upper(${field}) LIKE upper('%${value}%')`)
-      .join(joiner);
-  } else if (
-    [
-      'esriFieldTypeInteger',
-      'esriFieldTypeDouble',
-      'esriFieldTypeOID',
-      'esriFieldTypeSingle',
-      'esriFieldTypeSmallInteger',
-    ].includes(fieldType)
-  ) {
-    return `${field} in (${values.join(', ')})`;
-  } else {
-    throw new Error(`Field type ${fieldType} is not supported.`);
+      attributeQuery = values
+        .map((value) => `upper(${field}) LIKE upper('%${value}%')`)
+        .join(joiner);
+    } else if (
+      [
+        'esriFieldTypeInteger',
+        'esriFieldTypeDouble',
+        'esriFieldTypeOID',
+        'esriFieldTypeSingle',
+        'esriFieldTypeSmallInteger',
+      ].includes(fieldType)
+    ) {
+      attributeQuery = `${field} in (${values.join(', ')})`;
+    } else {
+      throw new Error(`Field type ${fieldType} is not supported.`);
+    }
   }
+
+  if (attributeQuery && specialFilterQuery) {
+    return `${attributeQuery} AND (${specialFilterQuery})`;
+  } else if (attributeQuery) {
+    return attributeQuery;
+  } else if (specialFilterQuery) {
+    return specialFilterQuery;
+  }
+
+  return null;
 }
