@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  transformAdditionalSearches,
   transformFields,
   transformSpecialFilters,
   transformYesNoToBoolean,
@@ -238,5 +239,30 @@ describe('transformFields', () => {
         alias: '3 (three)',
       },
     ]);
+  });
+});
+
+describe('transformAdditionalSearches', () => {
+  it('parses a list of additional searches', () => {
+    const value = 'Operator|text (Operator Name); FieldName|text (Field Name)';
+
+    expect(transformAdditionalSearches(value)).toEqual([
+      {
+        field: 'Operator',
+        fieldType: 'text',
+        label: 'Operator Name',
+      },
+      {
+        field: 'FieldName',
+        fieldType: 'text',
+        label: 'Field Name',
+      },
+    ]);
+  });
+
+  it('returns an empty array if no filters are provided', () => {
+    const value = '';
+
+    expect(transformAdditionalSearches(value)).toEqual([]);
   });
 });

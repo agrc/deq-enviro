@@ -30,6 +30,14 @@ import { array, string, bool } from 'yup';
 
 /**
  * @typedef {{
+ *   field: string;
+ *   label: string;
+ *   fieldType: FieldType;
+ * }} AdditionalSearchConfig
+ */
+
+/**
+ * @typedef {{
  *   'Table Name': string;
  *   'Layer Name': string;
  *   'Geometry Type': string;
@@ -42,7 +50,7 @@ import { array, string, bool } from 'yup';
  *     | DateFilterConfig
  *   )[];
  *   'Special Filter Default To On': boolean;
- *   'Additional Searches': string;
+ *   'Additional Searches': AdditionalSearchConfig[];
  *   'OID Field': string;
  *   ID: string;
  *   NAME: string;
@@ -211,6 +219,28 @@ export function transformSpecialFilters(value) {
   });
 }
 
+/**
+ * @param {string} value
+ * @returns {AdditionalSearchConfig[]}
+ */
+export function transformAdditionalSearches(value) {
+  if (!value || value.length === 0) {
+    return [];
+  }
+
+  const entries = value.split(';').map(trim);
+
+  return entries.map(getValueAndAlias).map(({ value, alias }) => {
+    const [fieldName, fieldType] = value.split('|');
+
+    return {
+      field: fieldName,
+      fieldType: /** @type {FieldType} */ (fieldType),
+      label: alias,
+    };
+  });
+}
+
 export const fieldConfigs = {
   queryLayers: {
     additionalInformation: {
@@ -219,7 +249,8 @@ export const fieldConfigs = {
     },
     additionalSearches: {
       name: 'Additional Searches',
-      schema: string().nullable(),
+      schema: array().nullable(),
+      transform: transformAdditionalSearches,
     },
     codedValues: {
       name: 'Coded Values',
