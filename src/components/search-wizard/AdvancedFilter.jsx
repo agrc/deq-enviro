@@ -14,6 +14,7 @@ import WebApi from './filters/WebApi';
 import stateOfUtahJson from '../../data/state-of-utah.json';
 import { getConfigByTableName } from '../../utils';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
+import { useFirebase } from '../../contexts/useFirebase';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {
@@ -61,7 +62,7 @@ export default function AdvancedFilter({ visible }) {
       label: 'Name',
       Component: Attribute,
       props: {
-        attributeType: 'name',
+        label: 'Name',
         selectedLayers: state.context.searchLayerTableNames.map((name) => {
           const config = getConfigByTableName(name, queryLayers);
 
@@ -70,13 +71,14 @@ export default function AdvancedFilter({ visible }) {
             field: config[fieldNames.queryLayers.nameField],
           };
         }),
+        configName: fieldNames.queryLayers.nameField,
       },
     },
     id: {
       label: 'ID',
       Component: Attribute,
       props: {
-        attributeType: 'id',
+        label: 'ID',
         selectedLayers: state.context.searchLayerTableNames.map((name) => {
           const config = getConfigByTableName(name, queryLayers);
 
@@ -85,6 +87,7 @@ export default function AdvancedFilter({ visible }) {
             field: config[fieldNames.queryLayers.idField],
           };
         }),
+        configName: fieldNames.queryLayers.idField,
       },
     },
     shape: {
@@ -101,7 +104,42 @@ export default function AdvancedFilter({ visible }) {
     },
   };
 
+  if (state.context.searchLayerTableNames.length === 1) {
+    const loneConfig = getConfigByTableName(
+      state.context.searchLayerTableNames[0],
+      queryLayers,
+    );
+
+    const additionalSearches =
+      loneConfig[fieldNames.queryLayers.additionalSearches];
+    if (additionalSearches.length > 0) {
+      additionalSearches.forEach(({ field, label }) => {
+        filterTypes[field] = {
+          label: `${label} (layer-specific search)`,
+          Component: Attribute,
+          props: {
+            label,
+            selectedLayers: state.context.searchLayerTableNames.map((name) => {
+              const config = getConfigByTableName(name, queryLayers);
+
+              return {
+                name: config[fieldNames.queryLayers.layerName],
+                field,
+              };
+            }),
+            fieldName: field,
+          },
+        };
+      });
+    }
+  }
+
   const [filterType, setFilterType] = useState('statewide');
+
+  const { logEvent } = useFirebase();
+  useEffect(() => {
+    logEvent('filter_type_selected', filterType);
+  }, [filterType, logEvent]);
 
   // reset filterType when searchLayerTableNames and filter clear
   useEffect(() => {

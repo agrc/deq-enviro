@@ -1,5 +1,3 @@
-import { fieldNames } from '../../../../functions/common/config';
-
 /**
  * Returns an error message if the value is outside the range. Otherwise,
  * returns null.
@@ -35,19 +33,17 @@ export function getWhere(
 ) {
   let attributeQuery;
   if (attributeFilterConfig) {
-    const { values, queryType, attributeType } = attributeFilterConfig;
-    const fieldProp =
-      attributeType === 'name'
-        ? fieldNames.queryLayers.nameField
-        : fieldNames.queryLayers.idField;
-    const field = layerConfig[fieldProp];
+    const field =
+      attributeFilterConfig.fieldName ||
+      layerConfig[attributeFilterConfig.configName];
     const fieldInfo = fields.find((f) => f.name === field);
     if (!fieldInfo) throw new Error(`Field ${field} not found in fields.`);
     const fieldType = fieldInfo.type;
     if (fieldType === 'esriFieldTypeString') {
-      const joiner = queryType === 'all' ? ' AND ' : ' OR ';
+      const joiner =
+        attributeFilterConfig.queryType === 'all' ? ' AND ' : ' OR ';
 
-      attributeQuery = values
+      attributeQuery = attributeFilterConfig.values
         .map((value) => `upper(${field}) LIKE upper('%${value}%')`)
         .join(joiner);
     } else if (
@@ -59,7 +55,7 @@ export function getWhere(
         'esriFieldTypeSmallInteger',
       ].includes(fieldType)
     ) {
-      attributeQuery = `${field} in (${values.join(', ')})`;
+      attributeQuery = `${field} in (${attributeFilterConfig.values.join(', ')})`;
     } else {
       throw new Error(`Field type ${fieldType} is not supported.`);
     }

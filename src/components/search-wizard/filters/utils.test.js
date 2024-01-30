@@ -29,6 +29,10 @@ describe('getWhere', () => {
       name: 'ID',
       type: 'esriFieldTypeInteger',
     },
+    {
+      name: 'AnotherField',
+      type: 'esriFieldTypeInteger',
+    },
   ];
 
   /** @type {import('../../../../functions/common/config').QueryLayerConfig} */
@@ -81,7 +85,7 @@ describe('getWhere', () => {
         {
           values: ['foo'],
           queryType: 'all',
-          attributeType: 'name',
+          configName: fieldNames.queryLayers.nameField,
         },
         {
           ...layerConfig,
@@ -99,7 +103,7 @@ describe('getWhere', () => {
         {
           values: ['foo', 'bar'],
           queryType: 'all',
-          attributeType: 'name',
+          configName: fieldNames.queryLayers.nameField,
         },
         {
           ...layerConfig,
@@ -119,7 +123,7 @@ describe('getWhere', () => {
         {
           values: ['foo', 'bar'],
           queryType: 'any',
-          attributeType: 'name',
+          configName: fieldNames.queryLayers.nameField,
         },
         {
           ...layerConfig,
@@ -139,7 +143,7 @@ describe('getWhere', () => {
         {
           values: [1, 2],
           queryType: 'any',
-          attributeType: 'id',
+          configName: fieldNames.queryLayers.idField,
         },
         {
           ...layerConfig,
@@ -151,13 +155,28 @@ describe('getWhere', () => {
     ).toMatchInlineSnapshot('"ID in (1, 2)"');
   });
 
+  it('accepts fieldName param', () => {
+    expect(
+      getWhere(
+        {
+          values: [1, 2],
+          queryType: 'any',
+          fieldName: 'AnotherField',
+        },
+        layerConfig,
+        fields,
+        null,
+      ),
+    ).toMatchInlineSnapshot('"AnotherField in (1, 2)"');
+  });
+
   it('adds the specialFilterQuery if it exists', () => {
     expect(
       getWhere(
         {
           values: [1, 2],
           queryType: 'any',
-          attributeType: 'id',
+          configName: fieldNames.queryLayers.idField,
         },
         {
           ...layerConfig,
@@ -189,7 +208,7 @@ describe('getWhere', () => {
         {
           values: ['foo'],
           queryType: 'all',
-          attributeType: 'name',
+          configName: fieldNames.queryLayers.nameField,
         },
         {
           ...layerConfig,
@@ -209,7 +228,7 @@ describe('getWhere', () => {
         {
           values: ['foo'],
           queryType: 'all',
-          attributeType: 'name',
+          configName: fieldNames.queryLayers.nameField,
         },
         {
           ...layerConfig,

@@ -24,7 +24,8 @@ export const Default = () => (
   <div className="w-80">
     <Attribute
       send={console.log}
-      attributeType="id"
+      fieldName="ID"
+      label="ID"
       selectedLayers={selectedLayers}
     />
   </div>

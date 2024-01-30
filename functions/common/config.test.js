@@ -244,17 +244,15 @@ describe('transformFields', () => {
 
 describe('transformAdditionalSearches', () => {
   it('parses a list of additional searches', () => {
-    const value = 'Operator|text (Operator Name); FieldName|text (Field Name)';
+    const value = 'Operator (Operator Name); FieldName (Field Name)';
 
     expect(transformAdditionalSearches(value)).toEqual([
       {
         field: 'Operator',
-        fieldType: 'text',
         label: 'Operator Name',
       },
       {
         field: 'FieldName',
-        fieldType: 'text',
         label: 'Field Name',
       },
     ]);

@@ -32,7 +32,6 @@ import { array, string, bool } from 'yup';
  * @typedef {{
  *   field: string;
  *   label: string;
- *   fieldType: FieldType;
  * }} AdditionalSearchConfig
  */
 
@@ -231,11 +230,8 @@ export function transformAdditionalSearches(value) {
   const entries = value.split(';').map(trim);
 
   return entries.map(getValueAndAlias).map(({ value, alias }) => {
-    const [fieldName, fieldType] = value.split('|');
-
     return {
-      field: fieldName,
-      fieldType: /** @type {FieldType} */ (fieldType),
+      field: value,
       label: alias,
     };
   });
