@@ -11,6 +11,7 @@ import Button from '../../utah-design-system/Button';
 /**
  * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig
  *
+ *
  * @typedef {import('../../contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue
  */
 
@@ -87,7 +88,7 @@ export default function QueryLayer({
         {specialFilters.length ? (
           <Popup
             trigger={
-              <div className="relative">
+              <div className="relative" title="Data Filters">
                 {filterValues && filterValues.length > 0 ? (
                   <span className="absolute flex h-1.5 w-1.5 rounded-full bg-accent-dark"></span>
                 ) : null}
