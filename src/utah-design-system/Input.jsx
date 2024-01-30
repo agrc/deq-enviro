@@ -9,9 +9,9 @@ import { twJoin, twMerge } from 'tailwind-merge';
  * @param {boolean} [props.inline]
  * @param {boolean} [props.invalid]
  * @param {string} props.label
- * @param {number} [props.max]
+ * @param {number | string} [props.max]
  * @param {string} [props.message]
- * @param {number} [props.min]
+ * @param {number | string} [props.min]
  * @param {function} [props.onChange]
  * @param {import('react').ReactNode} [props.prefix]
  * @param {boolean} [props.required]
