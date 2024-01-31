@@ -8,7 +8,11 @@ import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
 import SelectMapData from './SelectMapData.jsx';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
-import { getConfigByTableName, getRelationships } from '../../utils.js';
+import {
+  getConfigByTableName,
+  getDefaultLayerFilterValues,
+  getRelationships,
+} from '../../utils.js';
 import { useFirebase } from '../../contexts/useFirebase.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
 import Download from './Download.jsx';
@@ -371,7 +375,15 @@ export default function SearchWizard() {
             color="none"
             className="w-full"
             size="xl"
-            onClick={() => send({ type: 'CLEAR' })}
+            onClick={() =>
+              send({
+                type: 'CLEAR',
+                defaults: {
+                  layerFilterValues:
+                    getDefaultLayerFilterValues(queryLayerConfigs),
+                },
+              })
+            }
             disabled={state.matches('searching')}
           >
             {state.matches('selectLayers') ? 'Clear' : 'Start New Search'}
