@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.0-64](https://github.com/agrc/deq-enviro/compare/v2.0.0-63...v2.0.0-64) (2024-01-31)
+
+
+### 🚀 Features
+
+* add support for "Additional Search" configs ([7c6eab2](https://github.com/agrc/deq-enviro/commit/7c6eab22071fa749550fdd5a1822fa2ca0f318f3)), closes [#572](https://github.com/agrc/deq-enviro/issues/572)
+* add support for "Special Filters Default To On" config field ([9796832](https://github.com/agrc/deq-enviro/commit/97968329f6e9ee26a755c7e5b24dc70031e0dbb7))
+* parse dates into human-readable format ([c93878d](https://github.com/agrc/deq-enviro/commit/c93878d473d81b2a3274fca5384476ee4de5ce4b)), closes [#634](https://github.com/agrc/deq-enviro/issues/634)
+* show that layer filters have been applied in search progress ([664f89b](https://github.com/agrc/deq-enviro/commit/664f89b8eadac6c4820d2ea9b30ad810af0800af))
+
+
+### 🐛 Bug Fixes
+
+* allow qualtrics script ([de7a0c4](https://github.com/agrc/deq-enviro/commit/de7a0c475dad1af031a73fca616225a1e4533938))
+* apply layer filter defaults when manually clearing search ([f3f827b](https://github.com/agrc/deq-enviro/commit/f3f827b33b3a3d1a7810eff9a25b5549f5e062ec))
+* fix bug causing duplicate records to be fetched ([3f7ce9b](https://github.com/agrc/deq-enviro/commit/3f7ce9b15695f61fbe60a0ae0ab75d3810c1ab01))
+* fix regression in caching search geometries ([517313b](https://github.com/agrc/deq-enviro/commit/517313b3fe64858fb20c9567c92f329db646f315))
+* fix regression preventing result tables from showing layers with errors ([5c19d2c](https://github.com/agrc/deq-enviro/commit/5c19d2c1b7368695614e898ab0e5770338e70a0e))
+* handle no layer filter values ([8829d09](https://github.com/agrc/deq-enviro/commit/8829d099ffe017a4701b9e691f62f28e4270d0fd))
+* linting errors ([fe14ac5](https://github.com/agrc/deq-enviro/commit/fe14ac56c9b1cf2902ecac467252821a8c588e86))
+* **tooltip:** make sure that it's not overlapped by other content ([f9a9721](https://github.com/agrc/deq-enviro/commit/f9a972121b35d4cfbedac4c849bb74506417925e))
+
 ## [2.0.0-63](https://github.com/agrc/deq-enviro/compare/v2.0.0-62...v2.0.0-63) (2024-01-30)
 
 
