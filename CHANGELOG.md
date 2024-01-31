@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-65](https://github.com/agrc/deq-enviro/compare/v2.0.0-64...v2.0.0-65) (2024-01-31)
+
+
+### 🐛 Bug Fixes
+
+* more CSP updates for qualtrics ([5d4cebb](https://github.com/agrc/deq-enviro/commit/5d4cebbbe339eef6565cbd0973240008525eee47))
+
 ## [2.0.0-64](https://github.com/agrc/deq-enviro/compare/v2.0.0-63...v2.0.0-64) (2024-01-31)
 
 
