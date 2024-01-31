@@ -136,6 +136,7 @@ function TabContent({
 
       // columns
       columns.splice(2, 0, {
+        // @ts-ignore
         header: 'Additional Information',
         accessorKey: 'additionalInfoLink',
         cell: LinkDetectingCell,

@@ -117,6 +117,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
   );
   const [identifyResults, setIdentifyResults] = useState(null);
 
+  // @ts-ignore
   columns[0].cell = ({ getValue, row }) => (
     <div className="flex items-center">
       <Button
@@ -245,6 +246,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               data={rows}
               // @ts-ignore
               initialState={{
+                // @ts-ignore
                 sorting: [{ id: columns[0].accessorKey, desc: false }],
               }}
             />

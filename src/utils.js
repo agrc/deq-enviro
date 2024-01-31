@@ -146,13 +146,20 @@ export function getDefaultLayerFilterValues(queryLayers) {
 }
 
 /** @typedef {import('../functions/common/config').Field} Field */
+/** @typedef {import('@tanstack/react-table').Column} Column */
 
 /**
  * @param {(string | Field)[]} resultGridFields
  * @param {Object[]} fields
+ * @returns {Column[]}
+ */
+/**
+ * @param {(string | Field)[]} resultGridFields
+ * @param {Object[]} fields
+ * @returns {Column[]}
  */
 export function getColumnDefs(resultGridFields, fields) {
-  // field could be a string or object
+  // @ts-ignore
   return resultGridFields.map((value) => {
     const columnDef = {
       header: /** @type {Field} */ (value).alias || getAlias(value, fields),

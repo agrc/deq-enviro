@@ -178,6 +178,7 @@ export default function SearchWizard() {
                 queryLayers={datasetConfigs.queryLayers}
                 results={state.context.resultLayers}
                 filterName={state.context.filter.name}
+                layerFilterValues={state.context.layerFilterValues}
               />
             ) : null}
             {advancedFilterTouched && (
