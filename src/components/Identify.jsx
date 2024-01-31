@@ -29,7 +29,20 @@ export function LinkDetectingCell({ getValue }) {
     );
   }
 
-  // TODO: handle formatting dates?
+  return value;
+}
+
+/**
+ * @param {string} fieldName
+ * @param {string | number | boolean} value
+ * @param {Object[]} fields
+ */
+function getValue(fieldName, value, fields) {
+  const fieldDef = fields.find((field) => field.name === fieldName);
+
+  if (fieldDef?.type === 'esriFieldTypeDate') {
+    return new Date(/** @type {number} */ (value)).toLocaleDateString();
+  }
 
   return value;
 }
@@ -66,7 +79,7 @@ function Identify(
 
   const data = Object.entries(attributes).map(([field, value]) => ({
     field: getAlias(field, fields),
-    value,
+    value: getValue(field, value, fields),
   }));
 
   const substituteAttributes = (url) =>

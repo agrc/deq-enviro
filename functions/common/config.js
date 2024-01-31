@@ -37,6 +37,13 @@ import { array, string, bool } from 'yup';
 
 /**
  * @typedef {{
+ *   name: string;
+ *   alias: string;
+ * }} Field
+ */
+
+/**
+ * @typedef {{
  *   'Table Name': string;
  *   'Layer Name': string;
  *   'Geometry Type': string;
@@ -57,8 +64,8 @@ import { array, string, bool } from 'yup';
  *   'Legend Title': string;
  *   'Map Label Field': string;
  *   'Sort Field': string;
- *   'Identify Fields': (string | { name: string; alias: string })[];
- *   'Result Grid Fields': (string | { name: string; alias: string })[];
+ *   'Identify Fields': (string | Field)[];
+ *   'Result Grid Fields': (string | Field)[];
  *   'Related Tables': string;
  *   'Document Search': string;
  *   'GRAMA Request': string;
@@ -75,7 +82,7 @@ import { array, string, bool } from 'yup';
  *   'Additional Information': string;
  *   'Additional Information Link Fields': string[];
  *   'Feature Service': string;
- *   'Grid Fields': (string | { name: string; alias: string })[];
+ *   'Grid Fields': (string | Field)[];
  *   'OID Field': string;
  *   'SGID Table Name': string;
  *   'Table Name': string;

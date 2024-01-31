@@ -9,7 +9,7 @@ import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
-import { getAlias, getRelationships } from '../utils';
+import { getColumnDefs, getRelationships } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
@@ -109,12 +109,9 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
 
   const columns = useMemo(
     () =>
-      // field could be a string or object
-      queryLayerResult[fieldNames.queryLayers.resultGridFields].map(
-        (value) => ({
-          accessorKey: value.name || value,
-          header: value.alias || getAlias(value, queryLayerResult.fields),
-        }),
+      getColumnDefs(
+        queryLayerResult[fieldNames.queryLayers.resultGridFields],
+        queryLayerResult.fields,
       ),
     [queryLayerResult],
   );

@@ -15,7 +15,8 @@
     "SITEADDRES": "Between 950 and 1000 South and 200 and 400 East",
     "SITECITY": "BRIGHAM CITY",
     "SITEDESC": "Brownfields Grants",
-    "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant"
+    "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant",
+    "DATE_TEST": 850867200000
   },
   "popupTemplate": null
 }

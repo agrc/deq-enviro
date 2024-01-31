@@ -15,7 +15,7 @@
     "DERRID",
     "SITENAME",
     "SITEADDRES",
-    "SITECITY",
+    "DATE_TEST",
     "SITEDESC"
   ],
   "ID": "OBJECTID",
@@ -51,7 +51,8 @@
         "SITEADDRES": "Between 950 and 1000 South and 200 and 400 East",
         "SITECITY": "BRIGHAM CITY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant"
+        "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -72,7 +73,8 @@
         "SITEADDRES": "5600 WEST 2350 SOUTH",
         "SITECITY": "WEST VALLEY CITY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "West Valley City Brownfields Pilot Project"
+        "SITENAME": "West Valley City Brownfields Pilot Project",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -93,7 +95,8 @@
         "SITEADDRES": "Between 900 South and 800 South and 300 West and 400 West",
         "SITECITY": "SALT LAKE CITY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "Fleet Management Yard Brownfields Pilot Project"
+        "SITENAME": "Fleet Management Yard Brownfields Pilot Project",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -114,7 +117,8 @@
         "SITEADDRES": "West of I-15 to the boundaries of Midvale",
         "SITECITY": "MIDVALE",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "Midvale City Brownfields Pilot Project"
+        "SITENAME": "Midvale City Brownfields Pilot Project",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -135,7 +139,8 @@
         "SITEADDRES": "SOUTH OF 21ST STR., EAST OF REEVES AVE., WEST OF LINCOLN AVE., NORTH OF 23RD STR",
         "SITECITY": "OGDEN",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "OGDEN CENTRAL BUSINESS DISTRICT BROWNFIELDS PILOT PROJECT"
+        "SITENAME": "OGDEN CENTRAL BUSINESS DISTRICT BROWNFIELDS PILOT PROJECT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -156,7 +161,8 @@
         "SITEADDRES": "3900 SOUTH TO BIG COTTONWOOD CREEK BETWEEN 300 WEST AND STATE STREET",
         "SITECITY": "MURRAY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "SALT LAKE COUNTY WEST MILLCREEK COMMUNITY WIDE ASSESSMENT"
+        "SITENAME": "SALT LAKE COUNTY WEST MILLCREEK COMMUNITY WIDE ASSESSMENT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -177,7 +183,8 @@
         "SITEADDRES": "Between I-15 and Wall Avenue, between 31st to 21 Street",
         "SITECITY": "OGDEN",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "City of Ogden Community Wide Assessment"
+        "SITENAME": "City of Ogden Community Wide Assessment",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -198,7 +205,8 @@
         "SITEADDRES": "5300 SOUTH STATE STREET",
         "SITECITY": "MURRAY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "MURRAY SMELTER BROWNFIELDS PILOT PROJECT"
+        "SITENAME": "MURRAY SMELTER BROWNFIELDS PILOT PROJECT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -219,7 +227,8 @@
         "SITEADDRES": "NORTH TEMPLE ON NORTH, 300 WEST ON EAST, I15 ON WEST, 900 SOUTH STREET ON SOUTH",
         "SITECITY": "SALT LAKE CITY",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "SALT LAKE CITY GATEWAY PILOT PROJECT"
+        "SITENAME": "SALT LAKE CITY GATEWAY PILOT PROJECT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -240,7 +249,8 @@
         "SITEADDRES": "WEST BANK JORDAN RIVER TO 2200 W STR & FROM APPROX. 7600 South STR TO 8400 South STR",
         "SITECITY": "WEST JORDAN",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "WEST JORDAN BROWNFIELDS PILOT PROJECT"
+        "SITENAME": "WEST JORDAN BROWNFIELDS PILOT PROJECT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     },
@@ -261,7 +271,8 @@
         "SITEADDRES": "BOUNDED BY IRONTON BLVD. ON N, RT 75 ON S, RT 89 ON E, DENVER RIO GRANDE RR ON W",
         "SITECITY": "PROVO",
         "SITEDESC": "Brownfields Grants",
-        "SITENAME": "PROVO CITY IRONTON ECONOMIC REDEVELOPMENT PILOT PROJECT"
+        "SITENAME": "PROVO CITY IRONTON ECONOMIC REDEVELOPMENT PILOT PROJECT",
+        "DATE_TEST": 850867200000
       },
       "popupTemplate": null
     }
@@ -282,6 +293,11 @@
     {
       "name": "SITENAME",
       "alias": "Site Name"
+    },
+    {
+      "name": "DATE_TEST",
+      "alias": "Date Test",
+      "type": "esriFieldTypeDate"
     }
   ],
   "count": 11,

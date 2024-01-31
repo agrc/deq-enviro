@@ -126,5 +126,10 @@
     "type": "esriFieldTypeString",
     "alias": "ENVIROAPPSYMBOL",
     "length": 255
+  },
+  {
+    "name": "DATE_TEST",
+    "type": "esriFieldTypeDate",
+    "alias": "Date Test"
   }
 ]

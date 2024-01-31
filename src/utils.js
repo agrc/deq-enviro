@@ -1,4 +1,5 @@
 import appConfig from './app-config';
+import { LinkDetectingCell } from './components/Identify';
 import { fieldNames } from '../functions/common/config';
 
 export function getAlias(fieldName, fields) {
@@ -120,6 +121,7 @@ export function getDefQueryFromLayerFilterValues(layerFilterValues) {
 }
 
 /** @typedef {import('./contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue */
+
 /**
  * @param {import('../functions/common/config').QueryLayerConfig[]} queryLayers
  * @returns {Record<string, LayerFilterValue[]>}
@@ -141,4 +143,36 @@ export function getDefaultLayerFilterValues(queryLayers) {
   });
 
   return defaultLayerFilterValues;
+}
+
+/** @typedef {import('../functions/common/config').Field} Field */
+
+/**
+ * @param {(string | Field)[]} resultGridFields
+ * @param {Object[]} fields
+ */
+export function getColumnDefs(resultGridFields, fields) {
+  // field could be a string or object
+  return resultGridFields.map((value) => {
+    const columnDef = {
+      header: /** @type {Field} */ (value).alias || getAlias(value, fields),
+      cell: LinkDetectingCell,
+    };
+
+    const fieldName =
+      /** @type {Field} */ (value).name || /** @type {string} */ (value);
+    const field = fields.find((field) => field.name === fieldName);
+
+    if (field?.type === 'esriFieldTypeDate') {
+      columnDef.accessorFn = (row) => {
+        const date = new Date(row[fieldName]);
+
+        return date.toLocaleDateString();
+      };
+    } else {
+      columnDef.accessorKey = fieldName;
+    }
+
+    return columnDef;
+  });
 }
