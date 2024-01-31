@@ -375,7 +375,8 @@ export default function MapComponent() {
           );
         }
 
-        featureLayer.outFields = [featureServiceJson.objectIdField];
+        const objectIdField = featureServiceJson.objectIdField || 'OBJECTID';
+        featureLayer.outFields = [objectIdField];
         featureLayer.id = `${searchLayerIdPrefix}:${
           layer[fieldNames.queryLayers.tableName]
         }`;
@@ -417,7 +418,7 @@ export default function MapComponent() {
           geometry: filter.geometry,
         });
         featureLayer.definitionExpression = ids?.length
-          ? `${featureLayer.objectIdField} IN (${ids.join(',')})`
+          ? `${objectIdField} IN (${ids.join(',')})`
           : '1=0';
 
         // I could't get a client-side query on the layer view to work
@@ -428,7 +429,7 @@ export default function MapComponent() {
           ...layer[fieldNames.queryLayers.resultGridFields].map((value) =>
             typeof value === 'string' ? value : value.name,
           ),
-          featureServiceJson.objectIdField || 'OBJECTID',
+          objectIdField,
         ];
         query.returnGeometry = false;
         const features = await queryFeatures(featureLayer, query);
