@@ -49,6 +49,22 @@ export const Default = () => (
       // @ts-ignore
       results={results}
       filterName="filter name that wraps and wraps and wraps longer"
+      layerFilterValues={{
+        TableName: [
+          {
+            type: 'field',
+            field: 'FieldName',
+            fieldType: 'text',
+            values: ['value1', 'value2', 'value3'],
+          },
+        ],
+        TableNext: [
+          {
+            type: 'checkbox',
+            values: ['value1', 'value2', 'value3'],
+          },
+        ],
+      }}
     />
   </div>
 );

@@ -105,7 +105,7 @@ export default function QueryLayer({
             }
           >
             <div className="flex items-center justify-between">
-              <h5>Filter Layer</h5>
+              <h5>Data Filters</h5>
               <CloseButton />
             </div>
             <div className="flex max-h-96 max-w-96 flex-col">
