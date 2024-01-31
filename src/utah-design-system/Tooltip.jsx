@@ -19,7 +19,7 @@ export default function Tooltip({ open, trigger, children, delayDuration }) {
           <RadixTooltip.Content
             sideOffset={5}
             className={twJoin(
-              'rounded-md bg-slate-600 px-3 py-2 text-white shadow-md',
+              'z-50 rounded-md bg-slate-600 px-3 py-2 text-white shadow-md',
               'data-[state=delayed-open]:animate-fade-in',
             )}
           >
