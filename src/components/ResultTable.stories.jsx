@@ -53,6 +53,7 @@ export const Error = Template.bind({});
 Error.args = {
   queryLayerResult: {
     ...queryLayerResult,
+    fields: undefined,
     error: 'There was an error',
   },
   onExpandChange: console.log,

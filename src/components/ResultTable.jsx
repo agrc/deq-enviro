@@ -107,34 +107,39 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
     }
   }, [selectedGraphicInfo, queryLayerResult, identify]);
 
-  const columns = useMemo(
-    () =>
-      getColumnDefs(
+  const columns = useMemo(() => {
+    if (!queryLayerResult.error) {
+      const newColumns = getColumnDefs(
         queryLayerResult[fieldNames.queryLayers.resultGridFields],
         queryLayerResult.fields,
-      ),
-    [queryLayerResult],
-  );
-  const [identifyResults, setIdentifyResults] = useState(null);
+      );
 
-  // @ts-ignore
-  columns[0].cell = ({ getValue, row }) => (
-    <div className="flex items-center">
-      <Button
-        className="invisible ml-0 mr-1 px-1.5 group-hover/row:visible"
-        size="sm"
-        onClick={() => {
-          setSelectedGraphicInfo({
-            oid: row.original.OBJECTID,
-            layerId: queryLayerResult[fieldNames.queryLayers.tableName],
-          });
-        }}
-      >
-        <Icon name="moreHorizontal" size="xs" label="more information" />
-      </Button>
-      {getValue()}
-    </div>
-  );
+      // @ts-ignore
+      newColumns[0].cell = ({ getValue, row }) => (
+        <div className="flex items-center">
+          <Button
+            className="invisible ml-0 mr-1 px-1.5 group-hover/row:visible"
+            size="sm"
+            onClick={() => {
+              setSelectedGraphicInfo({
+                oid: row.original.OBJECTID,
+                layerId: queryLayerResult[fieldNames.queryLayers.tableName],
+              });
+            }}
+          >
+            <Icon name="moreHorizontal" size="xs" label="more information" />
+          </Button>
+          {getValue()}
+        </div>
+      );
+
+      return newColumns;
+    }
+
+    return [];
+  }, [queryLayerResult, setSelectedGraphicInfo]);
+
+  const [identifyResults, setIdentifyResults] = useState(null);
 
   const layerName = queryLayerResult[fieldNames.queryLayers.layerName];
 
