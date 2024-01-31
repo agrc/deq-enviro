@@ -43,9 +43,10 @@ export async function queryFeatures(featureLayer, query) {
   const features = [];
   let start = 0;
   let finished = false;
-  query.maxRecordCountFactor = 4;
+  const maxRecordCountFactor = featureLayer.geometryType === 'point' ? 4 : 1;
+  query.maxRecordCountFactor = maxRecordCountFactor;
   query.num =
-    featureLayer.capabilities.query.maxRecordCount * query.maxRecordCountFactor;
+    featureLayer.capabilities.query.maxRecordCount * maxRecordCountFactor;
   while (!finished) {
     query.start = start;
     const featureSet = await featureLayer.queryFeatures(query);
@@ -53,7 +54,8 @@ export async function queryFeatures(featureLayer, query) {
     features.push(...featureSet.features);
 
     if (featureSet.exceededTransferLimit) {
-      start += featureLayer.capabilities.query.maxRecordCount;
+      start +=
+        featureLayer.capabilities.query.maxRecordCount * maxRecordCountFactor;
     } else {
       finished = true;
     }
