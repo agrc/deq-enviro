@@ -24,7 +24,13 @@ const CACHE_KEY = 'searchContext';
  * @returns {void}
  */
 function cacheSearchContext(cachedContext) {
-  localforage.setItem(CACHE_KEY, cachedContext);
+  const newData = {
+    ...cachedContext,
+  };
+  if (newData.filter?.geometry?.toJSON) {
+    newData.filter.geometry = newData.filter.geometry.toJSON();
+  }
+  localforage.setItem(CACHE_KEY, newData);
 }
 
 /**

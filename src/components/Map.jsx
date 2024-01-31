@@ -31,6 +31,7 @@ import { useFirebase } from '../contexts/useFirebase';
 import Spinner from '../utah-design-system/Spinner';
 import Graphic from '@arcgis/core/Graphic';
 import { getDefQueryFromLayerFilterValues } from '../utils';
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -129,7 +130,9 @@ export default function MapComponent() {
   const map = useRef(null);
   const view = useRef(null);
   const filterGraphic = state.context?.filter?.geometry && {
-    geometry: state.context?.filter?.geometry,
+    geometry:
+      state.context?.filter?.geometry &&
+      fromJSON(state.context.filter.geometry),
     symbol: appConfig.symbols.filter,
   };
   useMapGraphic(view.current, new Graphic(filterGraphic));
