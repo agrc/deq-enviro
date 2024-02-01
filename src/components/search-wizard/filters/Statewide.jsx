@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import stateOfUtahJson from '../../../data/state-of-utah.json';
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 
 export default function Statewide({ send }) {
   useEffect(() => {
     send({
       type: 'SET_FILTER',
-      filter: { geometry: stateOfUtahJson, name: 'State of Utah' },
+      filter: { geometry: fromJSON(stateOfUtahJson), name: 'State of Utah' },
     });
   }, [send]);
 
