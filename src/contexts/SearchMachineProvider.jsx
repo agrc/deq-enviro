@@ -24,11 +24,10 @@ const CACHE_KEY = 'searchContext';
  * @returns {void}
  */
 function cacheSearchContext(cachedContext) {
-  const newData = {
-    ...cachedContext,
-  };
-  if (newData.filter?.geometry?.toJSON) {
-    newData.filter.geometry = newData.filter.geometry.toJSON();
+  // make sure that the original geometry is not modified...
+  const newData = structuredClone(cachedContext);
+  if (cachedContext.filter?.geometry?.toJSON) {
+    newData.filter.geometry = cachedContext.filter.geometry.toJSON();
   }
   localforage.setItem(CACHE_KEY, newData);
 }
