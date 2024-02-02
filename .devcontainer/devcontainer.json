@@ -5,7 +5,8 @@
   },
   "containerEnv": {
     "GOOGLE_APPLICATION_CREDENTIALS": "/gcp/config/application_default_credentials.json",
-    "CLOUDSDK_CONFIG": "/gcp/config/application_default_credentials.json"
+    "CLOUDSDK_CONFIG": "/gcp/config/application_default_credentials.json",
+    "GOOGLE_CLOUD_PROJECT": "ut-dts-agrc-deq-enviro-dev"
   },
   "customizations": {
     "vscode": {
@@ -18,7 +19,9 @@
       ]
     }
   },
-  "forwardPorts": [5000],
+  "forwardPorts": [
+    5000
+  ],
   "mounts": [
     {
       "source": "${localEnv:HOME}/.config/gcloud",
