@@ -62,6 +62,14 @@ def write_to_output(tableName, feature_set, format):
         raise ValueError(f"unsupported format: {format}")
 
 
+def get_field_type(field_name, fields) -> str:
+    for field in fields:
+        if field["name"] == field_name:
+            return field["type"]
+
+    raise ValueError(f"field not found: {field_name}")
+
+
 def download(id, layers, format):
     cleanup()
 
@@ -104,10 +112,17 @@ def download(id, layers, format):
                 logger.info(f"relationship: {relationship_config['name']}")
                 related_table_name = relationship_config["tableName"]
 
-                #: todo handle string values in primary keys
+                if (
+                    get_field_type(primary_key, feature_set.fields)
+                    == "esriFieldTypeString"
+                ):
+                    primary_keys = [f"'{x}'" for x in primary_keys]
+                else:
+                    primary_keys = [str(x) for x in primary_keys]
+
                 where = (
                     f"{relationship_config['foreign']} IN "
-                    + f"({','.join([str(x) for x in primary_keys])})"
+                    + f"({','.join(primary_keys)})"
                 )
                 related_feature_set = get_agol_data(
                     relationship_config["url"],
