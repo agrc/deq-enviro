@@ -105,57 +105,80 @@ def download(id, layers, format):
             continue
 
         if "relationships" in layer and len(layer["relationships"]) > 0:
-            primary_key = layer["relationships"][0]["primary"]
-            primary_keys = feature_set.sdf.reset_index()[primary_key].tolist()
+            primary_key_name = layer["relationships"][0]["primary"]
+            primary_keys = feature_set.sdf.reset_index()[primary_key_name].tolist()
 
             for relationship_config in layer["relationships"]:
-                logger.info(f"relationship: {relationship_config['name']}")
-                related_table_name = relationship_config["tableName"]
-
-                if (
-                    get_field_type(primary_key, feature_set.fields)
-                    == "esriFieldTypeString"
-                ):
-                    primary_keys = [f"'{x}'" for x in primary_keys]
-                else:
-                    primary_keys = [str(x) for x in primary_keys]
-
-                where = (
-                    f"{relationship_config['foreign']} IN "
-                    + f"({','.join(primary_keys)})"
-                )
-                related_feature_set = get_agol_data(
-                    relationship_config["url"],
-                    None,
+                create_relationship(
+                    relationship_config,
+                    primary_keys,
+                    feature_set.fields,
                     return_geometry,
-                    where=where,
+                    tableName,
+                    format,
                 )
-
-                if len(related_feature_set.features) == 0:
-                    logger.info("no features found, skipping creation")
-
-                    continue
-
-                write_to_output(related_table_name, related_feature_set, format)
-
-                if format == "filegdb":
-                    relationship = gdal.Relationship(
-                        relationship_config["name"],
-                        layer["tableName"],
-                        relationship_config["tableName"],
-                        gdal.GRC_ONE_TO_MANY,
-                    )
-                    relationship.SetLeftTableFields([relationship_config["primary"]])
-                    relationship.SetRightTableFields([relationship_config["foreign"]])
-                    relationship.SetRelatedTableType("feature")
-
-                    output_dataset = gdal.OpenEx(str(fgdb_path), gdal.GA_Update)
-                    if not output_dataset.AddRelationship(relationship):
-                        logger.info("failed to add relationship")
 
         update_job_layer(id, tableName, True)
 
     return output_folder
+
+
+def create_relationship(
+    config, primary_keys, fields, return_geometry, parent_name, format
+):
+    logger.info(f"relationship: {config['name']}")
+    related_table_name = config["tableName"]
+
+    if get_field_type(config["primary"], fields) in [
+        "esriFieldTypeString",
+        "esriFieldTypeGUID",
+    ]:
+        primary_keys = [f"'{x}'" for x in primary_keys]
+    else:
+        primary_keys = [str(x) for x in primary_keys]
+
+    where = f"{config['foreign']} IN " + f"({','.join(primary_keys)})"
+    related_feature_set = get_agol_data(
+        config["url"],
+        None,
+        return_geometry,
+        where=where,
+    )
+
+    if len(related_feature_set.features) == 0:
+        logger.info("no features found, skipping creation")
+
+        return
+
+    write_to_output(related_table_name, related_feature_set, format)
+
+    if format == "filegdb":
+        relationship = gdal.Relationship(
+            config["name"],
+            parent_name,
+            config["tableName"],
+            gdal.GRC_ONE_TO_MANY,
+        )
+        relationship.SetLeftTableFields([config["primary"]])
+        relationship.SetRightTableFields([config["foreign"]])
+        relationship.SetRelatedTableType("feature")
+
+        output_dataset = gdal.OpenEx(str(fgdb_path), gdal.GA_Update)
+        if not output_dataset.AddRelationship(relationship):
+            logger.info("failed to add relationship")
+
+    if "nestedRelationships" in config:
+        for nested_relationship in config["nestedRelationships"]:
+            create_relationship(
+                nested_relationship,
+                related_feature_set.sdf.reset_index()[
+                    nested_relationship["primary"]
+                ].tolist(),
+                related_feature_set.fields,
+                return_geometry,
+                related_table_name,
+                format,
+            )
 
 
 def get_agol_data(url, objectIds, return_geometry, where=None) -> FeatureSet:
@@ -167,7 +190,6 @@ def get_agol_data(url, objectIds, return_geometry, where=None) -> FeatureSet:
     feature_set = feature_layer.query(
         object_ids=object_ids, where=where, return_geometry=return_geometry
     )
-    # logger.info(feature_set.to_json)
 
     return feature_set
 

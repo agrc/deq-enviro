@@ -247,7 +247,7 @@ async function validateRelationshipClasses(
   ];
   const allConfigs = [...queryLayers, ...relatedTables];
 
-  for (const config of relationshipClasses) {
+  const validate = async (config) => {
     const parent = config[fieldNames.relationshipClasses.parentDatasetName];
     const child = config[fieldNames.relationshipClasses.relatedTableName];
     const name = `${parent} -> ${child}`;
@@ -258,7 +258,7 @@ async function validateRelationshipClasses(
         `${name}: parent dataset name is not a valid query layer name.`,
       );
 
-      continue;
+      return;
     }
 
     if (!possibleChildNames.includes(child)) {
@@ -266,7 +266,7 @@ async function validateRelationshipClasses(
         `${name}: related table name is not a valid related table name.`,
       );
 
-      continue;
+      return;
     }
 
     const parentConfig = allConfigs.find(
@@ -302,7 +302,11 @@ async function validateRelationshipClasses(
     if (typeof childResults === 'object' && childResults.length) {
       validationErrors.push(...childResults);
     }
-  }
+
+    config?.nestedRelationships?.forEach(validate);
+  };
+
+  relationshipClasses.forEach(validate);
 
   return validationErrors;
 }
@@ -486,6 +490,43 @@ export async function main() {
   return await updateRemoteConfigs(
     JSON.stringify(queryLayers),
     JSON.stringify(relatedTables),
-    JSON.stringify(relationshipClasses),
+    JSON.stringify(nestRelationships(relationshipClasses)),
+  );
+}
+
+/**
+ * @param {import('./common/config').RelationshipClassConfig[]} relationshipClasses
+ * @returns {import('./common/config').RelationshipClassConfig[]}
+ */
+export function nestRelationships(relationshipClasses) {
+  console.log('nesting relationships');
+  return relationshipClasses.reduce(
+    (nestedRelationships, relationship) => {
+      const potentialChildName =
+        relationship[fieldNames.relationshipClasses.parentDatasetName];
+      const parent = nestedRelationships.find(
+        (nested) =>
+          nested[fieldNames.relationshipClasses.relatedTableName] ===
+          potentialChildName,
+      );
+
+      if (parent) {
+        console.log(
+          `moving ${potentialChildName} to ${parent[fieldNames.relationshipClasses.parentDatasetName]}`,
+        );
+        // found a nested relationship
+        // remove current config from base array and add it to it's parent
+        // can't trust the index param of the reduce because we are mutating the array
+        const childIndex = nestedRelationships.indexOf(relationship);
+        const child = nestedRelationships.splice(childIndex, 1)[0];
+        if (!parent.nestedRelationships) {
+          parent.nestedRelationships = [];
+        }
+        parent.nestedRelationships.push(child);
+      }
+
+      return nestedRelationships;
+    },
+    [...relationshipClasses],
   );
 }

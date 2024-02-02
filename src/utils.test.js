@@ -4,6 +4,7 @@ import {
   getAlias,
   hasDefaultSymbology,
   getDefaultLayerFilterValues,
+  getRelationships,
 } from './utils';
 import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
 
@@ -163,5 +164,69 @@ describe('getDefaultLayerFilterValues', () => {
         },
       ],
     });
+  });
+});
+
+describe('getRelationships', () => {
+  it('returns the relationships', () => {
+    /** @type {import('../functions/common/config').RelationshipClassConfig[]} */
+    const allRelationships = [
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child',
+        'Foreign Key': 'Test',
+        nestedRelationships: [],
+      },
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 2',
+        'Foreign Key': 'Test',
+        nestedRelationships: [
+          {
+            'Parent Dataset Name': 'Child 2',
+            'Primary Key': 'Test',
+            'Related Table Name': 'Child 3',
+            'Foreign Key': 'Test',
+            nestedRelationships: [],
+          },
+        ],
+      },
+      {
+        'Parent Dataset Name': 'Parent 2',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 3',
+        'Foreign Key': 'Test',
+        nestedRelationships: [],
+      },
+    ];
+
+    const result = getRelationships('Parent', allRelationships);
+
+    expect(result).toEqual([
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child',
+        'Foreign Key': 'Test',
+        nestedRelationships: [],
+      },
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 2',
+        'Foreign Key': 'Test',
+        nestedRelationships: [
+          {
+            'Parent Dataset Name': 'Child 2',
+            'Primary Key': 'Test',
+            'Related Table Name': 'Child 3',
+            'Foreign Key': 'Test',
+            nestedRelationships: [],
+          },
+        ],
+      },
+    ]);
   });
 });

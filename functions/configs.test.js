@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fieldKeys } from './common/config';
 import {
+  nestRelationships,
   applyTransforms,
   arraysToObjects,
   checkForDuplicateTableNames,
@@ -222,5 +223,80 @@ describe('getFieldsFromSpecialFilters', () => {
     const expected = ['FieldField', 'DateField'];
 
     expect(getFieldsFromSpecialFilters(configs)).toEqual(expected);
+  });
+});
+
+describe('nestRelationships', () => {
+  it('nests relationships', () => {
+    /** @type {import('./common/config').RelationshipClassConfig[]} */
+    const input = [
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child',
+        'Foreign Key': 'Test',
+      },
+      {
+        'Parent Dataset Name': 'Child 2',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Grandchild 1',
+        'Foreign Key': 'Test',
+      },
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 2',
+        'Foreign Key': 'Test',
+      },
+      {
+        'Parent Dataset Name': 'Parent 2',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 3',
+        'Foreign Key': 'Test',
+      },
+      {
+        'Parent Dataset Name': 'Child 3',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Grandchild 2',
+        'Foreign Key': 'Test',
+      },
+    ];
+
+    expect(nestRelationships(input)).toEqual([
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child',
+        'Foreign Key': 'Test',
+      },
+      {
+        'Parent Dataset Name': 'Parent',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 2',
+        'Foreign Key': 'Test',
+        nestedRelationships: [
+          {
+            'Parent Dataset Name': 'Child 2',
+            'Primary Key': 'Test',
+            'Related Table Name': 'Grandchild 1',
+            'Foreign Key': 'Test',
+          },
+        ],
+      },
+      {
+        'Parent Dataset Name': 'Parent 2',
+        'Primary Key': 'Test',
+        'Related Table Name': 'Child 3',
+        'Foreign Key': 'Test',
+        nestedRelationships: [
+          {
+            'Parent Dataset Name': 'Child 3',
+            'Primary Key': 'Test',
+            'Related Table Name': 'Grandchild 2',
+            'Foreign Key': 'Test',
+          },
+        ],
+      },
+    ]);
   });
 });

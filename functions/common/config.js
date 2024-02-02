@@ -96,6 +96,7 @@ import { array, string, bool } from 'yup';
  *   'Primary Key': string;
  *   'Related Table Name': string;
  *   'Foreign Key': string;
+ *   nestedRelationships?: RelationshipClassConfig[];
  * }} RelationshipClassConfig
  */
 

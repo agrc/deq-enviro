@@ -26,6 +26,7 @@ import Progress from './SearchProgress.jsx';
  *   primary: string;
  *   foreign: string;
  *   name: string;
+ *   nestedRelationships: DownloadRelationship[];
  * }} DownloadRelationship
  */
 
@@ -156,6 +157,27 @@ export default function SearchWizard() {
     !state.context.searchLayerTableNames
   ) {
     return null;
+  }
+  /**
+   * @param {import('../../../functions/common/config.js').RelationshipClassConfig} config
+   * @returns {DownloadRelationship}
+   */
+  function translateRelationship(config) {
+    return {
+      tableName: config[fieldNames.relationshipClasses.relatedTableName],
+      url: getConfigByTableName(
+        config[fieldNames.relationshipClasses.relatedTableName],
+        datasetConfigs.relatedTables,
+      )[fieldNames.queryLayers.featureService],
+      primary: config[fieldNames.relationshipClasses.primaryKey],
+      foreign: config[fieldNames.relationshipClasses.foreignKey],
+      name: `${
+        config[fieldNames.relationshipClasses.parentDatasetName]
+      }_TO_${config[fieldNames.relationshipClasses.relatedTableName]}`,
+      nestedRelationships: config?.nestedRelationships?.map(
+        translateRelationship,
+      ),
+    };
   }
 
   return (
@@ -318,35 +340,7 @@ export default function SearchWizard() {
                           relationships: getRelationships(
                             result[fieldNames.queryLayers.tableName],
                             allRelationshipClasses,
-                          ).map((relationship) => ({
-                            tableName:
-                              relationship[
-                                fieldNames.relationshipClasses.relatedTableName
-                              ],
-                            url: getConfigByTableName(
-                              relationship[
-                                fieldNames.relationshipClasses.relatedTableName
-                              ],
-                              datasetConfigs.relatedTables,
-                            )[fieldNames.queryLayers.featureService],
-                            primary:
-                              relationship[
-                                fieldNames.relationshipClasses.primaryKey
-                              ],
-                            foreign:
-                              relationship[
-                                fieldNames.relationshipClasses.foreignKey
-                              ],
-                            name: `${
-                              relationship[
-                                fieldNames.relationshipClasses.parentDatasetName
-                              ]
-                            }_TO_${
-                              relationship[
-                                fieldNames.relationshipClasses.relatedTableName
-                              ]
-                            }`,
-                          })),
+                          ).map(translateRelationship),
                         };
                       }),
                     format: state.context.downloadFormat,
