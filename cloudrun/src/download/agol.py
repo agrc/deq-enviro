@@ -1,6 +1,7 @@
 """
 A module for downloading data from enviro.deq.utah.gov feature services.
 """
+
 import shutil
 from pathlib import Path
 
@@ -104,7 +105,10 @@ def download(id, layers, format):
                 related_table_name = relationship_config["tableName"]
 
                 #: todo handle string values in primary keys
-                where = f"{relationship_config['foreign']} IN ({','.join([str(x) for x in primary_keys])})"
+                where = (
+                    f"{relationship_config['foreign']} IN "
+                    + f"({','.join([str(x) for x in primary_keys])})"
+                )
                 related_feature_set = get_agol_data(
                     relationship_config["url"],
                     None,
