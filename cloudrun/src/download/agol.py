@@ -190,6 +190,16 @@ def get_agol_data(url, objectIds, return_geometry, where=None) -> FeatureSet:
     feature_set = feature_layer.query(
         object_ids=object_ids, where=where, return_geometry=return_geometry
     )
+    try:
+        feature_set.object_id_field_name = feature_layer.properties["objectIdField"]
+    except KeyError:
+        feature_set.object_id_field_name = "OBJECTID"
+
+    #: hack to work around issue with FID fields being incorrectly set as the
+    #: object id field in the dry cleaners layer
+    for field in feature_set.fields:
+        if field["name"] == "FID":
+            field["type"] = "esriFieldTypeInteger"
 
     return feature_set
 
