@@ -5,14 +5,15 @@ A module for downloading data from enviro.deq.utah.gov feature services.
 import shutil
 from pathlib import Path
 
+import geopandas as gpd
 from arcgis.features import (
     FeatureLayer,
     FeatureSet,
 )
 from osgeo import gdal, ogr
 
-from .log import logger
 from .database import update_job_layer
+from .log import logger
 
 #: throw exceptions on errors rather than returning None
 gdal.UseExceptions()
@@ -33,33 +34,38 @@ def cleanup():
 
 
 def write_to_output(tableName, feature_set, format):
+    sdf = feature_set.sdf
+    gdf = gpd.GeoDataFrame(feature_set.sdf, geometry=sdf.spatial.name)
+
+    if sdf.spatial.sr is not None:
+        try:
+            gdf.set_crs(sdf.spatial.sr["latestWkid"], inplace=True)
+        except KeyError:
+            gdf.set_crs(sdf.spatial.sr["wkid"], inplace=True)
+
     #: default to csv for tables without geometry for shapefile and geojson formats
     if format == "csv" or (
         format in ["shapefile", "geojson"] and feature_set.geometry_type is None
     ):
-        feature_set.sdf.to_csv(output_folder / f"{tableName}.csv")
+        driver = "CSV"
+        output_path = output_folder / f"{tableName}.csv"
     elif format == "excel":
-        feature_set.sdf.to_excel(output_folder / f"{tableName}.xlsx")
+        driver = "XLSX"
+        output_path = output_folder / f"{tableName}.xlsx"
     elif format == "filegdb":
-        write_to_fgdb(tableName, fgdb_path, feature_set)
+        gdf.drop("OBJECTID", axis=1, inplace=True)
+        driver = "OpenFileGDB"
+        output_path = fgdb_path
     elif format == "geojson":
-        with open(output_folder / f"{tableName}.geojson", "w") as file:
-            file.write(feature_set.to_geojson)
+        driver = "GeoJSON"
+        output_path = output_folder / f"{tableName}.geojson"
     elif format == "shapefile":
-        sdf = feature_set.sdf
-        for field in sdf.columns:
-            #: reset field values for non-string fields who's values are all null
-            #: this prevents problems when converting to shapefile
-            #: ref: https://github.com/Esri/arcgis-python-api/issues/1732
-            if sdf[field].isnull().all() and sdf[field].dtype != "string":
-                logger.info(f"resetting field type as string for field: {field}")
-                sdf[field] = sdf[field].astype("string")
-
-        sdf.spatial.to_featureclass(
-            output_folder / f"{tableName}.shp", sanitize_columns=False
-        )
+        driver = "ESRI Shapefile"
+        output_path = output_folder / f"{tableName}.shp"
     else:
         raise ValueError(f"unsupported format: {format}")
+
+    gdf.to_file(output_path, layer=tableName, engine="pyogrio", driver=driver, mode="a")
 
 
 def get_field_type(field_name, fields) -> str:
@@ -77,6 +83,8 @@ def download(id, layers, format):
 
     if format == "filegdb":
         ogr.GetDriverByName("OpenFileGDB").CreateDataSource(fgdb_path)
+
+    related_tables_primary_keys = {}
 
     for layer in layers:
         tableName = layer["tableName"]
@@ -116,6 +124,7 @@ def download(id, layers, format):
                     return_geometry,
                     tableName,
                     format,
+                    related_tables_primary_keys,
                 )
 
         update_job_layer(id, tableName, True)
@@ -124,20 +133,31 @@ def download(id, layers, format):
 
 
 def create_relationship(
-    config, primary_keys, fields, return_geometry, parent_name, format
+    config,
+    primary_keys,
+    fields,
+    return_geometry,
+    parent_name,
+    format,
+    related_table_primary_keys,
 ):
     logger.info(f"relationship: {config['name']}")
     related_table_name = config["tableName"]
+
+    existing_ids = related_table_primary_keys.setdefault(related_table_name, set())
+    requested_ids = set(primary_keys)
+    new_ids = requested_ids - set(existing_ids)
+    related_table_primary_keys[related_table_name] = existing_ids | requested_ids
 
     if get_field_type(config["primary"], fields) in [
         "esriFieldTypeString",
         "esriFieldTypeGUID",
     ]:
-        primary_keys = [f"'{x}'" for x in primary_keys]
+        ids = [f"'{x}'" for x in new_ids]
     else:
-        primary_keys = [str(x) for x in primary_keys]
+        ids = [str(x) for x in new_ids]
 
-    where = f"{config['foreign']} IN " + f"({','.join(primary_keys)})"
+    where = f"{config['foreign']} IN " + f"({','.join(ids)})"
     related_feature_set = get_agol_data(
         config["url"],
         None,
@@ -178,6 +198,7 @@ def create_relationship(
                 return_geometry,
                 related_table_name,
                 format,
+                related_table_primary_keys,
             )
 
 
@@ -202,22 +223,3 @@ def get_agol_data(url, objectIds, return_geometry, where=None) -> FeatureSet:
             field["type"] = "esriFieldTypeInteger"
 
     return feature_set
-
-
-def write_to_fgdb(tableName, output_path, feature_set):
-    output_dataset = gdal.OpenEx(str(output_path), gdal.GA_Update)
-
-    path = f"ESRIJSON:{feature_set.to_json}"
-    input_dataset = gdal.OpenEx(path)
-
-    input_layer = input_dataset.GetLayer()
-
-    output_layer = output_dataset.CreateLayer(
-        tableName, srs=input_layer.GetSpatialRef(), geom_type=input_layer.GetGeomType()
-    )
-
-    for field in input_layer.schema:
-        output_layer.CreateField(field)
-
-    for feature in input_layer:
-        output_layer.CreateFeature(feature)

@@ -48,6 +48,8 @@ setup(
         "flask-json==0.4",
         "flask==3.*",
         "openpyxl==3.*",  # required for writing excel files with pandas
+        "pyogrio==0.*",  # required for writing to FGDBs
+        "geopandas==0.*",  # required for writing to FGDBs
         "pyshp==2.*",  # required for writing shapefiles with arcgis without arcpy
         "python-dotenv==1.*",
         "simplejson==3.*",
