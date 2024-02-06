@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.0-66](https://github.com/agrc/deq-enviro/compare/v2.0.0-65...v2.0.0-66) (2024-02-06)
+
+
+### 🐛 Bug Fixes
+
+* **download:** add support for nested relationships ([d80cfa3](https://github.com/agrc/deq-enviro/commit/d80cfa3dade4006c78bfc5e7e9f058dfdbd140c3))
+* **download:** prevent duplicate related tables from being created ([a585bc5](https://github.com/agrc/deq-enviro/commit/a585bc53981c1993de3ad76135981b5ac7092af0))
+* **download:** support string type primary keys for relationships ([ab93226](https://github.com/agrc/deq-enviro/commit/ab932268c06fb6093f9a734e5c62a81fc0b2c740))
+* **download:** workaround for arcgis package bug related to FID field in dry cleaners layer ([b5a2a5f](https://github.com/agrc/deq-enviro/commit/b5a2a5fc959d2153fa828c22219de3fd3e745874))
+* handle missing objectIdField props ([7b53800](https://github.com/agrc/deq-enviro/commit/7b5380067f76d369234562eb5a4b32857404380f))
+* pass a proper geometry object for state extent ([f2e031a](https://github.com/agrc/deq-enviro/commit/f2e031a89bed5f3a0981b63ff60ae843d144ff2b))
+* prevent messing with geometry when caching ([f2a482f](https://github.com/agrc/deq-enviro/commit/f2a482feebacd20097f4c367697ef2313473c4f4))
+
+
+### 🌲 Dependencies
+
+* bump npm dependencies 🌲 ([55b1eb7](https://github.com/agrc/deq-enviro/commit/55b1eb7804c8f5afc5c4a385d4838e08f7a0b1f2))
+
+
+### 🎨 Design Improvements
+
+* make search result layer text more aligned ([fa21a98](https://github.com/agrc/deq-enviro/commit/fa21a988c0d5562e853a27000955a76fb8ec9b25))
+
 ## [2.0.0-65](https://github.com/agrc/deq-enviro/compare/v2.0.0-64...v2.0.0-65) (2024-01-31)
 
 
