@@ -118,7 +118,7 @@ export default function SpecialFilter({ config, value, onChange }) {
           }))}
           value={value?.values[0]}
           onValueChange={(newValue) =>
-            onChange({ ...value, values: [newValue] })
+            onChange({ ...value, values: [newValue], type: config.type })
           }
         />
       );
