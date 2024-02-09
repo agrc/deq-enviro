@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-67](https://github.com/agrc/deq-enviro/compare/v2.0.0-66...v2.0.0-67) (2024-02-09)
+
+
+### 🐛 Bug Fixes
+
+* bug preventing radio special filters from working ([dc2c6b0](https://github.com/agrc/deq-enviro/commit/dc2c6b0e9797e1fa8a8bfaab05b02bd9b0bd56e7)), closes [#555](https://github.com/agrc/deq-enviro/issues/555)
+
 ## [2.0.0-66](https://github.com/agrc/deq-enviro/compare/v2.0.0-65...v2.0.0-66) (2024-02-06)
 
 
