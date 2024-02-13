@@ -157,6 +157,11 @@ export default function AdvancedFilter({ visible }) {
   ]);
 
   const getFilterComponent = (filterType) => {
+    if (!filterTypes[filterType]) {
+      console.warn(`No filter type found for ${filterType}`);
+
+      return null;
+    }
     const { Component, props } = filterTypes[filterType];
 
     return <Component send={send} {...props} />;
