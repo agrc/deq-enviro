@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-68](https://github.com/agrc/deq-enviro/compare/v2.0.0-67...v2.0.0-68) (2024-02-13)
+
+
+### 🐛 Bug Fixes
+
+* fix crash when starting new search after using custom attribute search ([c57b376](https://github.com/agrc/deq-enviro/commit/c57b37681601b0065e9068986456e37625aeced5))
+
 ## [2.0.0-67](https://github.com/agrc/deq-enviro/compare/v2.0.0-66...v2.0.0-67) (2024-02-09)
 
 
