@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-69](https://github.com/agrc/deq-enviro/compare/v2.0.0-68...v2.0.0-69) (2024-02-15)
+
+
+### 🐛 Bug Fixes
+
+* fix bug causing a crash after clear after doing a search ([60d1d7b](https://github.com/agrc/deq-enviro/commit/60d1d7b343ed11f5c2d4ddcebf738313dac10f38))
+
 ## [2.0.0-68](https://github.com/agrc/deq-enviro/compare/v2.0.0-67...v2.0.0-68) (2024-02-13)
 
 
