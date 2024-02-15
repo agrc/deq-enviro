@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-70](https://github.com/agrc/deq-enviro/compare/v2.0.0-69...v2.0.0-70) (2024-02-15)
+
+
+### 🐛 Bug Fixes
+
+* another fix for starting over crashes ([7a0d5c4](https://github.com/agrc/deq-enviro/commit/7a0d5c4aa8fa2e4ea6b6196abf77cbde1784e55e))
+
 ## [2.0.0-69](https://github.com/agrc/deq-enviro/compare/v2.0.0-68...v2.0.0-69) (2024-02-15)
 
 
