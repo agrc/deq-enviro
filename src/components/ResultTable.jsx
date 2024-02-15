@@ -108,7 +108,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
   }, [selectedGraphicInfo, queryLayerResult, identify]);
 
   const columns = useMemo(() => {
-    if (!queryLayerResult?.error) {
+    if (queryLayerResult && !queryLayerResult.error) {
       const newColumns = getColumnDefs(
         queryLayerResult[fieldNames.queryLayers.resultGridFields],
         queryLayerResult.fields,
