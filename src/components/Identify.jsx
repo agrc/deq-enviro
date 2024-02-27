@@ -11,7 +11,7 @@ import { useFirebase } from '../contexts/useFirebase';
 
 const buttonClasses = 'border-none px-2 my-1';
 
-const urlRegex = /^https?:\/\/\S*$/;
+const urlRegex = /^https?:\/\/.*/;
 
 /**
  * @param {Object} props
