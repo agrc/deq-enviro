@@ -87,7 +87,7 @@ define([
             this.query.returnGeometry = true;
 
             // set up empty grid
-            var urlRegex = /^https?:\/\/.*$/;
+            var urlRegex = /^https?:\/\/.*/;
             var columns = [
                 {
                     field: 'fieldAlias'

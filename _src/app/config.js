@@ -67,6 +67,7 @@ define([
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('api.mapserv.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('gis.trustlands.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('enviro.deq.utah.gov');
 
     var zoomColor = new Color([255, 255, 0]);
     var zoomFillColor = new Color(zoomColor.toRgb().concat([0.15]));
@@ -169,7 +170,7 @@ define([
             DEQEnviro: deqServiceFolder + '/MapService/MapServer',
             json: 'webdata/DEQEnviro.json',
             secure: secureUrl,
-            search: location.pathname.replace(/\/(src|dist)/, '') + 'api/search',
+            search: location.pathname.replaceAll(/(src|dist|-v1)/g, '') + 'api/search',
             download: deqServiceFolder + '/Toolbox/GPServer/Download',
             printProxy: 'https://print.agrc.utah.gov/14/arcgis/rest/services/GPServer/export',
             landOwnership: 'https://gis.trustlands.utah.gov/server/' +
