@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-71](https://github.com/agrc/deq-enviro/compare/v2.0.0-70...v2.0.0-71) (2024-02-27)
+
+
+### 🐛 Bug Fixes
+
+* allow for spaces in auto-link URLs ([f9755ac](https://github.com/agrc/deq-enviro/commit/f9755acf6f898661e2650e2e46bbcdcf3ee8420e))
+
 ## [2.0.0-70](https://github.com/agrc/deq-enviro/compare/v2.0.0-69...v2.0.0-70) (2024-02-15)
 
 
