@@ -185,7 +185,7 @@ export default function MapComponent() {
         (expanded) => expanded && logEvent('view-legend'),
       );
 
-      view.current.ui.add(legend, 'top-left');
+      view.current.ui.add(legend, 'top-right');
 
       view.current.on('click', (event) => {
         view.current.hitTest(event).then(({ results }) => {
