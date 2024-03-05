@@ -5,7 +5,6 @@ import Icon from '../utah-design-system/Icon';
 import Link from '../utah-design-system/Link';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
-import { getAlias } from '../utils';
 import RelatedRecords from './RelatedRecords';
 import { useFirebase } from '../contexts/useFirebase';
 
@@ -77,9 +76,9 @@ function Identify(
     },
   ];
 
-  const data = Object.entries(attributes).map(([field, value]) => ({
-    field: getAlias(field, fields),
-    value: getValue(field, value, fields),
+  const data = fields.map((config) => ({
+    field: config.alias,
+    value: getValue(config.name, attributes[config.name], fields),
   }));
 
   const substituteAttributes = (url) =>
