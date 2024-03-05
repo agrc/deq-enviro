@@ -81,8 +81,20 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
         queryLayerResult[fieldNames.queryLayers.tableName],
         allRelationshipClasses,
       );
-      const fields =
-        configIdentifyFields.length > 0 ? configIdentifyFields : result.fields;
+      let fields = result.fields;
+      if (configIdentifyFields.length > 0) {
+        const lookup = result.fields.reduce((acc, field) => {
+          acc[field.name] = field;
+          return acc;
+        }, {});
+
+        fields = configIdentifyFields.map((config) => {
+          return {
+            ...lookup[config.name],
+            ...config,
+          };
+        });
+      }
 
       setIdentifyResults({
         attributes,
