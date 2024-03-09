@@ -64,7 +64,7 @@ const SIZES = {
   sm: 'text-sm px-3 py-0',
   base: 'px-7 py-1 min-h-[2rem]',
   lg: 'text-lg px-8 py-2 min-h-[2.5rem]',
-  xl: 'text-xl px-10 py-3 min-h-[3rem]',
+  xl: 'text-xl px-10 py-2 min-h-[3rem]',
 };
 
 /**
