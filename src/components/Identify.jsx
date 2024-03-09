@@ -7,8 +7,9 @@ import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
 import RelatedRecords from './RelatedRecords';
 import { useFirebase } from '../contexts/useFirebase';
+import { useSearchMachine } from '../contexts/SearchMachineProvider';
 
-const buttonClasses = 'border-none px-2 my-1';
+const buttonClasses = 'border-none w-full my-1 justify-start px-2 text-left';
 
 const urlRegex = /^https?:\/\/.*/;
 
@@ -63,6 +64,7 @@ function Identify(
 ) {
   const { zoom } = useMap();
   const { logEvent } = useFirebase();
+  const send = useSearchMachine()[1];
 
   const columns = [
     {
@@ -86,6 +88,16 @@ function Identify(
 
   const hasRelationships = relationshipClasses.length > 0;
 
+  const setFilter = () => {
+    send({
+      type: 'SET_FILTER',
+      filter: {
+        geometry,
+        name: 'Feature Geometry',
+      },
+    });
+  };
+
   return (
     <Tabs.Root
       className="min-h-0 flex-1 border-l-0 text-sm"
@@ -100,13 +112,19 @@ function Identify(
         ) : null}
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
         <Button className={buttonClasses} onClick={() => zoom(geometry)}>
-          <Icon name="search" className="mr-2" label="zoom to feature" /> Zoom
-          to feature
+          <Icon name="visibility" className="mr-2" label="zoom to feature" />
+          Zoom to feature
         </Button>
         <Button className={buttonClasses} onClick={onBack}>
           <Icon name="arrowLeft" className="mr-2" label="back" />
           Back to results
         </Button>
+        {geometry.type === 'polygon' ? (
+          <Button className={buttonClasses} onClick={setFilter}>
+            <Icon name="search" className="mr-2" label="filter" />
+            New search <br /> using feature
+          </Button>
+        ) : null}
       </Tabs.List>
       <Tabs.Content value="attributes">
         <SimpleTable

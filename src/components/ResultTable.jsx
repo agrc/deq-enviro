@@ -101,7 +101,6 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
         fields,
         geometry: fromJSON({
           ...result.features[0].geometry,
-          type: result.geometryType,
           spatialReference: result.spatialReference,
         }),
         relationshipClasses,
