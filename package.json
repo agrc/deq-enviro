@@ -108,7 +108,7 @@
     "@tanstack/react-query": "^5.18.1",
     "@tanstack/react-table": "^8.11.8",
     "@ugrc/layer-selector": "^6.2.3",
-    "@utahdts/utah-design-system-header": "^1.15.1",
+    "@utahdts/utah-design-system-header": "^1.15.4",
     "@xstate/react": "^4.0.3",
     "clsx": "^2.1.0",
     "downshift": "^8.3.1",

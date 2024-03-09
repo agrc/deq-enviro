@@ -40,7 +40,7 @@ export default function Popup({ children, trigger }) {
 export function CloseButton({ className }) {
   return (
     <RadixPopover.Close className={className}>
-      <Icon name="close" label="close" size="xs" className="text-slate-600" />
+      <Icon name="x" label="close" size="xs" className="text-slate-600" />
     </RadixPopover.Close>
   );
 }

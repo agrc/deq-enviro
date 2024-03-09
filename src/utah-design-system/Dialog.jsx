@@ -49,7 +49,7 @@ function Content({ children, ...props }, forwardedRef) {
           className="absolute right-3 top-3"
           aria-label="Close"
         >
-          <Icon name="close" className="h-6 w-6" label="close" />
+          <Icon name="x" className="h-6 w-6" label="close" />
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>

@@ -29,7 +29,7 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
     </Tooltip>
   ) : (
     <Icon
-      name="checkmark"
+      name="check"
       className="mr-1 text-success-500"
       size="lg"
       label="success"
