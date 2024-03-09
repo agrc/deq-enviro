@@ -25,7 +25,7 @@ In order for a dataset to be used as a query layer within the application, it mu
 
 ### Field Aliases
 
-These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application. As a backup, the config spreadsheet supports defining aliases for fields with the following syntax: `FieldName (Field Alias)`. If an alias is defined in the config spreadsheet, it will take precedence over the AGOL alias.
+These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application. The config spreadsheet also supports defining aliases for fields with the following syntax: `FieldName (Field Alias)`. If an alias is defined in the config spreadsheet, it will take precedence over the AGOL alias.
 
 ### Symbology
 
@@ -33,7 +33,7 @@ This is managed via the "Visualization" tab of the AGOL item. Any changes should
 
 ### Map Labels
 
-These are also managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application.
+These are also managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application. The config spreadsheet also supports defining a map label field via the "Map Label Field" column. If a map label field is defined in the config spreadsheet, it will take precedence over the AGOL label field.
 
 ### Links (Identify Panel)
 

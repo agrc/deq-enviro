@@ -362,6 +362,25 @@ export default function MapComponent() {
           });
         }
 
+        if (layer[fieldNames.queryLayers.mapLabelField]) {
+          featureLayer.labelingInfo = [
+            {
+              labelExpressionInfo: {
+                expression: `$feature.${layer[fieldNames.queryLayers.mapLabelField]}`,
+              },
+              symbol: {
+                type: 'text',
+                // @ts-ignore
+                color: 'black',
+                // @ts-ignore
+                haloColor: 'white',
+                haloSize: 1,
+              },
+              minScale: appConfig.minLabelScale,
+            },
+          ];
+        }
+
         const where = getWhere(
           filter.attribute,
           layer,
