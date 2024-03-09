@@ -61,10 +61,10 @@ const APPEARANCES = {
 
 const SIZES = {
   xs: 'text-xs px-2 py-0',
-  sm: 'text-sm px-3 py-0 h-6',
-  base: 'px-7 py-1 h-8 min-h-[2rem]',
-  lg: 'text-lg px-8 py-2 h-10 min-h-[2.5rem]',
-  xl: 'text-xl px-10 py-3 h-12 min-h-[3rem]',
+  sm: 'text-sm px-3 py-0',
+  base: 'px-7 py-1 min-h-[2rem]',
+  lg: 'text-lg px-8 py-2 min-h-[2.5rem]',
+  xl: 'text-xl px-10 py-3 min-h-[3rem]',
 };
 
 /**
@@ -119,7 +119,7 @@ function InnerButton(
   const ref = forwardedRef || internalRef;
 
   const calculatedClassName = twMerge(
-    'flex w-fit cursor-pointer select-none items-center justify-center rounded-full',
+    'flex w-fit cursor-pointer select-none items-center justify-center rounded-full leading-4',
     appearance === APPEARANCES.outlined && 'border-2',
     COLORS[color][appearance],
     SIZES[size],
