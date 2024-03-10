@@ -47,7 +47,7 @@ function App() {
       logo: {
         imageUrl: '/deq_logo.png',
       },
-      mainMenu: null,
+      mainMenu: false,
       skipLinkUrl: '#select-map-data',
       title: 'Environmental Interactive Map',
       titleURL: null,
