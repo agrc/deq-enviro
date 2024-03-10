@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.0.0-72](https://github.com/agrc/deq-enviro/compare/v2.0.0-71...v2.0.0-72) (2024-03-10)
+
+
+### 🚀 Features
+
+* search by returned polygon feature ([125d118](https://github.com/agrc/deq-enviro/commit/125d118136d28477d813f36c106fb769ce747e0c)), closes [#647](https://github.com/agrc/deq-enviro/issues/647)
+
+
+### 🐛 Bug Fixes
+
+* add field types to field configs ([eadc930](https://github.com/agrc/deq-enviro/commit/eadc930968a5a7162717cb269289f8e2c3170aae)), closes [#645](https://github.com/agrc/deq-enviro/issues/645)
+* add retry logic to the layer search process ([e416633](https://github.com/agrc/deq-enviro/commit/e416633db90b80a30bd234a6d42477641e44a5a9)), closes [#648](https://github.com/agrc/deq-enviro/issues/648)
+* apply label config from spreadsheet ([069565d](https://github.com/agrc/deq-enviro/commit/069565d811ae3d7eecaba04c661d1477c15fa96a)), closes [#649](https://github.com/agrc/deq-enviro/issues/649)
+* **button:** better styling for when text wraps ([41dccab](https://github.com/agrc/deq-enviro/commit/41dccabd0bce32d341fec51fbe8a25eb555329f0))
+* **button:** smaller default padding for xl size ([ea14cae](https://github.com/agrc/deq-enviro/commit/ea14cae32cdc95c1100becda2d9ae74e192642f4))
+* only show config fields in identify pane ([7f15263](https://github.com/agrc/deq-enviro/commit/7f15263631e37f3022a91e5e06d8e37748699717)), closes [#644](https://github.com/agrc/deq-enviro/issues/644)
+* prevent reference layer name truncation ([5d012ec](https://github.com/agrc/deq-enviro/commit/5d012ecc1ef66bf46571a3f7a809cfb875e30d92)), closes [#651](https://github.com/agrc/deq-enviro/issues/651)
+* switch back to yellow fill for search geometry symbol ([f95a60c](https://github.com/agrc/deq-enviro/commit/f95a60ce51a7095badbbc131c8a2e86567bba20f)), closes [#646](https://github.com/agrc/deq-enviro/issues/646)
+
 ## [2.0.0-71](https://github.com/agrc/deq-enviro/compare/v2.0.0-70...v2.0.0-71) (2024-02-27)
 
 
