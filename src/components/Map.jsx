@@ -95,6 +95,18 @@ function useMapGraphic(mapView, graphic) {
   }, [graphic, mapView]);
 }
 
+/** @param {() => Promise<any>} fn */
+function retry(fn, retries = 3) {
+  return fn().catch((error) => {
+    console.log('retrying', error, retries);
+    if (retries === 0) {
+      throw error;
+    }
+
+    return retry(fn, retries - 1);
+  });
+}
+
 function TooManyMessage({ metadataLink }) {
   return (
     <span>
@@ -333,24 +345,30 @@ export default function MapComponent() {
       try {
         const featureServiceUrl = layer[fieldNames.queryLayers.featureService];
 
+        console.log(
+          `fetching feature service json ${layer[fieldNames.queryLayers.tableName]}`,
+        );
         /**
          * @type {Object} featureServiceJson
          * @property {string} serviceItemId
          * @property {string} id
          */
-        const featureServiceJson = await ky(
-          `${featureServiceUrl}?f=json`,
-        ).json();
+        const featureServiceJson = await retry(
+          async () => await ky(`${featureServiceUrl}?f=json`).json(),
+        );
 
         /** @type {import('@arcgis/core/layers/FeatureLayer').default} */
         let featureLayer;
         if (featureServiceJson.serviceItemId) {
           // this could be a feature layer or group layer
-          const mapLayer = await fromPortalItem({
-            portalItem: {
-              id: featureServiceJson.serviceItemId,
-            },
-          });
+          const mapLayer = await retry(
+            async () =>
+              await fromPortalItem({
+                portalItem: {
+                  id: featureServiceJson.serviceItemId,
+                },
+              }),
+          );
 
           featureLayer =
             mapLayer.type === 'group'
@@ -405,7 +423,12 @@ export default function MapComponent() {
         extentQuery.where = where;
         extentQuery.geometry = filter.geometry;
 
-        const { count, extent } = await featureLayer.queryExtent(extentQuery);
+        console.log(
+          `querying extent ${layer[fieldNames.queryLayers.tableName]}`,
+        );
+        const { count, extent } = await retry(
+          async () => await featureLayer.queryExtent(extentQuery),
+        );
 
         if (count > appConfig.maxSearchCount) {
           send({
@@ -432,10 +455,16 @@ export default function MapComponent() {
 
         // this essentially applies a geometry filter to the layer before it's added to the map
         // this is done to prevent the map from requesting ALL of the features from the layer
-        const ids = await featureLayer.queryObjectIds({
-          where,
-          geometry: filter.geometry,
-        });
+        console.log(
+          `querying object ids ${layer[fieldNames.queryLayers.tableName]}`,
+        );
+        const ids = await retry(
+          async () =>
+            await featureLayer.queryObjectIds({
+              where,
+              geometry: filter.geometry,
+            }),
+        );
         featureLayer.definitionExpression = ids?.length
           ? `${objectIdField} IN (${ids.join(',')})`
           : '1=0';
@@ -451,7 +480,12 @@ export default function MapComponent() {
           objectIdField,
         ];
         query.returnGeometry = false;
-        const features = await queryFeatures(featureLayer, query);
+        console.log(
+          `querying features ${layer[fieldNames.queryLayers.tableName]}`,
+        );
+        const features = await retry(
+          async () => await queryFeatures(featureLayer, query),
+        );
 
         map.current.add(
           featureLayer,
