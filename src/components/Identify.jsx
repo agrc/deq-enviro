@@ -29,7 +29,7 @@ export function LinkDetectingCell({ getValue }) {
     );
   }
 
-  return value;
+  return <span dangerouslySetInnerHTML={{ __html: value }} />;
 }
 
 /**
