@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-73](https://github.com/agrc/deq-enviro/compare/v2.0.0-72...v2.0.0-73) (2024-03-13)
+
+
+### 🚀 Features
+
+* parse HTML in identify attributes ([dc94ad0](https://github.com/agrc/deq-enviro/commit/dc94ad0c3fe0a233fe284004cd9ba7674fb34909)), closes [#656](https://github.com/agrc/deq-enviro/issues/656)
+
 ## [2.0.0-72](https://github.com/agrc/deq-enviro/compare/v2.0.0-71...v2.0.0-72) (2024-03-10)
 
 
