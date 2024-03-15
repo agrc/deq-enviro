@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0-74](https://github.com/agrc/deq-enviro/compare/v2.0.0-73...v2.0.0-74) (2024-03-15)
+
+
+### 🐛 Bug Fixes
+
+* add logging for missing layers in config ([fc325a1](https://github.com/agrc/deq-enviro/commit/fc325a16c80058d64a5c2d45ecea99bb0b9d5ba2))
+
 ## [2.0.0-73](https://github.com/agrc/deq-enviro/compare/v2.0.0-72...v2.0.0-73) (2024-03-13)
 
 
