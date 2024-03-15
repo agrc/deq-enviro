@@ -69,9 +69,16 @@ export async function queryFeatures(featureLayer, query) {
  * @param {import('../functions/common/config').QueryLayerConfig[]} layers
  */
 export function getConfigByTableName(name, layers) {
-  return layers.find(
+  const layer = layers.find(
     (layer) => layer[fieldNames.queryLayers.tableName] === name,
   );
+
+  if (!layer) {
+    console.error(`No layer found with name: ${name}`, layers);
+    throw new Error(`No layer found with name: ${name}`);
+  }
+
+  return layer;
 }
 
 /**
