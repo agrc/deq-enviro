@@ -260,7 +260,7 @@ export default function MapComponent() {
           id: 'Township/Range/Section',
         },
         {
-          Factory: FeatureLayer,
+          Factory: VectorTileLayer,
           url: appConfig.urls.landOwnership,
           id: 'Land Ownership',
         },

@@ -54,8 +54,7 @@ export default {
     utahPLSS:
       'https://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
     landOwnership:
-      'https://gis.trustlands.utah.gov/server/' +
-      'rest/services/Ownership/UT_SITLA_Ownership_LandOwnership_WM/MapServer',
+      'https://gis.trustlands.utah.gov/hosting/rest/services/Hosted/Land_Ownership_WM_VectorTile/VectorTileServer',
     parcels:
       'https://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/StatewideParcels/VectorTileServer',
 
