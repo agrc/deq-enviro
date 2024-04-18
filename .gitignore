@@ -31,3 +31,5 @@ functions/functions-key-dev.json
 public/assets/*
 
 hosting.*.cache
+
+*.sde
