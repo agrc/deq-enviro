@@ -1,9 +1,8 @@
-name: 'look for past due reminders and notify'
+name: 'check reminders'
 
 on:
   schedule:
-    - cron: '0 9-17/2 * * 1-5'
-  workflow_dispatch:
+    - cron: '0 * * * *'
 
 permissions:
   issues: write
