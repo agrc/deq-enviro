@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0](https://github.com/agrc/deq-enviro/compare/v2.0.0-76...v2.0.0) (2024-04-19)
+
+
+### 📖 Documentation Improvements
+
+* correct function name ([082e12c](https://github.com/agrc/deq-enviro/commit/082e12c88d55316fa61854d08484360b772b2684))
+
 ## [2.0.0-76](https://github.com/agrc/deq-enviro/compare/v2.0.0-75...v2.0.0-76) (2024-04-19)
 
 
