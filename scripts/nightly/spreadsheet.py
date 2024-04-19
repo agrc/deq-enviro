@@ -12,35 +12,24 @@ from settings import fieldnames
 logger = logging.getLogger('forklift')
 qlFields = [
     #: [<spreadsheet header name>, <result object property name>]
-    ['Name', fieldnames.name],
+    ['Layer Name', fieldnames.name],
     ['Layer Description', fieldnames.description],
     ['Metadata Link', fieldnames.metaDataUrl],
     ['OID Field', fieldnames.oidField],
-    [fieldnames.ID, fieldnames.ID],
     ['Division Heading', fieldnames.heading],
-    [fieldnames.NAME, fieldnames.NAME],
-    [fieldnames.ADDRESS, fieldnames.ADDRESS],
-    [fieldnames.CITY, fieldnames.CITY],
-    [fieldnames.TYPE, fieldnames.TYPE],
     ['Source Data', fieldnames.sourceData],
     ['SGID Feature Class Name', fieldnames.sgidName],
     ['Geometry Type', fieldnames.geometryType],
     ['ETL Type', fieldnames.etlType],
-    ['Identify Attributes', fieldnames.fields],
+    ['Identify Fields', fieldnames.fields],
     ['Document Search', fieldnames.docLink],
     ['GRAMA Request', fieldnames.gramaLink],
     ['Permit Information', fieldnames.permitLink],
     ['Additional Information', fieldnames.additionalLink],
     ['Map Label Field', fieldnames.ENVIROAPPLABEL],
-    ['Secure', fieldnames.secure],
     ['Special Filters', fieldnames.specialFilters],
     ['Special Filter Default To On', fieldnames.specialFiltersDefaultOn],
     ['Additional Searches', fieldnames.additionalSearches],
-    ['Custom Symbology Field', fieldnames.ENVIROAPPSYMBOL],
-    ['Sort Field', fieldnames.sortField],
-    ['Related Tables', fieldnames.relatedTables],
-    ['Legend Title', fieldnames.legendTitle],
-    ['Coded Values', fieldnames.codedValues]
 ]
 
 tblFields = [

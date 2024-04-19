@@ -17,16 +17,16 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 💾 Cache firebase emulators
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /home/runner/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-emulators
 
       - name: ⎔ Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: npm
