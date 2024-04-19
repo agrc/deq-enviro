@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.0.0-76](https://github.com/agrc/deq-enviro/compare/v2.0.0-75...v2.0.0-76) (2024-04-19)
+
+
+### 🐛 Bug Fixes
+
+* handle nested parentheses in filter configs ([1ee2326](https://github.com/agrc/deq-enviro/commit/1ee232605368c9e918c22b7bdc6d2b8f696a7e40))
+
+
+### 🌲 Dependencies
+
+* bump the major-dependencies group in /cloudrun with 5 updates ([9ccdcb7](https://github.com/agrc/deq-enviro/commit/9ccdcb7b91b6fe9463bfee2fcb1b58205c1e9eda))
+* Q4 dependency bumps 🌲 ([74cf6af](https://github.com/agrc/deq-enviro/commit/74cf6af301a720d47a1e1764172238cf5d7cf559))
+
+
+### 📖 Documentation Improvements
+
+* clean up and add app scripts reference blog post ([23683b2](https://github.com/agrc/deq-enviro/commit/23683b2ee9a8d097ad3a3b697324d23ab87c53af))
+
 ## [2.0.0-75](https://github.com/agrc/deq-enviro/compare/v2.0.0-74...v2.0.0-75) (2024-04-19)
 
 
