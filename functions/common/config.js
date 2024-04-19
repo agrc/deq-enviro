@@ -129,8 +129,9 @@ export function transformYesNoToBoolean(value) {
   return false;
 }
 
-function getValueAndAlias(value) {
-  const parts = /(^.+?)\s\((.+)\)$/.exec(value);
+export function getValueAndAlias(value) {
+  console.log(value);
+  const parts = /(^.*?)\s\(((?:[^()]*|\([^()]*\))*)\)(?![^()]*\()/.exec(value);
 
   if (!parts) {
     throw new Error(`Invalid field value: ${value}`);

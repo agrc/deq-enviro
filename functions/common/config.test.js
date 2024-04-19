@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  getValueAndAlias,
   transformAdditionalSearches,
   transformFields,
   transformSpecialFilters,
@@ -59,6 +60,32 @@ describe('transformSpecialFilters', () => {
     expect(() =>
       transformSpecialFilters(value),
     ).toThrowErrorMatchingInlineSnapshot(`[Error: Invalid field type: foo]`);
+  });
+
+  it('handles parentheses in the value', () => {
+    const value =
+      "checkbox: ASSESSMENT = 'normal value' (Normal Value Alias), ASSESSMENT = 'value with parentheses (lets make this hard) and 4A: why not another (dumb)' (Alias with Parentheses (Impaired)), ASSESSMENT = 'another normal value' (Another Normal Value Alias)";
+
+    expect(transformSpecialFilters(value)).toEqual([
+      {
+        type: 'checkbox',
+        options: [
+          {
+            value: "ASSESSMENT = 'normal value'",
+            alias: 'Normal Value Alias',
+          },
+          {
+            value:
+              "ASSESSMENT = 'value with parentheses (lets make this hard) and 4A: why not another (dumb)'",
+            alias: 'Alias with Parentheses (Impaired)',
+          },
+          {
+            value: "ASSESSMENT = 'another normal value'",
+            alias: 'Another Normal Value Alias',
+          },
+        ],
+      },
+    ]);
   });
 
   it('parses checkbox and radio filters', () => {
@@ -262,5 +289,19 @@ describe('transformAdditionalSearches', () => {
     const value = '';
 
     expect(transformAdditionalSearches(value)).toEqual([]);
+  });
+});
+
+describe('getValueAndAlias', () => {
+  it('can handle parentheses in the value', () => {
+    const value =
+      "ASSESSMENT = 'value with parentheses (lets make this hard) and 4A: why not another (dumb)' (Alias with Parentheses (Impaired))";
+
+    const result = getValueAndAlias(value);
+
+    expect(result.value).toEqual(
+      "ASSESSMENT = 'value with parentheses (lets make this hard) and 4A: why not another (dumb)'",
+    );
+    expect(result.alias).toEqual('Alias with Parentheses (Impaired)');
   });
 });
