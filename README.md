@@ -54,7 +54,7 @@ Most updates are taken care of via the config spreadsheet.
 
 ## Local Development
 
-### updateRemoteConfigFromSheets Function
+### configs Function
 
 You will need to copy the `functions-key-dev.json` key file from the terraform project to the `functions` directory in order to have permissions to hit the staging config spreadsheet.
 
