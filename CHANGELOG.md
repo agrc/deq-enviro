@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0](https://github.com/agrc/deq-enviro/compare/v2.0.0-75...v2.0.0) (2024-04-19)
+
+
+### 📖 Documentation Improvements
+
+* clean up and add app scripts reference blog post ([23683b2](https://github.com/agrc/deq-enviro/commit/23683b2ee9a8d097ad3a3b697324d23ab87c53af))
+
 ## [2.0.0-75](https://github.com/agrc/deq-enviro/compare/v2.0.0-74...v2.0.0-75) (2024-04-19)
 
 
