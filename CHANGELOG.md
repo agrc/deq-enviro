@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0-75](https://github.com/agrc/deq-enviro/compare/v2.0.0-74...v2.0.0-75) (2024-04-19)
+
+
+### 🐛 Bug Fixes
+
+* switch to production ugrc web api ([086309f](https://github.com/agrc/deq-enviro/commit/086309f53a5986bdb809c44a36a49c454620dd9f))
+
+
+### 📖 Documentation Improvements
+
+* add results grid fields docs ([34967e1](https://github.com/agrc/deq-enviro/commit/34967e1b9dc368ea333a1703759cbc49aa3ca0d6))
+
 ## [2.0.0-74](https://github.com/agrc/deq-enviro/compare/v2.0.0-73...v2.0.0-74) (2024-03-15)
 
 
