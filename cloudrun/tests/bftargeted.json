@@ -1,0 +1,63 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-12462441.8597, 4976366.931400001]
+      },
+      "properties": {
+        "OBJECTID": 11,
+        "ST_KEY": 5924,
+        "DERRID": "1",
+        "CIMID": "490000015291",
+        "MAPLABEL": "Brownfields Project - 1",
+        "SITEDESC": "Brownfields Project",
+        "SITENAME": "REDWOOD ROAD DUMP",
+        "SITEADDRES": "500 South Delong Street",
+        "SITECITY": "SALT LAKE CITY",
+        "SITECNTY": "SALT LAKE",
+        "STATE": "UT",
+        "ZIPCODE": "84114",
+        "ZIP4": null,
+        "PROJDESC": null,
+        "CURRPROJMA": "[Elizabeth Palmer]",
+        "CONPHONE": "8015364092",
+        "NORTHING": 4512068.58,
+        "EASTING": 419638.15,
+        "DATEBROWNF": null,
+        "POSTTONET": "Yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-12459500.7399, 4972970.925899997]
+      },
+      "properties": {
+        "OBJECTID": 18,
+        "ST_KEY": 10672,
+        "DERRID": "18",
+        "CIMID": "New10524",
+        "MAPLABEL": "Brownfields Project - 18",
+        "SITEDESC": "Brownfields Project",
+        "SITENAME": "Glendale Water Park",
+        "SITEADDRES": "1200 W 1700 South",
+        "SITECITY": "SALT LAKE CITY",
+        "SITECNTY": "SALT LAKE",
+        "STATE": "UT",
+        "ZIPCODE": "84104",
+        "ZIP4": null,
+        "PROJDESC": null,
+        "CURRPROJMA": "Lincoln Grevengoed",
+        "CONPHONE": "8015364103",
+        "NORTHING": 4509479.027,
+        "EASTING": 421841.3326,
+        "DATEBROWNF": null,
+        "POSTTONET": "Yes"
+      }
+    }
+  ]
+}

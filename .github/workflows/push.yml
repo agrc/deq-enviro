@@ -1,0 +1,172 @@
+name: Push Events
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+permissions:
+  contents: write
+  id-token: write
+  deployments: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MEMORY: 4G
+  TIMEOUT: 20m
+  TRIGGER_PARAMS: |
+    --location=nam5 \
+    --destination-run-service=download \
+    --destination-run-region=us-central1 \
+    --destination-run-path="/process_job" \
+    --event-data-content-type="application/protobuf" \
+    --event-filters="database=(default)" \
+    --event-filters-path-pattern="document=**/*-input" \
+    --event-filters="type=google.cloud.firestore.document.v1.created"
+
+jobs:
+  release-please:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+
+    steps:
+      - name: 🚀 Create Release
+        id: release-please
+        uses: agrc/release-composite-action@v1
+        with:
+          prerelease: ${{ github.ref_name == 'dev' }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-app-id: ${{ secrets.UGRC_RELEASE_BOT_APP_ID }}
+          github-app-key: ${{ secrets.UGRC_RELEASE_BOT_APP_KEY }}
+          github-app-name: ${{ secrets.UGRC_RELEASE_BOT_NAME }}
+          github-app-email: ${{ secrets.UGRC_RELEASE_BOT_EMAIL }}
+
+  deploy-dev:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    needs: release-please
+    environment:
+      name: dev
+      url: https://enviro.dev.utah.gov
+    if: github.ref_name == 'dev' && needs.release-please.outputs.release_created
+
+    steps:
+      - name: 🚀 Deploy Firebase
+        uses: agrc/firebase-website-deploy-composite-action@v1
+        with:
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          prebuild-command: |
+            cd functions
+            npm ci
+            cd ..
+          build-command: npm run build:stage
+        env:
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}
+          VITE_WEB_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
+          NODE_OPTIONS: --max-old-space-size=7168
+
+      - name: 🏃 Deploy Cloud Run
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
+        with:
+          docker-context: ./cloudrun
+          docker-file: ./cloudrun/Dockerfile
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          service: download
+          flags: |
+            --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+            --max-instances=10
+            --min-instances=0
+            --allow-unauthenticated
+            --memory=${{ env.MEMORY }}
+            --timeout=${{ env.TIMEOUT }}
+            --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
+
+      - name: ⚡ Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          else
+            gcloud eventarc triggers update download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          fi
+
+  deploy-prod:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    needs: release-please
+    environment:
+      name: prod
+      url: https://enviro.deq.utah.gov
+    if: github.ref_name == 'main' && needs.release-please.outputs.release_created
+
+    steps:
+      - name: 🚀 Deploy Firebase
+        uses: agrc/firebase-website-deploy-composite-action@v1
+        with:
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          service-now-instance: ${{ secrets.SN_INSTANCE }}
+          service-now-table: ${{ secrets.SN_TABLE }}
+          service-now-system-id: ${{ secrets.SN_SYS_ID }}
+          service-now-username: ${{ secrets.SN_USERNAME }}
+          service-now-password: ${{ secrets.SN_PASSWORD }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          prebuild-command: |
+            cd functions
+            npm ci
+            cd ..
+          build-command: npm run build:prod
+        env:
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}
+          VITE_WEB_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
+
+      - name: 🏃 Deploy Cloud Run
+        uses: agrc/cloud-run-docker-deploy-composite-action@v2
+        with:
+          docker-context: ./cloudrun
+          docker-file: ./cloudrun/Dockerfile
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          service: download
+          flags: |
+            --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+            --max-instances=10
+            --min-instances=0
+            --allow-unauthenticated
+            --memory=${{ env.MEMORY }}
+            --timeout=${{ env.TIMEOUT }}
+            --concurrency=1
+          env-vars: |
+            BUCKET=${{ secrets.PROJECT_ID }}-downloads
+
+      - name: ⚡ Create/Update Eventarc Trigger
+        run: |
+          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
+            gcloud eventarc triggers create download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}
+          else
+            gcloud eventarc triggers update download \
+              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
+              ${{ env.TRIGGER_PARAMS }}

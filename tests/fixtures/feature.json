@@ -1,0 +1,22 @@
+{
+  "aggregateGeometries": null,
+  "geometry": {
+    "spatialReference": {
+      "latestWkid": 3857,
+      "wkid": 102100
+    },
+    "x": -12468894.2205,
+    "y": 5085010.153800003
+  },
+  "symbol": null,
+  "attributes": {
+    "DERRID": "14",
+    "OBJECTID": 11,
+    "SITEADDRES": "Between 950 and 1000 South and 200 and 400 East",
+    "SITECITY": "BRIGHAM CITY",
+    "SITEDESC": "Brownfields Grants",
+    "SITENAME": "Former Bushnell Hospital Brownfield Cleanup Grant",
+    "DATE_TEST": 850867200000
+  },
+  "popupTemplate": null
+}

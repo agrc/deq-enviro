@@ -4,107 +4,76 @@ DEQ Environmental Data Viewer
 
 Generic application for searching, viewing and downloading DEQ GIS data and related tables.
 
-[Requirements](https://docs.google.com/a/utah.gov/document/d/1DteUr8h8sS1OfC3gq2OFbdQfpIGmP28btCX1HUIaXek/edit)
-
-[Scope of Work](https://docs.google.com/a/utah.gov/document/d/1YdutJqTW8biPDDsbnjl3S3Z8549c0dP2Pnguzpx4zTk/edit)
-
-[Original Mockup](http://share.flairbuilder.com/?sid=78HL8R2y89#)
-
-[Config Spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web)
+[Production Config Spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web)
 
 [Staging Config Spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdDBiTmo5X3pQdGdSYXYyNWZ1a2k0RVE#gid=0)
 
-[Master Plan](https://github.com/agrc/deq-enviro/wiki/Master-Plan)
+[Stage - enviro.dev.utah.gov](https://enviro.dev.utah.gov)
 
-[Stage - test.mapserv.utah.gov/deqenviro/](http://test.mapserv.utah.gov/deqenviro/)
+[Production - enviro.deq.utah.gov](https://enviro.deq.utah.gov)
 
-[Production - enviro.deq.utah.gov](http://enviro.deq.utah.gov)
+[Analytics Dashboard](https://lookerstudio.google.com/reporting/87fdea59-ccfa-4ff7-b9d1-9bceabc3db1f/page/ZaM7C)
 
-## Query Layer Data Requirements
+## Query Layers
+
+### Requirements
 
 In order for a dataset to be used as a query layer within the application, it must satisfy all of the following requirements:
 
-- Accessible from our server (usually requires some firewall requests)
-- For tables that need to be translated into points:
-  - Coordinates stored in either `LATITUDE` & `LONGITUDE` or `EASTING` & `NORTHING` fields.
-- A row in the configuration spreadsheet that defines mappings for the five main fields (`ID`, `NAME`, `ADDRESS`, `CITY`, & `TYPE`). If there is no mapping for a specific field a value of `n/a` should be used in the config.
-- A unique id field. If the field is not automatically recognized by ArcGIS Pro, then the `OID Field` column in the config spreadsheet can be used to define it.
+- Hosted in ArcGIS Online or ArcGIS Portal
+- "Export Data" enabled
 
-## Testing
+### Field Aliases
 
-Unit tests are run via [intern](https://theintern.io/).
+These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application. The config spreadsheet also supports defining aliases for fields with the following syntax: `FieldName (Field Alias)`. If an alias is defined in the config spreadsheet, it will take precedence over the AGOL alias.
 
-To run tests:
+### Results Grid Fields
 
-1. `grunt`
-1. `npx intern serveOnly`
-1. Go to: [http://localhost:9000/__intern/](http://localhost:9000/__intern/)
+The fields that show up in the results grid after searching are configurable via the "Result Grid Fields" column in the config spreadsheet. This can contain anywhere from 1 to 5 fields. Aliases can be defined in the source AGOL service or via the following syntax FieldName `(Field Alias), AnotherField (Another Field Alias)`.
 
-## Nightly Script
+### Symbology
 
-Runs nightly on test and prod servers.
+This is managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application. If there is no specific symbology defined, the app has some reasonable defaults that look better than the AGOL defaults.
 
-Builds `DEQEnviro.json` which the web app uses to configure itself. Part of building this json file is getting all of the map service layer indices so it needs to be rerun manually after adding, removing or reordering any of the map service layers.
+### Map Labels
 
-Make sure that you have a latest version of pip before `pip install -r requirements.txt`.
+These are also managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application. The config spreadsheet also supports defining a map label field via the "Map Label Field" column. If a map label field is defined in the config spreadsheet, it will take precedence over the AGOL label field.
 
-This script requires `settings/oauth2key.json`. Check out [the oauth2 gspread docs](http://gspread.readthedocs.org/en/latest/oauth2.html) to learn how to generate it. Make sure to grant read permission to the email address in `client_email` to the config spreadsheets.
+### Links (Identify Panel)
 
-Updates related data in SGID10. Reads sources from the config spreadsheet.
+The links in the "Links" tab in the identify panel are controlled via the corresponding columns in the config spreadsheet. If you want to append the feature's attributes to the URL, use the following syntax: `https://example.com?param1={field1}&param2={field2}`.
 
-## Data Schema Changes
+### Data Schema Changes
 
-Most updates are taken care of via the [config spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E&usp=drive_web) and updating the schema of data.
+Most updates are taken care of via the config spreadsheet.
 
-### Adding a new field
-
-1. Add the field to the "Identify Attributes" column in the config spreadsheet. This will make it show up in the identify pane in the app.
-1. Add the field to the data in SGID10 (prod & staging).
-1. Add the field to the data in `staging/deqquerylayers.gdb`.
-1. Delete the associated dataset in `staging/sgid_stage.gdb` if it's there.
-
-### Adding a new query layer
+### Adding a New Query Layer
 
 1. Add the new row in the config spreadsheet
-1. Run forklift pallet.
-1. Add new layer to `maps/MapService.mxd` or `maps/Secure.mxd` and republish.
-1. Manually run `build_json.py` to get the layer number from the map service of the newly added layer.
+1. Deploy changes
 
 ## Deploy Steps
 
-1. Set up and install [ArcGisServerPermissionsProxy](https://github.com/agrc/ArcGisServerPermissionsProxy).
-    - Import RavenDB and web.config from previous server.
-    - Use [configs/permissionproxy.json](configs/permissionproxy.json) to create a new application
-    - May need to set the `AccessRules.EndDate` to `5000000000000` for the initial user so that you can log in successfully the first time.
-1. Create a `deqnightly` user in ArcGIS Server and assign it to the `deq_admin` role.
-    - Fill in the credentials in the settings for the pallet.
-1. Build and deploy (using web deploy) [api/Search.Api/Search.Api.sln](api/Search.Api/Search.Api.sln) to the web server (`<root>/deqenviro/api`).
-   - Register SOE from the same project with ArcGIS Server.
-1. Publish `maps/MapService.mxd` and `maps/Secure.mxd` to a `DEQEnviro` folder in ArcGIS Server.
-   - `Secure` should be locked down to just the `deq_admin` and `deq_water` roles.
-   - Add the SOE to each of these services:
-     - sitename: `NAME`
-     - maxrecords: `25000`
-     - returnFields: `ID,NAME,ADDRESS,CITY,TYPE,OBJECTID,ENVIROAPPLABEL,ENVIROAPPSYMBOL`
-     - facilityust: `FACILITYUST`
-     - programid: `ID`
 1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
    - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
    - synchronous
-1. Run and publish `scripts/download/DeqEnviro.pyt/download` as `Toolbox/download` in the same `DEQEnviro` folder.
-   - `pip install xlsxwriter` on the hosting server fom the python installation that ArcGIS Server uses (x64).
-   - `pip install xlsxwriter` on the publishing server for the python installation that ArcGIS Desktop uses (x32).
-   - You can use these inputs as a test:
-
-   ```text
-   {"BFNONTARGETED":["Pre5","Pre9","Pre8","Pre4","Pre7","Pre10","Pre12","Pre13","Pre14","Pre11","13","14"],"BFTARGETED":["2A","3","5","6","4","8","9","10","11","12","1","2","7"]}
-   shp
-   C:\forklift\data\production\deqquerylayers.gdb
-   ```
-
 1. Add repo to forklift.
    1. Copy `scripts/nightly/databases` & `scripts/nightly/settings/__init__.py` from old server.
    1. Download and install the latest [oracle instant client](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html).
    1. From within the forklift environment: `pip install -r .\scripts\nightly\requirements.txt`
-1. Build and deploy the application by running `grunt build-prod && grunt deploy-prod`.
-   - You will need to run `scripts/nightly/build_json.py` to generate `DEQEnviro.json` before you can load the application for the first time.
+
+## Local Development
+
+### updateRemoteConfigFromSheets Function
+
+You will need to copy the `functions-key-dev.json` key file from the terraform project to the `functions` directory in order to have permissions to hit the staging config spreadsheet.
+
+### Cloud Run
+
+The download service is hosted in Cloud Run since it requires a custom Docker container. The are npm scripts for building and running the container for local development. If you are working on the download service itself, you can run the "Dev Containers: Reopen in Container" command in VSCode. This will give you the ability to use the python environment defined in the Dockerfile with VSCode extensions. It also has a launch config allowing you to debug the service. Don't forget to run `npm run dev:firebase` to start the emulator since the download service depends on it.
+
+## Config Spreadsheet Deploy Addon
+
+This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory.
+
+Note that the Apps Scripts GCP project needs to be pointed at the same GCP project as the hosting project.

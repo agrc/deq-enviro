@@ -1,0 +1,13 @@
+.vscode
+/data
+/forklift
+/maps
+/mockups
+/scripts
+/dist
+/public/assets
+CHANGELOG.md
+/_src
+/tests_old
+/scripts
+/src/remote_config_defaults.json

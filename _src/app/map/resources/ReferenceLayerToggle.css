@@ -1,8 +1,0 @@
-@import './Legend.css';
-.reference-layer-toggle label.disabled {
-    color: #999;
-}
-.reference-layer-toggle .tooltip-inner {
-    max-width: 280px;
-    text-align: left;
-}
