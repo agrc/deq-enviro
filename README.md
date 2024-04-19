@@ -27,6 +27,10 @@ In order for a dataset to be used as a query layer within the application, it mu
 
 These are managed via the "Data" tab of the AGOL item. Any changes should immediately be reflected in the application. The config spreadsheet also supports defining aliases for fields with the following syntax: `FieldName (Field Alias)`. If an alias is defined in the config spreadsheet, it will take precedence over the AGOL alias.
 
+### Results Grid Fields
+
+The fields that show up in the results grid after searching are configurable via the "Result Grid Fields" column in the config spreadsheet. This can contain anywhere from 1 to 5 fields. Aliases can be defined in the source AGOL service or via the following syntax FieldName `(Field Alias), AnotherField (Another Field Alias)`.
+
 ### Symbology
 
 This is managed via the "Visualization" tab of the AGOL item. Any changes should immediately be reflected in the application. If there is no specific symbology defined, the app has some reasonable defaults that look better than the AGOL defaults.
