@@ -52,16 +52,6 @@ Most updates are taken care of via the config spreadsheet.
 1. Add the new row in the config spreadsheet
 1. Deploy changes
 
-## Deploy Steps
-
-1. Publish ExportWebMap service to the `DEQEnviro` folder using `maps/PrintTemplates/Portrait.mxd` as the default template.
-   - Make sure that the server can resolve the domain name that the app is hosted on (e.g. test.mapserv.utah.gov). If it can't you will need to edit the hosts file. This is required for the `ExportWebMap` service.
-   - synchronous
-1. Add repo to forklift.
-   1. Copy `scripts/nightly/databases` & `scripts/nightly/settings/__init__.py` from old server.
-   1. Download and install the latest [oracle instant client](https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html).
-   1. From within the forklift environment: `pip install -r .\scripts\nightly\requirements.txt`
-
 ## Local Development
 
 ### updateRemoteConfigFromSheets Function
@@ -77,3 +67,5 @@ The download service is hosted in Cloud Run since it requires a custom Docker co
 This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory.
 
 Note that the Apps Scripts GCP project needs to be pointed at the same GCP project as the hosting project.
+
+This [blog post](https://medium.com/geekculture/how-to-call-google-cloud-run-or-cloud-functions-from-apps-scripts-c0086289c965) was a good reference for setting it up.
