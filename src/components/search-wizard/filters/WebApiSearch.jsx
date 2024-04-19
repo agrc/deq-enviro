@@ -24,8 +24,7 @@ export default function WebApiSearch({
       { contextField },
     );
 
-    // for testing the new cloud native web api
-    provider.webApi.baseUrl = 'https://ut-dts-agrc-web-api-dev.web.app/api/v1/';
+    provider.webApi.baseUrl = 'https://api.mapserv.utah.gov/api/v1/';
 
     setSherlockConfig({
       provider,
