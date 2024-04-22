@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/agrc/deq-enviro/compare/v2.0.0...v2.0.1) (2024-04-22)
+
+
+### 🐛 Bug Fixes
+
+* add missing bash statement ([e619ac2](https://github.com/agrc/deq-enviro/commit/e619ac230db6959ef05c9ad6287559ae78c6de28))
+
 ## [2.0.0](https://github.com/agrc/deq-enviro/compare/v2.0.0-76...v2.0.0) (2024-04-19)
 
 
