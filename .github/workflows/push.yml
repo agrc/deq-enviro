@@ -170,3 +170,4 @@ jobs:
             gcloud eventarc triggers update download \
               --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
               ${{ env.TRIGGER_PARAMS }}
+          fi
