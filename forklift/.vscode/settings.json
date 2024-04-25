@@ -11,6 +11,7 @@
         "fgdb",
         "GNIS",
         "ICBUFFERZONES",
+        "pygsheets",
         "SGID",
         "ucur",
         "unsplit"

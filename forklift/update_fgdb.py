@@ -8,7 +8,7 @@ from os import path
 import arcpy
 import settings
 import spreadsheet
-from build_json import parse_fields
+from utilities import parse_fields
 from forklift.exceptions import ValidationException
 from settings import fieldnames
 

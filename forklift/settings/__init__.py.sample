@@ -2,10 +2,3 @@ from .dev import *
 
 DEQNIGHTLY_USER = 'username'
 DEQNIGHTLY_PASSWORD = 'password'
-
-agsServer = '<server>'
-mapServiceJson = f'https://{agsServer}:6443/arcgis/rest/services/DEQEnviro/MapService/MapServer?f=json'
-securedServiceJson = f'https://{agsServer}:6443/arcgis/rest/services/DEQEnviro/Secure/MapServer?f=json'
-webdata = r'\\<servername>\c$\inetpub\wwwroot\deqenviro\webdata'
-mapData1 = r'\\<servername>\c$\MapData'
-mapData2 = r'\\<servername>\c$\MapData'

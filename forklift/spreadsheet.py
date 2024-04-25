@@ -13,13 +13,12 @@ logger = logging.getLogger('forklift')
 qlFields = [
     #: [<spreadsheet header name>, <result object property name>]
     ['Layer Name', fieldnames.name],
+    ['SGID Feature Class Name', fieldnames.sgidName],
     ['Layer Description', fieldnames.description],
     ['Metadata Link', fieldnames.metaDataUrl],
     ['OID Field', fieldnames.oidField],
     ['Division Heading', fieldnames.heading],
     ['Source Data', fieldnames.sourceData],
-    ['SGID Feature Class Name', fieldnames.sgidName],
-    ['Geometry Type', fieldnames.geometryType],
     ['ETL Type', fieldnames.etlType],
     ['Identify Fields', fieldnames.fields],
     ['Document Search', fieldnames.docLink],
@@ -36,7 +35,7 @@ tblFields = [
     ['Tab Name', fieldnames.name],
     ['Source Data', fieldnames.sourceData],
     ['SGID Table Name', fieldnames.sgidName],
-    ['Fields', fieldnames.fields],
+    ['Grid Fields', fieldnames.fields],
     ['Additional Information', fieldnames.additionalLink],
     ['Additional Information Link Fields', fieldnames.additionalLinkFields],
     ['OID Field', fieldnames.oidField]
@@ -66,7 +65,8 @@ def _login():
                 logger.debug('logging into google spreadsheet')
                 authorize_time = time()
                 gc = pygsheets.authorize(service_file=credentials)
-                sheet = gc.open_by_url(settings.queryLayersUrl)
+                logger.debug(f'opening spreadsheet {settings.configSpreadsheetUrl}')
+                sheet = gc.open_by_url(settings.configSpreadsheetUrl)
 
             return sheet
         except Exception as ex:
