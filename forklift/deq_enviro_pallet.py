@@ -10,7 +10,6 @@ SGID.ENVIRONMENT.DAQAirMonitorByStation on an hourly basis.
 from os import path
 
 import arcpy
-import build_json
 from update_app_database import get_spreadsheet_configs_for_crates
 import settings
 import update_fgdb
@@ -106,9 +105,6 @@ class DEQNightly1UpdatePallet(Pallet):
 
     def ship(self):
         update_sgid.update_sgid_for_crates(self.slip['crates'])
-
-        self.log.info('BUILDING JSON FILE')
-        build_json.run()
 
 
 class DEQNightly2TempTablesPallet(Pallet):

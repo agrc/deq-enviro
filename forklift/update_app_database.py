@@ -66,6 +66,7 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
         try:
             #: skip if using test_layer and it's not the current layer
             sgid_name = dataset[settings.fieldnames.sgidName]
+            logger.debug(f'processing {sgid_name}')
             if test_layer and sgid_name != test_layer:
                 continue
 

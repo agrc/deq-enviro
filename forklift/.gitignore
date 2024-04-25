@@ -1,0 +1,3 @@
+*.pyc
+settings/*.json
+settings/__init__.py
