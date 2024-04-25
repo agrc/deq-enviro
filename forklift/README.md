@@ -1,4 +1,4 @@
-Requirements for running the nightly script:
+# Setup for pallet
 
 - a 'databases' folder (placed within this folder) with .sde connections that match what's in the "Source Data" column of the [query layers spreadsheet](https://docs.google.com/a/utah.gov/spreadsheet/ccc?key=0Aqee4VOgQcXcdG9DQzFEYld6UUtWRU1kNG5PMWVEY1E#gid=0)
 - `__init__.py` with valid google drive credentials
