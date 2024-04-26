@@ -79,6 +79,10 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
 
             source_data = dataset[settings.fieldnames.sourceData]
 
+            if source_data == '':
+                logger.warning(f'No source data for {sgid_name}')
+                continue
+
             #: don't worries about <static> data
             if source_data.startswith('<static>'):
                 continue
