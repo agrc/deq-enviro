@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.2](https://github.com/agrc/deq-enviro/compare/v2.0.1...v2.0.2) (2024-04-29)
+
+
+### 🐛 Bug Fixes
+
+* **forklift:** skip query layers without source data ([09ebbab](https://github.com/agrc/deq-enviro/commit/09ebbabb36cb005a71e48cb4e9a212ed0fd7fb1e))
+* update forklift pallet for v2 config changes ([192aee3](https://github.com/agrc/deq-enviro/commit/192aee31b405d14f35652146f08aa1c558c84ea6))
+
 ## [2.0.1](https://github.com/agrc/deq-enviro/compare/v2.0.0...v2.0.1) (2024-04-22)
 
 
