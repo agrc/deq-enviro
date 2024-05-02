@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.3](https://github.com/agrc/deq-enviro/compare/v2.0.2...v2.0.3) (2024-05-02)
+
+
+### 🐛 Bug Fixes
+
+* **download:** add missing arcgis dependency ([57c3c33](https://github.com/agrc/deq-enviro/commit/57c3c3322031aceda5e0c3aaebd91d7fe51494c0))
+
 ## [2.0.2](https://github.com/agrc/deq-enviro/compare/v2.0.1...v2.0.2) (2024-04-29)
 
 
