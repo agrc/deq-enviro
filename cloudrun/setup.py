@@ -59,6 +59,7 @@ setup(
         "lxml>=4,<6",
         "ntlm_auth==1.*",
         "pandas==2.*",
+        "puremagic==1.*",
         "requests_ntlm==1.*",
         "requests_oauthlib>=1,<3",
         "requests_toolbelt==1.*",
