@@ -142,7 +142,8 @@ def get_spreadsheet_configs_for_crates(crates):
 
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_query_layers():
-            if get_source_from_crate(crate).endswith(config[settings.fieldnames.sourceData].split('.')[-1]):
+            source_data = config[settings.fieldnames.sourceData]
+            if len(source_data) > 0 and get_source_from_crate(crate).endswith(source_data.split('.')[-1]):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(get_source_from_crate(crate)))
 
