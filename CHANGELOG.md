@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.4](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.4) (2024-05-03)
+
+
+### 🐛 Bug Fixes
+
+* **forklift:** handle empty source data column ([bca13af](https://github.com/agrc/deq-enviro/commit/bca13af004c62ab17b4ffd2c1463ba64eef34682))
+
 ## [2.0.3](https://github.com/agrc/deq-enviro/compare/v2.0.2...v2.0.3) (2024-05-02)
 
 
