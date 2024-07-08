@@ -50,7 +50,7 @@ function App() {
       mainMenu: false,
       skipLinkUrl: '#select-map-data',
       title: 'Environmental Interactive Map',
-      titleURL: null,
+      titleUrl: null,
       utahId: false,
     });
   }, []);
