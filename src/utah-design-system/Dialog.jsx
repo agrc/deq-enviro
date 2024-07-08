@@ -19,7 +19,7 @@ export function DialogTrigger({ children, ...props }) {
 }
 
 /**
- * @param {Object & DialogPrimitive.PrimitiveDivProps} props
+ * @param {Object & DialogPrimitive.DialogTitleProps} props
  * @returns {JSX.Element}
  */
 export function DialogTitle({ children, className, ...props }) {
