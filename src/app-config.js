@@ -50,7 +50,8 @@ export default {
   urls: {
     masquerade:
       'https://masquerade.ugrc.utah.gov/arcgis/rest/services/UtahLocator/GeocodeServer',
-    print: 'https://print.agrc.utah.gov/14/arcgis/rest/services/GPServer/export',
+    print:
+      'https://print.ugrc.utah.gov/v2/14/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task',
     utahPLSS:
       'https://tiles.arcgis.com/tiles/99lidPhWCzftIe9K/arcgis/rest/services/UtahPLSS/VectorTileServer',
     landOwnership:
