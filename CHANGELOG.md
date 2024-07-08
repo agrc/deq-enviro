@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.4-0](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.4-0) (2024-07-08)
+
+
+### Bug Fixes
+
+* **forklift:** handle empty source data column ([bca13af](https://github.com/agrc/deq-enviro/commit/bca13af004c62ab17b4ffd2c1463ba64eef34682))
+* linting errors ([32e2a77](https://github.com/agrc/deq-enviro/commit/32e2a77e255e953bf2298a10ddbf138598e0784f))
+* upgrade to v2 of print proxy ([1b604a0](https://github.com/agrc/deq-enviro/commit/1b604a032d71bd4629f45a7e43516eaa5d7e7db3))
+
+
+### Dependencies
+
+* bump @grpc/grpc-js from 1.9.12 to 1.9.15 in /functions ([f3fcb53](https://github.com/agrc/deq-enviro/commit/f3fcb53ccede33a0b90564ec1a888d3f61a3fb44))
+* **dev:** bump braces from 3.0.2 to 3.0.3 ([e9ec978](https://github.com/agrc/deq-enviro/commit/e9ec97879554d3b585c90c7a5c967ed1c758a7dd))
+* **dev:** bump braces from 3.0.2 to 3.0.3 in /functions ([bcf20de](https://github.com/agrc/deq-enviro/commit/bcf20de5794384ab76936f0b52018b66d4166aa8))
+* Q1 dependency bumps 🌲 ([bde1f98](https://github.com/agrc/deq-enviro/commit/bde1f9802b1abe3aa4c5f4c7c470f93a29d1a420))
+
 ## [2.0.3](https://github.com/agrc/deq-enviro/compare/v2.0.2...v2.0.3) (2024-05-02)
 
 
