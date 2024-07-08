@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.4](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.4) (2024-07-08)
+
+
+### Bug Fixes
+
+* **forklift:** handle empty source data column ([bca13af](https://github.com/agrc/deq-enviro/commit/bca13af004c62ab17b4ffd2c1463ba64eef34682))
+
+
+### Dependencies
+
+* bump @grpc/grpc-js from 1.9.12 to 1.9.15 in /functions ([f3fcb53](https://github.com/agrc/deq-enviro/commit/f3fcb53ccede33a0b90564ec1a888d3f61a3fb44))
+* **dev:** bump braces from 3.0.2 to 3.0.3 ([e9ec978](https://github.com/agrc/deq-enviro/commit/e9ec97879554d3b585c90c7a5c967ed1c758a7dd))
+* **dev:** bump braces from 3.0.2 to 3.0.3 in /functions ([bcf20de](https://github.com/agrc/deq-enviro/commit/bcf20de5794384ab76936f0b52018b66d4166aa8))
+
 ## [2.0.3](https://github.com/agrc/deq-enviro/compare/v2.0.2...v2.0.3) (2024-05-02)
 
 
