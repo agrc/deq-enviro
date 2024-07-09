@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.5-0](https://github.com/agrc/deq-enviro/compare/v2.0.4-1...v2.0.5-0) (2024-07-09)
+
+
+### Bug Fixes
+
+* **download:** fix arcgis package install ([800179d](https://github.com/agrc/deq-enviro/commit/800179d2f484c3788cd77babac59419a855a25bd))
+
 ## [2.0.4-1](https://github.com/agrc/deq-enviro/compare/v2.0.4-0...v2.0.4-1) (2024-07-09)
 
 
