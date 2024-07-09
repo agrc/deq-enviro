@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.4-1](https://github.com/agrc/deq-enviro/compare/v2.0.4-0...v2.0.4-1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **download:** implement venv in prep for new future requirement ([e4728b4](https://github.com/agrc/deq-enviro/commit/e4728b4cb57b3e6cbacd81db94a848bece9bcdc0))
+* **download:** pin image to stay at arcgis supported python version ([8622a63](https://github.com/agrc/deq-enviro/commit/8622a6360105de91c54cd2143ee34f341020475d))
+
 ## [2.0.4-0](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.4-0) (2024-07-08)
 
 
