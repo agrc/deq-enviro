@@ -3,19 +3,15 @@
 FROM ghcr.io/osgeo/gdal:ubuntu-small-3.8.5 as base
 
 RUN apt update
-RUN apt install -y python3-pip python3-venv
+RUN apt install -y python3-pip
 RUN apt install -y libkrb5-dev
-
-ENV VIRTUAL_ENV=/venv
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 FROM base as dev
 
 COPY . .
 
 RUN pip install .
-RUN pip install arcgis==2.* --no-deps
+RUN pip install arcgis==2.*
 
 ENV FIRESTORE_EMULATOR_HOST="host.docker.internal:8080"
 ENV FLASK_APP="download.main:app"
@@ -37,7 +33,7 @@ FROM base as prod
 COPY . .
 
 RUN pip install .
-RUN pip install arcgis==2.* --no-deps
+RUN pip install arcgis==2.*
 RUN pip install gunicorn
 
 CMD exec gunicorn --bind :$PORT --timeout 0 download.main:app
