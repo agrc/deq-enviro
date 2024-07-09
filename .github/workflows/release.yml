@@ -1,0 +1,21 @@
+name: Release Events
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  notify:
+    name: Notifications
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Release Notifier
+        uses: agrc/release-issue-notifications-action@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
