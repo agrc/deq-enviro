@@ -53,19 +53,6 @@ setup(
         "pyshp==2.*",  # required for writing shapefiles with arcgis without arcpy
         "python-dotenv==1.*",
         "simplejson==3.*",
-        # arcgis deps
-        "cachetools==5.*",
-        "geomet==1.*",
-        "lxml>=4,<6",
-        "ntlm_auth==1.*",
-        "pandas==2.*",
-        "puremagic==1.*",
-        "requests_ntlm==1.*",
-        "requests_oauthlib>=1,<3",
-        "requests_toolbelt==1.*",
-        "requests==2.*",
-        "six==1.*",
-        "ujson==5.*",
     ],
     extras_require={
         "dev": [
