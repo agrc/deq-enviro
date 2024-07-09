@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.0.5](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.5) (2024-07-09)
+
+
+### Bug Fixes
+
+* **download:** fix arcgis package install ([47f3935](https://github.com/agrc/deq-enviro/commit/47f3935b328bfba188252bdecbe39d0e6f8d4893))
+* **download:** implement venv in prep for new future requirement ([407c748](https://github.com/agrc/deq-enviro/commit/407c748f4d0e8e4f6f0c3ce7d057ec8180a6e1e7))
+* **download:** pin image to stay at arcgis supported python version ([1b15eb0](https://github.com/agrc/deq-enviro/commit/1b15eb0bac8e692fec9d1794b1cd6d1c60ee4e47))
+* **forklift:** handle empty source data column ([bca13af](https://github.com/agrc/deq-enviro/commit/bca13af004c62ab17b4ffd2c1463ba64eef34682))
+* linting errors ([970e54c](https://github.com/agrc/deq-enviro/commit/970e54c271716bd711975a56cbb188514a36f5e6))
+* upgrade to v2 of print proxy ([347fd31](https://github.com/agrc/deq-enviro/commit/347fd317be7b3768cfd9edf5876760faf523b8d2))
+
+
+### Dependencies
+
+* bump @arcgis/core ([3d650a0](https://github.com/agrc/deq-enviro/commit/3d650a003cd9223a0517dc2508481de126c21f24))
+* bump @grpc/grpc-js from 1.9.12 to 1.9.15 in /functions ([f3fcb53](https://github.com/agrc/deq-enviro/commit/f3fcb53ccede33a0b90564ec1a888d3f61a3fb44))
+* **dev:** bump braces from 3.0.2 to 3.0.3 ([e9ec978](https://github.com/agrc/deq-enviro/commit/e9ec97879554d3b585c90c7a5c967ed1c758a7dd))
+* **dev:** bump braces from 3.0.2 to 3.0.3 in /functions ([bcf20de](https://github.com/agrc/deq-enviro/commit/bcf20de5794384ab76936f0b52018b66d4166aa8))
+* Q1 dependency bumps 🌲 ([1a437ad](https://github.com/agrc/deq-enviro/commit/1a437ad4086711b2b03279387eff1871737be71a))
+
 ## [2.0.5-0](https://github.com/agrc/deq-enviro/compare/v2.0.4-1...v2.0.5-0) (2024-07-09)
 
 
