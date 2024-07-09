@@ -1,4 +1,6 @@
-FROM ghcr.io/osgeo/gdal:ubuntu-small-latest as base
+# this is pinned so that we stay at python 3.10 until
+# arcgis is updated to support python 3.12
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.8.5 as base
 
 RUN apt update
 RUN apt install -y python3-pip
