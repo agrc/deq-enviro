@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.6](https://github.com/agrc/deq-enviro/compare/v2.0.5...v2.0.6) (2024-07-31)
+
+
+### Dependencies
+
+* bump fast-xml-parser from 4.3.4 to 4.4.1 in /functions ([2f9f676](https://github.com/agrc/deq-enviro/commit/2f9f676635c7478160aa90655da5db7d822f797f))
+
 ## [2.0.5](https://github.com/agrc/deq-enviro/compare/v2.0.3...v2.0.5) (2024-07-09)
 
 
