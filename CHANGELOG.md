@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.7](https://github.com/agrc/deq-enviro/compare/v2.0.6...v2.0.7) (2024-08-01)
+
+
+### Bug Fixes
+
+* fix invalid secret names ([7d3eeb5](https://github.com/agrc/deq-enviro/commit/7d3eeb55c919317f0ef7bfd75009f0250e012892))
+
 ## [2.0.6](https://github.com/agrc/deq-enviro/compare/v2.0.5...v2.0.6) (2024-07-31)
 
 
