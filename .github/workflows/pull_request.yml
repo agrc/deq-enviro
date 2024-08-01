@@ -47,25 +47,20 @@ jobs:
       name: dev
 
     steps:
-      - name: 🚀 Deploy
+      - name: 🚀 Deploy Firebase
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
             cd functions
             npm ci
             cd ..
-          build-command: export NODE_OPTIONS=--max_old_space_size=4096 && npm run build:stage
-          preview: yes
-          project-id: ${{ secrets.PROJECT_ID }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
-          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          build-command: npm run build:stage
         env:
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_DISCOVER_KEY: ${{ secrets.VITE_DISCOVER_KEY }}
-          VITE_WEB_API_KEY: ${{ secrets.PREVIEW_WEB_API_KEY }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}
+          VITE_WEB_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_DOWNLOAD_URL: ${{ secrets.DOWNLOAD_URL }}
+          NODE_OPTIONS: --max-old-space-size=7168
