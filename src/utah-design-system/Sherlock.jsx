@@ -591,7 +591,7 @@ class WebApi {
     //
     //      'upper': upper cases all attribute names.
     //      'lower': lower cases all attribute names.
-    //      'camel': camel cases all attribute names
+    //      'input': match the input field casing
     //
     // returns: Promise
     var url = `${this.baseUrl}search/${featureClass}/${encodeURIComponent(
