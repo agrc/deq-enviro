@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.8](https://github.com/agrc/deq-enviro/compare/v2.0.7...v2.0.8) (2024-08-08)
+
+
+### Documentation
+
+* use new value for attribute style for web api ([76fb9c5](https://github.com/agrc/deq-enviro/commit/76fb9c5d21c2de2f8e36dd173ae87225858857ee))
+
 ## [2.0.7](https://github.com/agrc/deq-enviro/compare/v2.0.6...v2.0.7) (2024-08-01)
 
 
