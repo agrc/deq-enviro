@@ -17,8 +17,7 @@ export default function WebApiSearch({
 
   useEffect(() => {
     const provider = new WebApiProvider(
-      // import.meta.env.VITE_WEB_API_KEY,
-      'agrc-dev',
+      import.meta.env.VITE_WEB_API_KEY,
       layer,
       searchField,
       { contextField },
