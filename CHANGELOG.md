@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.9](https://github.com/agrc/deq-enviro/compare/v2.0.8...v2.0.9) (2024-08-15)
+
+
+### Bug Fixes
+
+* remove hardcoded api key in favor of env var ([b8c4f44](https://github.com/agrc/deq-enviro/commit/b8c4f44723d8b8d4cb1a19bb10d9ffbfc9d7e121))
+
+
+### Dependencies
+
+* bump the safe-dependencies group across 1 directory with 2 updates ([15c8822](https://github.com/agrc/deq-enviro/commit/15c8822ad4b0640ecb10f9fbb430ef265867760f))
+
 ## [2.0.8](https://github.com/agrc/deq-enviro/compare/v2.0.7...v2.0.8) (2024-08-08)
 
 
