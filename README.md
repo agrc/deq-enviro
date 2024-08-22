@@ -64,8 +64,10 @@ The download service is hosted in Cloud Run since it requires a custom Docker co
 
 ## Config Spreadsheet Deploy Addon
 
-This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory.
+This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory. This is accessible via the "Deployment" menu -> "Deploy Configs to..." item in both of the config spreadsheets.
 
 Note that the Apps Scripts GCP project needs to be pointed at the same GCP project as the hosting project.
+
+To grant someone access to be able to use the deploy script, add them to the "gcp-dts-ugrc-deq-enviro-admins@utah.gov" google group.
 
 This [blog post](https://medium.com/geekculture/how-to-call-google-cloud-run-or-cloud-functions-from-apps-scripts-c0086289c965) was a good reference for setting it up.
