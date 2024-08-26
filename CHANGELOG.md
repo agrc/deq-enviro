@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.10-0](https://github.com/agrc/deq-enviro/compare/v2.0.9...v2.0.10-0) (2024-08-26)
+
+
+### Bug Fixes
+
+* **ci:** move deploy jobs to release workflow ([ff4baf4](https://github.com/agrc/deq-enviro/commit/ff4baf4abe914498eaf57c1c58374df79ffa8e05))
+
+
+### Documentation
+
+* add info about granting deploy configs permissions ([263a12c](https://github.com/agrc/deq-enviro/commit/263a12c6c65b0e93b85443def3aced395aae73c7))
+
 ## [2.0.9](https://github.com/agrc/deq-enviro/compare/v2.0.8...v2.0.9) (2024-08-15)
 
 
