@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.10-0](https://github.com/agrc/deq-enviro/compare/v2.0.9...v2.0.10-0) (2024-08-26)
+## [2.0.10](https://github.com/agrc/deq-enviro/compare/v2.0.9...v2.0.10) (2024-08-26)
 
 
 ### Bug Fixes
