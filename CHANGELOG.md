@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.11](https://github.com/agrc/deq-enviro/compare/v2.0.10...v2.0.11) (2024-08-27)
+
+
+### Bug Fixes
+
+* add deq tag manager snippet ([5200998](https://github.com/agrc/deq-enviro/commit/5200998da417b08a5bdd517e87bd71b1230bf574))
+
 ## [2.0.10](https://github.com/agrc/deq-enviro/compare/v2.0.9...v2.0.10) (2024-08-26)
 
 
