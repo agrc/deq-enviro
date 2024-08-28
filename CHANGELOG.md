@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.12](https://github.com/agrc/deq-enviro/compare/v2.0.11...v2.0.12) (2024-08-28)
+
+
+### Bug Fixes
+
+* move requests for analytics from deq ([89fe209](https://github.com/agrc/deq-enviro/commit/89fe2096de11b0d691889d24862bc665327a413f))
+
 ## [2.0.11](https://github.com/agrc/deq-enviro/compare/v2.0.10...v2.0.11) (2024-08-27)
 
 
