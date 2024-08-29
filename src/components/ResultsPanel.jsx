@@ -11,7 +11,6 @@ export default function ResultsPanel() {
   const [expandedTableName, setExpandedTableName] = useState(null);
 
   const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
-  console.log('selectedGraphicInfo', selectedGraphicInfo);
 
   useEffect(() => {
     setExpandedTableName(
@@ -26,7 +25,6 @@ export default function ResultsPanel() {
   // clear selected graphic for new searches
   useEffect(() => {
     if (state.context.resultLayers === null) {
-      console.log('setting to null');
       setSelectedGraphicInfo(null);
     }
   }, [setSelectedGraphicInfo, state.context.resultLayers]);
