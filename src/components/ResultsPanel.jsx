@@ -10,17 +10,26 @@ export default function ResultsPanel() {
   const [state] = useSearchMachine();
   const [expandedTableName, setExpandedTableName] = useState(null);
 
-  const { selectedGraphicInfo } = useMap();
+  const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
+  console.log('selectedGraphicInfo', selectedGraphicInfo);
 
   useEffect(() => {
-    if (selectedGraphicInfo) {
-      setExpandedTableName(selectedGraphicInfo.layerId);
-    }
+    setExpandedTableName(
+      selectedGraphicInfo ? selectedGraphicInfo.layerId : null,
+    );
   }, [
     selectedGraphicInfo,
     state.context.resultLayers,
     state.context.searchLayerTableNames,
   ]);
+
+  // clear selected graphic for new searches
+  useEffect(() => {
+    if (state.context.resultLayers === null) {
+      console.log('setting to null');
+      setSelectedGraphicInfo(null);
+    }
+  }, [setSelectedGraphicInfo, state.context.resultLayers]);
 
   const originalHeight = 256;
   const [height, setHeight] = useState(originalHeight);
