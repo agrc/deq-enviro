@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.14-3](https://github.com/agrc/deq-enviro/compare/v2.0.14-0...v2.0.14-3) (2024-08-30)
+
+
+### Bug Fixes
+
+* **download:** revert cmd back to original version ([fc4f1f2](https://github.com/agrc/deq-enviro/commit/fc4f1f21de241bcd32b9a39c563bf9bdb6bdd10b))
+
 ## [2.0.14-1](https://github.com/agrc/deq-enviro/compare/v2.0.14-0...v2.0.14-1) (2024-08-30)
 
 
