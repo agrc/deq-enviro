@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.14-1](https://github.com/agrc/deq-enviro/compare/v2.0.14-0...v2.0.14-1) (2024-08-30)
+
+
+### Bug Fixes
+
+* force a deploy ([060c354](https://github.com/agrc/deq-enviro/commit/060c3546112ddb36127b6f60b19d3bf8d7aab13e))
+
 ## [2.0.14-0](https://github.com/agrc/deq-enviro/compare/v2.0.13...v2.0.14-0) (2024-08-29)
 
 
