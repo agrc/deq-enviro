@@ -34,4 +34,4 @@ RUN pip install .
 RUN pip install arcgis==2.*
 RUN pip install gunicorn
 
-CMD ["exec", "gunicorn", "--bind", ":$PORT", "--timeout", "0", "download.main:app"]
+CMD exec gunicorn --bind :$PORT --timeout 0 download.main:app
