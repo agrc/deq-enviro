@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.14](https://github.com/agrc/deq-enviro/compare/v2.0.13...v2.0.14) (2024-08-30)
+
+
+### Bug Fixes
+
+* **download:** revert cmd back to original version ([42f076b](https://github.com/agrc/deq-enviro/commit/42f076b41f31060f67c1246b45cbc5f15037ae8f))
+* fix bug preventing new searches after selecting a feature ([c25e931](https://github.com/agrc/deq-enviro/commit/c25e93134adbbebd05e8ebee46f88e0e6caffbe1)), closes [#745](https://github.com/agrc/deq-enviro/issues/745)
+
 ## [2.0.14-1](https://github.com/agrc/deq-enviro/compare/v2.0.14-0...v2.0.14-1) (2024-08-30)
 
 
