@@ -125,7 +125,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
         queryLayerResult.fields,
       );
 
-      // @ts-ignore
+      // @ts-expect-error
       newColumns[0].cell = ({ getValue, row }) => (
         <div className="flex items-center">
           <Button
@@ -260,9 +260,9 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               className="min-h-0 flex-1 border-b-0 text-sm"
               columns={columns}
               data={rows}
-              // @ts-ignore
+              // @ts-expect-error
               initialState={{
-                // @ts-ignore
+                // @ts-expect-error
                 sorting: [{ id: columns[0].accessorKey, desc: false }],
               }}
             />

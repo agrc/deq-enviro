@@ -106,6 +106,7 @@ const blankContext = {
 
 const machine = createMachine(
   {
+    // cspell:disable-next-line
     /** @xstate-layout N4IgpgJg5mDOIC5SzAQwE4GMAWA6AlgHb4Au+qANvgF5gDEEA9oWAYQG6MDWrKGObUuSq0ERTplRlmAbQAMAXXkLEoAA6NYQ5qpAAPRADYAHAFZcARlOGATBYCcAFmM3Hd+wBoQAT0QXDFsa4zoamctbGgYEAvtFefFh4KBRgmCQAMqjeYOiwdACCACIAavkAcgDCAKKFyroaWtKEugYIxpG4AMymTuGmFgDspgORXr4IFlbmpp2zxnImUcax8WiJuMmpGVk5eQDKVfkAShUAEnVIIA3azZetFp3Ghrh2xiPhg8OjPn6GnY64J6OUzGWZgsErEAJASbNKZbK5OgHdJVCoAFQA+ul8gBNKpHC7qTQ3Fp+KwAlxyToWGymMZ+Uw2Z6dGyRWmQ6FJMApOE7REAVTKyNRmOxeIJinqxKapImFkcnVwA1CtjpPwmCrkXSGHLWMO5W3huzo-IACoV8miqljcfiMQAxACS6StRwxpXS-Kqe0JV2l+B0dz8cnsipsVKm-SGIws9ImswBbkCOriUL1XJ52wReQqKOOvuuMqDcqeuDkVlVcZpj2CJhTq34GcNfLy+VNpvSOIxhSq9vy-JdPsll0LAduoHu8vM8oWpjnnxjVflNlw-Ws7NTnNwqAg7FQhEwkCRhxO52HRMaY9lJmn64czlc7ircjsSpVG4b6x3e4PR4Ail6RxdmK+JDioI7+oGE5GGYlh3k4LhJp46o0gsZZgvMiyRMsm7ptuu77oeEDHpiTouviBaQeO+iII49gDGWAz2IYfxyGYobRs+9j2EqnQvnOWExLhjb4T+RF0LmJ6UZeUE0QgN5wbY96IU+KG0s8MxzAs2FCZ++qNkQUB0Ec3oDmi0kksW-jymWpiOAMgTltG3zjIENgMcqfGCdhNi6iJnKGXQ+JHAA8hK4EXpZ0EaoEgIKu8UZfLG6rhiuH5pv56aBRUIUALIdlUVoWUW0UPKWrwJQuLl+PRzwKsxXk6S4fnrAFhBGRU5TVOkxVXlZjhyAxFghgN87OclrkggCnSGMCoLghCwnrOgcAAK4UCQEl5uFUoydRrQ2N0uDMW8aquQNWpyCGTjUk1LUCCtsDrZtRSlJUNS9bJB1HSdQxLvYK6hlp3n3Xgj3PXQAH4sBtpHGBu1RXJh3mL9Z1+HRKOsd5ukZcta0bcexxnJ9+2IMjx11mjEwjCujhY01bmg7g4ME4UIUAOplOkIVFCTsrk6jcb2IMjH2cqIzDMuTMs5tBykc6rp88WAuU1WoKA-TSyM0tAhMAA7oQFCMDuQVHKFO0QXtsphIq8x0wMNiuDSw1OHGiGruxnT1rjuuMAbRsm5J+bnn6VvFgpFbuA+SFC7SgI0qYTP64bxvEQAQvkFQANJK9F1JavYMwJ0LhgMcMYul2YDluEnfspybbOc9zRSOmUADiudIzNuDvlTDtas7oSDFXUs63gycB8RcsYsK6I1Da4rw5biOtI4A3BMY8V96yPcsmyidj7gE+pyRDphbllqd6vTFKkltJxn8K6l6jtf+6ngXBWFV9kz9qspS+LwD56XHnXSe2UupVB6iHUcX0f6Y1Om7fwosBjixHjXQ+x8dyBQztnb+CAVYIPVE8DSAwK4S2rr5DBoD37tS2lJaBVF+a-0IeMZwPFwzUnSluHI6BGDoDocHCKocV4wVvEpBCj4HBxn+OYB2vcmY8L4YTU8eCI7wWjqpcYHQD6pkIIwCAcBdCcgRiVOSABaQwcYLFMyIEISgNAwAmL6tFeyYYmTriptZZ4DlGpaxwsAjYBpeTZicbAuULEug9C9p42wDFWQJyZt+QikBQmkwQGEcwNh7CbweGxKJnE1JXR7vNTCd1D5tSgKk2UVhhaAiGFSD440qwAyCA5AIoY-GUICTLKpxY3BVjpq0kwtgvajIGF7V+9cIC9JcSMLo3QOJUwBtMTo9gFhcLwpgiAhkZlyX6eqByPFN4uGXGgrpPs8CKPQLs1oMwtRuGGCCGaURZpxkduYey8jYjRCAA */
     id: 'search',
     initial: 'initialize',
@@ -268,7 +269,6 @@ const machine = createMachine(
         on: {
           ERROR: {
             actions: assign({
-              // @ts-ignore
               error: ({ event: { message } }) => message,
             }),
           },
@@ -287,14 +287,12 @@ const machine = createMachine(
           },
           SET_SELECTED_LAYERS: {
             actions: assign({
-              // @ts-ignore
               selectedDownloadLayers: ({ event: { selectedLayers } }) =>
                 selectedLayers,
             }),
           },
           SET_FORMAT: {
             actions: assign({
-              // @ts-ignore
               downloadFormat: ({ event: { format } }) => format,
             }),
           },

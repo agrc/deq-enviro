@@ -88,14 +88,14 @@ export default function SpecialFilter({ config, value, onChange }) {
         <>
           <b>
             {
-              // @ts-ignore
+              // @ts-expect-error
               config.label
             }
           </b>
           {config.options.map((option) => (
             <Checkbox
               key={option.value}
-              // @ts-ignore
+              // @ts-expect-error
               name={`${config.type}-${config.field}-${option.value}`}
               label={option.alias}
               checked={value?.values.includes(option.value)}

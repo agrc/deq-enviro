@@ -168,7 +168,7 @@ export function getDefaultLayerFilterValues(queryLayers) {
  * @returns {Column[]}
  */
 export function getColumnDefs(resultGridFields, fields) {
-  // @ts-ignore
+  // @ts-expect-error
   return resultGridFields.map((value) => {
     const columnDef = {
       header: /** @type {Field} */ (value).alias || getAlias(value, fields),

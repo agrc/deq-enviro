@@ -376,26 +376,26 @@ async function updateRemoteConfigs(
   const template = await remoteConfig.getTemplate();
 
   const originalValues = {
-    // @ts-ignore
+    // @ts-expect-error
     queryLayers: template.parameters.queryLayers.defaultValue.value,
-    // @ts-ignore
+    // @ts-expect-error
     relatedTables: template.parameters.relatedTables.defaultValue.value,
-    // @ts-ignore
+    // @ts-expect-error
     version: template.parameters.version.defaultValue.value,
     relationshipClasses:
-      // @ts-ignore
+      // @ts-expect-error
       template.parameters.relationshipClasses.defaultValue.value,
   };
 
-  // @ts-ignore
+  // @ts-expect-error
   template.parameters.queryLayers.defaultValue.value = queryLayers;
-  // @ts-ignore
+  // @ts-expect-error
   template.parameters.relatedTables.defaultValue.value = relatedTables;
-  // @ts-ignore
+  // @ts-expect-error
   template.parameters.version.defaultValue.value = (
     parseInt(originalValues.version) + 1
   ).toString();
-  // @ts-ignore
+  // @ts-expect-error
   template.parameters.relationshipClasses.defaultValue.value =
     relationshipClasses;
 

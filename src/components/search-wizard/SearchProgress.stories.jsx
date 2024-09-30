@@ -44,9 +44,9 @@ export const Default = () => (
         'TableNext',
         'HelloTable',
       ]}
-      // @ts-ignore
+      // @ts-expect-error
       queryLayers={queryLayers}
-      // @ts-ignore
+      // @ts-expect-error
       results={results}
       filterName="filter name that wraps and wraps and wraps longer"
       layerFilterValues={{

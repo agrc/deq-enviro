@@ -66,7 +66,7 @@ const FeatureService = ({ url, searchField, contextField }) => {
 
         reactiveUtils.once(
           () => mapView.current.extent,
-          // @ts-ignore
+          // @ts-expect-error
           () => {
             mapView.current.graphics.removeAll();
           },
