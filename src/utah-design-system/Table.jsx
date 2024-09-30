@@ -29,14 +29,13 @@ function InnerTable(
   { columns, data, className, caption, ...props },
   forwardedRef,
 ) {
-  // eslint-disable-next-line react/prop-types
   const [sorting, setSorting] = useState(props?.initialState?.sorting ?? []);
   const { getHeaderGroups, getRowModel } = useReactTable({
     columns,
     data,
-    // @ts-ignore
+    // @ts-expect-error
     getCoreRowModel: getCoreRowModel(),
-    // @ts-ignore
+    // @ts-expect-error
     getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
@@ -149,7 +148,7 @@ function InnerTable(
                     <td
                       key={cell.id}
                       className="truncate p-2"
-                      // @ts-ignore
+                      // @ts-expect-error
                       title={cell.getValue()}
                       style={{ width: cell.column.getSize() }}
                     >

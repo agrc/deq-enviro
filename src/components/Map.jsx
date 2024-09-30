@@ -388,9 +388,9 @@ export default function MapComponent() {
               },
               symbol: {
                 type: 'text',
-                // @ts-ignore
+                // @ts-expect-error
                 color: 'black',
-                // @ts-ignore
+                // @ts-expect-error
                 haloColor: 'white',
                 haloSize: 1,
               },

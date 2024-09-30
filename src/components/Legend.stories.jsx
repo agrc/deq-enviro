@@ -474,14 +474,14 @@ export const Default = () => (
   <div className="flex w-6 flex-col space-y-2">
     <Legend
       featureLayer={{
-        // @ts-ignore
+        // @ts-expect-error
         renderer: brownFields,
         geometryType: 'point',
         opacity: 1,
       }}
     />
     <Legend
-      // @ts-ignore
+      // @ts-expect-error
       featureLayer={{
         renderer: groundwater,
         geometryType: 'polygon',
@@ -490,7 +490,7 @@ export const Default = () => (
     />
     <Legend
       featureLayer={{
-        // @ts-ignore
+        // @ts-expect-error
         renderer: assessedLakes,
         geometryType: 'point',
         opacity: 1,
@@ -498,14 +498,14 @@ export const Default = () => (
     />
     <Legend
       featureLayer={{
-        // @ts-ignore
+        // @ts-expect-error
         renderer: huc,
         geometryType: 'polygon',
         opacity: 0.65,
       }}
     />
     <Legend
-      // @ts-ignore
+      // @ts-expect-error
       featureLayer={{
         renderer: classBreaks,
         geometryType: 'polygon',

@@ -9,7 +9,7 @@ export default async function auth(scopes) {
   });
 
   const authClient = await auth.getClient();
-  // @ts-ignore
+  // @ts-expect-error
   google.options({ auth: authClient });
 
   return authClient;

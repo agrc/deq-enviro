@@ -89,7 +89,7 @@ function SimpleTable({
                   <td
                     key={cell.id}
                     className="whitespace-break-spaces p-2"
-                    // @ts-ignore
+                    // @ts-expect-error
                     title={cell.getValue()}
                     style={{ width: cell.column.getSize() }}
                   >

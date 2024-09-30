@@ -24,7 +24,6 @@ export const Default = () => {
   }, [values]);
 
   const getOnChange = (key) => (newValue) =>
-    // @ts-ignore
     setValues((previousValues) => ({
       ...previousValues,
       [key]: newValue,
@@ -49,7 +48,7 @@ export const Default = () => {
             },
           ],
         }}
-        // @ts-ignore
+        // @ts-expect-error
         value={values.field}
         onChange={getOnChange('field')}
       />

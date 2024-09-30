@@ -415,7 +415,7 @@ export class ProviderBase {
    * @param {number} [maxResultsToDisplay]
    * @returns {Promise<{ items: Graphic[] }>}
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async search(searchString, maxResultsToDisplay) {
     throw new Error('this should be implemented by the subclass');
   }
@@ -425,7 +425,7 @@ export class ProviderBase {
    * @param {string} contextValue
    * @returns {Promise<{ items: Graphic[] }>}
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async getFeature(searchValue, contextValue) {
     throw new Error('this should be implemented by the subclass');
   }

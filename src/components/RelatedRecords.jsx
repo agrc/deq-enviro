@@ -136,7 +136,7 @@ function TabContent({
 
       // columns
       columns.splice(2, 0, {
-        // @ts-ignore
+        // @ts-expect-error
         header: 'Additional Information',
         accessorKey: 'additionalInfoLink',
         cell: LinkDetectingCell,
@@ -185,12 +185,7 @@ function TabContent({
       <Wrapper>
         <div className="px-2 text-error-500">
           <p>There was an error getting the related data:</p>
-          <p>
-            {
-              // @ts-ignore
-              query.error?.message
-            }
-          </p>
+          <p>{query.error?.message}</p>
         </div>
       </Wrapper>
     );

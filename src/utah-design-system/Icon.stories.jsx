@@ -38,7 +38,7 @@ export const AllIcons = () => (
     {Object.keys(ICONS).map((icon) => (
       <div key={icon} className="flex flex-col items-center">
         <Icon
-          // @ts-ignore
+          // @ts-expect-error
           name={icon}
           label={icon}
           size="4xl"
