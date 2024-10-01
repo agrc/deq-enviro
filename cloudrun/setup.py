@@ -44,7 +44,7 @@ setup(
         "google-cloud-storage==2.*",
         "google-cloud-firestore==2.*",
         "google-events==0.*",
-        "flask-cors==4.*",
+        "flask-cors>=4,<6",
         "flask-json==0.4",
         "flask==3.*",
         "openpyxl==3.*",  # required for writing excel files with pandas
