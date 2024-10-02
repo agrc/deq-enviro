@@ -10,6 +10,7 @@ from arcgis.features import (
     FeatureLayer,
     FeatureSet,
 )
+from arcgis.features import GeoAccessor, GeoSeriesAccessor  # noqa: F401
 from osgeo import gdal, ogr
 
 from .database import update_job_layer
