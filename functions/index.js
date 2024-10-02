@@ -1,4 +1,4 @@
-import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { onCall, onRequest } from 'firebase-functions/https';
 import { defineSecret } from 'firebase-functions/params';
 
 const configSpreadsheetIdSecret = defineSecret('CONFIG_SPREADSHEET_ID');
