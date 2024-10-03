@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.15](https://github.com/agrc/deq-enviro/compare/v2.0.14...v2.0.15) (2024-10-03)
+
+
+### Dependencies
+
+* bump npm deps for FY25Q2 ([2030461](https://github.com/agrc/deq-enviro/commit/20304611bc4fb311af38b4ac18c08b3138994c5b))
+* **download:** bump dbot dep ([dce2a7d](https://github.com/agrc/deq-enviro/commit/dce2a7d226909ac881d4e13cd4fe02f78e5ff6a9))
+* **download:** bump deps ([9d496fb](https://github.com/agrc/deq-enviro/commit/9d496fbeb7bd4fb551fbb1a60ffb2222865f625e))
+* **functions:** bump deps for FY25Q2 ([5059bac](https://github.com/agrc/deq-enviro/commit/5059bac02f624812cdc647d1a9e32afafd58b257))
+
 ## [2.0.15-0](https://github.com/agrc/deq-enviro/compare/v2.0.14...v2.0.15-0) (2024-10-02)
 
 
