@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.16](https://github.com/agrc/deq-enviro/compare/v2.0.15...v2.0.16) (2024-10-03)
+
+
+### Dependencies
+
+* bump the npm_and_yarn group with 5 updates ([6a24f2e](https://github.com/agrc/deq-enviro/commit/6a24f2efb2cc4f48519c7d05d96d21e167c13058))
+
 ## [2.0.15](https://github.com/agrc/deq-enviro/compare/v2.0.14...v2.0.15) (2024-10-03)
 
 
