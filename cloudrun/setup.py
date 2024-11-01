@@ -56,7 +56,7 @@ setup(
     extras_require={
         "dev": [
             "black>=23,<25",
-            "pytest-cov>=4,<6",
+            "pytest-cov>=4,<7",
             "pytest-instafail==0.5.*",
             "pytest-mock==3.*",
             "pytest-ruff==0.*",
