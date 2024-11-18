@@ -31,7 +31,7 @@ export default function StreetAddress({ send }) {
       3857,
     );
     setSherlockConfig({
-      placeHolder: 'search by street address...',
+      placeHolder: 'street address, city or zip',
       onSherlockMatch: (features) => setAddress(features[0]),
       provider,
       maxResultsToDisplay: 10,
@@ -41,7 +41,7 @@ export default function StreetAddress({ send }) {
   return (
     <>
       <Buffer onChange={setBufferGeometry} inputGeometry={address?.geometry} />
-      {sherlockConfig && <Sherlock {...sherlockConfig} className="mt-2" />}
+      {sherlockConfig && <Sherlock {...sherlockConfig} />}
       {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
       <div className="h-28" />
     </>

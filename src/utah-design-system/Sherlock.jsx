@@ -75,14 +75,19 @@ export default function Sherlock({
 
     const searchValue = getSearchValue(selectedItem);
 
-    let contextValue;
-    if (provider.contextField) {
-      contextValue = selectedItem.attributes[provider.contextField];
+    let results;
+    if (searchValue) {
+      let contextValue;
+      if (provider.contextField) {
+        contextValue = selectedItem.attributes[provider.contextField];
+      }
+
+      const response = await provider.getFeature(searchValue, contextValue);
+
+      results = response.items;
+    } else {
+      results = [selectedItem];
     }
-
-    const response = await provider.getFeature(searchValue, contextValue);
-
-    const results = response.items;
 
     const graphics = results.map(
       (result) =>
@@ -213,7 +218,7 @@ export default function Sherlock({
 
   const getMenuItems = () => {
     const commonClasses =
-      'rounded-md border border-slate-400 rounded-md px-2 py-1';
+      'rounded-md border border-slate-400 rounded-md px-2 py-1 cursor-pointer';
     if (state.short) {
       return (
         // primary
@@ -254,7 +259,7 @@ export default function Sherlock({
         })}
       >
         <Highlighted
-          text={item.attributes[provider.searchField]}
+          text={item.attributes[provider.searchField] || item.address}
           highlight={inputValue}
         ></Highlighted>
         <span className="text-right text-sm">
@@ -646,6 +651,31 @@ export class LocatorSuggestProvider extends ProviderBase {
   }
 
   async search(searchString, maxResults) {
+    if (searchString.match(',')) {
+      const findCandidatesUrl = `${this.url}/findAddressCandidates`;
+      const responseJson = await ky(findCandidatesUrl, {
+        searchParams: {
+          'Single Line Input': searchString,
+          outSR: `{"wkid":${this.outSRID}}`,
+        },
+      }).json();
+
+      if (responseJson.candidates.length === 0) {
+        return { items: [] };
+      }
+
+      const candidate = responseJson.candidates[0];
+      candidate.geometry = {
+        ...candidate.location,
+        type: 'point',
+        spatialReference: {
+          wkid: this.outSRID,
+        },
+      };
+
+      return { items: [candidate] };
+    }
+
     const suggestUrl = `${
       this.url
     }/suggest?text=${searchString}&maxSuggestions=${maxResults || 10}`;
