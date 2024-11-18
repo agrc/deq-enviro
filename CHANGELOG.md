@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.17-0](https://github.com/agrc/deq-enviro/compare/v2.0.16...v2.0.17-0) (2024-11-18)
+
+
+### Bug Fixes
+
+* allow geocoding entire addresses that don't match address points ([93f95b0](https://github.com/agrc/deq-enviro/commit/93f95b06b71e0a8ce049c6d020bf257cd8b09c88)), closes [#707](https://github.com/agrc/deq-enviro/issues/707)
+
+
+### Dependencies
+
+* bump npm deps 🌲 ([e50760f](https://github.com/agrc/deq-enviro/commit/e50760f0a66be2c4dbb98c130d550cdc850b38e6))
+
 ## [2.0.16](https://github.com/agrc/deq-enviro/compare/v2.0.15...v2.0.16) (2024-10-03)
 
 
