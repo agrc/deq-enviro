@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogTitle,
 } from './utah-design-system/Dialog.jsx';
+import MeasureTools from './components/MeasureTools';
 
 function App() {
   useEffect(() => {
@@ -67,6 +68,7 @@ function App() {
           <div className="flex h-full w-full flex-col md:flex-row">
             <MapProvider>
               <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
+                <MeasureTools />
                 <MapComponent />
                 <ResultsPanel />
               </div>
