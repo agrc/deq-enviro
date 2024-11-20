@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0-0](https://github.com/agrc/deq-enviro/compare/v2.0.17-0...v2.1.0-0) (2024-11-20)
+
+
+### Features
+
+* add buffered point and polyline options to shape filter ([ba37afd](https://github.com/agrc/deq-enviro/commit/ba37afd97aa36d8d2eaf5de2e277113acd806a67)), closes [#697](https://github.com/agrc/deq-enviro/issues/697)
+* add distance and area measurement tools ([012d2b5](https://github.com/agrc/deq-enviro/commit/012d2b599c810fb8ef048c7bfbce2a65c842205f)), closes [#700](https://github.com/agrc/deq-enviro/issues/700)
+
+
+### Dependencies
+
+* bump dependencies ([ef602e2](https://github.com/agrc/deq-enviro/commit/ef602e2db5c658a30e273828f6a34caee67139b8))
+
 ## [2.0.17-0](https://github.com/agrc/deq-enviro/compare/v2.0.16...v2.0.17-0) (2024-11-18)
 
 
