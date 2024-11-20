@@ -4,7 +4,7 @@ import appConfig from '../../../app-config.js';
 import Sherlock, {
   LocatorSuggestProvider,
 } from '../../../utah-design-system/Sherlock.jsx';
-import Buffer from './Buffer.jsx';
+import Buffer from './Buffer';
 
 export default function StreetAddress({ send }) {
   const [sherlockConfig, setSherlockConfig] = useState(null);
