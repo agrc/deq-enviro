@@ -47,3 +47,11 @@ body {
 .esri-view .esri-view-surface--inset-outline:focus::after {
   @apply outline-none;
 }
+
+/* make sketch toolbar look nicer */
+.esri-sketch__panel .esri-sketch__section {
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
