@@ -16,6 +16,7 @@ export const Default = () => {
     },
     checkbox: null,
     radio: null,
+    radio2: null,
     date: null,
   });
 
@@ -88,6 +89,25 @@ export const Default = () => {
         }}
         value={values.radio}
         onChange={getOnChange('radio')}
+      />
+      <hr />
+      [Radio 2]
+      <SpecialFilter
+        config={{
+          type: 'radio',
+          options: [
+            {
+              value: '3',
+              alias: 'three',
+            },
+            {
+              value: '4',
+              alias: 'four',
+            },
+          ],
+        }}
+        value={values.radio2}
+        onChange={getOnChange('radio2')}
       />
       <hr />
       [Date]

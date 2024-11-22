@@ -94,7 +94,11 @@ describe('getDefQueryFromLayerFilterValues', () => {
       },
       {
         type: 'radio',
-        values: ["Field = 'Value1'"],
+        values: ["RadioField = 'RadioValue'"],
+      },
+      {
+        type: 'radio',
+        values: ["AnotherRadioField = 'AnotherRadioValue'"],
       },
       {
         type: 'date',
@@ -106,13 +110,33 @@ describe('getDefQueryFromLayerFilterValues', () => {
     const result = getDefQueryFromLayerFilterValues(values);
 
     expect(result).toEqual(
-      "FieldName IN ('Value1','Value2') AND FieldName IN (1,2) AND ((Field = 'Value1') OR (Field = 'Value2')) AND Field = 'Value1' AND FieldName >= '2020-01-01' AND FieldName <= '2020-01-02'",
+      "FieldName IN ('Value1','Value2') AND FieldName IN (1,2) AND ((Field = 'Value1') OR (Field = 'Value2')) AND RadioField = 'RadioValue' AND AnotherRadioField = 'AnotherRadioValue' AND FieldName >= '2020-01-01' AND FieldName <= '2020-01-02'",
     );
   });
 
   it('returns null if there are no values', () => {
     expect(getDefQueryFromLayerFilterValues([])).toEqual(null);
     expect(getDefQueryFromLayerFilterValues(undefined)).toEqual(null);
+  });
+
+  it('skips empty values', () => {
+    /** @type {import('./contexts/SearchMachineProvider').LayerFilterValue[]} */
+    const values = [
+      {
+        type: 'radio',
+        values: ["RadioField = 'RadioValue'"],
+      },
+    ];
+    values[2] = {
+      type: 'radio',
+      values: ["AnotherRadioField = 'AnotherRadioValue'"],
+    };
+
+    const result = getDefQueryFromLayerFilterValues(values);
+
+    expect(result).toEqual(
+      "RadioField = 'RadioValue' AND AnotherRadioField = 'AnotherRadioValue'",
+    );
   });
 });
 
