@@ -100,33 +100,39 @@ export function getRelationships(tableName, allRelationships) {
 export function getDefQueryFromLayerFilterValues(layerFilterValues) {
   if (!layerFilterValues || layerFilterValues.length === 0) return null;
 
-  return layerFilterValues
-    .map((layerFilter) => {
-      switch (layerFilter.type) {
-        case 'field': {
-          const paddedValues =
-            layerFilter.fieldType === 'text'
-              ? layerFilter.values.map((value) => `'${value}'`)
-              : layerFilter.values;
+  return (
+    layerFilterValues
+      .map((layerFilter) => {
+        switch (layerFilter.type) {
+          case 'field': {
+            const paddedValues =
+              layerFilter.fieldType === 'text'
+                ? layerFilter.values.map((value) => `'${value}'`)
+                : layerFilter.values;
 
-          return `${layerFilter.field} IN (${paddedValues.join(',')})`;
-        }
-        case 'radio': {
-          return layerFilter.values[0];
-        }
-        case 'checkbox': {
-          const paddedValues = layerFilter.values.map((value) => `(${value})`);
+            return `${layerFilter.field} IN (${paddedValues.join(',')})`;
+          }
+          case 'radio': {
+            return layerFilter.values[0];
+          }
+          case 'checkbox': {
+            const paddedValues = layerFilter.values.map(
+              (value) => `(${value})`,
+            );
 
-          return `(${paddedValues.join(' OR ')})`;
+            return `(${paddedValues.join(' OR ')})`;
+          }
+          case 'date': {
+            return `${layerFilter.field} >= '${layerFilter.values[0]}' AND ${layerFilter.field} <= '${layerFilter.values[1]}'`;
+          }
+          default:
+            throw new Error(`Invalid filter type: ${layerFilter.type}`);
         }
-        case 'date': {
-          return `${layerFilter.field} >= '${layerFilter.values[0]}' AND ${layerFilter.field} <= '${layerFilter.values[1]}'`;
-        }
-        default:
-          throw new Error(`Invalid filter type: ${layerFilter.type}`);
-      }
-    })
-    .join(' AND ');
+      })
+      // filter out empty values (this can happen if a filter has multiple filters)
+      .filter((value) => value)
+      .join(' AND ')
+  );
 }
 
 /** @typedef {import('./contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue */
