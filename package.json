@@ -117,7 +117,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc-2d16326d-20240930",
     "eslint-plugin-react-refresh": "^0.4.14",
     "firebase-admin": "^13.0.1",
-    "firebase-tools": "^13.26.0",
+    "firebase-tools": "^13.27.0",
     "globals": "^15.12.0",
     "if-env": "^1.0.4",
     "postcss": "^8.4.49",
