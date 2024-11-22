@@ -32,6 +32,7 @@ import Spinner from '../utah-design-system/Spinner';
 import Graphic from '@arcgis/core/Graphic';
 import { getDefQueryFromLayerFilterValues } from '../utils';
 import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
+import CoordinateConversion from '@arcgis/core/widgets/CoordinateConversion';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
@@ -198,6 +199,17 @@ export default function MapComponent() {
       );
 
       view.current.ui.add(legend, 'top-right');
+
+      const coordinatesExpand = new Expand({
+        expandIcon: 'object-detection',
+        view: view.current,
+        content: new CoordinateConversion({
+          view: view.current,
+        }),
+        label: 'Coordinates',
+      });
+
+      view.current.ui.add(coordinatesExpand, 'bottom-left');
 
       view.current.on('click', (event) => {
         view.current.hitTest(event).then(({ results }) => {
