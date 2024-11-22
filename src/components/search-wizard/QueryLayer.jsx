@@ -16,33 +16,6 @@ import Button from '../../utah-design-system/Button';
  */
 
 /**
- * @param {FieldFilterConfig
- *   | import('../../../functions/common/config').CheckboxRadioQueriesFilterConfig
- *   | import('../../../functions/common/config').DateFilterConfig} filterConfig
- * @param {LayerFilterValue[]} filterValues
- * @returns {number}
- */
-function getFilterValueIndex(filterConfig, filterValues) {
-  if (!filterValues) {
-    return -1;
-  }
-
-  const index = filterValues.findIndex((filter) => {
-    const typesMatch = filter.type === filterConfig.type;
-    if (/** @type {FieldFilterConfig} */ (filterConfig).field) {
-      return (
-        typesMatch &&
-        filter.field === /** @type {FieldFilterConfig} */ (filterConfig).field
-      );
-    }
-
-    return typesMatch;
-  });
-
-  return index;
-}
-
-/**
  * @param {Object} props
  * @param {import('../../../functions/common/config').QueryLayerConfig} props.config
  * @param {boolean} props.selected
@@ -119,29 +92,18 @@ export default function QueryLayer({
                      */ filterConfig,
                     /** @type {number} */ index,
                   ) => {
-                    const filterValueIndex = getFilterValueIndex(
-                      filterConfig,
-                      filterValues,
-                    );
                     return (
                       <Fragment key={index}>
                         {index > 0 && <hr />}
                         <SpecialFilter
                           config={filterConfig}
-                          value={
-                            filterValues ? filterValues[filterValueIndex] : null
-                          }
+                          value={filterValues ? filterValues[index] : null}
                           onChange={(newValue) => {
-                            if (filterValueIndex === -1) {
-                              onFiltersChange([newValue]);
-                            } else {
-                              filterValues.splice(
-                                filterValueIndex,
-                                1,
-                                newValue,
-                              );
-                              onFiltersChange(filterValues);
-                            }
+                            const newFilterValues = filterValues?.length
+                              ? [...filterValues]
+                              : [];
+                            newFilterValues[index] = newValue;
+                            onFiltersChange(newFilterValues);
                           }}
                         />
                       </Fragment>

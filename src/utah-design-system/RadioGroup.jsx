@@ -1,4 +1,5 @@
 import * as RadixRadioGroup from '@radix-ui/react-radio-group';
+import { useId } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
 /**
@@ -22,13 +23,16 @@ export default function RadioGroup({
   onValueChange,
   value,
 }) {
+  const id = useId();
+
   return (
     <RadixRadioGroup.Root
       aria-label={ariaLabel}
       className={twMerge('flex flex-col items-start', className)}
       defaultValue={defaultValue}
-      value={value}
+      name={id}
       onValueChange={onValueChange}
+      value={value}
     >
       {items.map((item) => {
         const id = `${ariaLabel}-${item.value}`;
@@ -44,7 +48,7 @@ export default function RadioGroup({
             >
               <RadixRadioGroup.Item
                 className={twJoin(
-                  'flex h-4 w-4 items-center justify-center rounded-full border ',
+                  'flex h-4 w-4 items-center justify-center rounded-full border',
                   item.disabled
                     ? 'border-slate-300 bg-slate-50 data-[state=checked]:bg-slate-300 data-[state=checked]:text-white'
                     : 'border-slate-500 bg-white',
