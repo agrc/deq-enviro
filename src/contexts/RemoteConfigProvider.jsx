@@ -3,13 +3,11 @@ import {
   getAll,
   getRemoteConfig,
 } from 'firebase/remote-config';
-import { createContext, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BulletList } from 'react-content-loader';
 import { useInitRemoteConfig } from 'reactfire';
 import defaultConfig from '../remote_config_defaults.json';
-
-// exported for use in storybook preview.jsx
-export const RemoteConfigContext = createContext(null);
+import { RemoteConfigContext } from './RemoteConfigContext';
 
 /**
  * @param {object} props

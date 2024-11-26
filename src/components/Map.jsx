@@ -19,7 +19,7 @@ import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import appConfig from '../app-config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
-import { useSearchMachine } from '../contexts/SearchMachineProvider';
+import { useSearchMachine } from '../contexts/SearchMachineContext';
 import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
@@ -343,7 +343,7 @@ export default function MapComponent() {
 
     /**
      * @param {import('../../functions/common/config').QueryLayerConfig} layer
-     * @param {import('../contexts/SearchMachineProvider').Filter} filter
+     * @param {import('../contexts/SearchMachine').Filter} filter
      * @param {string} specialFilterQuery
      * @returns Promise
      */

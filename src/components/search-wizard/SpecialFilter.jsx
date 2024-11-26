@@ -10,10 +10,9 @@ import RadioGroup from '../../utah-design-system/RadioGroup';
  * @param {import('../../../functions/common/config').FieldFilterConfig
  *   | import('../../../functions/common/config').CheckboxRadioQueriesFilterConfig
  *   | DateFilterConfig} props.config
- * @param {import('../../contexts/SearchMachineProvider').LayerFilterValue
- *   | null} props.value
+ * @param {import('../../contexts/SearchMachine').LayerFilterValue | null} props.value
  * @param {(
- *   value: import('../../contexts/SearchMachineProvider').LayerFilterValue,
+ *   value: import('../../contexts/SearchMachine').LayerFilterValue,
  * ) => void} props.onChange
  * @returns {JSX.Element}
  */

@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import { createContext, useState } from 'react';
+import { useState } from 'react';
+import { MapContext } from './MapContext';
 import { useFirebase } from './useFirebase';
-
-export const MapContext = createContext(null);
 
 /**
  * @param {Object} props

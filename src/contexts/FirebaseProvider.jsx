@@ -1,7 +1,7 @@
 import { getAnalytics, logEvent as logEventBase } from 'firebase/analytics';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
-import { createContext, useCallback } from 'react';
+import { useCallback } from 'react';
 import {
   AnalyticsProvider,
   FirestoreProvider,
@@ -9,8 +9,7 @@ import {
   useAnalytics,
   useFirebaseApp,
 } from 'reactfire';
-
-export const InternalFirebaseContext = createContext(null);
+import { InternalFirebaseContext } from './InternalFirebaseContext';
 
 /*
 Make importing logEvent (and others?) easier by wrapping it in a provider.
