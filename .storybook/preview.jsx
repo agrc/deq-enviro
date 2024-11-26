@@ -1,7 +1,7 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
 import '@utahdts/utah-design-system-header/css';
-import { InternalFirebaseContext } from '../src/contexts/FirebaseProvider';
-import { RemoteConfigContext } from '../src/contexts/RemoteConfigProvider';
+import { InternalFirebaseContext } from '../src/contexts/InternalFirebaseContext';
+import { RemoteConfigContext } from '../src/contexts/RemoteConfigContext';
 import '../src/index.css';
 import remoteConfigDefaultJson from '../src/remote_config_defaults.json';
 
