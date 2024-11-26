@@ -1,12 +1,12 @@
+import { Geometry } from '@arcgis/core/geometry.js';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import { useEffect, useRef, useState } from 'react';
 import appConfig from '../../../app-config';
+import useMap from '../../../contexts/useMap';
 import Sherlock, {
   LocatorSuggestProvider,
 } from '../../../utah-design-system/Sherlock';
 import Buffer from './Buffer';
-import { Geometry } from '@arcgis/core/geometry.js';
-import useMap from '../../../contexts/useMap';
 
 type StreetAddressProps = {
   // eslint-disable-next-line no-unused-vars

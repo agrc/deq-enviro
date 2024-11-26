@@ -3,21 +3,21 @@ import ky from 'ky';
 import { Suspense, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
+import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
+import { useFirebase } from '../../contexts/useFirebase.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
-import SelectMapData from './SelectMapData.jsx';
-import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import {
   getConfigByTableName,
   getDefaultLayerFilterValues,
   getRelationships,
 } from '../../utils.js';
-import { useFirebase } from '../../contexts/useFirebase.jsx';
 import AdvancedFilter from './AdvancedFilter.jsx';
 import Download from './Download.jsx';
 import DownloadProgress from './DownloadProgress.jsx';
 import Progress from './SearchProgress.jsx';
+import SelectMapData from './SelectMapData.jsx';
 
 /**
  * @typedef {{

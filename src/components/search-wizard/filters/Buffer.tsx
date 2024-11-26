@@ -1,9 +1,9 @@
+import Geometry from '@arcgis/core/geometry/Geometry';
 import { buffer } from '@arcgis/core/geometry/geometryEngine';
 import { isLoaded, load, project } from '@arcgis/core/geometry/projection';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Input from '../../../utah-design-system/Input';
-import Geometry from '@arcgis/core/geometry/Geometry';
 
 type BufferProps = {
   className?: string;

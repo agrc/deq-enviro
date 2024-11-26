@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogTrigger } from './Dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import { Dialog, DialogContent, DialogTrigger } from './Dialog';
 
 export default {
   title: 'Utah Design System/Dialog',

@@ -1,15 +1,14 @@
 import { fixupConfigRules, fixupPluginRules } from '@eslint/compat';
-import react from 'eslint-plugin-react';
-import prettier from 'eslint-plugin-prettier';
+import { FlatCompat } from '@eslint/eslintrc';
+import { default as eslint, default as js } from '@eslint/js';
 import jsxA11Y from 'eslint-plugin-jsx-a11y';
+import prettier from 'eslint-plugin-prettier';
+import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
 const __filename = fileURLToPath(import.meta.url);

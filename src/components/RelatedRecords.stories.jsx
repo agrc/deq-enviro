@@ -1,5 +1,5 @@
-import RelatedRecords from './RelatedRecords';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import RelatedRecords from './RelatedRecords';
 
 export default {
   title: 'RelatedRecords',

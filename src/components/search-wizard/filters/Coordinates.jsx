@@ -1,10 +1,10 @@
 import { Point } from '@arcgis/core/geometry';
+import { set } from 'lodash';
 import { useEffect, useState } from 'react';
+import { useImmerReducer } from 'use-immer';
 import Select from '../../../utah-design-system/Select';
 import Buffer from './Buffer';
 import RangeValidationInput from './RangeValidationInput';
-import { useImmerReducer } from 'use-immer';
-import { set } from 'lodash';
 
 /**
  * @param {Object} props

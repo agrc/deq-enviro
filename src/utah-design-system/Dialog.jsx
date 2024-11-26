@@ -1,8 +1,8 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { forwardRef } from 'react';
-import Icon from './Icon';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button';
+import Icon from './Icon';
 
 export const Dialog = DialogPrimitive.Root;
 

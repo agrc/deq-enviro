@@ -1,9 +1,13 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
+import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
 import { useSearchMachine } from '../../contexts/SearchMachineProvider';
+import { useFirebase } from '../../contexts/useFirebase';
+import stateOfUtahJson from '../../data/state-of-utah.json';
 import Select from '../../utah-design-system/Select';
+import { getConfigByTableName } from '../../utils';
 import Attribute from './filters/Attribute';
 import Coordinates from './filters/Coordinates';
 import NHDStream from './filters/NHDStream';
@@ -11,10 +15,6 @@ import Shape from './filters/Shape';
 import Statewide from './filters/Statewide';
 import StreetAddress from './filters/StreetAddress';
 import WebApi from './filters/WebApi';
-import stateOfUtahJson from '../../data/state-of-utah.json';
-import { getConfigByTableName } from '../../utils';
-import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
-import { useFirebase } from '../../contexts/useFirebase';
 
 // use visible param rather than unmount to preserve state
 export default function AdvancedFilter({ visible }) {

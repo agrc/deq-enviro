@@ -2,9 +2,9 @@ import { doc } from 'firebase/firestore';
 import { BulletList } from 'react-content-loader';
 import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config';
+import { useFirebase } from '../../contexts/useFirebase';
 import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
-import { useFirebase } from '../../contexts/useFirebase';
 
 /**
  * @param {Object} props

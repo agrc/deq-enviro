@@ -1,7 +1,7 @@
+import { forwardRef, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 import Spinner from './Spinner';
-import { forwardRef, useRef } from 'react';
 
 const COLORS = {
   none: {

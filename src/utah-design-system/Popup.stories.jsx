@@ -1,6 +1,6 @@
-import Popup, { CloseButton } from './Popup';
 import Button from './Button';
 import Icon from './Icon';
+import Popup, { CloseButton } from './Popup';
 
 export default {
   title: 'Utah Design System/Popup',
