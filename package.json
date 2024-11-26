@@ -43,8 +43,8 @@
   },
   "prettier": {
     "plugins": [
-      "./node_modules/prettier-plugin-jsdoc/dist/index.js",
       "prettier-plugin-organize-imports",
+      "./node_modules/prettier-plugin-jsdoc/dist/index.js",
       "prettier-plugin-packagejson",
       "prettier-plugin-tailwindcss"
     ],

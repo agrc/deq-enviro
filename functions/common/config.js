@@ -1,4 +1,4 @@
-import { array, string, bool } from 'yup';
+import { array, bool, string } from 'yup';
 
 /** @typedef {'text' | 'number'} FieldType */
 /** @typedef {{ value: string; alias: string }} Option */

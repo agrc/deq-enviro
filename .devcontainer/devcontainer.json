@@ -19,9 +19,7 @@
       ]
     }
   },
-  "forwardPorts": [
-    5000
-  ],
+  "forwardPorts": [5000],
   "mounts": [
     {
       "source": "${localEnv:HOME}/.config/gcloud",

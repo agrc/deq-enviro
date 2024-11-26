@@ -5,6 +5,8 @@ import ky from 'ky';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
+import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
+import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
@@ -12,9 +14,7 @@ import Table from '../utah-design-system/Table';
 import { getColumnDefs, getRelationships } from '../utils';
 import Identify from './Identify';
 import Legend from './Legend';
-import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import Tag from './Tag';
-import { useFirebase } from '../contexts/useFirebase';
 
 const padding = 'px-2 py-1';
 

@@ -1,6 +1,6 @@
+import { fieldNames } from '../functions/common/config';
 import appConfig from './app-config';
 import { LinkDetectingCell } from './components/Identify';
-import { fieldNames } from '../functions/common/config';
 
 export function getAlias(fieldName, fields) {
   if (!fields) return fieldName;

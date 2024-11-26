@@ -1,7 +1,7 @@
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import stateOfUtahJson from '../../../data/state-of-utah.json';
-import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 
 export default function Statewide({ send }) {
   useEffect(() => {

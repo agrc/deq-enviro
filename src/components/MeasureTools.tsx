@@ -1,11 +1,11 @@
-import '@esri/calcite-components/dist/components/calcite-icon';
-import { useEffect, useRef, useState } from 'react';
-import useMap from '../contexts/useMap';
 import AreaMeasurement2D from '@arcgis/core/widgets/AreaMeasurement2D';
 import DistanceMeasurement2D from '@arcgis/core/widgets/DistanceMeasurement2D';
 import Measurement from '@arcgis/core/widgets/Measurement';
-import { twMerge } from 'tailwind-merge';
 import { CalciteIcon } from '@esri/calcite-components-react';
+import '@esri/calcite-components/dist/components/calcite-icon';
+import { useEffect, useRef, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+import useMap from '../contexts/useMap';
 
 export default function MeasureTools() {
   const { mapView } = useMap();

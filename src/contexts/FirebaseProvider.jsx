@@ -1,14 +1,14 @@
+import { getAnalytics, logEvent as logEventBase } from 'firebase/analytics';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { createContext, useCallback } from 'react';
 import {
-  FunctionsProvider,
   AnalyticsProvider,
   FirestoreProvider,
-  useFirebaseApp,
+  FunctionsProvider,
   useAnalytics,
+  useFirebaseApp,
 } from 'reactfire';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
-import { getAnalytics, logEvent as logEventBase } from 'firebase/analytics';
-import { createContext, useCallback } from 'react';
 
 export const InternalFirebaseContext = createContext(null);
 

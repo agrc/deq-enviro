@@ -7,9 +7,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
 import './console-tools.js';
+import FirebaseProvider from './contexts/FirebaseProvider.jsx';
 import './index.css';
 import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
-import FirebaseProvider from './contexts/FirebaseProvider.jsx';
 
 const queryClient = new QueryClient();
 

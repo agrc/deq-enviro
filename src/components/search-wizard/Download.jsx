@@ -1,7 +1,7 @@
 import { downloadFormats, fieldNames } from '../../../functions/common/config';
 import Checkbox from '../../utah-design-system/Checkbox';
-import RadioGroup from '../../utah-design-system/RadioGroup';
 import Icon from '../../utah-design-system/Icon';
+import RadioGroup from '../../utah-design-system/RadioGroup';
 
 /**
  * @param {Object} props

@@ -1,10 +1,10 @@
 import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import featureJson from '../../tests/fixtures/feature.json';
-import polygonFeatureJson from '../../tests/fixtures/polygonFeature.json';
 import fieldsJson from '../../tests/fixtures/fields.json';
+import polygonFeatureJson from '../../tests/fixtures/polygonFeature.json';
 import MapProvider from '../contexts/MapProvider';
-import Identify from './Identify';
 import { SearchMachineProvider } from '../contexts/SearchMachineProvider';
+import Identify from './Identify';
 
 export default {
   title: 'Identify',

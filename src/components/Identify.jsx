@@ -1,4 +1,6 @@
 import { forwardRef } from 'react';
+import { useSearchMachine } from '../contexts/SearchMachineProvider';
+import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
@@ -6,8 +8,6 @@ import Link from '../utah-design-system/Link';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
 import RelatedRecords from './RelatedRecords';
-import { useFirebase } from '../contexts/useFirebase';
-import { useSearchMachine } from '../contexts/SearchMachineProvider';
 
 const buttonClasses = 'border-none w-full my-1 justify-start px-2 text-left';
 
