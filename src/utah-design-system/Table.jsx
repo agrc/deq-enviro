@@ -119,6 +119,13 @@ function InnerTable(
                             />
                           ),
                         }[header.column.getIsSorted()] ?? null}
+                        <button
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className="user-select-none absolute right-0 top-0 h-full w-1.5 cursor-col-resize touch-none hover:bg-slate-200"
+                          tabIndex={0}
+                          aria-label="Resize column"
+                        />
                       </div>
                     )}
                   </th>
