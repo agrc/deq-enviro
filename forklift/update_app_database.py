@@ -50,6 +50,33 @@ def get_crate_infos(destination_gdb, test_layer=None):
 def get_related_table_crate_infos(destination_gdb, test_layer=None):
     return _get_crate_infos(destination_gdb, test_layer, related_tables=True)
 
+def get_source_name_and_workspace(source_data):
+    # feature services
+    if source_data.startswith('https'):
+        if '/services/' in source_data:
+            [source_workspace, source_name] = source_data.split(r'/services/')
+            source_workspace = fr'{source_workspace}/services/'
+        else:
+            #: this is for the web-hosted txt files for air quality
+            name = source_data.split('/')[-1].split('.')[0]
+            local_copy = path.join(arcpy.env.scratchGDB, name)
+            if arcpy.Exists(local_copy):
+                arcpy.management.Delete(local_copy)
+            print(f'copying {source_data} to {local_copy}')
+            arcpy.management.CopyRows(source_data, local_copy)
+            source_workspace = arcpy.env.scratchGDB
+            source_name = name
+
+    #: prepend path to database folder for database sources
+    else:
+        if not source_data.startswith(r'\\'):
+            source_data = path.join(settings.dbConnects, source_data)
+
+        source_workspace = path.dirname(source_data)
+        source_name = path.basename(source_data)
+
+    return [source_workspace, source_name]
+
 
 def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_tables=False):
     if related_tables:
@@ -79,17 +106,7 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
             if source_data.startswith('<static>'):
                 continue
 
-            # feature services
-            if source_data.startswith('https'):
-                [source_workspace, source_name] = source_data.split(r'/services/')
-                source_workspace = fr'{source_workspace}/services/'
-            #: prepend path to database folder for database sources
-            else:
-                if not source_data.startswith(r'\\'):
-                    source_data = path.join(settings.dbConnects, source_data)
-
-                source_workspace = path.dirname(source_data)
-                source_name = path.basename(source_data)
+            [source_workspace, source_name] = get_source_name_and_workspace(source_data)
 
             if not related_tables:
                 is_table = arcpy.da.Describe(source_data)['datasetType'] == 'Table'
@@ -135,7 +152,8 @@ def get_spreadsheet_configs_for_crates(crates):
     def get_spreadsheet_config_from_crate(crate):
         for config in spreadsheet.get_query_layers():
             source_data = config[settings.fieldnames.sourceData]
-            if len(source_data) > 0 and get_source_from_crate(crate).endswith(source_data.split('.')[-1]):
+            source_name = get_source_name_and_workspace(source_data)[1]
+            if len(source_data) > 0 and get_source_from_crate(crate).endswith(source_name):
                 return config
         raise Exception('{} not found in spreadsheet!'.format(get_source_from_crate(crate)))
 
