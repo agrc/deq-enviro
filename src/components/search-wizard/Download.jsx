@@ -7,7 +7,7 @@ import RadioGroup from '../../utah-design-system/RadioGroup';
  * @param {Object} props
  * @param {Record<
  *   string,
- *   import('../../contexts/SearchMachineProvider').QueryLayerResult
+ *   import('../../contexts/SearchMachine').QueryLayerResult
  * >} props.searchResultLayers
  * @param {string[]} props.selectedLayers
  * @param {function} props.setSelectedLayers

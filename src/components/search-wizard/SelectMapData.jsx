@@ -1,10 +1,10 @@
 import { fieldNames } from '../../../functions/common/config';
-import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
+import { useSearchMachine } from '../../contexts/SearchMachineContext';
 import {
   AccordionPanel,
   AccordionRoot,
-} from '../../utah-design-system/Accordion.jsx';
-import QueryLayer from './QueryLayer.jsx';
+} from '../../utah-design-system/Accordion';
+import QueryLayer from './QueryLayer';
 
 /**
  * @param {object} props

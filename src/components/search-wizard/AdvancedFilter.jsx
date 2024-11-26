@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
-import { useSearchMachine } from '../../contexts/SearchMachineProvider';
+import { useSearchMachine } from '../../contexts/SearchMachineContext';
 import { useFirebase } from '../../contexts/useFirebase';
 import stateOfUtahJson from '../../data/state-of-utah.json';
 import Select from '../../utah-design-system/Select';

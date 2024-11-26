@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { MapContext } from './MapProvider';
+import { MapContext } from './MapContext';
 
 export default function useMap() {
   const context = useContext(MapContext);

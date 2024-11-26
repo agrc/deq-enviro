@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { useSearchMachine } from '../contexts/SearchMachineProvider';
+import { useSearchMachine } from '../contexts/SearchMachineContext';
 import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';

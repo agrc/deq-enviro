@@ -9,12 +9,12 @@ import ResultStatusIcons from './ResultStatusIcons';
  * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
  * @param {Record<
  *   string,
- *   import('../../contexts/SearchMachineProvider').QueryLayerResult
+ *   import('../../contexts/SearchMachine').QueryLayerResult
  * >} props.results
  * @param {string} props.filterName
  * @param {Record<
  *   string,
- *   import('../../contexts/SearchMachineProvider').LayerFilterValue[]
+ *   import('../../contexts/SearchMachine').LayerFilterValue[]
  * >} props.layerFilterValues
  * @returns {JSX.Element}
  */

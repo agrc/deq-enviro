@@ -12,7 +12,7 @@ import SpecialFilter from './SpecialFilter';
  * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig
  *
  *
- * @typedef {import('../../contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue
+ * @typedef {import('../../contexts/SearchMachine').LayerFilterValue} LayerFilterValue
  */
 
 /**
