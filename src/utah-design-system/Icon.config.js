@@ -85,6 +85,9 @@ export const ICONS = {
   externalLink: {
     className: 'before:content-["A"]',
   },
+  filter: {
+    className: 'before:content-["z"]',
+  },
   favorite: {
     className: 'before:content-["p"]',
   },

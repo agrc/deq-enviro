@@ -63,10 +63,10 @@ export default function QueryLayer({
             trigger={
               <div className="relative" title="Data Filters">
                 {filterValues && filterValues.length > 0 ? (
-                  <span className="absolute flex h-1.5 w-1.5 rounded-full bg-accent-dark"></span>
+                  <span className="absolute bottom-1.5 left-[-1px] flex h-1.5 w-1.5 rounded-full bg-accent-dark"></span>
                 ) : null}
                 <Icon
-                  name="gear"
+                  name="filter"
                   className={clsx(
                     'ml-0 cursor-pointer text-slate-600',
                     (!filterValues || filterValues.length === 0) &&
