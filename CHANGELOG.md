@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.0.18-0](https://github.com/agrc/deq-enviro/compare/v2.0.17...v2.0.18-0) (2024-11-26)
+
+
+### Features
+
+* add buffered point and polyline options to shape filter ([f07a5ec](https://github.com/agrc/deq-enviro/commit/f07a5ecf720ec96ccdd7a64d2ee49397bc5e144b)), closes [#697](https://github.com/agrc/deq-enviro/issues/697)
+* add coordinates widget (bottom-left) ([7c280a9](https://github.com/agrc/deq-enviro/commit/7c280a90972f07af3923a81ee7dbbdd8c0df8756)), closes [#699](https://github.com/agrc/deq-enviro/issues/699)
+* add distance and area measurement tools ([7411ce6](https://github.com/agrc/deq-enviro/commit/7411ce61af01311335954ca2abd566634a24566f)), closes [#700](https://github.com/agrc/deq-enviro/issues/700)
+* make results grid table columns resizable ([4bfb2b0](https://github.com/agrc/deq-enviro/commit/4bfb2b042aed965035ffa81e5b4b604fc16fe183)), closes [#738](https://github.com/agrc/deq-enviro/issues/738)
+
+
+### Bug Fixes
+
+* add marker for street address ([f339597](https://github.com/agrc/deq-enviro/commit/f3395970fde774820a53cc40de725908a2334601)), closes [#698](https://github.com/agrc/deq-enviro/issues/698)
+* allow multiple filters to be selected for a query layer ([2d8656a](https://github.com/agrc/deq-enviro/commit/2d8656aaeeabe0178d8a2188098999403726c228)), closes [#705](https://github.com/agrc/deq-enviro/issues/705)
+* **forklift:** handle new daq txt file data sources ([4484fa9](https://github.com/agrc/deq-enviro/commit/4484fa9171a479c3c653ab420d14bcfca55d0da0))
+
+
+### Dependencies
+
+* bump dependencies ([9a50c7b](https://github.com/agrc/deq-enviro/commit/9a50c7b2f92ea309ea6520ab29ba2277fd9b9342))
+
+
+### Styles
+
+* switch to better filter icon ([a4612cd](https://github.com/agrc/deq-enviro/commit/a4612cda13764e9aec2c12586a307b345db45f7a))
+
 ## [2.0.17-0](https://github.com/agrc/deq-enviro/compare/v2.0.16...v2.0.17-0) (2024-11-18)
 
 
