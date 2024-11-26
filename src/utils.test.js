@@ -74,7 +74,7 @@ describe('hasDefaultSymbology', () => {
 
 describe('getDefQueryFromLayerFilterValues', () => {
   it('returns a query string', () => {
-    /** @type {import('./contexts/SearchMachineProvider').LayerFilterValue[]} */
+    /** @type {import('./contexts/SearchMachine').LayerFilterValue[]} */
     const values = [
       {
         type: 'field',
@@ -120,7 +120,7 @@ describe('getDefQueryFromLayerFilterValues', () => {
   });
 
   it('skips empty values', () => {
-    /** @type {import('./contexts/SearchMachineProvider').LayerFilterValue[]} */
+    /** @type {import('./contexts/SearchMachine').LayerFilterValue[]} */
     const values = [
       {
         type: 'radio',

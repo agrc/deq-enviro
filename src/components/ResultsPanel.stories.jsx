@@ -1,7 +1,7 @@
 import { fieldNames } from '../../functions/common/config';
 import queryLayerResult from '../../tests/fixtures/queryLayerResult.json';
 import MapProvider from '../contexts/MapProvider';
-import { SearchMachineContext } from '../contexts/SearchMachineProvider';
+import { SearchMachineContext } from '../contexts/SearchMachineContext';
 import ResultsPanel from './ResultsPanel';
 
 export default {

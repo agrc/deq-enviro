@@ -94,7 +94,7 @@ export function getRelationships(tableName, allRelationships) {
 }
 
 /**
- * @param {import('./contexts/SearchMachineProvider').LayerFilterValue[]} layerFilterValues
+ * @param {import('./contexts/SearchMachine').LayerFilterValue[]} layerFilterValues
  * @returns {string | null}
  */
 export function getDefQueryFromLayerFilterValues(layerFilterValues) {
@@ -135,7 +135,7 @@ export function getDefQueryFromLayerFilterValues(layerFilterValues) {
   );
 }
 
-/** @typedef {import('./contexts/SearchMachineProvider').LayerFilterValue} LayerFilterValue */
+/** @typedef {import('./contexts/SearchMachine').LayerFilterValue} LayerFilterValue */
 
 /**
  * @param {import('../functions/common/config').QueryLayerConfig[]} queryLayers

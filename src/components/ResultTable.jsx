@@ -37,7 +37,7 @@ function Error({ layerName, errorMessage }) {
  * ResultTable
  *
  * @param {Object} props
- * @param {import('../contexts/SearchMachineProvider').QueryLayerResult} props.queryLayerResult
+ * @param {import('../contexts/SearchMachine').QueryLayerResult} props.queryLayerResult
  * @param {(open: boolean) => void} props.setExpandedTableName
  * @param {boolean} props.expanded
  */

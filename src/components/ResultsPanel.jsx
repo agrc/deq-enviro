@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Suspense, createRef, useEffect, useState } from 'react';
-import { useSearchMachine } from '../contexts/SearchMachineProvider';
+import { useSearchMachine } from '../contexts/SearchMachineContext';
 import useMap from '../contexts/useMap';
 import Spinner from '../utah-design-system/Spinner.jsx';
 import PanelResizer from './PanelResizer';

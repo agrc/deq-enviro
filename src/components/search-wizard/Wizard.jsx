@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
-import { useSearchMachine } from '../../contexts/SearchMachineProvider.jsx';
+import { useSearchMachine } from '../../contexts/SearchMachineContext.js';
 import { useFirebase } from '../../contexts/useFirebase.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';

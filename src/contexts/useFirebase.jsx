@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { InternalFirebaseContext } from './FirebaseProvider';
+import { InternalFirebaseContext } from './InternalFirebaseContext';
 
 export function useFirebase() {
   const context = useContext(InternalFirebaseContext);
