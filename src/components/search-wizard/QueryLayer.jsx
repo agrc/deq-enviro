@@ -1,12 +1,12 @@
+import clsx from 'clsx';
+import { Fragment } from 'react';
 import { fieldNames } from '../../../functions/common/config';
+import Button from '../../utah-design-system/Button';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Icon from '../../utah-design-system/Icon';
-import Tooltip from '../../utah-design-system/Tooltip';
-import clsx from 'clsx';
 import Popup, { CloseButton } from '../../utah-design-system/Popup';
+import Tooltip from '../../utah-design-system/Tooltip';
 import SpecialFilter from './SpecialFilter';
-import { Fragment } from 'react';
-import Button from '../../utah-design-system/Button';
 
 /**
  * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig

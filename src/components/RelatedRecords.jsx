@@ -1,14 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
+import ky from 'ky';
+import { useCallback, useEffect, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
-import * as Tabs from '../utah-design-system/Tabs';
-import { useQuery } from '@tanstack/react-query';
-import Spinner from '../utah-design-system/Spinner';
-import ky from 'ky';
-import { getColumnDefs, getConfigByTableName } from '../utils';
 import SimpleTable from '../utah-design-system/SimpleTable';
-import { useCallback, useEffect, useState } from 'react';
-import Tag from './Tag';
+import Spinner from '../utah-design-system/Spinner';
+import * as Tabs from '../utah-design-system/Tabs';
+import { getColumnDefs, getConfigByTableName } from '../utils';
 import { LinkDetectingCell } from './Identify';
+import Tag from './Tag';
 
 /**
  * @param {Object} props

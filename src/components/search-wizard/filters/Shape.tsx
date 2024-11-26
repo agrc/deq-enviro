@@ -1,10 +1,10 @@
+import Geometry from '@arcgis/core/geometry/Geometry';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import Sketch from '@arcgis/core/widgets/Sketch';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import useMap from '../../../contexts/useMap';
 import Buffer from './Buffer';
-import Geometry from '@arcgis/core/geometry/Geometry';
 
 type ShapeProps = {
   // eslint-disable-next-line no-unused-vars

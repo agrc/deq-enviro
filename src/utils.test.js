@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import {
-  getDefQueryFromLayerFilterValues,
-  getAlias,
-  hasDefaultSymbology,
-  getDefaultLayerFilterValues,
-  getRelationships,
-} from './utils';
 import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
+import {
+  getAlias,
+  getDefaultLayerFilterValues,
+  getDefQueryFromLayerFilterValues,
+  getRelationships,
+  hasDefaultSymbology,
+} from './utils';
 
 describe('getAlias', () => {
   it('returns the alias if the field exists', () => {

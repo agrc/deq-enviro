@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { fieldKeys } from './common/config';
 import {
-  nestRelationships,
   applyTransforms,
   arraysToObjects,
   checkForDuplicateTableNames,
-  validateFields,
-  getFieldsFromUrl,
   getFieldsFromSpecialFilters,
+  getFieldsFromUrl,
+  nestRelationships,
+  validateFields,
 } from './configs';
 
 describe('arraysToObjects', () => {

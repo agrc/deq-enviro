@@ -1,10 +1,13 @@
+import Graphic from '@arcgis/core/Graphic';
 import Map from '@arcgis/core/Map';
 import Polygon from '@arcgis/core/geometry/Polygon';
+import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import { fromPortalItem } from '@arcgis/core/layers/support/fromPortalItem';
 import MapView from '@arcgis/core/views/MapView';
+import CoordinateConversion from '@arcgis/core/widgets/CoordinateConversion';
 import Expand from '@arcgis/core/widgets/Expand';
 import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
@@ -14,25 +17,22 @@ import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
-import { useSearchMachine } from '../contexts/SearchMachineProvider';
 import appConfig from '../app-config';
+import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
+import { useSearchMachine } from '../contexts/SearchMachineProvider';
+import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
+import Spinner from '../utah-design-system/Spinner';
 import {
+  getConfigByTableName,
   getDefaultRenderer,
+  getDefQueryFromLayerFilterValues,
   hasDefaultSymbology,
   queryFeatures,
-  getConfigByTableName,
 } from '../utils';
 import { getWhere } from './search-wizard/filters/utils';
-import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
-import { useFirebase } from '../contexts/useFirebase';
-import Spinner from '../utah-design-system/Spinner';
-import Graphic from '@arcgis/core/Graphic';
-import { getDefQueryFromLayerFilterValues } from '../utils';
-import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
-import CoordinateConversion from '@arcgis/core/widgets/CoordinateConversion';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;

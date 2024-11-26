@@ -1,9 +1,9 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
 import '@utahdts/utah-design-system-header/css';
-import '../src/index.css';
-import { RemoteConfigContext } from '../src/contexts/RemoteConfigProvider';
-import remoteConfigDefaultJson from '../src/remote_config_defaults.json';
 import { InternalFirebaseContext } from '../src/contexts/FirebaseProvider';
+import { RemoteConfigContext } from '../src/contexts/RemoteConfigProvider';
+import '../src/index.css';
+import remoteConfigDefaultJson from '../src/remote_config_defaults.json';
 
 function logEvent(eventName, eventParams) {
   console.log(`logEvent: ${eventName}`, eventParams);

@@ -1,6 +1,7 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MapComponent from './components/Map.jsx';
+import MeasureTools from './components/MeasureTools';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
 import MapProvider from './contexts/MapProvider.jsx';
@@ -11,7 +12,6 @@ import {
   DialogContent,
   DialogTitle,
 } from './utah-design-system/Dialog.jsx';
-import MeasureTools from './components/MeasureTools';
 
 function App() {
   useEffect(() => {
