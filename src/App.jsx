@@ -1,5 +1,5 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MapComponent from './components/Map.jsx';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
@@ -16,10 +16,9 @@ import MeasureTools from './components/MeasureTools';
 function App() {
   useEffect(() => {
     setUtahHeaderSettings({
-      // this prop's implementation has not been released yet
-      // domLocationTarget: {
-      //   element: headerRef.current,
-      // },
+      domLocationTarget: {
+        cssSelector: '#header',
+      },
       actionItems: [
         {
           actionPopupMenu: {
@@ -65,7 +64,7 @@ function App() {
     <>
       <RemoteConfigProvider>
         <SearchMachineProvider>
-          <div className="flex h-full w-full flex-col md:flex-row">
+          <div className="flex flex-1 flex-col md:flex-row">
             <MapProvider>
               <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
                 <MeasureTools />
