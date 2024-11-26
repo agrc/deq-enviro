@@ -38,7 +38,7 @@ const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
 const searchLayerIdPrefix = 'search-layer';
 
-function useMapGraphic(mapView, graphic) {
+function useMapGraphic(mapView, graphic, mapIsReady) {
   const previousGraphic = useRef(null);
   const previousGoTo = useRef(null);
   const graphicsLayer = useRef(null);
@@ -65,7 +65,7 @@ function useMapGraphic(mapView, graphic) {
         .then(() => (previousGoTo.current = null));
     };
 
-    if (!mapView) return;
+    if (!mapView || !mapIsReady) return;
 
     if (!graphicsLayer.current) {
       graphicsLayer.current = new GraphicsLayer();
@@ -93,7 +93,7 @@ function useMapGraphic(mapView, graphic) {
 
       giddyUp();
     }
-  }, [graphic, mapView]);
+  }, [graphic, mapIsReady, mapView]);
 }
 
 /** @param {() => Promise<any>} fn */
@@ -148,7 +148,7 @@ export default function MapComponent() {
       fromJSON(state.context.filter.geometry),
     symbol: appConfig.symbols.filter,
   };
-  useMapGraphic(view.current, new Graphic(filterGraphic));
+  useMapGraphic(view.current, new Graphic(filterGraphic), view.current?.ready);
 
   const { queryLayers } = useRemoteConfigValues();
 
@@ -579,7 +579,11 @@ export default function MapComponent() {
   }, [logEvent, queryLayers, send, state]);
 
   useEffect(() => {
-    if (!searching.current && state.context.resultExtent === null) {
+    if (
+      !searching.current &&
+      state.context.resultExtent === null &&
+      view.current.ready
+    ) {
       removeSearchLayers();
       view.current.goTo(stateOfUtahExtent);
 
