@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.18-2](https://github.com/agrc/deq-enviro/compare/v2.0.18-1...v2.0.18-2) (2024-11-27)
+
+
+### Bug Fixes
+
+* use geodesic buffer to match measure tools ([9ac4c09](https://github.com/agrc/deq-enviro/commit/9ac4c090e084ffcd8956265da8f51356713d7d9b))
+
 ## [2.0.18-1](https://github.com/agrc/deq-enviro/compare/v2.0.18-0...v2.0.18-1) (2024-11-26)
 
 
