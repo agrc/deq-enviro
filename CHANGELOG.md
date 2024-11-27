@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.18](https://github.com/agrc/deq-enviro/compare/v2.0.17...v2.0.18) (2024-11-27)
+
+
+### Bug Fixes
+
+* **forklift:** handle new daq txt file data sources ([4484fa9](https://github.com/agrc/deq-enviro/commit/4484fa9171a479c3c653ab420d14bcfca55d0da0))
+* **forklift:** use new source data for describe ([546a731](https://github.com/agrc/deq-enviro/commit/546a731bceb0b940df108d5ddc98d0c37fc1f6fd))
+
 ## [2.0.17-0](https://github.com/agrc/deq-enviro/compare/v2.0.16...v2.0.17-0) (2024-11-18)
 
 
