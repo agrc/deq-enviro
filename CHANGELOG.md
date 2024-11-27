@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.0.18-3](https://github.com/agrc/deq-enviro/compare/v2.0.17...v2.0.18-3) (2024-11-27)
+
+
+### Features
+
+* add buffered point and polyline options to shape filter ([f44d7c0](https://github.com/agrc/deq-enviro/commit/f44d7c0ca75d44b65a38947cdb894b98c977be7b)), closes [#697](https://github.com/agrc/deq-enviro/issues/697)
+* add coordinates widget (bottom-left) ([ec0c0c6](https://github.com/agrc/deq-enviro/commit/ec0c0c63e8f80e192f2a1c6518be3b81dee8fd19)), closes [#699](https://github.com/agrc/deq-enviro/issues/699)
+* add distance and area measurement tools ([536ae02](https://github.com/agrc/deq-enviro/commit/536ae02017de05b24e23367f740a638c7c6cf693)), closes [#700](https://github.com/agrc/deq-enviro/issues/700)
+* make results grid table columns resizable ([a78ece9](https://github.com/agrc/deq-enviro/commit/a78ece95891deeed1ba7ca4f501f65e4610fd2e2)), closes [#738](https://github.com/agrc/deq-enviro/issues/738)
+
+
+### Bug Fixes
+
+* add marker for street address ([78140f0](https://github.com/agrc/deq-enviro/commit/78140f04be578cd7879473ee87e3fd048a9d67ca)), closes [#698](https://github.com/agrc/deq-enviro/issues/698)
+* allow multiple filters to be selected for a query layer ([caddf8c](https://github.com/agrc/deq-enviro/commit/caddf8c3a5c06327275b2521f567f5459544c4be)), closes [#705](https://github.com/agrc/deq-enviro/issues/705)
+* fix storybook import ([eb0fc4f](https://github.com/agrc/deq-enviro/commit/eb0fc4f75f6f9d85b6243ca86d969324cee26fd7))
+* **forklift:** handle new daq txt file data sources ([4484fa9](https://github.com/agrc/deq-enviro/commit/4484fa9171a479c3c653ab420d14bcfca55d0da0))
+* **forklift:** use new source data for describe ([546a731](https://github.com/agrc/deq-enviro/commit/546a731bceb0b940df108d5ddc98d0c37fc1f6fd))
+* use geodesic buffer to match measure tools ([dc63b49](https://github.com/agrc/deq-enviro/commit/dc63b49ca7535125981041d7bcdfd1eb3f481a30))
+
+
+### Dependencies
+
+* bump dependencies ([aef9316](https://github.com/agrc/deq-enviro/commit/aef9316bcbcdfddcba60d10c3efc8e0e1c286e95))
+
+
+### Styles
+
+* switch to better filter icon ([68203a9](https://github.com/agrc/deq-enviro/commit/68203a9234165a26e51ca54ff4cf8b07d59f778f))
+
 ## [2.0.18-2](https://github.com/agrc/deq-enviro/compare/v2.0.18-1...v2.0.18-2) (2024-11-27)
 
 
