@@ -64,7 +64,7 @@ function App() {
     <>
       <RemoteConfigProvider>
         <SearchMachineProvider>
-          <div className="flex flex-1 flex-col md:flex-row">
+          <div className="flex min-h-0 flex-1 flex-col md:flex-row">
             <MapProvider>
               <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
                 <MeasureTools />
