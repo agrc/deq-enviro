@@ -109,7 +109,7 @@ def _get_crate_infos(destination_gdb, test_layer=None, temp=False, related_table
             [source_workspace, source_name] = get_source_name_and_workspace(source_data)
 
             if not related_tables:
-                is_table = arcpy.da.Describe(source_data)['datasetType'] == 'Table'
+                is_table = arcpy.da.Describe(path.join(source_workspace, source_name))['datasetType'] == 'Table'
                 if temp:
                     if not is_table:
                         continue
