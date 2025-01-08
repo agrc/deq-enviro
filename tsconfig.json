@@ -1,20 +1,11 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "lib": ["esnext", "DOM"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    // this is just a dummy prop to make the compiler happy
-    "outDir": "./typescriptOut",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "types": ["node", "vite/client"]
-  },
-  "exclude": ["node_modules/**/*", "functions/node_modules/**/*"],
-  "include": ["functions/**/*", "src/**/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.browser.json"
+    },
+    {
+      "path": "./tsconfig.vite-config.json"
+    }
+  ]
 }
