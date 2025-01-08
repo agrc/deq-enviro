@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.18-4](https://github.com/agrc/deq-enviro/compare/v2.0.18-3...v2.0.18-4) (2025-01-08)
+
+
+### Bug Fixes
+
+* switch to ugrc standard tsconfigs ([f031a8f](https://github.com/agrc/deq-enviro/commit/f031a8fd99a755a06617834b0d6b63858c94750f))
+
+
+### Dependencies
+
+* FY25 Q3 dependency bumps 🌲 ([3852fec](https://github.com/agrc/deq-enviro/commit/3852fecc278552a5518e89ddb1ce723fb3ce8881))
+
 ## [2.0.18-3](https://github.com/agrc/deq-enviro/compare/v2.0.17...v2.0.18-3) (2024-11-27)
 
 
