@@ -29,6 +29,7 @@ const preview = {
       </RemoteConfigContext.Provider>
     ),
   ],
+
   parameters: {
     controls: {
       matchers: {
@@ -37,6 +38,8 @@ const preview = {
       },
     },
   },
+
+  tags: ['autodocs']
 };
 
 export default preview;
