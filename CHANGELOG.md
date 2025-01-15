@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.19](https://github.com/agrc/deq-enviro/compare/v2.0.18...v2.0.19) (2025-01-15)
+
+
+### Dependencies
+
+* bump the safe-dependencies group with 23 updates ([90310cc](https://github.com/agrc/deq-enviro/commit/90310cc0917e1bba3463db0dc41a2e5a874a197a))
+
 ## [2.0.18](https://github.com/agrc/deq-enviro/compare/v2.0.17...v2.0.18) (2025-01-15)
 
 
