@@ -41,7 +41,7 @@ setup(
     install_requires=[
         "cloudevents==1.*",
         "google-cloud-logging==3.*",
-        "google-cloud-storage==2.*",
+        "google-cloud-storage>=2,<4",
         "google-cloud-firestore==2.*",
         "google-events==0.*",
         "flask-cors==5.*",
