@@ -13,7 +13,6 @@
       "extensions": [
         "ms-python.python",
         "charliermarsh.ruff",
-        "ms-python.black-formatter",
         "ms-azuretools.vscode-docker",
         "streetsidesoftware.code-spell-checker"
       ]
