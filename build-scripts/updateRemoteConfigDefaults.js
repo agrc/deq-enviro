@@ -1,15 +1,9 @@
-import * as dotenv from 'dotenv';
+import '@dotenvx/dotenvx/config';
 import admin from 'firebase-admin';
 import fs from 'fs';
 import auth from '../functions/common/auth.js';
 
-dotenv.config();
-
-admin.initializeApp({
-  apiKey: process.env.VITE_FIREBASE_API_KEY,
-  appId: process.env.VITE_FIREBASE_APP_ID,
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
-});
+admin.initializeApp(JSON.parse(process.env.VITE_FIREBASE_CONFIG));
 
 async function main() {
   await auth(['https://www.googleapis.com/auth/firebase.remoteconfig']);
