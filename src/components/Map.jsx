@@ -430,6 +430,7 @@ export default function MapComponent() {
           layer[fieldNames.queryLayers.tableName]
         }`;
         featureLayer.popupEnabled = false;
+        featureLayer.minScale = 0;
 
         const extentQuery = featureLayer.createQuery();
         extentQuery.where = where;
