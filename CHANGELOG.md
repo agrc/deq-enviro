@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.20-0](https://github.com/agrc/deq-enviro/compare/v2.0.19...v2.0.20-0) (2025-02-11)
+
+
+### Bug Fixes
+
+* update remote config defaults on every build ([1da6cfb](https://github.com/agrc/deq-enviro/commit/1da6cfb37e03d2dc4e547fef2b416b4d560c70ed))
+
+
+### Dependencies
+
+* bump node dependencies 🌲 ([8e2a717](https://github.com/agrc/deq-enviro/commit/8e2a71769ceb21de89ffa10497a8b932eb1447c2))
+* bump python dependencies ([1581821](https://github.com/agrc/deq-enviro/commit/1581821d6e807df8fcbbeb7f78741b6fc9df4f86))
+
 ## [2.0.19](https://github.com/agrc/deq-enviro/compare/v2.0.18...v2.0.19) (2025-01-15)
 
 
