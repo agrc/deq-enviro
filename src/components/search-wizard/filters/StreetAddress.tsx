@@ -31,7 +31,7 @@ export default function StreetAddress({ send }: StreetAddressProps) {
       bufferGeometry && address
         ? {
             geometry: bufferGeometry,
-            name: `Street Address: ${address?.attributes?.Match_addr}`,
+            name: `Street Address: ${address?.attributes?.Match_addr ?? address?.attributes?.standardizedAddress}`,
           }
         : {
             geometry: null,
