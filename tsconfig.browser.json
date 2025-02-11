@@ -1,4 +1,7 @@
 {
   "extends": "@ugrc/tsconfigs/browser",
-  "include": ["src"]
+  "include": ["src"],
+  "compilerOptions": {
+    "jsx": "react"
+  }
 }
