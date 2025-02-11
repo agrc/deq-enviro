@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.21](https://github.com/agrc/deq-enviro/compare/v2.0.20...v2.0.21) (2025-02-11)
+
+
+### Bug Fixes
+
+* fix bug causing "undefined" label for street address filter ([e24867b](https://github.com/agrc/deq-enviro/commit/e24867b787cd2c9639452653960a10f1584d11fb)), closes [#785](https://github.com/agrc/deq-enviro/issues/785)
+
 ## [2.0.20](https://github.com/agrc/deq-enviro/compare/v2.0.19...v2.0.20) (2025-02-11)
 
 
