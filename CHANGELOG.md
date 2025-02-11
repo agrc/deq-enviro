@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.20](https://github.com/agrc/deq-enviro/compare/v2.0.19...v2.0.20) (2025-02-11)
+
+
+### Bug Fixes
+
+* remove min scale so that results always show on the map ([2003218](https://github.com/agrc/deq-enviro/commit/2003218d1f19c94eda21aa38e9242eda26cee2e1))
+* update content-security-policy to allow for base64 images ([c59e862](https://github.com/agrc/deq-enviro/commit/c59e86207fcfeef43c7366cc94fb044c740ec6cb))
+* update remote config defaults on every build ([edbcf89](https://github.com/agrc/deq-enviro/commit/edbcf89f2773a252a2331fe36d84adabb87b723f))
+
+
+### Dependencies
+
+* bump node dependencies 🌲 ([1b6e47d](https://github.com/agrc/deq-enviro/commit/1b6e47d3deb93c03273db2a2bfd87b065d5e0a54))
+* bump pg ([ab6237a](https://github.com/agrc/deq-enviro/commit/ab6237ac3f79f4aa9a9ca780a95a239874c3e7ee))
+* bump python dependencies ([f9e047e](https://github.com/agrc/deq-enviro/commit/f9e047e2a79dc76a9fe0551b5af0bf9beb4e8b9c))
+* **dev:** bump eslint in the safe-dependencies group across 1 directory ([cac5017](https://github.com/agrc/deq-enviro/commit/cac50171f6fac992bdfc230f62a94b80a3aef637))
+
 ## [2.0.20-1](https://github.com/agrc/deq-enviro/compare/v2.0.20-0...v2.0.20-1) (2025-02-11)
 
 
