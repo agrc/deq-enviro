@@ -56,7 +56,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'none'; font-src *; worker-src blob:; script-src 'self' 'unsafe-eval' https://*.google.com https://www.googletagmanager.com https://*.qualtrics.com 'unsafe-inline' https://js.arcgis.com; connect-src 'self' https://*.cloudfunctions.net https://*.utah.gov https://*.googleapis.com https://*.arcgis.com https://www.google-analytics.com https://ut-dts-agrc-web-api-dev.web.app https://*.a.run.app https://*.qualtrics.com; img-src 'self' blob: data: https://www.gravatar.com https://*.wp.com https://*.utah.gov https://*.arcgis.com https://www.googletagmanager.com https://*.googleapis.com https://*.qualtrics.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; base-uri 'self'; form-action 'self' https://*.qualtrics.com; frame-src *; object-src 'self' https://*.googleapis.com"
+            "value": "default-src 'none'; font-src *; worker-src blob:; script-src 'self' 'unsafe-eval' https://*.google.com https://www.googletagmanager.com https://*.qualtrics.com 'unsafe-inline' https://js.arcgis.com; connect-src 'self' data: https://*.cloudfunctions.net https://*.utah.gov https://*.googleapis.com https://*.arcgis.com https://www.google-analytics.com https://ut-dts-agrc-web-api-dev.web.app https://*.a.run.app https://*.qualtrics.com; img-src 'self' blob: data: https://www.gravatar.com https://*.wp.com https://*.utah.gov https://*.arcgis.com https://www.googletagmanager.com https://*.googleapis.com https://*.qualtrics.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; base-uri 'self'; form-action 'self' https://*.qualtrics.com; frame-src *; object-src 'self' https://*.googleapis.com"
           }
         ]
       },
