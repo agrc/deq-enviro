@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.20-1](https://github.com/agrc/deq-enviro/compare/v2.0.20-0...v2.0.20-1) (2025-02-11)
+
+
+### Bug Fixes
+
+* update content-security-policy to allow for base64 images ([d29126b](https://github.com/agrc/deq-enviro/commit/d29126bb502d406d39ccd0330929539e4c67bc90))
+
 ## [2.0.20-0](https://github.com/agrc/deq-enviro/compare/v2.0.19...v2.0.20-0) (2025-02-11)
 
 
