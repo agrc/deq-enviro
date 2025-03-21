@@ -45,9 +45,9 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
             cd functions
-            npm ci
+            pnpm install
             cd ..
-          build-command: npm run build:stage
+          build-command: pnpm run build:stage
         env:
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
           VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}
@@ -110,9 +110,9 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           prebuild-command: |
             cd functions
-            npm ci
+            pnpm install
             cd ..
-          build-command: npm run build:prod
+          build-command: pnpm run build:prod
         env:
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
           VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}

@@ -11,7 +11,9 @@ const config = {
 
   core: {},
 
-  docs: {},
+  docs: {
+    autodocs: true
+  },
 
   framework: {
     name: '@storybook/react-vite',
