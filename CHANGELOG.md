@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.22-0](https://github.com/agrc/deq-enviro/compare/v2.0.21...v2.0.22-0) (2025-03-21)
+
+
+### Bug Fixes
+
+* fix point zooming and increase zoom level ([e5e2495](https://github.com/agrc/deq-enviro/commit/e5e2495aac6d6340568d1d630e4ca7898c808e50)), closes [#807](https://github.com/agrc/deq-enviro/issues/807)
+
 ## [2.0.21](https://github.com/agrc/deq-enviro/compare/v2.0.20...v2.0.21) (2025-02-11)
 
 
