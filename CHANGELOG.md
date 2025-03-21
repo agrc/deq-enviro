@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.22-1](https://github.com/agrc/deq-enviro/compare/v2.0.22-0...v2.0.22-1) (2025-03-21)
+
+
+### Bug Fixes
+
+* **functions:** add missing deps after migration to pnpm ([67f81c9](https://github.com/agrc/deq-enviro/commit/67f81c9f8a65cd93b128ac7c9726da16bf7de8c1))
+
 ## [2.0.22-0](https://github.com/agrc/deq-enviro/compare/v2.0.21...v2.0.22-0) (2025-03-21)
 
 
