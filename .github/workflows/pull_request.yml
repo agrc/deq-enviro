@@ -60,7 +60,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
             cd functions
-            pnpm ci
+            pnpm install
             cd ..
           build-command: pnpm run build:stage
         env:
