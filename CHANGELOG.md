@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.22](https://github.com/agrc/deq-enviro/compare/v2.0.21...v2.0.22) (2025-03-24)
+
+
+### Bug Fixes
+
+* fix point zooming and increase zoom level ([ed195ae](https://github.com/agrc/deq-enviro/commit/ed195aee39f09dbd60cd83fc6ac682e1d72b472f)), closes [#807](https://github.com/agrc/deq-enviro/issues/807)
+* **functions:** add missing deps after migration to pnpm ([88072f0](https://github.com/agrc/deq-enviro/commit/88072f022bf1d5c30d318fc0975d168ecd15ef78))
+
+
+### Dependencies
+
+* **dev:** bump the safe-dependencies group across 1 directory with 12 updates ([f7a41c5](https://github.com/agrc/deq-enviro/commit/f7a41c5341ff00687ff7d790d0a1f7c90d365dd0))
+
 ## [2.0.22-1](https://github.com/agrc/deq-enviro/compare/v2.0.22-0...v2.0.22-1) (2025-03-21)
 
 
