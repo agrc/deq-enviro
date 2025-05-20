@@ -28,11 +28,5 @@
   },
   "engines": {
     "node": "20"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@firebase/util",
-      "protobufjs"
-    ]
   }
 }
