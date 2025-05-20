@@ -1,0 +1,10 @@
+packages:
+  - functions
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@parcel/watcher'
+  - '@vaadin/vaadin-usage-statistics'
+  - core-js
+  - esbuild
+  - protobufjs
+  - re2
