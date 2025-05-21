@@ -3,11 +3,6 @@ import { useState } from 'react';
 import { MapContext } from './MapContext';
 import { useFirebase } from './useFirebase';
 
-/**
- * @param {Object} props
- * @param {import('react').ReactNode} props.children
- * @returns {JSX.Element}
- */
 export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);

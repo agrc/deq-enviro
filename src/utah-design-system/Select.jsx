@@ -1,19 +1,9 @@
 import * as RadixSelect from '@radix-ui/react-select';
+import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
 
-/**
- * Select
- *
- * @param {Object} props
- * @param {import('tailwind-merge').ClassNameValue} [props.className]
- * @param {boolean} [props.disabled]
- * @param {{ label: string; value: string }[]} props.items
- * @param {(value: string) => void} [props.onValueChange]
- * @param {boolean} [props.open]
- * @param {string} [props.placeholder]
- * @param {string} [props.value]
- */
+/** Select component for dropdown selection */
 export default function Select({
   className,
   disabled,
@@ -66,3 +56,18 @@ export default function Select({
     </RadixSelect.Root>
   );
 }
+
+Select.propTypes = {
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  onValueChange: PropTypes.func,
+  open: PropTypes.bool,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+};

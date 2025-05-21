@@ -66,7 +66,7 @@ const FeatureService = ({ url, searchField, contextField }) => {
 
         reactiveUtils.once(
           () => mapView.current.extent,
-          // @ts-expect-error
+          // @ts-expect-error - Type checking bypass needed
           () => {
             mapView.current.graphics.removeAll();
           },
@@ -95,11 +95,11 @@ FeatureService.propTypes = {
   contextField: PropTypes.string,
 };
 
-export const cities = () => (
+export const Cities = () => (
   <FeatureService url={CITIES_URL} searchField={NAME_FIELD} />
 );
 
-export const addressPoints = () => (
+export const AddressPoints = () => (
   <FeatureService
     url={ADDRESS_POINTS_URL}
     searchField={ADDRESS_FIELD}

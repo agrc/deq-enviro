@@ -120,7 +120,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toMatchInlineSnapshot(`
       [
@@ -134,7 +134,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
   });
@@ -146,7 +146,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one', 'two', 'three'];
 
     expect(
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
   });
@@ -155,7 +155,7 @@ describe('validateFields', () => {
     const serviceFieldNames = ['one'];
 
     expect(
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       validateFields(fieldValidation, serviceFieldNames, config, tableName),
     ).toBe(true);
 
@@ -165,7 +165,7 @@ describe('validateFields', () => {
     };
 
     expect(
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       validateFields(fieldValidation2, serviceFieldNames, config, tableName),
     ).toBe(true);
   });

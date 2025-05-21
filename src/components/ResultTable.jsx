@@ -2,6 +2,7 @@ import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import clsx from 'clsx';
 import ky from 'ky';
+import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
@@ -19,11 +20,9 @@ import Tag from './Tag';
 const padding = 'px-2 py-1';
 
 /**
- * Error
+ * Displays an error message for a failed query
  *
- * @param {Object} props
- * @param {string} props.layerName
- * @param {string | Object} [props.errorMessage]
+ * @returns {JSX.Element}
  */
 function Error({ layerName, errorMessage }) {
   return (
@@ -33,13 +32,15 @@ function Error({ layerName, errorMessage }) {
   );
 }
 
+Error.propTypes = {
+  layerName: PropTypes.string.isRequired,
+  errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
+
 /**
- * ResultTable
+ * Displays a table of query results with expand/collapse functionality
  *
- * @param {Object} props
- * @param {import('../contexts/SearchMachine').QueryLayerResult} props.queryLayerResult
- * @param {(open: boolean) => void} props.setExpandedTableName
- * @param {boolean} props.expanded
+ * @returns {JSX.Element}
  */
 function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
   const { selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
@@ -125,7 +126,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
         queryLayerResult.fields,
       );
 
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       newColumns[0].cell = ({ getValue, row }) => (
         <div className="flex items-center">
           <Button
@@ -260,9 +261,9 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               className="min-h-0 flex-1 border-b-0 text-sm"
               columns={columns}
               data={rows}
-              // @ts-expect-error
+              // @ts-expect-error - Type checking bypass needed
               initialState={{
-                // @ts-expect-error
+                // @ts-expect-error - Type checking bypass needed
                 sorting: [{ id: columns[0].accessorKey, desc: false }],
               }}
             />
@@ -272,6 +273,21 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
     </ErrorBoundary>
   );
 }
+
+ResultTable.propTypes = {
+  queryLayerResult: PropTypes.shape({
+    error: PropTypes.string,
+    features: PropTypes.arrayOf(
+      PropTypes.shape({
+        attributes: PropTypes.object,
+      }),
+    ),
+    fields: PropTypes.array,
+    featureLayer: PropTypes.object,
+  }).isRequired,
+  setExpandedTableName: PropTypes.func.isRequired,
+  expanded: PropTypes.bool.isRequired,
+};
 
 // this helps when resizing the results panel with many tables
 const MemoizedResultTable = memo(ResultTable);

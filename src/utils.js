@@ -174,7 +174,7 @@ export function getDefaultLayerFilterValues(queryLayers) {
  * @returns {Column[]}
  */
 export function getColumnDefs(resultGridFields, fields) {
-  // @ts-expect-error
+  // @ts-expect-error - Type checking bypass needed
   return resultGridFields.map((value) => {
     const columnDef = {
       header: /** @type {Field} */ (value).alias || getAlias(value, fields),

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useFirebase } from '../../contexts/useFirebase';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Input from '../../utah-design-system/Input';
@@ -6,14 +7,8 @@ import RadioGroup from '../../utah-design-system/RadioGroup';
 /** @typedef {import('../../../functions/configs').DateFilterConfig} DateFilterConfig */
 
 /**
- * @param {object} props
- * @param {import('../../../functions/common/config').FieldFilterConfig
- *   | import('../../../functions/common/config').CheckboxRadioQueriesFilterConfig
- *   | DateFilterConfig} props.config
- * @param {import('../../contexts/SearchMachine').LayerFilterValue | null} props.value
- * @param {(
- *   value: import('../../contexts/SearchMachine').LayerFilterValue,
- * ) => void} props.onChange
+ * A component for rendering different types of special filters
+ *
  * @returns {JSX.Element}
  */
 export default function SpecialFilter({ config, value, onChange }) {
@@ -87,14 +82,14 @@ export default function SpecialFilter({ config, value, onChange }) {
         <>
           <b>
             {
-              // @ts-expect-error
+              // @ts-expect-error - Type checking bypass needed
               config.label
             }
           </b>
           {config.options.map((option) => (
             <Checkbox
               key={option.value}
-              // @ts-expect-error
+              // @ts-expect-error - Type checking bypass needed
               name={`${config.type}-${config.field}-${option.value}`}
               label={option.alias}
               checked={value?.values.includes(option.value)}
@@ -150,3 +145,18 @@ export default function SpecialFilter({ config, value, onChange }) {
     }
   }
 }
+
+SpecialFilter.propTypes = {
+  config: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    field: PropTypes.string,
+    fieldType: PropTypes.string,
+    label: PropTypes.string,
+    options: PropTypes.array,
+  }).isRequired,
+  value: PropTypes.shape({
+    values: PropTypes.array.isRequired,
+    type: PropTypes.string,
+  }),
+  onChange: PropTypes.func.isRequired,
+};

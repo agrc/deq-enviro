@@ -44,9 +44,9 @@ export const Default = () => (
         'TableNext',
         'HelloTable',
       ]}
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       queryLayers={queryLayers}
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       results={results}
       filterName="filter name that wraps and wraps and wraps longer"
       layerFilterValues={{

@@ -9,7 +9,7 @@ export default async function auth(scopes) {
   });
 
   const authClient = await auth.getClient();
-  // @ts-expect-error
+  // @ts-expect-error - The google auth client types don't match perfectly
   google.options({ auth: authClient });
 
   return authClient;

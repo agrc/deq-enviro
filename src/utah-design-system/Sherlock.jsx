@@ -4,6 +4,7 @@ import Query from '@arcgis/core/rest/support/Query';
 import { useCombobox } from 'downshift';
 import ky from 'ky';
 import { debounce, escapeRegExp, sortBy, uniqWith } from 'lodash-es';
+import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import Icon from './Icon';
@@ -33,19 +34,6 @@ const defaultSymbols = {
   },
 };
 
-/**
- * Sherlock
- *
- * @param {Object} props
- * @param {import('tailwind-merge').ClassNameValue} [props.className]
- * @param {string} [props.label]
- * @param {number} props.maxResultsToDisplay
- * @param {(graphics: Graphic[]) => void} [props.onSherlockMatch]
- * @param {string} [props.placeHolder]
- * @param {ProviderBase} props.provider
- * @param {Object} [props.symbols]
- * @returns {JSX.Element}
- */
 export default function Sherlock({
   className,
   label,
@@ -63,10 +51,6 @@ export default function Sherlock({
     [provider.idField, provider.searchField],
   );
 
-  /**
-   * @param {Object} props
-   * @param {Object} [props.selectedItem]
-   */
   const handleSelectedItemChange = async ({ selectedItem }) => {
     setState({
       ...state,
@@ -321,12 +305,6 @@ export default function Sherlock({
   );
 }
 
-/**
- * @param {Object} props
- * @param {string} [props.text]
- * @param {string} [props.highlight]
- * @returns {JSX.Element}
- */
 const Highlighted = ({ text = '', highlight = '' }) => {
   if (!highlight.trim()) {
     return <div>{text}</div>;
@@ -348,6 +326,11 @@ const Highlighted = ({ text = '', highlight = '' }) => {
         )}
     </div>
   );
+};
+
+Highlighted.propTypes = {
+  text: PropTypes.string,
+  highlight: PropTypes.string,
 };
 
 export class ProviderBase {
@@ -420,7 +403,7 @@ export class ProviderBase {
    * @param {number} [maxResultsToDisplay]
    * @returns {Promise<{ items: Graphic[] }>}
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async search(searchString, maxResultsToDisplay) {
     throw new Error('this should be implemented by the subclass');
   }
@@ -430,7 +413,7 @@ export class ProviderBase {
    * @param {string} contextValue
    * @returns {Promise<{ items: Graphic[] }>}
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getFeature(searchValue, contextValue) {
     throw new Error('this should be implemented by the subclass');
   }
@@ -723,3 +706,19 @@ export class LocatorSuggestProvider extends ProviderBase {
     return { items: [candidate] };
   }
 }
+
+Sherlock.propTypes = {
+  className: PropTypes.string,
+  label: PropTypes.string,
+  maxResultsToDisplay: PropTypes.number,
+  onSherlockMatch: PropTypes.func.isRequired,
+  placeHolder: PropTypes.string,
+  provider: PropTypes.shape({
+    idField: PropTypes.string.isRequired,
+    searchField: PropTypes.string.isRequired,
+    contextField: PropTypes.string,
+    getFeature: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
+  }).isRequired,
+  symbols: PropTypes.object,
+};

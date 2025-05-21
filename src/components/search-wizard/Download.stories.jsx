@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import queryLayerResult from '../../../tests/fixtures/queryLayerResult.json';
@@ -69,6 +70,10 @@ function Test({ searchResultLayers }) {
     />
   );
 }
+
+Test.propTypes = {
+  searchResultLayers: PropTypes.object.isRequired,
+};
 
 export const Initial = () => {
   return <Test searchResultLayers={results} />;

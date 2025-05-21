@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineContext';
 import { useFirebase } from '../contexts/useFirebase';
@@ -12,12 +13,6 @@ import RelatedRecords from './RelatedRecords';
 const buttonClasses = 'border-none w-full my-1 justify-start px-2 text-left';
 
 const urlRegex = /^https?:\/\/.*/;
-
-/**
- * @param {Object} props
- * @param {() => ?(string | number)} props.getValue
- * @returns {?(JSX.Element | string | number)}
- */
 export function LinkDetectingCell({ getValue }) {
   // if this is a link, return an anchor tag
   const value = getValue();
@@ -32,11 +27,10 @@ export function LinkDetectingCell({ getValue }) {
   return <span dangerouslySetInnerHTML={{ __html: value }} />;
 }
 
-/**
- * @param {string} fieldName
- * @param {string | number | boolean} value
- * @param {Object[]} fields
- */
+LinkDetectingCell.propTypes = {
+  getValue: PropTypes.func.isRequired,
+};
+
 function getValue(fieldName, value, fields) {
   const fieldDef = fields.find((field) => field.name === fieldName);
 
@@ -47,17 +41,6 @@ function getValue(fieldName, value, fields) {
   return value;
 }
 
-/**
- * @param {Object} props
- * @param {Record<string, string | number | boolean>} props.attributes
- * @param {Object} props.fields
- * @param {import('@arcgis/core/geometry/Geometry').default} props.geometry
- * @param {{ text: string; url: string }[]} props.links
- * @param {() => void} props.onBack
- * @param {import('../../functions/common/config').RelationshipClassConfig[]} props.relationshipClasses
- * @param {import('react').Ref<any>} forwardedRef
- * @returns {JSX.Element}
- */
 function Identify(
   { attributes, fields, geometry, links, onBack, relationshipClasses },
   forwardedRef,
@@ -164,3 +147,23 @@ function Identify(
 
 const ForwardedIdentify = forwardRef(Identify);
 export default ForwardedIdentify;
+
+LinkDetectingCell.propTypes = {
+  getValue: PropTypes.func.isRequired,
+};
+
+Identify.propTypes = {
+  attributes: PropTypes.object.isRequired,
+  fields: PropTypes.array.isRequired,
+  geometry: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  onBack: PropTypes.func.isRequired,
+  relationshipClasses: PropTypes.array.isRequired,
+};

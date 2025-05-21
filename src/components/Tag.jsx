@@ -1,11 +1,6 @@
+import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
 
-/**
- * @param {object} props
- * @param {React.ReactNode} props.children
- * @param {import('tailwind-merge').ClassNameValue} [props.className]
- * @returns {JSX.Element}
- */
 export default function Tag({ children, className }) {
   return (
     <span
@@ -18,3 +13,8 @@ export default function Tag({ children, className }) {
     </span>
   );
 }
+
+Tag.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};

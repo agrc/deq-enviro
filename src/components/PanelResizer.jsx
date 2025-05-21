@@ -1,14 +1,8 @@
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
-/**
- * @param {object} props
- * @param {function} props.onResize
- * @param {boolean} props.show
- * @param {number} props.initialHeight
- * @returns {JSX.Element}
- */
 export default function PanelResizer({ onResize, show, initialHeight }) {
   const ref = useRef(null);
   const [cursor, setCursor] = useState('grab');
@@ -44,3 +38,9 @@ export default function PanelResizer({ onResize, show, initialHeight }) {
     </Draggable>
   );
 }
+
+PanelResizer.propTypes = {
+  onResize: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  initialHeight: PropTypes.number.isRequired,
+};

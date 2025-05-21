@@ -7,7 +7,6 @@ import Input from '../../../utah-design-system/Input';
 
 type BufferProps = {
   className?: string;
-  // eslint-disable-next-line no-unused-vars
   onChange: (value: Geometry) => void;
   inputGeometry: Geometry | null;
   allowZero?: boolean;

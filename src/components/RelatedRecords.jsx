@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import ky from 'ky';
+import PropTypes from 'prop-types';
 import { useCallback, useEffect, useState } from 'react';
 import { fieldNames } from '../../functions/common/config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
@@ -10,12 +11,7 @@ import { getColumnDefs, getConfigByTableName } from '../utils';
 import { LinkDetectingCell } from './Identify';
 import Tag from './Tag';
 
-/**
- * @param {Object} props
- * @param {import('../../functions/common/config').RelationshipClassConfig[]} props.relationshipClasses
- * @param {Record<string, string | number | boolean>} props.attributes
- * @returns {JSX.Element}
- */
+/** Component for displaying related records */
 export default function RelatedRecords({ relationshipClasses, attributes }) {
   const { relatedTables } = useRemoteConfigValues();
   const [counts, setCounts] = useState({});
@@ -136,7 +132,7 @@ function TabContent({
 
       // columns
       columns.splice(2, 0, {
-        // @ts-expect-error
+        // @ts-expect-error - Type checking bypass needed
         header: 'Additional Information',
         accessorKey: 'additionalInfoLink',
         cell: LinkDetectingCell,
@@ -159,6 +155,10 @@ function TabContent({
   const Wrapper = ({ children }) => (
     <Tabs.Content value={childTableName}>{children}</Tabs.Content>
   );
+
+  Wrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
   useEffect(() => {
     if (query.data) {
@@ -206,3 +206,26 @@ function TabContent({
     </Wrapper>
   );
 }
+
+RelatedRecords.propTypes = {
+  relationshipClasses: PropTypes.arrayOf(
+    PropTypes.shape({
+      [fieldNames.relationshipClasses.relatedTableName]:
+        PropTypes.string.isRequired,
+      [fieldNames.relationshipClasses.primaryKey]: PropTypes.string.isRequired,
+      [fieldNames.relationshipClasses.foreignKey]: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  attributes: PropTypes.object.isRequired,
+};
+
+TabContent.propTypes = {
+  relationshipClassConfig: PropTypes.shape({
+    [fieldNames.relationshipClasses.relatedTableName]:
+      PropTypes.string.isRequired,
+    [fieldNames.relationshipClasses.primaryKey]: PropTypes.string.isRequired,
+    [fieldNames.relationshipClasses.foreignKey]: PropTypes.string.isRequired,
+  }).isRequired,
+  parentAttributes: PropTypes.object.isRequired,
+  updateCount: PropTypes.func.isRequired,
+};

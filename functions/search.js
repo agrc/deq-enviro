@@ -1,9 +1,9 @@
-import knex from 'knex';
+import { default as knexLib } from 'knex';
 
 let cachedDb;
 function getDb() {
   if (!cachedDb) {
-    cachedDb = knex({
+    cachedDb = knexLib({
       client: 'pg',
       connection: JSON.parse(process.env.OPENSGID_CONNECTION_PARAMS),
     });

@@ -7,7 +7,6 @@ import useMap from '../../../contexts/useMap';
 import Buffer from './Buffer';
 
 type ShapeProps = {
-  // eslint-disable-next-line no-unused-vars
   send: (value: {
     type: string;
     filter?: {

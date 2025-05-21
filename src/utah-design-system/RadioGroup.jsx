@@ -1,19 +1,12 @@
 import * as RadixRadioGroup from '@radix-ui/react-radio-group';
+import PropTypes from 'prop-types';
 import { useId } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
 /**
- * @param {object} props
- * @param {string} props.ariaLabel
- * @param {string} [props.className]
- * @param {string} [props.defaultValue]
- * @param {{
- *   value: string;
- *   label: string | JSX.Element;
- *   disabled?: boolean;
- * }[]} props.items
- * @param {(value: string) => void} [props.onValueChange]
- * @param {string} [props.value]
+ * Radio group component
+ *
+ * @returns {JSX.Element}
  */
 export default function RadioGroup({
   ariaLabel,
@@ -83,3 +76,19 @@ export default function RadioGroup({
     </RadixRadioGroup.Root>
   );
 }
+
+RadioGroup.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  defaultValue: PropTypes.string,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+        .isRequired,
+      disabled: PropTypes.bool,
+    }),
+  ).isRequired,
+  onValueChange: PropTypes.func,
+  value: PropTypes.string,
+};

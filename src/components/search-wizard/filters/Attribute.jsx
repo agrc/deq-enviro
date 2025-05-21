@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Input from '../../../utah-design-system/Input';
 import RadioGroup from '../../../utah-design-system/RadioGroup';
@@ -23,12 +24,8 @@ const queryTypes = [
 ];
 
 /**
- * @param {Object} props
- * @param {Function} props.send
- * @param {string} props.label
- * @param {{ name: string; field: string }[]} props.selectedLayers
- * @param {string} [props.fieldName]
- * @param {string} [props.configName]
+ * Attribute search filter component
+ *
  * @returns {JSX.Element}
  */
 export default function Attribute({
@@ -89,3 +86,16 @@ export default function Attribute({
     </>
   );
 }
+
+Attribute.propTypes = {
+  send: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  selectedLayers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      field: PropTypes.string,
+    }),
+  ).isRequired,
+  fieldName: PropTypes.string,
+  configName: PropTypes.string,
+};

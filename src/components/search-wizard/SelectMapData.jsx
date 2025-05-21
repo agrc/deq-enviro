@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
 import { useSearchMachine } from '../../contexts/SearchMachineContext';
 import {
@@ -7,8 +8,8 @@ import {
 import QueryLayer from './QueryLayer';
 
 /**
- * @param {object} props
- * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
+ * Component for selecting map layers to display
+ *
  * @returns {JSX.Element}
  */
 export default function SelectMapData({ queryLayers }) {
@@ -75,3 +76,13 @@ export default function SelectMapData({ queryLayers }) {
     </>
   );
 }
+
+SelectMapData.propTypes = {
+  queryLayers: PropTypes.arrayOf(
+    PropTypes.shape({
+      'Division Heading': PropTypes.string.isRequired,
+      'Layer Name': PropTypes.string.isRequired,
+      'Table Name': PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};

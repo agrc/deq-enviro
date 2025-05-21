@@ -38,7 +38,7 @@ export const AllIcons = () => (
     {Object.keys(ICONS).map((icon) => (
       <div key={icon} className="flex flex-col items-center">
         <Icon
-          // @ts-expect-error
+          // @ts-expect-error - Type checking bypass needed
           name={icon}
           label={icon}
           size="4xl"

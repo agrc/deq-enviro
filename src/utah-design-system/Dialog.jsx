@@ -1,4 +1,5 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
+import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button';
@@ -6,10 +7,6 @@ import Icon from './Icon';
 
 export const Dialog = DialogPrimitive.Root;
 
-/**
- * @param {Object & import('./Button').default} props
- * @returns {JSX.Element}
- */
 export function DialogTrigger({ children, ...props }) {
   return (
     <DialogPrimitive.Trigger asChild>
@@ -18,10 +15,10 @@ export function DialogTrigger({ children, ...props }) {
   );
 }
 
-/**
- * @param {Object & DialogPrimitive.DialogTitleProps} props
- * @returns {JSX.Element}
- */
+DialogTrigger.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export function DialogTitle({ children, className, ...props }) {
   return (
     <DialogPrimitive.Title className={twMerge('pb-4', className)} {...props}>
@@ -30,11 +27,12 @@ export function DialogTitle({ children, className, ...props }) {
   );
 }
 
-/**
- * @param {Object & DialogPrimitive.DialogContentProps} props
- * @param {import('react').Ref<any>} forwardedRef
- * @returns {JSX.Element}
- */
+DialogTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+/** Dialog content component */
 function Content({ children, ...props }, forwardedRef) {
   return (
     <DialogPrimitive.Portal>
@@ -55,5 +53,9 @@ function Content({ children, ...props }, forwardedRef) {
     </DialogPrimitive.Portal>
   );
 }
+
+Content.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export const DialogContent = forwardRef(Content);

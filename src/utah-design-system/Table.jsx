@@ -4,6 +4,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { twJoin, twMerge } from 'tailwind-merge';
@@ -11,20 +12,7 @@ import Icon from './Icon';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
 
-/**
- * @typedef {Object} TableProps
- * @property {string} caption
- * @property {import('tailwind-merge').ClassNameValue} [className]
- * @property {import('@tanstack/react-table').Column[]} columns
- * @property {import('@tanstack/react-table').Row[]} data
- */
-
-/**
- * InnerTable
- *
- * @param {TableProps & import('@tanstack/react-table').Table} props
- * @param {import('react').Ref<any>} forwardedRef
- */
+/** InnerTable */
 function InnerTable(
   { columns, data, className, caption, ...props },
   forwardedRef,
@@ -33,9 +21,9 @@ function InnerTable(
   const { getHeaderGroups, getRowModel } = useReactTable({
     columns,
     data,
-    // @ts-expect-error
+    // @ts-expect-error - Type checking bypass needed
     getCoreRowModel: getCoreRowModel(),
-    // @ts-expect-error
+    // @ts-expect-error - Type checking bypass needed
     getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
@@ -155,7 +143,7 @@ function InnerTable(
                     <td
                       key={cell.id}
                       className="truncate p-2"
-                      // @ts-expect-error
+                      // @ts-expect-error - Type checking bypass needed
                       title={cell.getValue()}
                       style={{ width: cell.column.getSize() }}
                     >
@@ -181,5 +169,25 @@ function InnerTable(
 }
 
 const Table = forwardRef(InnerTable);
+
+InnerTable.propTypes = {
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  className: PropTypes.string,
+  caption: PropTypes.string.isRequired,
+  initialState: PropTypes.shape({
+    sorting: PropTypes.array,
+  }),
+};
+
+Table.propTypes = {
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  className: PropTypes.string,
+  caption: PropTypes.string.isRequired,
+  initialState: PropTypes.shape({
+    sorting: PropTypes.array,
+  }),
+};
 
 export default Table;

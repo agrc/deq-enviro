@@ -9,7 +9,6 @@ import Sherlock, {
 import Buffer from './Buffer';
 
 type StreetAddressProps = {
-  // eslint-disable-next-line no-unused-vars
   send: (value: {
     type: string;
     filter?: {

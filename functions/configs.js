@@ -376,26 +376,26 @@ async function updateRemoteConfigs(
   const template = await remoteConfig.getTemplate();
 
   const originalValues = {
-    // @ts-expect-error
+    // @ts-expect-error - The template parameters structure is not fully typed
     queryLayers: template.parameters.queryLayers.defaultValue.value,
-    // @ts-expect-error
+    // @ts-expect-error - The template parameters structure is not fully typed
     relatedTables: template.parameters.relatedTables.defaultValue.value,
-    // @ts-expect-error
+    // @ts-expect-error - The template parameters structure is not fully typed
     version: template.parameters.version.defaultValue.value,
     relationshipClasses:
-      // @ts-expect-error
+      // @ts-expect-error - The template parameters structure is not fully typed
       template.parameters.relationshipClasses.defaultValue.value,
   };
 
-  // @ts-expect-error
+  // @ts-expect-error - The template parameters structure is not fully typed
   template.parameters.queryLayers.defaultValue.value = queryLayers;
-  // @ts-expect-error
+  // @ts-expect-error - The template parameters structure is not fully typed
   template.parameters.relatedTables.defaultValue.value = relatedTables;
-  // @ts-expect-error
+  // @ts-expect-error - The template parameters structure is not fully typed
   template.parameters.version.defaultValue.value = (
     parseInt(originalValues.version) + 1
   ).toString();
-  // @ts-expect-error
+  // @ts-expect-error - The template parameters structure is not fully typed
   template.parameters.relationshipClasses.defaultValue.value =
     relationshipClasses;
 

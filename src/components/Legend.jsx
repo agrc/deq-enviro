@@ -1,6 +1,7 @@
 import { SimpleFillSymbol, SimpleMarkerSymbol } from '@arcgis/core/symbols';
 import { renderPreviewHTML } from '@arcgis/core/symbols/support/symbolUtils';
 import omit from 'lodash/omit';
+import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import appConfig from '../app-config';
 import Tooltip from '../utah-design-system/Tooltip';
@@ -12,9 +13,8 @@ const classes = {
 };
 
 /**
- * @param {Object} props
- * @param {import('@arcgis/core/symbols/Symbol').default} props.symbol
- * @param {number} props.opacity
+ * Displays a symbol swatch
+ *
  * @returns {JSX.Element}
  */
 function Swatch({ symbol, opacity }) {
@@ -34,11 +34,14 @@ function Swatch({ symbol, opacity }) {
   );
 }
 
+Swatch.propTypes = {
+  symbol: PropTypes.object.isRequired,
+  opacity: PropTypes.number.isRequired,
+};
+
 /**
- * @param {Object} props
- * @param {import('@arcgis/core/symbols/Symbol').default} props.symbol
- * @param {number} props.opacity
- * @param {string} props.label
+ * Displays a symbol swatch with a label
+ *
  * @returns {JSX.Element}
  */
 function SwatchWithLabel({ symbol, opacity, label }) {
@@ -50,12 +53,15 @@ function SwatchWithLabel({ symbol, opacity, label }) {
   );
 }
 
+SwatchWithLabel.propTypes = {
+  symbol: PropTypes.object.isRequired,
+  opacity: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+};
+
 /**
- * @param {Object} props
- * @param {import('@arcgis/core/renderers/support/UniqueValueGroup').default[]} props.groups
- * @param {number} props.opacity
- * @param {string} props.field
- * @param {import('@arcgis/core/layers/support/Field').default[]} props.fields
+ * Displays unique value renderer information
+ *
  * @returns {JSX.Element}
  */
 function UniqueValue({ groups, opacity, field, fields }) {
@@ -78,12 +84,17 @@ function UniqueValue({ groups, opacity, field, fields }) {
   );
 }
 
+UniqueValue.propTypes = {
+  groups: PropTypes.array.isRequired,
+  opacity: PropTypes.number.isRequired,
+  field: PropTypes.string.isRequired,
+  fields: PropTypes.array.isRequired,
+};
+
 /**
- * @param {Object} props
- * @param {import('@arcgis/core/renderers/support/ClassBreakInfo').default[]} props.infos
- * @param {number} props.opacity
- * @param {string} props.field
- * @param {import('@arcgis/core/layers/support/Field').default[]} props.fields
+ * Displays class breaks renderer information
+ *
+ * @returns {JSX.Element}
  */
 function ClassBreaks({ infos, opacity, field, fields }) {
   return (
@@ -101,9 +112,16 @@ function ClassBreaks({ infos, opacity, field, fields }) {
   );
 }
 
+ClassBreaks.propTypes = {
+  infos: PropTypes.array.isRequired,
+  opacity: PropTypes.number.isRequired,
+  field: PropTypes.string.isRequired,
+  fields: PropTypes.array.isRequired,
+};
+
 /**
- * @param {Object} props
- * @param {import('@arcgis/core/layers/FeatureLayer').default} props.featureLayer
+ * Legend component for displaying feature layer symbology
+ *
  * @returns {JSX.Element}
  */
 export default function Legend({ featureLayer }) {
@@ -169,3 +187,15 @@ export default function Legend({ featureLayer }) {
     <Tooltip trigger={<span>{swatch}</span>}>{getPopupContents()}</Tooltip>
   );
 }
+
+Legend.propTypes = {
+  featureLayer: PropTypes.shape({
+    renderer: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      symbol: PropTypes.object,
+    }).isRequired,
+    opacity: PropTypes.number.isRequired,
+    geometryType: PropTypes.string.isRequired,
+    fields: PropTypes.array.isRequired,
+  }).isRequired,
+};
