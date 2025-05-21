@@ -16,7 +16,7 @@
     "build:update-remote-config-defaults": "node build-scripts/updateRemoteConfigDefaults.js",
     "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
     "dev": "cross-env NODE_ENV=development concurrently 'pnpm run dev:firebase' 'pnpm run dev:vite' 'pnpm run dev:cloudrun'",
-    "dev:cloudrun": "docker run -p 5000:5000 --mount type=bind,source=$HOME/.config/gcloud,target=/gcp/config,readonly download",
+    "dev:cloudrun": "docker run -p 5010:5010 --mount type=bind,source=$HOME/.config/gcloud,target=/gcp/config,readonly download",
     "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions,storage,firestore",
     "dev:vite": "vite",
     "format": "prettier --write .",
