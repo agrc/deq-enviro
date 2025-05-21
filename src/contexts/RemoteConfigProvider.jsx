@@ -3,17 +3,13 @@ import {
   getAll,
   getRemoteConfig,
 } from 'firebase/remote-config';
+import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { BulletList } from 'react-content-loader';
 import { useInitRemoteConfig } from 'reactfire';
 import defaultConfig from '../remote_config_defaults.json';
 import { RemoteConfigContext } from './RemoteConfigContext';
 
-/**
- * @param {object} props
- * @param {React.ReactNode} props.children
- * @returns {JSX.Element}
- */
 export default function RemoteConfigProvider({ children }) {
   const [remoteConfigValues, setRemoteConfigValues] = useState(null);
   useInitRemoteConfig(async (firebaseApp) => {
@@ -56,7 +52,10 @@ export default function RemoteConfigProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+RemoteConfigProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export function useRemoteConfigValues() {
   const context = useContext(RemoteConfigContext);
 

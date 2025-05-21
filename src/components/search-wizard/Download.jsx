@@ -1,19 +1,13 @@
+import PropTypes from 'prop-types';
 import { downloadFormats, fieldNames } from '../../../functions/common/config';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Icon from '../../utah-design-system/Icon';
 import RadioGroup from '../../utah-design-system/RadioGroup';
 
 /**
- * @param {Object} props
- * @param {Record<
- *   string,
- *   import('../../contexts/SearchMachine').QueryLayerResult
- * >} props.searchResultLayers
- * @param {string[]} props.selectedLayers
- * @param {function} props.setSelectedLayers
- * @param {string} props.format
- * @param {(value: string) => void} props.setFormat
- * @param {string} [props.error]
+ * Component for selecting and downloading search results
+ *
+ * @returns {JSX.Element}
  */
 export default function Download({
   searchResultLayers,
@@ -96,3 +90,12 @@ export default function Download({
     </>
   );
 }
+
+Download.propTypes = {
+  searchResultLayers: PropTypes.object.isRequired,
+  selectedLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedLayers: PropTypes.func.isRequired,
+  format: PropTypes.string.isRequired,
+  setFormat: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};

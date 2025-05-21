@@ -400,9 +400,9 @@ export default function MapComponent() {
               },
               symbol: {
                 type: 'text',
-                // @ts-expect-error
+                // @ts-expect-error - Type checking bypass needed
                 color: 'black',
-                // @ts-expect-error
+                // @ts-expect-error - Type checking bypass needed
                 haloColor: 'white',
                 haloSize: 1,
               },

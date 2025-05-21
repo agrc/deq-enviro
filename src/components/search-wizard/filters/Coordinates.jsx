@@ -1,16 +1,12 @@
 import { Point } from '@arcgis/core/geometry';
 import { set } from 'lodash';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useImmerReducer } from 'use-immer';
 import Select from '../../../utah-design-system/Select';
 import Buffer from './Buffer';
 import RangeValidationInput from './RangeValidationInput';
 
-/**
- * @param {Object} props
- * @param {function} props.send
- * @returns {JSX.Element}
- */
 export default function Coordinates({ send }) {
   const coordinateTypes = {
     utm: {
@@ -179,8 +175,8 @@ function reducer(draft, action) {
 }
 
 /**
- * @param {Object} props
- * @param {function} props.onChange
+ * Degrees Minutes Seconds coordinates input
+ *
  * @returns {JSX.Element}
  */
 function DegreesMinutesSeconds({ onChange }) {
@@ -285,3 +281,11 @@ function DegreesMinutesSeconds({ onChange }) {
     </>
   );
 }
+
+DegreesMinutesSeconds.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
+
+Coordinates.propTypes = {
+  send: PropTypes.func.isRequired,
+};

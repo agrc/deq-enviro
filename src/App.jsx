@@ -94,6 +94,7 @@ function App() {
             Information on how to obtain access to DEQ records can be found on{' '}
             <a
               target="_blank"
+              rel="noreferrer"
               href="https://deq.utah.gov/general/records-request-government-records-access-and-management-act-grama"
             >
               DEQ’s Records Request page

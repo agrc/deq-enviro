@@ -1,6 +1,7 @@
 import { getAnalytics, logEvent as logEventBase } from 'firebase/analytics';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import {
   AnalyticsProvider,
@@ -37,11 +38,10 @@ function InternalFirebaseProvider({ children }) {
   );
 }
 
-/**
- * @param {Object} props
- * @param {React.ReactNode} props.children
- * @returns {React.ReactElement}
- */
+InternalFirebaseProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export default function FirebaseProvider({ children }) {
   const app = useFirebaseApp();
 
@@ -62,3 +62,7 @@ export default function FirebaseProvider({ children }) {
     </FunctionsProvider>
   );
 }
+
+FirebaseProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

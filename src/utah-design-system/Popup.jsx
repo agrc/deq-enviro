@@ -1,13 +1,8 @@
 import * as RadixPopover from '@radix-ui/react-popover';
+import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
 import Icon from './Icon';
 
-/**
- * @param {object} props
- * @param {React.ReactNode} props.children
- * @param {React.ReactNode} props.trigger
- * @returns {JSX.Element}
- */
 export default function Popup({ children, trigger }) {
   return (
     <RadixPopover.Root>
@@ -32,11 +27,11 @@ export default function Popup({ children, trigger }) {
   );
 }
 
-/**
- * @param {object} props
- * @param {string} [props.className]
- * @returns {JSX.Element}
- */
+Popup.propTypes = {
+  children: PropTypes.node.isRequired,
+  trigger: PropTypes.node.isRequired,
+};
+
 export function CloseButton({ className }) {
   return (
     <RadixPopover.Close className={className}>
@@ -44,3 +39,7 @@ export function CloseButton({ className }) {
     </RadixPopover.Close>
   );
 }
+
+CloseButton.propTypes = {
+  className: PropTypes.string,
+};

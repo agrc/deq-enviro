@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import Button from '../../utah-design-system/Button';
@@ -9,23 +10,16 @@ import Tooltip from '../../utah-design-system/Tooltip';
 import SpecialFilter from './SpecialFilter';
 
 /**
- * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig
+ * Type definitions for component
  *
+ * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig
  *
  * @typedef {import('../../contexts/SearchMachine').LayerFilterValue} LayerFilterValue
  */
 
 /**
- * @param {Object} props
- * @param {import('../../../functions/common/config').QueryLayerConfig} props.config
- * @param {boolean} props.selected
- * @param {(checked: boolean) => void} props.onSelectedChange
- * @param {LayerFilterValue[]} [props.filterValues]
- * @param {(
- *   newValues:
- *     | LayerFilterValue[]
- *     | ((oldValues: LayerFilterValue[]) => LayerFilterValue[]),
- * ) => void} props.onFiltersChange
+ * Represents a query layer with filter options
+ *
  * @returns {JSX.Element}
  */
 export default function QueryLayer({
@@ -141,3 +135,15 @@ export default function QueryLayer({
     </div>
   );
 }
+
+QueryLayer.propTypes = {
+  config: PropTypes.shape({
+    'Table Name': PropTypes.string.isRequired,
+    'Layer Name': PropTypes.string.isRequired,
+    'Special Filters': PropTypes.array,
+  }).isRequired,
+  selected: PropTypes.bool.isRequired,
+  onSelectedChange: PropTypes.func.isRequired,
+  filterValues: PropTypes.array,
+  onFiltersChange: PropTypes.func.isRequired,
+};

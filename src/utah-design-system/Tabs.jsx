@@ -1,17 +1,9 @@
 import * as RadixTabs from '@radix-ui/react-tabs';
+import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-/**
- * @typedef {Object} Root
- * @property {string} [className]
- */
-
-/**
- * @param {Root & import('@radix-ui/react-tabs').TabsProps} props
- * @param {import('react').Ref<any>} forwardedRef
- * @returns {JSX.Element}
- */
+/** Root component for Tabs */
 function Root({ className, ...props }, forwardedRef) {
   return (
     <RadixTabs.Root
@@ -26,18 +18,15 @@ function Root({ className, ...props }, forwardedRef) {
   );
 }
 
+Root.propTypes = {
+  className: PropTypes.string,
+};
+
 const ForwardedRoot = forwardRef(Root);
+ForwardedRoot.propTypes = Root.propTypes;
 export { ForwardedRoot as Root };
 
-/**
- * @typedef {Object} List
- * @property {import('tailwind-merge').ClassNameValue} [className]
- */
-
-/**
- * @param {List & import('@radix-ui/react-tabs').TabsListProps} props
- * @returns {JSX.Element}
- */
+/** List component for Tabs */
 export function List({ className, ...props }) {
   return (
     <RadixTabs.List
@@ -52,15 +41,11 @@ export function List({ className, ...props }) {
   );
 }
 
-/**
- * @typedef {Object} Trigger
- * @property {import('tailwind-merge').ClassNameValue} [className]
- */
+List.propTypes = {
+  className: PropTypes.string,
+};
 
-/**
- * @param {Trigger & import('@radix-ui/react-tabs').TabsTriggerProps} props
- * @returns {JSX.Element}
- */
+/** Trigger component for Tabs */
 export function Trigger({ className, children, ...props }) {
   return (
     <RadixTabs.Trigger
@@ -81,15 +66,12 @@ export function Trigger({ className, children, ...props }) {
   );
 }
 
-/**
- * @typedef {Object} Content
- * @property {import('tailwind-merge').ClassNameValue} [className]
- */
+Trigger.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};
 
-/**
- * @param {Content & import('@radix-ui/react-tabs').TabsContentProps} props
- * @returns {JSX.Element}
- */
+/** Content component for Tabs */
 export function Content({ className, ...props }) {
   return (
     <RadixTabs.Content
@@ -98,3 +80,7 @@ export function Content({ className, ...props }) {
     />
   );
 }
+
+Content.propTypes = {
+  className: PropTypes.string,
+};

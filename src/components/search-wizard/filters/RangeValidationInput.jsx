@@ -1,22 +1,11 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Input from '../../../utah-design-system/Input';
 import { validate } from './utils';
 
 /**
- * @typedef {Object} RangeValidationInputProps
- * @param {Object} props
- * @param {number} props.min
- * @param {number} props.max
- * @param {number} [props.step]
- * @param {number | string} [props.value]
- * @param {function} props.onChange
- */
-
-/**
- * RangeValidationInput
+ * Input component that validates numeric input against a min/max range
  *
- * @param {RangeValidationInputProps &
- *   import('../../../utah-design-system/Input')} props
  * @returns {JSX.Element}
  */
 export default function RangeValidationInput({
@@ -56,3 +45,11 @@ export default function RangeValidationInput({
     />
   );
 }
+
+RangeValidationInput.propTypes = {
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  step: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};

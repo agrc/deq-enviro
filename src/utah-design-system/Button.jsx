@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { forwardRef, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icon from './Icon';
@@ -67,34 +68,12 @@ const SIZES = {
   xl: 'text-xl px-10 py-2 min-h-[3rem]',
 };
 
-/**
- * @param {keyof typeof SIZES} size
- * @returns {keyof typeof SIZES}
- */
 function getOneSizeSmaller(size) {
   const lowerIndex = Object.keys(SIZES).indexOf(size) - 1;
 
   return SIZES[lowerIndex >= 0 ? lowerIndex : 0];
 }
 
-/**
- * @param {Object} props
- * @param {keyof typeof APPEARANCES} [props.appearance]
- * @param {boolean} [props.busy]
- * @param {import('react').ReactNode} props.children
- * @param {import('tailwind-merge').ClassNameValue} [props.className]
- * @param {keyof typeof COLORS} [props.color]
- * @param {boolean} [props.disabled]
- * @param {boolean} [props.external] If true, the button will open the link in a
- *   new tab. Only applicable if `href` is provided.
- * @param {string} [props.href] If provided, the button will be rendered as an
- *   anchor tag with the provided href.
- * @param {() => void} [props.onClick]
- * @param {keyof typeof SIZES} [props.size] Size of the button. Corresponds with
- *   the tailwind text sizes (base, sm, lg, xl)
- * @param {import('react').Ref<any>} forwardedRef
- * @returns {JSX.Element}
- */
 function InnerButton(
   {
     appearance = 'outlined',
@@ -162,4 +141,31 @@ function InnerButton(
 }
 
 const Button = forwardRef(InnerButton);
+
+Button.propTypes = {
+  appearance: PropTypes.oneOf(Object.keys(APPEARANCES)),
+  busy: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  color: PropTypes.oneOf(Object.keys(COLORS)),
+  disabled: PropTypes.bool,
+  external: PropTypes.bool,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+};
+
+InnerButton.propTypes = {
+  appearance: PropTypes.oneOf(Object.keys(APPEARANCES)),
+  busy: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  color: PropTypes.oneOf(Object.keys(COLORS)),
+  disabled: PropTypes.bool,
+  external: PropTypes.bool,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+};
+
 export default Button;

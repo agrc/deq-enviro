@@ -1,38 +1,8 @@
 import * as Label from '@radix-ui/react-label';
+import PropTypes from 'prop-types';
 import { twJoin, twMerge } from 'tailwind-merge';
 
-/**
- * @param {Object} props
- * @param {string} [props.className]
- * @param {boolean} [props.disabled]
- * @param {string} [props.id]
- * @param {boolean} [props.inline]
- * @param {boolean} [props.invalid]
- * @param {string} props.label
- * @param {number | string} [props.max]
- * @param {string} [props.message]
- * @param {number | string} [props.min]
- * @param {function} [props.onChange]
- * @param {import('react').ReactNode} [props.prefix]
- * @param {boolean} [props.required]
- * @param {number} [props.step]
- * @param {import('react').ReactNode} [props.suffix]
- * @param {'date'
- *   | 'datetime-local'
- *   | 'email'
- *   | 'hidden'
- *   | 'month'
- *   | 'number'
- *   | 'password'
- *   | 'search'
- *   | 'tel'
- *   | 'text'
- *   | 'time'
- *   | 'url'
- *   | 'week'} [props.type]
- * @param {string | number} [props.value]
- * @returns {JSX.Element}
- */
+/** Input component for capturing user input with consistent styling */
 export default function Input({
   className,
   disabled,
@@ -126,3 +96,36 @@ export default function Input({
     </div>
   );
 }
+
+Input.propTypes = {
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  inline: PropTypes.bool,
+  invalid: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  message: PropTypes.string,
+  min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onChange: PropTypes.func,
+  prefix: PropTypes.node,
+  required: PropTypes.bool,
+  step: PropTypes.number,
+  suffix: PropTypes.node,
+  type: PropTypes.oneOf([
+    'date',
+    'datetime-local',
+    'email',
+    'hidden',
+    'month',
+    'number',
+    'password',
+    'search',
+    'tel',
+    'text',
+    'time',
+    'url',
+    'week',
+  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};

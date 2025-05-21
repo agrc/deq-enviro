@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
 
 const SIZES = {
@@ -9,15 +10,7 @@ const SIZES = {
   custom: null,
 };
 
-/**
- * @param {Object} props
- * @param {import('tailwind-merge').ClassNameValue} [props.className]
- * @param {string} props.ariaLabel
- * @param {keyof typeof SIZES} [props.size] Size of the spinner. Corresponds
- *   with the tailwind text sizes (base, sm, lg, xl). Use `custom` and pass your
- *   own height and width via `className` for custom sizes.
- * @returns {JSX.Element}
- */
+/** Loading spinner component */
 export default function Spinner({ className, ariaLabel, size = 'base' }) {
   return (
     <svg
@@ -50,3 +43,9 @@ export default function Spinner({ className, ariaLabel, size = 'base' }) {
     </svg>
   );
 }
+
+Spinner.propTypes = {
+  className: PropTypes.string,
+  ariaLabel: PropTypes.string.isRequired,
+  size: PropTypes.oneOf(Object.keys(SIZES)),
+};

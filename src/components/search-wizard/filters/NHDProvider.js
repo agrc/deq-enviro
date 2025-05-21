@@ -13,7 +13,7 @@ export default class NHDProvider extends ProviderBase {
     this.getFeatureFunction = httpsCallable(functions, 'getFeature');
   }
 
-  // @ts-expect-error
+  // @ts-expect-error - Type checking bypass needed
   async search(searchString) {
     const results = await this.searchFunction(searchString);
 
@@ -23,7 +23,7 @@ export default class NHDProvider extends ProviderBase {
   async getFeature(match, context) {
     const results = await this.getFeatureFunction({ match, context });
 
-    // @ts-expect-error
+    // @ts-expect-error - Type checking bypass needed
     return { items: [results.data.feature] };
   }
 }

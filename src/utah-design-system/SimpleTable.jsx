@@ -3,18 +3,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import PropTypes from 'prop-types';
 import { twJoin } from 'tailwind-merge';
 
-/**
- * @typedef {Object} SimpleTableProps
- * @param {string} props.caption
- * @param {string} [props.className]
- * @param {import('@tanstack/react-table').Column[]} props.columns
- * @param {import('@tanstack/react-table').Row[]} props.data
- * @param {boolean} [props.hideHeaders]
- */
+/** Component for rendering a simple table with data */
 
-/** @param {SimpleTableProps & import('@tanstack/react-table').TableOptions} props */
+/** Component for rendering a simple table with data */
 function SimpleTable({
   caption,
   className,
@@ -89,7 +83,7 @@ function SimpleTable({
                   <td
                     key={cell.id}
                     className="whitespace-break-spaces p-2"
-                    // @ts-expect-error
+                    // @ts-expect-error - Type checking bypass needed
                     title={cell.getValue()}
                     style={{ width: cell.column.getSize() }}
                   >
@@ -104,5 +98,13 @@ function SimpleTable({
     </div>
   );
 }
+
+SimpleTable.propTypes = {
+  caption: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  hideHeaders: PropTypes.bool,
+};
 
 export default SimpleTable;

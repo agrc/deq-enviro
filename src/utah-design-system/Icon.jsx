@@ -1,4 +1,5 @@
 import * as AccessibleIcon from '@radix-ui/react-accessible-icon';
+import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { ICONS } from './Icon.config';
@@ -19,22 +20,7 @@ const SIZE_CLASS_NAMES = {
   '9xl': 'before:text-9xl',
 };
 
-/**
- * @typedef {Object} IconProps
- * @property {keyof typeof ICONS} name
- * @property {string} label
- * @property {import('tailwind-merge').ClassNameValue} [className]
- * @property {keyof typeof SIZE_CLASS_NAMES} [size]
- * @property {boolean} [bold]
- */
-
-/**
- * InnerIcon
- *
- * @param {IconProps & import('react').HTMLAttributes<HTMLSpanElement>} props
- * @param {import('react').Ref<any>} forwardedRef
- * @returns {JSX.Element}
- */
+/** InnerIcon component for displaying icons with consistent styling */
 function InnerIcon(
   { name, label, className, size = 'base', bold, ...props },
   forwardedRef,
@@ -71,5 +57,13 @@ function InnerIcon(
 }
 
 const Icon = forwardRef(InnerIcon);
+
+InnerIcon.propTypes = {
+  name: PropTypes.oneOf(Object.keys(ICONS)).isRequired,
+  label: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  size: PropTypes.oneOf(Object.keys(SIZE_CLASS_NAMES)),
+  bold: PropTypes.bool,
+};
 
 export default Icon;

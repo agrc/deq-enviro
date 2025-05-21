@@ -49,7 +49,7 @@ export const Default = () => {
             },
           ],
         }}
-        // @ts-expect-error
+        // @ts-expect-error - Type checking bypass needed
         value={values.field}
         onChange={getOnChange('field')}
       />

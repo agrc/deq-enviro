@@ -1,4 +1,5 @@
 import { doc } from 'firebase/firestore';
+import PropTypes from 'prop-types';
 import { BulletList } from 'react-content-loader';
 import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config';
@@ -7,10 +8,8 @@ import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
 
 /**
- * @param {Object} props
- * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.layers
- * @param {string} props.id
- * @param {Error} [props.error]
+ * Displays download progress for layers
+ *
  * @returns {JSX.Element}
  */
 export default function DownloadProgress({ layers, id, error }) {
@@ -38,11 +37,8 @@ export default function DownloadProgress({ layers, id, error }) {
 }
 
 /**
- * @param {Object} props
- * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.layers
- * @param {Object} props.layerResults
- * @param {string} props.error
- * @param {string} [props.url]
+ * Inner component showing download progress details
+ *
  * @returns {JSX.Element}
  */
 export function DownloadProgressInner({ layers, layerResults, error, url }) {
@@ -102,3 +98,31 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
     </>
   );
 }
+
+DownloadProgressInner.propTypes = {
+  layers: PropTypes.arrayOf(
+    PropTypes.shape({
+      'Table Name': PropTypes.string.isRequired,
+      'Layer Name': PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  layerResults: PropTypes.objectOf(
+    PropTypes.shape({
+      processed: PropTypes.bool,
+      error: PropTypes.string,
+    }),
+  ),
+  error: PropTypes.string,
+  url: PropTypes.string,
+};
+
+DownloadProgress.propTypes = {
+  layers: PropTypes.arrayOf(
+    PropTypes.shape({
+      'Table Name': PropTypes.string.isRequired,
+      'Layer Name': PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  id: PropTypes.string.isRequired,
+  error: PropTypes.instanceOf(Error),
+};

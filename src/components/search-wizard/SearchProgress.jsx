@@ -1,21 +1,12 @@
+import PropTypes from 'prop-types';
 import { fieldNames } from '../../../functions/common/config';
 import { getConfigByTableName } from '../../utils';
 import Tag from '../Tag';
 import ResultStatusIcons from './ResultStatusIcons';
 
 /**
- * @param {object} props
- * @param {string[]} props.searchLayerTableNames
- * @param {import('../../../functions/common/config').QueryLayerConfig[]} props.queryLayers
- * @param {Record<
- *   string,
- *   import('../../contexts/SearchMachine').QueryLayerResult
- * >} props.results
- * @param {string} props.filterName
- * @param {Record<
- *   string,
- *   import('../../contexts/SearchMachine').LayerFilterValue[]
- * >} props.layerFilterValues
+ * Displays the progress of search operations across multiple layers
+ *
  * @returns {JSX.Element}
  */
 export default function SearchProgress({
@@ -75,3 +66,23 @@ export default function SearchProgress({
     </>
   );
 }
+
+SearchProgress.propTypes = {
+  searchLayerTableNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  queryLayers: PropTypes.arrayOf(
+    PropTypes.shape({
+      'Table Name': PropTypes.string.isRequired,
+      'Layer Name': PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  results: PropTypes.object,
+  filterName: PropTypes.string.isRequired,
+  layerFilterValues: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        values: PropTypes.array.isRequired,
+      }),
+    ),
+  ),
+};

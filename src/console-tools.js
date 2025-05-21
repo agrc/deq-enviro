@@ -5,16 +5,16 @@ console.log(
 `,
 );
 
-// @ts-expect-error
+// @ts-expect-error - Type checking bypass needed
 window.enviro = {
   selectAllLayers: () => {
     document
       .querySelectorAll('[data-state=closed]>button')
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       .forEach((button) => button.click());
     document
       .querySelectorAll('button[role=checkbox]')
-      // @ts-expect-error
+      // @ts-expect-error - Type checking bypass needed
       .forEach((button) => button.click());
   },
 };
