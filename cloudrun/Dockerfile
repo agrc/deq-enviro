@@ -20,7 +20,7 @@ ENV STORAGE_EMULATOR_HOST="http://host.docker.internal:9199"
 ENV GOOGLE_APPLICATION_CREDENTIALS="/gcp/config/application_default_credentials.json"
 ENV CLOUDSDK_CONFIG="/gcp/config/application_default_credentials.json"
 
-CMD exec flask run -p 5000 -h 0.0.0.0
+CMD exec flask run -p 5010 -h 0.0.0.0
 
 FROM base AS remote_dev
 
