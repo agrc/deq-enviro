@@ -72,7 +72,7 @@
     "@xstate/react": "^5.0.4",
     "clsx": "^2.1.1",
     "downshift": "^9.0.9",
-    "firebase": "^11.8.0",
+    "firebase": "^11.8.1",
     "googleapis": "^149.0.0",
     "immer": "^10.1.1",
     "ky": "^1.8.1",
