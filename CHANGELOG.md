@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.23](https://github.com/agrc/deq-enviro/compare/v2.0.22...v2.0.23) (2025-05-22)
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([d11c8ca](https://github.com/agrc/deq-enviro/commit/d11c8ca178b19a6e9c89612b910bbb5002b2a4c4))
+* bump storybook ([f2c786f](https://github.com/agrc/deq-enviro/commit/f2c786fdd0c26496b8f7169a728322288df94c14))
+* bump the major-dependencies group across 2 directories with 3 updates ([8ed7d01](https://github.com/agrc/deq-enviro/commit/8ed7d0166be06eac3ca69fde3ab3cdfa5b5159cb))
+* bump the safe-dependencies group across 2 directories with 3 updates ([3d9d301](https://github.com/agrc/deq-enviro/commit/3d9d301c86cbbf371bfe1a43ebc0939ea5577809))
+* update flask-cors requirement from ==5.* to &gt;=5,&lt;7 in /cloudrun ([70c5014](https://github.com/agrc/deq-enviro/commit/70c50146c2d62373f6fdc124771f0d598b3ca127))
+
 ## [2.0.22](https://github.com/agrc/deq-enviro/compare/v2.0.21...v2.0.22) (2025-03-24)
 
 
