@@ -5,9 +5,11 @@ Helper code for updating data in the application file geodatabase
 '''
 import logging
 from os import path
+import os
 
 import arcpy
 from arcgis.features import FeatureLayer, GeoAccessor
+import requests
 from forklift.core import hash_field
 from forklift.models import Crate
 
@@ -58,14 +60,26 @@ def get_source_name_and_workspace(source_data):
             source_workspace = fr'{source_workspace}/services/'
         else:
             #: this is for the web-hosted txt files for air quality
+
             name = source_data.split('/')[-1].split('.')[0]
             local_copy = path.join(arcpy.env.scratchGDB, name)
+            print(f'copying {source_data} to {local_copy}')
+
+            #: download to a local file because arcpy doesn't like grabbing the data directly from a URL
+            response = requests.get(source_data)
+            response.raise_for_status()
+            temp_file = path.join(arcpy.env.scratchGDB, 'temp.tsv')
+            with open(temp_file, 'w') as file:
+                file.write(response.text)
+
             if arcpy.Exists(local_copy):
                 arcpy.management.Delete(local_copy)
-            print(f'copying {source_data} to {local_copy}')
-            arcpy.management.CopyRows(source_data, local_copy)
+            arcpy.management.CopyRows(temp_file, local_copy)
             source_workspace = arcpy.env.scratchGDB
             source_name = name
+
+            # clean up temp file
+            os.remove(temp_file)
 
     #: prepend path to database folder for database sources
     else:
