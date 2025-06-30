@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.24](https://github.com/agrc/deq-enviro/compare/v2.0.23...v2.0.24) (2025-06-30)
+
+
+### Bug Fixes
+
+* download daq text file to temp file ([2dba013](https://github.com/agrc/deq-enviro/commit/2dba013e3112150c8572f5797ba69cf0f0305b35))
+
 ## [2.0.23](https://github.com/agrc/deq-enviro/compare/v2.0.22...v2.0.23) (2025-05-22)
 
 
