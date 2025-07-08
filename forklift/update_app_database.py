@@ -63,7 +63,7 @@ def get_source_name_and_workspace(source_data):
 
             name = source_data.split('/')[-1].split('.')[0]
             local_copy = path.join(arcpy.env.scratchGDB, name)
-            print(f'copying {source_data} to {local_copy}')
+            logger.info(f'copying {source_data} to {local_copy}')
 
             #: download to a local file because arcpy doesn't like grabbing the data directly from a URL
             response = requests.get(source_data)
@@ -71,12 +71,18 @@ def get_source_name_and_workspace(source_data):
             temp_file = path.join(arcpy.env.scratchGDB, 'temp.tsv')
             with open(temp_file, 'w') as file:
                 file.write(response.text)
-
+            
             if arcpy.Exists(local_copy):
                 arcpy.management.Delete(local_copy)
             arcpy.management.CopyRows(temp_file, local_copy)
             source_workspace = arcpy.env.scratchGDB
             source_name = name
+
+            #: fix field names that have been altered by the download
+            for field in arcpy.da.Describe(local_copy)['fields']:
+                if field.name.endswith('_'):
+                    logger.info(f'altering field {field.name} in {local_copy}')
+                    arcpy.management.AlterField(local_copy, field.name, field.name[:-1])
 
             # clean up temp file
             os.remove(temp_file)
