@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.24](https://github.com/agrc/deq-enviro/compare/v2.0.23...v2.0.24) (2025-07-08)
+
+
+### Bug Fixes
+
+* download daq text file to temp file ([2dba013](https://github.com/agrc/deq-enviro/commit/2dba013e3112150c8572f5797ba69cf0f0305b35))
+* **forklift:** fix field names with dangling underscores ([5bb8b8a](https://github.com/agrc/deq-enviro/commit/5bb8b8aed161bc078bef8f5a4a2908d2e79ca8c2))
+
 ## [2.0.23](https://github.com/agrc/deq-enviro/compare/v2.0.22...v2.0.23) (2025-05-22)
 
 
