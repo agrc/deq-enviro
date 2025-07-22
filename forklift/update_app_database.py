@@ -60,29 +60,42 @@ def get_source_name_and_workspace(source_data):
             source_workspace = fr'{source_workspace}/services/'
         else:
             #: this is for the web-hosted txt files for air quality
-
-            name = source_data.split('/')[-1].split('.')[0]
+            name = source_data.split("/")[-1].split(".")[0]
             local_copy = path.join(arcpy.env.scratchGDB, name)
-            logger.info(f'copying {source_data} to {local_copy}')
+            logger.info(f"copying {source_data} to {local_copy}")
 
             #: download to a local file because arcpy doesn't like grabbing the data directly from a URL
             response = requests.get(source_data)
             response.raise_for_status()
-            temp_file = path.join(arcpy.env.scratchGDB, 'temp.tsv')
-            with open(temp_file, 'w') as file:
+            temp_file = path.join(arcpy.env.scratchFolder, "temp.tsv")
+            with open(temp_file, "w") as file:
                 file.write(response.text)
-            
+
             if arcpy.Exists(local_copy):
                 arcpy.management.Delete(local_copy)
             arcpy.management.CopyRows(temp_file, local_copy)
             source_workspace = arcpy.env.scratchGDB
             source_name = name
 
-            #: fix field names that have been altered by the download
-            for field in arcpy.da.Describe(local_copy)['fields']:
-                if field.name.endswith('_'):
-                    logger.info(f'altering field {field.name} in {local_copy}')
-                    arcpy.management.AlterField(local_copy, field.name, field.name[:-1])
+            #: fix field types and names that have been altered by the download
+            for field in arcpy.da.Describe(local_copy)["fields"]:
+                if field.name.endswith("_"):
+                    field_type = (
+                        "DATE"
+                        if field.name == "Date__"
+                        else "DOUBLE"
+                        if field.name in ["Longitude_", "Latitude_"]
+                        else field.type
+                    )
+                    new_field_name = field.name[:-1]
+                    logger.info(
+                        f"updating {field.name} in {local_copy} to {new_field_name} ({field_type})"
+                    )
+                    arcpy.management.AddField(local_copy, new_field_name, field_type)
+                    arcpy.management.CalculateField(
+                        local_copy, new_field_name, f"!{field.name}!", "PYTHON3"
+                    )
+                    arcpy.management.DeleteField(local_copy, field.name)
 
             # clean up temp file
             os.remove(temp_file)
