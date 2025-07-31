@@ -4,9 +4,8 @@ const config = {
 
   addons: [
     '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
     '@chromatic-com/storybook',
+    '@storybook/addon-docs'
   ],
 
   core: {},

@@ -9,7 +9,7 @@ function logEvent(eventName, eventParams) {
   console.log(`logEvent: ${eventName}`, eventParams);
 }
 
-/** @type {import('@storybook/react').Preview} */
+/** @type {import('@storybook/react-vite').Preview} */
 const preview = {
   decorators: [
     (Story) => (
