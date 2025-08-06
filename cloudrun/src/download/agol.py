@@ -203,10 +203,12 @@ def create_relationship(
             )
 
 
-def get_agol_data(url, objectIds, return_geometry, where=None) -> FeatureSet:
+def get_agol_data(
+    url: str, objectIds: list[int], return_geometry: bool, where: str = "1=1"
+) -> FeatureSet:
     feature_layer = FeatureLayer(url)
     if objectIds is not None:
-        object_ids = ",".join([str(x) for x in objectIds])
+        object_ids = [str(x) for x in objectIds]
     else:
         object_ids = None
     feature_set = feature_layer.query(
