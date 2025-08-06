@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.26](https://github.com/agrc/deq-enviro/compare/v2.0.25...v2.0.26) (2025-08-06)
+
+
+### Bug Fixes
+
+* **download:** update code to handle breaking changes in the arcgis package ([0b7e92c](https://github.com/agrc/deq-enviro/commit/0b7e92cf793664c6fb96db569473b0845dc280cb))
+
 ## [2.0.26-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.25...v2.0.26-rc.1) (2025-08-06)
 
 
