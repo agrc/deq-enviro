@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.27](https://github.com/agrc/deq-enviro/compare/v2.0.26...v2.0.27) (2025-08-07)
+
+
+### Bug Fixes
+
+* **download:** add support for datasets with mixed multi and single geometry types ([907a384](https://github.com/agrc/deq-enviro/commit/907a38457ec621bda11ddcca18e228c2af16d24e))
+
 ## [2.0.27-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.26...v2.0.27-rc.1) (2025-08-07)
 
 
