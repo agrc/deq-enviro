@@ -4,6 +4,14 @@ A module for downloading data from enviro.deq.utah.gov feature services.
 
 import shutil
 from pathlib import Path
+from shapely import (
+    LineString,
+    MultiLineString,
+    MultiPoint,
+    MultiPolygon,
+    Point,
+    Polygon,
+)
 
 import geopandas as gpd
 from arcgis.features import (
@@ -57,6 +65,23 @@ def write_to_output(tableName, feature_set, format):
         gdf.drop("OBJECTID", axis=1, inplace=True)
         driver = "OpenFileGDB"
         output_path = fgdb_path
+
+        #: OpenFileGDB does not support a mix of multi and single geometry types
+        #: so we convert them all to multi if there are any multi geometries
+        if (gdf.geom_type == "MultiPolygon").any():
+            gdf.geometry = gdf.geometry.map(
+                lambda geom: MultiPolygon([geom]) if isinstance(geom, Polygon) else geom
+            )
+        elif (gdf.geom_type == "MultiLineString").any():
+            gdf.geometry = gdf.geometry.map(
+                lambda geom: MultiLineString([geom])
+                if isinstance(geom, LineString)
+                else geom
+            )
+        elif (gdf.geom_type == "MultiPoint").any():
+            gdf.geometry = gdf.geometry.map(
+                lambda geom: MultiPoint([geom]) if isinstance(geom, Point) else geom
+            )
     elif format == "geojson":
         driver = "GeoJSON"
         output_path = output_folder / f"{tableName}.geojson"
@@ -106,8 +131,7 @@ def download(id, layers, format):
             write_to_output(tableName, feature_set, format)
 
         except Exception as e:
-            logger.info(f"error processing layer: {tableName}")
-            logger.error(e)
+            logger.exception(f"error processing layer: {tableName}")
 
             update_job_layer(id, tableName, False, str(e))
 
@@ -204,15 +228,15 @@ def create_relationship(
 
 
 def get_agol_data(
-    url: str, objectIds: list[int], return_geometry: bool, where: str = "1=1"
+    url: str, object_ids: list[int], return_geometry: bool, where: str = "1=1"
 ) -> FeatureSet:
     feature_layer = FeatureLayer(url)
-    if objectIds is not None:
-        object_ids = [str(x) for x in objectIds]
+    if object_ids is not None:
+        object_ids_parameter = [str(x) for x in object_ids]
     else:
-        object_ids = None
+        object_ids_parameter = None
     feature_set = feature_layer.query(
-        object_ids=object_ids, where=where, return_geometry=return_geometry
+        object_ids=object_ids_parameter, where=where, return_geometry=return_geometry
     )
     try:
         feature_set.object_id_field_name = feature_layer.properties["objectIdField"]
