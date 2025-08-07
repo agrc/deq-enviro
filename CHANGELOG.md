@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.28](https://github.com/agrc/deq-enviro/compare/v2.0.27...v2.0.28) (2025-08-07)
+
+
+### Bug Fixes
+
+* **download:** don't try to fix geometry for stand-alone tables ([90f8437](https://github.com/agrc/deq-enviro/commit/90f8437cd03c277906cce8e3c1941531e8e4dd88))
+
 ## [2.0.27](https://github.com/agrc/deq-enviro/compare/v2.0.26...v2.0.27) (2025-08-07)
 
 
