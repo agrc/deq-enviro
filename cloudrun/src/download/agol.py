@@ -53,9 +53,8 @@ def write_to_output(tableName, feature_set, format):
             gdf.set_crs(sdf.spatial.sr["wkid"], inplace=True)
 
     #: default to csv for tables without geometry for shapefile and geojson formats
-    if format == "csv" or (
-        format in ["shapefile", "geojson"] and feature_set.geometry_type is None
-    ):
+    is_table = feature_set.geometry_type is None
+    if format == "csv" or (format in ["shapefile", "geojson"] and is_table):
         driver = "CSV"
         output_path = output_folder / f"{tableName}.csv"
     elif format == "excel":
@@ -66,22 +65,26 @@ def write_to_output(tableName, feature_set, format):
         driver = "OpenFileGDB"
         output_path = fgdb_path
 
-        #: OpenFileGDB does not support a mix of multi and single geometry types
-        #: so we convert them all to multi if there are any multi geometries
-        if (gdf.geom_type == "MultiPolygon").any():
-            gdf.geometry = gdf.geometry.map(
-                lambda geom: MultiPolygon([geom]) if isinstance(geom, Polygon) else geom
-            )
-        elif (gdf.geom_type == "MultiLineString").any():
-            gdf.geometry = gdf.geometry.map(
-                lambda geom: MultiLineString([geom])
-                if isinstance(geom, LineString)
-                else geom
-            )
-        elif (gdf.geom_type == "MultiPoint").any():
-            gdf.geometry = gdf.geometry.map(
-                lambda geom: MultiPoint([geom]) if isinstance(geom, Point) else geom
-            )
+        #: check to see if gdf has a geometry column
+        if not is_table:
+            #: OpenFileGDB does not support a mix of multi and single geometry types
+            #: so we convert them all to multi if there are any multi geometries
+            if (gdf.geom_type == "MultiPolygon").any():
+                gdf.geometry = gdf.geometry.map(
+                    lambda geom: MultiPolygon([geom])
+                    if isinstance(geom, Polygon)
+                    else geom
+                )
+            elif (gdf.geom_type == "MultiLineString").any():
+                gdf.geometry = gdf.geometry.map(
+                    lambda geom: MultiLineString([geom])
+                    if isinstance(geom, LineString)
+                    else geom
+                )
+            elif (gdf.geom_type == "MultiPoint").any():
+                gdf.geometry = gdf.geometry.map(
+                    lambda geom: MultiPoint([geom]) if isinstance(geom, Point) else geom
+                )
     elif format == "geojson":
         driver = "GeoJSON"
         output_path = output_folder / f"{tableName}.geojson"
