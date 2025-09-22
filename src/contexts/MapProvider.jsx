@@ -1,12 +1,12 @@
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { MapContext } from './MapContext';
-import { useFirebase } from './useFirebase';
 
 export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
 
   const zoom = (geometry) => {
     logEvent('zoom-to-feature');

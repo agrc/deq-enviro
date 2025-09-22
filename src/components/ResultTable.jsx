@@ -1,5 +1,6 @@
 import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import clsx from 'clsx';
 import ky from 'ky';
 import PropTypes from 'prop-types';
@@ -7,7 +8,6 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { fieldConfigs, fieldNames } from '../../functions/common/config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
-import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
@@ -48,7 +48,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
   const { relationshipClasses: allRelationshipClasses } =
     useRemoteConfigValues();
 
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
 
   const identify = useCallback(
     async (oid) => {

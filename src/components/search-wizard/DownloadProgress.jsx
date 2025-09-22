@@ -1,11 +1,10 @@
-import { doc } from 'firebase/firestore';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import PropTypes from 'prop-types';
 import { BulletList } from 'react-content-loader';
-import { useFirestore, useFirestoreDocData } from 'reactfire';
 import { fieldNames } from '../../../functions/common/config';
-import { useFirebase } from '../../contexts/useFirebase';
 import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
+import useFirestoreDocData from './useFirestoreDocData';
 
 /**
  * Displays download progress for layers
@@ -13,13 +12,13 @@ import ResultStatusIcons from './ResultStatusIcons';
  * @returns {JSX.Element}
  */
 export default function DownloadProgress({ layers, id, error }) {
-  const firestore = useFirestore();
+  const {
+    loading,
+    data,
+    error: docError,
+  } = useFirestoreDocData('jobs', `${id}-results`);
 
-  const ref = doc(firestore, 'jobs', `${id}-results`);
-
-  const { status: documentStatus, data } = useFirestoreDocData(ref);
-
-  if (documentStatus === 'loading' || data === undefined) {
+  if (loading || data === undefined) {
     return <BulletList className="h-80 w-full p-2" />;
   }
 
@@ -31,7 +30,7 @@ export default function DownloadProgress({ layers, id, error }) {
       layers={layers}
       layerResults={layerResults}
       url={jobStatus === 'complete' ? url : null}
-      error={error || jobError}
+      error={error || docError || jobError}
     />
   );
 }
@@ -42,7 +41,7 @@ export default function DownloadProgress({ layers, id, error }) {
  * @returns {JSX.Element}
  */
 export function DownloadProgressInner({ layers, layerResults, error, url }) {
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
 
   return (
     <>
