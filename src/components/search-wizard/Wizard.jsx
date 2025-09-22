@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import ky from 'ky';
 import { Suspense, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';
 import { schemas } from '../../../functions/common/validation.js';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider.jsx';
 import { useSearchMachine } from '../../contexts/SearchMachineContext.js';
-import { useFirebase } from '../../contexts/useFirebase.jsx';
 import Button from '../../utah-design-system/Button.jsx';
 import Spinner from '../../utah-design-system/Spinner.jsx';
 import {
@@ -45,7 +45,7 @@ export default function SearchWizard() {
     queryLayers: [],
     relatedTables: [],
   });
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
 
   const { relationshipClasses: allRelationshipClasses } =
     useRemoteConfigValues();

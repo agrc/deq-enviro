@@ -68,6 +68,7 @@
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-table": "^8.21.3",
     "@ugrc/layer-selector": "^6.4.0",
+    "@ugrc/utah-design-system": "^1.28.2",
     "@utahdts/utah-design-system-header": "^3.0.5",
     "@xstate/react": "^5.0.5",
     "clsx": "^2.1.1",
@@ -85,7 +86,6 @@
     "react-draggable": "^4.5.0",
     "react-error-boundary": "^6.0.0",
     "react-virtual": "^2.10.4",
-    "reactfire": "^4.2.3",
     "tailwind-merge": "^2.6.0",
     "use-immer": "^0.11.0",
     "xstate": "^5.20.1",
@@ -94,6 +94,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
     "@dotenvx/dotenvx": "^1.48.0",
+    "@storybook/addon-docs": "^9.1.0",
     "@storybook/addon-links": "^9.1.0",
     "@storybook/react-vite": "^9.1.0",
     "@tailwindcss/forms": "^0.5.10",
@@ -122,8 +123,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vitest": "^3.2.4",
-    "@storybook/addon-docs": "^9.1.0"
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "react-virtual": {

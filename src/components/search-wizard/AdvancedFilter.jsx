@@ -1,10 +1,10 @@
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import { useRemoteConfigValues } from '../../contexts/RemoteConfigProvider';
 import { useSearchMachine } from '../../contexts/SearchMachineContext';
-import { useFirebase } from '../../contexts/useFirebase';
 import stateOfUtahJson from '../../data/state-of-utah.json';
 import Select from '../../utah-design-system/Select';
 import { getConfigByTableName } from '../../utils';
@@ -136,7 +136,7 @@ export default function AdvancedFilter({ visible }) {
 
   const [filterType, setFilterType] = useState('statewide');
 
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
   useEffect(() => {
     logEvent('filter-type-selected', filterType);
   }, [filterType, logEvent]);

@@ -1,10 +1,10 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { FirebaseAppProvider } from '@ugrc/utah-design-system';
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
-import { FirebaseAppProvider } from 'reactfire';
 import App from './App.jsx';
 import './console-tools.js';
 import FirebaseProvider from './contexts/FirebaseProvider.jsx';
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <FirebaseAppProvider
-          firebaseConfig={JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG)}
+          config={JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG)}
         >
           <FirebaseProvider>
             <div id="header" />

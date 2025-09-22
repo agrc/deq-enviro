@@ -13,6 +13,7 @@ import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
 import LayerSelector from '@ugrc/layer-selector';
 import '@ugrc/layer-selector/src/LayerSelector.css';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
@@ -20,7 +21,6 @@ import { fieldNames } from '../../functions/common/config';
 import appConfig from '../app-config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import { useSearchMachine } from '../contexts/SearchMachineContext';
-import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
@@ -137,7 +137,7 @@ export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
   const [showSpinner, setShowSpinner] = useState(false);
 
   const map = useRef(null);
