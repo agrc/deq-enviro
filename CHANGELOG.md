@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.0.29-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.28...v2.0.29-rc.1) (2025-09-24)
+
+
+### Features
+
+* add visual cue to division headers if they contain a selected query layer ([01e1970](https://github.com/agrc/deq-enviro/commit/01e19706dde93dada43c4e2035ff819d959d0f47)), closes [#474](https://github.com/agrc/deq-enviro/issues/474)
+
+
+### Bug Fixes
+
+* fix bug causing crash in some cases after searching by address ([2845c98](https://github.com/agrc/deq-enviro/commit/2845c9836e18907b33aba0461de1d8116ccd46df))
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([ce44201](https://github.com/agrc/deq-enviro/commit/ce44201b24ec0666ca2e53ac2aa0c93cc95a4eef))
+* remove unmaintained reactfire dependency ([da065fd](https://github.com/agrc/deq-enviro/commit/da065fd8a1022a650c2235ee6c8a017224bf1ce1))
+
 ## [2.0.28](https://github.com/agrc/deq-enviro/compare/v2.0.27...v2.0.28) (2025-08-07)
 
 
