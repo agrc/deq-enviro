@@ -20,6 +20,7 @@
     "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions/functions-key-dev.json\" && firebase emulators:start --import .emulator-data --only functions,storage,firestore",
     "dev:vite": "vite",
     "format": "prettier --write .",
+    "postinstall": "pnpm run copy:arcgis",
     "lint": "eslint ./ && tsc",
     "lint:fix": "eslint ./ --quiet --fix",
     "preview": "vite preview",
@@ -49,6 +50,11 @@
     ],
     "semi": true,
     "singleQuote": true
+  },
+  "overrides": {
+    "react-virtual": {
+      "react": "$react"
+    }
   },
   "dependencies": {
     "@arcgis/core": "^4.33.14",
@@ -124,10 +130,5 @@
     "typescript": "^5.9.2",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
-  },
-  "overrides": {
-    "react-virtual": {
-      "react": "$react"
-    }
   }
 }
