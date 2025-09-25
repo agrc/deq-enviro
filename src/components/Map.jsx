@@ -11,9 +11,7 @@ import CoordinateConversion from '@arcgis/core/widgets/CoordinateConversion';
 import Expand from '@arcgis/core/widgets/Expand';
 import Legend from '@arcgis/core/widgets/Legend';
 import Print from '@arcgis/core/widgets/Print';
-import LayerSelector from '@ugrc/layer-selector';
-import '@ugrc/layer-selector/src/LayerSelector.css';
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { LayerSelector, useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
@@ -241,79 +239,93 @@ export default function MapComponent() {
     });
 
     setSelectorOptions({
-      view: view.current,
-      quadWord: import.meta.env.VITE_DISCOVER_KEY,
-      baseLayers: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR'],
-      overlays: [
-        {
-          Factory: FeatureLayer,
-          url: appConfig.urls.streams,
-          id: 'NHD Streams',
-          minScale: 144_500,
-          renderer: {
-            type: 'simple',
-            symbol: {
-              type: 'simple-line',
-              color: [0, 122, 194, 0.75],
-              width: 2,
-              style: 'short-dash-dot',
-            },
+      options: {
+        view: view.current,
+        quadWord: import.meta.env.VITE_DISCOVER_KEY,
+        basemaps: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR'],
+        operationalLayers: [
+          {
+            label: 'NHD Streams',
+            function: () =>
+              new FeatureLayer({
+                url: appConfig.urls.streams,
+                minScale: 144_500,
+                renderer: {
+                  type: 'simple',
+                  symbol: {
+                    type: 'simple-line',
+                    color: [0, 122, 194, 0.75],
+                    width: 2,
+                    style: 'short-dash-dot',
+                  },
+                },
+              }),
           },
-        },
-        {
-          Factory: VectorTileLayer,
-          url: appConfig.urls.parcels,
-          id: 'Parcels',
-          minScale: 144_500,
-        },
-        {
-          Factory: VectorTileLayer,
-          url: appConfig.urls.utahPLSS,
-          id: 'Township/Range/Section',
-        },
-        {
-          Factory: VectorTileLayer,
-          url: appConfig.urls.landOwnership,
-          id: 'Land Ownership',
-        },
-        {
-          Factory: FeatureLayer,
-          url: appConfig.urls.environmentalCovenants,
-          id: 'Environmental Covenants',
-        },
-        {
-          Factory: FeatureLayer,
-          url: appConfig.urls.HUC8,
-          id: 'Hydrologic Units (HUC8)',
-          legendEnabled: false,
-          labelingInfo: [
-            {
-              labelExpressionInfo: {
-                expression: '$feature.NAME',
-              },
-              symbol: {
-                type: 'text',
-                color: 'white',
-                haloColor: 'gray',
-                haloSize: 1,
-              },
-            },
-          ],
-          renderer: {
-            type: 'simple',
-            symbol: {
-              type: 'simple-fill',
-              color: [0, 122, 194, 0.3],
-              outline: {
-                color: [255, 255, 255, 0.65],
-                width: 2,
-                style: 'solid',
-              },
-              style: 'solid',
-            },
+          {
+            label: 'Parcels',
+            function: () =>
+              new VectorTileLayer({
+                url: appConfig.urls.parcels,
+                minScale: 144_500,
+              }),
           },
-        },
-      ],
+          {
+            label: 'Township/Range/Section',
+            function: () =>
+              new VectorTileLayer({
+                url: appConfig.urls.utahPLSS,
+              }),
+          },
+          {
+            label: 'Land Ownership',
+            function: () =>
+              new VectorTileLayer({
+                url: appConfig.urls.landOwnership,
+              }),
+          },
+          {
+            label: 'Environmental Covenants',
+            function: () =>
+              new FeatureLayer({
+                url: appConfig.urls.environmentalCovenants,
+              }),
+          },
+          {
+            label: 'Hydrologic Units (HUC8)',
+            function: () =>
+              new FeatureLayer({
+                url: appConfig.urls.HUC8,
+                legendEnabled: false,
+                labelingInfo: [
+                  {
+                    labelExpressionInfo: {
+                      expression: '$feature.NAME',
+                    },
+                    symbol: {
+                      type: 'text',
+                      color: 'white',
+                      haloColor: 'gray',
+                      haloSize: 1,
+                    },
+                  },
+                ],
+                renderer: {
+                  type: 'simple',
+                  symbol: {
+                    type: 'simple-fill',
+                    color: [0, 122, 194, 0.3],
+                    outline: {
+                      color: [255, 255, 255, 0.65],
+                      width: 2,
+                      style: 'solid',
+                    },
+                    style: 'solid',
+                  },
+                },
+              }),
+          },
+        ],
+      },
     });
 
     return () => {
