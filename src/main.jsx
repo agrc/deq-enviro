@@ -1,5 +1,6 @@
-import '@arcgis/core/assets/esri/themes/light/main.css';
+import esriConfig from '@arcgis/core/config';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import initializeTheme from '@ugrc/esri-theme-toggle';
 import { FirebaseAppProvider } from '@ugrc/utah-design-system';
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
@@ -10,6 +11,9 @@ import './console-tools.js';
 import FirebaseProvider from './contexts/FirebaseProvider.jsx';
 import './index.css';
 import RootErrorFallback from './utah-design-system/RootErrorFallback.jsx';
+
+esriConfig.assetsPath = '/assets';
+initializeTheme();
 
 const queryClient = new QueryClient();
 
