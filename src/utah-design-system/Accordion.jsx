@@ -1,6 +1,5 @@
 import * as Accordion from '@radix-ui/react-accordion';
 import PropTypes from 'prop-types';
-import { twJoin } from 'tailwind-merge';
 import Icon from './Icon';
 
 export function AccordionRoot({ type, children, ...props }) {
@@ -16,16 +15,18 @@ AccordionRoot.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function AccordionPanel({ title, children }) {
+export function AccordionPanel({ title, hasSelectedLayers, children }) {
   return (
     <Accordion.Item value={title} className="mb-1 overflow-hidden rounded-md">
       <Accordion.Header>
         <Accordion.Trigger
-          className={twJoin(
-            'group flex w-full items-center justify-between',
-            'bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white',
-          )}
+          className={
+            'group relative flex w-full items-center justify-between bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
+          }
         >
+          {hasSelectedLayers && (
+            <span className="absolute right-1 top-1 flex h-1.5 w-1.5 rounded-full bg-accent-light"></span>
+          )}
           {title}
           <Icon
             name="circleChevronDown"
@@ -44,4 +45,5 @@ export function AccordionPanel({ title, children }) {
 AccordionPanel.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  hasSelectedLayers: PropTypes.bool,
 };

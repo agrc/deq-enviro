@@ -48,7 +48,7 @@ export default function StreetAddress({ send }: StreetAddressProps) {
 
     return () => {
       if (graphicsLayer.current) {
-        mapView.map.remove(graphicsLayer.current);
+        mapView?.map?.remove(graphicsLayer.current);
       }
     };
   }, [mapView]);
@@ -61,8 +61,8 @@ export default function StreetAddress({ send }: StreetAddressProps) {
     setSherlockConfig({
       placeHolder: 'street address, city or zip',
       onSherlockMatch: (features) => {
-        graphicsLayer.current.removeAll();
-        graphicsLayer.current.add(features[0]);
+        graphicsLayer.current!.removeAll();
+        graphicsLayer.current!.add(features[0]);
         setAddress(features[0]);
       },
       provider,

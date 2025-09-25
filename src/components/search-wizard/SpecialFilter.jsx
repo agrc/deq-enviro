@@ -1,5 +1,5 @@
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import PropTypes from 'prop-types';
-import { useFirebase } from '../../contexts/useFirebase';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Input from '../../utah-design-system/Input';
 import RadioGroup from '../../utah-design-system/RadioGroup';
@@ -12,7 +12,7 @@ import RadioGroup from '../../utah-design-system/RadioGroup';
  * @returns {JSX.Element}
  */
 export default function SpecialFilter({ config, value, onChange }) {
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
   /**
    * @param {boolean} checked
    * @param {string} optionValue

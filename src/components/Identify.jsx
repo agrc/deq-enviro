@@ -1,7 +1,7 @@
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineContext';
-import { useFirebase } from '../contexts/useFirebase';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
 import Icon from '../utah-design-system/Icon';
@@ -46,7 +46,7 @@ function Identify(
   forwardedRef,
 ) {
   const { zoom } = useMap();
-  const { logEvent } = useFirebase();
+  const logEvent = useFirebaseAnalytics();
   const send = useSearchMachine()[1];
 
   const columns = [

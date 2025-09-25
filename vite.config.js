@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
@@ -19,5 +19,11 @@ export default defineConfig({
   ],
   resolve: {
     dedupe: ['@arcgis/core', 'firebase'],
+  },
+  test: {
+    // this config resolves this error message that started happening after upgrading deps:
+    // TypeError: Unknown file extension ".css" for /deq-enviro/node_modules/.pnpm/@esri+calcite-components@3.3.0_@lit+context@1.1.6/node_modules/@esri/calcite-components/dist/calcite/calcite.css
+    pool: 'vmThreads',
+    environment: 'happy-dom',
   },
 });
