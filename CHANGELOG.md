@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.29-rc.2](https://github.com/agrc/deq-enviro/compare/v2.0.29-rc.1...v2.0.29-rc.2) (2025-09-25)
+
+
+### Bug Fixes
+
+* replace deprecated layer selector with new package ([67b48df](https://github.com/agrc/deq-enviro/commit/67b48df4378f2cd2585076db92ebb44b255215d6))
+
 ## [2.0.29-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.28...v2.0.29-rc.1) (2025-09-24)
 
 
