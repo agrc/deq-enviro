@@ -1,7 +1,6 @@
 import ugrcPreset from '@ugrc/tailwind-preset';
 import colors from 'tailwindcss/colors';
 
-console.log('colors', ugrcPreset.theme.colors);
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
