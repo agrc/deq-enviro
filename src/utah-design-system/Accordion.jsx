@@ -15,7 +15,7 @@ AccordionRoot.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function AccordionPanel({ title, hasSelectedLayers, children }) {
+export function AccordionPanel({ title, numSelectedLayers, children }) {
   return (
     <Accordion.Item value={title} className="mb-1 overflow-hidden rounded-md">
       <Accordion.Header>
@@ -24,10 +24,7 @@ export function AccordionPanel({ title, hasSelectedLayers, children }) {
             'group relative flex w-full items-center justify-between bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
           }
         >
-          {hasSelectedLayers && (
-            <span className="absolute right-1 top-1 flex h-1.5 w-1.5 rounded-full bg-accent-light"></span>
-          )}
-          {title}
+          {title} {numSelectedLayers > 0 && `(${numSelectedLayers})`}
           <Icon
             name="circleChevronDown"
             label="chevron down"
@@ -45,5 +42,5 @@ export function AccordionPanel({ title, hasSelectedLayers, children }) {
 AccordionPanel.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  hasSelectedLayers: PropTypes.bool,
+  numSelectedLayers: PropTypes.number,
 };

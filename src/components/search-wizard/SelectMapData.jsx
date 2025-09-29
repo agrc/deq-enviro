@@ -37,17 +37,17 @@ export default function SelectMapData({ queryLayers }) {
                 b[fieldNames.queryLayers.layerName],
               ),
             );
-          const hasSelectedLayers = divisionQueryLayers.some((queryLayer) =>
+          const numSelectedLayers = divisionQueryLayers.filter((queryLayer) =>
             state.context.searchLayerTableNames.includes(
               queryLayer[fieldNames.queryLayers.tableName],
             ),
-          );
+          ).length;
 
           return (
             <AccordionPanel
               key={division}
               title={division}
-              hasSelectedLayers={hasSelectedLayers}
+              numSelectedLayers={numSelectedLayers}
             >
               {divisionQueryLayers.map((queryLayer) => {
                 const tableName = queryLayer[fieldNames.queryLayers.tableName];
