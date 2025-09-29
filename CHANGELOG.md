@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.29-rc.3](https://github.com/agrc/deq-enviro/compare/v2.0.29-rc.2...v2.0.29-rc.3) (2025-09-29)
+
+
+### Bug Fixes
+
+* switch to more uds friendly selected layers accordion header ([bbeae01](https://github.com/agrc/deq-enviro/commit/bbeae019e4289514d794889d58a134702e78ecff))
+
 ## [2.0.29-rc.2](https://github.com/agrc/deq-enviro/compare/v2.0.29-rc.1...v2.0.29-rc.2) (2025-09-25)
 
 
