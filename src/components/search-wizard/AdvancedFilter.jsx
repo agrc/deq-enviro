@@ -1,5 +1,5 @@
 import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config';

@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Suspense, createRef, useEffect, useState } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineContext';
 import useMap from '../contexts/useMap';

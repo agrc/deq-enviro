@@ -1,7 +1,7 @@
 import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import ky from 'ky';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
