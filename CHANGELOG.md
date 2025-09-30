@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.0.29](https://github.com/agrc/deq-enviro/compare/v2.0.28...v2.0.29) (2025-09-30)
+
+
+### Features
+
+* add visual cue to division headers if they contain a selected query layer ([a6fe288](https://github.com/agrc/deq-enviro/commit/a6fe288f5d8293ba0d6666c3d1636c7c5ff01eb0)), closes [#474](https://github.com/agrc/deq-enviro/issues/474)
+
+
+### Bug Fixes
+
+* fix bug causing crash in some cases after searching by address ([27569cc](https://github.com/agrc/deq-enviro/commit/27569cc599b5db973cf504733b68f8248c637e64))
+* replace deprecated layer selector with new package ([6a6138f](https://github.com/agrc/deq-enviro/commit/6a6138f01a236afa7696ff46deb1dcbe15bc6758))
+* switch to more uds friendly selected layers accordion header ([786f967](https://github.com/agrc/deq-enviro/commit/786f967e2fc45733c5fd4610aab95808620d512c))
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([294182d](https://github.com/agrc/deq-enviro/commit/294182d41c73f91e5ccc54d0c7561838998d8c39))
+* **dev:** bump vite in the npm_and_yarn group across 1 directory ([b1e5fa0](https://github.com/agrc/deq-enviro/commit/b1e5fa02deb4493c706b16ce84f9f4e42cbc92fd))
+* remove unmaintained reactfire dependency ([dddb3e0](https://github.com/agrc/deq-enviro/commit/dddb3e02eac316d49c765c006f445720cc5f2a16))
+
 ## [2.0.29-rc.3](https://github.com/agrc/deq-enviro/compare/v2.0.29-rc.2...v2.0.29-rc.3) (2025-09-29)
 
 
