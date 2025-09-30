@@ -21,7 +21,7 @@
     "got": "^14.4.9",
     "knex": "^3.1.0",
     "pg": "^8.16.3",
-    "yup": "^1.6.1"
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.4.1"
