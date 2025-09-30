@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import Draggable from 'react-draggable';

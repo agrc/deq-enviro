@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { fieldNames } from '../../../functions/common/config';
@@ -13,6 +13,7 @@ import SpecialFilter from './SpecialFilter';
  * Type definitions for component
  *
  * @typedef {import('../../../functions/common/config').FieldFilterConfig} FieldFilterConfig
+ *
  *
  * @typedef {import('../../contexts/SearchMachine').LayerFilterValue} LayerFilterValue
  */
