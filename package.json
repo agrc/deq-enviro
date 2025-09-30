@@ -75,8 +75,8 @@
     "@tanstack/react-table": "^8.21.3",
     "@ugrc/esri-theme-toggle": "^1.1.2",
     "@ugrc/utah-design-system": "^1.28.2",
-    "@utahdts/utah-design-system-header": "^3.0.5",
-    "@xstate/react": "^5.0.5",
+    "@utahdts/utah-design-system-header": "^4.0.0",
+    "@xstate/react": "^6.0.0",
     "clsx": "^2.1.1",
     "downshift": "^9.0.10",
     "firebase": "^12.3.0",
@@ -130,7 +130,7 @@
     "storybook": "^9.1.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.2",
-    "vite": "^6.3.6",
+    "vite": "^7.0.6",
     "vitest": "^3.2.4"
   }
 }
