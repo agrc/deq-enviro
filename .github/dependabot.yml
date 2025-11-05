@@ -5,7 +5,7 @@ updates:
       - /
       - /functions
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       safe-dependencies:
         update-types:
@@ -24,10 +24,11 @@ updates:
       semver-patch-days: 7
       exclude:
         - '@ugrc/*'
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       ci-dependencies:
         dependency-type: production
@@ -35,10 +36,11 @@ updates:
       default-days: 10
       exclude:
         - agrc/*
+
   - package-ecosystem: pip
     directory: /cloudrun
     schedule:
-      interval: monthly
+      interval: quarterly
     groups:
       safe-dependencies:
         update-types:
@@ -58,3 +60,14 @@ updates:
       exclude:
         - ugrc-*
         - agrc-*
+
+  - package-ecosystem: docker
+    directory: /cloudrun
+    schedule:
+      interval: quarterly
+    groups:
+      docker-dependencies:
+        patterns:
+          - '*'
+    commit-message:
+      prefix: deps(docker)
