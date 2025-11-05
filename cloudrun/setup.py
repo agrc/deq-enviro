@@ -4,6 +4,7 @@
 setup.py
 A module that installs download as a module
 """
+
 from pathlib import Path
 
 from setuptools import find_packages, setup
@@ -49,18 +50,18 @@ setup(
         "flask==3.*",
         "openpyxl==3.*",  # required for writing excel files with pandas
         "geopandas==1.*",  # required for writing to FGDBs
-        "pyshp==2.*",  # required for writing shapefiles with arcgis without arcpy
+        "pyshp==3.*",  # required for writing shapefiles with arcgis without arcpy
         "python-dotenv==1.*",
         "simplejson==3.*",
     ],
     extras_require={
         "dev": [
-            "pytest-cov>=4,<7",
+            "pytest-cov==7.*",
             "pytest-instafail==0.5.*",
             "pytest-mock==3.*",
             "pytest-ruff==0.*",
             "pytest-watch==4.*",
-            "pytest>=7,<9",
+            "pytest==8.*",
             "ruff==0.*",
         ],
     },
