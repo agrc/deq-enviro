@@ -1,8 +1,8 @@
 import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { ArrowDownIcon, CircleAlertIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { BulletList } from 'react-content-loader';
 import { fieldNames } from '../../../functions/common/config';
-import Icon from '../../utah-design-system/Icon';
 import ResultStatusIcons from './ResultStatusIcons';
 import useFirestoreDocData from './useFirestoreDocData';
 
@@ -74,17 +74,11 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
           onClick={() => logEvent('download-zip-file', { url })}
         >
-          <Icon className="mr-2" name="arrowDown" label="download" /> Download
-          ZIP File
+          <ArrowDownIcon className="mr-2" label="download" /> Download ZIP File
         </a>
       ) : error ? (
         <p className="mt-4 flex align-middle text-error-500">
-          <Icon
-            name="error"
-            className="mr-1"
-            label="error message"
-            size="3xl"
-          />
+          <CircleAlertIcon className="mr-1 size-6" label="error message" />
           There was an error downloading the data: {error}
         </p>
       ) : (

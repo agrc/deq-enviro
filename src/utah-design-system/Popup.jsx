@@ -1,7 +1,7 @@
 import * as RadixPopover from '@radix-ui/react-popover';
+import { XIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
-import Icon from './Icon';
 
 export default function Popup({ children, trigger }) {
   return (
@@ -35,7 +35,7 @@ Popup.propTypes = {
 export function CloseButton({ className }) {
   return (
     <RadixPopover.Close className={className}>
-      <Icon name="x" label="close" size="xs" className="text-slate-600" />
+      <XIcon label="close" className="size-4 text-slate-600" />
     </RadixPopover.Close>
   );
 }

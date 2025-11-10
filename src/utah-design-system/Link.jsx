@@ -1,6 +1,6 @@
+import { ExternalLinkIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
-import Icon from './Icon';
 
 export default function Link({ className, href, external, children }) {
   return (
@@ -15,12 +15,7 @@ export default function Link({ className, href, external, children }) {
     >
       <span className="underline">{children}</span>
       {external ? (
-        <Icon
-          className="ml-1"
-          name="externalLink"
-          label="more info"
-          size="xs"
-        />
+        <ExternalLinkIcon className="ml-1 size-4" label="more info" />
       ) : null}
     </a>
   );

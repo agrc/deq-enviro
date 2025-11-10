@@ -36,7 +36,7 @@ export default function RadioGroup({
               className={twJoin(
                 'rounded-full p-1',
                 !item.disabled &&
-                  'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200',
+                  'group-active:bg-slate-200 group-hover:bg-slate-200 group-focus:bg-slate-200',
               )}
             >
               <RadixRadioGroup.Item

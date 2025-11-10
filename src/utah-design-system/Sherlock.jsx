@@ -4,10 +4,10 @@ import Query from '@arcgis/core/rest/support/Query';
 import { useCombobox } from 'downshift';
 import ky from 'ky';
 import { debounce, escapeRegExp, sortBy, uniqWith } from 'lodash-es';
+import { SearchIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
-import Icon from './Icon';
 import Spinner from './Spinner';
 
 const defaultSymbols = {
@@ -281,7 +281,7 @@ export default function Sherlock({
           {state.loading ? (
             <Spinner ariaLabel="searching" />
           ) : (
-            <Icon name="search" label="search" />
+            <SearchIcon className="size-4" label="search" />
           )}
         </div>
         <input

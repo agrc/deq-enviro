@@ -1,10 +1,10 @@
 import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { ArrowLeftIcon, EyeIcon, SearchIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { useSearchMachine } from '../contexts/SearchMachineContext';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
-import Icon from '../utah-design-system/Icon';
 import Link from '../utah-design-system/Link';
 import SimpleTable from '../utah-design-system/SimpleTable';
 import * as Tabs from '../utah-design-system/Tabs';
@@ -95,16 +95,16 @@ function Identify(
         ) : null}
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
         <Button className={buttonClasses} onClick={() => zoom(geometry)}>
-          <Icon name="visibility" className="mr-2" label="zoom to feature" />
+          <EyeIcon className="mr-2 size-5" label="zoom to feature" />
           Zoom to feature
         </Button>
         <Button className={buttonClasses} onClick={onBack}>
-          <Icon name="arrowLeft" className="mr-2" label="back" />
+          <ArrowLeftIcon className="mr-2 size-5" label="back" />
           Back to results
         </Button>
         {geometry.type === 'polygon' ? (
           <Button className={buttonClasses} onClick={setFilter}>
-            <Icon name="search" className="mr-2" label="filter" />
+            <SearchIcon className="mr-2 size-5" label="filter" />
             New search <br /> using feature
           </Button>
         ) : null}

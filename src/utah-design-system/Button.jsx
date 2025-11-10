@@ -1,7 +1,7 @@
+import { ArrowRightIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icon from './Icon';
 import Spinner from './Spinner';
 
 const COLORS = {
@@ -68,10 +68,20 @@ const SIZES = {
   xl: 'text-xl px-10 py-2 min-h-[3rem]',
 };
 
-function getOneSizeSmaller(size) {
-  const lowerIndex = Object.keys(SIZES).indexOf(size) - 1;
+const ICON_SIZES = {
+  xs: 'size-3',
+  sm: 'size-4',
+  base: 'size-5',
+  lg: 'size-6',
+  xl: 'size-7',
+};
 
-  return SIZES[lowerIndex >= 0 ? lowerIndex : 0];
+function getOneSizeSmaller(size) {
+  const keys = Object.keys(SIZES);
+  const lowerIndex = keys.indexOf(size) - 1;
+  const finalIndex = lowerIndex >= 0 ? lowerIndex : 0;
+
+  return ICON_SIZES[keys[finalIndex]];
 }
 
 function InnerButton(
@@ -120,10 +130,8 @@ function InnerButton(
       onClick={onClick}
     >
       {children}
-      <Icon
-        name="arrowRight"
-        className="ml-1"
-        size={getOneSizeSmaller(size)}
+      <ArrowRightIcon
+        className={`ml-1 ${getOneSizeSmaller(size)}`}
         label="link"
       />
     </a>

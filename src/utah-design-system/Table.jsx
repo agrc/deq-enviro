@@ -4,11 +4,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { twJoin, twMerge } from 'tailwind-merge';
-import Icon from './Icon';
 
 // note: I tried v3 beta of react-virtual but it didn't quite work
 
@@ -91,18 +91,14 @@ function InnerTable(
                         )}
                         {{
                           asc: (
-                            <Icon
-                              className="mr-1"
-                              name="chevronUp"
-                              size="xs"
+                            <ChevronUpIcon
+                              className="mr-1 size-5"
                               label="sorted ascending"
                             />
                           ),
                           desc: (
-                            <Icon
-                              className="mr-1"
-                              name="chevronDown"
-                              size="xs"
+                            <ChevronDownIcon
+                              className="mr-1 size-5"
                               label="sorted descending"
                             />
                           ),

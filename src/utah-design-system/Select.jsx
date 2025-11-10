@@ -1,7 +1,7 @@
 import * as RadixSelect from '@radix-ui/react-select';
+import { ChevronDownIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { twMerge } from 'tailwind-merge';
-import Icon from './Icon';
 
 /** Select component for dropdown selection */
 export default function Select({
@@ -30,7 +30,7 @@ export default function Select({
       >
         <RadixSelect.Value placeholder={placeholder} />
         <RadixSelect.Icon>
-          <Icon name="chevronDown" size="xs" label="toggle dropdown" />
+          <ChevronDownIcon className="size-4" label="toggle dropdown" />
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
 
