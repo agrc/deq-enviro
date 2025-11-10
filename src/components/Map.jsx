@@ -160,6 +160,7 @@ export default function MapComponent() {
       extent: stateOfUtahExtent,
       constraints: {
         maxZoom: 19,
+        snapToZoom: false,
       },
     });
 
