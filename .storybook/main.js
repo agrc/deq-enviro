@@ -5,7 +5,7 @@ const config = {
   addons: [
     '@storybook/addon-links',
     '@chromatic-com/storybook',
-    '@storybook/addon-docs'
+    '@storybook/addon-docs',
   ],
 
   core: {},
