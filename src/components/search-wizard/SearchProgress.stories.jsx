@@ -11,6 +11,10 @@ const queryLayers = [
     'Layer Name': 'Public Water System Facilities',
   },
   {
+    'Table Name': 'TableNameLonger',
+    'Layer Name': 'Public Water System Facilities Wrap This Text',
+  },
+  {
     'Table Name': 'AnotherTable',
     'Layer Name': 'Public Water Error',
   },
@@ -29,6 +33,10 @@ const results = {
     'Table Name': 'TableName',
     features: new Array(1134),
   },
+  TableNameLonger: {
+    'Table Name': 'TableNameLonger',
+    features: new Array(25),
+  },
   AnotherTable: {
     'Table Name': 'AnotherTable',
     error: 'there was an error',
@@ -40,6 +48,7 @@ export const Default = () => (
     <SearchProgress
       searchLayerTableNames={[
         'TableName',
+        'TableNameLonger',
         'AnotherTable',
         'TableNext',
         'HelloTable',

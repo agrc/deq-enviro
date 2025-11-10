@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
+import { ExternalLinkIcon, FilterIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { fieldNames } from '../../../functions/common/config';
 import Button from '../../utah-design-system/Button';
 import Checkbox from '../../utah-design-system/Checkbox';
-import Icon from '../../utah-design-system/Icon';
 import Popup, { CloseButton } from '../../utah-design-system/Popup';
 import Tooltip from '../../utah-design-system/Tooltip';
 import SpecialFilter from './SpecialFilter';
@@ -58,12 +58,11 @@ export default function QueryLayer({
             trigger={
               <div className="relative" title="Data Filters">
                 {filterValues && filterValues.length > 0 ? (
-                  <span className="absolute bottom-1.5 left-[-1px] flex h-1.5 w-1.5 rounded-full bg-accent-dark"></span>
+                  <span className="absolute bottom-0.5 left-[-1px] flex h-1.5 w-1.5 rounded-full bg-accent-dark"></span>
                 ) : null}
-                <Icon
-                  name="filter"
+                <FilterIcon
                   className={clsx(
-                    'ml-0 cursor-pointer text-slate-600',
+                    'ml-0 size-5 cursor-pointer text-slate-600',
                     (!filterValues || filterValues.length === 0) &&
                       'opacity-50',
                   )}
@@ -120,11 +119,9 @@ export default function QueryLayer({
                 target="_blank"
                 rel="noreferrer"
               >
-                <Icon
-                  name="externalLink"
-                  className="text-slate-600"
+                <ExternalLinkIcon
+                  className="size-5 text-slate-600"
                   label="more info"
-                  size="xs"
                 />
               </a>
             }

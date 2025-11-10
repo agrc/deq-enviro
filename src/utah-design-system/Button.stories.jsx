@@ -75,7 +75,12 @@ export const Default = () => (
 
     <h3>Link Buttons</h3>
     <p className="space-y-1">
-      <Button href="https://www.google.com">Default</Button>
+      <Button href="https://www.google.com" size="sm">
+        Default SM
+      </Button>
+      <Button href="https://www.google.com" size="xl">
+        Default XL
+      </Button>
     </p>
   </>
 );

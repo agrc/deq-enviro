@@ -1,9 +1,9 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { XIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button';
-import Icon from './Icon';
 
 export const Dialog = DialogPrimitive.Root;
 
@@ -47,7 +47,7 @@ function Content({ children, ...props }, forwardedRef) {
           className="absolute right-3 top-3"
           aria-label="Close"
         >
-          <Icon name="x" className="h-6 w-6" label="close" />
+          <XIcon className="size-6" label="close" />
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>

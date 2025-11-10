@@ -1,6 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion';
+import { CircleChevronDown } from 'lucide-react';
 import PropTypes from 'prop-types';
-import Icon from './Icon';
 
 export function AccordionRoot({ type, children, ...props }) {
   return (
@@ -25,10 +25,9 @@ export function AccordionPanel({ title, numSelectedLayers, children }) {
           }
         >
           {title} {numSelectedLayers > 0 && `(${numSelectedLayers})`}
-          <Icon
-            name="circleChevronDown"
+          <CircleChevronDown
             label="chevron down"
-            className="text-white transition group-data-[state=open]:rotate-180"
+            className="size-5 text-white transition group-data-[state=open]:rotate-180"
           />
         </Accordion.Trigger>
       </Accordion.Header>

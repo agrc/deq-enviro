@@ -1,4 +1,4 @@
-import Icon from './Icon';
+import { HelpCircleIcon } from 'lucide-react';
 import Tooltip from './Tooltip';
 
 export default {
@@ -12,6 +12,8 @@ export const Default = () => (
       trigger with span
     </Tooltip>
     <Tooltip trigger="plain string trigger">plain string trigger</Tooltip>
-    <Tooltip trigger={<Icon name="help" label="help" />}>Icon</Tooltip>
+    <Tooltip trigger={<HelpCircleIcon className="size-4" label="help" />}>
+      Icon
+    </Tooltip>
   </div>
 );

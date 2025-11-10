@@ -1,7 +1,7 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
+import { CheckIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { twJoin } from 'tailwind-merge';
-import Icon from './Icon';
 
 export default function Checkbox({
   name,
@@ -18,7 +18,7 @@ export default function Checkbox({
           className={twJoin(
             'rounded-full p-1',
             !disabled &&
-              'group-hover:bg-slate-200 group-focus:bg-slate-200 group-active:bg-slate-200',
+              'group-active:bg-slate-200 group-hover:bg-slate-200 group-focus:bg-slate-200',
           )}
         >
           <RadixCheckbox.Root
@@ -35,7 +35,7 @@ export default function Checkbox({
             )}
           >
             <RadixCheckbox.Indicator>
-              <Icon bold name="check" label={label} size="xs" />
+              <CheckIcon bold label={label} className="size-4" />
             </RadixCheckbox.Indicator>
           </RadixCheckbox.Root>
         </div>

@@ -1,5 +1,5 @@
+import { HelpCircleIcon } from 'lucide-react';
 import Button from './Button';
-import Icon from './Icon';
 import Popup, { CloseButton } from './Popup';
 
 export default {
@@ -19,6 +19,8 @@ export const Default = () => (
         <CloseButton className="ml-2 self-start" />
       </div>
     </Popup>
-    <Popup trigger={<Icon name="help" label="help" />}>Icon</Popup>
+    <Popup trigger={<HelpCircleIcon className="size-5" label="help" />}>
+      Icon
+    </Popup>
   </div>
 );

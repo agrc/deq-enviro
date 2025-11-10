@@ -3,6 +3,11 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
 import { clsx } from 'clsx';
 import ky from 'ky';
+import {
+  ChevronsDownUpIcon,
+  ChevronsUpDownIcon,
+  EllipsisIcon,
+} from 'lucide-react';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -10,7 +15,6 @@ import { fieldConfigs, fieldNames } from '../../functions/common/config';
 import { useRemoteConfigValues } from '../contexts/RemoteConfigProvider';
 import useMap from '../contexts/useMap';
 import Button from '../utah-design-system/Button';
-import Icon from '../utah-design-system/Icon';
 import Table from '../utah-design-system/Table';
 import { getColumnDefs, getRelationships } from '../utils';
 import Identify from './Identify';
@@ -139,7 +143,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               });
             }}
           >
-            <Icon name="moreHorizontal" size="xs" label="more information" />
+            <EllipsisIcon className="size-4" label="more information" />
           </Button>
           {getValue()}
         </div>
@@ -230,12 +234,17 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               })
             }
           >
-            <Icon
-              className="mr-2"
-              name={expanded ? 'unfoldLess' : 'unfoldMore'}
-              size="xs"
-              label="toggle results"
-            />
+            {expanded ? (
+              <ChevronsDownUpIcon
+                className="mr-2 size-4"
+                label="toggle results"
+              />
+            ) : (
+              <ChevronsUpDownIcon
+                className="mr-2 size-4"
+                label="toggle results"
+              />
+            )}
             <Legend featureLayer={queryLayerResult.featureLayer} />
             <span className="ml-2 flex h-full items-center justify-center group-hover/trigger:underline">
               {layerName}
