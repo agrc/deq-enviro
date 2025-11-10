@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.30-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.29...v2.0.30-rc.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* make mousewheel zooming more smooth ([b36c3f0](https://github.com/agrc/deq-enviro/commit/b36c3f044691f4c41850c00517971a3ed2e65c6e))
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([3e630a4](https://github.com/agrc/deq-enviro/commit/3e630a45f8f395642933c55c524261a87bc0cbda))
+* **download:** bump python dependencies 🌲 ([75635d8](https://github.com/agrc/deq-enviro/commit/75635d8056f192a7ef9e1402bd787e5ebe9befde))
+
 ## [2.0.29](https://github.com/agrc/deq-enviro/compare/v2.0.28...v2.0.29) (2025-09-30)
 
 
