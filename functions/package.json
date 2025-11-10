@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^4.0.0",
-    "@google-cloud/secret-manager": "^6.1.0",
+    "@google-cloud/secret-manager": "^6.1.1",
     "firebase-admin": "^13.5.0",
-    "firebase-functions": "^6.4.0",
-    "googleapis": "^160.0.0",
+    "firebase-functions": "^6.6.0",
+    "googleapis": "^164.1.0",
     "got": "^14.4.9",
     "knex": "^3.1.0",
     "pg": "^8.16.3",
-    "yup": "^1.6.1"
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.4.1"
