@@ -78,7 +78,7 @@ export default function Download({
 
       {error ? (
         <p className="mt-4 flex align-middle text-error-500">
-          <CircleAlertIcon className="mr-1" label="error message" />
+          <CircleAlertIcon className="mr-1" aria-label="error message" />
           There was an error downloading the data: {error}
         </p>
       ) : null}

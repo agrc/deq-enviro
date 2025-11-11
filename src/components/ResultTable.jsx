@@ -143,7 +143,7 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
               });
             }}
           >
-            <EllipsisIcon className="size-4" label="more information" />
+            <EllipsisIcon className="size-4" aria-label="more information" />
           </Button>
           {getValue()}
         </div>
