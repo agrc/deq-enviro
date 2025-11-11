@@ -78,9 +78,13 @@ const ICON_SIZES = {
 
 function getOneSizeSmaller(size) {
   const keys = Object.keys(SIZES);
-  const lowerIndex = keys.indexOf(size) - 1;
+  const sizeIndex = keys.indexOf(size);
+  if (sizeIndex === -1) {
+    // If the size is invalid, return the base icon size as a fallback
+    return ICON_SIZES.base;
+  }
+  const lowerIndex = sizeIndex - 1;
   const finalIndex = lowerIndex >= 0 ? lowerIndex : 0;
-
   return ICON_SIZES[keys[finalIndex]];
 }
 
