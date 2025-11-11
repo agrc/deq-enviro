@@ -93,13 +93,13 @@ function InnerTable(
                           asc: (
                             <ChevronUpIcon
                               className="mr-1 size-5"
-                              label="sorted ascending"
+                              aria-label="sorted ascending"
                             />
                           ),
                           desc: (
                             <ChevronDownIcon
                               className="mr-1 size-5"
-                              label="sorted descending"
+                              aria-label="sorted descending"
                             />
                           ),
                         }[header.column.getIsSorted()] ?? null}

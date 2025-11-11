@@ -132,7 +132,7 @@ function InnerButton(
       {children}
       <ArrowRightIcon
         className={`ml-1 ${getOneSizeSmaller(size)}`}
-        label="link"
+        aria-label="link"
       />
     </a>
   ) : (

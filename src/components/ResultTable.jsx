@@ -237,12 +237,12 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
             {expanded ? (
               <ChevronsDownUpIcon
                 className="mr-2 size-4"
-                label="toggle results"
+                aria-label="toggle results"
               />
             ) : (
               <ChevronsUpDownIcon
                 className="mr-2 size-4"
-                label="toggle results"
+                aria-label="toggle results"
               />
             )}
             <Legend featureLayer={queryLayerResult.featureLayer} />
