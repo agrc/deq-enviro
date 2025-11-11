@@ -47,7 +47,7 @@ function Content({ children, ...props }, forwardedRef) {
           className="absolute right-3 top-3"
           aria-label="Close"
         >
-          <XIcon className="size-6" label="close" />
+          <XIcon className="size-6" aria-label="close" />
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>

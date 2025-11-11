@@ -95,16 +95,16 @@ function Identify(
         ) : null}
         <Tabs.Trigger value="links">Links</Tabs.Trigger>
         <Button className={buttonClasses} onClick={() => zoom(geometry)}>
-          <EyeIcon className="mr-2 size-5" label="zoom to feature" />
+          <EyeIcon className="mr-2 size-5" aria-label="zoom to feature" />
           Zoom to feature
         </Button>
         <Button className={buttonClasses} onClick={onBack}>
-          <ArrowLeftIcon className="mr-2 size-5" label="back" />
+          <ArrowLeftIcon className="mr-2 size-5" aria-label="back" />
           Back to results
         </Button>
         {geometry.type === 'polygon' ? (
           <Button className={buttonClasses} onClick={setFilter}>
-            <SearchIcon className="mr-2 size-5" label="filter" />
+            <SearchIcon className="mr-2 size-5" aria-label="filter" />
             New search <br /> using feature
           </Button>
         ) : null}

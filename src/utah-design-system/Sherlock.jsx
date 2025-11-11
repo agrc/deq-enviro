@@ -281,7 +281,7 @@ export default function Sherlock({
           {state.loading ? (
             <Spinner ariaLabel="searching" />
           ) : (
-            <SearchIcon className="size-4" label="search" />
+            <SearchIcon className="size-4" aria-label="search" />
           )}
         </div>
         <input
