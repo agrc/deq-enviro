@@ -12,7 +12,7 @@ export const Default = () => (
       trigger with span
     </Tooltip>
     <Tooltip trigger="plain string trigger">plain string trigger</Tooltip>
-    <Tooltip trigger={<HelpCircleIcon className="size-4" label="help" />}>
+    <Tooltip trigger={<HelpCircleIcon className="size-4" aria-label="help" />}>
       Icon
     </Tooltip>
   </div>

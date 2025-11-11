@@ -19,14 +19,14 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
           trigger={
             <CircleAlertIcon
               className="mr-1 text-error-500"
-              label="error message"
+              aria-label="error message"
             />
           }
         >
           {resultConfig.error}
         </Tooltip>
       ) : (
-        <CheckIcon className="mr-1 text-success-500" label="success" />
+        <CheckIcon className="mr-1 text-success-500" aria-label="success" />
       )}
     </div>
   );

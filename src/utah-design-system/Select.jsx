@@ -30,7 +30,7 @@ export default function Select({
       >
         <RadixSelect.Value placeholder={placeholder} />
         <RadixSelect.Icon>
-          <ChevronDownIcon className="size-4" label="toggle dropdown" />
+          <ChevronDownIcon className="size-4" aria-label="toggle dropdown" />
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
 

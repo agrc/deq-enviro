@@ -19,7 +19,7 @@ export const Default = () => (
         <CloseButton className="ml-2 self-start" />
       </div>
     </Popup>
-    <Popup trigger={<HelpCircleIcon className="size-5" label="help" />}>
+    <Popup trigger={<HelpCircleIcon className="size-5" aria-label="help" />}>
       Icon
     </Popup>
   </div>
