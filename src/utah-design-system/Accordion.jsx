@@ -25,10 +25,7 @@ export function AccordionPanel({ title, numSelectedLayers, children }) {
           }
         >
           {title} {numSelectedLayers > 0 && `(${numSelectedLayers})`}
-          <CircleChevronDown
-            aria-label="chevron down"
-            className="size-5 text-white transition group-data-[state=open]:rotate-180"
-          />
+          <CircleChevronDown className="size-5 text-white transition group-data-[state=open]:rotate-180" />
         </Accordion.Trigger>
       </Accordion.Header>
       <Accordion.Content className="overflow-hidden rounded-b-md bg-slate-100 data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down">

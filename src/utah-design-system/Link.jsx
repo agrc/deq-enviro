@@ -15,7 +15,10 @@ export default function Link({ className, href, external, children }) {
     >
       <span className="underline">{children}</span>
       {external ? (
-        <ExternalLinkIcon className="ml-1 size-4" aria-label="more info" />
+        <ExternalLinkIcon
+          className="ml-1 size-4"
+          aria-label="opens in a new tab"
+        />
       ) : null}
     </a>
   );
