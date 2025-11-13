@@ -34,8 +34,8 @@ Popup.propTypes = {
 
 export function CloseButton({ className }) {
   return (
-    <RadixPopover.Close className={className}>
-      <XIcon aria-label="close" className="size-4 text-slate-600" />
+    <RadixPopover.Close aria-label="close" className={className}>
+      <XIcon className="size-4 text-slate-600" />
     </RadixPopover.Close>
   );
 }

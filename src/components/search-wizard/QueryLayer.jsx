@@ -66,7 +66,7 @@ export default function QueryLayer({
                     (!filterValues || filterValues.length === 0) &&
                       'opacity-50',
                   )}
-                  aria-label="filters"
+                  aria-label="open filters"
                 />
               </div>
             }
@@ -119,10 +119,7 @@ export default function QueryLayer({
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalLinkIcon
-                  className="size-5 text-slate-600"
-                  aria-label="more info"
-                />
+                <ExternalLinkIcon className="size-5 text-slate-600" />
               </a>
             }
           >

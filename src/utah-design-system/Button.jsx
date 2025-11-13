@@ -134,10 +134,7 @@ function InnerButton(
       onClick={onClick}
     >
       {children}
-      <ArrowRightIcon
-        className={`ml-1 ${getOneSizeSmaller(size)}`}
-        aria-label="link"
-      />
+      <ArrowRightIcon className={`ml-1 ${getOneSizeSmaller(size)}`} />
     </a>
   ) : (
     <button
