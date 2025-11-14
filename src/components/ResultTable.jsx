@@ -236,9 +236,9 @@ function ResultTable({ queryLayerResult, setExpandedTableName, expanded }) {
             aria-label="toggle results"
           >
             {expanded ? (
-              <ChevronsDownUpIcon className="mr-2 size-4" />
+              <ChevronsDownUpIcon className="mr-2 size-4" aria-hidden="true" />
             ) : (
-              <ChevronsUpDownIcon className="mr-2 size-4" />
+              <ChevronsUpDownIcon className="mr-2 size-4" aria-hidden="true" />
             )}
             <Legend featureLayer={queryLayerResult.featureLayer} />
             <span className="ml-2 flex h-full items-center justify-center group-hover/trigger:underline">

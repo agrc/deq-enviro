@@ -74,7 +74,8 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
           className="mt-4 flex items-center justify-center rounded-md border-2 border-success-500 p-1 font-bold text-success-500"
           onClick={() => logEvent('download-zip-file', { url })}
         >
-          <ArrowDownIcon className="mr-2" /> Download ZIP File
+          <ArrowDownIcon className="mr-2" aria-hidden="true" /> Download ZIP
+          File
         </a>
       ) : error ? (
         <p className="mt-4 flex align-middle text-error-500">

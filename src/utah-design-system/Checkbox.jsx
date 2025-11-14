@@ -35,7 +35,7 @@ export default function Checkbox({
             )}
           >
             <RadixCheckbox.Indicator>
-              <CheckIcon className="size-4" />
+              <CheckIcon className="size-4" aria-hidden="true" />
             </RadixCheckbox.Indicator>
           </RadixCheckbox.Root>
         </div>
