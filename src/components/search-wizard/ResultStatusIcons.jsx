@@ -15,11 +15,18 @@ export default function ResultStatusIcons({ resultConfig, layerName }) {
           size="lg"
         />
       ) : hasError ? (
-        <Tooltip trigger={<CircleAlertIcon className="mr-1 text-error-500" />}>
+        <Tooltip
+          trigger={
+            <CircleAlertIcon
+              className="mr-1 text-error-500"
+              aria-label="error"
+            />
+          }
+        >
           {resultConfig.error}
         </Tooltip>
       ) : (
-        <CheckIcon className="mr-1 text-success-500" />
+        <CheckIcon className="mr-1 text-success-500" aria-label="success" />
       )}
     </div>
   );
