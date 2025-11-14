@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.30](https://github.com/agrc/deq-enviro/compare/v2.0.29...v2.0.30) (2025-11-14)
+
+
+### Bug Fixes
+
+* add proper aria attributes to lucide-react icons for accessibility ([6f74e34](https://github.com/agrc/deq-enviro/commit/6f74e34834438bf132864f32ff471ef6b93d6217))
+* make mousewheel zooming more smooth ([334d1ab](https://github.com/agrc/deq-enviro/commit/334d1ab9c574e602e4fcd51ca1a8fc76bf1b8aee))
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([3c0178b](https://github.com/agrc/deq-enviro/commit/3c0178bed43c3b0ed6d6c51c3c46e0541af877b6))
+* bump the safe-dependencies group across 2 directories with 15 updates ([3c9babf](https://github.com/agrc/deq-enviro/commit/3c9babf42de22f3175b3243736096e37cbabfd03))
+* **download:** bump python dependencies 🌲 ([877f595](https://github.com/agrc/deq-enviro/commit/877f595fb4ff2a368ad5e0af8ade89fc7d49d6b6))
+
 ## [2.0.30-rc.2](https://github.com/agrc/deq-enviro/compare/v2.0.30-rc.1...v2.0.30-rc.2) (2025-11-14)
 
 
