@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.30-rc.2](https://github.com/agrc/deq-enviro/compare/v2.0.30-rc.1...v2.0.30-rc.2) (2025-11-14)
+
+
+### Bug Fixes
+
+* add proper aria attributes to lucide-react icons for accessibility ([b67a68f](https://github.com/agrc/deq-enviro/commit/b67a68f759d7f56865adb9928651267b8485e8f4))
+
 ## [2.0.30-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.29...v2.0.30-rc.1) (2025-11-10)
 
 
