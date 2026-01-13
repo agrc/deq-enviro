@@ -63,6 +63,7 @@ jobs:
             cd ..
           build-command: pnpm run build:stage
           preview: yes
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
           VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_KEY }}
