@@ -187,7 +187,14 @@ export function getColumnDefs(resultGridFields, fields) {
 
     if (field?.type === 'esriFieldTypeDate') {
       columnDef.accessorFn = (row) => {
-        const date = new Date(row[fieldName]);
+        const value = row[fieldName];
+        
+        // Return empty string for null, undefined, or 0 values
+        if (value == null || value === 0) {
+          return '';
+        }
+        
+        const date = new Date(value);
 
         return date.toLocaleDateString();
       };
