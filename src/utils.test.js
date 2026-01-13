@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
 import {
   getAlias,
+  getColumnDefs,
   getDefaultLayerFilterValues,
   getDefQueryFromLayerFilterValues,
   getRelationships,
@@ -252,5 +253,69 @@ describe('getRelationships', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('getColumnDefs', () => {
+  it('formats date fields using toLocaleDateString', () => {
+    const resultGridFields = ['DATECLOSE'];
+    const fields = [
+      {
+        name: 'DATECLOSE',
+        alias: 'Date Permanently Closed',
+        type: 'esriFieldTypeDate',
+      },
+    ];
+
+    const columns = getColumnDefs(resultGridFields, fields);
+
+    expect(columns).toHaveLength(1);
+    expect(columns[0].header).toEqual('Date Permanently Closed');
+    expect(columns[0].accessorFn).toBeDefined();
+
+    // Test with a valid date (timestamp in milliseconds)
+    const validDate = new Date('2024-01-15').getTime();
+    const result = columns[0].accessorFn({ DATECLOSE: validDate });
+    expect(result).toEqual(new Date(validDate).toLocaleDateString());
+  });
+
+  it('returns empty string for null date values', () => {
+    const resultGridFields = ['DATECLOSE'];
+    const fields = [
+      {
+        name: 'DATECLOSE',
+        alias: 'Date Permanently Closed',
+        type: 'esriFieldTypeDate',
+      },
+    ];
+
+    const columns = getColumnDefs(resultGridFields, fields);
+
+    // Test with null
+    expect(columns[0].accessorFn({ DATECLOSE: null })).toEqual('');
+
+    // Test with undefined
+    expect(columns[0].accessorFn({ DATECLOSE: undefined })).toEqual('');
+
+    // Test with 0
+    expect(columns[0].accessorFn({ DATECLOSE: 0 })).toEqual('');
+  });
+
+  it('handles non-date fields', () => {
+    const resultGridFields = ['OBJECTID'];
+    const fields = [
+      {
+        name: 'OBJECTID',
+        alias: 'Object ID',
+        type: 'esriFieldTypeInteger',
+      },
+    ];
+
+    const columns = getColumnDefs(resultGridFields, fields);
+
+    expect(columns).toHaveLength(1);
+    expect(columns[0].header).toEqual('Object ID');
+    expect(columns[0].accessorKey).toEqual('OBJECTID');
+    expect(columns[0].accessorFn).toBeUndefined();
   });
 });

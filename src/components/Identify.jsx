@@ -35,6 +35,11 @@ function getValue(fieldName, value, fields) {
   const fieldDef = fields.find((field) => field.name === fieldName);
 
   if (fieldDef?.type === 'esriFieldTypeDate') {
+    // Return empty string for null, undefined, or 0 values
+    if (value == null || value === 0) {
+      return '';
+    }
+    
     return new Date(/** @type {number} */ (value)).toLocaleDateString();
   }
 
