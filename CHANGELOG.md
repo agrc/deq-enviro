@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.31](https://github.com/agrc/deq-enviro/compare/v2.0.30...v2.0.31) (2026-01-13)
+
+
+### Bug Fixes
+
+* fix null date values showing as "12/31/1969" ([8a054fc](https://github.com/agrc/deq-enviro/commit/8a054fc843dfa9cdffd8be7ffbbf0f92e833e975))
+
+
+### Documentation
+
+* add copilot instructions for conventional commits ([c56e659](https://github.com/agrc/deq-enviro/commit/c56e65974657e8d4098a531291398d8aea1658f2))
+* simplify copilot instructions to reference url ([62885aa](https://github.com/agrc/deq-enviro/commit/62885aa06a46675ad61e5654227a68736e0c244f))
+
 ## [2.0.30](https://github.com/agrc/deq-enviro/compare/v2.0.29...v2.0.30) (2025-11-14)
 
 
