@@ -85,7 +85,7 @@
     "ky": "^1.13.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "lucide-react": "^0.553.0",
     "react": "^19.2.0",
     "react-content-loader": "^7.1.1",
