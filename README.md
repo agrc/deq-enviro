@@ -71,3 +71,7 @@ Note that the Apps Scripts GCP project needs to be pointed at the same GCP proje
 To grant someone access to be able to use the deploy script, add them to the "gcp-dts-ugrc-deq-enviro-admins@utah.gov" google group.
 
 This [blog post](https://medium.com/geekculture/how-to-call-google-cloud-run-or-cloud-functions-from-apps-scripts-c0086289c965) was a good reference for setting it up.
+
+## Attribution
+
+This project was developed with the assistance of [GitHub Copilot](https://github.com/features/copilot).
