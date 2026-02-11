@@ -1,6 +1,7 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import { CheckIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { useId } from 'react';
 import { twJoin } from 'tailwind-merge';
 
 export default function Checkbox({
@@ -11,6 +12,13 @@ export default function Checkbox({
   onCheckedChange,
   disabled,
 }) {
+  const generatedId = useId();
+  const labelText = typeof label === 'string' ? label.trim() : '';
+  const resolvedId =
+    name ||
+    (labelText ? labelText.toLowerCase().replace(/\s+/g, '-') : generatedId);
+  const resolvedAriaLabel = name?.trim() || labelText || resolvedId;
+
   return (
     <div className="my-1 flex items-center">
       <div className="group inline-flex items-center">
@@ -22,11 +30,12 @@ export default function Checkbox({
           )}
         >
           <RadixCheckbox.Root
-            id={name || label}
+            id={resolvedId}
             checked={checked}
             defaultChecked={defaultChecked}
             onCheckedChange={onCheckedChange}
             disabled={disabled}
+            aria-label={resolvedAriaLabel}
             className={twJoin(
               'flex h-4 w-4 items-center justify-center rounded border',
               disabled
@@ -40,7 +49,7 @@ export default function Checkbox({
           </RadixCheckbox.Root>
         </div>
         <label
-          htmlFor={name || label}
+          htmlFor={resolvedId}
           className={twJoin(
             'pl-1 leading-4',
             disabled ? 'cursor-not-allowed text-slate-300' : 'cursor-pointer',

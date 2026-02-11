@@ -17,19 +17,19 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#009DE0',
-          DEFAULT: '#0080B7',
-          dark: '#00597F',
+          light: '#E6F4FF',
+          DEFAULT: '#00629B',
+          dark: '#003E62',
         },
         secondary: {
-          light: '#16C9F5',
-          DEFAULT: '#09B0DA',
-          dark: '#0785A4',
+          light: '#EDF2F7',
+          DEFAULT: '#4A5568',
+          dark: '#1A202C',
         },
         accent: {
-          light: '#CEE5A1',
-          DEFAULT: '#ADD361',
-          dark: '#74992B',
+          light: '#FFFAF0',
+          DEFAULT: '#F6AD55',
+          dark: '#C05621',
         },
         slate: colors.slate,
         white: colors.white,

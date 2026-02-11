@@ -21,7 +21,7 @@ export function AccordionPanel({ title, numSelectedLayers, children }) {
       <Accordion.Header>
         <Accordion.Trigger
           className={
-            'group relative flex w-full items-center justify-between bg-secondary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
+            'group relative flex w-full items-center justify-between bg-primary px-3 py-2 text-left text-lg font-bold leading-5 text-white'
           }
         >
           {title} {numSelectedLayers > 0 && `(${numSelectedLayers})`}

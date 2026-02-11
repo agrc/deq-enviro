@@ -34,7 +34,7 @@ export default function QueryLayer({
   const specialFilters = config[fieldNames.queryLayers.specialFilters];
 
   return (
-    <div className="my-2 flex items-center justify-between">
+    <div className="flex items-center justify-between">
       <Tooltip
         delayDuration={1000}
         trigger={
@@ -118,6 +118,7 @@ export default function QueryLayer({
                 href={config[fieldNames.queryLayers.metadataLink]}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="open metadata link in new tab"
               >
                 <ExternalLinkIcon className="size-5 text-slate-600" />
               </a>
