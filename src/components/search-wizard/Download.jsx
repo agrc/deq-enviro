@@ -63,6 +63,7 @@ export default function Download({
           <Checkbox
             key={tableName}
             checked={selectedLayers.includes(tableName)}
+            name={`download-${tableName}`}
             label={layerName}
             onCheckedChange={getOnChangeHandler(tableName)}
           ></Checkbox>
