@@ -18,7 +18,6 @@ from arcgis.features import (
     FeatureLayer,
     FeatureSet,
 )
-from arcgis.features import GeoAccessor, GeoSeriesAccessor  # noqa: F401
 from osgeo import gdal, ogr
 
 from .database import update_job_layer
@@ -71,15 +70,17 @@ def write_to_output(tableName, feature_set, format):
             #: so we convert them all to multi if there are any multi geometries
             if (gdf.geom_type == "MultiPolygon").any():
                 gdf.geometry = gdf.geometry.map(
-                    lambda geom: MultiPolygon([geom])
-                    if isinstance(geom, Polygon)
-                    else geom
+                    lambda geom: (
+                        MultiPolygon([geom]) if isinstance(geom, Polygon) else geom
+                    )
                 )
             elif (gdf.geom_type == "MultiLineString").any():
                 gdf.geometry = gdf.geometry.map(
-                    lambda geom: MultiLineString([geom])
-                    if isinstance(geom, LineString)
-                    else geom
+                    lambda geom: (
+                        MultiLineString([geom])
+                        if isinstance(geom, LineString)
+                        else geom
+                    )
                 )
             elif (gdf.geom_type == "MultiPoint").any():
                 gdf.geometry = gdf.geometry.map(
