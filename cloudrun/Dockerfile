@@ -1,10 +1,12 @@
-# this is pinned so that we stay at python 3.10 until
-# arcgis is updated to support python 3.12
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.8.5 AS base
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.2 AS base
 
 RUN apt update
 RUN apt install -y python3-pip
 RUN apt install -y libkrb5-dev
+RUN apt install -y python3-venv
+
+RUN python3 -m venv /opt/venv --system-site-packages
+ENV PATH="/opt/venv/bin:$PATH"
 
 FROM base AS dev
 

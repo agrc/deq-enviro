@@ -61,7 +61,7 @@ setup(
             "pytest-mock==3.*",
             "pytest-ruff==0.*",
             "pytest-watch==4.*",
-            "pytest==8.*",
+            "pytest==9.*",
             "ruff==0.*",
         ],
     },
