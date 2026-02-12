@@ -5,6 +5,7 @@ import { useId } from 'react';
 import { twJoin } from 'tailwind-merge';
 
 export default function Checkbox({
+  id,
   name,
   label,
   checked,
@@ -13,11 +14,7 @@ export default function Checkbox({
   disabled,
 }) {
   const generatedId = useId();
-  const labelText = typeof label === 'string' ? label.trim() : '';
-  const resolvedId =
-    name ||
-    (labelText ? labelText.toLowerCase().replace(/\s+/g, '-') : generatedId);
-  const resolvedAriaLabel = name?.trim() || labelText || resolvedId;
+  const resolvedId = id || generatedId;
 
   return (
     <div className="my-1 flex items-center">
@@ -31,11 +28,11 @@ export default function Checkbox({
         >
           <RadixCheckbox.Root
             id={resolvedId}
+            name={name}
             checked={checked}
             defaultChecked={defaultChecked}
             onCheckedChange={onCheckedChange}
             disabled={disabled}
-            aria-label={resolvedAriaLabel}
             className={twJoin(
               'flex h-4 w-4 items-center justify-center rounded border',
               disabled
@@ -66,11 +63,9 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
+  id: PropTypes.string,
   label: PropTypes.string.isRequired,
-  /**
-   * The name attribute of the checkbox. If not provided, the label will be
-   * used.
-   */
+  /** The name attribute of the checkbox. */
   name: PropTypes.string,
   onCheckedChange: PropTypes.func,
 };
