@@ -15,7 +15,7 @@
   "dependencies": {
     "@google-cloud/functions-framework": "^4.0.0",
     "@google-cloud/secret-manager": "^6.1.1",
-    "firebase-admin": "^13.5.0",
+    "firebase-admin": "^13.6.0",
     "firebase-functions": "^7.0.5",
     "googleapis": "^164.1.0",
     "got": "^14.6.6",
