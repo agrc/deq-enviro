@@ -51,6 +51,9 @@ jobs:
       name: dev
 
     steps:
+      - name: ⬇️ Set up code
+        uses: actions/checkout@v6
+
       - name: 🚀 Deploy Firebase
         uses: agrc/firebase-website-deploy-composite-action@v2
         with:
