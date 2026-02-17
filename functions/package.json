@@ -5,11 +5,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "deploy": "firebase deploy --only functions",
-    "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions-key-dev.json\" && firebase emulators:start --only functions",
-    "logs": "firebase functions:log",
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
+    "deploy": "pnpm exec firebase deploy --only functions",
+    "dev:firebase": "export GOOGLE_APPLICATION_CREDENTIALS=\"$PWD/functions-key-dev.json\" && pnpm exec firebase emulators:start --only functions",
+    "logs": "pnpm exec firebase functions:log",
+    "serve": "pnpm exec firebase emulators:start --only functions",
+    "shell": "pnpm exec firebase functions:shell",
     "start": "pnpm run shell"
   },
   "dependencies": {
