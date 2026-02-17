@@ -24,7 +24,7 @@
     "lint": "eslint ./ && tsc",
     "lint:fix": "eslint ./ --quiet --fix",
     "preview": "vite preview",
-    "save-firebase-state": "firebase emulators:start --import .emulator-data --export-on-exit --only functions",
+    "save-firebase-state": "pnpm exec firebase emulators:start --import .emulator-data --export-on-exit --only functions",
     "start": "pnpm run dev",
     "storybook": "storybook dev -p 6006",
     "test": "vitest"

@@ -39,7 +39,7 @@ function getValue(fieldName, value, fields) {
     if (value == null || value === 0) {
       return '';
     }
-    
+
     return new Date(/** @type {number} */ (value)).toLocaleDateString();
   }
 
