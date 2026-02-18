@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.32](https://github.com/agrc/deq-enviro/compare/v2.0.31...v2.0.32) (2026-02-18)
+
+
+### Bug Fixes
+
+* accessibility fixes and improvements ([1ab9fb6](https://github.com/agrc/deq-enviro/commit/1ab9fb686eedd69e5aee9dbc095276c459678cf0))
+* improve Checkbox component's id handling and remove unused aria-label ([a402190](https://github.com/agrc/deq-enviro/commit/a402190c960b10dc92a92853f90f023e98a6ef4e))
+
+
+### Dependencies
+
+* bump npm dependencies 🌲 ([1afacbd](https://github.com/agrc/deq-enviro/commit/1afacbd6ed5ba6fb6528a83c06bf282e1b5732eb))
+* bump storybook ([03147e7](https://github.com/agrc/deq-enviro/commit/03147e7442f3c37d7243baa3735fe54dd2cd1eb2))
+* bump the major-dependencies group across 1 directory with 3 updates ([6535488](https://github.com/agrc/deq-enviro/commit/6535488bd0be5406db48962e13c4530d17b70750))
+* **cloudrun:** bump base gdal image and python deps ([9b0a2dc](https://github.com/agrc/deq-enviro/commit/9b0a2dc5073ab6b0122903f869e41630b6753a54))
+* **dev:** bump happy-dom from 20.6.1 to 20.6.2 ([7213d0f](https://github.com/agrc/deq-enviro/commit/7213d0f7f723f134132b5a2485425d576d0e7c16))
+* downgrade uds version ([6d55ba9](https://github.com/agrc/deq-enviro/commit/6d55ba9231d578b367291f547bbb2f820270c201))
+
+
+### Documentation
+
+* add copilot attribution ([34a1ee0](https://github.com/agrc/deq-enviro/commit/34a1ee03683d20de14142f20357e04208909b46e))
+
 ## [2.0.31](https://github.com/agrc/deq-enviro/compare/v2.0.30...v2.0.31) (2026-01-13)
 
 
