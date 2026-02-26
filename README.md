@@ -14,6 +14,8 @@ Generic application for searching, viewing and downloading DEQ GIS data and rela
 
 [Analytics Dashboard](https://lookerstudio.google.com/reporting/87fdea59-ccfa-4ff7-b9d1-9bceabc3db1f/page/ZaM7C)
 
+DEQ Project Contact: Lenora Sullivan
+
 ## Query Layers
 
 ### Requirements
