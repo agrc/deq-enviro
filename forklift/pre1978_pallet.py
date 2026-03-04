@@ -80,7 +80,7 @@ class Pre1978Pallet(Pallet):
             fc_name = f"SGID.CADASTRE.Parcels_{county_name}_LIR"
             lir = self.sgid / fc_name
 
-            if not arcpy.Exists(lir):
+            if not arcpy.Exists(str(lir)):
                 self.log.debug(f"no LIR dataset for {county_name} county was found")
                 continue
 
@@ -126,8 +126,8 @@ class Pre1978Pallet(Pallet):
             local_lir, str(zip_codes), zip_join, match_option="HAVE_THEIR_CENTER_IN"
         )
         with arcpy.da.SearchCursor(zip_join, ["ZIP5", "SHAPE@", fldPARCEL_ID]) as cur:
-            for zip, shape, id in cur:
-                parcel_zips[id] = (zip, shape.centroid)
+            for zip5, shape, parcel_id in cur:
+                parcel_zips[parcel_id] = (zip5, shape.centroid)
 
         self.log.debug("creating address point shape look up")
         address_points_shapes = {}
