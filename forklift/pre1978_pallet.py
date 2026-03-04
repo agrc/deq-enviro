@@ -7,7 +7,7 @@ The data for this dataset is drawn from the LIR parcels data and address points.
 as well as geometry is pulled from the SGID.LOCATION.AddressPoints. If this data is not available, then the script
 falls back to the LIR parcel data.
 
-The LIR parcel data is mainly use for its year built, property class and currency data.
+The LIR parcel data is mainly used for its year built, property class, and currency data.
 """
 
 import re
@@ -222,15 +222,37 @@ class Pre1978Pallet(Pallet):
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
     import logging
+
+    parser = argparse.ArgumentParser(
+        description="Generate county points for DAQPre1978LeadInHomes."
+    )
+    parser.add_argument(
+        "county",
+        help='County name (e.g., "SaltLake").',
+    )
+    parser.add_argument(
+        "lir_source",
+        help="LIR source in hashed folder.",
+    )
+    parser.add_argument(
+        "address_points",
+        help="Path to SGID.LOCATION.AddressPoints.",
+    )
+    parser.add_argument(
+        "zip_codes",
+        help="Path to SGID.BOUNDARIES.ZipCodes.",
+    )
+
+    args = parser.parse_args()
 
     pallet = Pre1978Pallet()
     pallet.configure_standalone_logging(logging.DEBUG)
 
     pallet.generate_county_points(
-        sys.argv[1],  # county (e.g., "SaltLake")
-        sys.argv[2],  # LIR source in hashed folder
-        sys.argv[3],  # address points
-        sys.argv[4],  # zip codes
+        args.county,
+        args.lir_source,
+        args.address_points,
+        args.zip_codes,
     )
