@@ -1,19 +1,30 @@
 {
     "cSpell.words": [
+        "APOID",
         "ARCGIS",
         "arcpy",
+        "cadastre",
+        "Daggett",
         "deqquerylayers",
         "deqreferencedata",
         "dropoff",
+        "Duchesne",
         "Enviro",
         "ENVIROAPPLABEL",
         "ENVIROAPPSYMBOL",
+        "Featureclass",
         "fgdb",
         "GNIS",
         "ICBUFFERZONES",
+        "Juab",
+        "Piute",
         "pygsheets",
+        "Sanpete",
+        "Sevier",
         "SGID",
+        "Tooele",
         "ucur",
+        "Uintah",
         "unsplit"
     ]
 }
