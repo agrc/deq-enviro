@@ -73,9 +73,5 @@ def update_sgid_data(source, destination):
         logger.debug(f'deleting fields: {delete_fields}')
         arcpy.DeleteField_management(temp_table, delete_fields)
 
-    current_metadata = arcpy.metadata.Metadata(destination)
     arcpy.management.TruncateTable(destination)
     arcpy.management.Append(temp_table, destination, 'NO_TEST')
-    new_metadata = arcpy.metadata.Metadata(destination)
-    new_metadata.copy(current_metadata)
-    new_metadata.save()
