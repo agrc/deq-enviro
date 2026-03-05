@@ -11,8 +11,6 @@ import arcpy
 import settings
 import update_fgdb
 
-from swapper import swapper
-
 
 period_replacement = '___'
 logger = logging.getLogger('forklift')
@@ -37,11 +35,11 @@ def update_sgid_for_crates(crates_from_slip):
 
         if sgid_name.casefold().startswith('sgid'):
             source = crate_slip['destination']
-            update_sgid_data(source, destination, owner_connection)
+            update_sgid_data(source, destination)
 
 
 utm = arcpy.SpatialReference(26912)
-def update_sgid_data(source, destination, owner_connection):
+def update_sgid_data(source, destination):
     logger.info(f'updating {destination}')
     scratch = Path(arcpy.env.scratchFolder) / 'deq_data_for_sgid.gdb'
     temp_table = str(Path(scratch / Path(source).name))
@@ -76,7 +74,8 @@ def update_sgid_data(source, destination, owner_connection):
         arcpy.DeleteField_management(temp_table, delete_fields)
 
     current_metadata = arcpy.metadata.Metadata(destination)
-    swapper.copy_and_replace(Path(temp_table), Path(destination), Path(owner_connection), ['internal'])
+    arcpy.management.TruncateTable(destination)
+    arcpy.management.Append(temp_table, destination, 'NO_TEST')
     new_metadata = arcpy.metadata.Metadata(destination)
     new_metadata.copy(current_metadata)
     new_metadata.save()
