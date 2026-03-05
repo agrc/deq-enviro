@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.33](https://github.com/agrc/deq-enviro/compare/v2.0.32...v2.0.33) (2026-03-05)
+
+
+### Bug Fixes
+
+* modernize pre1978 pallet and add script to build a fresh copy ([8fbddd1](https://github.com/agrc/deq-enviro/commit/8fbddd1c46cd93eeee922ea5bb316f6b9ae102fa))
+
 ## [2.0.32](https://github.com/agrc/deq-enviro/compare/v2.0.31...v2.0.32) (2026-02-18)
 
 
