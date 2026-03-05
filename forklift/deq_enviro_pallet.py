@@ -126,10 +126,9 @@ class DEQNightly2TempTablesPallet(Pallet):
             if sgid_name.casefold().startswith('sgid'):
                 source = path.join(self.deqquerylayers, sgid_name.split('.')[-1])
                 destination = path.join(settings.sgid[sgid_name.split('.')[1]], sgid_name)
-                owner_connection = settings.sgid[sgid_name.split('.')[1]]
 
                 self.log.info(f'updating {destination}')
-                update_sgid.update_sgid_data(source, destination, owner_connection)
+                update_sgid.update_sgid_data(source, destination)
 
 
 class DEQNightly4RelatedTablesPallet(Pallet):
