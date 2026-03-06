@@ -74,4 +74,4 @@ def update_sgid_data(source, destination):
         arcpy.DeleteField_management(temp_table, delete_fields)
 
     arcpy.management.TruncateTable(destination)
-    arcpy.management.Append(temp_table, destination, 'NO_TEST')
+    arcpy.management.Append(temp_table, destination)
