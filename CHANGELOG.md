@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.34](https://github.com/agrc/deq-enviro/compare/v2.0.33...v2.0.34) (2026-03-09)
+
+
+### Bug Fixes
+
+* **forklift:** remove owner_connection arg from update_sgid_data call site ([f7e2e76](https://github.com/agrc/deq-enviro/commit/f7e2e7670e00bdcbe313fa1e2f0dfbf86b3de6b3))
+
 ## [2.0.33](https://github.com/agrc/deq-enviro/compare/v2.0.32...v2.0.33) (2026-03-05)
 
 
