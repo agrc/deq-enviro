@@ -211,11 +211,13 @@ class Pre1978Pallet(Pallet):
             self.log.debug(
                 f"deleting data in SGID.ENVIRONMENT.DAQPre1978LeadInHomes for {county_name}"
             )
-            with arcpy.da.UpdateCursor(
-                pre1978, ["OID@"], f"{fldCOUNTY} = '{county_name}'"
-            ) as ucur:
-                for row in ucur:
-                    ucur.deleteRow()
+            where = f"lower({fldCOUNTY}) = '{county_name.lower()}'"
+            layer = arcpy.management.MakeFeatureLayer(
+                pre1978, f"pre1978_layer_{county_name}_delete", where_clause=where
+            )
+            self.log.debug(f"layer created with where clause: {where}")
+            arcpy.management.DeleteFeatures(layer)
+            arcpy.management.Delete(layer)
 
             self.log.debug("appending new data")
             arcpy.management.Append(county_fc, pre1978, "NO_TEST")
