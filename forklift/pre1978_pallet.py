@@ -155,7 +155,7 @@ class Pre1978Pallet(Pallet):
             + [fldAPOID]
             + ["PARCEL_ADD", "PARCEL_CITY"]
         )
-        output_fields = [fi[0] for fi in FIELD_INFOS] + ["SHAPE@"]
+        output_fields = [fi[0] for fi in FIELD_INFOS] + ["Shape"]
         with (
             arcpy.da.SearchCursor(joined, joined_fields) as joined_cursor,
             arcpy.da.InsertCursor(output_fc, output_fields) as insert_cursor,
@@ -176,6 +176,9 @@ class Pre1978Pallet(Pallet):
                         joined_row[4] = address.split(" ")[0][:10]
 
                 insert_cursor.insertRow((*joined_row[:-3], county_name, shape))
+
+        self.log.debug("deleting duplicate rows")
+        arcpy.management.DeleteIdentical(output_fc, output_fields)
 
         self.log.info(
             f"scratch feature class for {county_name} written to: {output_fc}"
