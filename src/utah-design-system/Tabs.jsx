@@ -59,9 +59,9 @@ export function Trigger({ className, children, ...props }) {
       )}
       {...props}
     >
-      <h5 className="inline-flex items-center justify-center rounded-full px-2 group-hover/tab:bg-slate-200">
+      <h3 className="inline-flex items-center justify-center rounded-full px-2 group-hover/tab:bg-slate-200">
         {children}
-      </h5>
+      </h3>
     </RadixTabs.Trigger>
   );
 }

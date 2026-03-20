@@ -62,7 +62,11 @@ function App() {
 
   return (
     <>
-      <main id="main-content" className="flex min-h-0 flex-1 flex-col">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex min-h-0 flex-1 flex-col"
+      >
         <h1 className="sr-only">Environmental Interactive Map</h1>
         <RemoteConfigProvider>
           <SearchMachineProvider>
