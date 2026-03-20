@@ -48,7 +48,7 @@ function App() {
         imageUrl: '/deq_logo.png',
       },
       mainMenu: false,
-      skipLinkUrl: '#select-map-data',
+      skipLinkUrl: '#main-content',
       title: 'Environmental Interactive Map',
       titleUrl: null,
       utahId: false,
@@ -62,20 +62,23 @@ function App() {
 
   return (
     <>
-      <RemoteConfigProvider>
-        <SearchMachineProvider>
-          <div className="flex min-h-0 flex-1 flex-col md:flex-row">
-            <MapProvider>
-              <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
-                <MeasureTools />
-                <MapComponent />
-                <ResultsPanel />
-              </div>
-              <SearchWizard />
-            </MapProvider>
-          </div>
-        </SearchMachineProvider>
-      </RemoteConfigProvider>
+      <main id="main-content" className="flex min-h-0 flex-1 flex-col">
+        <h1 className="sr-only">Environmental Interactive Map</h1>
+        <RemoteConfigProvider>
+          <SearchMachineProvider>
+            <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+              <MapProvider>
+                <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
+                  <MeasureTools />
+                  <MapComponent />
+                  <ResultsPanel />
+                </div>
+                <SearchWizard />
+              </MapProvider>
+            </div>
+          </SearchMachineProvider>
+        </RemoteConfigProvider>
+      </main>
       <Dialog open={disclaimerOpen} onOpenChange={setDisclaimerOpen}>
         <DialogContent>
           <DialogTitle>Disclaimer</DialogTitle>

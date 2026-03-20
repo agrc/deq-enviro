@@ -54,7 +54,7 @@ export default function Download({
 
   return (
     <>
-      <h3>Select Data for Download</h3>
+      <h2>Select Data for Download</h2>
       {relevantResultLayers.map((searchLayer) => {
         const tableName = searchLayer[fieldNames.queryLayers.tableName];
         const layerName = searchLayer[fieldNames.queryLayers.layerName];

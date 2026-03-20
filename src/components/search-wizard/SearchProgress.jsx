@@ -53,7 +53,7 @@ export default function SearchProgress({
 
   return (
     <>
-      <h3>Search Results</h3>
+      <h2>Search Results</h2>
       <ul>{resultsMarkup}</ul>
       {anyLayersHaveFilterApplied ? (
         <span className="text-sm">

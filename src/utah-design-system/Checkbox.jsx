@@ -15,6 +15,7 @@ export default function Checkbox({
 }) {
   const generatedId = useId();
   const resolvedId = id || generatedId;
+  const labelId = `${resolvedId}-label`;
 
   return (
     <div className="my-1 flex items-center">
@@ -33,6 +34,7 @@ export default function Checkbox({
             defaultChecked={defaultChecked}
             onCheckedChange={onCheckedChange}
             disabled={disabled}
+            aria-labelledby={labelId}
             className={twJoin(
               'flex h-4 w-4 items-center justify-center rounded border',
               disabled
@@ -46,6 +48,7 @@ export default function Checkbox({
           </RadixCheckbox.Root>
         </div>
         <label
+          id={labelId}
           htmlFor={resolvedId}
           className={twJoin(
             'pl-1 leading-4',
