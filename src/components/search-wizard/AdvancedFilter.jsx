@@ -169,7 +169,7 @@ export default function AdvancedFilter({ visible }) {
 
   return (
     <div className={clsx(!visible && 'hidden')}>
-      <h3>Selected Map Layers</h3>
+      <h2>Selected Map Layers</h2>
       <ul>
         {state.context.searchLayerTableNames.map((name) => (
           <li key={name} className="mb-1 flex items-center justify-start">

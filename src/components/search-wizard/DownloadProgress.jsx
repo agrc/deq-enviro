@@ -45,7 +45,7 @@ export function DownloadProgressInner({ layers, layerResults, error, url }) {
 
   return (
     <>
-      <h3>Download Results</h3>
+      <h2>Download Results</h2>
       <ul>
         {layers.map((searchLayer) => {
           const tableName = searchLayer[fieldNames.queryLayers.tableName];
