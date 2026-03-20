@@ -9,7 +9,7 @@ export default function Link({ className, href, external, children }) {
       target={external ? '_blank' : '_self'}
       rel={external ? 'noopener noreferrer' : ''}
       className={twMerge(
-        'inline-flex cursor-pointer items-center text-sky-600 hover:bg-slate-100 hover:text-sky-800',
+        'inline-flex cursor-pointer items-center text-sky-700 hover:bg-slate-100 hover:text-sky-900',
         className,
       )}
     >

@@ -61,7 +61,7 @@ export default function SearchProgress({
           a layer filter is applied
         </span>
       ) : null}
-      <h5>Filter</h5>
+      <h3>Filter</h3>
       <div className="rounded-full bg-slate-200 px-3 py-1">{filterName}</div>
     </>
   );
