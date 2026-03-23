@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.35](https://github.com/agrc/deq-enviro/compare/v2.0.34...v2.0.35) (2026-03-23)
+
+
+### Bug Fixes
+
+* accessibility improvements ([3016e01](https://github.com/agrc/deq-enviro/commit/3016e0119b0fcbc9eae418a709fa06cfc8788547))
+* more accessibility improvements based on copilot feedback ([4c030e4](https://github.com/agrc/deq-enviro/commit/4c030e4ada7465fdeffc22098513acc0b23ac900))
+
 ## [2.0.34](https://github.com/agrc/deq-enviro/compare/v2.0.33...v2.0.34) (2026-03-09)
 
 
