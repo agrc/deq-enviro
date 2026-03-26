@@ -8,7 +8,7 @@ const openSgidConnectionParamsSecret = defineSecret(
 
 const commonConfigs = {
   // longer timeout for local development to allow for debugging
-  timeoutSeconds: process.env.FUNCTIONS_EMULATOR ? 60 * 60 : 60,
+  timeoutSeconds: process.env.FUNCTIONS_EMULATOR ? 60 * 60 : 120,
 };
 
 export const configs = onRequest(
