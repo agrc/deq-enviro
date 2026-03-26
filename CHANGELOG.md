@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.36-rc.1](https://github.com/agrc/deq-enviro/compare/v2.0.35...v2.0.36-rc.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* **functions:** increase config function timeout ([9713950](https://github.com/agrc/deq-enviro/commit/9713950a761969d2c37b711e397cd622af5587d1))
+
 ## [2.0.35](https://github.com/agrc/deq-enviro/compare/v2.0.34...v2.0.35) (2026-03-23)
 
 
