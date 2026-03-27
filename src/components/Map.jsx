@@ -243,7 +243,7 @@ export default function MapComponent() {
       options: {
         view: view.current,
         quadWord: import.meta.env.VITE_DISCOVER_KEY,
-        basemaps: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR'],
+        basemaps: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR', 'High Contrast'],
         operationalLayers: [
           {
             label: 'NHD Streams',
