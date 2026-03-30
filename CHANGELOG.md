@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/agrc/deq-enviro/compare/v2.0.36...v2.1.0) (2026-03-30)
+
+
+### Features
+
+* **a11y:** add high contrast base map ([dab137a](https://github.com/agrc/deq-enviro/commit/dab137add2ce1e1549d50512727314ed3185692f))
+
 ## [2.0.36](https://github.com/agrc/deq-enviro/compare/v2.0.35...v2.0.36) (2026-03-26)
 
 
