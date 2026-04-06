@@ -16,7 +16,7 @@ permissions:
 
 env:
   MEMORY: 4G
-  TIMEOUT: 20m
+  TIMEOUT: 30m
   TRIGGER_PARAMS: |
     --location=nam5 \
     --destination-run-service=download \
