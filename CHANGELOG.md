@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.1](https://github.com/agrc/deq-enviro/compare/v2.1.0...v2.1.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* **download:** increase job timeout ([4428b7b](https://github.com/agrc/deq-enviro/commit/4428b7b3f8b7839a6ce154f9a2983ae29bfe5cc7))
+* **download:** increase max cloud run instances ([3d11040](https://github.com/agrc/deq-enviro/commit/3d11040d10100b5331eee637f564fda6d51dffee))
+
 ## [2.1.0](https://github.com/agrc/deq-enviro/compare/v2.0.36...v2.1.0) (2026-03-30)
 
 
