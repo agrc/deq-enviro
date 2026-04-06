@@ -136,7 +136,7 @@ jobs:
           service: download
           flags: |
             --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
-            --max-instances=10
+            --max-instances=30
             --min-instances=0
             --allow-unauthenticated
             --memory=${{ env.MEMORY }}
