@@ -1,4 +1,4 @@
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.2 AS base
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.3 AS base
 
 RUN apt update
 RUN apt install -y python3-pip
