@@ -33,6 +33,17 @@ export function getDefaultRenderer(geometryType) {
 }
 
 /**
+ * Ensure a layer ends up on top of the current operational layer stack.
+ *
+ * @param {import('@arcgis/core/Map').default} map
+ * @param {import('@arcgis/core/layers/Layer').default} layer
+ */
+export function addLayerToTop(map, layer) {
+  map.add(layer);
+  map.reorder(layer, map.layers.length - 1);
+}
+
+/**
  * Query all features from a feature layer paging through results if necessary
  *
  * @param {import('@arcgis/core/layers/FeatureLayer').default} featureLayer

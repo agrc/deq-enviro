@@ -24,6 +24,7 @@ import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
 import Spinner from '../utah-design-system/Spinner';
 import {
+  addLayerToTop,
   getConfigByTableName,
   getDefaultRenderer,
   getDefQueryFromLayerFilterValues,
@@ -513,10 +514,7 @@ export default function MapComponent() {
           async () => await queryFeatures(featureLayer, query),
         );
 
-        map.current.add(
-          featureLayer,
-          featureLayer.geometryType === 'polygon' ? 1 : null,
-        );
+        addLayerToTop(map.current, featureLayer);
 
         send({
           type: 'RESULT',

@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
 import {
+  addLayerToTop,
   getAlias,
   getColumnDefs,
   getDefaultLayerFilterValues,
@@ -70,6 +71,24 @@ describe('hasDefaultSymbology', () => {
     layer.renderer.symbol.outline.width = 0.8;
 
     expect(hasDefaultSymbology(layer)).toEqual(false);
+  });
+});
+
+describe('addLayerToTop', () => {
+  it('reorders the added layer to the top of the map layer stack', () => {
+    const layer = { id: 'search-layer:test' };
+    const map = {
+      layers: [{ id: 'existing-1' }, { id: 'existing-2' }],
+      add: vi.fn(function (value) {
+        this.layers.push(value);
+      }),
+      reorder: vi.fn(),
+    };
+
+    addLayerToTop(map, layer);
+
+    expect(map.add).toHaveBeenCalledWith(layer);
+    expect(map.reorder).toHaveBeenCalledWith(layer, 2);
   });
 });
 
