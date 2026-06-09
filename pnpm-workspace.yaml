@@ -1,6 +1,16 @@
 packages:
   - functions
 
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  '@vaadin/vaadin-usage-statistics': false
+  core-js: true
+  esbuild: true
+  protobufjs: true
+  re2: true
+  unrs-resolver: true
+
 onlyBuiltDependencies:
   - '@firebase/util'
   - '@parcel/watcher'
