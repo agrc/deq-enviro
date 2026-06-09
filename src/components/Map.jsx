@@ -517,9 +517,12 @@ export default function MapComponent() {
 
         // keep polygon result layers above the filter graphic at index 0
         // while still rendering them below point result layers
-        map.current.add(featureLayer, featureLayer.geometryType === 'polygon'
-          ? polygonSearchLayerIndex
-          : null);
+        map.current.add(
+          featureLayer,
+          featureLayer.geometryType === 'polygon'
+            ? polygonSearchLayerIndex
+            : null,
+        );
 
         send({
           type: 'RESULT',
