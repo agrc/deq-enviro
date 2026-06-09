@@ -6,6 +6,7 @@ minimumReleaseAgeStrict: true
 
 minimumReleaseAgeExclude:
   - '@ugrc/*'
+  - uuid@11.1.1
 
 overrides:
   diff@>=4.0.0 <4.0.4: '>=4.0.4'
