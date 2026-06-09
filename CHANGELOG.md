@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.2-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.1...v2.1.2-rc.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* fix bug preventing related records from showing for some datasets ([d5813ad](https://github.com/agrc/deq-enviro/commit/d5813adb97ca009cf82b433b2b47a34d96587edf))
+
+
+### Dependencies
+
+* arcgis and related packages v4 -&gt; v5 ([e02ad89](https://github.com/agrc/deq-enviro/commit/e02ad897fcaefb0ae57b74dcc85f2ccf39195bc4))
+* bump NPM dependencies 🌲 ([8210576](https://github.com/agrc/deq-enviro/commit/8210576037844f939365d043e096c530de5d39bf))
+* **download:** bump docker image and fix some best practices warnings ([e91d2fe](https://github.com/agrc/deq-enviro/commit/e91d2fe9bdbe67a0f71c6230911299c180c5bf23))
+* **download:** stay on numpy 1 for now ([8bb0c28](https://github.com/agrc/deq-enviro/commit/8bb0c28e03c72314939589a195b330dfe06b5d6d))
+
 ## [2.1.1](https://github.com/agrc/deq-enviro/compare/v2.1.0...v2.1.1) (2026-04-06)
 
 
