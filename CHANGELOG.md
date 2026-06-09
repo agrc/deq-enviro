@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.2-rc.2](https://github.com/agrc/deq-enviro/compare/v2.1.2-rc.1...v2.1.2-rc.2) (2026-06-09)
+
+
+### Bug Fixes
+
+* add help text for address searching ([4db1753](https://github.com/agrc/deq-enviro/commit/4db17532c5e5e4c362ed41b76930d7ef175538e3)), closes [#899](https://github.com/agrc/deq-enviro/issues/899)
+
+
+### Dependencies
+
+* tailwind v3 -&gt; v4 ([b96c122](https://github.com/agrc/deq-enviro/commit/b96c122d0e1553543a4b18197d13447140a5c07c))
+* utah design system header v4 -&gt; v5 ([c6a16a5](https://github.com/agrc/deq-enviro/commit/c6a16a520b145e8c07d73b90de7fe4ac8ad90964))
+
 ## [2.1.2-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.1...v2.1.2-rc.1) (2026-06-09)
 
 
