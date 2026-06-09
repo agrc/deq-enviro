@@ -104,6 +104,7 @@
     "noninteractive",
     "nosniff",
     "ntlm",
+    "numpy",
     "openpyxl",
     "OPENREGAST",
     "OPENRELEASE",
