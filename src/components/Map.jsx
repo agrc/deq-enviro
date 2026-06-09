@@ -1,17 +1,20 @@
 import Graphic from '@arcgis/core/Graphic';
 import Map from '@arcgis/core/Map';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import { fromJSON } from '@arcgis/core/geometry/support/jsonUtils';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import { fromPortalItem } from '@arcgis/core/layers/support/fromPortalItem';
-import MapView from '@arcgis/core/views/MapView';
-import CoordinateConversion from '@arcgis/core/widgets/CoordinateConversion';
-import Expand from '@arcgis/core/widgets/Expand';
-import Legend from '@arcgis/core/widgets/Legend';
-import Print from '@arcgis/core/widgets/Print';
-import { LayerSelector, useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import '@arcgis/map-components/components/arcgis-coordinate-conversion';
+import '@arcgis/map-components/components/arcgis-expand';
+import '@arcgis/map-components/components/arcgis-legend';
+import '@arcgis/map-components/components/arcgis-map';
+import '@arcgis/map-components/components/arcgis-print';
+import '@arcgis/map-components/components/arcgis-zoom';
+import { LayerSelector } from '@ugrc/utah-design-system/components/LayerSelector';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import ky from 'ky';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
@@ -30,6 +33,8 @@ import {
   hasDefaultSymbology,
   queryFeatures,
 } from '../utils';
+import MeasureTools from './MeasureTools';
+import ShapeSketch from './ShapeSketch';
 import { getWhere } from './search-wizard/filters/utils';
 
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
@@ -134,98 +139,88 @@ TooManyMessage.propTypes = {
 export default function MapComponent() {
   const [state, send] = useSearchMachine();
   const [selectorOptions, setSelectorOptions] = useState(null);
-  const { setMapView, selectedGraphicInfo, setSelectedGraphicInfo } = useMap();
+  const {
+    setMapView,
+    selectedGraphicInfo,
+    setSelectedGraphicInfo,
+    shapeSketchOptions,
+  } = useMap();
   const logEvent = useFirebaseAnalytics();
   const [showSpinner, setShowSpinner] = useState(false);
+  const [mapIsReady, setMapIsReady] = useState(false);
 
   const map = useRef(null);
   const view = useRef(null);
+  const mapElement = useRef(null);
+  const printElement = useRef(null);
+  const legendExpandElement = useRef(null);
   const filterGraphic = state.context?.filter?.geometry && {
     geometry:
       state.context?.filter?.geometry &&
       fromJSON(state.context.filter.geometry),
     symbol: appConfig.symbols.filter,
   };
-  useMapGraphic(view.current, new Graphic(filterGraphic), view.current?.ready);
+  useMapGraphic(view.current, new Graphic(filterGraphic), mapIsReady);
 
   const { queryLayers } = useRemoteConfigValues();
 
-  const mapDiv = useRef(null);
   useEffect(() => {
-    map.current = new Map();
+    const arcgisMapElement = mapElement.current;
+    const arcgisPrintElement = printElement.current;
+    const arcgisLegendExpandElement = legendExpandElement.current;
+    let clickHandle;
+    let updatingHandle;
+    let destroyed = false;
 
-    view.current = new MapView({
-      container: mapDiv.current,
-      map: map.current,
-      extent: stateOfUtahExtent,
-      constraints: {
-        maxZoom: 19,
-        snapToZoom: false,
-      },
-    });
+    map.current = new Map({ basemap: 'streets' });
+    arcgisMapElement.map = map.current;
+    arcgisMapElement.extent = stateOfUtahExtent;
+    arcgisMapElement.constraints = {
+      maxZoom: 19,
+      snapToZoom: false,
+    };
 
-    setMapView(view.current);
+    const handlePrintSubmit = () => logEvent('print-map');
+    const handleLegendPropertyChange = (event) => {
+      if (
+        event.detail.name === 'expanded' &&
+        arcgisLegendExpandElement.expanded
+      ) {
+        logEvent('view-legend');
+      }
+    };
 
-    view.current.when(() => {
-      const print = new Print({
-        view: view.current,
-        printServiceUrl: appConfig.urls.print,
-        templateOptions: {
-          title: 'Printed from the Utah DEQ Interactive Map',
-        },
-      });
-      print.on('submit', () => logEvent('print-map'));
+    arcgisPrintElement.addEventListener('arcgisSubmit', handlePrintSubmit);
+    arcgisLegendExpandElement.addEventListener(
+      'arcgisPropertyChange',
+      handleLegendPropertyChange,
+    );
 
-      const printExpand = new Expand({
-        expandIcon: 'print',
-        view: view.current,
-        content: print,
-        label: 'Print',
-      });
+    arcgisMapElement.viewOnReady().then(() => {
+      if (destroyed) return;
 
-      view.current.ui.add(printExpand, 'top-left');
+      view.current = arcgisMapElement.view;
+      setMapView(view.current);
+      setMapIsReady(true);
 
-      const legend = new Expand({
-        expandIcon: 'legend',
-        view: view.current,
-        content: new Legend({ view: view.current }),
-        label: 'Legend',
-      });
-
-      legend.watch(
-        'expanded',
-        (expanded) => expanded && logEvent('view-legend'),
-      );
-
-      view.current.ui.add(legend, 'top-right');
-
-      const coordinatesExpand = new Expand({
-        expandIcon: 'object-detection',
-        view: view.current,
-        content: new CoordinateConversion({
-          view: view.current,
-        }),
-        label: 'Coordinates',
-      });
-
-      view.current.ui.add(coordinatesExpand, 'bottom-left');
-
-      view.current.on('click', (event) => {
+      clickHandle = view.current.on('click', (event) => {
         view.current.hitTest(event).then(({ results }) => {
           // look for hit on search layer
-          const hit = results.find((result) =>
-            result.graphic.layer.id?.startsWith(searchLayerIdPrefix),
+          const hit = results.find(
+            (result) =>
+              result.type === 'graphic' &&
+              result.layer.id?.startsWith(searchLayerIdPrefix),
           );
 
           if (hit) {
             logEvent('map-click-feature', {
-              table_name: hit.graphic.layer.id.split(':')[1],
+              table_name: hit.layer.id.split(':')[1],
             });
 
-            const { layer, attributes } = hit.graphic;
+            const { attributes } = hit.graphic;
 
             setSelectedGraphicInfo({
-              layerId: layer.id.split(':')[1],
+              layerId: hit.layer.id.split(':')[1],
               oid: attributes.OBJECTID,
             });
           } else {
@@ -234,16 +229,23 @@ export default function MapComponent() {
         });
       });
 
-      view.current.watch('updating', (updating) => {
-        setShowSpinner(updating);
-      });
-    });
+      updatingHandle = reactiveUtils.watch(
+        () => view.current.updating,
+        (updating) => {
+          setShowSpinner(updating);
+        },
+      );
 
-    setSelectorOptions({
-      options: {
-        view: view.current,
+      setSelectorOptions({
         quadWord: import.meta.env.VITE_DISCOVER_KEY,
-        basemaps: ['Lite', 'Terrain', 'Topo', 'Hybrid', 'Color IR', 'High Contrast'],
+        basemaps: [
+          'Lite',
+          'Terrain',
+          'Topo',
+          'Hybrid',
+          'Color IR',
+          'High Contrast',
+        ],
         operationalLayers: [
           {
             label: 'NHD Streams',
@@ -326,17 +328,27 @@ export default function MapComponent() {
               }),
           },
         ],
-      },
+      });
     });
 
     return () => {
-      view.current.destroy();
-      map.current.destroy();
+      destroyed = true;
+      clickHandle?.remove();
+      updatingHandle?.remove();
+      arcgisPrintElement.removeEventListener('arcgisSubmit', handlePrintSubmit);
+      arcgisLegendExpandElement.removeEventListener(
+        'arcgisPropertyChange',
+        handleLegendPropertyChange,
+      );
+      setMapView(null);
+      setMapIsReady(false);
+      view.current = null;
+      map.current = null;
     };
   }, [logEvent, setMapView, setSelectedGraphicInfo]);
 
   const removeSearchLayers = () => {
-    if (searching.current) return;
+    if (searching.current || !map.current) return;
 
     const removeLayers = map.current.layers.filter((layer) =>
       layer.id?.startsWith('search-layer'),
@@ -596,7 +608,7 @@ export default function MapComponent() {
     if (
       !searching.current &&
       state.context.resultExtent === null &&
-      view.current.ready
+      view.current?.ready
     ) {
       removeSearchLayers();
       view.current.goTo(stateOfUtahExtent);
@@ -606,7 +618,7 @@ export default function MapComponent() {
   }, [state.context.resultExtent]);
 
   useEffect(() => {
-    if (state.context.resultExtent) {
+    if (state.context.resultExtent && view.current) {
       // zoom to result extent
       view.current.goTo(state.context.resultExtent);
     }
@@ -614,7 +626,12 @@ export default function MapComponent() {
 
   useEffect(() => {
     let handle;
-    if (selectedGraphicInfo?.oid && selectedGraphicInfo?.layerId) {
+    if (
+      selectedGraphicInfo?.oid &&
+      selectedGraphicInfo?.layerId &&
+      map.current &&
+      view.current
+    ) {
       const layer = map.current.layers.find(
         (layer) => layer.id.split(':')[1] === selectedGraphicInfo.layerId,
       );
@@ -630,10 +647,44 @@ export default function MapComponent() {
   }, [selectedGraphicInfo, state.context.resultLayers]);
 
   return (
-    <div className="relative w-full flex-1" ref={mapDiv}>
-      {selectorOptions ? (
-        <LayerSelector {...selectorOptions}></LayerSelector>
-      ) : null}
+    <div className="relative w-full flex-1">
+      <arcgis-map ref={mapElement} basemap="streets" className="h-full w-full">
+        {selectorOptions ? (
+          <LayerSelector {...selectorOptions}></LayerSelector>
+        ) : null}
+        <arcgis-zoom slot="top-left" />
+        <arcgis-expand
+          ref={legendExpandElement}
+          expandIcon="legend"
+          label="Legend"
+          slot="top-right"
+        >
+          <arcgis-legend />
+        </arcgis-expand>
+        <arcgis-expand expandIcon="print" label="Print" slot="top-left">
+          <arcgis-print
+            ref={printElement}
+            printServiceUrl={appConfig.urls.print}
+            templateOptions={{
+              title: 'Printed from the Utah DEQ Interactive Map',
+            }}
+          />
+        </arcgis-expand>
+        <arcgis-expand
+          expandIcon="object-detection"
+          label="Coordinates"
+          slot="bottom-left"
+        >
+          <arcgis-coordinate-conversion />
+        </arcgis-expand>
+        <MeasureTools />
+        {shapeSketchOptions && mapIsReady ? (
+          <ShapeSketch
+            mapView={view.current}
+            onCreate={shapeSketchOptions.onCreate}
+          />
+        ) : null}
+      </arcgis-map>
       {showSpinner ? (
         <Spinner
           ariaLabel="map busy indicator"

@@ -1,4 +1,4 @@
-import { type Geometry } from '@arcgis/core/geometry';
+import type Geometry from '@arcgis/core/geometry/Geometry';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import { useEffect, useRef, useState } from 'react';
 import appConfig from '../../../app-config';

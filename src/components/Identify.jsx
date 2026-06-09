@@ -1,4 +1,4 @@
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import { ArrowLeftIcon, EyeIcon, SearchIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';

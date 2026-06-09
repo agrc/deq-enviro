@@ -26,14 +26,17 @@ importers:
   .:
     dependencies:
       '@arcgis/core':
-        specifier: ^4.34.8
-        version: 4.34.8
+        specifier: ^5.0.19
+        version: 5.0.19
+      '@arcgis/map-components':
+        specifier: ^5.0.19
+        version: 5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0)
       '@esri/calcite-components':
-        specifier: ^3.3.3
-        version: 3.3.3
+        specifier: ^5.1.0
+        version: 5.1.0
       '@esri/calcite-components-react':
-        specifier: ^3.3.3
-        version: 3.3.3(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^5.1.0
+        version: 5.1.0(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-accessible-icon':
         specifier: ^1.1.8
         version: 1.1.8(@types/react-dom@19.2.3(@types/react@19.2.16))(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -74,11 +77,11 @@ importers:
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@ugrc/esri-theme-toggle':
-        specifier: ^1.1.2
-        version: 1.1.2
+        specifier: ^2.0.0
+        version: 2.0.0
       '@ugrc/utah-design-system':
-        specifier: ^1.35.0
-        version: 1.35.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@3.4.19(yaml@2.9.0))
+        specifier: ^4.0.3
+        version: 4.0.3(@arcgis/core@5.0.19)(@arcgis/map-components@5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0))(@esri/calcite-components@5.1.0)(firebase@12.14.0)(react-aria-components@1.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.49.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-stately@3.47.0(react@19.2.7))(react@19.2.7)(tailwindcss@3.4.19(yaml@2.9.0))
       '@utahdts/utah-design-system-header':
         specifier: ^4.3.0
         version: 4.3.0
@@ -118,6 +121,12 @@ importers:
       react:
         specifier: ^19.2.7
         version: 19.2.7
+      react-aria:
+        specifier: ^3.49.0
+        version: 3.49.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react-aria-components:
+        specifier: ^1.18.0
+        version: 1.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-content-loader:
         specifier: ^7.1.2
         version: 7.1.2(react@19.2.7)
@@ -130,6 +139,9 @@ importers:
       react-error-boundary:
         specifier: ^6.1.2
         version: 6.1.2(react@19.2.7)
+      react-stately:
+        specifier: ^3.47.0
+        version: 3.47.0(react@19.2.7)
       react-virtual:
         specifier: ^2.10.4
         version: 2.10.4(react@19.2.7)
@@ -295,8 +307,8 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@amcharts/amcharts5@5.14.4':
-    resolution: {integrity: sha512-Tl7wQLWvsvyWVtlCIm1yhZtJviSDYjuNTnlUkO0D49GyByoK0nb9fr0DK4rUw4DVgyLcySxWBsb2lzTJm5Rd9Q==}
+  '@amcharts/amcharts5@5.15.6':
+    resolution: {integrity: sha512-6gVWngHgkMN+v6dJhZ4XJE3fcHjvD5hyjgyNnfvVE1H0ukmHpfFmhI7cCX0cgy0NRyZc4fwgxDMZsiNA7yYKjA==}
 
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
@@ -304,20 +316,46 @@ packages:
   '@apphosting/common@0.0.8':
     resolution: {integrity: sha512-RJu5gXs2HYV7+anxpVPpp04oXeuHbV3qn402AdXVlnuYM/uWo7aceqmngpfp6Bi376UzRqGjfpdwFHxuwsEGXQ==}
 
-  '@arcgis/core@4.34.8':
-    resolution: {integrity: sha512-UrEBTjXpSA9fhmmnAENBzz9GG81xALTezQFMXUs2iMB+tiOckmJyBbhATI/W4lIQyUfNEK7Zm/46EP2PhDga/A==}
-
-  '@arcgis/lumina@4.34.9':
-    resolution: {integrity: sha512-efqO+SwR+1IYf29AATh1l2FUeypRyRINTBNkaJY+KkaFe+8gqSJ45qOmputhyzF5WTRDb7WhOYgnChjp6VYPpA==}
+  '@arcgis/common-components@5.0.19':
+    resolution: {integrity: sha512-5IGxBIfCFmVbqffPGGL0ozkB6uf9j6zvbHgO7iS1S6IW+Kahb1drAGIxckPAlZ/jeKmACr39a+bm6u7+NtvL7w==}
     peerDependencies:
-      '@lit/context': ^1.1.5
+      '@arcgis/core': ^5.0.0
+      '@esri/calcite-components': ^5.0.2
+
+  '@arcgis/core@5.0.19':
+    resolution: {integrity: sha512-OciZxzB16sTxtyfESqjuTC6rkMpwcmAzx2iQip3r1NE0IW869Eo5beyonILcHGCx9werUUd/5UhgmOI9MlX4lw==}
+
+  '@arcgis/lumina@5.0.19':
+    resolution: {integrity: sha512-L2WL/yYfR+xY8wpnhObxC/MCaOgImyrvZo5SbBm4tCJtfnpkzpjfGfQ5B5Wj2t+erWxpqVdNBBlQtmq9sipj5g==}
+    peerDependencies:
+      '@lit/context': ^1.1.6
       lit: ^3.3.0
     peerDependenciesMeta:
       '@lit/context':
         optional: true
 
-  '@arcgis/toolkit@4.34.9':
-    resolution: {integrity: sha512-wFST+eVnCwmg9NyICVyn9bsBnR+TlWklsGqG3L7xqSTgfXo6TuCThE7wtTb8xWxsTBkGvImqMUgpgLuwQuTQ1g==}
+  '@arcgis/lumina@5.1.0-next.124':
+    resolution: {integrity: sha512-vVGhN5SEOnsbdHds9sdcDZRrRChaJmqBhluinvSIMoLkRlX0gjsMQO+J/dFcNWI30fjKwn+ETpfzOKqjra+nPA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
+    peerDependencies:
+      '@lit/context': ^1.1.6
+      lit: ^3.3.0
+    peerDependenciesMeta:
+      '@lit/context':
+        optional: true
+
+  '@arcgis/map-components@5.0.19':
+    resolution: {integrity: sha512-QDLPSHlUXwXOgQvRfQrBjPqySBVJ0p7RNw9IUIp+g3d3d0DZk2UCY0eRn4n9ewJUhU0yG2JvxhMybhoQ3ibsqA==}
+    peerDependencies:
+      '@arcgis/core': ^5.0.0
+      '@esri/calcite-components': ^5.0.2
+
+  '@arcgis/toolkit@5.0.19':
+    resolution: {integrity: sha512-764RD+gII0r6o5tVXB8W5p+eOpjnfmlFnL/AXw4oPvby1PpwiSlFyhhzpjJIz7SD9ENn+gmK8+E6jMLT8Y1RFA==}
+
+  '@arcgis/toolkit@5.1.0-next.124':
+    resolution: {integrity: sha512-4N1+u0vMVBsyBblmFg0fdzDlF6mCKzaEOFy3LrZ4XNFP8jIvgG/+HMJJCvffBUvm7O10C7nIEhY4vTyppFNffw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -779,17 +817,17 @@ packages:
     resolution: {integrity: sha512-EKJDKiXI5m1fcaFGx7NGOraiBjVHEBxaQ4PPa07OWhp8s8/xJCiJcYw7CAX9jTZgWPiXqh45zkIQ8e+EoMCwrw==}
     engines: {node: '>=12.20.0'}
 
-  '@esri/calcite-components-react@3.3.3':
-    resolution: {integrity: sha512-KFU3+DsFIkOpjWnmTxbR5bSXxqF34372z9vcDEY88/9Ixbdchwd0fqupMkhFrOOGjcIR6JS+4d9dW+DiFOuiqw==}
+  '@esri/calcite-components-react@5.1.0':
+    resolution: {integrity: sha512-ozi9ghhpbVNswElrQW6SKGmyu9faJWZLaCTMS6aorWFcdvrDHxGLjC0Id+W32Z7udrQaIOUSyuPTjbWYmJ7+PA==}
     peerDependencies:
       react: '>=18.3'
       react-dom: '>=18.3'
 
-  '@esri/calcite-components@3.3.3':
-    resolution: {integrity: sha512-tw+EfJ3pb+Odj71W6E9GUkm8rMbNxfW1KeiI8GgsKDzhr39hMKwY+zYYFFYuO0FONxWGvAB+B8yqB0NvH7WeHw==}
+  '@esri/calcite-components@5.1.0':
+    resolution: {integrity: sha512-lMcSt5u0k1WtVnStyj3cIpQ4HsLAy4IzJvrSqMZEy3/XW7DwHDMx2P/90Fxw6YWvo+N/h+62yBpsg+z1hXEtPw==}
 
-  '@esri/calcite-ui-icons@4.3.0':
-    resolution: {integrity: sha512-iOOuRurpjFxFVw6+aXW2JpSkRBrdOpBcbdibfPOmSPqMd1aoHBtYmYXetKoH9vfrXoBiPyO2PkDnczhsu/N9IA==}
+  '@esri/calcite-ui-icons@4.5.0':
+    resolution: {integrity: sha512-MuXK8o5qefXXV/vdDucQUm8zno+9Q0KjadCX82gYX1VgHMLPp0x2+pbQzG3c0MDbRqkidhTqL/zwq/eVq282qg==}
     hasBin: true
 
   '@fastify/busboy@3.2.0':
@@ -1425,6 +1463,9 @@ packages:
   '@lit/reactive-element@2.1.2':
     resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
 
+  '@lit/task@1.0.3':
+    resolution: {integrity: sha512-1gJGJl8WON+2j0y9xfcD+XsS1rvcy3XDgsIhcdUW++yTR8ESjZW6o7dn8M8a4SZM8NnJe6ynS2cKWwsbfLOurg==}
+
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
     peerDependencies:
@@ -1841,9 +1882,6 @@ packages:
   '@pnpm/npm-conf@3.0.2':
     resolution: {integrity: sha512-h104Kh26rR8tm+a3Qkc5S4VLYint3FE48as7+/5oCEcKR2idC/pF1G6AhIXKI+eHPJa/3J9i5z0Al47IeGHPkA==}
     engines: {node: '>=12'}
-
-  '@polymer/polymer@3.5.2':
-    resolution: {integrity: sha512-fWwImY/UH4bb2534DVSaX+Azs2yKg8slkMBHOyGeU2kKx7Xmxp6Lee0jP8p6B3d7c1gFUPB2Z976dTUtX81pQA==}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -2320,156 +2358,6 @@ packages:
 
   '@reach/observe-rect@1.2.0':
     resolution: {integrity: sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==}
-
-  '@react-stately/calendar@3.10.1':
-    resolution: {integrity: sha512-nKluH+UT9xJlAimOW6ZrXgQNDiFUfbdtQwQ6rmq5mXs7yD8hGpOOLxJ0ZtT+cyWkbOAYR19j/6xyRPzGQxRL9g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/checkbox@3.8.1':
-    resolution: {integrity: sha512-jNYNOkro8cgLkeeea24UQdE+PWpsBz/6hGPPM9CrHBvC7x2Egh3iHy1not61Oqp7BI7Rq1K1+Q4q8J37bOTr6w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/collections@3.13.1':
-    resolution: {integrity: sha512-o1QSrtHyR7ODTdPyna87pZlgzvxBFOR8nI8XB+tQLIW2AMhE76pLYu4TN9CrZVy6nSAtE06IntyBV4toJIhorA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/color@3.10.1':
-    resolution: {integrity: sha512-v4YlLa/oRQpPa/M9Yq1e0Bl8Z7xzGZdNDAIbfIMZuiJtacaOKriPW+AOgjjT/Ab0fNX2YDbwIYvkiMOJBnTi5A==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/combobox@3.14.1':
-    resolution: {integrity: sha512-Sko1oHiKt07LERxUgpgmbQOYh5Yk8cU1dgRZlcE1wmmaxSVZBzBnd3fGZrEGRKSDezVOKHLibsmuYYDbxPEc+Q==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/data@3.16.1':
-    resolution: {integrity: sha512-pHLN4kry+t2fd3N8GgGM4It0y4hMPWhSxcrnetGmrgTPJPEzBZmvZcCkJaIny0XaH+7SBlQ5oKvTnP/L8SeNbA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/datepicker@3.17.1':
-    resolution: {integrity: sha512-Rle7CPU49jHNmdIJe5D4qXeFj6D+G5XT/W32fQSXnJszw/Xp+A3j7/XnscusQUyjjbHqZE2UP4A5/dFH0KPvvA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/disclosure@3.1.1':
-    resolution: {integrity: sha512-YMCLve9otPkIgQ7cLReRJg8OXdbemFYec55f8WVbK/WsRCHcuxDAvM+JYVSAG95egKdD7pYxmEq7XxC6BNspig==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/dnd@3.8.1':
-    resolution: {integrity: sha512-wIfLh3JQPgel6pW/hV/+JczNQH8+yovciPn5Ziif6tfilxCQH01R5WDqDJRPFqpFXX+IRZ/f4F+Tj+GdHOJmKQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/form@3.3.1':
-    resolution: {integrity: sha512-Wz5CK6X4bUo+VBUZLTrRDMXVdlTUVvQbaWTBzINf1zDeiNvGRsnv43L4OSQu/y9xfbtzJz/m2SH2ZTu1//aQXg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/list@3.14.1':
-    resolution: {integrity: sha512-3W+GqsDqKih7gqVRzA85P2CtGcahETLzC+NM9zhgz+T0xeHQITc7N2oEAT1Vy+cIKGd1YmfGM8ACgtpcbcnWWA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/menu@3.10.1':
-    resolution: {integrity: sha512-4pQklVXmHV7EVCj3xRYqpfM8pYvIsn5jdIe1CZcvwp3XXtZ5Y6TFR82C7UnI1hAvqI0//by6HWzVOPT7AvyBzw==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/numberfield@3.12.1':
-    resolution: {integrity: sha512-VsLPtXIvRx7YgF8bs7VWl3tYkktuGniF5Sj/caDo+LI/csrRat8cCdA4S/QBRrxMoO5fQv8QwUPEZJvtgNfR8g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/overlays@3.7.1':
-    resolution: {integrity: sha512-vGw9f8i5kPvaQqvvQ8iIhPhJZorwtg2rXycqnUNXkNLadewh1S0ocbnRvrb4HW/GGC37rFmGcG1fYCHA/WIn6w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/radio@3.12.1':
-    resolution: {integrity: sha512-sx83ffwQMRhUuMbbRIS4O/FMDyp9DfY1P3bbcSdSgOfglCb6aILJj3ExRJcXSUZdzm79g7cKADNtqzIlW5n6pg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/searchfield@3.6.1':
-    resolution: {integrity: sha512-5POKE91Tc5E2nCL9CP8+cVFb1xxHI6M7RkMTbJ0kahQuBlF8EQVN9gjCH7CwnCey5T73TLouS+pdZ3OlkrlqtA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/select@3.10.1':
-    resolution: {integrity: sha512-f7rVJO/YAfq33hienemL6fg95uZZQ+vIvcwzQelIr2WDZvyf3p4OPS1CMzcroyl3tNsYvG/Vy26dOuF4tu6vOA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/selection@3.21.1':
-    resolution: {integrity: sha512-Tq8UfAOG5SCxnTYivyYQH5NRpiuEJG2k20wmJ/s4Db0FnnjYg1xbKe55vu2A9ni/nUTLKUMj7MFaJytMIXPwxg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/slider@3.8.1':
-    resolution: {integrity: sha512-MSfiRJakgdp2FSPtDeViEgXbYjRBGXXSTvExUvDDZx2xiEmSgefEQ4WWwCWPN4tdWbRISZoCYrmG8mY04Gevpw==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/table@3.16.1':
-    resolution: {integrity: sha512-p4DriyWS05M66EkKIw5VF8H8CKs7WTafmdsrEK+zO5VngKAv9CKYLl2jxlCLxT5+u9aFgkUtdafadAhKrfH/5Q==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/tabs@3.9.1':
-    resolution: {integrity: sha512-xS9ByN7OMqvU9wyZJ8MnDvRTdsmB+GUP1whlRh4NmxWGmL4SDXKd4slSUGfb2lRi8lgT0OCAjd9om80HJP0p3w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/toast@3.2.1':
-    resolution: {integrity: sha512-uGrzkydbrrmNDKzJ4wdtVAOWkjoWyRvDIH/H5pnHrELUCTA+Co5HD85chEVQ92Y9fq+rDTkn7bb5meLcUN1t7g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/toggle@3.10.1':
-    resolution: {integrity: sha512-oj4goolQJWdeQxRp8a1nZdsUjC779nvAU7pyT3oyWMWrxxrk0heW96TLWhdPjksvre8pLvjbRBbI2kgs8RxmOQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/tooltip@3.6.1':
-    resolution: {integrity: sha512-bdS5PeIOlTs19atzMtx05QeOzvuiYTxIM9GAsyFw2lhTJDGGw2MskIEjKzl7Y+fZBnlUt7UcLzn2e/5j0XGyhg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/tree@3.10.1':
-    resolution: {integrity: sha512-npdJ+hQGR1J+yi+LOWX7zGS0B9U2SYVbvS31ZCwSMfVUUo4eV+bvLtsiocYUn3bX/EgowFI/ZYJChrIKBpROJA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
   '@react-types/shared@3.35.0':
     resolution: {integrity: sha512-iNWvuzEwANttpQpdlu8nPBtdHb0mcCMj1ZTH//iRB5E/14IAnyRlR25rxH7pNLyzHINsPGEKnWvpwDMCT6vziQ==}
@@ -3130,8 +3018,8 @@ packages:
     peerDependencies:
       eslint: '>=9'
 
-  '@ugrc/esri-theme-toggle@1.1.2':
-    resolution: {integrity: sha512-CJGJRZkLf2SPtDQ6xCrb1l5wWn/6WnuTfEoMAh7etJKBbpZ2J/jMUzRMDe2tVOct4nHvPscLpZmKkWJ37QPDxg==}
+  '@ugrc/esri-theme-toggle@2.0.0':
+    resolution: {integrity: sha512-bUj6LZiofZgfwLC5y9ULBHjc5BuEEVp2+/i0BNW2vijwaK+Ckv7uEYrh0eOnCRc80IziUyoNS6hn/Y41F0i8Eg==}
 
   '@ugrc/tailwind-preset@1.2.0':
     resolution: {integrity: sha512-FW3zNwn44egtRA6A/taa7OiyM1A8LewjL91fbZNcJKQjge6P7Aa1HiaoqEDsTrPykL3KqlDqZ3B/vNpg/I2yQQ==}
@@ -3139,14 +3027,23 @@ packages:
   '@ugrc/tsconfigs@1.0.3':
     resolution: {integrity: sha512-9Z84bZpLJ6wRi4sm6RWvckPHs/Q6XZCHW5yjeHZzboZi/1bsJUOoh3F5wT/qQ5EKewDcHk65WcvUTWPc+JYjtQ==}
 
-  '@ugrc/utah-design-system@1.35.0':
-    resolution: {integrity: sha512-kIe8S5SX6rS1LeowWyxF06wLA100an43OK3nVh6GJ0K6jdLU//aui9p+fs7aYUgSx2KHMm8TVa7VcL9vb0lcGQ==}
+  '@ugrc/utah-design-system@4.0.3':
+    resolution: {integrity: sha512-XOUax66BCwH4I4ejvRv7WhoTR/Xj0Gp+zGoCaPRDimCSxBcjffgThtjjqrrsckutGSKo3iFpA15UdIHEKYSiPA==}
     peerDependencies:
-      react: '>=16.8'
+      '@arcgis/core': '>=5.0.0'
+      '@arcgis/map-components': '>=5.0.0'
+      '@esri/calcite-components': '>=5.0.2'
+      firebase: '>=12.0.0'
+      react: '>=19.0.0'
+      react-aria: ^3.48.0
+      react-aria-components: ^1.17.0
+      react-dom: '>=19.0.0'
+      react-stately: ^3.46.0
 
-  '@ugrc/utilities@3.1.1':
-    resolution: {integrity: sha512-wUaVtR/uFpFTATijbywBSnb6N79wCyTirdvHgZUmfO/G1pCA1VdJkRafCQuhMfgas6ZhVQHpLA4Vg7VEa5TK2Q==}
+  '@ugrc/utilities@5.0.0':
+    resolution: {integrity: sha512-Kr37nC3TLQ45d0HVCcPj4ss6xYZkgqHoCj1YsaPKzGXzAkwpMVnIPrVKH+MWvkneFZRq1tWgvrTlTtROWrx+gg==}
     peerDependencies:
+      '@arcgis/core': 5.x
       react: '>=16.8.0'
 
   '@ungap/structured-clone@1.3.1':
@@ -3275,44 +3172,35 @@ packages:
   '@utahdts/utah-design-system-header@4.3.0':
     resolution: {integrity: sha512-veM3lux3jmCnGV9AZaAwbzM131KGQAzAumi2yQILbRU/YKSWQiS9V6g1QPkFPnm9VH27tjP+5a1UoZmXczyOCw==}
 
-  '@vaadin/a11y-base@24.9.15':
-    resolution: {integrity: sha512-BgZRgVI4VMW/lEENvigbMZe0Cgez5AfVqT2fMW5FoYqAJHulck8cRkFE/bahulop1iQ34fH9kU86mg7qnjNoBg==}
+  '@vaadin/a11y-base@25.0.12':
+    resolution: {integrity: sha512-ie5au1EoNIWOaLEroBF2K8V2PN9G+U52RVVGxEw8mWbe2RS537yac8wKk4tYGZgtv2pbNZSqzzW+/uxO2X5WgQ==}
 
-  '@vaadin/checkbox@24.9.15':
-    resolution: {integrity: sha512-1Y/E+LJMEZcQ03M4sgqVpXAX1F373I98ydZ63qeq1+K/x/TqE+cyfHOpKI/tmbgZz+2nmn2XJlQuiY+EyasFpQ==}
+  '@vaadin/checkbox@25.0.12':
+    resolution: {integrity: sha512-s9eHzZLqyxsj2CVzEksqJDttU2Mues7nDncx5KhUWV/Gk60lFXVvDfkQ9iqbvxOLCEC6VMvm1fme2XT6SgTdYg==}
 
-  '@vaadin/component-base@24.9.15':
-    resolution: {integrity: sha512-db1aG+TvOd5r4H2Sfj1tKr9w5B7sRi5qsBMKnbuNg9KnBlqaU1EIKG5+WbD28UdGk/+0OfwNo3my9a60O3a/RQ==}
+  '@vaadin/component-base@25.0.12':
+    resolution: {integrity: sha512-xoW/ssKuRO5ye9L0f8Ypwc3AcREF1qKgWHQ4qYa3KqfmmK0u+IvArCaXr6OpbjpOfK2nUSCBRFUyxQNH/9ISZA==}
 
-  '@vaadin/field-base@24.9.15':
-    resolution: {integrity: sha512-czcNaONALqkyJKv7tAkzTUdKQC+osnYCRKRFm9LS/XqAt+gzeqybLdHocSlNutFq7PSG/IvHeoXM+ZNE29zWtQ==}
+  '@vaadin/field-base@25.0.12':
+    resolution: {integrity: sha512-/9aHsdGiAme63Ogg99XkSGn+nPeDxu/rZv0iRR0QpzNf/Da+IcQan56xg9NZ4dlR5RX1sjC8pmX22a9OjSm0Cw==}
 
-  '@vaadin/grid@24.9.15':
-    resolution: {integrity: sha512-YpUNnzBffn4r6CPNP1EBrgqbafJQPrbz8YS6aZbSAh5O+Moc2zANCFnxf37FRZX71V+DuIzMOB4qA47Uc2Zyuw==}
+  '@vaadin/grid@25.0.12':
+    resolution: {integrity: sha512-IgX6L+twLxe3tA8VsWlYhTW48qfALDqQ9aDqsds6/z2ADn6i8dl39T2Dd83ayY3Oc/AROHV+M2ns6POmUwhZ0Q==}
 
-  '@vaadin/icon@24.9.15':
-    resolution: {integrity: sha512-Z2HmxAWMqHISyXMuSHjc7b0Nkq0jeGrUHQ7yUKGkEIdRjXaY+4WfPjSPTACLodACla370bxUBjkizQOzMEtvEg==}
+  '@vaadin/input-container@25.0.12':
+    resolution: {integrity: sha512-csshn16IIkN7oqyM64r6o7UIoiLaKaC/1C9GJMyUDUafzCAPUSg/nq9+2TwIWzIcY2+vE8atOCJWgxlhmikv+A==}
 
-  '@vaadin/input-container@24.9.15':
-    resolution: {integrity: sha512-pQ/Lq1hnMeXXuen3ijKYIykSJ/GVnxZlhHalv3dDWMBazNa43DvahSD+0kK5/IMh1NTM8Y8DlLbWhbiXIKaCNg==}
+  '@vaadin/lit-renderer@25.0.12':
+    resolution: {integrity: sha512-G1E7ooFhFpWUkp3dWunv2CYW4pwz0ADvSSETkQCnnIxBBn8vzfXrkloCGBYWmZachtAM/UdHnuVoue9FFsJzSg==}
 
-  '@vaadin/lit-renderer@24.9.15':
-    resolution: {integrity: sha512-Gvg63xSiA6I+0GXmA4O3VjyoWAvizHbB8lsTdfZ/NzPGm26sV04fKe0lsiQAcR1aNGVJY7W36LH2t+9u18kFCQ==}
-
-  '@vaadin/text-field@24.9.15':
-    resolution: {integrity: sha512-YzxpyOXAX88ee8OztmjN9d9TfSHeSIQ4ka5tDU7eYFOFNU44lHUxdVqIwuw8arGNQfUneC7SOi1mSGF6JXbcGA==}
+  '@vaadin/text-field@25.0.12':
+    resolution: {integrity: sha512-qkwA9WpPkDyhVjO/P/hHX+5O6jk16wEgPjxL9BJJsoRO8Eotr1b+u8N9n0G8DSgjJCeT4yxuGhWSQSWoKVSn/g==}
 
   '@vaadin/vaadin-development-mode-detector@2.0.7':
     resolution: {integrity: sha512-9FhVhr0ynSR3X2ao+vaIEttcNU5XfzCbxtmYOV8uIRnUCtNgbvMOIcyGBvntsX9I5kvIP2dV3cFAOG9SILJzEA==}
 
-  '@vaadin/vaadin-lumo-styles@24.9.15':
-    resolution: {integrity: sha512-CMr2Xwu5kRMu/cvcPf5ODPCJY2bcmsVv+RkQGDxdM0UEJz96T9ztxg2yjUaA/06DJceyQy0u/GYjTSFOggNy4w==}
-
-  '@vaadin/vaadin-material-styles@24.9.15':
-    resolution: {integrity: sha512-uAqr3FbbjXgVz89RJ6n5VF96gdjv3LuT0VUMWu8Zg6bFp9pwq4wn3Nn+ILfEWvSrHx1zAlEkwV9UIVybVd/pFw==}
-
-  '@vaadin/vaadin-themable-mixin@24.9.15':
-    resolution: {integrity: sha512-RtEO1Fu0Prpa+dN9uIm1lMqs2MFPLV/JiZitcFZLHMnS4PnNC/Fadc1oThmmtvjre/HyJuAaukyRo4c1jHdDNA==}
+  '@vaadin/vaadin-themable-mixin@25.0.12':
+    resolution: {integrity: sha512-yTgRgRR1Q9vpajXHqubyso8Nrxw9QmJekDFx8BHU4KkpuMciiAP0ZvXSmbXTK/SLyT5pQGGyMtkXaEcbIRBgtQ==}
 
   '@vaadin/vaadin-usage-statistics@2.1.3':
     resolution: {integrity: sha512-8r4TNknD7OJQADe3VygeofFR7UNAXZ2/jjBFP5dgI8+2uMfnuGYgbuHivasKr9WSQ64sPej6m8rDoM1uSllXjQ==}
@@ -3364,9 +3252,6 @@ packages:
 
   '@vitest/utils@4.1.8':
     resolution: {integrity: sha512-uOJamYALNhfJ6iolExyQM40yIQwDqYnkKtQ5VCiSe17E33H0aQ/u+1GlRuz4LZBk6Mm3sg90G9hEbmEt37C1Zg==}
-
-  '@webcomponents/shadycss@1.11.2':
-    resolution: {integrity: sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==}
 
   '@webcontainer/env@1.1.1':
     resolution: {integrity: sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==}
@@ -5030,8 +4915,8 @@ packages:
   fn.name@1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
 
-  focus-trap@7.8.0:
-    resolution: {integrity: sha512-/yNdlIkpWbM0ptxno3ONTuf+2g318kh2ez3KSeZN5dZ8YC6AAmgeWz+GasYYiBJPFaYcSAPeu4GfhUaChzIJXA==}
+  focus-trap@8.2.1:
+    resolution: {integrity: sha512-6CxwrrFRquH7pDXb1mWxudkU9LSfYBMRZutpgddb2o6iwCk7cIRrBhyY3c8SGKcmIKdeMTrGSNg4Bedh2RSF/w==}
 
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
@@ -5996,10 +5881,6 @@ packages:
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
 
-  ky@1.14.3:
-    resolution: {integrity: sha512-9zy9lkjac+TR1c2tG+mkNSVlyOpInnWdSMiue4F+kq8TwJSgv6o8jhLRg8Ho6SnZ9wOYUq/yozts9qQCfk7bIw==}
-    engines: {node: '>=18'}
-
   ky@2.0.2:
     resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==}
     engines: {node: '>=22'}
@@ -6232,11 +6113,6 @@ packages:
     resolution: {integrity: sha512-XTFlOBHeuXnUGuUQI0kBb4O4oQW7qCV7MRGQja1xNpxgrI/jptlly+/5126RiRold1zgyxY520qOZUZ31V0I2A==}
     engines: {node: '>=20.0.0'}
 
-  lucide-react@0.563.0:
-    resolution: {integrity: sha512-8dXPB2GI4dI8jV4MgUDGBeLdGk8ekfqVZ0BdLcrRzocGgG75ltNEmWS+gE7uokKF/0oSUuczNDT+g9hFJ23FkA==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   lucide-react@1.17.0:
     resolution: {integrity: sha512-9FA9evdox/JQL5PT57fdA1x/yg8T7knJ98+zjTL3UfKza6pflQUUh3XtaQIHKvnsJw1lmsEyHVlt5jchYxOQ5w==}
     peerDependencies:
@@ -6278,8 +6154,8 @@ packages:
     engines: {node: '>= 18'}
     hasBin: true
 
-  marked@16.3.0:
-    resolution: {integrity: sha512-K3UxuKu6l6bmA5FUwYho8CfJBlsUWAooKtdGgMcERSpF7gcBUrCGsLH7wDaaNOzwq18JzSUDyoEb/YsrqMac3w==}
+  marked@17.0.6:
+    resolution: {integrity: sha512-gB0gkNafnonOw0obSTEGZTT86IuhILt2Wfx0mWH/1Au83kybTayroZ/V6nS25mN7u8ASy+5fMhgB3XPNrOZdmA==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -7256,11 +7132,6 @@ packages:
       '@types/react':
         optional: true
 
-  react-stately@3.42.0:
-    resolution: {integrity: sha512-lYt2o1dd6dK8Bb4GRh08RG/2u64bSA1cqtRqtw4jEMgxC7Q17RFcIumBbChErndSdLzafEG/UBwV6shOfig6yw==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   react-stately@3.47.0:
     resolution: {integrity: sha512-H3ar+SOWP920EbVg7qWfP3fZjZiwhlEJAEJQqjt+w8oKijCwFgr0+R4941PIHscOXRNRvEOjvWilitImC0DdBg==}
     peerDependencies:
@@ -7785,9 +7656,6 @@ packages:
   stubs@3.0.0:
     resolution: {integrity: sha512-PdHt7hHUJKxvTCgbKX9C1V/ftOcjJQgz8BZwNfV5c4B6dcGqlpelTbJ999jBGZ2jYiPAwcX5dP6oBwVlBlUbxw==}
 
-  style-observer@0.0.8:
-    resolution: {integrity: sha512-UaIPn33Sx4BJ+goia51Q++VFWoplWK1995VdxQYzwwbFa+FUNLKlG+aiIdG2Vw7VyzIUBi8tqu8mTyg0Ppu6Yg==}
-
   sucrase@3.35.1:
     resolution: {integrity: sha512-DhuTmvZWux4H1UOnWMB3sk0sbaCVOoQZjv8u1rDoTV0HTdGem9hkAZtl4JZy8P2z4Bg0nT+YMeOFyVr4zcG5Tw==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -7832,17 +7700,18 @@ packages:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
 
-  tailwind-merge@2.6.0:
-    resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
-
   tailwind-merge@3.6.0:
     resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
-  tailwind-variants@0.3.0:
-    resolution: {integrity: sha512-ho2k5kn+LB1fT5XdNS3Clb96zieWxbStE9wNLK7D0AV64kdZMaYzAKo0fWl6fXLPY99ffF9oBJnIj5escEl/8A==}
+  tailwind-variants@3.2.2:
+    resolution: {integrity: sha512-Mi4kHeMTLvKlM98XPnK+7HoBPmf4gygdFmqQPaDivc3DpYS6aIY6KiG/PgThrGvii5YZJqRsPz0aPyhoFzmZgg==}
     engines: {node: '>=16.x', pnpm: '>=7.x'}
     peerDependencies:
+      tailwind-merge: '>=3.0.0'
       tailwindcss: '*'
+    peerDependenciesMeta:
+      tailwind-merge:
+        optional: true
 
   tailwindcss-react-aria-components@1.2.0:
     resolution: {integrity: sha512-ynlQIfAdoWAz0Og0dCe/d4QVE+L8Yuo6rtK9apdhehZZMoLC1GdwtnvLZyUyx+wHwnTjRuNtFPdN0DpPsPXJJg==}
@@ -8583,7 +8452,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@amcharts/amcharts5@5.14.4':
+  '@amcharts/amcharts5@5.15.6':
     dependencies:
       '@types/d3': 7.4.3
       '@types/d3-chord': 3.0.6
@@ -8620,28 +8489,67 @@ snapshots:
 
   '@apphosting/common@0.0.8': {}
 
-  '@arcgis/core@4.34.8':
+  '@arcgis/common-components@5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0)':
     dependencies:
-      '@amcharts/amcharts5': 5.14.4
-      '@arcgis/toolkit': 4.34.9
+      '@arcgis/core': 5.0.19
+      '@arcgis/lumina': 5.0.19(lit@3.3.3)
+      '@arcgis/toolkit': 5.0.19
       '@esri/arcgis-html-sanitizer': 4.1.0
-      '@esri/calcite-components': 3.3.3
-      '@vaadin/grid': 24.9.15
-      '@zip.js/zip.js': 2.8.26
+      '@esri/calcite-components': 5.1.0
+      '@lit/task': 1.0.3
+      lit: 3.3.3
       luxon: 3.7.2
-      marked: 16.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@lit/context'
 
-  '@arcgis/lumina@4.34.9(lit@3.3.3)':
+  '@arcgis/core@5.0.19':
     dependencies:
-      '@arcgis/toolkit': 4.34.9
+      '@amcharts/amcharts5': 5.15.6
+      '@arcgis/toolkit': 5.0.19
+      '@esri/arcgis-html-sanitizer': 4.1.0
+      '@esri/calcite-components': 5.1.0
+      '@vaadin/grid': 25.0.12
+      '@zip.js/zip.js': 2.8.26
+      luxon: 3.7.2
+      marked: 17.0.6
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@lit/context'
+
+  '@arcgis/lumina@5.0.19(lit@3.3.3)':
+    dependencies:
+      '@arcgis/toolkit': 5.0.19
       csstype: 3.2.3
       lit: 3.3.3
       tslib: 2.8.1
 
-  '@arcgis/toolkit@4.34.9':
+  '@arcgis/lumina@5.1.0-next.124(lit@3.3.3)':
+    dependencies:
+      '@arcgis/toolkit': 5.1.0-next.124
+      csstype: 3.2.3
+      lit: 3.3.3
+      tslib: 2.8.1
+
+  '@arcgis/map-components@5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0)':
+    dependencies:
+      '@amcharts/amcharts5': 5.15.6
+      '@arcgis/common-components': 5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0)
+      '@arcgis/core': 5.0.19
+      '@arcgis/lumina': 5.0.19(lit@3.3.3)
+      '@arcgis/toolkit': 5.0.19
+      '@esri/calcite-components': 5.1.0
+      lit: 3.3.3
+      lodash-es: 4.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@lit/context'
+
+  '@arcgis/toolkit@5.0.19':
+    dependencies:
+      tslib: 2.8.1
+
+  '@arcgis/toolkit@5.1.0-next.124':
     dependencies:
       tslib: 2.8.1
 
@@ -9078,10 +8986,10 @@ snapshots:
       mitt: 3.0.1
       tslib: 2.8.1
 
-  '@esri/calcite-components-react@3.3.3(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@esri/calcite-components-react@5.1.0(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@arcgis/lumina': 4.34.9(lit@3.3.3)
-      '@esri/calcite-components': 3.3.3
+      '@arcgis/lumina': 5.1.0-next.124(lit@3.3.3)
+      '@esri/calcite-components': 5.1.0
       '@lit/react': 1.0.8(@types/react@19.2.16)
       lit: 3.3.3
       react: 19.2.7
@@ -9090,18 +8998,18 @@ snapshots:
       - '@lit/context'
       - '@types/react'
 
-  '@esri/calcite-components@3.3.3':
+  '@esri/calcite-components@5.1.0':
     dependencies:
-      '@arcgis/lumina': 4.34.9(lit@3.3.3)
-      '@arcgis/toolkit': 4.34.9
-      '@esri/calcite-ui-icons': 4.3.0
+      '@arcgis/lumina': 5.1.0-next.124(lit@3.3.3)
+      '@arcgis/toolkit': 5.1.0-next.124
+      '@esri/calcite-ui-icons': 4.5.0
       '@floating-ui/dom': 1.7.6
       '@floating-ui/utils': 0.2.11
       '@types/sortablejs': 1.15.9
       color: 5.0.3
       composed-offset-position: 0.0.6(@floating-ui/utils@0.2.11)
       es-toolkit: 1.47.0
-      focus-trap: 7.8.0
+      focus-trap: 8.2.1
       interactjs: 1.10.27
       lit: 3.3.3
       sortablejs: 1.15.7
@@ -9110,7 +9018,7 @@ snapshots:
     transitivePeerDependencies:
       - '@lit/context'
 
-  '@esri/calcite-ui-icons@4.3.0': {}
+  '@esri/calcite-ui-icons@4.5.0': {}
 
   '@fastify/busboy@3.2.0': {}
 
@@ -10018,6 +9926,10 @@ snapshots:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.6.0
 
+  '@lit/task@1.0.3':
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+
   '@mdx-js/react@3.1.1(@types/react@19.2.16)(react@19.2.7)':
     dependencies:
       '@types/mdx': 2.0.13
@@ -10304,10 +10216,6 @@ snapshots:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
-
-  '@polymer/polymer@3.5.2':
-    dependencies:
-      '@webcomponents/shadycss': 1.11.2
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -10768,181 +10676,6 @@ snapshots:
   '@radix-ui/rect@1.1.1': {}
 
   '@reach/observe-rect@1.2.0': {}
-
-  '@react-stately/calendar@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/checkbox@3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/collections@3.13.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/color@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/combobox@3.14.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/data@3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/datepicker@3.17.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/disclosure@3.1.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/dnd@3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/form@3.3.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/list@3.14.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/menu@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/numberfield@3.12.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/overlays@3.7.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/radio@3.12.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/searchfield@3.6.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/select@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/selection@3.21.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/slider@3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/table@3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/tabs@3.9.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/toast@3.2.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/toggle@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/tooltip@3.6.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
-
-  '@react-stately/tree@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
-    dependencies:
-      '@swc/helpers': 0.5.23
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      react-stately: 3.47.0(react@19.2.7)
 
   '@react-types/shared@3.35.0(react@19.2.7)':
     dependencies:
@@ -11659,9 +11392,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@ugrc/esri-theme-toggle@1.1.2':
+  '@ugrc/esri-theme-toggle@2.0.0':
     dependencies:
-      '@arcgis/core': 4.34.8
+      '@arcgis/core': 5.0.19
     transitivePeerDependencies:
       - '@lit/context'
 
@@ -11675,37 +11408,35 @@ snapshots:
     dependencies:
       '@total-typescript/tsconfig': 1.0.4
 
-  '@ugrc/utah-design-system@1.35.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@3.4.19(yaml@2.9.0))':
+  '@ugrc/utah-design-system@4.0.3(@arcgis/core@5.0.19)(@arcgis/map-components@5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0))(@esri/calcite-components@5.1.0)(firebase@12.14.0)(react-aria-components@1.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.49.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-stately@3.47.0(react@19.2.7))(react@19.2.7)(tailwindcss@3.4.19(yaml@2.9.0))':
     dependencies:
-      '@arcgis/core': 4.34.8
+      '@arcgis/core': 5.0.19
+      '@arcgis/map-components': 5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0)
       '@esri/arcgis-rest-geocoding': 4.10.2(@esri/arcgis-rest-request@4.10.2)
       '@esri/arcgis-rest-request': 4.10.2
+      '@esri/calcite-components': 5.1.0
       '@types/lodash-es': 4.17.12
-      '@ugrc/utilities': 3.1.1(react@19.2.7)
+      '@ugrc/utilities': 5.0.0(@arcgis/core@5.0.19)(react@19.2.7)
       firebase: 12.14.0
-      ky: 1.14.3
+      ky: 2.0.2
       lodash-es: 4.18.1
-      lucide-react: 0.563.0(react@19.2.7)
+      lucide-react: 1.17.0(react@19.2.7)
       react: 19.2.7
       react-aria: 3.49.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-aria-components: 1.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react-stately: 3.42.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      tailwind-merge: 2.6.0
-      tailwind-variants: 0.3.0(tailwindcss@3.4.19(yaml@2.9.0))
+      react-dom: 19.2.7(react@19.2.7)
+      react-stately: 3.47.0(react@19.2.7)
+      tailwind-merge: 3.6.0
+      tailwind-variants: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@3.4.19(yaml@2.9.0))
       ts-md5: 2.0.1
     transitivePeerDependencies:
-      - '@lit/context'
-      - '@react-native-async-storage/async-storage'
-      - react-dom
       - tailwindcss
 
-  '@ugrc/utilities@3.1.1(react@19.2.7)':
+  '@ugrc/utilities@5.0.0(@arcgis/core@5.0.19)(react@19.2.7)':
     dependencies:
-      '@arcgis/core': 4.34.8
-      ky: 1.14.3
+      '@arcgis/core': 5.0.19
+      ky: 2.0.2
       react: 19.2.7
-    transitivePeerDependencies:
-      - '@lit/context'
 
   '@ungap/structured-clone@1.3.1': {}
 
@@ -11783,110 +11514,73 @@ snapshots:
     dependencies:
       '@floating-ui/dom': 1.7.5
 
-  '@vaadin/a11y-base@24.9.15':
+  '@vaadin/a11y-base@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/component-base': 24.9.15
+      '@vaadin/component-base': 25.0.12
       lit: 3.3.3
 
-  '@vaadin/checkbox@24.9.15':
+  '@vaadin/checkbox@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/a11y-base': 24.9.15
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/field-base': 24.9.15
-      '@vaadin/vaadin-lumo-styles': 24.9.15
-      '@vaadin/vaadin-material-styles': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
+      '@vaadin/a11y-base': 25.0.12
+      '@vaadin/component-base': 25.0.12
+      '@vaadin/field-base': 25.0.12
+      '@vaadin/vaadin-themable-mixin': 25.0.12
       lit: 3.3.3
 
-  '@vaadin/component-base@24.9.15':
+  '@vaadin/component-base@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
       '@vaadin/vaadin-development-mode-detector': 2.0.7
       '@vaadin/vaadin-usage-statistics': 2.1.3
       lit: 3.3.3
 
-  '@vaadin/field-base@24.9.15':
+  '@vaadin/field-base@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/a11y-base': 24.9.15
-      '@vaadin/component-base': 24.9.15
+      '@vaadin/a11y-base': 25.0.12
+      '@vaadin/component-base': 25.0.12
       lit: 3.3.3
 
-  '@vaadin/grid@24.9.15':
+  '@vaadin/grid@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/a11y-base': 24.9.15
-      '@vaadin/checkbox': 24.9.15
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/lit-renderer': 24.9.15
-      '@vaadin/text-field': 24.9.15
-      '@vaadin/vaadin-lumo-styles': 24.9.15
-      '@vaadin/vaadin-material-styles': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
+      '@vaadin/a11y-base': 25.0.12
+      '@vaadin/checkbox': 25.0.12
+      '@vaadin/component-base': 25.0.12
+      '@vaadin/lit-renderer': 25.0.12
+      '@vaadin/text-field': 25.0.12
+      '@vaadin/vaadin-themable-mixin': 25.0.12
       lit: 3.3.3
 
-  '@vaadin/icon@24.9.15':
+  '@vaadin/input-container@25.0.12':
+    dependencies:
+      '@vaadin/component-base': 25.0.12
+      '@vaadin/vaadin-themable-mixin': 25.0.12
+      lit: 3.3.3
+
+  '@vaadin/lit-renderer@25.0.12':
+    dependencies:
+      lit: 3.3.3
+
+  '@vaadin/text-field@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/vaadin-lumo-styles': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
-      lit: 3.3.3
-
-  '@vaadin/input-container@24.9.15':
-    dependencies:
-      '@polymer/polymer': 3.5.2
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/vaadin-lumo-styles': 24.9.15
-      '@vaadin/vaadin-material-styles': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
-      lit: 3.3.3
-
-  '@vaadin/lit-renderer@24.9.15':
-    dependencies:
-      lit: 3.3.3
-
-  '@vaadin/text-field@24.9.15':
-    dependencies:
-      '@open-wc/dedupe-mixin': 1.4.0
-      '@polymer/polymer': 3.5.2
-      '@vaadin/a11y-base': 24.9.15
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/field-base': 24.9.15
-      '@vaadin/input-container': 24.9.15
-      '@vaadin/vaadin-lumo-styles': 24.9.15
-      '@vaadin/vaadin-material-styles': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
+      '@vaadin/a11y-base': 25.0.12
+      '@vaadin/component-base': 25.0.12
+      '@vaadin/field-base': 25.0.12
+      '@vaadin/input-container': 25.0.12
+      '@vaadin/vaadin-themable-mixin': 25.0.12
       lit: 3.3.3
 
   '@vaadin/vaadin-development-mode-detector@2.0.7': {}
 
-  '@vaadin/vaadin-lumo-styles@24.9.15':
-    dependencies:
-      '@polymer/polymer': 3.5.2
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/icon': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
-
-  '@vaadin/vaadin-material-styles@24.9.15':
-    dependencies:
-      '@polymer/polymer': 3.5.2
-      '@vaadin/component-base': 24.9.15
-      '@vaadin/vaadin-themable-mixin': 24.9.15
-
-  '@vaadin/vaadin-themable-mixin@24.9.15':
+  '@vaadin/vaadin-themable-mixin@25.0.12':
     dependencies:
       '@open-wc/dedupe-mixin': 1.4.0
+      '@vaadin/component-base': 25.0.12
       lit: 3.3.3
-      style-observer: 0.0.8
 
   '@vaadin/vaadin-usage-statistics@2.1.3':
     dependencies:
@@ -11966,8 +11660,6 @@ snapshots:
       '@vitest/pretty-format': 4.1.8
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
-
-  '@webcomponents/shadycss@1.11.2': {}
 
   '@webcontainer/env@1.1.1': {}
 
@@ -14038,7 +13730,7 @@ snapshots:
 
   fn.name@1.1.0: {}
 
-  focus-trap@7.8.0:
+  focus-trap@8.2.1:
     dependencies:
       tabbable: 6.4.0
 
@@ -15261,8 +14953,6 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  ky@1.14.3: {}
-
   ky@2.0.2: {}
 
   language-subtag-registry@0.3.23: {}
@@ -15454,10 +15144,6 @@ snapshots:
 
   lsofi@2.0.0: {}
 
-  lucide-react@0.563.0(react@19.2.7):
-    dependencies:
-      react: 19.2.7
-
   lucide-react@1.17.0(react@19.2.7):
     dependencies:
       react: 19.2.7
@@ -15497,7 +15183,7 @@ snapshots:
 
   marked@13.0.3: {}
 
-  marked@16.3.0: {}
+  marked@17.0.6: {}
 
   markerjs2@2.32.7: {}
 
@@ -16531,38 +16217,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.16
 
-  react-stately@3.42.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
-    dependencies:
-      '@react-stately/calendar': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/checkbox': 3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/collections': 3.13.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/color': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/combobox': 3.14.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/data': 3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/datepicker': 3.17.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/disclosure': 3.1.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/dnd': 3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/form': 3.3.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/list': 3.14.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/menu': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/numberfield': 3.12.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/overlays': 3.7.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/radio': 3.12.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/searchfield': 3.6.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/select': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/selection': 3.21.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/slider': 3.8.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/table': 3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/tabs': 3.9.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/toast': 3.2.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/toggle': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/tooltip': 3.6.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-stately/tree': 3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-types/shared': 3.35.0(react@19.2.7)
-      react: 19.2.7
-    transitivePeerDependencies:
-      - react-dom
-
   react-stately@3.47.0(react@19.2.7):
     dependencies:
       '@internationalized/date': 3.12.2
@@ -17223,8 +16877,6 @@ snapshots:
 
   stubs@3.0.0: {}
 
-  style-observer@0.0.8: {}
-
   sucrase@3.35.1:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -17287,14 +16939,13 @@ snapshots:
 
   tagged-tag@1.0.0: {}
 
-  tailwind-merge@2.6.0: {}
-
   tailwind-merge@3.6.0: {}
 
-  tailwind-variants@0.3.0(tailwindcss@3.4.19(yaml@2.9.0)):
+  tailwind-variants@3.2.2(tailwind-merge@3.6.0)(tailwindcss@3.4.19(yaml@2.9.0)):
     dependencies:
-      tailwind-merge: 2.6.0
       tailwindcss: 3.4.19(yaml@2.9.0)
+    optionalDependencies:
+      tailwind-merge: 3.6.0
 
   tailwindcss-react-aria-components@1.2.0(tailwindcss@3.4.19(yaml@2.9.0)):
     dependencies:

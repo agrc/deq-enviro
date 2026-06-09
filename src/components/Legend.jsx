@@ -1,4 +1,5 @@
-import { SimpleFillSymbol, SimpleMarkerSymbol } from '@arcgis/core/symbols';
+import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
 import { renderPreviewHTML } from '@arcgis/core/symbols/support/symbolUtils';
 import omit from 'lodash/omit';
 import PropTypes from 'prop-types';

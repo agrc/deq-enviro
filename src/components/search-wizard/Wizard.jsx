@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import ky from 'ky';
 import { Suspense, useEffect, useState } from 'react';
 import { fieldNames } from '../../../functions/common/config.js';

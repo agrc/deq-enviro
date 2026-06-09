@@ -1,4 +1,4 @@
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { MapContext } from './MapContext';
@@ -6,6 +6,7 @@ import { MapContext } from './MapContext';
 export default function MapProvider({ children }) {
   const [mapView, setMapView] = useState(null);
   const [selectedGraphicInfo, setSelectedGraphicInfo] = useState(null);
+  const [shapeSketchOptions, setShapeSketchOptions] = useState(null);
   const logEvent = useFirebaseAnalytics();
 
   const zoom = (geometry) => {
@@ -32,6 +33,8 @@ export default function MapProvider({ children }) {
         setMapView,
         selectedGraphicInfo,
         setSelectedGraphicInfo,
+        shapeSketchOptions,
+        setShapeSketchOptions,
         zoom,
       }}
     >

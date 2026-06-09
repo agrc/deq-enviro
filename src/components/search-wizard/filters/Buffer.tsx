@@ -1,9 +1,12 @@
 import Geometry from '@arcgis/core/geometry/Geometry';
-import { geodesicBuffer } from '@arcgis/core/geometry/geometryEngine';
-import { isLoaded, load, project } from '@arcgis/core/geometry/projection';
+import SpatialReference from '@arcgis/core/geometry/SpatialReference';
+import * as geodesicBufferOperator from '@arcgis/core/geometry/operators/geodesicBufferOperator';
+import * as projectOperator from '@arcgis/core/geometry/operators/projectOperator';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Input from '../../../utah-design-system/Input';
+
+const wgs84 = new SpatialReference({ wkid: 4326 });
 
 type BufferProps = {
   className?: string;
@@ -27,12 +30,19 @@ export default function Buffer({
           onChange(geometry);
         } else {
           if (geometry.spatialReference.wkid !== 4326) {
-            if (!isLoaded()) {
-              await load();
+            if (!projectOperator.isLoaded()) {
+              await projectOperator.load();
             }
-            geometry = (await project(geometry, { wkid: 4326 })) as Geometry;
+            geometry = projectOperator.execute(geometry, wgs84) as Geometry;
           }
-          onChange(geodesicBuffer(geometry, bufferMiles, 'miles') as Geometry);
+          if (!geodesicBufferOperator.isLoaded()) {
+            await geodesicBufferOperator.load();
+          }
+          onChange(
+            geodesicBufferOperator.execute(geometry, bufferMiles, {
+              unit: 'miles',
+            }) as Geometry,
+          );
         }
       } else {
         onChange(null);

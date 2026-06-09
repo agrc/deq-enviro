@@ -1,4 +1,4 @@
-import { useFirebaseApp } from '@ugrc/utah-design-system';
+import { useFirebaseApp } from '@ugrc/utah-design-system/contexts/FirebaseAppProvider';
 import {
   fetchAndActivate,
   getAll,

@@ -1,5 +1,5 @@
 import '@arcgis/core/assets/esri/themes/light/main.css';
-import { FirebaseAppProvider } from '@ugrc/utah-design-system';
+import { FirebaseAppProvider } from '@ugrc/utah-design-system/contexts/FirebaseAppProvider';
 import '@utahdts/utah-design-system-header/css';
 import FirebaseProvider from '../src/contexts/FirebaseProvider.jsx';
 import { RemoteConfigContext } from '../src/contexts/RemoteConfigContext';

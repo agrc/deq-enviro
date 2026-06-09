@@ -1,4 +1,4 @@
-import { useFirestore } from '@ugrc/utah-design-system';
+import { useFirestore } from '@ugrc/utah-design-system/contexts/FirestoreProvider';
 import { doc, onSnapshot, type DocumentData } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 

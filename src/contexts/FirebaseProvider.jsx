@@ -1,20 +1,9 @@
-import {
-  FirebaseAnalyticsProvider,
-  FirebaseFunctionsProvider,
-  FirestoreProvider,
-} from '@ugrc/utah-design-system';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { FirebaseAnalyticsProvider } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
+import { FirebaseFunctionsProvider } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
+import { FirestoreProvider } from '@ugrc/utah-design-system/contexts/FirestoreProvider';
 import PropTypes from 'prop-types';
 
 export default function FirebaseProvider({ children }) {
-  if (import.meta.env.DEV) {
-    console.log('connecting to emulators');
-
-    connectFirestoreEmulator(getFirestore(), 'localhost', 8080);
-    connectFunctionsEmulator(getFunctions(), 'localhost', 5001);
-  }
-
   return (
     <FirebaseFunctionsProvider>
       <FirebaseAnalyticsProvider>
