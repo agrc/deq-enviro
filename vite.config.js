@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
@@ -14,6 +15,7 @@ const oxcOptions = {
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     react(),
     {
       // copied from: https://github.com/smnhgn/vite-plugin-package-version/blob/master/src/index.ts

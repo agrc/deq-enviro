@@ -117,7 +117,7 @@ function InnerButton(
     COLORS[color][appearance],
     SIZES[size],
     'transition-all duration-200 ease-in-out',
-    'focus:outline-none focus:ring-2 focus:ring-opacity-50',
+    'focus:outline-none focus:ring-2 focus:ring-black/50',
     'hover:text-white',
     !disabled && 'active:scale-95 active:shadow-inner',
     'disabled:cursor-not-allowed disabled:opacity-50',

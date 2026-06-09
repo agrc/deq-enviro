@@ -1,7 +1,8 @@
 @import url('./utah-design-system/typography.css');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '@ugrc/tailwind-preset';
+@import '@esri/calcite-components/main.css';
+@config '../tailwind.config.js';
 
 /* required for utah design system icons */
 /* todo: move to separate css file imported into icon component */
@@ -29,7 +30,7 @@ body {
 
 /* required for utah design system header */
 .utah-design-system {
-  --primary-color: theme('colors.primary.DEFAULT');
+  --primary-color: var(--color-primary);
 }
 .utah-design-system.utds-official-website-popup__wrapper {
   z-index: 1;
@@ -37,15 +38,15 @@ body {
 
 /* overwrite calcite fonts */
 :root {
-  font-family: theme('fontFamily.sans');
+  font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
 }
 
 .esri-print__export-button.esri-button {
-  background-color: theme('colors.primary.DEFAULT');
+  background-color: var(--color-primary);
 }
 
 .esri-view .esri-view-surface--inset-outline:focus::after {
-  @apply outline-none;
+  @apply outline-hidden;
 }
 
 /* make sketch toolbar look nicer */
