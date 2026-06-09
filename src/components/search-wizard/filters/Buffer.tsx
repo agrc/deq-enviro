@@ -10,7 +10,7 @@ const wgs84 = new SpatialReference({ wkid: 4326 });
 
 type BufferProps = {
   className?: string;
-  onChange: (value: Geometry) => void;
+  onChange: (value: Geometry | null) => void;
   inputGeometry: Geometry | null;
   allowZero?: boolean;
 };

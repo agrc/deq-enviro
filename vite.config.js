@@ -1,9 +1,11 @@
+import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
-const arcgisCorePath = new URL('./node_modules/@arcgis/core', import.meta.url)
-  .pathname;
+const arcgisCorePath = fileURLToPath(
+  new URL('./node_modules/@arcgis/core', import.meta.url),
+);
 
 // required for getting tests to run in the VSCode test explorer
 const oxcOptions = {
