@@ -36,6 +36,7 @@ import { getWhere } from './search-wizard/filters/utils';
 const stateOfUtahPolygon = new Polygon(stateOfUtah);
 const stateOfUtahExtent = stateOfUtahPolygon.extent;
 const searchLayerIdPrefix = 'search-layer';
+const polygonSearchLayerIndex = 1;
 
 function useMapGraphic(mapView, graphic, mapIsReady) {
   const previousGraphic = useRef(null);
@@ -516,7 +517,9 @@ export default function MapComponent() {
 
         map.current.add(
           featureLayer,
-          featureLayer.geometryType === 'polygon' ? 1 : null,
+          featureLayer.geometryType === 'polygon'
+            ? polygonSearchLayerIndex
+            : null,
         );
 
         send({
