@@ -33,14 +33,14 @@ export function getDefaultRenderer(geometryType) {
 }
 
 /**
- * Ensure a layer ends up on top of the current operational layer stack.
+ * Ensure a layer ends up on the bottom of the current operational layer stack.
  *
  * @param {import('@arcgis/core/Map').default} map
  * @param {import('@arcgis/core/layers/Layer').default} layer
  */
-export function addLayerToTop(map, layer) {
-  map.add(layer);
-  map.reorder(layer, map.layers.length - 1);
+export function addLayerToBottom(map, layer) {
+  map.add(layer, 0);
+  map.reorder(layer, 0);
 }
 
 /**

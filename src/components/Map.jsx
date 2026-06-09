@@ -24,7 +24,7 @@ import stateOfUtah from '../data/state-of-utah.json';
 import Link from '../utah-design-system/Link';
 import Spinner from '../utah-design-system/Spinner';
 import {
-  addLayerToTop,
+  addLayerToBottom,
   getConfigByTableName,
   getDefaultRenderer,
   getDefQueryFromLayerFilterValues,
@@ -68,7 +68,7 @@ function useMapGraphic(mapView, graphic, mapIsReady) {
 
     if (!graphicsLayer.current) {
       graphicsLayer.current = new GraphicsLayer();
-      mapView.map.add(graphicsLayer.current);
+      addLayerToBottom(mapView.map, graphicsLayer.current);
     }
 
     if (!graphic?.geometry) {
@@ -514,7 +514,10 @@ export default function MapComponent() {
           async () => await queryFeatures(featureLayer, query),
         );
 
-        addLayerToTop(map.current, featureLayer);
+        map.current.add(
+          featureLayer,
+          featureLayer.geometryType === 'polygon' ? 1 : null,
+        );
 
         send({
           type: 'RESULT',

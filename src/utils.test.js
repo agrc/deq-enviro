@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import queryLayerJson from '../tests/fixtures/queryLayerResult.json';
 import {
-  addLayerToTop,
+  addLayerToBottom,
   getAlias,
   getColumnDefs,
   getDefaultLayerFilterValues,
@@ -74,21 +74,21 @@ describe('hasDefaultSymbology', () => {
   });
 });
 
-describe('addLayerToTop', () => {
-  it('reorders the added layer to the top of the map layer stack', () => {
-    const layer = { id: 'search-layer:test' };
+describe('addLayerToBottom', () => {
+  it('reorders the added layer to the bottom of the map layer stack', () => {
+    const layer = { id: 'filter-layer' };
     const map = {
       layers: [{ id: 'existing-1' }, { id: 'existing-2' }],
       add: vi.fn(function (value) {
-        this.layers.push(value);
+        this.layers.unshift(value);
       }),
       reorder: vi.fn(),
     };
 
-    addLayerToTop(map, layer);
+    addLayerToBottom(map, layer);
 
-    expect(map.add).toHaveBeenCalledWith(layer);
-    expect(map.reorder).toHaveBeenCalledWith(layer, 2);
+    expect(map.add).toHaveBeenCalledWith(layer, 0);
+    expect(map.reorder).toHaveBeenCalledWith(layer, 0);
   });
 });
 
