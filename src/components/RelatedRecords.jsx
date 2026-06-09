@@ -97,7 +97,8 @@ function TabContent({
         `Foreign key field: "${foreignKeyField}" not found in child table: "${childTableName}"!`,
       );
 
-    const wrapper = field.type === 'esriFieldTypeString' ? `'` : '';
+    const fieldsToWrap = ['esriFieldTypeString', 'esriFieldTypeGUID'];
+    const wrapper = fieldsToWrap.includes(field.type) ? `'` : '';
     const where = `${foreignKeyField} = ${wrapper}${parentAttributes[primaryKeyField]}${wrapper}`;
 
     const params = {
