@@ -1,4 +1,4 @@
-import ugrcPreset from '@ugrc/tailwind-preset';
+import forms from '@tailwindcss/forms';
 import colors from 'tailwindcss/colors';
 
 /** @type {import('tailwindcss').Config} */
@@ -8,7 +8,6 @@ export default {
     './index.html',
     './src/**/*.{js,jsx,ts,tsx}',
   ],
-  presets: [ugrcPreset],
   theme: {
     fontFamily: {
       sans: ['Source Sans Pro', 'Helvetica Neue', 'sans-serif'],
@@ -97,6 +96,5 @@ export default {
       },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [forms],
 };

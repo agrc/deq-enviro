@@ -1,6 +1,6 @@
 import '@arcgis/map-components/components/arcgis-area-measurement-2d';
-import '@arcgis/map-components/components/arcgis-distance-measurement-2d';
 import type { ArcgisAreaMeasurement2d } from '@arcgis/map-components/components/arcgis-area-measurement-2d';
+import '@arcgis/map-components/components/arcgis-distance-measurement-2d';
 import type { ArcgisDistanceMeasurement2d } from '@arcgis/map-components/components/arcgis-distance-measurement-2d';
 import '@esri/calcite-components/dist/components/calcite-button';
 import React, { useRef, useState } from 'react';
@@ -35,10 +35,7 @@ export default function MeasureTools() {
 
   return (
     <React.Fragment>
-      <div
-        className="esri-widget flex flex-col shadow-md"
-        slot="top-left"
-      >
+      <div className="esri-widget flex flex-col shadow-md" slot="top-left">
         <calcite-button
           appearance="transparent"
           className="measure-area"
