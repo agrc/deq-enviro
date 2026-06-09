@@ -13,7 +13,7 @@ FROM base AS dev
 COPY . .
 
 RUN pip install .
-RUN pip install arcgis==2.*
+RUN pip install "arcgis==2.*" "numpy<2"
 
 ENV FIRESTORE_EMULATOR_HOST="host.docker.internal:8080"
 ENV FLASK_APP="download.main:app"
@@ -32,7 +32,7 @@ FROM base AS prod
 COPY . .
 
 RUN pip install .
-RUN pip install arcgis==2.*
+RUN pip install "arcgis==2.*" "numpy<2"
 RUN pip install gunicorn
 
 CMD ["sh", "-c", "exec gunicorn --bind :${PORT} --timeout 0 download.main:app"]

@@ -48,6 +48,7 @@ setup(
         "flask-cors>=5,<7",
         "flask-json==0.4",
         "flask==3.*",
+        "numpy<2",
         "openpyxl==3.*",  # required for writing excel files with pandas
         "geopandas==1.*",  # required for writing to FGDBs
         "pyshp==3.*",  # required for writing shapefiles with arcgis without arcpy
