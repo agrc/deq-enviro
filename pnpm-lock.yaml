@@ -80,8 +80,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3(@arcgis/core@5.0.19)(@arcgis/map-components@5.0.19(@arcgis/core@5.0.19)(@esri/calcite-components@5.1.0))(@esri/calcite-components@5.1.0)(firebase@12.14.0)(react-aria-components@1.18.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.49.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react-stately@3.47.0(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)
       '@utahdts/utah-design-system-header':
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^5.1.0
+        version: 5.1.0
       '@xstate/react':
         specifier: ^6.1.0
         version: 6.1.0(@types/react@19.2.16)(react@19.2.7)(xstate@5.32.0)
@@ -1029,9 +1029,6 @@ packages:
 
   '@floating-ui/core@1.7.5':
     resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
-
-  '@floating-ui/dom@1.7.5':
-    resolution: {integrity: sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==}
 
   '@floating-ui/dom@1.7.6':
     resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
@@ -3244,8 +3241,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@utahdts/utah-design-system-header@4.3.0':
-    resolution: {integrity: sha512-veM3lux3jmCnGV9AZaAwbzM131KGQAzAumi2yQILbRU/YKSWQiS9V6g1QPkFPnm9VH27tjP+5a1UoZmXczyOCw==}
+  '@utahdts/utah-design-system-header@5.1.0':
+    resolution: {integrity: sha512-eaQ1HmnXdin6nwTxMjggWT3pyU3l4XOsX1jKqjnuUAmQLZeuThBB1GWwdQeQj4k6k7DczzQinpFaWz9tBnNaAw==}
 
   '@vaadin/a11y-base@25.0.12':
     resolution: {integrity: sha512-ie5au1EoNIWOaLEroBF2K8V2PN9G+U52RVVGxEw8mWbe2RS537yac8wKk4tYGZgtv2pbNZSqzzW+/uxO2X5WgQ==}
@@ -9324,11 +9321,6 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.11
 
-  '@floating-ui/dom@1.7.5':
-    dependencies:
-      '@floating-ui/core': 1.7.5
-      '@floating-ui/utils': 0.2.11
-
   '@floating-ui/dom@1.7.6':
     dependencies:
       '@floating-ui/core': 1.7.5
@@ -11552,9 +11544,9 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
-  '@utahdts/utah-design-system-header@4.3.0':
+  '@utahdts/utah-design-system-header@5.1.0':
     dependencies:
-      '@floating-ui/dom': 1.7.5
+      '@floating-ui/dom': 1.7.6
 
   '@vaadin/a11y-base@25.0.12':
     dependencies:
