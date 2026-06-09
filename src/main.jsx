@@ -1,7 +1,7 @@
 import esriConfig from '@arcgis/core/config';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import initializeTheme from '@ugrc/esri-theme-toggle';
-import { FirebaseAppProvider } from '@ugrc/utah-design-system';
+import { FirebaseAppProvider } from '@ugrc/utah-design-system/contexts/FirebaseAppProvider';
 import '@utahdts/utah-design-system-header/css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';

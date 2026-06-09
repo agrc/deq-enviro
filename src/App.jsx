@@ -1,7 +1,6 @@
 import { setUtahHeaderSettings } from '@utahdts/utah-design-system-header';
 import { useEffect, useState } from 'react';
 import MapComponent from './components/Map.jsx';
-import MeasureTools from './components/MeasureTools';
 import ResultsPanel from './components/ResultsPanel.jsx';
 import SearchWizard from './components/search-wizard/Wizard.jsx';
 import MapProvider from './contexts/MapProvider.jsx';
@@ -73,7 +72,6 @@ function App() {
             <div className="flex min-h-0 flex-1 flex-col md:flex-row">
               <MapProvider>
                 <div className="relative flex flex-1 flex-col items-center border-b border-slate-300 md:border-r">
-                  <MeasureTools />
                   <MapComponent />
                   <ResultsPanel />
                 </div>

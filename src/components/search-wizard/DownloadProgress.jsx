@@ -1,4 +1,4 @@
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import { ArrowDownIcon, CircleAlertIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { BulletList } from 'react-content-loader';

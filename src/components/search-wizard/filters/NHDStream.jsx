@@ -1,3 +1,4 @@
+import { useFirebaseFunctions } from '@ugrc/utah-design-system/contexts/FirebaseFunctionsProvider';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Sherlock from '../../../utah-design-system/Sherlock';
@@ -5,13 +6,14 @@ import Buffer from './Buffer';
 import NHDProvider from './NHDProvider';
 
 export default function NHDStream({ send }) {
+  const { functions } = useFirebaseFunctions();
   const [stream, setStream] = useState(null);
   const [bufferGeometry, setBufferGeometry] = useState(null);
   const [sherlockConfig, setSherlockConfig] = useState(null);
 
   useEffect(() => {
     setSherlockConfig({
-      provider: new NHDProvider(),
+      provider: new NHDProvider(functions),
       placeHolder: 'start typing a stream name...',
       onSherlockMatch: (features) => {
         const feature = features[0];
@@ -22,7 +24,7 @@ export default function NHDStream({ send }) {
       },
       maxResultsToDisplay: 15,
     });
-  }, [setSherlockConfig]);
+  }, [functions, setSherlockConfig]);
 
   useEffect(() => {
     const filter =

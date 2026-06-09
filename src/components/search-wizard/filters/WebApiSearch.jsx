@@ -1,4 +1,4 @@
-import { union } from '@arcgis/core/geometry/geometryEngine';
+import * as unionOperator from '@arcgis/core/geometry/operators/unionOperator';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Sherlock, {
@@ -36,7 +36,7 @@ export default function WebApiSearch({
   useEffect(() => {
     if (features?.length) {
       onChange(
-        union(features.map((feature) => feature.geometry)),
+        unionOperator.executeMany(features.map((feature) => feature.geometry)),
         `${name}: ${features[0].attributes[searchField]}`,
       );
     } else {

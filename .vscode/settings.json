@@ -11,6 +11,7 @@
     "autodocs",
     "autoplay",
     "azuretools",
+    "basemap",
     "basemaps",
     "bfnontargeted",
     "bftargeted",
@@ -188,6 +189,6 @@
     "xylayer"
   ],
   "editor.formatOnSave": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "testing.automaticallyOpenPeekView": "never",
 }

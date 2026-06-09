@@ -1,14 +1,13 @@
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { ProviderBase } from '../../../utah-design-system/Sherlock';
 
 export default class NHDProvider extends ProviderBase {
   searchField = 'gnis_name';
   contextField = 'county_name';
 
-  constructor() {
+  constructor(functions) {
     super();
 
-    const functions = getFunctions();
     this.searchFunction = httpsCallable(functions, 'search');
     this.getFeatureFunction = httpsCallable(functions, 'getFeature');
   }

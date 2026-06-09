@@ -1,4 +1,4 @@
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import { clsx } from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import { Point } from '@arcgis/core/geometry';
+import Point from '@arcgis/core/geometry/Point';
 import { set } from 'lodash';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';

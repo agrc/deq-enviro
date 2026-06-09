@@ -1,6 +1,15 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
+const arcgisCorePath = new URL('./node_modules/@arcgis/core', import.meta.url)
+  .pathname;
+
+// required for getting tests to run in the VSCode test explorer
+const oxcOptions = {
+  include: /\.(m?ts|[jt]sx?)$/,
+  tsconfig: false,
+};
+
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
@@ -18,11 +27,40 @@ export default defineConfig({
     },
   ],
   resolve: {
-    dedupe: ['@arcgis/core', 'firebase'],
+    dedupe: [
+      '@arcgis/core',
+      '@firebase/app',
+      '@firebase/component',
+      '@firebase/firestore',
+      '@firebase/functions',
+      'firebase',
+    ],
+    alias: [
+      {
+        find: /^@arcgis\/core\/(.*)$/,
+        replacement: `${arcgisCorePath}/$1`,
+      },
+      {
+        find: '@arcgis/core',
+        replacement: arcgisCorePath,
+      },
+      {
+        find: 'use-sync-external-store/shim/index.js',
+        replacement: 'react',
+      },
+    ],
   },
+  optimizeDeps: {
+    include: [
+      'firebase/analytics',
+      'firebase/app',
+      'firebase/firestore',
+      'firebase/functions',
+      'firebase/remote-config',
+    ],
+  },
+  oxc: oxcOptions,
   test: {
-    // this config resolves this error message that started happening after upgrading deps:
-    // TypeError: Unknown file extension ".css" for /deq-enviro/node_modules/.pnpm/@esri+calcite-components@3.3.0_@lit+context@1.1.6/node_modules/@esri/calcite-components/dist/calcite/calcite.css
     pool: 'vmThreads',
     environment: 'happy-dom',
   },

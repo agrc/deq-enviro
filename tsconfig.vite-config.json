@@ -1,4 +1,8 @@
 {
   "extends": "@ugrc/tsconfigs/vite-config",
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.js"],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true
+  }
 }

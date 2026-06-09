@@ -1,4 +1,4 @@
-import { useFirebaseAnalytics } from '@ugrc/utah-design-system';
+import { useFirebaseAnalytics } from '@ugrc/utah-design-system/contexts/FirebaseAnalyticsProvider';
 import PropTypes from 'prop-types';
 import Checkbox from '../../utah-design-system/Checkbox';
 import Input from '../../utah-design-system/Input';
