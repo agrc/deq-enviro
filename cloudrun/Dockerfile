@@ -1,4 +1,4 @@
-FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.2 AS base
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.3 AS base
 
 RUN apt update
 RUN apt install -y python3-pip
@@ -19,10 +19,9 @@ ENV FIRESTORE_EMULATOR_HOST="host.docker.internal:8080"
 ENV FLASK_APP="download.main:app"
 ENV FLASK_DEBUG="1"
 ENV STORAGE_EMULATOR_HOST="http://host.docker.internal:9199"
-ENV GOOGLE_APPLICATION_CREDENTIALS="/gcp/config/application_default_credentials.json"
 ENV CLOUDSDK_CONFIG="/gcp/config/application_default_credentials.json"
 
-CMD exec flask run -p 5010 -h 0.0.0.0
+CMD ["sh", "-c", "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-/gcp/config/application_default_credentials.json} exec flask run -p 5010 -h 0.0.0.0"]
 
 FROM base AS remote_dev
 
@@ -36,4 +35,4 @@ RUN pip install .
 RUN pip install arcgis==2.*
 RUN pip install gunicorn
 
-CMD exec gunicorn --bind :$PORT --timeout 0 download.main:app
+CMD ["sh", "-c", "exec gunicorn --bind :${PORT} --timeout 0 download.main:app"]
