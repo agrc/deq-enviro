@@ -79,9 +79,7 @@ describe('addLayerToBottom', () => {
     const layer = { id: 'filter-layer' };
     const map = {
       layers: [{ id: 'existing-1' }, { id: 'existing-2' }],
-      add: vi.fn(function (value) {
-        this.layers.unshift(value);
-      }),
+      add: vi.fn(),
       reorder: vi.fn(),
     };
 
