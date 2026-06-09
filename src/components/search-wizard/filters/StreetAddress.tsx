@@ -83,6 +83,10 @@ export default function StreetAddress({ send }: StreetAddressProps) {
       <Buffer onChange={setBufferGeometry} inputGeometry={address?.geometry} />
       {sherlockConfig && <Sherlock {...sherlockConfig} />}
       {/* buffer to make sure user can scroll far enough to see the entire select filter type dropdown */}
+      <span className="text-sm text-gray-500">
+        If you don&apos;t find a match for your address, add a comma and the
+        city or zip code (e.g. 123 S Main Street, 84115)
+      </span>
       <div className="h-28" />
     </>
   );
