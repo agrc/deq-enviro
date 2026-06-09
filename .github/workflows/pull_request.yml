@@ -22,7 +22,7 @@ jobs:
       - name: 📦 Setup PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 11
 
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v6
@@ -32,9 +32,9 @@ jobs:
 
       - name: 📥 Download dependencies
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
           cd functions
-          pnpm install
+          pnpm install --frozen-lockfile
           cd ..
 
       - name: 🧪 Run tests
@@ -63,7 +63,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           prebuild-command: |
             cd functions
-            pnpm install
+            pnpm install --frozen-lockfile
             cd ..
           build-command: pnpm run build:stage
           preview: yes

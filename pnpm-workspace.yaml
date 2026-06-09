@@ -1,15 +1,11 @@
 packages:
   - functions
 
-onlyBuiltDependencies:
-  - '@firebase/util'
-  - '@parcel/watcher'
-  - '@vaadin/vaadin-usage-statistics'
-  - core-js
-  - esbuild
-  - protobufjs
-  - re2
-  - unrs-resolver
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+
+minimumReleaseAgeExclude:
+  - '@ugrc/*'
 
 overrides:
   diff@>=4.0.0 <4.0.4: '>=4.0.4'
@@ -27,3 +23,12 @@ overrides:
   tar@<=7.5.3: '>=7.5.4'
   tmp@<=0.2.3: '>=0.2.4'
   vite@>=6.0.0 <=6.4.0: '>=6.4.1'
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  '@vaadin/vaadin-usage-statistics': true
+  core-js: true
+  esbuild: true
+  protobufjs: true
+  re2: true
+  unrs-resolver: true
