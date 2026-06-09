@@ -75,7 +75,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@ugrc/esri-theme-toggle": "^2.0.0",
     "@ugrc/utah-design-system": "^4.0.3",
-    "@utahdts/utah-design-system-header": "^4.3.0",
+    "@utahdts/utah-design-system-header": "^5.1.0",
     "@xstate/react": "^6.1.0",
     "clsx": "^2.1.1",
     "downshift": "^9.3.4",
