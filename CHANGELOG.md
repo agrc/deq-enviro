@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.1.2](https://github.com/agrc/deq-enviro/compare/v2.1.1...v2.1.2) (2026-06-10)
+
+
+### Bug Fixes
+
+* add help text for address searching ([2dde316](https://github.com/agrc/deq-enviro/commit/2dde3168d5f1946f58ddc58dffecc9e3cda05860)), closes [#899](https://github.com/agrc/deq-enviro/issues/899)
+* fix bug preventing related records from showing for some datasets ([0ce5e9e](https://github.com/agrc/deq-enviro/commit/0ce5e9eb5d7cf7f3ec80482e4fdbdc48f2b7d191))
+
+
+### Dependencies
+
+* arcgis and related packages v4 -&gt; v5 ([bf260b0](https://github.com/agrc/deq-enviro/commit/bf260b06992bf58eb7d003db94b3f96a6c4fd229))
+* bump NPM dependencies 🌲 ([8cf9ec3](https://github.com/agrc/deq-enviro/commit/8cf9ec3e42e92895aea9a4e10091db2cd68f13be))
+* **download:** bump docker image and fix some best practices warnings ([79d2538](https://github.com/agrc/deq-enviro/commit/79d25386b0580dd661435c3aa5ea352a46e14777))
+* **download:** stay on numpy 1 for now ([fbe4e26](https://github.com/agrc/deq-enviro/commit/fbe4e26cd6f7c27bbce1cde810a251a6f4d69935))
+* tailwind v3 -&gt; v4 ([9330f23](https://github.com/agrc/deq-enviro/commit/9330f23e1d44df32a044770c910574734282a157))
+* utah design system header v4 -&gt; v5 ([59ddccc](https://github.com/agrc/deq-enviro/commit/59ddcccffd4cf63ff808dfede154bfff30c578b7))
+
 ## [2.1.2-rc.2](https://github.com/agrc/deq-enviro/compare/v2.1.2-rc.1...v2.1.2-rc.2) (2026-06-09)
 
 
