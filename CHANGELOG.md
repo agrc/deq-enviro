@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/agrc/deq-enviro/compare/v2.1.2...v2.1.3) (2026-06-10)
+
+
+### Bug Fixes
+
+* fix tab font size and simplify tailwind classes ([cc67190](https://github.com/agrc/deq-enviro/commit/cc6719078de95f380859df7e6b6db29e0689a25b))
+
 ## [2.1.2](https://github.com/agrc/deq-enviro/compare/v2.1.1...v2.1.2) (2026-06-10)
 
 
