@@ -40,7 +40,7 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
-        "cloudevents==1.*",
+        "cloudevents>=1,<3",
         "google-cloud-logging==3.*",
         "google-cloud-storage==3.*",
         "google-cloud-firestore==2.*",
