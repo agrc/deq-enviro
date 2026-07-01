@@ -53,7 +53,7 @@ setup(
         "geopandas==1.*",  # required for writing to FGDBs
         "pyshp==3.*",  # required for writing shapefiles with arcgis without arcpy
         "python-dotenv==1.*",
-        "simplejson==3.*",
+        "simplejson>=3,<5",
     ],
     extras_require={
         "dev": [
