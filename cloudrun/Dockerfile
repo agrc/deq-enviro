@@ -12,7 +12,7 @@ FROM base AS dev
 
 COPY . .
 
-RUN pip install .
+RUN pip install ".[dev]"
 RUN pip install "arcgis==2.*" "numpy<2"
 
 ENV FIRESTORE_EMULATOR_HOST="host.docker.internal:8080"
