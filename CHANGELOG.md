@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.4-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.3...v2.1.4-rc.1) (2026-07-20)
+
+
+### Bug Fixes
+
+* **download:** handle relationships with no features ([68b72d9](https://github.com/agrc/deq-enviro/commit/68b72d9c538c9c0dc16b93733b0314c7bcd03a7e))
+
+
+### Dependencies
+
+* **download:** bump simplejson and cloudevents ([7b642ee](https://github.com/agrc/deq-enviro/commit/7b642ee459f466ce441f54c0f7a00c968502e8b5))
+
 ## [2.1.3](https://github.com/agrc/deq-enviro/compare/v2.1.2...v2.1.3) (2026-06-10)
 
 
