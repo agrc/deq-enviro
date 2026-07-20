@@ -37,11 +37,17 @@ jobs:
           pnpm install --frozen-lockfile
           cd ..
 
-      - name: 🧪 Run tests
-        run: pnpm run test
+      - name: 🧪 Run Node tests
+        run: pnpm test --run
 
       - name: 🔍 Lint
         run: pnpm run lint
+
+      - name: 🧪 Run Python tests
+        run: |
+          cd cloudrun
+          docker build . --target dev -t download
+          docker run --rm download pytest
 
   deploy-preview:
     name: Firebase preview
