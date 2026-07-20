@@ -1,3 +1,8 @@
+# note that the "3.12.4" version below is the GDAL version, not python
+# 3.13.* updates to Ubuntu 26 which has python 3.14.
+# We should wait to bump until arcpy supports python 3.14.
+# also, we need to stay on numpy 1 until we bump this base image
+# this is likely keeping arcgis pinned at 2.4.1 as well
 FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.3 AS base
 
 RUN apt update

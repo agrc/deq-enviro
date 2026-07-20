@@ -40,7 +40,7 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
-        "cloudevents==1.*",
+        "cloudevents==2.*",
         "google-cloud-logging==3.*",
         "google-cloud-storage==3.*",
         "google-cloud-firestore==2.*",
@@ -53,7 +53,7 @@ setup(
         "geopandas==1.*",  # required for writing to FGDBs
         "pyshp==3.*",  # required for writing shapefiles with arcgis without arcpy
         "python-dotenv==1.*",
-        "simplejson==3.*",
+        "simplejson==4.*",
     ],
     extras_require={
         "dev": [
