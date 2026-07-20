@@ -54,6 +54,10 @@ For Cloud Run Python tests, VS Code is configured to use `/opt/venv/bin/python`
 and the `cloudrun/` working directory. Run the discovered suite from the Testing
 view, or use `cd cloudrun && /opt/venv/bin/python -m pytest`.
 
+The pull-request Unit tests workflow runs the Cloud Run pytest suite in the
+Docker `dev` target. Replicate that CI check with
+`cd cloudrun && docker build . --target dev -t download && docker run --rm download pytest`.
+
 ## CI/Validation Pipelines To Replicate
 
 - PR workflow: `.github/workflows/pull_request.yml`
