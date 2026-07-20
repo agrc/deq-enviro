@@ -50,6 +50,10 @@ If touching Cloud Run download code, additionally validate:
 
 7. `pnpm run build:cloudrun`
 
+For Cloud Run Python tests, VS Code is configured to use `/opt/venv/bin/python`
+and the `cloudrun/` working directory. Run the discovered suite from the Testing
+view, or use `cd cloudrun && /opt/venv/bin/python -m pytest`.
+
 ## CI/Validation Pipelines To Replicate
 
 - PR workflow: `.github/workflows/pull_request.yml`
