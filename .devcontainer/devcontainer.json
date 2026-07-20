@@ -15,7 +15,13 @@
         "charliermarsh.ruff",
         "ms-azuretools.vscode-docker",
         "streetsidesoftware.code-spell-checker"
-      ]
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "python.testing.cwd": "${workspaceFolder}/cloudrun",
+        "python.testing.pytestArgs": ["tests"],
+        "python.testing.pytestEnabled": true
+      }
     }
   },
   "forwardPorts": [5010],

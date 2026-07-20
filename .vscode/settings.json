@@ -191,11 +191,4 @@
   ],
   "editor.formatOnSave": true,
   "js/ts.tsdk.path": "node_modules/typescript/lib",
-  "python.defaultInterpreterPath": "/opt/venv/bin/python",
-  "python.testing.cwd": "${workspaceFolder}/cloudrun",
-  "python.testing.pytestArgs": [
-    "tests"
-  ],
-  "python.testing.pytestEnabled": true,
-  "testing.automaticallyOpenPeekView": "never",
 }
