@@ -178,6 +178,11 @@ def create_relationship(
     new_ids = requested_ids - set(existing_ids)
     related_table_primary_keys[related_table_name] = existing_ids | requested_ids
 
+    if not new_ids:
+        logger.info("no new relationship keys found, skipping query")
+
+        return
+
     if get_field_type(config["primary"], fields) in [
         "esriFieldTypeString",
         "esriFieldTypeGUID",
