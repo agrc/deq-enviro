@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0-rc.2](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.1...v2.2.0-rc.2) (2026-07-21)
+
+
+### Bug Fixes
+
+* remove unnecessary env vars causing deploy issues ([01faf71](https://github.com/agrc/deq-enviro/commit/01faf71f2c06876ef7670745c2052b9eaf0a3b3b))
+
 ## [2.2.0-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.4-rc.1...v2.2.0-rc.1) (2026-07-21)
 
 
