@@ -67,9 +67,9 @@ Docker `dev` target. Replicate that CI check with
   - Then runs preview deploy job.
 - Release workflow: `.github/workflows/release.yml`
   - Deploys Firebase site, Cloud Run API service, and `download-worker` Cloud Run Job.
-  - Grants `cloud-run-sa` permission to invoke the `download-worker` Job.
+  - Grants `cloud-run-sa` permission to execute the `download-worker` Job with environment overrides.
 - Local deployment action: `.github/actions/deploy-download-worker/action.yml`
-  - Deploys the worker Job and applies its invoker IAM binding using the image built by the API deployment step.
+  - Deploys the worker Job and applies its `roles/run.developer` binding using the image built by the API deployment step.
 
 Minimum confidence checks for most code changes:
 
