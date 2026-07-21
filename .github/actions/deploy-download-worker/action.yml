@@ -49,6 +49,7 @@ runs:
           --memory=${{ inputs.memory }}
           --task-timeout=${{ inputs.timeout }}
           --max-retries=0
+          --cpu=2
           --tasks=1
           --parallelism=1
           --service-account=${{ inputs.service-account }}
