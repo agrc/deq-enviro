@@ -6,9 +6,7 @@ from os import environ
 def job_name():
     """Return the fully-qualified worker Job resource name."""
     project = environ["CLOUD_RUN_PROJECT"]
-    location = environ["CLOUD_RUN_LOCATION"]
-    name = environ.get("CLOUD_RUN_JOB", "download-worker")
-    return f"projects/{project}/locations/{location}/jobs/{name}"
+    return f"projects/{project}/locations/us-central1/jobs/download-worker"
 
 
 def start_job(job_id, client=None):
