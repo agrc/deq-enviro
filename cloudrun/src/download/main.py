@@ -2,20 +2,18 @@
 Download server.
 """
 
-import threading
 import traceback
 from os import environ
+from threading import Thread
 
-from cloudevents.core.bindings.http import HTTPMessage, from_http_event
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 from flask_json import FlaskJSON
-from google.events.cloud import firestore
 
 load_dotenv()  # this needs to be called before importing any other local modules
 
-from . import bucket, database, log  # noqa: E402
+from . import bucket, database, jobs, log  # noqa: E402
 from .agol import cleanup, download  # noqa: E402
 
 formats = [
@@ -30,26 +28,6 @@ formats = [
 app = Flask(__name__)
 FlaskJSON(app)
 CORS(app)
-
-
-@app.post("/process_job")
-def process_job():
-    """
-    Kicked off by eventarc event triggered when a new document is added to firestore
-    """
-    message = HTTPMessage(headers=request.headers, body=request.get_data())
-    event = from_http_event(message)
-    document = firestore.DocumentEventData()
-    document._pb.ParseFromString(event.get_data())
-    data = document.value.fields
-
-    id = data["id"].string_value
-
-    #: trying to get the layers field from the event protobuf data was a huge pain
-    #: so we'll just get it from firestore
-    job = database.get_job(id)
-
-    return dowork(id, job["layers"], job["format"])
 
 
 def dowork(id, layers, format):
@@ -71,11 +49,23 @@ def dowork(id, layers, format):
     return {"success": True}
 
 
+def start_local_worker(id, launch_token):
+    """Mark a local job as processing and run it outside the request thread."""
+    job = database.get_job(id)
+    if not database.mark_job_processing(id, launch_token, "local"):
+        raise RuntimeError(f"Job {id} launch claim was lost")
+
+    Thread(
+        target=dowork,
+        args=(id, job["layers"], job["format"]),
+        daemon=True,
+    ).start()
+
+
 @app.post("/create_job")
 def create_job():
     """
-    Validates inputs and creates a new firestore document which, in turn, kicks off
-    the process endpoint via EventArc.
+    Validates inputs, creates a Firestore job, and starts its Cloud Run Job worker.
     """
     layers = request.json["layers"]
     format = request.json["format"]
@@ -85,15 +75,19 @@ def create_job():
 
     try:
         id = database.create_job(layers, format)
-
-        if environ.get("FLASK_DEBUG") == "1":
-            #: because we don't have an eventarc local emulator
-            thread = threading.Thread(target=dowork, args=(id, layers, format))
-            thread.start()
+        launch_token = database.claim_job_launch(id)
+        if environ.get("RUN_WORKER_LOCALLY") == "1":
+            start_local_worker(id, launch_token)
+        else:
+            operation_name = jobs.start_job(id)
+            if not database.mark_job_processing(id, launch_token, operation_name):
+                raise RuntimeError(f"Job {id} launch claim was lost")
 
         return {"id": id, "success": True}
     except Exception as e:
         log.logger.error(traceback.format_exc())
+        if "id" in locals():
+            database.mark_job_failed(id, str(e))
 
         return {"success": False, "error": str(e)}, 500
 

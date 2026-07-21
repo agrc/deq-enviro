@@ -18,7 +18,7 @@ Use this document as the primary source of truth for working in this repository.
   - Legacy data ETL utilities in `forklift/` and map artifacts in `maps/`.
 - Primary languages: JavaScript/JSX, Python, YAML, shell.
 - Package manager: `pnpm` workspaces.
-- Deployment targets: Firebase Hosting/Functions + Google Cloud Run/Eventarc.
+- Deployment targets: Firebase Hosting/Functions + Google Cloud Run service and Job.
 
 ## Toolchain And Runtime Requirements
 
@@ -66,8 +66,10 @@ Docker `dev` target. Replicate that CI check with
   - Runs lint (`eslint` + `tsc`).
   - Then runs preview deploy job.
 - Release workflow: `.github/workflows/release.yml`
-  - Deploys Firebase site and Cloud Run service.
-  - Updates Eventarc trigger.
+  - Deploys Firebase site, Cloud Run API service, and `download-worker` Cloud Run Job.
+  - Grants `cloud-run-sa` permission to invoke the `download-worker` Job.
+- Local deployment action: `.github/actions/deploy-download-worker/action.yml`
+  - Deploys the worker Job and applies its invoker IAM binding using the image built by the API deployment step.
 
 Minimum confidence checks for most code changes:
 
@@ -93,8 +95,12 @@ Minimum confidence checks for most code changes:
   - `functions/index.js` (exported callable/request handlers).
   - `functions/configs.js`, `functions/search.js`, shared code in `functions/common/`.
 - Cloud Run service:
-  - `cloudrun/src/download/main.py` (Flask endpoints: `/create_job`, `/process_job`, `/download/<id>/data.zip`).
+  - `cloudrun/src/download/main.py` (Flask endpoints: `/create_job`, `/download/<id>/data.zip`).
   - `cloudrun/Dockerfile`, `cloudrun/setup.py`, `cloudrun/pyproject.toml`.
+- Cloud Run worker Job:
+  - `cloudrun/src/download/worker.py` runs one export from the `JOB_ID` environment variable.
+  - `cloudrun/src/download/jobs.py` starts the pre-deployed `download-worker` Job.
+- Download exports run in the `download-worker` Cloud Run Job with one task, parallelism one, 4 GB memory, 30-minute timeout, and zero retries.
 - Operational scripts:
   - `scripts/start-emulators.sh` (filters noisy emulator stderr lines).
   - `build-scripts/updateRemoteConfigDefaults.js` (remote defaults sync).

@@ -1,0 +1,63 @@
+name: Deploy download worker
+description: Deploy the download Cloud Run Job and grant the API service account invoker access
+inputs:
+  project-id:
+    description: GCP project ID
+    required: true
+  service-account:
+    description: Runtime and invoker service account email
+    required: true
+  bucket:
+    description: Cloud Storage bucket used for downloads
+    required: true
+  region:
+    description: Cloud Run region
+    required: false
+    default: us-central1
+  memory:
+    description: Cloud Run Job memory
+    required: false
+    default: 4G
+  timeout:
+    description: Cloud Run Job task timeout
+    required: false
+    default: 30m
+runs:
+  using: composite
+  steps:
+    - name: Capture built image
+      id: image
+      shell: bash
+      run: |
+        if [[ -z "$IMAGE_ID" ]]; then
+          echo "IMAGE_ID was not set by the Cloud Run service deployment" >&2
+          exit 1
+        fi
+        echo "image=$IMAGE_ID" >> "$GITHUB_OUTPUT"
+
+    - name: Deploy Cloud Run Job
+      uses: google-github-actions/deploy-cloudrun@v3
+      with:
+        job: download-worker
+        image: ${{ steps.image.outputs.image }}
+        project_id: ${{ inputs.project-id }}
+        region: ${{ inputs.region }}
+        env_vars: |
+          BUCKET=${{ inputs.bucket }}
+        flags: |
+          --command=download-worker
+          --memory=${{ inputs.memory }}
+          --task-timeout=${{ inputs.timeout }}
+          --max-retries=0
+          --tasks=1
+          --parallelism=1
+          --service-account=${{ inputs.service-account }}
+
+    - name: Grant Job invoker permission
+      shell: bash
+      run: |
+        gcloud run jobs add-iam-policy-binding download-worker \
+          --project=${{ inputs.project-id }} \
+          --region=${{ inputs.region }} \
+          --member=serviceAccount:${{ inputs.service-account }} \
+          --role=roles/run.invoker

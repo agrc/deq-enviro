@@ -1,7 +1,9 @@
 """
 A module for interacting with firestore
 """
+
 from os import environ
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from google.cloud import firestore
@@ -18,7 +20,7 @@ Job input document structure:
 {
   "id": "string",
   "created": "timestamp",
-  "format": "csv|excel|filegdb|geojson|shapefile",
+    "format": "csv|excel|filegdb|geojson|shapefile",
   "layers": [LayerConfig],
 }
 
@@ -26,7 +28,7 @@ Job results document structure:
 {
   "id": "string",
   "updated": "timestamp",
-  "status": "processing|complete|failed",
+    "status": "queued|launching|processing|complete|failed",
   "layerResults": {
     "tableName": {
       "processed": "boolean",
@@ -52,6 +54,7 @@ def get_job(id):
 
     return snapshot.to_dict()
 
+
 def create_job(layers, format):
     """
     Creates a job document in firestore.
@@ -73,7 +76,7 @@ def create_job(layers, format):
         {
             "id": id,
             "updated": firestore.SERVER_TIMESTAMP,
-            "status": "processing",
+            "status": "queued",
             "error": None,
             "layerResults": {
                 layer["tableName"]: {"error": None, "processed": False}
@@ -83,6 +86,68 @@ def create_job(layers, format):
     )
 
     return id
+
+
+def claim_job_launch(id, lease_seconds=120):
+    """Claim a queued job for launch and return its stable launch token."""
+    transaction = client.transaction()
+    doc_ref = client.collection("jobs").document(results_doc.format(id))
+
+    @firestore.transactional
+    def claim(transaction):
+        snapshot = doc_ref.get(transaction=transaction)
+        if not snapshot.exists:
+            raise Exception(f"Job {id} not found")
+
+        data = snapshot.to_dict()
+        if data.get("status") != "queued":
+            return None
+
+        launch_token = uuid4().hex
+        transaction.update(
+            doc_ref,
+            {
+                "status": "launching",
+                "launchToken": launch_token,
+                "launchLeaseUntil": datetime.now(timezone.utc)
+                + timedelta(seconds=lease_seconds),
+                "updated": firestore.SERVER_TIMESTAMP,
+            },
+        )
+        return launch_token
+
+    return claim(transaction)
+
+
+def mark_job_processing(id, launch_token, operation_name):
+    """Persist the launch operation and expose the job as processing."""
+    doc_ref = client.collection("jobs").document(results_doc.format(id))
+    transaction = client.transaction()
+
+    @firestore.transactional
+    def update(transaction):
+        snapshot = doc_ref.get(transaction=transaction)
+        data = snapshot.to_dict()
+        if data.get("launchToken") != launch_token:
+            return False
+
+        transaction.update(
+            doc_ref,
+            {
+                "status": "processing",
+                "operation": operation_name,
+                "launchLeaseUntil": None,
+                "updated": firestore.SERVER_TIMESTAMP,
+            },
+        )
+        return True
+
+    return update(transaction)
+
+
+def mark_job_failed(id, error):
+    """Record a failure while creating the worker execution."""
+    update_job_status(id, "failed", error)
 
 
 def update_job_status(id, status, error=None):
