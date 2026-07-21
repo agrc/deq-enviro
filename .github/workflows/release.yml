@@ -16,6 +16,7 @@ permissions:
 
 env:
   MEMORY: 4G
+  REGION: us-central1
   TIMEOUT: 30m
 
 jobs:
@@ -58,6 +59,7 @@ jobs:
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
           service: download
+          region: ${{ env.REGION }}
           flags: |
             --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
             --max-instances=10
@@ -76,6 +78,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           service-account: cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
           bucket: ${{ secrets.PROJECT_ID }}-downloads
+          region: ${{ env.REGION }}
           memory: ${{ env.MEMORY }}
           timeout: ${{ env.TIMEOUT }}
 
@@ -123,6 +126,7 @@ jobs:
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
           service: download
+          region: ${{ env.REGION }}
           flags: |
             --service-account=cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
             --max-instances=30
@@ -141,6 +145,7 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           service-account: cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
           bucket: ${{ secrets.PROJECT_ID }}-downloads
+          region: ${{ env.REGION }}
           memory: ${{ env.MEMORY }}
           timeout: ${{ env.TIMEOUT }}
 

@@ -5,10 +5,12 @@
 # this is likely keeping arcgis pinned at 2.4.1 as well
 FROM ghcr.io/osgeo/gdal:ubuntu-small-3.12.3 AS base
 
-RUN apt update
-RUN apt install -y python3-pip
-RUN apt install -y libkrb5-dev
-RUN apt install -y python3-venv
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		libkrb5-dev \
+		python3-pip \
+		python3-venv \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m venv /opt/venv --system-site-packages
 ENV PATH="/opt/venv/bin:$PATH"
@@ -17,8 +19,8 @@ FROM base AS dev
 
 COPY . .
 
-RUN pip install ".[dev]"
-RUN pip install "arcgis==2.*" "numpy<2"
+RUN pip install --no-cache-dir ".[dev]"
+RUN pip install --no-cache-dir "arcgis==2.*" "numpy<2"
 
 ENV FIRESTORE_EMULATOR_HOST="host.docker.internal:8080"
 ENV FLASK_APP="download.main:app"
@@ -30,14 +32,16 @@ CMD ["sh", "-c", "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIAL
 
 FROM base AS remote_dev
 
-RUN apt install -y git
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends git \
+	&& rm -rf /var/lib/apt/lists/*
 
 FROM base AS prod
 
 COPY . .
 
-RUN pip install .
-RUN pip install "arcgis==2.*" "numpy<2"
-RUN pip install gunicorn
+RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir "arcgis==2.*" "numpy<2"
+RUN pip install --no-cache-dir gunicorn
 
 CMD ["sh", "-c", "exec gunicorn --bind :${PORT} --timeout 0 download.main:app"]

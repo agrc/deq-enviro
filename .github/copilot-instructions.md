@@ -19,6 +19,7 @@ Use this document as the primary source of truth for working in this repository.
 - Primary languages: JavaScript/JSX, Python, YAML, shell.
 - Package manager: `pnpm` workspaces.
 - Deployment targets: Firebase Hosting/Functions + Google Cloud Run service and Job.
+- Cloud Run resources and their Artifact Registry image are deployed in `us-central1`; keep the explicit workflow region aligned with the deployment action's registry region.
 
 ## Toolchain And Runtime Requirements
 

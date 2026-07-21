@@ -1,4 +1,11 @@
 .dockerignore
 **/__pycache__/
 **/*.egg-info
+.git/
+.github/
+.vscode/
+.env*
 *.ipynb
+*.log
+cov.xml
+dev.sh
