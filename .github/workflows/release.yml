@@ -17,15 +17,6 @@ permissions:
 env:
   MEMORY: 4G
   TIMEOUT: 30m
-  TRIGGER_PARAMS: |
-    --location=nam5 \
-    --destination-run-service=download \
-    --destination-run-region=us-central1 \
-    --destination-run-path="/process_job" \
-    --event-data-content-type="application/protobuf" \
-    --event-filters="database=(default)" \
-    --event-filters-path-pattern="document=**/*-input" \
-    --event-filters="type=google.cloud.firestore.document.v1.created"
 
 jobs:
   deploy-dev:
@@ -77,18 +68,18 @@ jobs:
             --concurrency=1
           env-vars: |
             BUCKET=${{ secrets.PROJECT_ID }}-downloads
+            CLOUD_RUN_PROJECT=${{ secrets.PROJECT_ID }}
+            CLOUD_RUN_LOCATION=us-central1
+            CLOUD_RUN_JOB=download-worker
 
-      - name: ⚡ Create/Update Eventarc Trigger
-        run: |
-          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
-            gcloud eventarc triggers create download \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
-              ${{ env.TRIGGER_PARAMS }}
-          else
-            gcloud eventarc triggers update download \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
-              ${{ env.TRIGGER_PARAMS }}
-          fi
+      - name: 🧰 Deploy Cloud Run Job
+        uses: ./.github/actions/deploy-download-worker
+        with:
+          project-id: ${{ secrets.PROJECT_ID }}
+          service-account: cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+          bucket: ${{ secrets.PROJECT_ID }}-downloads
+          memory: ${{ env.MEMORY }}
+          timeout: ${{ env.TIMEOUT }}
 
   deploy-prod:
     name: Deploy to production
@@ -144,18 +135,18 @@ jobs:
             --concurrency=1
           env-vars: |
             BUCKET=${{ secrets.PROJECT_ID }}-downloads
+            CLOUD_RUN_PROJECT=${{ secrets.PROJECT_ID }}
+            CLOUD_RUN_LOCATION=us-central1
+            CLOUD_RUN_JOB=download-worker
 
-      - name: ⚡ Create/Update Eventarc Trigger
-        run: |
-          if [ ! "$(gcloud eventarc triggers list | grep download)" ]; then
-            gcloud eventarc triggers create download \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
-              ${{ env.TRIGGER_PARAMS }}
-          else
-            gcloud eventarc triggers update download \
-              --service-account=${{ secrets.PROJECT_NUMBER }}-compute@developer.gserviceaccount.com \
-              ${{ env.TRIGGER_PARAMS }}
-          fi
+      - name: 🧰 Deploy Cloud Run Job
+        uses: ./.github/actions/deploy-download-worker
+        with:
+          project-id: ${{ secrets.PROJECT_ID }}
+          service-account: cloud-run-sa@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+          bucket: ${{ secrets.PROJECT_ID }}-downloads
+          memory: ${{ env.MEMORY }}
+          timeout: ${{ env.TIMEOUT }}
 
   notify:
     name: Notifications

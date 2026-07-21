@@ -40,11 +40,10 @@ setup(
     },
     keywords=["gis"],
     install_requires=[
-        "cloudevents==2.*",
         "google-cloud-logging==3.*",
+        "google-cloud-run==0.*",
         "google-cloud-storage==3.*",
         "google-cloud-firestore==2.*",
-        "google-events==0.*",
         "flask-cors>=5,<7",
         "flask-json==0.4",
         "flask==3.*",
@@ -72,6 +71,7 @@ setup(
     entry_points={
         "console_scripts": [
             "download = download.main:main",
+            "download-worker = download.worker:main",
         ]
     },
 )
