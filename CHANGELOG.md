@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0-rc.4](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.3...v2.2.0-rc.4) (2026-07-21)
+
+
+### Bug Fixes
+
+* **download:** increase cpu count to help with startup time ([c00b0f3](https://github.com/agrc/deq-enviro/commit/c00b0f3dc2a0d168e6dcca8d8ed50d3f056f0311))
+* **download:** reduce download worker job startup time ([94a208a](https://github.com/agrc/deq-enviro/commit/94a208ae7f3c24442c67ed38f158a7d28d9fca87))
+
 ## [2.2.0-rc.3](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2026-07-21)
 
 
