@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0-rc.3](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.2...v2.2.0-rc.3) (2026-07-21)
+
+
+### Bug Fixes
+
+* add permissions for service account to call job with overrides ([0585902](https://github.com/agrc/deq-enviro/commit/0585902331524f2d84e5e2c702f90227ef6c156b))
+
 ## [2.2.0-rc.2](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.1...v2.2.0-rc.2) (2026-07-21)
 
 
