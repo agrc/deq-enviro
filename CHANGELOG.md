@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.4-rc.1...v2.2.0-rc.1) (2026-07-21)
+
+
+### Features
+
+* **download:** replace eventarc worker with cloud run job ([1c80530](https://github.com/agrc/deq-enviro/commit/1c805304f851f91a1881448b28a9b5131cf7ab66))
+
 ## [2.1.4-rc.1](https://github.com/agrc/deq-enviro/compare/v2.1.3...v2.1.4-rc.1) (2026-07-20)
 
 
