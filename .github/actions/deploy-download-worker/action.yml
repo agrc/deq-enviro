@@ -1,5 +1,5 @@
 name: Deploy download worker
-description: Deploy the download Cloud Run Job and grant the API service account invoker access
+description: Deploy the download Cloud Run Job and grant the API service account execution access
 inputs:
   project-id:
     description: GCP project ID
@@ -53,11 +53,11 @@ runs:
           --parallelism=1
           --service-account=${{ inputs.service-account }}
 
-    - name: Grant Job invoker permission
+    - name: Grant Job execution permission
       shell: bash
       run: |
         gcloud run jobs add-iam-policy-binding download-worker \
           --project=${{ inputs.project-id }} \
           --region=${{ inputs.region }} \
           --member=serviceAccount:${{ inputs.service-account }} \
-          --role=roles/run.invoker
+          --role=roles/run.developer
