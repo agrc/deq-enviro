@@ -5,7 +5,12 @@ from os import environ
 
 def job_name():
     """Return the fully-qualified worker Job resource name."""
-    project = environ["CLOUD_RUN_PROJECT"]
+    try:
+        project = environ["CLOUD_RUN_PROJECT"]
+    except KeyError as error:
+        raise RuntimeError(
+            "CLOUD_RUN_PROJECT environment variable is not set"
+        ) from error
     return f"projects/{project}/locations/us-central1/jobs/download-worker"
 
 

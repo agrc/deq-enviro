@@ -76,6 +76,8 @@ def create_job():
     try:
         id = database.create_job(layers, format)
         launch_token = database.claim_job_launch(id)
+        if launch_token is None:
+            raise RuntimeError(f"Job {id} is no longer queued")
         if environ.get("RUN_WORKER_LOCALLY") == "1":
             start_local_worker(id, launch_token)
         else:

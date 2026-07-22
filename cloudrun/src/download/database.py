@@ -126,9 +126,15 @@ def mark_job_processing(id, launch_token, operation_name):
 
     @firestore.transactional
     def update(transaction):
+        if not launch_token:
+            return False
+
         snapshot = doc_ref.get(transaction=transaction)
+        if not snapshot.exists:
+            return False
+
         data = snapshot.to_dict()
-        if data.get("launchToken") != launch_token:
+        if data.get("status") != "launching" or data.get("launchToken") != launch_token:
             return False
 
         transaction.update(
