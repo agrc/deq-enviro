@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.1.4](https://github.com/agrc/deq-enviro/compare/v2.1.3...v2.1.4) (2026-07-23)
+
+
+### Features
+
+* **download:** replace eventarc worker with cloud run job ([71a51bb](https://github.com/agrc/deq-enviro/commit/71a51bb789098980090e942f920941cf312fad9e))
+
+
+### Bug Fixes
+
+* add permissions for service account to call job with overrides ([61cd590](https://github.com/agrc/deq-enviro/commit/61cd5908b90560cabd91008df759a57fb56ce601))
+* **download:** handle relationships with no features ([7cb5beb](https://github.com/agrc/deq-enviro/commit/7cb5bebbe8d23c027ee92c7ca3795922ec589042))
+* **download:** increase cpu count to help with startup time ([ddfbdc4](https://github.com/agrc/deq-enviro/commit/ddfbdc44631febc1e3cd8f62851935d508868d4a))
+* **download:** reduce download worker job startup time ([78fbab2](https://github.com/agrc/deq-enviro/commit/78fbab2ca2cd4be878d3d4ed865db65f6dcf3b71))
+* remove unnecessary env vars causing deploy issues ([1e58dfa](https://github.com/agrc/deq-enviro/commit/1e58dfad868a21f7d2765d78e57a75ef8d6f2c99))
+
+
+### Dependencies
+
+* **download:** bump simplejson and cloudevents ([7a2c2f6](https://github.com/agrc/deq-enviro/commit/7a2c2f6a8a6fb8b187d962b49e0d228e8e1f594a))
+
 ## [2.2.0-rc.5](https://github.com/agrc/deq-enviro/compare/v2.2.0-rc.4...v2.2.0-rc.5) (2026-07-22)
 
 
