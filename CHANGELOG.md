@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.5](https://github.com/agrc/deq-enviro/compare/v2.1.4...v2.1.5) (2026-07-27)
+
+
+### Bug Fixes
+
+* more efficient search queries ([b8ef611](https://github.com/agrc/deq-enviro/commit/b8ef611c36c7043282ffc930fa2884e20f3d8f89))
+
 ## [2.1.4](https://github.com/agrc/deq-enviro/compare/v2.1.3...v2.1.4) (2026-07-23)
 
 
