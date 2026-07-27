@@ -1,5 +1,5 @@
 [tool.ruff]
-ignore = ["E501"]
+lint.ignore = ["E501"]
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = ["tests", "src"]

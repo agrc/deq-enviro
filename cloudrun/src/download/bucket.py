@@ -1,6 +1,7 @@
 """
 A module for uploading the downloaded data to a cloud storage bucket.
 """
+
 import shutil
 from os import getenv
 

@@ -4,6 +4,13 @@ A module for downloading data from enviro.deq.utah.gov feature services.
 
 import shutil
 from pathlib import Path
+
+import geopandas as gpd
+from arcgis.features import (
+    FeatureLayer,
+    FeatureSet,
+)
+from osgeo import gdal, ogr
 from shapely import (
     LineString,
     MultiLineString,
@@ -12,13 +19,6 @@ from shapely import (
     Point,
     Polygon,
 )
-
-import geopandas as gpd
-from arcgis.features import (
-    FeatureLayer,
-    FeatureSet,
-)
-from osgeo import gdal, ogr
 
 from .database import update_job_layer
 from .log import logger
@@ -134,7 +134,7 @@ def download(id, layers, format):
 
             write_to_output(tableName, feature_set, format)
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.exception(f"error processing layer: {tableName}")
 
             update_job_layer(id, tableName, False, str(e))
