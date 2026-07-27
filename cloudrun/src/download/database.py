@@ -1,9 +1,7 @@
-"""
-A module for interacting with firestore
-"""
+"""A module for interacting with firestore."""
 
-from os import environ
 from datetime import datetime, timedelta, timezone
+from os import environ
 from uuid import uuid4
 
 from google.cloud import firestore
@@ -42,6 +40,10 @@ results_doc = "{}-results"
 input_doc = "{}-input"
 
 
+class JobNotFoundError(LookupError):
+    """Raised when a requested job document does not exist."""
+
+
 def get_job(id):
     """
     Gets a input document from firestore.
@@ -50,7 +52,7 @@ def get_job(id):
     snapshot = doc_ref.get()
 
     if not snapshot.exists:
-        raise Exception(f"Job {id} not found")
+        raise JobNotFoundError(f"Job {id} not found")
 
     return snapshot.to_dict()
 
@@ -97,7 +99,7 @@ def claim_job_launch(id, lease_seconds=120):
     def claim(transaction):
         snapshot = doc_ref.get(transaction=transaction)
         if not snapshot.exists:
-            raise Exception(f"Job {id} not found")
+            raise JobNotFoundError(f"Job {id} not found")
 
         data = snapshot.to_dict()
         if data.get("status") != "queued":

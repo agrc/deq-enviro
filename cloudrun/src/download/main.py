@@ -13,8 +13,8 @@ from flask_json import FlaskJSON
 
 load_dotenv()  # this needs to be called before importing any other local modules
 
-from . import bucket, database, jobs, log  # noqa: E402
-from .agol import cleanup, download  # noqa: E402
+from . import bucket, database, jobs, log
+from .agol import cleanup, download
 
 formats = [
     "csv",
@@ -37,7 +37,7 @@ def dowork(id, layers, format):
         bucket.upload(id, output_path)
 
         database.update_job_status(id, "complete")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         # Print stack trace to log
         log.logger.error(traceback.format_exc())
         database.update_job_status(id, "failed", str(e))
@@ -86,7 +86,7 @@ def create_job():
                 raise RuntimeError(f"Job {id} launch claim was lost")
 
         return {"id": id, "success": True}
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.logger.error(traceback.format_exc())
         if "id" in locals():
             database.mark_job_failed(id, str(e))
