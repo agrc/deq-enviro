@@ -491,39 +491,43 @@ export default function MapComponent() {
           featureLayer.opacity = appConfig.symbols.defaultOpacity;
         }
 
-        // this essentially applies a geometry filter to the layer before it's added to the map
-        // this is done to prevent the map from requesting ALL of the features from the layer
-        console.log(
-          `querying object ids ${layer[fieldNames.queryLayers.tableName]}`,
-        );
-        const ids = await retry(
-          async () =>
-            await featureLayer.queryObjectIds({
-              where,
-              geometry: filter.geometry,
-            }),
-        );
-        featureLayer.definitionExpression = ids?.length
-          ? `${objectIdField} IN (${ids.join(',')})`
-          : '1=0';
-
-        // I could't get a client-side query on the layer view to work
-        // since the map extent could be anything
-        const query = featureLayer.createQuery();
-        query.where = featureLayer.definitionExpression;
-        query.outFields = [
-          ...layer[fieldNames.queryLayers.resultGridFields].map((value) =>
-            typeof value === 'string' ? value : value.name,
-          ),
+        const displayFields = new Set([
           objectIdField,
-        ];
-        query.returnGeometry = false;
+          layer[fieldNames.queryLayers.mapLabelField],
+          ...layer[fieldNames.queryLayers.resultGridFields].map((field) =>
+            typeof field === 'string' ? field : field.name,
+          ),
+          ...(await featureLayer.renderer.getRequiredFields()),
+        ]);
+        const query = featureLayer.createQuery();
+        query.where = where;
+        query.geometry = filter.geometry;
+        query.outFields = [...displayFields].filter(Boolean);
+        query.returnGeometry = true;
         console.log(
           `querying features ${layer[fieldNames.queryLayers.tableName]}`,
         );
         const features = await retry(
           async () => await queryFeatures(featureLayer, query),
         );
+        const supportedExportFormats =
+          featureLayer.sourceJSON.supportedExportFormats;
+
+        featureLayer = new FeatureLayer({
+          source: features,
+          fields: featureLayer.fields,
+          objectIdField,
+          geometryType: featureLayer.geometryType,
+          spatialReference: featureLayer.spatialReference,
+          renderer: featureLayer.renderer,
+          labelingInfo: featureLayer.labelingInfo,
+          popupEnabled: featureLayer.popupEnabled,
+          minScale: featureLayer.minScale,
+          opacity: featureLayer.opacity,
+        });
+        featureLayer.id = `${searchLayerIdPrefix}:${
+          layer[fieldNames.queryLayers.tableName]
+        }`;
 
         map.current.add(
           featureLayer,
@@ -537,8 +541,7 @@ export default function MapComponent() {
             features,
             fields: featureServiceJson.fields,
             count,
-            supportedExportFormats:
-              featureLayer.sourceJSON.supportedExportFormats,
+            supportedExportFormats,
             featureLayer,
           },
         });
@@ -689,7 +692,7 @@ export default function MapComponent() {
         <Spinner
           ariaLabel="map busy indicator"
           size="xl"
-          className="absolute bottom-5 right-1"
+          className="absolute right-1 bottom-5"
         />
       ) : null}
     </div>
