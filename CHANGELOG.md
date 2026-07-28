@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/agrc/deq-enviro/compare/v2.1.5...v2.1.6) (2026-07-28)
+
+
+### Bug Fixes
+
+* **download:** break up related tables queries to avoid new AGOL database errors ([eac5d61](https://github.com/agrc/deq-enviro/commit/eac5d61ec8248e2502aafc2dad5ad10c1df81614))
+
 ## [2.1.5](https://github.com/agrc/deq-enviro/compare/v2.1.4...v2.1.5) (2026-07-27)
 
 
