@@ -29,6 +29,7 @@ gdal.UseExceptions()
 output_folder = Path("/tmp") / "output"
 fgdb_path = output_folder / "data.gdb"
 formats_with_shape = ["filegdb", "geojson", "shapefile"]
+max_in_values = 2000
 
 
 def cleanup():
@@ -175,7 +176,7 @@ def create_relationship(
 
     existing_ids = related_table_primary_keys.setdefault(related_table_name, set())
     requested_ids = set(primary_keys)
-    new_ids = requested_ids - set(existing_ids)
+    new_ids = list(requested_ids - existing_ids)
     related_table_primary_keys[related_table_name] = existing_ids | requested_ids
 
     if not new_ids:
@@ -183,30 +184,57 @@ def create_relationship(
 
         return
 
-    if get_field_type(config["primary"], fields) in [
-        "esriFieldTypeString",
-        "esriFieldTypeGUID",
-    ]:
-        ids = [f"'{x}'" for x in new_ids]
-    else:
-        ids = [str(x) for x in new_ids]
+    field_type = get_field_type(config["primary"], fields)
+    wrote_related_features = False
+    nested_relationships = config.get("nestedRelationships", [])
+    nested_primary_keys = [set() for _ in nested_relationships]
+    related_fields = None
+    for start in range(0, len(new_ids), max_in_values):
+        query_ids = new_ids[start : start + max_in_values]
+        if field_type in ["esriFieldTypeString", "esriFieldTypeGUID"]:
+            ids = [f"'{value}'" for value in query_ids]
+        else:
+            ids = [str(value) for value in query_ids]
 
-    where = f"{config['foreign']} IN " + f"({','.join(ids)})"
-    related_feature_set = get_agol_data(
-        config["url"],
-        None,
-        return_geometry,
-        where=where,
-    )
+        where = f"{config['foreign']} IN " + f"({','.join(ids)})"
+        related_feature_set = get_agol_data(
+            config["url"],
+            None,
+            return_geometry,
+            where=where,
+        )
 
-    if len(related_feature_set.features) == 0:
-        logger.info("no features found, skipping creation")
+        if len(related_feature_set.features) == 0:
+            logger.info("no features found, skipping creation")
 
-        return
+            continue
 
-    write_to_output(related_table_name, related_feature_set, format)
+        write_to_output(related_table_name, related_feature_set, format)
+        wrote_related_features = True
 
-    if format == "filegdb":
+        for index, nested_relationship in enumerate(nested_relationships):
+            nested_primary_keys[index].update(
+                related_feature_set.sdf.reset_index()[
+                    nested_relationship["primary"]
+                ].tolist()
+            )
+        related_fields = related_feature_set.fields
+
+    for nested_relationship, nested_keys in zip(
+        nested_relationships, nested_primary_keys
+    ):
+        if nested_keys:
+            create_relationship(
+                nested_relationship,
+                nested_keys,
+                related_fields,
+                return_geometry,
+                related_table_name,
+                format,
+                related_table_primary_keys,
+            )
+
+    if format == "filegdb" and wrote_related_features:
         relationship = gdal.Relationship(
             config["name"],
             parent_name,
@@ -220,20 +248,6 @@ def create_relationship(
         output_dataset = gdal.OpenEx(str(fgdb_path), gdal.GA_Update)
         if not output_dataset.AddRelationship(relationship):
             logger.info("failed to add relationship")
-
-    if "nestedRelationships" in config:
-        for nested_relationship in config["nestedRelationships"]:
-            create_relationship(
-                nested_relationship,
-                related_feature_set.sdf.reset_index()[
-                    nested_relationship["primary"]
-                ].tolist(),
-                related_feature_set.fields,
-                return_geometry,
-                related_table_name,
-                format,
-                related_table_primary_keys,
-            )
 
 
 def get_agol_data(
