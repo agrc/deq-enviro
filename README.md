@@ -56,6 +56,11 @@ Most updates are taken care of via the config spreadsheet.
 
 ## Local Development
 
+### Secrets & Environment Variables
+
+1. Copy the `.env.example` file to `.env` and fill in the values.
+1. Copy the `functions/.secret.template` file to `functions/.secret.local` and fill in the values.
+
 ### configs Function
 
 You will need to copy the `functions-key-dev.json` key file from the terraform project to the `functions` directory in order to have permissions to hit the staging config spreadsheet.
