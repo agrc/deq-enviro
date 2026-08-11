@@ -37,12 +37,13 @@ export function getDefaultRenderer(geometryType) {
  *
  * @param {import('@arcgis/core/layers/FeatureLayer').default} featureLayer
  * @param {import('@arcgis/core/rest/support/Query').default} query
- * @returns {Promise<import('@arcgis/core/Graphic').default[]>}
+ * @returns {Promise<{features: import('@arcgis/core/Graphic').default[], fields: import('@arcgis/core/layers/support/Field').default[]}>}
  */
 export async function queryFeatures(featureLayer, query) {
   const features = [];
   let start = 0;
   let finished = false;
+  let fields;
   const maxRecordCountFactor = featureLayer.geometryType === 'point' ? 4 : 1;
   query.maxRecordCountFactor = maxRecordCountFactor;
   query.num =
@@ -52,6 +53,7 @@ export async function queryFeatures(featureLayer, query) {
     const featureSet = await featureLayer.queryFeatures(query);
 
     features.push(...featureSet.features);
+    fields = featureSet.fields;
 
     if (featureSet.exceededTransferLimit) {
       start +=
@@ -61,7 +63,7 @@ export async function queryFeatures(featureLayer, query) {
     }
   }
 
-  return features;
+  return { features, fields }; 
 }
 
 /**
