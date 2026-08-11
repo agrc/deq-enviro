@@ -63,7 +63,7 @@ export async function queryFeatures(featureLayer, query) {
     }
   }
 
-  return { features, fields }; 
+  return { features, fields };
 }
 
 /**
