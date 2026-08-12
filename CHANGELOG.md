@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.7](https://github.com/agrc/deq-enviro/compare/v2.1.6...v2.1.7) (2026-08-12)
+
+
+### Bug Fixes
+
+* 968 searching plot ([#969](https://github.com/agrc/deq-enviro/issues/969)) ([7bf84ca](https://github.com/agrc/deq-enviro/commit/7bf84ca27c039b96f169e9f539763ad1ab196c47))
+
 ## [2.1.6](https://github.com/agrc/deq-enviro/compare/v2.1.5...v2.1.6) (2026-07-28)
 
 
