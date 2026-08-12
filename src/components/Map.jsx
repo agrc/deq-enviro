@@ -507,7 +507,7 @@ export default function MapComponent() {
         console.log(
           `querying features ${layer[fieldNames.queryLayers.tableName]}`,
         );
-        const features = await retry(
+        const { features, fields } = await retry(
           async () => await queryFeatures(featureLayer, query),
         );
         const supportedExportFormats =
@@ -515,7 +515,7 @@ export default function MapComponent() {
 
         featureLayer = new FeatureLayer({
           source: features,
-          fields: featureLayer.fields,
+          fields,
           objectIdField,
           geometryType: featureLayer.geometryType,
           spatialReference: featureLayer.spatialReference,
