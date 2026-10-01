@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
 
       - name: 📦 Setup PNPM
         uses: pnpm/action-setup@v6
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: ⬇️ Set up code
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
 
       - name: 🚀 Deploy Firebase
         uses: agrc/firebase-website-deploy-composite-action@v2
