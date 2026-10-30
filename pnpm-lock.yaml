@@ -17038,7 +17038,7 @@ snapshots:
     dependencies:
       basic-auth-connect: 1.1.0
       commander: 10.0.1
-      compression: 1.8.1(supports-color@10.2.2)
+      compression: 1.8.2(supports-color@10.2.2)
       connect: 3.7.0(supports-color@10.2.2)
       destroy: 1.2.0
       glob-slasher: 1.0.1
