@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.1.8](https://github.com/agrc/deq-enviro/compare/v2.1.7...v2.1.8) (2026-10-30)
+
+
+### Bug Fixes
+
+* **cloudrun:** use datetime UTC alias ([339eaca](https://github.com/agrc/deq-enviro/commit/339eacafb53c809615021fa8ddd71ec2aeb96c58))
+* **deps:** update compression lock references ([437f816](https://github.com/agrc/deq-enviro/commit/437f816d089c9049ed2aefd38c1313c0ede50629))
+
+
+### Dependencies
+
+* bump @fastify/busboy from 3.2.0 to 3.2.4 ([6ef5cc0](https://github.com/agrc/deq-enviro/commit/6ef5cc06a81aede890052fcd374444053333f1a0))
+* bump @modelcontextprotocol/sdk from 1.29.0 to 1.32.1 ([658b4ba](https://github.com/agrc/deq-enviro/commit/658b4ba89eb06fa0e081809bbce7db38ec2f6634))
+* bump compression from 1.8.1 to 1.8.2 ([2955b46](https://github.com/agrc/deq-enviro/commit/2955b461f13bb6f9972cba0f8f5755b87c43a4ac))
+* bump fast-uri from 3.1.5 to 3.1.9 ([4fe136a](https://github.com/agrc/deq-enviro/commit/4fe136a0d15245c0a85e6619204d301e5ef6ebab))
+* bump hono from 4.13.0 to 4.13.13 ([4cff72d](https://github.com/agrc/deq-enviro/commit/4cff72da079b2459fdd72445c9f7af888fcda71b))
+* bump http-cache-semantics from 4.2.0 to 4.3.0 ([32e63f6](https://github.com/agrc/deq-enviro/commit/32e63f6206512243ec62cf9f476e6517f139e0a1))
+* bump ip-address from 10.4.0 to 10.7.4 ([93da684](https://github.com/agrc/deq-enviro/commit/93da6845a5da6bd27dc4c80ea78c233481d5ae88))
+* bump proxy-addr from 2.0.7 to 2.0.8 ([52e6aff](https://github.com/agrc/deq-enviro/commit/52e6aff37e4533a31e4c3398db110a040f861b3d))
+* bump source-map-js from 1.2.1 to 1.2.2 ([a104b4a](https://github.com/agrc/deq-enviro/commit/a104b4a0aa7acdc24a42605d530b9cd28acbc987))
+* **dev:** bump happy-dom from 20.11.1 to 21.0.4 ([#997](https://github.com/agrc/deq-enviro/issues/997)) ([f1f021b](https://github.com/agrc/deq-enviro/commit/f1f021bc5ac899d2e9f08753a973b66107c7e013))
+* **dev:** bump storybook from 10.5.6 to 10.6.3 ([#995](https://github.com/agrc/deq-enviro/issues/995)) ([6a785f2](https://github.com/agrc/deq-enviro/commit/6a785f2fe430a7dda4fd375559c97735f288f054))
+* **dev:** bump vite from 8.2.0 to 8.2.4 ([#992](https://github.com/agrc/deq-enviro/issues/992)) ([e5aba2b](https://github.com/agrc/deq-enviro/commit/e5aba2bc65a49559a046fb81b3d7a3aa733a69ed))
+* **dev:** bump vitest from 4.1.10 to 5.0.5 ([#990](https://github.com/agrc/deq-enviro/issues/990)) ([82e207f](https://github.com/agrc/deq-enviro/commit/82e207f5dc8d460d1f8195c5e88532379e12590d))
+* update numpy requirement from &lt;2 to &lt;3 in /cloudrun ([4db9c39](https://github.com/agrc/deq-enviro/commit/4db9c39be2095f1092713fac9a075621651703ba))
+
 ## [2.1.7](https://github.com/agrc/deq-enviro/compare/v2.1.6...v2.1.7) (2026-08-12)
 
 
