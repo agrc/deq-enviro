@@ -1,6 +1,6 @@
 """A module for interacting with firestore."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from os import environ
 from uuid import uuid4
 
@@ -111,7 +111,7 @@ def claim_job_launch(id, lease_seconds=120):
             {
                 "status": "launching",
                 "launchToken": launch_token,
-                "launchLeaseUntil": datetime.now(timezone.utc)
+                "launchLeaseUntil": datetime.now(UTC)
                 + timedelta(seconds=lease_seconds),
                 "updated": firestore.SERVER_TIMESTAMP,
             },
