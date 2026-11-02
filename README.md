@@ -69,6 +69,12 @@ You will need to copy the `functions-key-dev.json` key file from the terraform p
 
 The download service is hosted in Cloud Run since it requires a custom Docker container. The are pnpm scripts for building and running the container for local development. If you are working on the download service itself, you can run the "Dev Containers: Reopen in Container" command in VSCode. This will give you the ability to use the python environment defined in the Dockerfile with VSCode extensions. It also has a launch config allowing you to debug the service. Don't forget to run `pnpm run dev:firebase` to start the emulator since the download service depends on it.
 
+#### Runtime constraints and dependency updates
+
+The Cloud Run download image currently uses `ghcr.io/osgeo/gdal:ubuntu-small-3.12.3`, which provides the supported Python runtime for ArcGIS. GDAL image tags `3.13.*` use Ubuntu 26 and Python 3.14; do not upgrade to them until ArcGIS (`arcpy`) supports Python 3.14 and the image can retain the required NumPy 1 runtime.
+
+When a Dependabot update conflicts with a documented runtime constraint, add a narrowly scoped package/version ignore in `.github/dependabot.yml` and close the incompatible pull request rather than leaving a known-failing update open. Revisit the ignore when the runtime constraint changes. The current Docker ecosystem rule ignores `osgeo/gdal` versions `>=3.13.0`.
+
 ## Config Spreadsheet Deploy Addon
 
 This is accomplished via Google Apps Scripts. An example script and json config can be found in the `src/apps-script` directory. This is accessible via the "Deployment" menu -> "Deploy Configs to..." item in both of the config spreadsheets.

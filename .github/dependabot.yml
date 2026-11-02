@@ -65,6 +65,10 @@ updates:
     directory: /cloudrun
     schedule:
       interval: quarterly
+    ignore:
+      - dependency-name: osgeo/gdal
+        versions:
+          - ">=3.13.0"
     groups:
       docker-dependencies:
         patterns:
