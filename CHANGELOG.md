@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.9](https://github.com/agrc/deq-enviro/compare/v2.1.8...v2.1.9) (2026-11-05)
+
+
+### Dependencies
+
+* bump re2js from 2.8.6 to 2.9.1 ([#1003](https://github.com/agrc/deq-enviro/issues/1003)) ([e1adb31](https://github.com/agrc/deq-enviro/commit/e1adb31adfea4af027929072cfefe095ab5f11e4))
+
 ## [2.1.8](https://github.com/agrc/deq-enviro/compare/v2.1.7...v2.1.8) (2026-11-03)
 
 
